@@ -1,10 +1,12 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /*
- * If in doubt of what any of this does or works consult with the META SYSTEMS team ;-; 
+ * If in doubt of what any of this does or works consult with the META SYSTEMS team ;-;
+ * Author: Blobosle
+ *
+ * Three button functions that link to the current 3 buttons in the main menu.
  */
 
 public class MainMenu_Script : MonoBehaviour
