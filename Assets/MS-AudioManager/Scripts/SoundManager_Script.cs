@@ -1,11 +1,15 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 /*
  * Consult with the META SYSTEMS team for any doubt about how this works ;-;
+ * Author: Blobosle (Benjamin Lobos)
+ *
+ * Add sound effects in the inspector of the element that holds this script.
+ * It randomizes the sound effects that are under one category (e.g. HURT_SOUND) located in the enums.
+ * Just add all the sound effects that you have, and group them into one category per action.
+ * To add a new category just add to the public enum called SoundManager_Enum.
+ * Call them in your own scripts by calling the PlaySound(SOUND, VOLUME) function.
  */
 
 /* Enum used to classify all types of sound effects related to a certain action or reaction */
@@ -32,6 +36,7 @@ public class SoundManager_Script : MonoBehaviour
     [SerializeField] private SoundList_t[] sound_list;
     private static SoundManager_Script instance;
     private AudioSource audio_source;
+    [SerializeField, Range(0, 1)] private float g_volume = 1f; // to mute all audio sounds at once
 
     /* Made it a singleton, hopefully doesn't go to shit ._. */
     private void Awake() { instance = this; }
@@ -39,6 +44,11 @@ public class SoundManager_Script : MonoBehaviour
     private void Start()
     {
         audio_source = GetComponent<AudioSource>();
+    }
+
+    private void Update()
+    {
+        audio_source.volume = g_volume;
     }
 
     /* External scripts call this function to get their sounds at a specific moment */
