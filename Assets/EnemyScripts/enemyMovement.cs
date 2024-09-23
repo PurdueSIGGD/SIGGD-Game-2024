@@ -40,11 +40,9 @@ public class enemyMovement : MonoBehaviour
         }
 
         if (Vector3.Distance(transform.position, currentPoint.position) < 5f && currentPoint == pointB.transform) {
-            print("change");
             currentPoint = pointA.transform;
         }
         if (Vector3.Distance(transform.position, currentPoint.position) < 5f && currentPoint == pointA.transform) {
-            print("change");
             currentPoint = pointB.transform;
         }
     }
