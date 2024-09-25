@@ -6,12 +6,11 @@ public class movingPlatform : MonoBehaviour
 {
     //initializing variables that can be dragged into in unity
     //speed of platform
-    public float speed;
+    [SerializeField] float speed;
     //starting index position of platform
     public int startingPoint;
-    //an array of transform points or where the platform needs to move
-    public Transform[] points;
-
+    //an array of vectors of where the platform needs to move
+    [SerializeField] Transform[] points;
     private int index;
 
     // Start is called before the first frame update
@@ -42,12 +41,14 @@ public class movingPlatform : MonoBehaviour
     }
 
     //make it so the player moves with the platform and not just the platform moving
-    private void OnCollisionEnter2D(Collision2D collision) {
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
         //when player collides w platformm set the platform as the parent object of the object that is colliding w the platform
         collision.transform.SetParent(transform);
     }
 
-    private void OnCollisionExit2D(Collision2D collision) {
+    private void OnCollisionExit2D(Collision2D collision)
+    {
         //when the player exits the collision set it back to normal
         collision.transform.SetParent(null);
     }
