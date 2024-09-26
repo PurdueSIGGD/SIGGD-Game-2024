@@ -25,24 +25,19 @@ public class Movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Vector2 movement = moveAction.ReadValue<Vector2>();
-        //movement = movement.normalized * speed;
+        
 
-        //float velY = rb.velocity.y;
-
-        //rb.velocity.Set(movement.x, velY);
+    }
+    private void FixedUpdate()
+    {
 
         Vector2 movement = moveAction.ReadValue<Vector2>();
         movement = movement.normalized * speed;
 
         float yVel = rb.velocity.y;
 
-        Vector3 newVelocity = new Vector3(movement.x, yVel, movement.y);
-        rb.velocity = newVelocity;
+        rb.velocity = new Vector2(movement.x, yVel);
 
-    }
-    private void FixedUpdate()
-    {
-           
+
     }
 }
