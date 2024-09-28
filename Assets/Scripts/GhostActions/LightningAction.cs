@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// Special action: a projectile shoots down in front of the player
+/// <summary>
+/// Special action: a projectile shoots down in front of the player
+/// </summary>
 public class LightningAction : GhostAction
 {
     private GameObject LightningPrefab;

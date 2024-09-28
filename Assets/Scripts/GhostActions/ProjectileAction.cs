@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// Special action: the player shoots a projectile forward
+/// <summary>
+/// Special action: the player shoots a projectile forward
+/// </summary>
 public class ProjectileAction : GhostAction
 {
     private GameObject ProjectilePrefab;

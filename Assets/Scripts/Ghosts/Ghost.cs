@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// Basic abstract class for ghosts
+/// <summary>
+/// Basic abstract class for ghosts
+/// </summary>
 public abstract class Ghost : MonoBehaviour
 {
     public GhostAction specialAction;

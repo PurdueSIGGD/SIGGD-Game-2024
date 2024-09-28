@@ -2,18 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// Abstract class for ghost actions
+/// <summary>
+/// Abstract class for ghost actions
+/// </summary>
 public abstract class GhostAction
 {
-    // Called when the player switches to this major ghost
+    /// <summary>
+    /// Called when the player switches to this major ghost
+    /// </summary>
     public abstract void EnterSpecial();
 
-    // Called when the player switches from this major ghost to another
+    /// <summary>
+    /// Called when the player switches from this major ghost to another
+    /// </summary>
     public abstract void ExitSpecial();
 
-    // Called continuously by PartyManager's Update() while possessed by this ghost
+    /// <summary>
+    /// Called continuously by PartyManager's Update() while possessed by this ghost
+    /// </summary>
     public abstract void UpdateSpecial();
 
-    // Called on special action
+    /// <summary>
+    /// Called on special action
+    /// </summary>
+    /// <param name="context"></param>
     public abstract void OnSpecial(MonoBehaviour context);
 }

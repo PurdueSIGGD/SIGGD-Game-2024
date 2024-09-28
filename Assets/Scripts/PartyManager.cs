@@ -1,40 +1,46 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-
-// handles swapping of major ghosts and associated special actions
+using TMPro;
+/// <summary>
+/// Handles swapping of major ghosts and associated special actions
+/// </summary>
 public class PartyManager : MonoBehaviour
 {
-    [SerializeField] Ghost[] ghosts;
+    [SerializeField] Ghost[] ghosts; // Holds major ghosts currently in party
     
+    public TextMeshProUGUI specialText;
     private int currentGhost;
-    private GhostAction currentGhostAction;
+    private GhostAction currentGhostAction; 
     void Start()
     {
         currentGhost = 0;
         currentGhostAction = ghosts[currentGhost].specialAction;
+        specialText.text = ghosts[currentGhost].name;
     }
 
+    /// <summary>
+    /// Called when the player uses the special action
+    /// </summary>
     void OnSpecial() {
         currentGhostAction.OnSpecial(this);
     }
 
+    /// <summary>
+    /// Called when the player switches the major ghost
+    /// </summary>
     void OnSwitchSpecial() {
         currentGhost = (currentGhost + 1) % ghosts.Length;
-        SwitchGhostAction(ghosts[currentGhost].specialAction);
-    }
-    void Update()
-    {
-        currentGhostAction.UpdateSpecial();
-    }
-
-    public void SwitchGhostAction(GhostAction newGhostAction)
-    {
         if (currentGhostAction != null)
         {
             currentGhostAction.ExitSpecial();
         }
 
-        currentGhostAction = newGhostAction;
+        currentGhostAction = ghosts[currentGhost].specialAction;
         currentGhostAction.EnterSpecial();
+        specialText.text = ghosts[currentGhost].name;
+    }
+    void Update()
+    {
+        currentGhostAction.UpdateSpecial();
     }
 }

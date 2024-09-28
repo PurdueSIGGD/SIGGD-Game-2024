@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// For the projectile prefab
+/// <summary>
+/// Moves the Projectile prefab
+/// </summary>
 public class Projectile : MonoBehaviour
 {
-    // Start is called before the first frame update
     public float speed = 20;
     public float lifeTime = 3f;
 
@@ -14,7 +15,6 @@ public class Projectile : MonoBehaviour
         Destroy(gameObject, lifeTime);
     }
 
-    // Update is called once per frame
     void Update()
     {
         transform.Translate(Vector3.right * speed * Time.deltaTime);

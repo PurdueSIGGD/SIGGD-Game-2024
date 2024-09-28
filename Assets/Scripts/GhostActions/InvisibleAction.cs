@@ -1,7 +1,9 @@
 using UnityEngine;
 using System.Collections;
 
-// Special action: player sprite color changes to 0.3 alpha for 8 seconds
+/// <summary>
+/// Special action: player sprite color changes to 0.3 alpha for 8 seconds
+/// </summary>
 public class InvisibleAction : GhostAction
 {
     GameObject player;
