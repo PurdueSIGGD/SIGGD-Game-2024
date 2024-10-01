@@ -95,10 +95,11 @@ GameObject:
   m_Component:
   - component: {fileID: 4313084797625081569}
   - component: {fileID: 3482425922431406960}
-  - component: {fileID: 2136155786277208221}
   - component: {fileID: 4164018898457947194}
   - component: {fileID: 7258157325585999235}
   - component: {fileID: 3370433446364409346}
+  - component: {fileID: 710564670303198403}
+  - component: {fileID: 5239953423128821338}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -175,24 +176,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2136155786277208221
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9005936449964661605}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 066d6eb94556a8d4eb54327276580930, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  indicator: {fileID: 6702866690236996}
-  mainCamera: {fileID: 0}
-  speed: 5
-  jumpPower: 4
-  swordDist: 1.5
-  grapple: {fileID: 0}
 --- !u!114 &4164018898457947194
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -286,3 +269,32 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &710564670303198403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9005936449964661605}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 066d6eb94556a8d4eb54327276580930, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  indicator: {fileID: 6702866690236996}
+  swordDist: 1.5
+  grapple: {fileID: 0}
+--- !u!114 &5239953423128821338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9005936449964661605}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b579baa973c99664f9b4e760237e5c45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 2
+  jumpPower: 2
