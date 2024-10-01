@@ -4,9 +4,12 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
+/// <summary>
+/// Enemy default attack behavior
+/// </summary>
 public class EnemyActions : MonoBehaviour
 {
-    [SerializeField] enemyAction detect;
+    [SerializeField] EnemyAttackInRange detect;
     public float attackSpeed;
     private float attackTimer = 0f; 
     // Start is called before the first frame update
@@ -28,11 +31,9 @@ public class EnemyActions : MonoBehaviour
         }
     }
 
-    // Base Method
-    /// 
-    /// Nothing yet implemented 
-    /// Basic Print Statement
-    /// 
+    /// <summary>
+    /// Makes the enemy perform default attack
+    /// </summary>
     void enemyAttack() {
         print("ATTACK!");
     }

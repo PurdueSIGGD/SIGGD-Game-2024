@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class enemyAction : MonoBehaviour
+/// <summary>
+/// Allow for Enemy to detect enemy in melee range.
+/// </summary>
+public class EnemyAttackInRange : MonoBehaviour
 {
-    public bool inRange = false;
+    public bool inRange = false; // 
+
     void OnTriggerEnter2D(Collider2D col) {
         inRange = true;
     }
@@ -13,6 +17,4 @@ public class enemyAction : MonoBehaviour
     void OnTriggerExit2D(Collider2D col) {
         inRange = false;
     }
-
-
 }
