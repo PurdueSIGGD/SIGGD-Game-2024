@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BasicSkillTree : MonoBehaviour
+public abstract class BasicSkillTree : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
@@ -14,5 +14,13 @@ public class BasicSkillTree : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void AddBranch(Branch branch) {
+        branchList.add(branch);
+    }
+
+    public void GetBranch() {
+        return branchList;
     }
 }

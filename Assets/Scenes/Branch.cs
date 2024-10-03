@@ -2,35 +2,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Branch : MonoBehaviour
+public class Branch
 {
     private List<Skill> skillList;
-    // Start is called before the first frame update
-    void Start()
-    {
-        skillList = new List<Skill>();
+    private index;
+
+    public void AddSkill(Skill skill) {
+        skillList.add(skill);
+    }
+    public void UnlockNext() {
+        skillList[index + 1].SetUnlock(true);
+        index = index + 1;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public Skill GetLastUnlockedSkill() {
+        return skillList[index];
     }
 
-    public Skill GetNextSkill(Skill skill) {
-        return skillList[skillList.IndexOf(skill) + 1];
+    public Skill GetNextNextLockedSkill() {
+        return skillList[index + 1];
     }
 
-    public Skill GeetNextLockedSkill() {
-        foreach(Skill s in skillList) {
-            if (!s.GetUnlocked()) {
-                return s;
-            }
-        }
-        return null;
+    public int GetNextLockedSkill() {
+        return index + 1;
     }
-
-    public void UnlockSkill(Skill skill) {
-        skill.SetUnlock(true);
+    
+    public List<Skill> GetSkillList(){
+        return skillList;
     }
 }

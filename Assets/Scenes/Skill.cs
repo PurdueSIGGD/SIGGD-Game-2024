@@ -26,4 +26,11 @@ public abstract class Skill
     protected abstract void UnlockEffect() {
 
     }
+    public string GetName() {
+        return name;
+    }
+
+    public int GetCost() {
+        return cost;
+    }
 }
