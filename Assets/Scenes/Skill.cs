@@ -23,9 +23,8 @@ public abstract class Skill
         return unlocked;
     }
 
-    protected abstract void UnlockEffect() {
-
-    }
+    protected abstract void UnlockEffect();
+    
     public string GetName() {
         return name;
     }

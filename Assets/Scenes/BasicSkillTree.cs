@@ -5,9 +5,10 @@ using UnityEngine;
 public abstract class BasicSkillTree : MonoBehaviour
 {
     // Start is called before the first frame update
+    List<Branch> branchList;
     void Start()
     {
-        List<Branch> branchList = new List<Branch>();
+       branchList = new List<Branch>();
     }
 
     // Update is called once per frame
@@ -17,10 +18,10 @@ public abstract class BasicSkillTree : MonoBehaviour
     }
 
     public void AddBranch(Branch branch) {
-        branchList.add(branch);
+        branchList.Add(branch);
     }
 
-    public void GetBranch() {
+    public List<Branch> GetBranch() {
         return branchList;
     }
 }

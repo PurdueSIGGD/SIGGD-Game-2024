@@ -5,10 +5,10 @@ using UnityEngine;
 public class Branch
 {
     private List<Skill> skillList;
-    private index;
+    private int index;
 
     public void AddSkill(Skill skill) {
-        skillList.add(skill);
+        skillList.Add(skill);
     }
     public void UnlockNext() {
         skillList[index + 1].SetUnlock(true);
