@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Skill : MonoBehaviour
+public abstract class Skill
 {
     private string name;
     private int cost;
@@ -14,23 +14,16 @@ public class Skill : MonoBehaviour
         unlocked = false;
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public void setUnoock(bool state) {
+    public void SetUnlock(bool state) {
         unlocked = state;
+        UnlockEffect();
     }
 
-    public bool getUnlocked() {
+    public bool GetUnlocked() {
         return unlocked;
+    }
+
+    protected abstract void UnlockEffect() {
+
     }
 }

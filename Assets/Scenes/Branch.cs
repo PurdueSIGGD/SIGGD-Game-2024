@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class Branch : MonoBehaviour
 {
-    private list<Skill> skillList;
+    private List<Skill> skillList;
     // Start is called before the first frame update
     void Start()
     {
-        skillList = new list<Skill>();
+        skillList = new List<Skill>();
     }
 
     // Update is called once per frame
@@ -17,20 +17,20 @@ public class Branch : MonoBehaviour
         
     }
 
-    public Skill getNextSkill(Skill skill) {
-        return skillList[skillList.indexOf(skill) + 1];
+    public Skill GetNextSkill(Skill skill) {
+        return skillList[skillList.IndexOf(skill) + 1];
     }
 
-    public Skill getNextLockedSkill() {
+    public Skill GeetNextLockedSkill() {
         foreach(Skill s in skillList) {
-            if (!s.getUnlocked()) {
+            if (!s.GetUnlocked()) {
                 return s;
             }
         }
         return null;
     }
 
-    public void unlockSkill(Skill skill) {
-        skill.setUnoock(true);
+    public void UnlockSkill(Skill skill) {
+        skill.SetUnlock(true);
     }
 }

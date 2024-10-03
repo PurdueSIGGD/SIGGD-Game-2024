@@ -7,7 +7,7 @@ public class BasicSkillTree : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        list<Branch> branchList = new list<Branch>();
+        List<Branch> branchList = new List<Branch>();
     }
 
     // Update is called once per frame
