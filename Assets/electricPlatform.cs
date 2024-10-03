@@ -5,7 +5,7 @@ using UnityEngine;
 public class electricPlatform : MonoBehaviour, ITriggerable
 {
 
-    bool isEffectActive;
+    bool isEffectActive; //is the special platform effect on or off?
     SpriteRenderer sprite;
 
     void Start()
@@ -14,6 +14,7 @@ public class electricPlatform : MonoBehaviour, ITriggerable
     }
     void Update()
     {
+        //sprite to change color to indicate effect on or off, because player hurt implementation by player team not done yet
         if (isEffectActive)
         {
             sprite.color = Color.blue;
