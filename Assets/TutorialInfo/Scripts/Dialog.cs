@@ -11,14 +11,12 @@ public class Dialog : MonoBehaviour
 {
 
     public TextMeshProUGUI textMeshDialog;
-    public GameObject textMeshDialogGameObject;
     public string[] sentences;
     private int index;
     public float textSpeed;
     // Start is called before the first frame update
     void Start()
     {
-        textMeshDialogGameObject=GameObject.Find("DialogPanel");
         textMeshDialog.text=string.Empty;
     }
 
@@ -30,8 +28,6 @@ public class Dialog : MonoBehaviour
 
     //
     public void StartDialog(){
-        Debug.Log("StartDialog");
-        textMeshDialogGameObject.SetActive(true);
         index=0;
         StartCoroutine(Type());
     }
@@ -53,10 +49,6 @@ public class Dialog : MonoBehaviour
         else{
             EndDialog();
         }
-    }
-
-    public void TestButton(){
-        Debug.Log("Test");
     }
     private void EndDialog(){
         gameObject.SetActive(false);
