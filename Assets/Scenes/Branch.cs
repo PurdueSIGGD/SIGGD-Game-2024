@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 /// <summary>
-/// 
+/// a branch that consists of multiple skills 
 /// </summary>
 public class Branch
 {
@@ -13,23 +13,31 @@ public class Branch
         skillList.Add(skill);
     }
     
-    //unlock the next skill and push nextUnlockIndex to the next skill
+    /// <summary>
+    /// unlock the next skill and push nextUnlockIndex to the next skill
+    /// <summary>
     public void UnlockNext() {
         skillList[nextUnlockIndex + 1].SetUnlock(true);
         nextUnlockIndex = nextUnlockIndex + 1;
     }
 
-    //return the last unlocked skill 
+    /// <summary>
+    /// return the last unlocked skill 
+    /// <summary>
     public Skill GetLastUnlockedSkill() {
         return skillList[nextUnlockIndex]-1;
     }
 
-    //return the first locked skill in the list, which is the skill that can be unlocked next
+    /// <summary>
+    ///return the first locked skill in the list, which is the skill that can be unlocked next
+    /// <summary>
     public Skill GetNextLockedSkill() {
         return skillList[nextUnlockIndex];
     }
 
-    //return the index of the first locked skill in the list, which is the skill that can be unlocked next
+    /// <summary>
+    /// return the index of the first locked skill in the list, which is the skill that can be unlocked next
+    /// <summary>
     public int GetNextLockedSkillIndex() {
         return index + 1;
     }

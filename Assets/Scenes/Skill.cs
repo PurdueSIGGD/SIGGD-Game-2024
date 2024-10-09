@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 /// <summary>
-/// a skill that makes an effect when unlocked. Its unlock state is set false as default
+/// a skill that makes an effect when unlocked. The unlock state is false as default
 /// </summary>
 public abstract class Skill
 {
@@ -24,10 +24,6 @@ public abstract class Skill
         unlocked = state;
         UnlockEffect();
     }
-    
-    public bool GetUnlocked() {
-        return unlocked;
-    }
 
     /// <summary>
     /// set the unlock effect 
@@ -40,5 +36,9 @@ public abstract class Skill
 
     public int GetCost() {
         return cost;
+    }
+    
+    public bool GetUnlocked() {
+        return unlocked;
     }
 }
