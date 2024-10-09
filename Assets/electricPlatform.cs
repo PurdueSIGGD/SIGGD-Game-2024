@@ -2,7 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class electricPlatform : MonoBehaviour, ITriggerable
+/// <summary>
+/// Electric platform prefab script that periodically becomes SHOCKING!!! 
+/// Implements the ITriggerable interface.
+/// </summary>
+
+public class ElectricPlatform : MonoBehaviour, ITriggerable
 {
 
     bool isEffectActive; //is the special platform effect on or off?
@@ -24,12 +29,19 @@ public class electricPlatform : MonoBehaviour, ITriggerable
             sprite.color = Color.gray;
         }
     }
-    public bool toggleEffect(bool active) //ITriggerable method, mutator
+    /// <summary>
+    /// sets the status of the effect to whether or not it should be active or not
+    /// </summary>
+    /// <param name="active"></param>
+    public void ToggleEffect(bool active) //ITriggerable method, mutator
     {
         isEffectActive = active;
-        return isEffectActive;
     }
-    public bool getEffectStatus() //ITriggerable method, accessor
+    /// <summary>
+    /// returns the value of if the effect is active or not
+    /// </summary>
+    /// <returns>bool</returns>
+    public bool GetEffectStatus() //ITriggerable method, accessor
     {
         return isEffectActive;
     }

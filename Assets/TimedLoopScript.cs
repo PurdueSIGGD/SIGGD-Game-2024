@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 
-public class timedLoopPlatform : MonoBehaviour
+/// <summary>
+/// General purpose timer script designed for platforms that utilize the ITriggerable interface.
+/// </summary>
+public class TimedLoopScript : MonoBehaviour
 {
     //This is a general timer for platforms that run on a constant, repeating timer
 
 
-    ITriggerable triggerable;
+    ITriggerable triggerable; //holds a reference to 
 
     [SerializeField] float offTime; //amount of time in seconds that the effect is off
     [SerializeField] float onTime; //amount of time in seconds that the effect is on
@@ -30,7 +33,7 @@ public class timedLoopPlatform : MonoBehaviour
         if (startOn)
         {
             timer = onTime;
-            toggleEffect(true);
+            ToggleEffect(true);
         }
     }
 
@@ -40,8 +43,8 @@ public class timedLoopPlatform : MonoBehaviour
         timer -= Time.deltaTime;
         if (timer < 0)
         {
-            triggerable.toggleEffect(!triggerable.getEffectStatus()); //toggle effect to whatever it was not originally
-            if (triggerable.getEffectStatus())
+            triggerable.ToggleEffect(!triggerable.GetEffectStatus()); //toggle effect to whatever it was not originally
+            if (triggerable.GetEffectStatus())
             {
                 timer = onTime;
             }
@@ -51,8 +54,12 @@ public class timedLoopPlatform : MonoBehaviour
             }
         }
     }
-    void toggleEffect(bool active)
+    /// <summary>
+    /// calls the triggerable interface's function of the same name
+    /// </summary>
+    /// <param name="active"></param>
+    void ToggleEffect(bool active)
     {
-        triggerable.toggleEffect(active);
+        triggerable.ToggleEffect(active);
     }
 }
