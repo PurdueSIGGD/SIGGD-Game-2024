@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class BasicSkillTree : MonoBehaviour
 {
     // Start is called before the first frame update
-    List<Branch> branchList;
+    protected List<Branch> branchList;
     void Start()
     {
        branchList = new List<Branch>();
@@ -21,7 +21,7 @@ public abstract class BasicSkillTree : MonoBehaviour
         branchList.Add(branch);
     }
 
-    public List<Branch> GetBranch() {
+    public List<Branch> GetBranches() {
         return branchList;
     }
 }

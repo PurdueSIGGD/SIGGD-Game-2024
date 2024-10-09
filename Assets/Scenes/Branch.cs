@@ -1,29 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// 
+/// </summary>
 public class Branch
 {
     private List<Skill> skillList;
-    private int index;
-
+    private int nextUnlockIndex; // index of the skill that can be unlocked next
+    
     public void AddSkill(Skill skill) {
         skillList.Add(skill);
     }
+    
+    //unlock the next skill and push nextUnlockIndex to the next skill
     public void UnlockNext() {
-        skillList[index + 1].SetUnlock(true);
-        index = index + 1;
+        skillList[nextUnlockIndex + 1].SetUnlock(true);
+        nextUnlockIndex = nextUnlockIndex + 1;
     }
 
+    //return the last unlocked skill 
     public Skill GetLastUnlockedSkill() {
-        return skillList[index];
+        return skillList[nextUnlockIndex]-1;
     }
 
-    public Skill GetNextNextLockedSkill() {
-        return skillList[index + 1];
+    //return the first locked skill in the list, which is the skill that can be unlocked next
+    public Skill GetNextLockedSkill() {
+        return skillList[nextUnlockIndex];
     }
 
-    public int GetNextLockedSkill() {
+    //return the index of the first locked skill in the list, which is the skill that can be unlocked next
+    public int GetNextLockedSkillIndex() {
         return index + 1;
     }
     
