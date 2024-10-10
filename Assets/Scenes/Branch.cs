@@ -25,7 +25,7 @@ public class Branch
     /// return the last unlocked skill 
     /// <summary>
     public Skill GetLastUnlockedSkill() {
-        return skillList[nextUnlockIndex]-1;
+        return skillList[nextUnlockIndex - 1];
     }
 
     /// <summary>
@@ -39,7 +39,7 @@ public class Branch
     /// return the index of the first locked skill in the list, which is the skill that can be unlocked next
     /// <summary>
     public int GetNextLockedSkillIndex() {
-        return index + 1;
+        return nextUnlockIndex + 1;
     }
     
     public List<Skill> GetSkillList(){

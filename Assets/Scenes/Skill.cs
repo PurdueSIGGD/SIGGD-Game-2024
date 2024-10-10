@@ -13,7 +13,7 @@ public abstract class Skill
     public Skill(string n, int c) {
         name = n;
         cost = c;
-        unlocked = false;
+        unlocked = false; 
     }
 
     /// <summary>
