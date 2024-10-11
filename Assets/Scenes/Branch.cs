@@ -1,16 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
+
 /// <summary>
 /// a branch that consists of multiple skills 
 /// </summary>
 public class Branch
 {
-    private List<Skill> skillList;
+    private List<Skill> skillList = new List<Skill>();
     private int nextUnlockIndex; // index of the skill that can be unlocked next
     
+    protected void Start()
+    {
+
+    }
+
     public void AddSkill(Skill skill) {
-        skillList.Add(skill);
+        this.skillList.Add(skill);
     }
     
     /// <summary>

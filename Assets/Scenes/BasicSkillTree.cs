@@ -1,16 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
+
 /// <summary>
 /// a skill tree that consists of multiple branches 
 /// </summary>
 public abstract class BasicSkillTree : MonoBehaviour
 {
     // Start is called before the first frame update
-    protected List<Branch> branchList;
-    void Start()
+    protected List<Branch> branchList = new List<Branch>();
+    protected void Start()
     {
-       branchList = new List<Branch>();
+       //branchList = new List<Branch>();
     }
 
     // Update is called once per frame

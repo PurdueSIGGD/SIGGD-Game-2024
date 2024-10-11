@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+
 /// <summary>
 /// a skill that makes an effect when unlocked. The unlock state is false as default
 /// </summary>
-public abstract class Skill
+public class Skill
 {
     private string name;
     private int cost;
@@ -28,8 +30,9 @@ public abstract class Skill
     /// <summary>
     /// set the unlock effect 
     /// </summary>
-    protected abstract void UnlockEffect();
-    
+    //protected void UnlockEffect() {}
+    public Action UnlockEffect { get; set; }
+
     public string GetName() {
         return name;
     }
