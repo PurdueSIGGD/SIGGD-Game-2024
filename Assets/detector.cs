@@ -2,19 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class detector : MonoBehaviour
+public class Detector : MonoBehaviour
 {
     //reference to appear disappear
-    public appearDisappear appearDisappear;
+    public AppearDisappear appearDisappear;
     public bool isGone = true;
     //change color of sprite reference to sprite
     public SpriteRenderer spriteRenderer;
     // Start is called before the first frame update
     void Start()
     {
-        appearDisappear = GameObject.FindGameObjectWithTag("platformDisappear").GetComponent<appearDisappear>();
+        appearDisappear = GameObject.FindGameObjectWithTag("platformDisappear").GetComponent<AppearDisappear>();
         spriteRenderer = GameObject.FindGameObjectWithTag("buttonSprite").GetComponent<SpriteRenderer>();
-        appearDisappear.hidePlatform();
+        appearDisappear.HidePlatform();
         spriteRenderer.color = Color.red;
     }
 
@@ -24,6 +24,7 @@ public class detector : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         isInsideTrigger = true;
+        print("collision");
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -36,13 +37,13 @@ public class detector : MonoBehaviour
     {
         if (isInsideTrigger && Input.GetKeyDown(KeyCode.I) && isGone)
         {
-            appearDisappear.showPlatform();
+            appearDisappear.ShowPlatform();
             spriteRenderer.color = Color.green;
             isGone = false;
         }
         else if (isInsideTrigger && Input.GetKeyDown(KeyCode.I) && !isGone)
         {
-            appearDisappear.hidePlatform();
+            appearDisappear.HidePlatform();
             spriteRenderer.color = Color.red;
             isGone = true;
         }

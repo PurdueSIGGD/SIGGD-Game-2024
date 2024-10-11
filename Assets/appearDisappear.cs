@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class appearDisappear : MonoBehaviour
+public class AppearDisappear : MonoBehaviour
 {
     //reference the object you want to hide or show
     public GameObject targetObject;
@@ -16,16 +16,16 @@ public class appearDisappear : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
-    public void showPlatform()
+    public void ShowPlatform()
     {
         targetObject.SetActive(true);
     }
 
-    public void hidePlatform()
-    { 
+    public void HidePlatform()
+    {
         targetObject.SetActive(false);
     }
 

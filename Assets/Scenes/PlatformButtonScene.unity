@@ -511,7 +511,7 @@ PrefabInstance:
     - target: {fileID: 3466143778723043221, guid: 1b0339284d58c2e42853270a34d1332f,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.62
+      value: -1.07
       objectReference: {fileID: 0}
     - target: {fileID: 3466143778723043221, guid: 1b0339284d58c2e42853270a34d1332f,
         type: 3}
@@ -662,10 +662,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db670c60c1e888b489604e64bab9ee33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  horizontal: 0
+  speed: 8
+  jumpingPower: 14
+  isFacingRight: 1
   rb: {fileID: 855538015}
   groundCheck: {fileID: 1669460065}
   groundLayer:
-    serializedVersion: 2
     m_Bits: 64
 --- !u!4 &1212943840 stripped
 Transform:

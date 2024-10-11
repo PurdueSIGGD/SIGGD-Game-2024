@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
-public class playerMovement : MonoBehaviour
+
+/// <summary>
+/// (For testing)Player movement script by yours truly, the World Team!!!!!! :D
+/// </summary>
+public class PlayerMovement : MonoBehaviour
 {
     //private variables
     private float horizontal;
@@ -18,7 +22,7 @@ public class playerMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -28,9 +32,9 @@ public class playerMovement : MonoBehaviour
         horizontal = Input.GetAxisRaw("Horizontal");
 
         if (Input.GetButtonDown("Jump") && isGrounded())
-        { 
+        {
             //set rb velocity to x and jumping power
-            rb.velocity = new Vector2 (rb.velocity.x, jumpingPower);
+            rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
         }
 
         flip();
@@ -53,9 +57,9 @@ public class playerMovement : MonoBehaviour
         }
     }
     private bool isGrounded()
-        {
+    {
         //creates a little area around player if touching then you can jump
         //basically prevents double jump
         return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
-        }
+    }
 }
