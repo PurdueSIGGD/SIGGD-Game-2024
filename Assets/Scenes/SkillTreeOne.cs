@@ -56,7 +56,6 @@ public class SkillTreeOne : BasicSkillTree
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log(this.branchList[0].GetSkillList().Count);
         
     }
 }
