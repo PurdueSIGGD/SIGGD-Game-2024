@@ -6,7 +6,7 @@ using UnityEngine;
 public class Stat : MonoBehaviour
 {
     [SerializeField]
-    string name;
+    String statName;
 
     [SerializeField]
     float value;
@@ -14,9 +14,13 @@ public class Stat : MonoBehaviour
     [SerializeField]
 
     int modifier;
-    
+
+
     
     // Start is called before the first frame update
+    public String GetName() {
+        return statName;
+    }
     void Start()
     {
         

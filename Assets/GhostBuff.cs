@@ -1,17 +1,17 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class GhostBuf : MonoBehaviour
+public class GhostBuff : MonoBehaviour
 {
 
     [SerializeField]
     int buff;
     [SerializeField]
     String statName;
-    Stat[] statsList = GameObject.FindGameObjectWithTag("Player")
-.GetComponents<Stat>();
+    Stat[] statsList;
     
     
     bool inParty;
@@ -26,7 +26,10 @@ public class GhostBuf : MonoBehaviour
         }
         statToModify.ModifyStat(buff);
     }
-
+    void Start() {
+        statsList = GameObject.FindGameObjectWithTag("Player")
+.GetComponents<Stat>();
+    }
     public void ExitParty(GameObject player) {
         Stat statToModify = statsList[0];
         for (int i = 0; i < statsList.Length; i++) {
@@ -38,7 +41,7 @@ public class GhostBuf : MonoBehaviour
     }
 
     // TEMPORARY - SHOULD DELETE LATER
-    public void SwithPartyStatus(GameObject player) {
+    public void SwitchPartyStatus(GameObject player) {
         if (inParty) {
             ExitParty(player);
         } else {
