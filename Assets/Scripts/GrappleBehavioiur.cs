@@ -3,10 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Script attached to the player that controls the grappling mechanics of the game
+/// </summary>
+
 public class GrappleBehavioiur : MonoBehaviour
 {
-    [SerializeField] float range = 10.0f;
-    [SerializeField] float speed = 10.0f;
+    [SerializeField] float range = 10.0f; //Range of the grapple projectile
+    [SerializeField] float speed = 10.0f; //How fast you go when you grapple to an object
 
     private Camera mainCamera;
     private Rigidbody2D rb;
@@ -32,7 +36,9 @@ public class GrappleBehavioiur : MonoBehaviour
             }
         }
     }
-
+    /// <summary>
+    /// function that gets called when you press the "Grapple" keybind in the Player Actions
+    /// </summary>
     void OnGrapple()
     {
         Vector3 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
