@@ -6,13 +6,16 @@ using UnityEngine;
 
 public class GhostBuff : MonoBehaviour
 {
+    [SerializeField]
+    StatToBuff[] buffs;
 
-    [SerializeField]
-    int buff;
-    [SerializeField]
-    String statName;
     Stat[] statsList;
     
+    [Serializable]
+    public struct StatToBuff {
+        public string name;
+        public int buff;
+    }
     
     bool inParty;
 
@@ -20,11 +23,12 @@ public class GhostBuff : MonoBehaviour
     public void EnterParty(GameObject player)  {
         Stat statToModify = statsList[0];
         for (int i = 0; i < statsList.Length; i++) {
-            if (statsList[i].GetName().Equals(statName)) {
-                statToModify = statsList[i];
+            foreach (StatToBuff statBuff in buffs){
+                if (statsList[i].GetName().Equals(statBuff.name)) {
+                    statsList[i].ModifyStat(statBuff.buff);
+                }
             }
         }
-        statToModify.ModifyStat(buff);
     }
     void Start() {
         statsList = GameObject.FindGameObjectWithTag("Player")
@@ -33,11 +37,12 @@ public class GhostBuff : MonoBehaviour
     public void ExitParty(GameObject player) {
         Stat statToModify = statsList[0];
         for (int i = 0; i < statsList.Length; i++) {
-            if (statsList[i].GetName().Equals(statName)) {
-                statToModify = statsList[i];
+            foreach (StatToBuff statBuff in buffs){
+                if (statsList[i].GetName().Equals(statBuff.name)) {
+                    statsList[i].ModifyStat(-1 * statBuff.buff);
+                }
             }
         }
-        statToModify.ModifyStat(-1 * buff);
     }
 
     // TEMPORARY - SHOULD DELETE LATER
