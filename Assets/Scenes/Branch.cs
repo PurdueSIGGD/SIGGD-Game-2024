@@ -1,15 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
 
 /// <summary>
-/// a branch that consists of multiple skills 
+/// a branch that consists maximum of two skills 
 /// </summary>
 public class Branch
 {
     private List<Skill> skillList = new List<Skill>();
-    private int nextUnlockIndex; // index of the skill that can be unlocked next
+    private bool unlock = false;
+    private int totalSkillPts = 0;
     
     protected void Start()
     {
@@ -19,34 +19,26 @@ public class Branch
     public void AddSkill(Skill skill) {
         this.skillList.Add(skill);
     }
-    
-    /// <summary>
-    /// unlock the next skill and push nextUnlockIndex to the next skill
-    /// <summary>
-    public void UnlockNext() {
-        skillList[nextUnlockIndex + 1].SetUnlock(true);
-        nextUnlockIndex = nextUnlockIndex + 1;
+
+    public void SetUnlock(bool state) {
+        unlock = state; 
     }
 
     /// <summary>
-    /// return the last unlocked skill 
+    /// add a skill point to the trust level. It should be automatically added to the first skill 
     /// <summary>
-    public Skill GetLastUnlockedSkill() {
-        return skillList[nextUnlockIndex - 1];
+    public void AddSkillPts() {
+        totalSkillPts += 1;
+        this.skillList[0].AddSkillPts(1);
     }
 
-    /// <summary>
-    ///return the first locked skill in the list, which is the skill that can be unlocked next
-    /// <summary>
-    public Skill GetNextLockedSkill() {
-        return skillList[nextUnlockIndex];
-    }
-
-    /// <summary>
-    /// return the index of the first locked skill in the list, which is the skill that can be unlocked next
-    /// <summary>
-    public int GetNextLockedSkillIndex() {
-        return nextUnlockIndex + 1;
+    public void SwapSkillPts(int taken, int given) {
+        if (this.skillList[taken].GetSkillPts() >= 1) {
+            this.skillList[taken].AddSkillPts(-1);
+            this.skillList[given].AddSkillPts(1);
+        } else {
+            Debug.Log("Not Enough skill point");
+        }
     }
     
     public List<Skill> GetSkillList(){

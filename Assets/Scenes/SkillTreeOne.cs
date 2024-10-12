@@ -1,42 +1,62 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
 
 public class SkillTreeOne : BasicSkillTree
 {
+    public SkillTreeOne() : base(50) {
+        
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        base.Start();
         Branch br1 = new Branch();
-        Skill temp = new Skill("Fireball", 30)
+        Branch br2 = new Branch();
+        Branch br3 = new Branch();
+        br1.AddSkill(new Skill("Fireball")
         {
             UnlockEffect = ()=> {
-                Debug.Log("Hi!");
-            }
-        };
-        br1.AddSkill(temp);
-        br1.AddSkill(new Skill("FireWall", 5)
-        {
-            UnlockEffect = ()=> {
-                Debug.Log("World!");
+                Debug.Log("Levek 1 Skill 1");
             }
         });
-        Branch br2 = new Branch();
-        
+        br1.AddSkill(new Skill("FireWall")
+        {
+            UnlockEffect = ()=> {
+                Debug.Log("Level 1 Skill 2: ");
+            }
+        });
+        br2.AddSkill(new Skill("FireSth1")
+        {
+            UnlockEffect =()=> {
+                Debug.Log("Level 2 skill 1");
+            }
+        });
+        br2.AddSkill(new Skill("FireSth2")
+        {
+            UnlockEffect =()=> {
+                Debug.Log("Level 2 skill 2");
+            }
+        });
         base.AddBranch(br1);
-        //AddBranch(br2);
-        
+        base.AddBranch(br2);
+        br1.AddSkillPts();
+        br1.AddSkillPts();
+        br2.AddSkillPts();
+        br1.SwapSkillPts(0, 1);
+
+        foreach(Branch b in this.branchList) {
+            foreach (Skill s in b.GetSkillList()) {
+                s.UnlockEffect();
+                Debug.Log("name: " + s.GetName() + "; Skill Points: " + s.GetSkillPts().ToString());
+            }
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
         //Debug.Log(this.branchList[0].GetSkillList().Count);
-        foreach (Skill s in this.branchList[0].GetSkillList()) {
-            Debug.Log("hello");
-            s.UnlockEffect();
-        }
+        
     }
 }

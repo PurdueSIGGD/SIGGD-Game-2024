@@ -9,13 +9,19 @@ using System;
 public class Skill
 {
     private string name;
-    private int cost;
+    private int skillPts;
     private bool unlocked; 
 
-    public Skill(string n, int c) {
+    public Skill(string n, int pts) {
         name = n;
-        cost = c;
+        skillPts = pts;
         unlocked = false; 
+    }
+
+    public Skill(string n) {
+        name = n;
+        skillPts = 0;
+        unlocked = false;
     }
 
     /// <summary>
@@ -37,8 +43,12 @@ public class Skill
         return name;
     }
 
-    public int GetCost() {
-        return cost;
+    public int GetSkillPts() {
+        return skillPts;
+    }
+
+    public void AddSkillPts(int pts) {
+        this.skillPts += pts;
     }
     
     public bool GetUnlocked() {
