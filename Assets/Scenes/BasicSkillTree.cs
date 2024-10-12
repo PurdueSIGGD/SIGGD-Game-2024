@@ -7,7 +7,7 @@ using UnityEngine;
 /// </summary>
 public abstract class BasicSkillTree : MonoBehaviour
 {
-    protected List<Branch> branchList = new List<Branch>();
+    protected Branch[] branchList = new Branch[4];
     protected readonly  int TRUST_LEVEL_1 = 25;
     protected readonly  int TRUST_LEVEL_2 = 50;
     protected readonly  int TRUST_LEVEL_3 = 75;
@@ -45,15 +45,21 @@ public abstract class BasicSkillTree : MonoBehaviour
         }
     }
 
+    /*
     /// <summary>
     /// add a branch in the skill tree
     /// </summary>
     /// <param name="branch"> the branch that is added to the skill tree  </param>    
     public void AddBranch(Branch branch) {
         branchList.Add(branch);
+    }*/
+
+    public Branch[] GetBranches() {
+        return branchList;
     }
 
-    public List<Branch> GetBranches() {
-        return branchList;
+    public void IncreaseTrust(int amount) {
+        trust += amount;
+        UpdateProgression();
     }
 }

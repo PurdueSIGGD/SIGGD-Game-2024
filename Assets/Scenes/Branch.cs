@@ -22,6 +22,9 @@ public class Branch
 
     public void SetUnlock(bool state) {
         unlock = state; 
+        foreach(Skill s in this.skillList) {
+            s.SetUnlock(true);
+        }
     }
 
     /// <summary>

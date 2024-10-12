@@ -30,14 +30,14 @@ public class Skill
     /// <param name="state"> whether the skill is unlocked </param>
     public void SetUnlock(bool state) {
         unlocked = state;
-        UnlockEffect();
+        Effect1();
     }
 
     /// <summary>
     /// set the unlock effect 
     /// </summary>
     //protected void UnlockEffect() {}
-    public Action UnlockEffect { get; set; }
+    public Action Effect1 { get; set; }
 
     public string GetName() {
         return name;
