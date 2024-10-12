@@ -3,30 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Stats : MonoBehaviour
+public class Movement : MonoBehaviour
 {
     // Start is called before the first frame update
     private InputAction movement;
-    [SerializeField]
+
     float speed = 3.0f;
-
-    [SerializeField]
-    Stat Attack = new Stat("Attack", 100, 0);
-    [SerializeField]
-    Stat Defense = new Stat("Defense", 100, 0);
-
-    [SerializeField]
-    Stat Range = new Stat("Range", 100, 0);
-
-    public Stats GetAttack() {
-        return Attack;
-    }
-    public Stats GetDefense() {
-        return Range;
-    }
-    public Stats GetRange() {
-        return Range;
-    }
 
     //public bool[] inParty;
 
