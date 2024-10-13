@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem.XR.Haptics;
 
 public class EnemyStateManager : MonoBehaviour
 {
@@ -12,7 +9,11 @@ public class EnemyStateManager : MonoBehaviour
         Attack
     }
     public States curState = States.Idle;
-    public bool patrolling = false;
+    public Collider meleeHit;
+    public LayerMask layerMask;
+
+    public Rigidbody rb;
+    public float speed;
     public float aggroRange = 10.0f;
 
     void FixedUpdate()
@@ -20,13 +21,16 @@ public class EnemyStateManager : MonoBehaviour
         switch (curState)
         {
             case States.Idle:
+                IdleBehavior();
                 break;
             case States.Approach:
+                ApproachBehavior();
                 break;
             case States.Attack:
+                AttackBehavior();
                 break;
         }
-        
+        UpdateState();
     }
 
     protected void UpdateState()
@@ -34,42 +38,49 @@ public class EnemyStateManager : MonoBehaviour
         if (!HasLineOfSight())
         {
             curState = States.Idle;
+            return;
         }
-        // if player not in attack range, move towards them
-        
-        // if player in attack range, attack
+        if (InMeleeRange())
+        {
+            curState = States.Attack;
+            return;
+        }
+        else
+        {
+            curState = States.Approach;
+            return;
+        }
     }
 
     protected void IdleBehavior()
     {
-        if (patrolling)
-        {
-            // do patrol
-        }
+        rb.velocity = Vector3.zero;
     }
 
     protected void ApproachBehavior()
     {
-
+        rb.velocity = Vector3.right * speed;
     }
 
     protected void AttackBehavior()
     {
-
+        rb.velocity = Vector3.zero;
     }
 
     protected bool HasLineOfSight()
     {
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.right), out hit, aggroRange))
-        {
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.right) * hit.distance, Color.green);
+        return (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.right), out RaycastHit hit, aggroRange, layerMask));
+    }
 
-            if (hit.collider.gameObject.CompareTag("Player")) 
-            {
-                return true;
-            }
-        }
-        return false;
+    protected bool InMeleeRange()
+    {
+        Collider[] c = Physics.OverlapBox(meleeHit.transform.position, meleeHit.transform.lossyScale / 2, meleeHit.transform.rotation, layerMask);
+
+        return c.Length > 0;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawCube(meleeHit.transform.position, meleeHit.transform.lossyScale);
     }
 }
