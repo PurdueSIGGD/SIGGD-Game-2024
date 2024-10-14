@@ -342,8 +342,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1667228175}
-        m_TargetAssemblyTypeName: GhostBuf, Assembly-CSharp
-        m_MethodName: SwithPartyStatus
+        m_TargetAssemblyTypeName: GhostBuff, Assembly-CSharp
+        m_MethodName: SwitchPartyStatus
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 1197319073}
@@ -488,7 +488,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36183402937b46146896c46f3920e1f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buff: 0
 --- !u!58 &1081042683
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -537,7 +536,6 @@ GameObject:
   - component: {fileID: 1197319074}
   - component: {fileID: 1197319078}
   - component: {fileID: 1197319077}
-  - component: {fileID: 1197319080}
   - component: {fileID: 1197319079}
   - component: {fileID: 1197319083}
   - component: {fileID: 1197319085}
@@ -561,7 +559,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 532320b84239cf640a651fa5709b989a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: Attack
+  statName: Attack
   value: 50
   modifier: 100
 --- !u!212 &1197319075
@@ -644,7 +642,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 532320b84239cf640a651fa5709b989a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: Range
+  statName: Range
   value: 50
   modifier: 100
 --- !u!114 &1197319078
@@ -659,7 +657,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 532320b84239cf640a651fa5709b989a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: Defense
+  statName: Defense
   value: 50
   modifier: 100
 --- !u!114 &1197319079
@@ -693,18 +691,6 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &1197319080
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1197319073}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe0e0fc64b6aedc44b3485cafd1acb20, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1197319083
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -717,10 +703,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf705852e58baea4bb1659b054e1ec55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
-  Attack: {fileID: 0}
-  Defense: {fileID: 0}
-  Range: {fileID: 0}
 --- !u!50 &1197319084
 Rigidbody2D:
   serializedVersion: 4
@@ -1219,7 +1201,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 866b671ae53ac3a48942990feff4e1e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buff: 15
+  buffs:
+  - name: Defense
+    buff: 15
+  - name: Attack
+    buff: 15
+  - name: Range
+    buff: 15
 --- !u!212 &1667228176
 SpriteRenderer:
   m_ObjectHideFlags: 0
