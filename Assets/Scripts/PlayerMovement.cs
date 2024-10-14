@@ -31,13 +31,13 @@ public class PlayerMovement : MonoBehaviour
         //returns value of -1 or 0 or +1 depending on direction of movement
         horizontal = Input.GetAxisRaw("Horizontal");
 
-        if (Input.GetButtonDown("Jump") && isGrounded())
+        if (Input.GetButtonDown("Jump") && IsGrounded())
         {
             //set rb velocity to x and jumping power
             rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
         }
 
-        flip();
+        Flip();
     }
 
     private void FixedUpdate()
@@ -46,9 +46,9 @@ public class PlayerMovement : MonoBehaviour
     }
 
     /// <summary>
-    /// flips sprite if horizontal input is opposite of whether its facing right or not
+    /// Flips sprite if horizontal input is opposite of whether its facing right or not
     /// </summary>
-    private void flip()
+    private void Flip()
     {
         if (isFacingRight && horizontal < 0f || !isFacingRight && horizontal > 0f)
         {
@@ -62,7 +62,7 @@ public class PlayerMovement : MonoBehaviour
     /// checks if player is grounded using overlap circle
     /// </summary>
     /// <returns>bool</returns>
-    private bool isGrounded()
+    private bool IsGrounded()
     {
         //creates a little area around player if touching then you can jump
         //basically prevents double jump
