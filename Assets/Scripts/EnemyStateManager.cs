@@ -8,13 +8,19 @@ public class EnemyStateManager : MonoBehaviour
         Approach,
         Attack
     }
-    public States curState = States.Idle;
-    public Collider meleeHit;
-    public LayerMask layerMask;
-
-    public Rigidbody rb;
+    public Transform meleeHit;
     public float speed;
     public float aggroRange = 10.0f;
+
+    protected States curState;
+    protected Rigidbody rb;
+
+    void Awake()
+    {
+        curState = States.Idle;
+        rb = GetComponent<Rigidbody>();
+    }
+
 
     void FixedUpdate()
     {
@@ -69,17 +75,21 @@ public class EnemyStateManager : MonoBehaviour
 
     protected bool HasLineOfSight()
     {
-        return (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.right), out RaycastHit hit, aggroRange, layerMask));
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.right), out RaycastHit hit, aggroRange, LayerMask.GetMask("Player", "Environment")))
+        {
+            return hit.collider.gameObject.CompareTag("Player");
+        }
+        return false;
     }
 
     protected bool InMeleeRange()
     {
-        Collider[] c = Physics.OverlapBox(meleeHit.transform.position, meleeHit.transform.lossyScale / 2, meleeHit.transform.rotation, layerMask);
+        Collider[] c = Physics.OverlapBox(meleeHit.transform.position, meleeHit.transform.lossyScale / 2, meleeHit.transform.rotation, LayerMask.GetMask("Player"));
 
         return c.Length > 0;
     }
 
-    private void OnDrawGizmos()
+    protected void OnDrawGizmos()
     {
         Gizmos.DrawCube(meleeHit.transform.position, meleeHit.transform.lossyScale);
     }
