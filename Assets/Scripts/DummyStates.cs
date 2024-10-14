@@ -18,4 +18,10 @@ public class DummyStates : EnemyStateManager
         }
         rb.velocity = Vector3.zero;
     }
+
+    protected override bool InAttackRange()
+    {
+        Collider[] c = Physics.OverlapBox(meleeHit.transform.position, meleeHit.transform.lossyScale / 2, meleeHit.transform.rotation, LayerMask.GetMask("Player"));
+        return c.Length > 0;
+    }
 }

@@ -1,5 +1,9 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
+/// <summary>
+/// General Enemy AI to govern enemy behavior
+/// </summary>
 public class EnemyStateManager : MonoBehaviour
 {
     public enum States
@@ -9,16 +13,18 @@ public class EnemyStateManager : MonoBehaviour
         Attack
     }
     public Transform meleeHit;
-    public Transform player;
+    
     public float speed;
     public float aggroRange = 10.0f;
     public float attackCD = 2.0f;
 
+    protected Transform player;
     protected States curState;
     protected Rigidbody rb;
 
     void Awake()
     {
+        player = GameObject.FindGameObjectWithTag("Player").transform;
         curState = States.Idle;
         rb = GetComponent<Rigidbody>();
     }
@@ -42,35 +48,50 @@ public class EnemyStateManager : MonoBehaviour
         UpdateState();
     }
 
+    /// <summary>
+    /// Update Enemy's behavior state based on line of sight and attack range
+    /// </summary>
     protected void UpdateState()
     {
         if (!HasLineOfSight())
         {
             curState = States.Idle;
         }
-        else if (InMeleeRange())
+        else if (InAttackRange())
         {
             curState = States.Attack;
         }
         else
         {
             curState = States.Approach;
-            return;
         }
     }
 
+    // Enemy behavior when Idle.
     protected virtual void IdleBehavior() { }
-
+    // Enemy behavior when Approaching Player. Base implementation provided.
     protected virtual void ApproachBehavior() 
     {
         if (player.position.x - transform.position.x < 0)
+        {
+            Flip(false);
             rb.velocity = Vector3.left * speed;
+        }
         else
+        {
+            Flip(true);
             rb.velocity = Vector3.right * speed;
+        }
     }
-
+    // Enemy behavior when Attacking.
     protected virtual void AttackBehavior() { }
 
+    /// <summary>
+    /// Project a ray in front of the Enemy to detect any Player in aggroRange
+    /// In combat, will lock onto the player and maintain aggro for extended aggroRange
+    /// Will loose aggro if there is Environment blocking line of sight
+    /// </summary>
+    /// <returns> If there is a Player in Enemy line of sight </returns>
     protected bool HasLineOfSight()
     {
         Vector3 dir = transform.TransformDirection(Vector3.right);
@@ -89,10 +110,27 @@ public class EnemyStateManager : MonoBehaviour
         return false;
     }
 
-    protected bool InMeleeRange()
+    /// <summary>
+    /// Project an overlap check to detect if a Player is within attack range.
+    /// </summary>
+    /// <returns> If a player is within attack range </returns>
+    protected virtual bool InAttackRange() { return false; }
+
+    /// <summary>
+    /// Flip the Enemy object across the Y-axis
+    /// </summary>
+    /// <param name="isFlipped"> Enemy's current orientation </param>
+    protected void Flip(bool isFlipped)
     {
-        Collider[] c = Physics.OverlapBox(meleeHit.transform.position, meleeHit.transform.lossyScale / 2, meleeHit.transform.rotation, LayerMask.GetMask("Player"));
-        return c.Length > 0;
+        if (isFlipped)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
+        else
+        {
+            transform.rotation = Quaternion.Euler(0, 180f, 0);
+        }
+
     }
 
     protected void OnDrawGizmos()
