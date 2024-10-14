@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// [HARD CODED INPUT "I"] detects input and player proximity to button object 
+/// </summary>
 public class Detector : MonoBehaviour
 {
     //reference to appear disappear
