@@ -2,17 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NewBehaviourScript : EnemyStateManager
+public class DummyStates : EnemyStateManager
 {
-    // Start is called before the first frame update
-    void Start()
+    protected override void IdleBehavior()
     {
-        
+        rb.velocity = Vector3.zero;
     }
 
-    // Update is called once per frame
-    void Update()
+    protected override void AttackBehavior()
     {
-        
+        if (attackCD <= 0)
+        {
+            Debug.Log("attack!");
+            attackCD = 2.0f;
+        }
+        rb.velocity = Vector3.zero;
     }
 }

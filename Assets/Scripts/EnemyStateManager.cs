@@ -9,8 +9,10 @@ public class EnemyStateManager : MonoBehaviour
         Attack
     }
     public Transform meleeHit;
+    public Transform player;
     public float speed;
     public float aggroRange = 10.0f;
+    public float attackCD = 2.0f;
 
     protected States curState;
     protected Rigidbody rb;
@@ -36,6 +38,7 @@ public class EnemyStateManager : MonoBehaviour
                 AttackBehavior();
                 break;
         }
+        attackCD -= Time.deltaTime;
         UpdateState();
     }
 
@@ -44,12 +47,10 @@ public class EnemyStateManager : MonoBehaviour
         if (!HasLineOfSight())
         {
             curState = States.Idle;
-            return;
         }
-        if (InMeleeRange())
+        else if (InMeleeRange())
         {
             curState = States.Attack;
-            return;
         }
         else
         {
@@ -58,24 +59,30 @@ public class EnemyStateManager : MonoBehaviour
         }
     }
 
-    protected void IdleBehavior()
+    protected virtual void IdleBehavior() { }
+
+    protected virtual void ApproachBehavior() 
     {
-        rb.velocity = Vector3.zero;
+        if (player.position.x - transform.position.x < 0)
+            rb.velocity = Vector3.left * speed;
+        else
+            rb.velocity = Vector3.right * speed;
     }
 
-    protected void ApproachBehavior()
-    {
-        rb.velocity = Vector3.right * speed;
-    }
-
-    protected void AttackBehavior()
-    {
-        rb.velocity = Vector3.zero;
-    }
+    protected virtual void AttackBehavior() { }
 
     protected bool HasLineOfSight()
     {
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.right), out RaycastHit hit, aggroRange, LayerMask.GetMask("Player", "Environment")))
+        Vector3 dir = transform.TransformDirection(Vector3.right);
+        float maxDistance = aggroRange;
+
+        if (curState != States.Idle)
+        {
+            dir = player.position - transform.position;
+            maxDistance = maxDistance * 1.5f;
+        }
+
+        if (Physics.Raycast(transform.position, dir, out RaycastHit hit, maxDistance, LayerMask.GetMask("Player", "Environment")))
         {
             return hit.collider.gameObject.CompareTag("Player");
         }
@@ -85,12 +92,19 @@ public class EnemyStateManager : MonoBehaviour
     protected bool InMeleeRange()
     {
         Collider[] c = Physics.OverlapBox(meleeHit.transform.position, meleeHit.transform.lossyScale / 2, meleeHit.transform.rotation, LayerMask.GetMask("Player"));
-
         return c.Length > 0;
     }
 
     protected void OnDrawGizmos()
     {
+        if (!HasLineOfSight()) 
+        {
+            Gizmos.DrawRay(transform.position, transform.TransformDirection(Vector3.right) * aggroRange);
+        }
+        else
+        {
+            Gizmos.DrawRay(transform.position, player.position - transform.position);
+        }
         Gizmos.DrawCube(meleeHit.transform.position, meleeHit.transform.lossyScale);
     }
 }
