@@ -5,7 +5,7 @@ using UnityEngine;
 
 
 /// <summary>
-/// (For testing)Player movement script by yours truly, the World Team!!!!!! :D
+/// (For testing)Player movement script
 /// </summary>
 public class PlayerMovement : MonoBehaviour
 {
@@ -42,10 +42,12 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        //basically set its position to the position * speed 
         rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
     }
 
+    /// <summary>
+    /// flips sprite if horizontal input is opposite of whether its facing right or not
+    /// </summary>
     private void flip()
     {
         if (isFacingRight && horizontal < 0f || !isFacingRight && horizontal > 0f)
@@ -56,6 +58,10 @@ public class PlayerMovement : MonoBehaviour
             transform.localScale = localScale;
         }
     }
+    /// <summary>
+    /// checks if player is grounded using overlap circle
+    /// </summary>
+    /// <returns>bool</returns>
     private bool isGrounded()
     {
         //creates a little area around player if touching then you can jump

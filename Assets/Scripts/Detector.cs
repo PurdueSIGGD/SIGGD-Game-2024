@@ -5,6 +5,8 @@ using UnityEngine;
 public class Detector : MonoBehaviour
 {
     //reference to appear disappear
+
+
     public AppearDisappear appearDisappear;
     public bool isGone = true;
     //change color of sprite reference to sprite
@@ -24,9 +26,7 @@ public class Detector : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         isInsideTrigger = true;
-        print("collision");
     }
-
     private void OnTriggerExit2D(Collider2D collision)
     {
         isInsideTrigger = false;
