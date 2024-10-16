@@ -3,10 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Stat : MonoBehaviour
+public class Stats : MonoBehaviour
 {
     [SerializeField]
-    String statName;
+    Stat[] stats;
 
     [SerializeField]
     float value;
@@ -14,13 +14,18 @@ public class Stat : MonoBehaviour
     [SerializeField]
 
     int modifier;
-
-
+    [SerializeField]
+    public struct Stat {
+        public string name;
+        public String GetName() {
+            return name;
+        }
+        public int value;
+        public int modifier;
+    }
     
     // Start is called before the first frame update
-    public String GetName() {
-        return statName;
-    }
+
     void Start()
     {
         

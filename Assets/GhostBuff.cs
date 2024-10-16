@@ -9,7 +9,7 @@ public class GhostBuff : MonoBehaviour
     [SerializeField]
     StatToBuff[] buffs;
 
-    Stat[] statsList;
+    Stats[] statsList;
     
     [Serializable]
     public struct StatToBuff {
@@ -21,26 +21,26 @@ public class GhostBuff : MonoBehaviour
 
 
     public void EnterParty(GameObject player)  {
-        Stat statToModify = statsList[0];
+        Stats statToModify = statsList[0];
         for (int i = 0; i < statsList.Length; i++) {
             foreach (StatToBuff statBuff in buffs){
-                if (statsList[i].GetName().Equals(statBuff.name)) {
+                //if (statsList[i].GetName().Equals(statBuff.name)) {
                     statsList[i].ModifyStat(statBuff.buff);
-                }
+                //}
             }
         }
     }
     void Start() {
-        statsList = GameObject.FindGameObjectWithTag("Player")
-.GetComponents<Stat>();
+        //statsList = GameObject.FindGameObjectWithTag("Player")
+//.GetComponent<Stats>().statsList;
     }
     public void ExitParty(GameObject player) {
-        Stat statToModify = statsList[0];
+        Stats statToModify = statsList[0];
         for (int i = 0; i < statsList.Length; i++) {
             foreach (StatToBuff statBuff in buffs){
-                if (statsList[i].GetName().Equals(statBuff.name)) {
+                //if (statsList[i].GetName().Equals(statBuff.name)) {
                     statsList[i].ModifyStat(-1 * statBuff.buff);
-                }
+                //}
             }
         }
     }
