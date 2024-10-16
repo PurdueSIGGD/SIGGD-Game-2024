@@ -24,15 +24,15 @@ public class GhostBuff : MonoBehaviour
         Stats statToModify = statsList[0];
         for (int i = 0; i < statsList.Length; i++) {
             foreach (StatToBuff statBuff in buffs){
-                //if (statsList[i].GetName().Equals(statBuff.name)) {
+                if (statsList[i].GetName().Equals(statBuff.name)) {
                     statsList[i].ModifyStat(statBuff.buff);
-                //}
+                }
             }
         }
     }
     void Start() {
-        //statsList = GameObject.FindGameObjectWithTag("Player")
-//.GetComponent<Stats>().statsList;
+        statsList = GameObject.FindGameObjectWithTag("Player")
+.GetComponents<Stats>();
     }
     public void ExitParty(GameObject player) {
         Stats statToModify = statsList[0];

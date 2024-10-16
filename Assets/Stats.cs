@@ -8,22 +8,26 @@ public class Stats : MonoBehaviour
     [SerializeField]
     Stat[] stats;
 
-    [SerializeField]
-    float value;
 
-    [SerializeField]
-
-    int modifier;
-    [SerializeField]
+    [Serializable]
     public struct Stat {
         public string name;
-        public String GetName() {
-            return name;
-        }
         public int value;
         public int modifier;
     }
-    
+    private string name;
+    private int value;
+    private int modifier;
+
+    public string GetName() {
+        return name;
+    }
+    public int GetValue() {
+        return value;
+    }
+    public int getModifier() {
+        return modifier;
+    }
     // Start is called before the first frame update
 
     void Start()
