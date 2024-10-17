@@ -11,17 +11,20 @@ public class Skill
     private string name;
     private int skillPts;
     private bool unlocked; 
+    private float[] specialNumbers;
 
-    public Skill(string n, int pts) {
+    public Skill(string n, int pts, float[] speNums) {
         name = n;
         skillPts = pts;
         unlocked = false; 
+        specialNumbers = speNums;
     }
 
-    public Skill(string n) {
+    public Skill(string n, float[] speNums) {
         name = n;
         skillPts = 0;
         unlocked = false;
+        specialNumbers = speNums;
     }
 
     /// <summary>
@@ -30,14 +33,18 @@ public class Skill
     /// <param name="state"> whether the skill is unlocked </param>
     public void SetUnlock(bool state) {
         unlocked = state;
-        Effect1();
+        DoEffect();
     }
 
     /// <summary>
     /// set the unlock effect 
     /// </summary>
     //protected void UnlockEffect() {}
-    public Action Effect1 { get; set; }
+    public Action<float> effect;
+
+    public void DoEffect() {
+        effect(specialNumbers[skillPts]);
+    }
 
     public string GetName() {
         return name;
@@ -49,6 +56,7 @@ public class Skill
 
     public void AddSkillPts(int pts) {
         this.skillPts += pts;
+        DoEffect();
     }
     
     public bool GetUnlocked() {

@@ -45,15 +45,6 @@ public abstract class BasicSkillTree : MonoBehaviour
         }
     }
 
-    /*
-    /// <summary>
-    /// add a branch in the skill tree
-    /// </summary>
-    /// <param name="branch"> the branch that is added to the skill tree  </param>    
-    public void AddBranch(Branch branch) {
-        branchList.Add(branch);
-    }*/
-
     public Branch[] GetBranches() {
         return branchList;
     }

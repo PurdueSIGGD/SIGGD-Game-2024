@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// a branch that consists maximum of two skills 
+/// a tier that consists maximum of two skills 
 /// </summary>
 public class Branch
 {
