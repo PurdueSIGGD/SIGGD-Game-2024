@@ -6,11 +6,13 @@ public class PlayerController : MonoBehaviour
 {
     public float speed = 5;
     public Rigidbody2D _rb;
-    private float jumpforce = 10;
+    private float jumpforce = 100;
+    private bool canjump;
 
     void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
+        canjump = true;
     }
     void Update()
     {
@@ -22,6 +24,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKey(KeyCode.W))
         {
             _rb.AddForce(Vector3.up * jumpforce);
+            canjump = false;
         }
         if (Input.GetKey(KeyCode.D))
         {
