@@ -9,30 +9,36 @@ public class EnemyStateManager : MonoBehaviour
 {
     public EnemyStates IdleState = new IdleState();
     public EnemyStates AggroState = new AggroState();
+    public EnemyStates BusyState = new BusyState();
+    public EnemyStates MoveState = new MoveState();
 
     public float speed;
     public float aggroRange;
-    public Transform player;
     public ActionPool pool;
+    public Animator animator;
 
+    public Transform player;
     protected EnemyStates curState;
-    protected Animator animator;
     protected Rigidbody rb;
-
     void Awake()
     {
-        curState = IdleState;
-        curState.EnterState(this);
-        GenerateActionPool();
-
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
-    }
+        pool = GenerateActionPool();
 
+        SwitchState(IdleState);
+    }
 
     void FixedUpdate()
     {
+        pool.UpdateAllCD();
         curState.UpdateState(this);
+    }
+
+    public void SwitchState(EnemyStates state)
+    {
+        curState = state;
+        state.EnterState(this);
     }
 
     /// <summary>
@@ -60,44 +66,23 @@ public class EnemyStateManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Project an overlap check to detect if a Player is within attack range.
-    /// </summary>
-    /// <returns> If a player is within attack range </returns>
-    protected virtual bool InAttackRange(Transform hitbox)
-    {
-        Collider[] c = Physics.OverlapBox(hitbox.position, hitbox.lossyScale / 2, hitbox.rotation, LayerMask.GetMask("Player"));
-        return c.Length > 0;
-    }
-    public virtual bool InAttackRange() { return false; } 
-
-    /// <summary>
     /// Flip the Enemy object across the Y-axis
     /// </summary>
     /// <param name="isFlipped"> Enemy's current orientation </param>
     public void Flip(bool isFlipped)
     {
         if (isFlipped)
-        {
             transform.rotation = Quaternion.Euler(0, 0, 0);
-        }
         else
-        {
             transform.rotation = Quaternion.Euler(0, 180f, 0);
-        }
-
     }
 
     protected virtual ActionPool GenerateActionPool() { return null; }
 
     protected virtual void OnDrawGizmos()
     {
+        if (curState != IdleState)
+            Gizmos.DrawRay(transform.position, player.position - transform.position);
         Gizmos.DrawRay(transform.position, transform.TransformDirection(Vector3.right) * aggroRange);
-        Gizmos.DrawRay(transform.position, player.position - transform.position);
-    }
-
-    public void SwitchState(EnemyStates state)
-    {
-        curState = state;
-        state.EnterState(this);
     }
 }

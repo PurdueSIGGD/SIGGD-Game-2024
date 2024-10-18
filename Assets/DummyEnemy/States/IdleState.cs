@@ -5,33 +5,22 @@ using UnityEngine;
 
 public class IdleState : EnemyStates
 {
-    private float? countDown = null;
-
     public override void EnterState(EnemyStateManager enemy)
     {
         Rigidbody rb = enemy.GetComponent<Rigidbody>();
         rb.velocity = Vector3.zero;
-    }
-
-    public void EnterState(EnemyStateManager enemy, float countDown)
-    {
-        EnterState(enemy);
-        this.countDown = countDown;
+        enemy.pool.idle.Play(enemy.animator);
     }
 
     public override void UpdateState(EnemyStateManager enemy)
     {
-        if (countDown != null)
+        if (enemy.pool.HasActionsInRange())
         {
-            countDown -= Time.deltaTime;
-            if (countDown <= 0)
-            {
-                enemy.SwitchState(enemy.AggroState);
-            }
+            enemy.SwitchState(enemy.AggroState);
         }
         else if (enemy.HasLineOfSight(false))
         {
-            enemy.SwitchState(enemy.AggroState);
+            enemy.SwitchState(enemy.MoveState);
         }
     }
 }

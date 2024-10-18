@@ -8,18 +8,14 @@ public class DummyStates : EnemyStateManager
     public Transform meleeHit;
     public Transform rangeHit;
 
-    public new bool InAttackRange()
-    {
-        Collider[] c = Physics.OverlapBox(meleeHit.position, meleeHit.lossyScale / 2, meleeHit.rotation, LayerMask.GetMask("Player"));
-        return c.Length > 0;
-    }
-
     protected override ActionPool GenerateActionPool()
     {
-        Action dummySlash = new(meleeHit, 2.0f, -1f);
-        Action dummyShoot = new(rangeHit, 3.0f, 1f);
+        Action dummySlash = new(meleeHit, 2.0f, -1f, "HeroKnight_Attack1");
+        Action dummyShoot = new(rangeHit, 3.0f, 1f, "HeroKnight_Block");
+        Action move = new(null, 0.0f, 0.0f, "HeroKnight_Run");
+        Action idle = new(null, 0.0f, 0.0f, "HeroKnight_Idle");
 
-        return new ActionPool(new List<Action> { dummySlash, dummyShoot });
+        return new ActionPool(new List<Action> { dummySlash, dummyShoot }, move, idle);
     }
 
     protected override void OnDrawGizmos()

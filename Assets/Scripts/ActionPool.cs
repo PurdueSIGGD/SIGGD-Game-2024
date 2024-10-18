@@ -1,16 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class ActionPool : MonoBehaviour
+public class ActionPool
 {
     public List<Action> actions;
+    public Action move;
+    public Action idle;
 
-    public ActionPool(List<Action> actions)
+    public ActionPool(List<Action> actions, Action move, Action idle)
     {
         this.actions = actions;
+        this.move = move;
+        this.idle = idle;
     }
 
     public Action NextAction()
@@ -40,5 +45,25 @@ public class ActionPool : MonoBehaviour
             }
         }
         return avaliableActions;
+    }
+
+    public bool HasActionsInRange()
+    {
+        foreach (Action a in actions)
+        {
+            if (a.InAttackRange())
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void UpdateAllCD()
+    {
+        foreach (Action a in actions)
+        {
+            a.UpdateCD();
+        }
     }
 }

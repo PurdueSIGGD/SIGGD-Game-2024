@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
 public class AggroState : EnemyStates
@@ -11,34 +12,24 @@ public class AggroState : EnemyStates
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
         rb = enemy.GetComponent<Rigidbody>();
+        rb.velocity = Vector3.zero;
+        enemy.pool.idle.Play(enemy.animator);
     }
 
     public override void UpdateState(EnemyStateManager enemy)
     {
-        Move(enemy);
-
         if (!enemy.HasLineOfSight(true))
         {
             enemy.SwitchState(enemy.IdleState);
             return;
         }
-        if (enemy.pool.NextAction() != null)
+        Action nextAction = enemy.pool.NextAction();
+        if (nextAction != null)
         {
-
+            nextAction.Play(enemy.animator);
+            enemy.SwitchState(enemy.BusyState);
         }
     }
 
-    private void Move(EnemyStateManager enemy)
-    {
-        if (player.position.x - enemy.transform.position.x < 0)
-        {
-            enemy.Flip(false);
-            rb.velocity = Vector3.left * enemy.speed;
-        }
-        else
-        {
-            enemy.Flip(true);
-            rb.velocity = Vector3.right * enemy.speed;
-        }
-    }
+
 }
