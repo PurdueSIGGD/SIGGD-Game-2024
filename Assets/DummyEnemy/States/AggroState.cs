@@ -23,6 +23,10 @@ public class AggroState : EnemyStates
             enemy.SwitchState(enemy.IdleState);
             return;
         }
+        if (!enemy.pool.HasActionsInRange())
+        {
+            enemy.SwitchState(enemy.MoveState);
+        }
         Action nextAction = enemy.pool.NextAction();
         if (nextAction != null)
         {

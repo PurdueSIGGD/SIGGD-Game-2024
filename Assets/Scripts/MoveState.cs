@@ -20,9 +20,13 @@ public class MoveState : EnemyStates
         {
             enemy.SwitchState(enemy.AggroState);
         }
-        else
+        else if (enemy.HasLineOfSight(true))
         {
             Move(enemy);
+        }
+        else
+        {
+            enemy.SwitchState(enemy.IdleState);
         }
     }
 
