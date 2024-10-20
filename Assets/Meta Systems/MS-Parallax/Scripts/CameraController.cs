@@ -20,10 +20,7 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
-        Transform transform = gameObject.transform;
-        
         Vector2 moveDirection = moveInput.ReadValue<Vector2>();
-        Debug.Log(moveDirection);
         Vector3 deltaPosition = new Vector3(moveDirection.x, moveDirection.y, 0).normalized;
         transform.position += deltaPosition * speed * Time.deltaTime;
     }
