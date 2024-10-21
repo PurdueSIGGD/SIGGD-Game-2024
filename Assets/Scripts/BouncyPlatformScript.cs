@@ -20,9 +20,13 @@ public class BouncyPlatformScript : MonoBehaviour
         rb = player.GetComponent<Rigidbody2D>();
 
         //sets default bounciness for paltform
-        platformBounce = 10;
+        if (platformBounce == 0)
+        {
+            platformBounce = 10;
+        }
+
     }
-    
+
     //runs upon collision with player
     public void OnCollisionEnter2D(Collision2D collision)
     {

@@ -21,7 +21,7 @@ public class TransparentPlatdormScript : MonoBehaviour
     {
         if (_playerOnPlatform && Input.GetAxisRaw("Vertical") < 0)
         {
-           // _collider.enabled = false;
+            // _collider.enabled = false;
             StartCoroutine(EnableCollider());
         }
     }
@@ -31,9 +31,9 @@ public class TransparentPlatdormScript : MonoBehaviour
     private IEnumerator EnableCollider()
     {
         Physics2D.IgnoreCollision(playercollider, _collider);
-        yield return new WaitForSeconds(1f);
-       // _collider.enabled = true;
-       Physics2D.IgnoreCollision(playercollider, _collider, false);
+        yield return new WaitForSeconds(0.5f);
+        // _collider.enabled = true;
+        Physics2D.IgnoreCollision(playercollider, _collider, false);
     }
     /// <summary>
     /// This detects if the player is on the platform
@@ -42,7 +42,7 @@ public class TransparentPlatdormScript : MonoBehaviour
     /// <param name="value"></param>
     private void SetPlayerOnPlatform(Collision2D other, bool value)
     {
-       
+
         if (player != null)
         {
             _playerOnPlatform = value;
@@ -56,10 +56,10 @@ public class TransparentPlatdormScript : MonoBehaviour
     {
         SetPlayerOnPlatform(other, true);
     }
- /// <summary>
- /// Checks to see if an object extis the platform
- /// </summary>
- /// <param name="other"></param>
+    /// <summary>
+    /// Checks to see if an object extis the platform
+    /// </summary>
+    /// <param name="other"></param>
     private void OnCollisionExit2D(Collision2D other)
     {
         SetPlayerOnPlatform(other, true);
