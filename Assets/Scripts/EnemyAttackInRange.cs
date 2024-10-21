@@ -8,10 +8,16 @@ using UnityEngine;
 /// </summary>
 public class EnemyAttackInRange : MonoBehaviour
 {
-    public bool inRange = false; // 
+    public bool inRange = false; // Bool to pass if player in range
+    public Collider2D PlayerCollider; // Used to Pass collider of player
 
     void OnTriggerEnter2D(Collider2D col) {
-        inRange = true;
+        if (col.name == "Test2DPlayer")  {
+            PlayerCollider = col;
+            inRange = true;
+        }
+      
+
     }
 
     void OnTriggerExit2D(Collider2D col) {
