@@ -8,45 +8,43 @@ public class Stats : MonoBehaviour
     [SerializeField]
     Stat[] stats;
 
-
     [Serializable]
     public struct Stat {
         public string name;
         public int value;
         public int modifier;
     }
-    private string name;
-    private int value;
-    private int modifier;
 
-    public string GetName() {
-        return name;
-    }
-    public int GetValue() {
-        return value;
-    }
-    public int getModifier() {
-        return modifier;
-    }
-    // Start is called before the first frame update
 
-    void Start()
-    {
-        
+    public void ModifyStat(string statName, int statBuff) {
+        for (int i = 0; i < stats.Length; i++) {
+            if (stats[i].name.Equals(statName)) {
+                stats[i].modifier += statBuff;
+                break;
+            }
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public float ComputeValue(string statName) {
+        for (int i = 0; i < stats.Length; i++) {
+            if (stats[i].name.Equals(statName)) {
+                return stats[i].value * (stats[i].modifier / 100f);
+            }
+        }
+        return -1;
     }
 
-    public void ModifyStat(int buff) {
-        modifier = modifier + buff;
+    public float ComputeValue(int statIndex) {
+        return stats[statIndex].value * (stats[statIndex].modifier / 100f);
     }
 
-    public float ComputeValue() {
-        float finalValue = value * (modifier / 100f);
-        return finalValue;
+    public int GetStatIndex(string statName) {
+        for (int i = 0; i < stats.Length; i++) {
+            if (stats[i].name.Equals(statName)) {
+                return i;
+            }
+        }
+        return -1;
     }
+    
 }
