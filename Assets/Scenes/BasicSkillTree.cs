@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// a skill tree that consists of multiple branches 
+/// a skill tree that consists of multiple skill tieres 
 /// </summary>
 public abstract class BasicSkillTree : MonoBehaviour
 {
-    protected Branch[] branchList = new Branch[4];
+    protected SkillTier[] tierList = new SkillTier[3];
+    protected FinalSkill finalSkill;
     protected readonly  int TRUST_LEVEL_1 = 25;
     protected readonly  int TRUST_LEVEL_2 = 50;
     protected readonly  int TRUST_LEVEL_3 = 75;
@@ -32,25 +33,34 @@ public abstract class BasicSkillTree : MonoBehaviour
 
     public void UpdateProgression() {
         if (trust >= TRUST_LEVEL_1) {
-            this.branchList[0].SetUnlock(true);
+            this.tierList[0].SetUnlock(true);
             if (trust >= TRUST_LEVEL_2) {
-                this.branchList[1].SetUnlock(true);
+                this.tierList[1].SetUnlock(true);
                 if (trust >= TRUST_LEVEL_3) {
-                    this.branchList[2].SetUnlock(true);
+                    this.tierList[2].SetUnlock(true);
                     if (trust == FINAL_TRUST_LEVEL) {
-                        this.branchList[3].SetUnlock(true);
+                        finalSkill.SetUnlock(true);
                     }
                 }
             }
         }
     }
 
-    public Branch[] GetBranches() {
-        return branchList;
+    public SkillTier[] GetSkillTieres() {
+        return tierList;
+    }
+
+    public FinalSkill GetFinalSkill() {
+        return finalSkill;
+    }
+
+    public void SetFinalSkill(FinalSkill final) {
+        finalSkill = final;
     }
 
     public void IncreaseTrust(int amount) {
         trust += amount;
         UpdateProgression();
+        Debug.Log(trust);
     }
 }

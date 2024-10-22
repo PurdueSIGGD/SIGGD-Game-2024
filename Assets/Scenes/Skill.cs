@@ -8,10 +8,10 @@ using System;
 /// </summary>
 public class Skill
 {
-    private string name;
-    private int skillPts;
-    private bool unlocked; 
-    private float[] specialNumbers;
+    protected string name;
+    protected int skillPts;
+    protected bool unlocked; 
+    protected float[] specialNumbers;
 
     public Skill(string n, int pts, float[] speNums) {
         name = n;
@@ -39,7 +39,6 @@ public class Skill
     /// <summary>
     /// set the unlock effect 
     /// </summary>
-    //protected void UnlockEffect() {}
     public Action<float> effect;
 
     public void DoEffect() {
@@ -55,7 +54,10 @@ public class Skill
     }
 
     public void AddSkillPts(int pts) {
-        this.skillPts += pts;
+        if (this.skillPts < 6) {
+            this.skillPts += pts;
+        }
+        
         DoEffect();
     }
     
