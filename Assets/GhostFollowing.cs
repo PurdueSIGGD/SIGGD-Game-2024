@@ -17,7 +17,7 @@ public class GhostFollowing : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector2 newPos = this.transform.position + (new Vector3(playerPos.x, playerPos.y, 0)) * Time.deltaTime * speed;
+        Vector2 newPos = this.transform.position + new Vector3(playerPos.x, playerPos.y, 0) * Time.deltaTime * speed;
         this.transform.position = newPos;
     }
 }
