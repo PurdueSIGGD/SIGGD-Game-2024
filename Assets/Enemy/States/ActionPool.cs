@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -10,6 +11,9 @@ public class ActionPool
     public List<Action> actions;
     public Action move;
     public Action idle;
+
+    private float curWeight = 0f;
+    private System.Random random = new System.Random();
 
     public ActionPool(List<Action> actions, Action move, Action idle)
     {
@@ -26,10 +30,19 @@ public class ActionPool
         {
             return null;
         }
+
         Action nextAction = avaliableActions[0];
-        for (int i = 0; i < count; i++)
+        double r = random.NextDouble();
+        Debug.Log(r);
+        foreach (Action action in avaliableActions)
         {
-            // Randomize but take into account priority
+            r -= action.priority / curWeight;
+            if (r <= 0)
+            {
+                nextAction = action;
+                curWeight = 0;
+                break;
+            }
         }
         return nextAction;
     }
@@ -42,6 +55,7 @@ public class ActionPool
             if (a.InAttackRange() & a.Ready())
             {
                 avaliableActions.Add(a);
+                curWeight += a.priority;
             }
         }
         return avaliableActions;

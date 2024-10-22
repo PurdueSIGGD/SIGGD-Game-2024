@@ -10,8 +10,8 @@ public class DummyStates : EnemyStateManager
 
     protected override ActionPool GenerateActionPool()
     {
-        Action dummySlash = new(meleeHit, 2.0f, -1f, "HeroKnight_Attack1");
-        Action dummyShoot = new(rangeHit, 3.0f, 1f, "HeroKnight_Block");
+        Action dummySlash = new(meleeHit, 6.0f, 3f, "HeroKnight_Attack1");
+        Action dummyShoot = new(rangeHit, 6.0f, 7f, "HeroKnight_Block");
         Action move = new(null, 0.0f, 0.0f, "HeroKnight_Run");
         Action idle = new(null, 0.0f, 0.0f, "HeroKnight_Idle");
 
