@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Code for moving platform moving at constant speed
+/// </summary>
 public class movingPlatform : MonoBehaviour
 {
     //initializing variables that can be dragged into in unity
@@ -9,6 +12,7 @@ public class movingPlatform : MonoBehaviour
     [SerializeField] float speed;
     //starting index position of platform
     public int startingPoint;
+    [SerializeField] GameObject platform;
     //an array of vectors of where the platform needs to move
     [SerializeField] Transform[] points;
     private int index;
@@ -17,7 +21,7 @@ public class movingPlatform : MonoBehaviour
     void Start()
     {
         //basically sets the position of the platform to position of points using starting point
-        transform.position = points[startingPoint].position;
+        platform.transform.position = points[startingPoint].position;
     }
 
     // Update is called once per frame
@@ -37,19 +41,26 @@ public class movingPlatform : MonoBehaviour
         //use vector2.moveTowards to move the platform
         //following format (position of platform, position of which it needs to move towards, speed)
         //delta time = smooth movement no matter how many fps
-        transform.position = Vector2.MoveTowards(transform.position, points[index].position, speed * Time.deltaTime);
+        platform.transform.position = Vector2.MoveTowards(transform.position, points[index].position, speed * Time.deltaTime);
     }
 
     //make it so the player moves with the platform and not just the platform moving
     private void OnCollisionEnter2D(Collision2D collision)
     {
         //when player collides w platformm set the platform as the parent object of the object that is colliding w the platform
-        collision.transform.SetParent(transform);
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            collision.transform.SetParent(platform.transform);
+        }
+
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
         //when the player exits the collision set it back to normal
-        collision.transform.SetParent(null);
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            collision.transform.SetParent(null);
+        }
     }
 }
