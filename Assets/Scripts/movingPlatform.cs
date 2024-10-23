@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Code for moving platform moving at constant speed
+/// Code for moving platform moving at constant speed sequentially across multiple points
 /// </summary>
 public class movingPlatform : MonoBehaviour
 {
@@ -22,18 +22,19 @@ public class movingPlatform : MonoBehaviour
     {
         //basically sets the position of the platform to position of points using starting point
         platform.transform.position = points[startingPoint].position;
+        index = startingPoint;
     }
 
     // Update is called once per frame
     void Update()
     {
         //checks if the distance between the points are too small then move to the next point
-        if (Vector2.Distance(transform.position, points[index].position) < 0.02f)
+        if (Vector2.Distance(platform.transform.position, points[index].position) < 0.02f)
         {
             //increases index
             index++;
             //chekcs if the platform is on the last point before resetting the index
-            if (index == points.Length)
+            if (index >= points.Length)
             {
                 index = 0;
             }
@@ -41,26 +42,6 @@ public class movingPlatform : MonoBehaviour
         //use vector2.moveTowards to move the platform
         //following format (position of platform, position of which it needs to move towards, speed)
         //delta time = smooth movement no matter how many fps
-        platform.transform.position = Vector2.MoveTowards(transform.position, points[index].position, speed * Time.deltaTime);
-    }
-
-    //make it so the player moves with the platform and not just the platform moving
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        //when player collides w platformm set the platform as the parent object of the object that is colliding w the platform
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            collision.transform.SetParent(platform.transform);
-        }
-
-    }
-
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        //when the player exits the collision set it back to normal
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            collision.transform.SetParent(null);
-        }
+        platform.transform.position = Vector2.MoveTowards(platform.transform.position, points[index].position, speed * Time.deltaTime);
     }
 }
