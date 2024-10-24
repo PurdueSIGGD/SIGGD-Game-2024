@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3651429845641278569}
   - component: {fileID: 2255786172937278288}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -103,7 +103,7 @@ GameObject:
   - component: {fileID: 6932071826997146900}
   - component: {fileID: 2579712507819662700}
   - component: {fileID: 1517576928667760269}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -295,11 +295,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stats:
-  - name: Movement
-    value: 10
+  - name: Move Speed
+    value: 5
     modifier: 100
-  - name: Attack
-    value: 100
+  - name: Jump Force
+    value: 10
     modifier: 100
 --- !u!114 &1294300388250348151
 MonoBehaviour:
@@ -354,4 +354,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ghostMajorLimit: 1
-  range: 10
+  range: 3
