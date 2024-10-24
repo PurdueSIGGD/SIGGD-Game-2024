@@ -6,19 +6,35 @@ public class Parallax : MonoBehaviour
 {
     [SerializeField] private Camera cam;
     [SerializeField] private float movementFactor;
+    [SerializeField] private float repeatDistance;
+
+    private float startX;
+    private float width;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        startX = transform.position.x;
+        width = GetComponent<SpriteRenderer>().bounds.size.x;
     }
 
     // Update is called once per frame
     void LateUpdate()
     {
-        Transform camTransform = cam.transform;
-        Vector3 position = transform.position;
-        Vector3 camPosition = camTransform.position;
-        transform.position = new Vector3(camPosition.x * movementFactor, position.y, position.z);
+        float camX = cam.transform.position.x;
+
+        float dist = camX * movementFactor;
+        float temp = camX * (1-  movementFactor);
+
+        transform.position = new Vector3(startX + dist, transform.position.y, transform.position.z);
+
+        if (temp > startX + width)
+        {
+            startX += width;
+        }
+        else if (temp < startX - width)
+        {
+            startX -= width;
+        }
     }
 }
