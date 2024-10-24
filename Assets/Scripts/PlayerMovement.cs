@@ -6,9 +6,6 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] float speed;
-    [SerializeField] float jumpPower;
-
     private InputAction playerAction;
     private Rigidbody2D rb;
     private Boolean doubleJump = true;
@@ -31,7 +28,7 @@ public class PlayerMovement : MonoBehaviour
     private void Movement()
     {
         float input = playerAction.ReadValue<float>();
-        rb.velocity = new Vector2(input * stats.ComputeValue("Movement"), rb.velocity.y);
+        rb.velocity = new Vector2(input * stats.ComputeValue("Move Speed"), rb.velocity.y);
     }
 
     private void OnJump()
@@ -39,7 +36,7 @@ public class PlayerMovement : MonoBehaviour
         Debug.Log(onGround + " " + doubleJump);
         if (onGround || doubleJump)
         {
-            rb.AddForce(new Vector2(0, 1) * jumpPower, ForceMode2D.Impulse);
+            rb.AddForce(new Vector2(0, 1) * stats.ComputeValue("Jump Force"), ForceMode2D.Impulse);
             if (!onGround)
             {
                 doubleJump = false;

@@ -2817,8 +2817,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buffs:
-  - name: Movement
+  - name: Move Speed
     buff: 400
+  - name: Jump Force
+    buff: 100
 --- !u!1001 &792826687
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5569,7 +5571,7 @@ PrefabInstance:
     - target: {fileID: 3927073135763558212, guid: dc37ada359206f040b1417c5d790c31f,
         type: 3}
       propertyPath: m_GravityScale
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7871911102278751832, guid: dc37ada359206f040b1417c5d790c31f,
         type: 3}
@@ -5623,8 +5625,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8949576389562570489, guid: dc37ada359206f040b1417c5d790c31f,
         type: 3}
+      propertyPath: stats.Array.data[0].name
+      value: Move Speed
+      objectReference: {fileID: 0}
+    - target: {fileID: 8949576389562570489, guid: dc37ada359206f040b1417c5d790c31f,
+        type: 3}
+      propertyPath: stats.Array.data[1].name
+      value: Jump Force
+      objectReference: {fileID: 0}
+    - target: {fileID: 8949576389562570489, guid: dc37ada359206f040b1417c5d790c31f,
+        type: 3}
       propertyPath: stats.Array.data[0].value
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8949576389562570489, guid: dc37ada359206f040b1417c5d790c31f,
+        type: 3}
+      propertyPath: stats.Array.data[1].value
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
