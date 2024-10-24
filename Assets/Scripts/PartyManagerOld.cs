@@ -10,7 +10,7 @@ public class PartyManagerOld : MonoBehaviour
     
     public TextMeshProUGUI specialText;
     private int currentGhost;
-    private GhostAction currentGhostAction; 
+    private ISpecialAction currentGhostAction; 
     void Start()
     {
         currentGhost = 0;
@@ -22,7 +22,7 @@ public class PartyManagerOld : MonoBehaviour
     /// Called when the player uses the special action
     /// </summary>
     void OnSpecial() {
-        currentGhostAction.OnSpecial(this);
+        //currentGhostAction.OnSpecial(this);
     }
 
     /// <summary>
@@ -32,15 +32,15 @@ public class PartyManagerOld : MonoBehaviour
         currentGhost = (currentGhost + 1) % ghosts.Length;
         if (currentGhostAction != null)
         {
-            currentGhostAction.ExitSpecial();
+            //currentGhostAction.ExitSpecial();
         }
 
         currentGhostAction = ghosts[currentGhost].specialAction;
-        currentGhostAction.EnterSpecial();
+        //currentGhostAction.EnterSpecial();
         specialText.text = ghosts[currentGhost].name;
     }
     void Update()
     {
-        currentGhostAction.UpdateSpecial();
+        //currentGhostAction.UpdateSpecial();
     }
 }

@@ -5,10 +5,12 @@ using UnityEngine;
 /// <summary>
 /// Special action: a projectile shoots down in front of the player
 /// </summary>
-public class LightningAction : GhostAction
+public class LightningAction : MonoBehaviour, ISpecialAction, IParty
 {
-    private GameObject LightningPrefab;
-    private GameObject ProjectileSpawn;
+    [SerializeField]
+    private GameObject lightningPrefab;
+
+    private GameObject projectileSpawn;
 
     private float _fireRate = 1f;
     private float _canFire = -0.1f;
@@ -24,22 +26,22 @@ public class LightningAction : GhostAction
             Debug.LogError("projectilespawn not found");
         }*/
     }
-    public override void EnterSpecial() {
-
+    public void EnterParty(GameObject player) {
+        projectileSpawn =  player;
     } 
 
-    public override void ExitSpecial() {
-
+    public void ExitParty(GameObject player) {
+        projectileSpawn = null;
     }
 
-    public override void UpdateSpecial() {
+    public void UpdateSpecial() {
 
     }
-    public override void OnSpecial(MonoBehaviour context) {
-        if (Time.time > _canFire)
+    public void OnSpecial() {
+        if (projectileSpawn != null && Time.time > _canFire)
         {
             _canFire = Time.time + _fireRate;
-            Object.Instantiate(LightningPrefab, ProjectileSpawn.transform.position + new Vector3(0, 5, 0), ProjectileSpawn.transform.rotation);
+            Object.Instantiate(lightningPrefab, projectileSpawn.transform.position + new Vector3(0, 5, 0), projectileSpawn.transform.rotation);
         }
     }
 }

@@ -7,6 +7,6 @@ using UnityEngine;
 /// </summary>
 public abstract class Ghost : MonoBehaviour
 {
-    public GhostAction specialAction;
+    public ISpecialAction specialAction;
     
 }

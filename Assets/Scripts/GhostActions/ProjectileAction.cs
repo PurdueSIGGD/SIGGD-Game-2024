@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// Special action: the player shoots a projectile forward
 /// </summary>
-public class ProjectileAction : GhostAction
+public class ProjectileAction : ISpecialAction
 {
     private GameObject ProjectilePrefab;
     private GameObject ProjectileSpawn;
@@ -24,18 +24,19 @@ public class ProjectileAction : GhostAction
             Debug.LogError("projectilespawn not found");
         }
     }
-    public override void EnterSpecial() {
+    public void EnterParty(GameObject player) {
 
     } 
 
-    public override void ExitSpecial() {
+    public void  ExitParty (GameObject player)
+    {
 
     }
 
-    public override void UpdateSpecial() {
+    public void UpdateSpecial() {
 
     }
-    public override void OnSpecial(MonoBehaviour context) {
+    public void OnSpecial() {
         if (Time.time > _canFire)
         {
             _canFire = Time.time + _fireRate;
