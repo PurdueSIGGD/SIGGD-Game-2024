@@ -89,6 +89,7 @@ public class PartyManager : MonoBehaviour
                 if (!identity.isInParty())
                 {
                     AddMajorGhost(identity);
+                    break;
                 }
             }
         }
