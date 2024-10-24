@@ -19,11 +19,11 @@ public class EnemyStateManager : MonoBehaviour
 
     public Transform player;
     protected EnemyStates curState;
-    protected Rigidbody rb;
+    protected Rigidbody2D rb;
     void Awake()
     {
         animator = GetComponent<Animator>();
-        rb = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody2D>();
         pool = GenerateActionPool();
 
         SwitchState(IdleState);
@@ -49,7 +49,7 @@ public class EnemyStateManager : MonoBehaviour
     /// <returns> If there is a Player in Enemy line of sight </returns>
     public bool HasLineOfSight(bool tracking)
     {
-        Vector3 dir = transform.TransformDirection(Vector3.right);
+        Vector2 dir = transform.TransformDirection(Vector2.right);
         float maxDistance = aggroRange;
 
         if (tracking)
@@ -57,8 +57,8 @@ public class EnemyStateManager : MonoBehaviour
             dir = player.position - transform.position;
             maxDistance = maxDistance * 1.5f;
         }
-
-        if (Physics.Raycast(transform.position, dir, out RaycastHit hit, maxDistance, LayerMask.GetMask("Player", "Environment")))
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, maxDistance, LayerMask.GetMask("Player", "Ground"));
+        if (hit)
         {
             return hit.collider.gameObject.CompareTag("Player");
         }
@@ -83,6 +83,6 @@ public class EnemyStateManager : MonoBehaviour
     {
         if (curState != IdleState)
             Gizmos.DrawRay(transform.position, player.position - transform.position);
-        Gizmos.DrawRay(transform.position, transform.TransformDirection(Vector3.right) * aggroRange);
+        Gizmos.DrawRay(transform.position, transform.TransformDirection(Vector2.right) * aggroRange);
     }
 }

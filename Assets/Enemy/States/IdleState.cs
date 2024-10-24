@@ -7,8 +7,8 @@ public class IdleState : EnemyStates
 {
     public override void EnterState(EnemyStateManager enemy)
     {
-        Rigidbody rb = enemy.GetComponent<Rigidbody>();
-        rb.velocity = Vector3.zero;
+        Rigidbody2D rb = enemy.GetComponent<Rigidbody2D>();
+        rb.velocity = Vector2.zero;
         enemy.pool.idle.Play(enemy.animator);
     }
 

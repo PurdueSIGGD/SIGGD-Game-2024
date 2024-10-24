@@ -6,13 +6,13 @@ using UnityEngine;
 public class AggroState : EnemyStates
 {
     private Transform player;
-    private Rigidbody rb;
+    private Rigidbody2D rb;
 
     public override void EnterState(EnemyStateManager enemy)
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
-        rb = enemy.GetComponent<Rigidbody>();
-        rb.velocity = Vector3.zero;
+        rb = enemy.GetComponent<Rigidbody2D>();
+        rb.velocity = Vector2.zero;
         enemy.pool.idle.Play(enemy.animator);
     }
 
