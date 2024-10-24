@@ -7,7 +7,7 @@ using UnityEngine;
 public class GhostBuff : MonoBehaviour
 {
     [SerializeField]
-    StatBuff[] buffs;
+    private StatBuff[] buffs;
     
     [Serializable]
     public struct StatBuff {
