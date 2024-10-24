@@ -13,11 +13,13 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     private Boolean doubleJump = true;
     private Boolean onGround = false;
+    private Stats stats;
     // Start is called before the first frame update
     void Start()
     {
         playerAction = GetComponent<PlayerInput>().actions.FindAction("Movement");
         rb = GetComponent<Rigidbody2D>();
+        stats = GetComponent<Stats>();
     }
 
     // Update is called once per frame
@@ -29,7 +31,7 @@ public class PlayerMovement : MonoBehaviour
     private void Movement()
     {
         float input = playerAction.ReadValue<float>();
-        rb.velocity = new Vector2(input * speed, rb.velocity.y);
+        rb.velocity = new Vector2(input * stats.ComputeValue("Movement"), rb.velocity.y);
     }
 
     private void OnJump()

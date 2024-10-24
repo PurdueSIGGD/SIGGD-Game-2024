@@ -100,6 +100,7 @@ GameObject:
   - component: {fileID: 1294300388250348151}
   - component: {fileID: 3927073135763558212}
   - component: {fileID: 8700201412831605424}
+  - component: {fileID: 8949576389562570489}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -276,3 +277,22 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &8949576389562570489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1487048547261826030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 532320b84239cf640a651fa5709b989a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stats:
+  - name: Movement
+    value: 10
+    modifier: 100
+  - name: Attack
+    value: 100
+    modifier: 100
