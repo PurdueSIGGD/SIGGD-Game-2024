@@ -26,6 +26,7 @@ public class AggroState : EnemyStates
         if (!enemy.pool.HasActionsInRange())
         {
             enemy.SwitchState(enemy.MoveState);
+            return;
         }
         Action nextAction = enemy.pool.NextAction();
         if (nextAction != null)

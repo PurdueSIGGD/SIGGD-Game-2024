@@ -83,6 +83,7 @@ public class EnemyStateManager : MonoBehaviour
     {
         if (curState != IdleState)
             Gizmos.DrawRay(transform.position, player.position - transform.position);
-        Gizmos.DrawRay(transform.position, transform.TransformDirection(Vector2.right) * aggroRange);
+        else
+            Gizmos.DrawRay(transform.position, transform.TransformDirection(Vector2.right) * aggroRange);
     }
 }

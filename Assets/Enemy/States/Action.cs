@@ -29,8 +29,7 @@ public class Action
 
     public virtual bool InAttackRange()
     {
-        Collider[] c = Physics.OverlapBox(hitBox.position, hitBox.lossyScale / 2, hitBox.rotation, LayerMask.GetMask("Player"));
-        return c.Length > 0;
+        return Physics2D.OverlapBox(hitBox.position, hitBox.lossyScale, 0f, LayerMask.GetMask("Player"));
     }
 
     public bool Ready()

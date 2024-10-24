@@ -33,7 +33,6 @@ public class ActionPool
 
         Action nextAction = avaliableActions[0];
         double r = random.NextDouble();
-        Debug.Log(r);
         foreach (Action action in avaliableActions)
         {
             r -= action.priority / curWeight;
