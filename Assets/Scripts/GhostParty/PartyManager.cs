@@ -85,7 +85,6 @@ public class PartyManager : MonoBehaviour
             Collider2D[] colliders = Physics2D.OverlapCircleAll(this.transform.position, range, LayerMask.GetMask("Ghosts"));
             foreach (Collider2D collider in colliders)
             {
-                Debug.Log("TEST!!!");
                 GhostIdentity identity = collider.gameObject.GetComponent<GhostIdentity>();
                 if (!identity.isInParty())
                 {

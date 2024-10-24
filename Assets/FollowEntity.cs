@@ -7,7 +7,7 @@ using UnityEngine;
 /// Other serialized fields include maxSpeed and maxForce.
 /// Source: https://natureofcode.com/autonomous-agents/
 /// </summary>
-public class FollowEntity : MonoBehaviour
+public class FollowEntity : MonoBehaviour, IParty
 { 
     [SerializeField]
     GameObject target; // Which entity is being followed
@@ -58,9 +58,14 @@ public class FollowEntity : MonoBehaviour
         Steer();
     }
 
-    public void ChangeTarget(GameObject target)
+    public void EnterParty(GameObject player)
     {
-        this.target = target;
+        this.target = player;
+    }
+
+    public void ExitParty(GameObject player)
+    {
+        this.target = null;
         this.rb.velocity = new Vector2(0, 0);
     }
 

@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(FollowEntity))]
-[RequireComponent(typeof(GhostBuff))]
 public class GhostIdentity : MonoBehaviour
 {
     [SerializeField]
@@ -11,15 +9,13 @@ public class GhostIdentity : MonoBehaviour
 
     private bool inParty = false;
     private GameObject player;
-    private FollowEntity followScript;
-    private GhostBuff buffScript;
+    private IParty[] partyScripts;
 
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        followScript = this.GetComponent<FollowEntity>();
-        buffScript = this.GetComponent<GhostBuff>();
+        partyScripts = this.GetComponents<IParty>();
     }
 
     // Update is called once per frame
@@ -40,12 +36,16 @@ public class GhostIdentity : MonoBehaviour
         this.inParty = inParty;
         if (inParty)
         {
-            this.followScript.ChangeTarget(player);
-            this.buffScript.EnterParty(player);
+            foreach(IParty script in partyScripts)
+            {
+                script.EnterParty(player);
+            }
         } else
         {
-            this.followScript.ChangeTarget(null);
-            this.buffScript.ExitParty(player);
+            foreach (IParty script in partyScripts)
+            {
+                script.ExitParty(player);
+            }
         }
     }
 

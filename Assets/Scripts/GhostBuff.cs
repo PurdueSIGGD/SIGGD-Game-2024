@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class GhostBuff : MonoBehaviour
+public class GhostBuff : MonoBehaviour, IParty
 {
     [SerializeField]
     private StatBuff[] buffs;
