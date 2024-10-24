@@ -25,6 +25,8 @@ public class FollowEntity : MonoBehaviour
     /// </summary>
     private void Steer()
     {
+        if (target == null) return;
+
         // Calculate the desired velocity of this object
         Vector2 desiredVelocity = target.transform.position - gameObject.transform.position;
         desiredVelocity = desiredVelocity.normalized * maxSpeed;
@@ -54,6 +56,12 @@ public class FollowEntity : MonoBehaviour
     void FixedUpdate()
     {
         Steer();
+    }
+
+    public void ChangeTarget(GameObject target)
+    {
+        this.target = target;
+        this.rb.velocity = new Vector2(0, 0);
     }
 
 }

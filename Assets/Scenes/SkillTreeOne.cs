@@ -40,12 +40,12 @@ public class SkillTreeOne : BasicSkillTree
                 Debug.Log("Level 2 Skill 2");
             }
         });
-        st3.SetSkillOne(new Skill("a name", nums) {
+        st3.SetSkillOne(new Skill("a ghostName", nums) {
             effect = number => {
                 Debug.Log("Level 3 Skill 1");
             }
         });
-        st3.SetSkillTwo(new Skill("another name", nums) {
+        st3.SetSkillTwo(new Skill("another ghostName", nums) {
             effect = number => {
                 Debug.Log("Level 3 Skill 2");
             }

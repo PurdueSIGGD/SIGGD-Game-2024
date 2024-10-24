@@ -30,7 +30,7 @@ public class Skill
     /// <summary>
     /// set whether the skill is unlocked 
     /// </summary>
-    /// <param name="state"> whether the skill is unlocked </param>
+    /// <param ghostName="state"> whether the skill is unlocked </param>
     public void SetUnlock(bool state) {
         unlocked = state;
         DoEffect();

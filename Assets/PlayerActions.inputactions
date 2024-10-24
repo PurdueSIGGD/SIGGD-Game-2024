@@ -42,9 +42,18 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "SwitchPartyStatus",
+                    "name": "FindGhosts",
                     "type": "Button",
                     "id": "f4d2cfc2-dbc4-49bf-ac8f-a01c722948fc",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "RemoveGhosts",
+                    "type": "Button",
+                    "id": "5c3f34c0-fa4c-4a2b-82cc-7c0dcf26d20c",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -121,11 +130,22 @@
                 {
                     "name": "",
                     "id": "0d65bac9-34f6-4692-a6c8-42a6411b2c8c",
-                    "path": "<Keyboard>/p",
+                    "path": "<Keyboard>/f",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "SwitchPartyStatus",
+                    "action": "FindGhosts",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f6c4437c-34fc-4a1c-ab18-2fa75beba931",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RemoveGhosts",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

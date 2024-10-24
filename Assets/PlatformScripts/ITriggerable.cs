@@ -19,7 +19,7 @@ public interface ITriggerable
     /// <summary>
     /// sets the status of the effect to whether or not it should be active or not
     /// </summary>
-    /// <param name="active"></param>
+    /// <param ghostName="active"></param>
     public void ToggleEffect(bool active);
     //if effect is one shot(like an explosion), you can either write the implementation in this method, or abstract it to a different method
     //if effect is persistent(ie. doing damage every tick like this one), you should implement the effect in a different loop, probably the update method or fixedupdate

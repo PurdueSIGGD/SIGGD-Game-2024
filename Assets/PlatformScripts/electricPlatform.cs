@@ -32,7 +32,7 @@ public class ElectricPlatform : MonoBehaviour, ITriggerable
     /// <summary>
     /// sets the status of the effect to whether or not it should be active or not
     /// </summary>
-    /// <param name="active"></param>
+    /// <param ghostName="active"></param>
     public void ToggleEffect(bool active) //ITriggerable method, mutator
     {
         isEffectActive = active;

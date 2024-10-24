@@ -48,8 +48,8 @@ public class TransparentPlatdormScript : MonoBehaviour
     /// <summary>
     /// This detects if the player is on the platform
     /// </summary>
-    /// <param name="other"></param>
-    /// <param name="value"></param>
+    /// <param ghostName="other"></param>
+    /// <param ghostName="value"></param>
     private void SetPlayerOnPlatform(Collision2D other, bool value)
     {
         if (player != null)
@@ -60,7 +60,7 @@ public class TransparentPlatdormScript : MonoBehaviour
     /// <summary>
     /// Checks to see if an object collides with the platform
     /// </summary>
-    /// <param name="other"></param>
+    /// <param ghostName="other"></param>
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.CompareTag("Player"))
@@ -71,7 +71,7 @@ public class TransparentPlatdormScript : MonoBehaviour
     /// <summary>
     /// Checks to see if an object extis the platform
     /// </summary>
-    /// <param name="other"></param>
+    /// <param ghostName="other"></param>
     private void OnCollisionExit2D(Collision2D other)
     {
         if (other.gameObject.CompareTag("Player"))

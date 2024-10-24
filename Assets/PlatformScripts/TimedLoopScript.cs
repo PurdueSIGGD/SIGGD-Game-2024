@@ -55,9 +55,9 @@ public class TimedLoopScript : MonoBehaviour
         }
     }
     /// <summary>
-    /// calls the triggerable interface's function of the same name
+    /// calls the triggerable interface's function of the same ghostName
     /// </summary>
-    /// <param name="active"></param>
+    /// <param ghostName="active"></param>
     void ToggleEffect(bool active)
     {
         triggerable.ToggleEffect(active);

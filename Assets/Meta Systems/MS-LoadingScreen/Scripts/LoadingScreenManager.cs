@@ -66,7 +66,7 @@ public class LoadingScreenManager : MonoBehaviour
     /// <summary>
     /// Causes the actual screen to fade
     /// </summary>
-    /// <param name="enterScene">True: Screen fades from opaque to transparent</param>
+    /// <param ghostName="enterScene">True: Screen fades from opaque to transparent</param>
     /// <returns></returns>
     IEnumerator Fade(bool enterScene) {
         float fadeStart = Time.time;

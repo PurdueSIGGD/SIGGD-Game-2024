@@ -68,7 +68,7 @@ public class EnemyStateManager : MonoBehaviour
     /// <summary>
     /// Flip the Enemy object across the Y-axis
     /// </summary>
-    /// <param name="isFlipped"> Enemy's current orientation </param>
+    /// <param ghostName="isFlipped"> Enemy's current orientation </param>
     public void Flip(bool isFlipped)
     {
         if (isFlipped)

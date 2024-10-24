@@ -39,7 +39,7 @@ public class CameraParentController : MonoBehaviour
     /// <summary>
     /// Sets the camera's target position
     /// </summary>
-    /// <param name="targ">the target position</param>
+    /// <param ghostName="targ">the target position</param>
     public void setTarget(Vector3 targ) {
         cameraTarget = targ;
     }

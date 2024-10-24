@@ -18,9 +18,9 @@ public class DisplayParty : MonoBehaviour
     void Update()
     {
         display.text = "Major Ghosts in Party [B]: ";
-        for (int i = 0; i < player.getGhostMajorList().Count; i++) {
-            display.text += player.getGhostMajorList()[i].getName();
-            if (i < player.getGhostMajorList().Count - 1) {
+        for (int i = 0; i < player.GetGhostMajorList().Count; i++) {
+            display.text += player.GetGhostMajorList()[i].getName();
+            if (i < player.GetGhostMajorList().Count - 1) {
                 display.text += ", ";
             }
         }

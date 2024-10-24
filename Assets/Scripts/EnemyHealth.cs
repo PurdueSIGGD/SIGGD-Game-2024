@@ -34,7 +34,7 @@ public class EnemyHealth : MonoBehaviour
     /// <summary>
     /// Take damage, with damage reduction taken into effect.
     /// </summary>
-    /// <param name="damage">Amount of damage</param>
+    /// <param ghostName="damage">Amount of damage</param>
     public void TakeDamage(int damage)
     {
         Assert.IsTrue(damage >= 0, "Negative damage is not supported");

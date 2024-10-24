@@ -25,6 +25,6 @@ public abstract class GhostAction
     /// <summary>
     /// Called on special action
     /// </summary>
-    /// <param name="context"></param>
+    /// <param ghostName="context"></param>
     public abstract void OnSpecial(MonoBehaviour context);
 }
