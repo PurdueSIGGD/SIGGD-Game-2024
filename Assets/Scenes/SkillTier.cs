@@ -3,62 +3,83 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// a tier that consists maximum of two skills 
+/// A tier that consists of a left skill and a right skill and can be unlocked.
 /// </summary>
 public class SkillTier
 {
-    private List<Skill> skillList = new List<Skill>();
-    private Skill skillOne;
-    private Skill skillTwo;
-    private bool unlock = false;
+    private Skill skillLeft;
+    private Skill skillRight;
+    private bool unlocked = false;
     private int totalSkillPts = 0;
     
-    protected void Start()
+    public static readonly int SKILL_LEFT = 0;
+    public static readonly int SKILL_RIGHT = 1;
+
+    public SkillTier(Skill skillOne, Skill skillTwo)
     {
-
-    }
-
-    public void SetSkillOne(Skill skill) {
-        skillOne = skill;
-    }
-
-    public void SetSkillTwo(Skill skill) {
-        skillTwo = skill;
-    }
-
-    public void SetUnlock(bool state) {
-        unlock = state; 
-        skillOne.SetUnlock(true);
-        skillTwo.SetUnlock(true);
-    }
-
-    /// <summary>
-    /// add a skill point to the trust level. It should be automatically added to the first skill 
-    /// <summary>
-    public void AddSkillPts() {
-        totalSkillPts += 1;
-        skillOne.AddSkillPts(1);
-    }
-
-    public void SwapSkillPts(int taken, int given) {
-        if (taken == 1) { 
-            if (skillOne.GetSkillPts() > 1) {
-                skillOne.AddSkillPts(-1);
-                skillTwo.AddSkillPts(1);
-            } else Debug.Log("Not enough skill pts");
-        } else if (taken == 2) {
-            if (skillTwo.GetSkillPts() > 1) {
-                skillTwo.AddSkillPts(-1);
-                skillOne.AddSkillPts(1);
-            }
-        }
+        this.skillLeft = skillOne;
+        this.skillRight = skillTwo;
     }
     
-    public Skill GetSkillOne() {
-        return skillOne;
+    /// <returns>The Left Skill (intended for UI purposes only!)</returns>
+    public Skill GetLeftSkill()
+    {
+        return this.skillLeft;
     }
 
-    public Skill GetSkillTwo() {
-        return skillTwo;
+    /// <returns>The Right Skill (intended for UI purposes only!)</returns>
+    public Skill GetRightSkill()
+    {
+        return this.skillRight;
     }
+
+
+    /// <summary>
+    /// Unlocks skill tier. Once unlocked, cannot be locked again.
+    /// </summary>
+    public void Unlock() {
+        unlocked = true; 
+    }
+
+    /// <summary>
+    /// Adds a skill point to skill tier only if skill tier is already unlocked.
+    /// Skill point is automatically added to the first skill.
+    /// <summary>
+    public void AddSkillPts() {
+        if (unlocked)
+        {
+            totalSkillPts += 1;
+            skillLeft.AddSkillPts(1);
+        } 
+    }
+
+    /// <summary>
+    /// Swaps 1 skill point from one skill to another. Use SkillTier.SKILL_LEFT and SkillTier.SKILL_RIGHT for arguments.
+    /// </summary>
+    /// <param name="skill">SKILL_LEFT = transfer points to left skill, SKILL_RIGHT = transfer points to right skill</param>
+    /// <param name="pts"></param>
+    /// <returns>If skill point swapped successfully </returns>
+    public bool SwapSkillPtsTo(int skill) {
+        if (skill == SKILL_RIGHT) { 
+            if (skillLeft.GetSkillPts() >= 1) {
+                skillLeft.AddSkillPts(-1);
+                skillRight.AddSkillPts(1);
+                return true;
+            } else
+            {
+                Debug.Log("Not enough skill pts");
+                return false;
+            }
+        } else {
+            if (skillRight.GetSkillPts() >= 1) {
+                skillRight.AddSkillPts(-1);
+                skillLeft.AddSkillPts(1);
+                return true;
+            } else
+            {
+                Debug.Log("Not enough skill pts");
+                return false;
+            }
+        }
+    }    
 }

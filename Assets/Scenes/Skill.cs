@@ -4,64 +4,66 @@ using UnityEngine;
 using System;
 
 /// <summary>
-/// a skill that makes an effect when unlocked. The unlock state is false as default
-/// </summary>
+/// A skill that can be shown in the UI and has an effect that triggers when skill points are added or removed.
+/// /// </summary>
 public class Skill
 {
+    public static readonly int SPECIAL_NUMBER_COUNT = 6;
+
     protected string name;
+    protected string description;
     protected int skillPts;
-    protected bool unlocked; 
     protected float[] specialNumbers;
-
-    public Skill(string n, int pts, float[] speNums) {
-        name = n;
-        skillPts = pts;
-        unlocked = false; 
-        specialNumbers = speNums;
-    }
-
-    public Skill(string n, float[] speNums) {
-        name = n;
-        skillPts = 0;
-        unlocked = false;
-        specialNumbers = speNums;
-    }
-
-    /// <summary>
-    /// set whether the skill is unlocked 
-    /// </summary>
-    /// <param ghostName="state"> whether the skill is unlocked </param>
-    public void SetUnlock(bool state) {
-        unlocked = state;
-        DoEffect();
-    }
-
-    /// <summary>
-    /// set the unlock effect 
-    /// </summary>
     public Action<float> effect;
 
-    public void DoEffect() {
-        effect(specialNumbers[skillPts]);
+    /// <summary>
+    /// Constructor for a Skill
+    /// </summary>
+    /// <param name="name">Name of skill in UI</param>
+    /// <param name="description">Description of skill in UI</param>
+    /// <param name="specialNums">Numbers for skill's effect and in UI</param>
+    public Skill(string name, string description, float[] specialNums) {
+        this.name = name;
+        this.description = description;
+        skillPts = 0;
+        this.specialNumbers = specialNums;
     }
 
-    public string GetName() {
+    /// <returns>The name of the skill to be shown in UI</returns>
+    public string GetName()
+    {
         return name;
+    }
+
+    /// <summary>
+    /// Replaces "XXX" in description with special number
+    /// </summary>
+    /// <param name="pts">The number of skill points for which description to show</param>
+    /// <returns>The description of the skill to be shown in UI given</returns>
+    public string GetDescription(int pts)
+    {
+        String value = "" + specialNumbers[skillPts];
+        return description.Replace("XXX", value);
     }
 
     public int GetSkillPts() {
         return skillPts;
     }
 
-    public void AddSkillPts(int pts) {
-        if (this.skillPts < 6) {
-            this.skillPts += pts;
+    /// <summary>
+    /// Adds skill points to skill, bounded by 0 and 6 (inclusively)
+    /// </summary>
+    /// <param name="pts">The number of skill points to add</param>
+    /// <returns>If points added successfully (result within bounds)</returns>
+    public bool AddSkillPts(int pts) {
+        int attemptPts = skillPts + pts;
+        if (attemptPts >= 0 && attemptPts  <= 6) {
+            this.skillPts = attemptPts;
+            effect(specialNumbers[skillPts]);
+            return true;
+        } else
+        {
+            return false;
         }
-        
-        DoEffect();
-    }
-    
-    public bool GetUnlocked() {
-        return unlocked;
     }
 }

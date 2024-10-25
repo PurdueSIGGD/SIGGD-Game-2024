@@ -5,9 +5,9 @@ using UnityEngine;
 /// <summary>
 /// a skill that will only be unlocked when reaches final trust level. 
 /// </summary>
-public class FinalSkill : Skill
+public class FinalSkill
 {
-    // Start is called before the first frame update
+    /*// Start is called before the first frame update
     void Start()
     {
         
@@ -31,6 +31,5 @@ public class FinalSkill : Skill
         }
         
         DoEffect();
-    }
-
+    }*/
 }
