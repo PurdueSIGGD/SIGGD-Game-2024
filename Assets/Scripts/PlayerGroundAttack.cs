@@ -44,6 +44,6 @@ public class PlayerGroundAtack : MonoBehaviour
     private void OnHit()
     {
         indicator.SetActive(true);
-        counter = 5;
+        counter = 10;
     }
 }
