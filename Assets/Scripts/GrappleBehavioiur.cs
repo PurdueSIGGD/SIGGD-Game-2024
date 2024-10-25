@@ -43,7 +43,8 @@ public class GrappleBehavioiur : MonoBehaviour
     {
         Vector3 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         Vector3 subV = gameObject.transform.position - mousePos;
-        RaycastHit2D hit = Physics2D.Raycast(gameObject.transform.position, -subV.normalized, range);
+        LayerMask mask = LayerMask.GetMask("Ground");
+        RaycastHit2D hit = Physics2D.Raycast(gameObject.transform.position, -subV.normalized, range, mask);
         if(hit.collider != null)
         {
             Debug.Log((new Vector2(transform.position.x, transform.position.y) - hit.point).normalized * -500);
