@@ -8,14 +8,23 @@ public class DummyStates : EnemyStateManager
     public Transform meleeHit;
     public Transform rangeHit;
 
+    public GameObject projectile;
+
     protected override ActionPool GenerateActionPool()
     {
-        Action dummySlash = new(meleeHit, 6.0f, 3f, "HeroKnight_Attack1");
-        //Action dummyShoot = new(rangeHit, 6.0f, 7f, "HeroKnight_Block");
+        Action dummySlash = new(meleeHit, 4.0f, 3f, "HeroKnight_Attack1");
+        Action dummyShoot = new(rangeHit, 4.0f, 7f, "Dummy_Shoot");
         Action move = new(null, 0.0f, 0.0f, "HeroKnight_Run");
         Action idle = new(null, 0.0f, 0.0f, "HeroKnight_Idle");
 
-        return new ActionPool(new List<Action> { dummySlash }, move, idle);
+        return new ActionPool(new List<Action> { dummySlash, dummyShoot }, move, idle);
+    }
+
+    protected void OnShootEvent()
+    {
+        //print(transform.localRotation);
+        //Instantiate(projectile, transform.position, transform.rotation).GetComponent<EnemyProjectile>();
+        Instantiate(projectile, transform);
     }
 
     protected override void OnDrawGizmos()

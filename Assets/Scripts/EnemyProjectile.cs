@@ -11,20 +11,21 @@ public class EnemyProjectile : MonoBehaviour
 
     [SerializeField] protected float range = Screen.width; // Range of the projectile, defaults to the bounds of the camera.
 
+
     protected Transform target; // Target location at the time of releasing the projectile
     protected Vector3 dir;
-    protected Collider c;
-    protected Rigidbody rb;
-    protected Vector2 bounds;
+    protected Collider2D c;
+    protected Rigidbody2D rb;
+    protected Vector3 bounds;
 
     private void Start()
     {
-        c = GetComponent<Collider>();
-        rb = GetComponent<Rigidbody>();
+        c = GetComponent<Collider2D>();
+        rb = GetComponent<Rigidbody2D>();
         c.isTrigger = true;
-
+        target = GameObject.FindGameObjectWithTag("Player").transform;
         dir = (target.position - transform.position).normalized;
-        transform.LookAt(target.position);
+        //transform.LookAt(target.position);
         bounds = dir * range + transform.position;
     }
 
@@ -40,24 +41,25 @@ public class EnemyProjectile : MonoBehaviour
     /// <param ghostName="target"> Transform containing the position of the target location. </param>
     public void Init(Transform target)
     {
+        print(target.parent.name);
         this.target = target;
     }
 
     // Allow for projectile to collide with bodies after it has exited
     // the shooter body.
-    private void OnTriggerExit(Collider other)
+    private void OnTriggerExit2D(Collider2D other)
     {
         c.isTrigger = false;
     }
     // TODO Handle standard collisions.
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         Destroy(gameObject);
     }
 
     protected void Move()
     {
-        rb.velocity = transform.forward * speed;
+        rb.velocity = dir * speed;
     }
 
     // Destroys the projectile if it goes out of range.
