@@ -15,13 +15,15 @@ public class EnemyStateManager : MonoBehaviour
     public float speed;
     public float aggroRange;
     public ActionPool pool;
+    
+    public Transform player;
     public Animator animator;
 
-    public Transform player;
-    protected EnemyStates curState;
     protected Rigidbody2D rb;
+    protected EnemyStates curState;
     void Awake()
     {
+        player = GameObject.FindGameObjectWithTag("Player").transform;
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         pool = GenerateActionPool();
@@ -58,6 +60,7 @@ public class EnemyStateManager : MonoBehaviour
             maxDistance = maxDistance * 1.5f;
         }
         RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, maxDistance, LayerMask.GetMask("Player", "Ground"));
+        Debug.DrawRay(transform.position, dir);
         if (hit)
         {
             return hit.collider.gameObject.CompareTag("Player");
@@ -81,9 +84,6 @@ public class EnemyStateManager : MonoBehaviour
 
     protected virtual void OnDrawGizmos()
     {
-        if (curState != IdleState)
-            Gizmos.DrawRay(transform.position, player.position - transform.position);
-        else
-            Gizmos.DrawRay(transform.position, transform.TransformDirection(Vector2.right) * aggroRange);
+        Gizmos.DrawRay(transform.position, transform.TransformDirection(Vector2.right) * aggroRange);
     }
 }

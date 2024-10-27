@@ -22,10 +22,9 @@ public class EnemyProjectile : MonoBehaviour
     {
         c = GetComponent<Collider2D>();
         rb = GetComponent<Rigidbody2D>();
-        c.isTrigger = true;
         target = GameObject.FindGameObjectWithTag("Player").transform;
+
         dir = (target.position - transform.position).normalized;
-        //transform.LookAt(target.position);
         bounds = dir * range + transform.position;
     }
 
@@ -41,16 +40,9 @@ public class EnemyProjectile : MonoBehaviour
     /// <param ghostName="target"> Transform containing the position of the target location. </param>
     public void Init(Transform target)
     {
-        print(target.parent.name);
         this.target = target;
     }
 
-    // Allow for projectile to collide with bodies after it has exited
-    // the shooter body.
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        c.isTrigger = false;
-    }
     // TODO Handle standard collisions.
     private void OnCollisionEnter2D(Collision2D collision)
     {

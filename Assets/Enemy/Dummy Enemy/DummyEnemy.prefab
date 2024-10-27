@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &498676537535091230
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8318595516242551159}
+  m_Layer: 0
+  m_Name: RangeOrigin
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8318595516242551159
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 498676537535091230}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1.01, y: 0.168, z: -7.3972807}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7417174869629188755}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5583842614943813054
 GameObject:
   m_ObjectHideFlags: 0
@@ -25,8 +56,8 @@ Transform:
   m_GameObject: {fileID: 5583842614943813054}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.24, y: 0, z: 0}
-  m_LocalScale: {x: 0.58543754, y: 0.85, z: 1}
+  m_LocalPosition: {x: 1.31, y: 0, z: 0}
+  m_LocalScale: {x: 0.74, y: 0.85, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7417174869629188755}
@@ -56,8 +87,8 @@ Transform:
   m_GameObject: {fileID: 7339599787735962224}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.66, y: 0, z: 0}
-  m_LocalScale: {x: 4.28, y: 0.85, z: 1}
+  m_LocalPosition: {x: 3.95, y: 0.9, z: 0}
+  m_LocalScale: {x: 4.28, y: 2.63, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7417174869629188755}
@@ -98,6 +129,7 @@ Transform:
   m_Children:
   - {fileID: 3423025847710183529}
   - {fileID: 2425615495639063641}
+  - {fileID: 8318595516242551159}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &4967756639582714965
@@ -133,12 +165,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ecf5fc8e32dda645a4c9c2eb89686b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0
-  aggroRange: 0
-  animator: {fileID: 4967756639582714965}
+  speed: 2
+  aggroRange: 10
   player: {fileID: 0}
+  animator: {fileID: 4967756639582714965}
   meleeHit: {fileID: 3423025847710183529}
   rangeHit: {fileID: 2425615495639063641}
+  rangeOrig: {fileID: 8318595516242551159}
   projectile: {fileID: 7215835285119065845, guid: 53c6f7019cd48bd46905979fe721a70e,
     type: 3}
 --- !u!212 &1524967089078299542
@@ -219,7 +252,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &752561269483410646
 BoxCollider2D:
   m_ObjectHideFlags: 0

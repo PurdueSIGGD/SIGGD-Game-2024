@@ -5,8 +5,9 @@ using UnityEngine;
 
 public class DummyStates : EnemyStateManager
 {
-    public Transform meleeHit;
-    public Transform rangeHit;
+    [SerializeField] protected Transform meleeHit;
+    [SerializeField] protected Transform rangeHit;
+    [SerializeField] protected Transform rangeOrig;
 
     public GameObject projectile;
 
@@ -22,9 +23,7 @@ public class DummyStates : EnemyStateManager
 
     protected void OnShootEvent()
     {
-        //print(transform.localRotation);
-        //Instantiate(projectile, transform.position, transform.rotation).GetComponent<EnemyProjectile>();
-        Instantiate(projectile, transform);
+        Instantiate(projectile, rangeOrig.position, transform.rotation);
     }
 
     protected override void OnDrawGizmos()
@@ -32,5 +31,6 @@ public class DummyStates : EnemyStateManager
         base.OnDrawGizmos();
         Gizmos.DrawWireCube(meleeHit.position, meleeHit.lossyScale);
         Gizmos.DrawWireCube(rangeHit.position, rangeHit.lossyScale);
+        Gizmos.DrawWireSphere(rangeOrig.position, 0.1f);
     }
 }
