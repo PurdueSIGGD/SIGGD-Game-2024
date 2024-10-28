@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Rendering;
-using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
 //This script allows dampened movement of the camera to follow a target position
