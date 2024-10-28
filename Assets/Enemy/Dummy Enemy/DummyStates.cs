@@ -25,6 +25,13 @@ public class DummyStates : EnemyStateManager
     {
         Instantiate(projectile, rangeOrig.position, transform.rotation);
     }
+    protected void OnSlashEvent()
+    {
+        Collider2D hit = Physics2D.OverlapBox(meleeHit.position, meleeHit.lossyScale, 0f, LayerMask.GetMask("Player"));
+        if (hit) {
+            hit.GetComponent<PlayerHealth>().takeDamage(100);
+        }
+    }
 
     protected override void OnDrawGizmos()
     {
