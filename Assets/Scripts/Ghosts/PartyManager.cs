@@ -29,7 +29,7 @@ public class PartyManager : MonoBehaviour
             foreach (Collider2D collider in colliders)
             {
                 GhostIdentity identity = collider.gameObject.GetComponent<GhostIdentity>();
-                if (!identity.isInParty())
+                if (!identity.IsInParty())
                 {
                     AddMajorGhost(identity);
                     break;
@@ -54,9 +54,9 @@ public class PartyManager : MonoBehaviour
     /// </summary>
     /// <param ghostName="ghost"></param>
     public void AddMajorGhost(GhostIdentity ghost) {
-        if (!ghost.isInParty()) {
+        if (!ghost.IsInParty()) {
             ghostMajorList.Add(ghost);
-            ghost.setInParty(true);
+            ghost.SetInParty(true);
             //ghost.gameObject.GetComponent<SpriteRenderer>().color = inPartyColor;
             Debug.Log("Major ghosts has been updated. It is now: " + ghostMajorList.Count + "/" + ghostMajorLimit);
         }
@@ -67,10 +67,10 @@ public class PartyManager : MonoBehaviour
     /// </summary>
     /// <param ghostName="ghostIndex"></param>
     public void RemoveMajorGhost(int ghostIndex) { 
-        if (ghostMajorList[ghostIndex].isInParty()) {
-            Debug.Log("Removed " + ghostMajorList[ghostIndex].getName() + ". Exiting party customization...");
+        if (ghostMajorList[ghostIndex].IsInParty()) {
+            Debug.Log("Removed " + ghostMajorList[ghostIndex].GetName() + ". Exiting party customization...");
             
-            ghostMajorList[ghostIndex].setInParty(false);
+            ghostMajorList[ghostIndex].SetInParty(false);
             //ghostMajorList[ghostIndex].gameObject.GetComponent<SpriteRenderer>().color = notInPartyColor;
             ghostMajorList.RemoveAt(ghostIndex);
 
