@@ -5504,6 +5504,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1294300388250348151, guid: dc37ada359206f040b1417c5d790c31f,
+        type: 3}
+      propertyPath: topSpeed
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 1487048547261826030, guid: dc37ada359206f040b1417c5d790c31f,
         type: 3}
       propertyPath: m_Name
@@ -5514,10 +5519,25 @@ PrefabInstance:
       propertyPath: ghostMajorLimit
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 3927073135763558212, guid: dc37ada359206f040b1417c5d790c31f,
+        type: 3}
+      propertyPath: m_Mass
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3927073135763558212, guid: dc37ada359206f040b1417c5d790c31f,
+        type: 3}
+      propertyPath: m_GravityScale
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 6932071826997146900, guid: dc37ada359206f040b1417c5d790c31f,
         type: 3}
       propertyPath: range
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6932071826997146900, guid: dc37ada359206f040b1417c5d790c31f,
+        type: 3}
+      propertyPath: speed
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 7871911102278751832, guid: dc37ada359206f040b1417c5d790c31f,
         type: 3}
@@ -5571,8 +5591,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8949576389562570489, guid: dc37ada359206f040b1417c5d790c31f,
         type: 3}
+      propertyPath: stats.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8949576389562570489, guid: dc37ada359206f040b1417c5d790c31f,
+        type: 3}
       propertyPath: stats.Array.data[1].value
-      value: 5
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8076,7 +8101,7 @@ PrefabInstance:
     - target: {fileID: 7386812549773600600, guid: 47a3030118b861f4d8f412c0e2ef8092,
         type: 3}
       propertyPath: platformBounce
-      value: 20
+      value: 40
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
