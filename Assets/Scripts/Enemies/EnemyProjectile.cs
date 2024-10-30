@@ -7,7 +7,7 @@ using UnityEngine;
 public class EnemyProjectile : MonoBehaviour
 {
     [SerializeField] protected float speed; // Speed of the projectile
-    [SerializeField] protected float damage; // Damage of the projectile
+    [SerializeField] public int damage = 0; // Damage of the projectile
 
     [SerializeField] protected float range = Screen.width; // Range of the projectile, defaults to the bounds of the camera.
 
@@ -49,7 +49,7 @@ public class EnemyProjectile : MonoBehaviour
         Destroy(gameObject);
         if (collision.gameObject.CompareTag("Player"))
         {
-            collision.gameObject.GetComponent<PlayerHealth>().takeDamage(100);
+            collision.gameObject.GetComponent<PlayerHealth>().takeDamage(damage);
         }
     }
 

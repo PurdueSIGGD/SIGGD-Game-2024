@@ -10,6 +10,12 @@ public class DummyStates : EnemyStateManager
     [SerializeField] protected Transform rangeHit;
     [SerializeField] protected Transform rangeOrig;
 
+    [SerializeField] protected int meleeDamage = 0; // Melee Damage of Enemy --> For 'Slash Action'
+    [SerializeField] protected int rangeDamage = 0; // Range Damage of Enemy --> For 'Shoot Action'
+
+    
+
+
     public GameObject projectile;
 
     protected override ActionPool GenerateActionPool()
@@ -24,13 +30,14 @@ public class DummyStates : EnemyStateManager
 
     protected void OnShootEvent()
     {
-        Instantiate(projectile, rangeOrig.position, transform.rotation);
+        GameObject proj_i = Instantiate(projectile, rangeOrig.position, transform.rotation);
+        proj_i.GetComponent<EnemyProjectile>().damage = rangeDamage;
     }
     protected void OnSlashEvent()
     {
         Collider2D hit = Physics2D.OverlapBox(meleeHit.position, meleeHit.lossyScale, 0f, LayerMask.GetMask("Player"));
         if (hit) {
-            hit.GetComponent<PlayerHealth>().takeDamage(100);
+            hit.GetComponent<PlayerHealth>().takeDamage(meleeDamage);
         }
     }
 

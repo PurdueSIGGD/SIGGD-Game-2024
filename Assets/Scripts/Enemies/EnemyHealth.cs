@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -41,7 +42,7 @@ public class EnemyHealth : MonoBehaviour
 
         damage = Mathf.RoundToInt(damage * (1 - damageReduction));
         health -= damage;
-
+        print("Enemy took damage");
         if (health <= 0)
         {
             Kill();
@@ -53,6 +54,6 @@ public class EnemyHealth : MonoBehaviour
     /// </summary>
     public void Kill()
     {
-        Destroy(this);
+        Destroy(this.gameObject);
     }
 }

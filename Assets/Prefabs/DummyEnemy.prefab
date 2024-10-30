@@ -104,12 +104,13 @@ GameObject:
   - component: {fileID: 7417174869629188755}
   - component: {fileID: 4967756639582714965}
   - component: {fileID: 4304853139691255428}
+  - component: {fileID: 3648884001365070993}
   - component: {fileID: 1524967089078299542}
   - component: {fileID: 3945173690903396810}
   - component: {fileID: 752561269483410646}
   m_Layer: 0
   m_Name: DummyEnemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -172,8 +173,25 @@ MonoBehaviour:
   meleeHit: {fileID: 3423025847710183529}
   rangeHit: {fileID: 2425615495639063641}
   rangeOrig: {fileID: 8318595516242551159}
+  meleeDamage: 0
+  rangeDamage: 0
   projectile: {fileID: 7215835285119065845, guid: 53c6f7019cd48bd46905979fe721a70e,
     type: 3}
+--- !u!114 &3648884001365070993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8383959550752418808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e7d6a223d7f48a45b66de3dc0b4c671, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  damageReduction: 0
+  health: 100
 --- !u!212 &1524967089078299542
 SpriteRenderer:
   m_ObjectHideFlags: 0
