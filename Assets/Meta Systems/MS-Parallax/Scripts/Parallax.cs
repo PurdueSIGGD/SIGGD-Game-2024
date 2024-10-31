@@ -6,7 +6,6 @@ public class Parallax : MonoBehaviour
 {
     [SerializeField] private Camera cam;
     [SerializeField] private float movementFactor;
-    [SerializeField] private float repeatDistance;
 
     private float startX;
     private float width;
