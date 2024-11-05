@@ -24,15 +24,15 @@ public class GhostIdentity : MonoBehaviour
         
     }
 
-    public string getName() {
+    public string GetName() {
         return ghostName;
     }
 
-    public bool isInParty() {
+    public bool IsInParty() {
         return inParty;
     }
 
-    public void setInParty(bool inParty) {
+    public void SetInParty(bool inParty) {
         this.inParty = inParty;
         if (inParty)
         {

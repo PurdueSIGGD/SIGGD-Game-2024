@@ -35,12 +35,12 @@ public class MoveState : EnemyStates
         if (player.position.x - enemy.transform.position.x < 0)
         {
             enemy.Flip(false);
-            rb.velocity = Vector2.left * enemy.speed;
+            rb.velocity = new Vector2(enemy.speed*-1f, rb.velocity.y);
         }
         else
         {
             enemy.Flip(true);
-            rb.velocity = Vector2.right * enemy.speed;
+            rb.velocity = new Vector2(enemy.speed, rb.velocity.y);
         }
     }
 }
