@@ -6,12 +6,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
+using UnityEngine.InputSystem.Controls;
 
 public class PartyManager : MonoBehaviour
 {
-    [SerializeField] 
+    [SerializeField]
     private int ghostMajorLimit; // Amount of major ghosts player can wield at one time
-    
+
     [SerializeField]
     private float range; // Temporary variable to store find ghost range
 
@@ -53,8 +54,10 @@ public class PartyManager : MonoBehaviour
     /// Adds onto player's major ghost list based off index
     /// </summary>
     /// <param ghostName="ghost"></param>
-    public void AddMajorGhost(GhostIdentity ghost) {
-        if (!ghost.IsInParty()) {
+    public void AddMajorGhost(GhostIdentity ghost)
+    {
+        if (!ghost.IsInParty())
+        {
             ghostMajorList.Add(ghost);
             ghost.SetInParty(true);
             //ghost.gameObject.GetComponent<SpriteRenderer>().color = inPartyColor;
@@ -66,10 +69,12 @@ public class PartyManager : MonoBehaviour
     /// Removes from player's major ghost list based off index
     /// </summary>
     /// <param ghostName="ghostIndex"></param>
-    public void RemoveMajorGhost(int ghostIndex) { 
-        if (ghostMajorList[ghostIndex].IsInParty()) {
+    public void RemoveMajorGhost(int ghostIndex)
+    {
+        if (ghostMajorList[ghostIndex].IsInParty())
+        {
             Debug.Log("Removed " + ghostMajorList[ghostIndex].GetName() + ". Exiting party customization...");
-            
+
             ghostMajorList[ghostIndex].SetInParty(false);
             //ghostMajorList[ghostIndex].gameObject.GetComponent<SpriteRenderer>().color = notInPartyColor;
             ghostMajorList.RemoveAt(ghostIndex);
@@ -77,12 +82,34 @@ public class PartyManager : MonoBehaviour
             //toggleParty = false;
         }
     }
+    /// <summary>
+    /// Called whenever the hotbar action is triggered by player input,
+    /// ignoring `0` value inputs
+    /// </summary>
+    public void OnHotbar(InputValue value)
+    {
+        int keyValue = (int)value.Get<float>();
+        if (keyValue != 0)
+        {
+            ChangePosessingGhost((int)value.Get<float>());
+        }
+    }
+
+    /// <summary>
+    /// Switches the currently posessing ghost based on hotkey input (1,2,3, etc.)
+    /// </summary>
+    /// <param name="inputNum">The int value of the input read from the keyboard</param>
+    public void ChangePosessingGhost(int inputNum)
+    {
+        print(inputNum);
+    }
 
     /// <summary>
     /// Allow external scripts to access player's major ghosts
     /// </summary>
     /// <returns></returns>
-    public List<GhostIdentity> GetGhostMajorList() {
+    public List<GhostIdentity> GetGhostMajorList()
+    {
         return ghostMajorList;
     }
 }
