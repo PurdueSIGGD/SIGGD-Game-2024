@@ -1,10 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using Unity.Mathematics;
-using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -15,25 +8,21 @@ using UnityEngine.InputSystem;
 public class PlayerGroundAtack : MonoBehaviour
 {
     [SerializeField] GameObject indicator; //The hitbox for the sword attack
-
-    private BoxCollider2D hittingBox; // Collision Box of Indicator
     [SerializeField] float swordDist; //How far away the sword should rotate from the player
-    [SerializeField] int damage; //Damage of Player
+    [SerializeField] int damage = 0; //Damage of Player
+    [SerializeField] float cooldown = 1; // Cooldown of player attack
+    float cooldown_cur = 0;
     
     private int counter = 0;
     private Camera mainCamera;
-    private ContactFilter2D Filter = new ContactFilter2D().NoFilter(); // For Attack Collider Detection
-    
-    List<Collider2D> colliders = new List<Collider2D>(); // Holds list of colliders of Indicator
-
     
     private void Start()
     {
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
-        hittingBox = indicator.GetComponent<BoxCollider2D>();
     }
     private void Update()
     {
+        cooldown_cur += Time.deltaTime;
         if (indicator.activeSelf)
         {
             if (counter <= 0) {
@@ -50,7 +39,10 @@ public class PlayerGroundAtack : MonoBehaviour
         indicator.transform.position = gameObject.transform.position + new Vector3(offset.x, offset.y, 0) * swordDist;
         indicator.transform.Rotate(0, 0, angle * 180/Mathf.PI - indicator.transform.eulerAngles.z);
     }
-
+    /// <summary>
+    /// Checks sword collision with objects
+    /// If Enemy tag then hits with sword damage
+    /// </summary>
     private void attack() {
         Collider2D[] collided = Physics2D.OverlapBoxAll(new Vector2(indicator.transform.position.x,indicator.transform.position.y), indicator.transform.localScale, indicator.transform.eulerAngles.z);
         foreach(Collider2D collide in collided) {
@@ -65,7 +57,11 @@ public class PlayerGroundAtack : MonoBehaviour
     /// </summary>
     private void OnHit()
     {
-        indicator.SetActive(true);
-        counter = 10;
+        if (cooldown < cooldown_cur) { // If cooldown is over
+            indicator.SetActive(true);
+            counter = 10;
+            cooldown_cur = 0;
+        }
+        
     }
 }
