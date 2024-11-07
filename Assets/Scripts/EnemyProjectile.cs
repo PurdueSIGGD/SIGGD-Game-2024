@@ -37,7 +37,7 @@ public class EnemyProjectile : MonoBehaviour
     /// <summary>
     /// Initialize the Projectile. Use this after instantiating an EnemyProjectile.
     /// </summary>
-    /// <param name="target"> Transform containing the position of the target location. </param>
+    /// <param ghostName="target"> Transform containing the position of the target location. </param>
     public void Init(Transform target)
     {
         this.target = target;
