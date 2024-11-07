@@ -4,7 +4,7 @@ using System.Collections;
 /// <summary>
 /// Special action: player sprite color changes to 0.3 alpha for 8 seconds
 /// </summary>
-public class InvisibleAction : MonoBehaviour, ISpecialAction, IParty
+public class InvisibleAction : MonoBehaviour, IParty
 {
     [SerializeField]
     private float invisDuration;
