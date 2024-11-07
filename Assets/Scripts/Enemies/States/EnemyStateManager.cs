@@ -12,15 +12,16 @@ public class EnemyStateManager : MonoBehaviour
     public EnemyStates BusyState = new BusyState();
     public EnemyStates MoveState = new MoveState();
 
-    public float speed;
-    public float aggroRange;
-    public ActionPool pool;
+    public float speed; // Movement speed
+    public float aggroRange; // Range for detecting players 
     
-    public Transform player;
-    public Animator animator;
+    public ActionPool pool; // A pool of attacks to randomly choose from
+    public Transform player; // The player
 
+    protected EnemyStates curState; // Enemy's current State, defaults to idle
+    public Animator animator;
     protected Rigidbody2D rb;
-    protected EnemyStates curState;
+    
     void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
@@ -37,6 +38,10 @@ public class EnemyStateManager : MonoBehaviour
         curState.UpdateState(this);
     }
 
+    /// <summary>
+    /// Transitions to another Enemy State
+    /// </summary>
+    /// <param name="state"> The new Enemy State </param>
     public void SwitchState(EnemyStates state)
     {
         curState = state;
@@ -44,10 +49,9 @@ public class EnemyStateManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Project a ray in front of the Enemy to detect any Player in aggroRange
-    /// In combat, will lock onto the player and maintain aggro for extended aggroRange
-    /// Will loose aggro if there is Environment blocking line of sight
+    /// Ray cast for Player in aggroRange
     /// </summary>
+    /// <param name="tracking"> If true, will actively track player for extended range </param>
     /// <returns> If there is a Player in Enemy line of sight </returns>
     public bool HasLineOfSight(bool tracking)
     {
@@ -80,8 +84,15 @@ public class EnemyStateManager : MonoBehaviour
             transform.rotation = Quaternion.Euler(0, 180f, 0);
     }
 
+    /// <summary>
+    /// Produce a list off Actions which randomly generates the next action
+    /// </summary>
+    /// <returns></returns>
     protected virtual ActionPool GenerateActionPool() { return null; }
 
+    /// <summary>
+    /// Draws the Enemy's line of sight range in editor
+    /// </summary>
     protected virtual void OnDrawGizmos()
     {
         Gizmos.DrawRay(transform.position, transform.TransformDirection(Vector2.right) * aggroRange);
