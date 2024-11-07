@@ -2,12 +2,8 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public class EnemyHealth : MonoBehaviour
+public class EnemyHealth : MonoBehaviour, IDamageable
 {
-    /// <summary>
-    /// The enemy's starting health.
-    /// </summary>
-    public int maxHealth;
 
     /// <summary>
     /// Percent of damage to be ignored.
@@ -19,11 +15,13 @@ public class EnemyHealth : MonoBehaviour
     /// <summary>
     /// The enemy's current health.
     /// </summary>
-    public int health;
+    private int health;
+
+    private Stats stats;
 
     void Start()
     {
-        health = maxHealth;
+        health = stats.GetStatIndex("Health");
 
         if (damageReduction < 0 || damageReduction > 1)
         {
@@ -36,12 +34,12 @@ public class EnemyHealth : MonoBehaviour
     /// Take damage, with damage reduction taken into effect.
     /// </summary>
     /// <param ghostName="damage">Amount of damage</param>
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
         Assert.IsTrue(damage >= 0, "Negative damage is not supported");
 
         damage = Mathf.RoundToInt(damage * (1 - damageReduction));
-        health -= damage;
+        health -= (int)damage;
         print("Enemy took damage");
         if (health <= 0)
         {

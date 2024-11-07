@@ -37,7 +37,7 @@ public class DummyStates : EnemyStateManager
     {
         Collider2D hit = Physics2D.OverlapBox(meleeHit.position, meleeHit.lossyScale, 0f, LayerMask.GetMask("Player"));
         if (hit) {
-            hit.GetComponent<PlayerHealth>().takeDamage(meleeDamage);
+            hit.GetComponent<PlayerHealth>().TakeDamage(meleeDamage);
         }
     }
 

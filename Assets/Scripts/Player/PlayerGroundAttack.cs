@@ -9,15 +9,18 @@ public class PlayerGroundAtack : MonoBehaviour
 {
     [SerializeField] GameObject indicator; //The hitbox for the sword attack
     [SerializeField] float swordDist; //How far away the sword should rotate from the player
-    [SerializeField] int damage = 0; //Damage of Player
     [SerializeField] float cooldown = 1; // Cooldown of player attack
-    float cooldown_cur = 0;
+    private float damage;
+    float cooldown_cur = 0; // Current timer
+    private Stats stats;
     
     private int counter = 0;
     private Camera mainCamera;
     
     private void Start()
     {
+        stats = GetComponent<Stats>();
+        damage = stats.GetStatIndex("Damage");
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
     }
     private void Update()

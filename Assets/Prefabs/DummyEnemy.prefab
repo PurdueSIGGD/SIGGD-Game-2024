@@ -105,6 +105,7 @@ GameObject:
   - component: {fileID: 4967756639582714965}
   - component: {fileID: 4304853139691255428}
   - component: {fileID: 3648884001365070993}
+  - component: {fileID: 7809038530882739117}
   - component: {fileID: 1524967089078299542}
   - component: {fileID: 3945173690903396810}
   - component: {fileID: 752561269483410646}
@@ -192,6 +193,28 @@ MonoBehaviour:
   maxHealth: 100
   damageReduction: 0
   health: 100
+--- !u!114 &7809038530882739117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8383959550752418808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 532320b84239cf640a651fa5709b989a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stats:
+  - name: Health
+    value: 100
+    modifier: 100
+  - name: Armor
+    value: 0
+    modifier: 100
+  - name: MoveSpeed
+    value: 2
+    modifier: 100
 --- !u!212 &1524967089078299542
 SpriteRenderer:
   m_ObjectHideFlags: 0

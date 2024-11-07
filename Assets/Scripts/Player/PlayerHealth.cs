@@ -1,20 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerHealth : MonoBehaviour
+public class PlayerHealth : MonoBehaviour, IDamageable
 {
     // Start is called before the first frame update
     // Integrate Script into main player script when main player script exists 
 
-    public int health = 100; // Health of player
+    public int health; // Health of player
     public bool isAlive = true; // Checks if player is still alive, if not Player lose (?)
+    private Stats stats;
 
+    public void Start() {
+        stats = GetComponent<Stats>();
+        health = stats.GetStatIndex("Max Health");
+    }   
 
-    public void takeDamage(int damage)
+    public void TakeDamage(float damage)
     {
 
-        health -= damage;
+        health -= (int)damage;
         print(health);
 
         if (health <= 0)
