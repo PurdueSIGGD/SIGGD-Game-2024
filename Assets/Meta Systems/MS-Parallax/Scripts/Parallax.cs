@@ -6,7 +6,7 @@ public class Parallax : MonoBehaviour
 {
     [SerializeField] private Camera cam;
     [SerializeField] private bool tiling;
-    [SerializeField] private float movementFactor;
+    [SerializeField] private float movementFactor; // Speed of object relative to camera speed (Between 0.0f - 1.0f)
 
     private float startX;
     private float width;
@@ -19,6 +19,7 @@ public class Parallax : MonoBehaviour
         width = spriteRenderer.bounds.size.x * 0.5f;
         camWidth = cam.orthographicSize * cam.aspect;
 
+        // Tiled such that there are 3 copies of the sprite, one in the middle and one to either side
         if (tiling) {
             spriteRenderer.drawMode = SpriteDrawMode.Tiled;
             spriteRenderer.size = new Vector2(3.0f, 1.0f);
