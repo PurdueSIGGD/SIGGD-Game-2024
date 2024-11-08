@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 public class Parallax : MonoBehaviour
 {
@@ -17,7 +18,8 @@ public class Parallax : MonoBehaviour
     {
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         width = spriteRenderer.bounds.size.x * 0.5f;
-        camWidth = cam.orthographicSize * cam.aspect;
+        Assert.IsTrue(cam.orthographic == true);
+        camWidth = cam.orthographicSize * cam.aspect; // This assumes camera is orthographic!
 
         // Tiled such that there are 3 copies of the sprite, one in the middle and one to either side
         if (tiling) {
