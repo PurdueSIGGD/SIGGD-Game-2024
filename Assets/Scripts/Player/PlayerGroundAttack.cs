@@ -1,6 +1,4 @@
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 /// <summary>
 /// This is the script that contains the code form the player's melee attack
@@ -20,7 +18,7 @@ public class PlayerGroundAtack : MonoBehaviour
     private void Start()
     {
         stats = GetComponent<Stats>();
-        damage = stats.GetStatIndex("Damage");
+        damage = stats.ComputeValue("Damage");
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
     }
     private void Update()
@@ -49,8 +47,8 @@ public class PlayerGroundAtack : MonoBehaviour
     private void attack() {
         Collider2D[] collided = Physics2D.OverlapBoxAll(new Vector2(indicator.transform.position.x,indicator.transform.position.y), indicator.transform.localScale, indicator.transform.eulerAngles.z);
         foreach(Collider2D collide in collided) {
-           if (collide.transform.CompareTag("Enemy")) {
-                collide.GetComponent<EnemyHealth>().TakeDamage(damage);
+           if (collide.gameObject.GetComponent<IDamageable>() != null) {
+                collide.GetComponent<IDamageable>().TakeDamage(damage);
            }
         }
     }

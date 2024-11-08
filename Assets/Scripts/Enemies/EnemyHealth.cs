@@ -21,8 +21,8 @@ public class EnemyHealth : MonoBehaviour, IDamageable
 
     void Start()
     {
-        health = stats.GetStatIndex("Health");
-
+        stats = GetComponent<Stats>();
+        health = (int) stats.ComputeValue("Health");   
         if (damageReduction < 0 || damageReduction > 1)
         {
             Debug.LogWarning($"Enemy {name} has an invalid damage reduction {damageReduction}, must be between 0 and 1");
@@ -39,8 +39,8 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         Assert.IsTrue(damage >= 0, "Negative damage is not supported");
 
         damage = Mathf.RoundToInt(damage * (1 - damageReduction));
-        health -= (int)damage;
-        print("Enemy took damage");
+        health -= (int) damage;
+        print("Enemy took damage: " + health);
         if (health <= 0)
         {
             Kill();

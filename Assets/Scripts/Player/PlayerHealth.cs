@@ -14,15 +14,14 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     public void Start() {
         stats = GetComponent<Stats>();
-        health = stats.GetStatIndex("Max Health");
+        health = (int) stats.ComputeValue("Max Health");
     }   
 
     public void TakeDamage(float damage)
     {
 
         health -= (int)damage;
-        print(health);
-
+        print("Player health ; " + health);
         if (health <= 0)
         {
             Kill();
