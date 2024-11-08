@@ -5,18 +5,24 @@ using UnityEngine;
 public class Parallax : MonoBehaviour
 {
     [SerializeField] private Camera cam;
+    [SerializeField] private bool tiling;
     [SerializeField] private float movementFactor;
 
     private float startX;
     private float width;
+    private float camWidth;
 
     // Start is called before the first frame update
     void Start()
     {
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         width = spriteRenderer.bounds.size.x * 0.5f;
-        spriteRenderer.drawMode = SpriteDrawMode.Tiled;
-        spriteRenderer.size = new Vector2(3.0f, 1.0f);
+        camWidth = cam.orthographicSize * cam.aspect;
+
+        if (tiling) {
+            spriteRenderer.drawMode = SpriteDrawMode.Tiled;
+            spriteRenderer.size = new Vector2(3.0f, 1.0f);
+        }
 
         startX = transform.position.x;
     }
@@ -31,16 +37,18 @@ public class Parallax : MonoBehaviour
         float newX = startX + dist;
         transform.position = new Vector3(newX, transform.position.y, transform.position.z);
 
-        // Calculate left, right bounds of camera and object
-        float leftBound = newX - width;
-        float rightBound = newX + width;
+        if (tiling) {
+            // Calculate left, right bounds of camera and object
+            float leftBound = newX - width;
+            float rightBound = newX + width;
 
-        float camOrthoWidth = cam.orthographicSize * cam.aspect;
-        float leftCamBound = camX - camOrthoWidth;
-        float rightCamBound = camX + camOrthoWidth;
+            float leftCamBound = camX - camWidth;
+            float rightCamBound = camX + camWidth;
 
-        // Tile object horiziontally
-        if (leftCamBound >= rightBound) startX += 2 * width;
-        if (rightCamBound <= leftBound) startX -= 2 * width;
+            // Tile object horiziontally
+            if (leftCamBound >= rightBound) startX += 2 * width;
+            if (rightCamBound <= leftBound) startX -= 2 * width;
+        }
+
     }
 }
