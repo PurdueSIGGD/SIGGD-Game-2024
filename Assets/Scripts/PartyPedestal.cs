@@ -15,6 +15,7 @@ public class PartyPedestal : MonoBehaviour, IInteractable
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.color = INACTIVE_COLOR;
+        menu.SetActive(false);
     }
 
     void OnTriggerEnter2D(Collider2D collision)
