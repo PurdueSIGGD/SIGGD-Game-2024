@@ -98,10 +98,29 @@ public class PartyManager : MonoBehaviour
     /// <summary>
     /// Switches the currently posessing ghost based on hotkey input (1,2,3, etc.)
     /// </summary>
-    /// <param name="inputNum">The int value of the input read from the keyboard</param>
+    /// <param name="inputNum">The int value of the input read from the keyboard(value is always 1-6)</param>
     public void ChangePosessingGhost(int inputNum)
     {
-        print(inputNum);
+        if (inputNum > ghostMajorList.Count)
+        {
+            print("Input num out of range of Ghost List");
+            return;
+        }
+        int index = inputNum - 1;
+
+        if (ghostMajorList[index].IsPossessing() == false)
+        {
+            ghostMajorList[index].SetPossessing(true);
+            print("Changed posessed to" + ghostMajorList[index].GetName());
+        }
+        for (int i = 0; i < ghostMajorList.Count; i++)
+        {
+            if (i == index)
+            {
+                continue;
+            }
+            ghostMajorList[i].SetPossessing(false);
+        }
     }
 
     /// <summary>
