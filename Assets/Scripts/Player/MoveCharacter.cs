@@ -1,15 +1,17 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class MoveCharacter : MonoBehaviour
 {
-    private InputAction playerAction;
+    [SerializeField] float topSpeed; //top velocity of the player
+    private InputAction playerActionMovement;
+    private InputAction playerActionDown;
     private Rigidbody2D rb;
     private Boolean doubleJump = true;
-    private Boolean onGround = false;
 
     private Stats stats;
     private int moveSpeedIdx;
@@ -18,7 +20,8 @@ public class MoveCharacter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        playerAction = GetComponent<PlayerInput>().actions.FindAction("Movement");
+        playerActionMovement = GetComponent<PlayerInput>().actions.FindAction("Movement");
+        playerActionDown = GetComponent<PlayerInput>().actions.FindAction("Down");
         rb = GetComponent<Rigidbody2D>();
         stats = GetComponent<Stats>();
         moveSpeedIdx = stats.GetStatIndex("Move Speed");
@@ -28,36 +31,57 @@ public class MoveCharacter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!doubleJump)
+        {
+            doubleJump = OnGround();
+        }
+
         Movement();
     }
 
+    /// <summary>
+    /// Controlls the basic movement of the player (moving left and right and ground slam)
+    /// </summary>
     private void Movement()
     {
-        float input = playerAction.ReadValue<float>();
-        rb.velocity = new Vector2(input * stats.ComputeValue(moveSpeedIdx), rb.velocity.y);
-    }
-
-    private void OnJump()
-    {
-        Debug.Log(onGround + " " + doubleJump);
-        if (onGround || doubleJump)
+        float input = playerActionMovement.ReadValue<float>();
+        rb.velocity = new Vector2(rb.velocity.x + input * stats.ComputeValue(moveSpeedIdx), rb.velocity.y);
+        if(!OnGround())
+            rb.velocity = new Vector2(rb.velocity.x * 0.9f, rb.velocity.y - playerActionDown.ReadValue<float>());
+        else
+            rb.velocity = new Vector2(rb.velocity.x * 0.9f, rb.velocity.y);
+        if (rb.velocity.magnitude > topSpeed)
         {
-            rb.AddForce(new Vector2(0, 1) * stats.ComputeValue(jumpForceIdx), ForceMode2D.Impulse);
-            if (!onGround)
-            {
-                doubleJump = false;
-            }
+            rb.velocity = rb.velocity.normalized * topSpeed;
         }
     }
-    private void OnCollisionEnter2D(Collision2D collision)
+
+    /// <summary>
+    /// Method is called once the player presses the button binded to "Jump" in Player Actions also controlls double jump
+    /// </summary>
+    private void OnJump()
     {
-        doubleJump = true;
-        onGround = true;
+        if (OnGround())
+        {
+            doubleJump = true;
+            rb.velocity = new Vector2(rb.velocity.x, 0);
+            rb.AddForce(new Vector2(0, 1) * stats.ComputeValue(jumpForceIdx), ForceMode2D.Impulse);
+        }
+        else if (doubleJump)
+        {
+            doubleJump = false;
+            rb.velocity = new Vector2(rb.velocity.x, 0);
+            rb.AddForce(new Vector2(0, 1) * stats.ComputeValue(jumpForceIdx), ForceMode2D.Impulse);
+        }
     }
 
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        onGround = false;
+    /// <summary>
+    /// Method that uses a circle cast to determine whether or not the player in on the ground
+    /// </summary>
+    /// <returns>Boolean of whether or not the player is on the ground</returns>
+    private Boolean OnGround(){
+        LayerMask mask = LayerMask.GetMask("ground");
+        return Physics2D.CircleCast(transform.position + Vector3.down, 0.5f, Vector2.down.normalized, mask);
     }
 
 }

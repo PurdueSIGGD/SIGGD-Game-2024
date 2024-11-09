@@ -3,20 +3,18 @@ using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
 /// <summary>
-/// Derivative of a an Enemy Projectile. Will track the target until a certain distance
-/// away from it. Tracking Distance dictates how far away will the projectile loose tracking.
-/// Tracking Projectile's range is measured in time, meaning a projectile existing for a
-/// time longer than range will be deleted.
+/// A type of a an Enemy Projectile. Will track the player until a certain distance
+/// away from it.
 /// </summary>
 public class TrackingProjectile : EnemyProjectile
 {
     [SerializeField] float trackingStrength; // A larger value will allow the projectile to turn faster.
-    [SerializeField] float trackingDistance; // A larger value will lead the projectile to loose tracking much earlier
+    [SerializeField] float trackingDistance; // A larger value will lead the projectile to loose tracking earlier
     private float hangTime = 0;
     private bool tracking = true;
 
 
-    private void FixedUpdate()
+    void FixedUpdate()
     {
         if (Vector3.Distance(transform.position, target.position) <= trackingDistance)
         {
@@ -27,7 +25,7 @@ public class TrackingProjectile : EnemyProjectile
     }
 
     // Moves the projectile
-    private new void Move()
+    protected new void Move()
     {
         if (tracking)
         {
@@ -37,8 +35,7 @@ public class TrackingProjectile : EnemyProjectile
         rb.velocity = transform.forward * speed;
     }
 
-    // Deletes the projectile if it has existed for a time longer than
-    // the range field.
+    // Deletes the projectile if it has existed for a certain amount of time
     private void CheckOutOfBounds(float dt)
     {
         hangTime += dt;
