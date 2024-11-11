@@ -10,19 +10,18 @@ using UnityEngine;
 public class BusyState : EnemyStates
 {
     public Animator animator;
+
     public override void EnterState(EnemyStateManager enemy)
     {
         animator = enemy.animator;
     }
 
-    public override void UpdateState(EnemyStateManager enemy)
+    // We want the enemy to do nothing for the duration of the animation
+    public override void UpdateState(EnemyStateManager enemy) { }
+
+    // Once the animation is finished, transition to the next state
+    public override void ExitState(EnemyStateManager enemy)
     {
-        // TODO replace with bool and animation event?
-        if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime % 1.0f <= 0.95f) // Wait until attack animation finishes
-        {
-            return;
-        }
-        // now that animation finishes
         if (enemy.HasLineOfSight(true))
         {
             if (enemy.pool.HasActionsInRange()) // If enemy still in attack range, return to AggroState

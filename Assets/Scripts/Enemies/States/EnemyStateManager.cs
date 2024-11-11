@@ -88,13 +88,26 @@ public class EnemyStateManager : MonoBehaviour
     /// Produce a list off Actions which randomly generates the next action
     /// </summary>
     /// <returns></returns>
-    protected virtual ActionPool GenerateActionPool() { return null; }
+    protected virtual ActionPool GenerateActionPool() 
+    { 
+        return null; 
+    }
 
     /// <summary>
-    /// Draws the Enemy's line of sight range in editor
+    /// Draws the Enemy's line of sight in editor
     /// </summary>
     protected virtual void OnDrawGizmos()
     {
         Gizmos.DrawRay(transform.position, transform.TransformDirection(Vector2.right) * aggroRange);
+    }
+
+    /// <summary>
+    /// Please attach this to the end of the animations that we wish
+    /// not to be interrupted by other behaviors (attack animations)
+    /// Attach this to an animation event at the end of animation
+    /// </summary>
+    protected void OnFinishAnimation()
+    {
+        BusyState.ExitState(this);
     }
 }

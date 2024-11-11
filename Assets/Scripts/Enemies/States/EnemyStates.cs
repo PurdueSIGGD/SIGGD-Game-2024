@@ -18,4 +18,6 @@ public abstract class EnemyStates
     /// </summary>
     /// <param name="enemy"> reference to the enemy currently in this state </param>
     public abstract void UpdateState(EnemyStateManager enemy);
+
+    public virtual void ExitState(EnemyStateManager enemy) { }
 }
