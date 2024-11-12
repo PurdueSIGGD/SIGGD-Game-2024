@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 /// <summary>
@@ -18,6 +19,9 @@ public class FollowEntity : MonoBehaviour, IParty
     [SerializeField]
     float maxForce; // The maximum size of the steering force towards the target
 
+    [SerializeField]
+    float yOffset; // Offset to target position
+
     Rigidbody2D rb;
 
     /// <summary>
@@ -27,18 +31,26 @@ public class FollowEntity : MonoBehaviour, IParty
     {
         if (target == null) return;
 
+        // target plus offset
+        Vector3 desiredPosition = target.transform.position + new Vector3(0, yOffset, 0);
+
         // Calculate the desired velocity of this object
-        Vector2 desiredVelocity = target.transform.position - gameObject.transform.position;
+        Vector2 desiredVelocity = desiredPosition - gameObject.transform.position;
         desiredVelocity = desiredVelocity.normalized * maxSpeed;
 
         // Calculate the steering force
         Vector2 steerForce = desiredVelocity - rb.velocity;
-        if (steerForce.magnitude > maxForce)
-        {
-            steerForce = maxForce * steerForce.normalized;
-        }
+        
+        steerForce = maxForce * steerForce.normalized;
 
         rb.AddForce(steerForce, ForceMode2D.Impulse);
+
+    }
+
+    private void Oscillate()
+    {
+        if (target == null) return;
+
     }
 
     // Start is called before the first frame update
