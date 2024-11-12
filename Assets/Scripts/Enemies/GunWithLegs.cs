@@ -21,6 +21,15 @@ public class GunWithLegs : EnemyStateManager
         return new ActionPool(new List<Action> { kick, shoot }, move, idle);
     }
 
+    protected void OnKickEvent()
+    {
+        Collider2D hit = Physics2D.OverlapBox(gunKick.position, gunKick.lossyScale, 0f, LayerMask.GetMask("Player"));
+        if (hit)
+        {
+            hit.GetComponent<PlayerHealth>().takeDamage(10);
+        }
+    }
+
     protected void OnShootEvent()
     {
         Instantiate(projectile, rangeOrig.position, transform.rotation);
