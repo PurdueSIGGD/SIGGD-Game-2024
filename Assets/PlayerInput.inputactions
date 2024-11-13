@@ -1,5 +1,5 @@
 {
-    "name": "PlayerActions",
+    "name": "PlayerInput",
     "maps": [
         {
             "name": "Player",
@@ -72,6 +72,15 @@
                     "name": "Down",
                     "type": "Value",
                     "id": "eb3dd209-ba2d-485f-be72-df03fa5a2ecb",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Hotbar",
+                    "type": "Value",
+                    "id": "ffb1c747-6c90-4806-8a10-33a4d032e3f0",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -181,7 +190,7 @@
                 {
                     "name": "",
                     "id": "51f1fa2b-cec3-40b0-89ce-c380138d0f17",
-                    "path": "<Keyboard>/space",
+                    "path": "<Keyboard>/q",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -197,6 +206,72 @@
                     "processors": "",
                     "groups": "",
                     "action": "Down",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c87fb4a1-016f-45c7-8110-d5a4752caad3",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "Scale",
+                    "groups": "",
+                    "action": "Hotbar",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bf3e8c51-3727-4d22-a8fa-702ecc6164ef",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "Scale(factor=2)",
+                    "groups": "",
+                    "action": "Hotbar",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c4401109-ccf5-402f-bbf3-5169f31ef7a7",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "Scale(factor=3)",
+                    "groups": "",
+                    "action": "Hotbar",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "58b118e8-e55d-4c0e-8c40-6ffcc4d52587",
+                    "path": "<Keyboard>/4",
+                    "interactions": "",
+                    "processors": "Scale(factor=4)",
+                    "groups": "",
+                    "action": "Hotbar",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b4b977a2-3b57-40bc-a709-fa15e3a9d271",
+                    "path": "<Keyboard>/5",
+                    "interactions": "",
+                    "processors": "Scale(factor=5)",
+                    "groups": "",
+                    "action": "Hotbar",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "06be8389-1a1a-45d7-bf3f-f6a6af2378f5",
+                    "path": "<Keyboard>/6",
+                    "interactions": "",
+                    "processors": "Scale(factor=6)",
+                    "groups": "",
+                    "action": "Hotbar",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

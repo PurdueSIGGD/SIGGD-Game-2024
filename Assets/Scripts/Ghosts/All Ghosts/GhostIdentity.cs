@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class GhostIdentity : MonoBehaviour
@@ -8,44 +9,73 @@ public class GhostIdentity : MonoBehaviour
     private string ghostName;
 
     private bool inParty = false;
+    private bool possessing = false;
     private GameObject player;
     private IParty[] partyScripts;
+    private ISelectable[] possessingScripts;
 
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         partyScripts = this.GetComponents<IParty>();
+        possessingScripts = this.GetComponents<ISelectable>();
     }
-
-    // Update is called once per frame
-    void Update()
+    /// <summary>
+    /// getter method for the ghost's name
+    /// </summary>
+    /// <returns>ghost's name</returns>
+    public string GetName()
     {
-        
-    }
-
-    public string GetName() {
         return ghostName;
     }
-
-    public bool IsInParty() {
+    /// <summary>
+    /// checks if ghost is in the player's party
+    /// </summary>
+    /// <returns>if ghost is in party</returns>
+    public bool IsInParty()
+    {
         return inParty;
     }
 
-    public void SetInParty(bool inParty) {
+    public void SetInParty(bool inParty)
+    {
         this.inParty = inParty;
         if (inParty)
         {
-            foreach(IParty script in partyScripts)
+            foreach (IParty script in partyScripts)
             {
                 script.EnterParty(player);
             }
-        } else
+        }
+        else
         {
             foreach (IParty script in partyScripts)
             {
                 script.ExitParty(player);
             }
+        }
+    }
+
+    public bool IsPossessing()
+    {
+        return possessing;
+    }
+
+    public void SetPossessing(bool possessing)
+    {
+        this.possessing = possessing;
+        foreach (ISelectable action in possessingScripts)
+        {
+            if (this.possessing)
+            {
+                action.Select(player);
+            }
+            else
+            {
+                action.DeSelect(player);
+            }
+
         }
     }
 
