@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -10,10 +11,22 @@ public class ShieldPolice : EnemyStateManager
 {
     [SerializeField] protected Transform batonHit;
     [SerializeField] protected Transform chargeHit;
+
+    protected bool isCharging;
+    protected Vector2 chargePos;
+
+    void Update()
+    {
+        if (isCharging)
+        {
+            rb.velocity = new Vector2(speed * 4, rb.velocity.y) * transform.right;
+        }
+    }
+
     protected override ActionPool GenerateActionPool()
     {
         Action batonSwing = new(batonHit, 2.0f, 3f, "Shield_Police_Swing");
-        Action shieldCharge = new(chargeHit, 10.0f, 3f, "Shield_Police_Charge");
+        Action shieldCharge = new(chargeHit, 10.0f, 3f, "Shield_Police_Charge_1");
 
         Action move = new(null, 0.0f, 0.0f, "Shield_Police_Run");
         Action idle = new(null, 0.0f, 0.0f, "Shield_Police_Idle");
@@ -30,11 +43,17 @@ public class ShieldPolice : EnemyStateManager
         }
     }
 
-    protected void OnChargeEvent()
+    protected void OnCharge1Event()
     {
-        // TODO Toggle shield collisions to do damage
-        print("charging");
-        rb.AddForce(10 * transform.right, ForceMode2D.Impulse);
+        //GetComponentInChildren<PoliceShield>().ToggleCollision();
+        isCharging = true;
+        chargePos = player.position;
+    }
+
+    protected override void OnFinishAnimation()
+    {
+        isCharging = false;
+        base.OnFinishAnimation();
     }
 
     // Draws the Enemy attack range in the editor

@@ -18,9 +18,9 @@ public class EnemyStateManager : MonoBehaviour
     public ActionPool pool; // A pool of attacks to randomly choose from
     public Transform player; // The player
 
-    protected EnemyStates curState; // Enemy's current State, defaults to idle
+    public EnemyStates curState; // Enemy's current State, defaults to idle
     public Animator animator;
-    protected Rigidbody2D rb;
+    public Rigidbody2D rb;
     
     void Awake()
     {
@@ -106,7 +106,7 @@ public class EnemyStateManager : MonoBehaviour
     /// not to be interrupted by other behaviors (attack animations)
     /// Attach this to an animation event at the end of animation
     /// </summary>
-    protected void OnFinishAnimation()
+    protected virtual void OnFinishAnimation()
     {
         BusyState.ExitState(this);
     }
