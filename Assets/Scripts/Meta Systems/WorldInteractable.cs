@@ -2,24 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// Will be stored in a parent manager class
-public class WorldInteractable
+public abstract class WorldInteractable : MonoBehaviour
 {
-    [SerializeField] private Vector3 position;
-    private List<WorldInteractableOption> options;
-    public WorldInteractable(List<WorldInteractableOption> opt)
+    [SerializeField] private GameObject player;
+    protected List<WorldInteractableOption> options;
+
+    public abstract void InitializeOptions();
+    public abstract void UpdateOptions();
+
+    private void OnEnable()
     {
-        options = opt;
+        options = new List<WorldInteractableOption> ();
+        InitializeOptions();
     }
 
-    public void Update(Vector3 playerPosition)
+    private void Update()
     {
-        Vector3 dist = playerPosition - position;
+        UpdateOptions();
+
+        Vector3 dist = player.transform.position - transform.position;
         if (dist.magnitude < 10)
         {
-            foreach (WorldInteractableOption option in options)
+            foreach (WorldInteractableOption opt in options)
             {
-                Debug.Log(option.GetName());
+                Debug.Log(opt.GetName());
             }
         }
     }
