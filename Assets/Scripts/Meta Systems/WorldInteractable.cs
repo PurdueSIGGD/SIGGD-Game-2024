@@ -2,25 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// Will be stored in a parent manager class
-public class WorldInteractable
+public abstract class WorldInteractable : MonoBehaviour
 {
-    [SerializeField] private Vector3 position;
-    private List<WorldInteractableOption> options;
-    public WorldInteractable(List<WorldInteractableOption> opt)
+    [SerializeField] private GameObject player;
+    [SerializeField] private float activationRange;
+
+    protected List<WorldInteractableOption> options;
+
+    // These two methods are to be implemented by each specific menu instance.
+    public abstract void InitializeOptions();
+    public abstract void UpdateOptions();
+
+    private void OnEnable()
     {
-        options = opt;
+        options = new List<WorldInteractableOption> ();
+        InitializeOptions();
     }
 
-    public void Update(Vector3 playerPosition)
+    // Update function checks if player is in range, then updates and displays the options list.
+    private void Update()
     {
-        Vector3 dist = playerPosition - position;
-        if (dist.magnitude < 10)
+        Vector3 dist = player.transform.position - transform.position;
+        if (dist.magnitude > activationRange) return;
+        
+        UpdateOptions();
+        foreach (WorldInteractableOption opt in options)
         {
-            foreach (WorldInteractableOption option in options)
-            {
-                Debug.Log(option.GetName());
-            }
+            Debug.Log(opt.GetName());
         }
     }
 }
