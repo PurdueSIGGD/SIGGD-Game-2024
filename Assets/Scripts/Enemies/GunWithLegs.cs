@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Enemy AI for gun with legs
+/// </summary>
 public class GunWithLegs : EnemyStateManager
 {
     [SerializeField] protected Transform gunKick;
@@ -21,6 +24,7 @@ public class GunWithLegs : EnemyStateManager
         return new ActionPool(new List<Action> { kick, shoot }, move, idle);
     }
 
+    // Check for kick collision and do damageg
     protected void OnKickEvent()
     {
         Collider2D hit = Physics2D.OverlapBox(gunKick.position, gunKick.lossyScale, 0f, LayerMask.GetMask("Player"));
@@ -30,6 +34,7 @@ public class GunWithLegs : EnemyStateManager
         }
     }
 
+    // Instantiate projectile prefab and push self back
     protected void OnShootEvent()
     {
         Instantiate(projectile, rangeOrig.position, transform.rotation);

@@ -12,7 +12,7 @@ public class MoveState : EnemyStates
 
     public override void EnterState(EnemyStateManager enemy)
     {
-        player = enemy.player;
+        player = GameObject.FindGameObjectWithTag("Player").transform;
         rb = enemy.GetComponent<Rigidbody2D>();
         enemy.pool.move.Play(enemy.animator); // Play the moving animation on entering state
     }

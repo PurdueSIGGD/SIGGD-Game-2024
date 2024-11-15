@@ -10,8 +10,8 @@ using UnityEngine;
 // This class can be consultated as a template for a basic Enemy
 public class DummyStates : EnemyStateManager
 {
-    [SerializeField] protected Transform meleeHit; // Area in which enemy will attempt to Dummy Slash
-    [SerializeField] protected Transform rangeHit; // Area in which enemy will attempt to Dummy Shoot
+    [SerializeField] protected Transform meleeTrigger; // Area in which enemy will attempt to Dummy Slash
+    [SerializeField] protected Transform rangeTrigger; // Area in which enemy will attempt to Dummy Shoot
     [SerializeField] protected Transform rangeOrig; // Location where Dummy Shoot's Projectile will spawn
 
     public GameObject projectile; // Prefab of the Dummy Shoot projectile
@@ -20,8 +20,8 @@ public class DummyStates : EnemyStateManager
     protected override ActionPool GenerateActionPool()
     {
         // Declare the Enemy's attacks
-        Action dummySlash = new(meleeHit, 4.0f, 3f, "HeroKnight_Attack1");
-        Action dummyShoot = new(rangeHit, 4.0f, 7f, "Dummy_Shoot");
+        Action dummySlash = new(meleeTrigger, 4.0f, 3f, "HeroKnight_Attack1");
+        Action dummyShoot = new(rangeTrigger, 4.0f, 7f, "Dummy_Shoot");
         
         // Most Enemy should also add their Run and Idle animations to the ActionPool
         Action move = new(null, 0.0f, 0.0f, "HeroKnight_Run");
@@ -40,7 +40,7 @@ public class DummyStates : EnemyStateManager
     // Checks for collision with Player during Dummy Shoot.
     protected void OnSlashEvent()
     {
-        Collider2D hit = Physics2D.OverlapBox(meleeHit.position, meleeHit.lossyScale, 0f, LayerMask.GetMask("Player"));
+        Collider2D hit = Physics2D.OverlapBox(meleeTrigger.position, meleeTrigger.lossyScale, 0f, LayerMask.GetMask("Player"));
         if (hit) {
             hit.GetComponent<PlayerHealth>().takeDamage(1);
         }
@@ -50,8 +50,8 @@ public class DummyStates : EnemyStateManager
     protected override void OnDrawGizmos()
     {
         base.OnDrawGizmos();
-        Gizmos.DrawWireCube(meleeHit.position, meleeHit.lossyScale);
-        Gizmos.DrawWireCube(rangeHit.position, rangeHit.lossyScale);
+        Gizmos.DrawWireCube(meleeTrigger.position, meleeTrigger.lossyScale);
+        Gizmos.DrawWireCube(rangeTrigger.position, rangeTrigger.lossyScale);
         Gizmos.DrawWireSphere(rangeOrig.position, 0.1f);
     }
 }

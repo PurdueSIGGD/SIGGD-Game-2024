@@ -4,14 +4,14 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 /// <summary>
-/// 
+/// Enemy AI for Riot Police
 /// </summary>
 public class RiotPolice : EnemyStateManager
 {
-    [SerializeField] protected Transform batonHit;
+    [SerializeField] protected Transform batonTrigger;
     protected override ActionPool GenerateActionPool()
     {
-        Action batonSwing = new(batonHit, 2.0f, 3f, "Riot_Police_Swing");
+        Action batonSwing = new(batonTrigger, 2.0f, 3f, "Riot_Police_Swing");
 
         Action move = new(null, 0.0f, 0.0f, "Riot_Police_Run");
         Action idle = new(null, 0.0f, 0.0f, "Riot_Police_Idle");
@@ -19,9 +19,10 @@ public class RiotPolice : EnemyStateManager
         return new ActionPool(new List<Action> { batonSwing }, move, idle);
     }
 
+    // Check for collision in swing range to deal damage
     protected void OnBatonEvent()
     {
-        Collider2D hit = Physics2D.OverlapBox(batonHit.position, batonHit.lossyScale, 0f, LayerMask.GetMask("Player"));
+        Collider2D hit = Physics2D.OverlapBox(batonTrigger.position, batonTrigger.lossyScale, 0f, LayerMask.GetMask("Player"));
         if (hit)
         {
             hit.GetComponent<PlayerHealth>().takeDamage(15);
@@ -32,6 +33,6 @@ public class RiotPolice : EnemyStateManager
     protected override void OnDrawGizmos()
     {
         base.OnDrawGizmos();
-        Gizmos.DrawWireCube(batonHit.position, batonHit.lossyScale);
+        Gizmos.DrawWireCube(batonTrigger.position, batonTrigger.lossyScale);
     }
 }

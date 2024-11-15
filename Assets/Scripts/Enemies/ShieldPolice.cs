@@ -9,8 +9,8 @@ using UnityEngine;
 /// </summary>
 public class ShieldPolice : EnemyStateManager
 {
-    [SerializeField] protected Transform batonHit;
-    [SerializeField] protected Transform chargeHit;
+    [SerializeField] protected Transform batonTrigger;
+    [SerializeField] protected Transform chargeTrigger;
 
     protected bool isCharging;
     protected Vector2 chargePos;
@@ -25,8 +25,8 @@ public class ShieldPolice : EnemyStateManager
 
     protected override ActionPool GenerateActionPool()
     {
-        Action batonSwing = new(batonHit, 2.0f, 3f, "Shield_Police_Swing");
-        Action shieldCharge = new(chargeHit, 10.0f, 3f, "Shield_Police_Charge_1");
+        Action batonSwing = new(batonTrigger, 2.0f, 3f, "Shield_Police_Swing");
+        Action shieldCharge = new(chargeTrigger, 10.0f, 3f, "Shield_Police_Charge_1");
 
         Action move = new(null, 0.0f, 0.0f, "Shield_Police_Run");
         Action idle = new(null, 0.0f, 0.0f, "Shield_Police_Idle");
@@ -36,7 +36,7 @@ public class ShieldPolice : EnemyStateManager
 
     protected void OnBatonEvent()
     {
-        Collider2D hit = Physics2D.OverlapBox(batonHit.position, batonHit.lossyScale, 0f, LayerMask.GetMask("Player"));
+        Collider2D hit = Physics2D.OverlapBox(batonTrigger.position, batonTrigger.lossyScale, 0f, LayerMask.GetMask("Player"));
         if (hit)
         {
             hit.GetComponent<PlayerHealth>().takeDamage(15);
@@ -60,7 +60,7 @@ public class ShieldPolice : EnemyStateManager
     protected override void OnDrawGizmos()
     {
         base.OnDrawGizmos();
-        Gizmos.DrawWireCube(batonHit.position, batonHit.lossyScale);
-        Gizmos.DrawWireCube(chargeHit.position, chargeHit.lossyScale);
+        Gizmos.DrawWireCube(batonTrigger.position, batonTrigger.lossyScale);
+        Gizmos.DrawWireCube(chargeTrigger.position, chargeTrigger.lossyScale);
     }
 }

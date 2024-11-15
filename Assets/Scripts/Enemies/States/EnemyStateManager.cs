@@ -16,11 +16,11 @@ public class EnemyStateManager : MonoBehaviour
     public float aggroRange; // Range for detecting players 
     
     public ActionPool pool; // A pool of attacks to randomly choose from
-    public Transform player; // The player
-
     public EnemyStates curState; // Enemy's current State, defaults to idle
     public Animator animator;
-    public Rigidbody2D rb;
+
+    protected Transform player;
+    protected Rigidbody2D rb;
     
     void Awake()
     {
