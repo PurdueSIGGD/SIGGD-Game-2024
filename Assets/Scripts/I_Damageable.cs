@@ -10,8 +10,6 @@ using UnityEngine;
         /// </summary>
         /// <param name="damage"></param>
         /// Takes a damage from player or some sort of attacker/enemy or Enviromental object
-        /// <param name="arbitraryHits"></param>
-        /// If true, then only takes 3 hits/calls to the method, ignores damage count
         void TakeDamage(float damage); 
 
     }
