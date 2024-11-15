@@ -5,10 +5,12 @@ using UnityEngine;
 /// <summary>
 /// A tier that consists of a left skill and a right skill and can be unlocked.
 /// </summary>
+
+[System.Serializable]
 public class SkillTier
 {
-    private Skill skillLeft;
-    private Skill skillRight;
+    [SerializeField] public Skill skillLeft;
+    [SerializeField] public Skill skillRight;
     private bool unlocked = false;
     private int totalSkillPts = 0;
     

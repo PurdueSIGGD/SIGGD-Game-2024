@@ -5,14 +5,18 @@ using UnityEngine;
 /// <summary>
 /// a skill tree that consists of multiple skill tieres 
 /// </summary>
-public abstract class SkillTree : MonoBehaviour
+/// 
+
+[System.Serializable]
+
+public class SkillTree
 {
-    protected SkillTier[] tierList = new SkillTier[3];
-    protected FinalSkill finalSkill;
-    protected readonly int TRUST_LEVEL_1 = 25;
-    protected readonly int TRUST_LEVEL_2 = 50;
-    protected readonly int TRUST_LEVEL_3 = 75;
-    protected readonly int FINAL_TRUST_LEVEL = 100; 
+    [SerializeField] public SkillTier[] tierList;
+    [SerializeField] public FinalSkill finalSkill;
+    [SerializeField] public int TRUST_LEVEL_1 = 25;
+    [SerializeField] public int TRUST_LEVEL_2 = 50;
+    [SerializeField] public int TRUST_LEVEL_3 = 75;
+    [SerializeField] public int FINAL_TRUST_LEVEL = 100; 
     protected int trust;
 
     protected void Awake()

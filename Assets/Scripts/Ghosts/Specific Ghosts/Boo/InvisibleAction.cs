@@ -1,10 +1,11 @@
 using UnityEngine;
 using System.Collections;
+using UnityEditor.Experimental.GraphView;
 
 /// <summary>
 /// Special action: player sprite color changes to 0.3 alpha for 8 seconds
 /// </summary>
-public class InvisibleAction : MonoBehaviour, ISpecialAction, IParty
+public class InvisibleAction : MonoBehaviour, IParty, ISelectable
 {
     [SerializeField]
     private float invisDuration;
@@ -15,6 +16,7 @@ public class InvisibleAction : MonoBehaviour, ISpecialAction, IParty
     private bool _isInvisible = false;
     private Coroutine _resetInvisibleCoroutine;
     private bool inParty = false;
+    private bool possessing = false;
     public InvisibleAction()
     {
         /*player = GameObject.Find("Player");
@@ -34,6 +36,16 @@ public class InvisibleAction : MonoBehaviour, ISpecialAction, IParty
     public void ExitParty(GameObject player)
     {
         inParty = false;
+        this.player = null;
+        playerSpriteRenderer = null;
+    }
+    public void Select(GameObject player)
+    {
+        possessing = true;
+    }
+    public void DeSelect(GameObject player)
+    {
+        possessing = false;
         if (_resetInvisibleCoroutine != null)
         {
             playerSpriteRenderer.color = new Color(1, 1, 1, 1);
@@ -43,7 +55,7 @@ public class InvisibleAction : MonoBehaviour, ISpecialAction, IParty
 
     public void OnSpecial()
     {
-        if (inParty)
+        if (inParty && possessing)
         {
             if (!_isInvisible)
             {

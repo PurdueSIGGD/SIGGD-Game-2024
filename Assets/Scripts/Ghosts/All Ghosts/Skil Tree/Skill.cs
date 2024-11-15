@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+[System.Serializable]
 /// <summary>
 /// A skill that can be shown in the UI and has an effect that triggers when skill points are added or removed.
 /// /// </summary>
@@ -10,40 +11,33 @@ public class Skill
 {
     public static readonly int SPECIAL_NUMBER_COUNT = 6;
 
-    protected string name;
-    protected string description;
+    [SerializeField] SkillsSO skillSO;
     protected int skillPts;
-    protected float[] specialNumbers;
-    public Action<float> effect;
+    protected Action<float> effect;
 
     /// <summary>
     /// Constructor for a Skill
     /// </summary>
-    /// <param name="name">Name of skill in UI</param>
-    /// <param name="description">Description of skill in UI</param>
-    /// <param name="specialNums">Numbers for skill's effect and in UI</param>
-    public Skill(string name, string description, float[] specialNums) {
-        this.name = name;
-        this.description = description;
+    /// <param name="skill">The Scriptable Object you want this skill to use</param>
+    public Skill(SkillsSO skill) {
+        skillSO = skill;
         skillPts = 0;
-        this.specialNumbers = specialNums;
     }
 
     /// <returns>The name of the skill to be shown in UI</returns>
     public string GetName()
     {
-        return name;
+        return skillSO.skillName;
     }
 
     /// <summary>
     /// Replaces "XXX" in description with special number
     /// </summary>
-    /// <param name="pts">The number of skill points for which description to show</param>
     /// <returns>The description of the skill to be shown in UI given</returns>
-    public string GetDescription(int pts)
+    public string GetDescription()
     {
-        String value = "" + specialNumbers[skillPts];
-        return description.Replace("XXX", value);
+        String value = "" + skillSO.specialNumbers[skillPts];
+        return skillSO.description.Replace("XXX", value);
     }
 
     public int GetSkillPts() {
@@ -59,11 +53,16 @@ public class Skill
         int attemptPts = skillPts + pts;
         if (attemptPts >= 0 && attemptPts  <= 6) {
             this.skillPts = attemptPts;
-            effect(specialNumbers[skillPts]);
+            effect?.Invoke(skillSO.specialNumbers[skillPts]);
             return true;
         } else
         {
             return false;
         }
+    }
+
+    public Sprite GetSprite()
+    {
+        return skillSO.sprite;
     }
 }
