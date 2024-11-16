@@ -16,8 +16,9 @@ public class GhostBuff : MonoBehaviour, IParty
     }
     
     bool inParty;
-
+    [SerializeField]
     bool onPossession;
+    //bool onPossession;
 
     bool possessed;
 
@@ -68,4 +69,12 @@ public class GhostBuff : MonoBehaviour, IParty
         }
         possessed = !possessed;
     }
+    public void SwitchStatus(GameObject player) {
+        if (onPossession) {
+            SwitchPossessionStatus(player);
+        } else {
+            SwitchPartyStatus(player);
+        }
+    }
 }
+
