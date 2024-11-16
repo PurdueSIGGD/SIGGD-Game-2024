@@ -3,18 +3,32 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Purpose: To relay data between different scenes. Test scenes are located in
-/// Scenes/Data-Management. 
-/// 
-/// Objective: Create a static instance in which two scenes will change its value.
+/// Function: Create a static instance of this class which will hold a constant float.
+/// To use: Create a prefab utilizing this script; data will be carried to each instance.
 /// </summary>
 public class DataManager : MonoBehaviour
 {
     public static DataManager Instance;
+    [SerializeField]
+    public int count;
 
     private void Awake() {
+        if (Instance != null) {
+            Destroy(gameObject);
+            return;
+        }
+
         Instance = this;
         DontDestroyOnLoad(gameObject);
+    }
+
+    public void setCount(int num) {
+        count = num;
+        Debug.Log("The counter is now: " + count);
+    }
+
+    public int getCount() {
+        return count;
     }
 
 
