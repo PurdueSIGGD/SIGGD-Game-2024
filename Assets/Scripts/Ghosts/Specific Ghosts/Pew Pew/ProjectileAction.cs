@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Special action: the player shoots a projectile forward
+/// Special action: the player shoots a projectile forward (NOT FINISHED)
 /// </summary>
-public class ProjectileAction : ISpecialAction
+public class ProjectileAction : IParty, ISelectable
 {
     private GameObject ProjectilePrefab;
     private GameObject ProjectileSpawn;
 
     private float _fireRate = 0.5f;
     private float _canFire = -0.1f;
-    public ProjectileAction() {
+    public ProjectileAction()
+    {
         ProjectilePrefab = Resources.Load<GameObject>("Projectile");
         if (ProjectilePrefab == null)
         {
@@ -24,19 +25,30 @@ public class ProjectileAction : ISpecialAction
             Debug.LogError("projectilespawn not found");
         }
     }
-    public void EnterParty(GameObject player) {
-
-    } 
-
-    public void  ExitParty (GameObject player)
+    public void EnterParty(GameObject player)
     {
 
     }
 
-    public void UpdateSpecial() {
+    public void ExitParty(GameObject player)
+    {
 
     }
-    public void OnSpecial() {
+    public void Select(GameObject player)
+    {
+
+    }
+    public void DeSelect(GameObject player)
+    {
+
+    }
+
+    public void UpdateSpecial()
+    {
+
+    }
+    public void OnSpecial()
+    {
         if (Time.time > _canFire)
         {
             _canFire = Time.time + _fireRate;

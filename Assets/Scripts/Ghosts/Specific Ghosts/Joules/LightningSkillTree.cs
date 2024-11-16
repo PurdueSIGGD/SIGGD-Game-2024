@@ -7,6 +7,7 @@ public class LightningSkillTree : SkillTree
     // Start is called before the first frame update
     void Start()
     {
+        /*
         float[] sk1Nums = { 0.0f, 5.0f, 10.0f, 15.0f, 20.0f, 23.0f, 25.0f };
         Skill sk1 = new Skill("Increased Damage", "Increases the damage by XXX.", sk1Nums);
         sk1.effect = number =>
@@ -44,5 +45,6 @@ public class LightningSkillTree : SkillTree
         {
             Debug.Log("Damage increased to " + number);
         };
+        */
     }
 }
