@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -20,7 +21,14 @@ public class FollowEntity : MonoBehaviour, IParty
     float maxForce; // The maximum size of the steering force towards the target
 
     [SerializeField]
-    float yOffset; // Offset to target position
+    Vector2 offset; // Offset to target position
+
+    //[SerializeField]
+    //float radius; // the radius around center position that ghost revolves around
+    //// desired separation distance will be radius * 2
+
+    //[SerializeField]
+    //float timeMultiplier; // multiply time by this number in sin/cos functions
 
     Rigidbody2D rb;
 
@@ -32,7 +40,7 @@ public class FollowEntity : MonoBehaviour, IParty
         if (target == null) return;
 
         // target plus offset
-        Vector3 desiredPosition = target.transform.position + new Vector3(0, yOffset, 0);
+        Vector3 desiredPosition = target.transform.position + new Vector3(offset.x, offset.y, 0);
 
         // Calculate the desired velocity of this object
         Vector2 desiredVelocity = desiredPosition - gameObject.transform.position;
@@ -40,18 +48,33 @@ public class FollowEntity : MonoBehaviour, IParty
 
         // Calculate the steering force
         Vector2 steerForce = desiredVelocity - rb.velocity;
-        
+
         steerForce = maxForce * steerForce.normalized;
 
         rb.AddForce(steerForce, ForceMode2D.Impulse);
 
     }
 
-    private void Oscillate()
-    {
-        if (target == null) return;
+    /// <summary>
+    /// Calculates and adds the steering force that will push this gameObject towards the target's position.
+    /// </summary>
+    //private void Oscillate()
+    //{
+    //    if (target == null) return;
 
-    }
+    //    // entity will revolve around this position
+    //    Vector3 centerPosition = target.transform.position;
+    //    centerPosition.y += offset.y;
+    //    centerPosition.x += offset.x;
+
+    //    Vector3 newPos = centerPosition;
+    //    float t = Time.fixedUnscaledTime * timeMultiplier;
+    //    newPos.x += radius * (float)Math.Cos(t);
+    //    newPos.y += radius * (float)Math.Sin(t*2);
+
+    //    rb.transform.position = newPos;
+
+    //}
 
     // Start is called before the first frame update
     void Start()
@@ -59,15 +82,10 @@ public class FollowEntity : MonoBehaviour, IParty
         rb = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     void FixedUpdate()
     {
         Steer();
+        //Oscillate();
     }
 
     public void EnterParty(GameObject player)
