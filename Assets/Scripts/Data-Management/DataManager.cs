@@ -10,7 +10,7 @@ public class DataManager : MonoBehaviour
 {
     public static DataManager Instance;
     [SerializeField]
-    public int count;
+    public int count; // placeholder float data
 
     private void Awake() {
         if (Instance != null) {
