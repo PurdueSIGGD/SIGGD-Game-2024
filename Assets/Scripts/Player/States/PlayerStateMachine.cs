@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -23,6 +24,7 @@ public class PlayerStateMachine : MonoBehaviour
     [Header("References")]
     Animator animator; // the animator of the player object
     Rigidbody2D rb; // the rigidbody of the player object
+    [SerializeField] String currentAnimation;
 
 
     void Start()
@@ -37,6 +39,7 @@ public class PlayerStateMachine : MonoBehaviour
         UpdateGroundedBool();
         UpdateMovingBool();
         UpdateFallingBool();
+        ReadCurrentAnimatorState();
     }
     /// <summary>
     /// Toggles falling boolean of this script and animator if -y velocity is great enough to be considered falling 
@@ -70,5 +73,10 @@ public class PlayerStateMachine : MonoBehaviour
         {
             animator.SetBool("grounded", grounded);
         }
+    }
+    void ReadCurrentAnimatorState()
+    {
+        AnimatorClipInfo[] animatorClip = animator.GetCurrentAnimatorClipInfo(0);
+        currentAnimation = animatorClip[0].clip.name;
     }
 }
