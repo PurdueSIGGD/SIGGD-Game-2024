@@ -22,7 +22,7 @@ public class EnemyStateManager : MonoBehaviour
     protected Transform player;
     protected Rigidbody2D rb;
     
-    void Awake()
+    protected virtual void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
         animator = GetComponent<Animator>();
@@ -32,7 +32,7 @@ public class EnemyStateManager : MonoBehaviour
         SwitchState(IdleState);
     }
 
-    void FixedUpdate()
+    protected void FixedUpdate()
     {
         pool.UpdateAllCD();
         curState.UpdateState(this);

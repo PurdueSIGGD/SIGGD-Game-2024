@@ -34,7 +34,7 @@ public class MoveState : EnemyStates
     }
 
     // Moves the Enemy body towards the player
-    private void Move(EnemyStateManager enemy)
+    protected void Move(EnemyStateManager enemy)
     {
         if (player.position.x - enemy.transform.position.x < 0)
         {
@@ -44,6 +44,6 @@ public class MoveState : EnemyStates
         {
             enemy.Flip(true);
         }
-        rb.velocity = new Vector2(enemy.speed, rb.velocity.y) * enemy.transform.right;
+        rb.velocity = new Vector2(enemy.speed * enemy.transform.right.x, rb.velocity.y);
     }
 }

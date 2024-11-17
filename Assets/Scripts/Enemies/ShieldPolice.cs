@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 /// <summary>
-/// 
+/// Enemy AI for a Shielded Riot Police
 /// </summary>
 public class ShieldPolice : EnemyStateManager
 {
@@ -14,6 +14,13 @@ public class ShieldPolice : EnemyStateManager
 
     protected bool isCharging;
     protected Vector2 chargePos;
+
+    protected override void Awake()
+    {
+        AggroState = new GreedyAggroState();
+        MoveState = new GreedyMoveState();
+        base.Awake();
+    }
 
     void Update()
     {
@@ -25,7 +32,7 @@ public class ShieldPolice : EnemyStateManager
 
     protected override ActionPool GenerateActionPool()
     {
-        Action batonSwing = new(batonTrigger, 2.0f, 3f, "Shield_Police_Swing");
+        Action batonSwing = new(batonTrigger, 0.0f, 3f, "Shield_Police_Swing");
         Action shieldCharge = new(chargeTrigger, 10.0f, 3f, "Shield_Police_Charge_1");
 
         Action move = new(null, 0.0f, 0.0f, "Shield_Police_Run");
@@ -34,6 +41,7 @@ public class ShieldPolice : EnemyStateManager
         return new ActionPool(new List<Action> { batonSwing, shieldCharge }, move, idle);
     }
 
+    // Generate damage frame for baton swing
     protected void OnBatonEvent()
     {
         Collider2D hit = Physics2D.OverlapBox(batonTrigger.position, batonTrigger.lossyScale, 0f, LayerMask.GetMask("Player"));
@@ -43,17 +51,24 @@ public class ShieldPolice : EnemyStateManager
         }
     }
 
-    protected void OnCharge1Event()
+    // Ask police to begin charging and enable shield damage
+    protected void OnChargeEvent1()
     {
-        //GetComponentInChildren<PoliceShield>().ToggleCollision();
+        GetComponentInChildren<PoliceShield>().ToggleCollision();
         isCharging = true;
         chargePos = player.position;
     }
 
-    protected override void OnFinishAnimation()
+    // Call on impact with the player to disable shield damage
+    protected void OnChargeEvent2()
     {
         isCharging = false;
+    }
+
+    protected override void OnFinishAnimation()
+    {
         base.OnFinishAnimation();
+        animator.SetBool("HasCollided", false);
     }
 
     // Draws the Enemy attack range in the editor

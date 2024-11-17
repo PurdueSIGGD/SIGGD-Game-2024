@@ -161,11 +161,11 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5465466329837674306}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 1000000
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
@@ -194,6 +194,7 @@ GameObject:
   - component: {fileID: 3209938352985839032}
   - component: {fileID: 2146038469359978738}
   - component: {fileID: 2471215486050197891}
+  - component: {fileID: 2153542378424773396}
   m_Layer: 21
   m_Name: ShieldPolice
   m_TagString: Untagged
@@ -378,8 +379,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 1
   aggroRange: 2.57
-  player: {fileID: 0}
   animator: {fileID: 9133294469049910592}
-  rb: {fileID: 3209938352985839032}
   batonTrigger: {fileID: 7835333299776145468}
   chargeTrigger: {fileID: 5532669551329529462}
+--- !u!255 &2153542378424773396
+FixedJoint2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5499330591125181409}
+  m_Enabled: 1
+  serializedVersion: 4
+  m_EnableCollision: 1
+  m_ConnectedRigidBody: {fileID: 8868515895070035901}
+  m_BreakForce: Infinity
+  m_BreakTorque: Infinity
+  m_BreakAction: 3
+  m_AutoConfigureConnectedAnchor: 1
+  m_Anchor: {x: 0, y: 0}
+  m_ConnectedAnchor: {x: -0.645, y: 0}
+  m_DampingRatio: 0
+  m_Frequency: 0

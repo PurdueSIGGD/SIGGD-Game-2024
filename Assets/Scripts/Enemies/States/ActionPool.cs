@@ -77,6 +77,22 @@ public class ActionPool
     }
 
     /// <summary>
+    /// Finds if any Actions can be used immediately
+    /// </summary>
+    /// <returns> true if has attacks ready to use </returns>
+    public bool HasActionsReady()
+    {
+        foreach (Action a in actions)
+        {
+            if (a.Ready() & a.InAttackRange())
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /// <summary>
     /// Updates the cool down time of all the Actions in pool
     /// </summary>
     public void UpdateAllCD()
