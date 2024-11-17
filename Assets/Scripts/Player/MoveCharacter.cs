@@ -11,7 +11,7 @@ public class MoveCharacter : MonoBehaviour
     private InputAction playerActionMovement;
     private InputAction playerActionDown;
     private Rigidbody2D rb;
-    private Boolean doubleJump = true;
+    public Boolean doubleJump = true;
 
     private Stats stats;
     private int moveSpeedIdx;
@@ -46,7 +46,8 @@ public class MoveCharacter : MonoBehaviour
     {
         float input = playerActionMovement.ReadValue<float>();
         rb.velocity = new Vector2(rb.velocity.x + input * stats.ComputeValue(moveSpeedIdx), rb.velocity.y);
-        if(!OnGround())
+        //makes player fall downard if not on ground
+        if (!OnGround())
             rb.velocity = new Vector2(rb.velocity.x * 0.9f, rb.velocity.y - playerActionDown.ReadValue<float>());
         else
             rb.velocity = new Vector2(rb.velocity.x * 0.9f, rb.velocity.y);
@@ -64,12 +65,15 @@ public class MoveCharacter : MonoBehaviour
         if (OnGround())
         {
             doubleJump = true;
+            rb.gravityScale = 1;
             rb.velocity = new Vector2(rb.velocity.x, 0);
             rb.AddForce(new Vector2(0, 1) * stats.ComputeValue(jumpForceIdx), ForceMode2D.Impulse);
         }
+        //if double jump has not been used yet and in the air, turn off double jump
         else if (doubleJump)
         {
             doubleJump = false;
+            rb.gravityScale = 1;
             rb.velocity = new Vector2(rb.velocity.x, 0);
             rb.AddForce(new Vector2(0, 1) * stats.ComputeValue(jumpForceIdx), ForceMode2D.Impulse);
         }
@@ -79,9 +83,9 @@ public class MoveCharacter : MonoBehaviour
     /// Method that uses a circle cast to determine whether or not the player in on the ground
     /// </summary>
     /// <returns>Boolean of whether or not the player is on the ground</returns>
-    private Boolean OnGround(){
+    public Boolean OnGround()
+    {
         LayerMask mask = LayerMask.GetMask("ground");
         return Physics2D.CircleCast(transform.position + Vector3.down, 0.5f, Vector2.down.normalized, mask);
     }
-
 }
