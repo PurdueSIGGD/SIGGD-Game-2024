@@ -34,7 +34,6 @@ public class EnemyStateManager : MonoBehaviour
 
     protected void FixedUpdate()
     {
-        pool.UpdateAllCD();
         curState.UpdateState(this);
     }
 

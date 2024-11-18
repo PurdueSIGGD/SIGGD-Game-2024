@@ -11,6 +11,8 @@ public class GreedyAggroState : AggroState
 {
     public override void UpdateState(EnemyStateManager enemy)
     {
+        enemy.pool.UpdateAllCD(); // Count down enemy's cool down
+
         if (!enemy.HasLineOfSight(true)) // If line of sight is lost, return to IdleState
         {
             enemy.SwitchState(enemy.IdleState);
