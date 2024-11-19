@@ -43,6 +43,16 @@ public class SkillTier
         unlocked = true; 
     }
 
+    public bool IsUnlocked()
+    {
+        return unlocked; 
+    }
+
+    public int GetTotalSkillPts()
+    {
+        return totalSkillPts; 
+    }
+
     /// <summary>
     /// Adds a skill point to skill tier only if skill tier is already unlocked.
     /// Skill point is automatically added to the first skill.
@@ -51,9 +61,19 @@ public class SkillTier
         if (unlocked)
         {
             totalSkillPts += 1;
-            skillLeft.AddSkillPts(1);
+            //skillLeft.AddSkillPts(1);
         } 
     }
+
+    public void SubSkillPts()
+    {
+        if (unlocked)
+        {
+            totalSkillPts -= 1;
+            //skillLeft.AddSkillPts(-1);
+        }
+    }
+
 
     /// <summary>
     /// Swaps 1 skill point from one skill to another. Use SkillTier.SKILL_LEFT and SkillTier.SKILL_RIGHT for arguments.
