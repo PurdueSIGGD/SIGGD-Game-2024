@@ -65,7 +65,7 @@ public class MoveCharacter : MonoBehaviour
         if (OnGround())
         {
             doubleJump = true;
-            rb.gravityScale = 1;
+            rb.gravityScale = 4;
             rb.velocity = new Vector2(rb.velocity.x, 0);
             rb.AddForce(new Vector2(0, 1) * stats.ComputeValue(jumpForceIdx), ForceMode2D.Impulse);
         }
@@ -73,7 +73,7 @@ public class MoveCharacter : MonoBehaviour
         else if (doubleJump)
         {
             doubleJump = false;
-            rb.gravityScale = 1;
+            rb.gravityScale = 4;
             rb.velocity = new Vector2(rb.velocity.x, 0);
             rb.AddForce(new Vector2(0, 1) * stats.ComputeValue(jumpForceIdx), ForceMode2D.Impulse);
         }
