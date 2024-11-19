@@ -104,12 +104,13 @@ GameObject:
   - component: {fileID: 7417174869629188755}
   - component: {fileID: 4967756639582714965}
   - component: {fileID: 4304853139691255428}
+  - component: {fileID: 7809038530882739117}
   - component: {fileID: 1524967089078299542}
   - component: {fileID: 3945173690903396810}
   - component: {fileID: 752561269483410646}
   m_Layer: 0
   m_Name: DummyEnemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -165,7 +166,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ecf5fc8e32dda645a4c9c2eb89686b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
+  speed: 4
   aggroRange: 10
   player: {fileID: 0}
   animator: {fileID: 4967756639582714965}
@@ -174,6 +175,34 @@ MonoBehaviour:
   rangeOrig: {fileID: 8318595516242551159}
   projectile: {fileID: 7215835285119065845, guid: 53c6f7019cd48bd46905979fe721a70e,
     type: 3}
+--- !u!114 &7809038530882739117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8383959550752418808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 532320b84239cf640a651fa5709b989a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stats:
+  - name: Health
+    value: 100
+    modifier: 100
+  - name: Armor
+    value: 0
+    modifier: 100
+  - name: MoveSpeed
+    value: 2
+    modifier: 100
+  - name: Melee Damage
+    value: 2
+    modifier: 100
+  - name: Range Damage
+    value: 2
+    modifier: 100
 --- !u!212 &1524967089078299542
 SpriteRenderer:
   m_ObjectHideFlags: 0
