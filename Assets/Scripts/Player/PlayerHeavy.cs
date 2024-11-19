@@ -39,7 +39,7 @@ public class PlayerHeavy : MonoBehaviour
 
     private void OnHit()
     {
-        Attack();
+        //Attack();
     }
 
     private void Attack()
