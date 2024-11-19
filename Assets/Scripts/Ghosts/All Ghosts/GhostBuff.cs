@@ -17,10 +17,6 @@ public class GhostBuff : MonoBehaviour, IParty
     
     bool inParty;
     [SerializeField]
-    bool onPossession;
-    //bool onPossession;
-
-    bool possessed;
 
     public void EnterParty(GameObject player)  {
 
@@ -44,37 +40,6 @@ public class GhostBuff : MonoBehaviour, IParty
             EnterParty(player);
         }
         inParty = !inParty;
-    }
-
-    public void StopPossession (GameObject player) {
-         Stats stats = player.GetComponent<Stats>();
-        foreach (StatBuff statBuff in buffs){
-            stats.ModifyStat(statBuff.name, -1 * statBuff.buff);
-        }
-    }
-    public void StartPossession (GameObject player) {
-        Stats stats = player.GetComponent<Stats>();
-        foreach (StatBuff statBuff in buffs){
-            stats.ModifyStat(statBuff.name, statBuff.buff);
-        }
-    }
-    public void SwitchPossessionStatus(GameObject player) {
-        if (onPossession) {
-            if (possessed) {
-                StopPossession(player);
-            }
-            else {
-                StartPossession(player);
-            }
-        }
-        possessed = !possessed;
-    }
-    public void SwitchStatus(GameObject player) {
-        if (onPossession) {
-            SwitchPossessionStatus(player);
-        } else {
-            SwitchPartyStatus(player);
-        }
     }
 }
 

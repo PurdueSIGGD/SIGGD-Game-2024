@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6071969953372608175}
-  - component: {fileID: 9129966727269690606}
   - component: {fileID: 7694928425779973732}
-  m_Layer: 0
+  - component: {fileID: 712491773076868122}
+  m_Layer: 17
   m_Name: Spirit Prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34,20 +34,6 @@ Transform:
   - {fileID: 7407414486282352412}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9129966727269690606
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2239250069251486000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 866b671ae53ac3a48942990feff4e1e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  buffs: []
-  onPossession: 0
 --- !u!114 &7694928425779973732
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61,10 +47,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  maxSpeed: 0
-  maxForce: 0
   orbitDistance: 10
   orbitDegreesPerSec: 180
+--- !u!114 &712491773076868122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2239250069251486000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 739b4fd58e625c74ebc7ebf94af2757b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buffs: []
+  possessed: 0
 --- !u!1 &7870738714555124796
 GameObject:
   m_ObjectHideFlags: 0
@@ -75,7 +73,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7407414486282352412}
   - component: {fileID: 1742044033645845508}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}

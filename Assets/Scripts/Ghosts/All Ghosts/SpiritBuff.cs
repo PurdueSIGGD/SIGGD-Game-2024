@@ -16,8 +16,6 @@ public class SpiritBuff : MonoBehaviour, IPossession
     }
     
     [SerializeField]
-    bool onPossession;
-
     bool possessed;
 
     public void DeSelect (GameObject player) {
@@ -33,13 +31,10 @@ public class SpiritBuff : MonoBehaviour, IPossession
         }
     }
     public void SwitchPossessionStatus(GameObject player) {
-        if (onPossession) {
-            if (possessed) {
-                DeSelect(player);
-            }
-            else {
-                Select(player);
-            }
+         if (possessed) {
+            DeSelect(player);
+        } else {
+              Select(player);
         }
         possessed = !possessed;
     }

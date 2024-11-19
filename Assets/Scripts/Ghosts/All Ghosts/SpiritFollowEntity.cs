@@ -29,7 +29,7 @@ public class SpiritFollowEntity : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
-        orbitDegreesPerSec = Random.Range(90, 180);
+        orbitDegreesPerSec = Random.Range(30, 90);
         orbitDistance = Random.Range(3, 17);
         EnterParty(target);
     }
