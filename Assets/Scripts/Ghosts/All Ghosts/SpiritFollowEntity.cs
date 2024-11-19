@@ -23,20 +23,21 @@ public class SpiritFollowEntity : MonoBehaviour {
     {
         if (target == null) return;
         transform.position = target.transform.position + (transform.position - target.transform.position).normalized * orbitDistance;
-			transform.RotateAround(target.transform.position, Vector3.up, orbitDegreesPerSec * Time.deltaTime);
+		transform.RotateAround(target.transform.position, Vector3.forward, orbitDegreesPerSec * Time.deltaTime);
 		}
 
 
     // Start is called before the first frame update
     void Start() {
         orbitDegreesPerSec = Random.Range(90, 180);
-        orbitDistance = Random.Range(7, 15);
+        orbitDistance = Random.Range(3, 17);
+        EnterParty(target);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     void FixedUpdate()
