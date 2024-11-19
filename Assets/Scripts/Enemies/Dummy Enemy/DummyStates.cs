@@ -8,13 +8,18 @@ using UnityEngine;
 /// </summary>
 
 // This class can be consultated as a template for a basic Enemy
-public class DummyStates : EnemyStateManager
+public class DummyStates : EnemyStateManager, IDamageable
 {
     [SerializeField] protected Transform meleeHit; // Area in which enemy will attempt to Dummy Slash
     [SerializeField] protected Transform rangeHit; // Area in which enemy will attempt to Dummy Shoot
     [SerializeField] protected Transform rangeOrig; // Location where Dummy Shoot's Projectile will spawn
 
-    public GameObject projectile; // Prefab of the Dummy Shoot projectile
+    private int meleeDamage = 0; // Melee Damage of Enemy --> For 'Slash Action'
+    private int rangeDamage = 0; // Range Damage of Enemy --> For 'Shoot Action'
+    private float damageReduction;
+    private float health;
+    private Stats stats;
+    public GameObject projectile;
 
     // Dummy Enemy's all possible actions
     protected override ActionPool GenerateActionPool()
@@ -27,7 +32,26 @@ public class DummyStates : EnemyStateManager
         Action move = new(null, 0.0f, 0.0f, "HeroKnight_Run");
         Action idle = new(null, 0.0f, 0.0f, "HeroKnight_Idle");
 
+        //Future stunned state --> Stun Hit (NOT IMPLEMENTED YET)
+        Action stunned = new(null, 0.0f, 0.0f, "HeroKnight_Idle");
+
         return new ActionPool(new List<Action> { dummySlash, dummyShoot }, move, idle);
+    }
+
+    void Start()
+    {
+        // Stats grab
+        stats = GetComponent<Stats>();
+        health = (int) stats.ComputeValue("Health"); 
+        damageReduction = stats.ComputeValue("Armor");  
+        meleeDamage = (int) stats.ComputeValue("Melee Damage");
+        rangeDamage = (int) stats.ComputeValue("Range Damage");
+
+        if (damageReduction < 0 || damageReduction > 1)
+        {
+            Debug.LogWarning($"Enemy {name} has an invalid damage reduction {damageReduction}, must be between 0 and 1");
+            damageReduction = Mathf.Clamp01(damageReduction);
+        }
     }
 
     // These are events to be bound to the animations
@@ -35,14 +59,30 @@ public class DummyStates : EnemyStateManager
     // Instantiates a projectile during Dummy Shoot
     protected void OnShootEvent()
     {
-        Instantiate(projectile, rangeOrig.position, transform.rotation);
+        GameObject proj_i = Instantiate(projectile, rangeOrig.position, transform.rotation);
+        proj_i.GetComponent<EnemyProjectile>().damage = rangeDamage;
     }
     // Checks for collision with Player during Dummy Shoot.
     protected void OnSlashEvent()
     {
         Collider2D hit = Physics2D.OverlapBox(meleeHit.position, meleeHit.lossyScale, 0f, LayerMask.GetMask("Player"));
         if (hit) {
-            hit.GetComponent<PlayerHealth>().takeDamage(1);
+            TakeDamage(meleeDamage);
+        }
+    }
+
+    public void TakeDamage(float damage) {
+        
+        if(damage <= 0) {
+            print("Negative damage is not supported, unless it's really cool then maybe");
+        }
+    
+        damage = Mathf.RoundToInt(damage * (1 - damageReduction));
+        health -= (int) damage;
+        print("Enemy took damage: " + health);
+        if (health <= 0)
+        {
+            Destroy(this.gameObject);
         }
     }
 
