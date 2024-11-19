@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// Script attached to the player that controls the grappling mechanics of the game
@@ -27,12 +28,21 @@ public class GrappleBehavioiur : MonoBehaviour
     {
         if (grappleStart)
         {
-            Vector2 dirToGo = new Vector2(transform.position.x, transform.position.y) - positionToGo;
-            rb.velocity = dirToGo * -speed;
+            Vector2 dirToGo = (new Vector2(transform.position.x, transform.position.y) - positionToGo);
+            rb.velocity = dirToGo.normalized * -speed;
             //rb.AddForce(dirToGo.normalized * new Vector2(-5000, -50), ForceMode2D.Force);
             if (dirToGo.sqrMagnitude < 1)
             {
                 grappleStart = false;
+                rb.velocity = new Vector2(0, 0);
+            }
+
+            LayerMask mask = LayerMask.GetMask("Ground");
+
+            if(Physics2D.Raycast(gameObject.transform.position, dirToGo, 0.6f, mask))
+            {
+                grappleStart = false;
+                rb.velocity = new Vector2(0, 0);
             }
         }
     }

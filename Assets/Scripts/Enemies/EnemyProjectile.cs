@@ -1,26 +1,24 @@
 using UnityEngine;
 
 /// <summary>
-/// Dictates Enemy projectile behavior based on given speed.
-/// To be attached to projectile prefabs, projectile must be instantiated within a RigidBody/Collider.
+/// Propels an Enemy projectile towards the player.
+/// To be attached to projectile prefabs.
 /// </summary>
 public class EnemyProjectile : MonoBehaviour
 {
     [SerializeField] protected float speed; // Speed of the projectile
-    [SerializeField] protected float damage; // Damage of the projectile
+    [SerializeField] public int damage = 0; // Damage of the projectile
 
     [SerializeField] protected float range = Screen.width; // Range of the projectile, defaults to the bounds of the camera.
 
 
     protected Transform target; // Target location at the time of releasing the projectile
     protected Vector3 dir;
-    protected Collider2D c;
     protected Rigidbody2D rb;
     protected Vector3 bounds;
 
-    private void Start()
+    void Start()
     {
-        c = GetComponent<Collider2D>();
         rb = GetComponent<Rigidbody2D>();
         target = GameObject.FindGameObjectWithTag("Player").transform;
 
@@ -28,31 +26,22 @@ public class EnemyProjectile : MonoBehaviour
         bounds = dir * range + transform.position;
     }
 
-    private void FixedUpdate()
+    void FixedUpdate()
     {
         Move();
         CheckOutOfBounds();
     }
 
-    /// <summary>
-    /// Initialize the Projectile. Use this after instantiating an EnemyProjectile.
-    /// </summary>
-    /// <param ghostName="target"> Transform containing the position of the target location. </param>
-    public void Init(Transform target)
+    void OnCollisionEnter2D(Collision2D collision)
     {
-        this.target = target;
-    }
-
-    // TODO Handle standard collisions.
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        Destroy(gameObject);
         if (collision.gameObject.CompareTag("Player"))
         {
-            collision.gameObject.GetComponent<PlayerHealth>().takeDamage(100);
+            collision.gameObject.GetComponent<PlayerHealth>().TakeDamage(damage);
         }
+        Destroy(gameObject);
     }
 
+    // Moves the projectile according to speed.
     protected void Move()
     {
         rb.velocity = dir * speed;
