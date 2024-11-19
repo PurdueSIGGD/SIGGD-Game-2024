@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// Special action: a projectile shoots down in front of the player
 /// </summary>
-public class LightningAction : MonoBehaviour, IParty, ISelectable
+public class LightningAction : MonoBehaviour, IParty, IPossession
 {
     [SerializeField]
     private GameObject lightningPrefab;

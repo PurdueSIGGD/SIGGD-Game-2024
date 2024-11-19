@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// Special action: the player shoots a projectile forward (NOT FINISHED)
 /// </summary>
-public class ProjectileAction : IParty, ISelectable
+public class ProjectileAction : IParty, IPossession
 {
     private GameObject ProjectilePrefab;
     private GameObject ProjectileSpawn;

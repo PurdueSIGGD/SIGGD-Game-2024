@@ -6,7 +6,7 @@ using UnityEngine;
 /// General interface to handle Player selection of a specific object in a list.
 /// Similar functionality to IParty
 /// </summary>
-public interface ISelectable
+public interface IPossession
 {
     public void Select(GameObject player);
     public void DeSelect(GameObject player);

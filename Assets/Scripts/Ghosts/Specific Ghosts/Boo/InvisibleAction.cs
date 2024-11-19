@@ -5,7 +5,7 @@ using UnityEditor.Experimental.GraphView;
 /// <summary>
 /// Special action: player sprite color changes to 0.3 alpha for 8 seconds
 /// </summary>
-public class InvisibleAction : MonoBehaviour, IParty, ISelectable
+public class InvisibleAction : MonoBehaviour, IParty, IPossession
 {
     [SerializeField]
     private float invisDuration;

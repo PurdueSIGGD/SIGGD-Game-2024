@@ -65,7 +65,7 @@ public class GhostIdentity : MonoBehaviour
     public void SetPossessing(bool possessing)
     {
         this.possessing = possessing;
-        foreach (ISelectable action in possessingScripts)
+        foreach (IPossession action in possessingScripts)
         {
             if (this.possessing)
             {
