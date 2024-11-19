@@ -13,9 +13,11 @@ public class GhostSkillUIBehaviour : MonoBehaviour, IPointerEnterHandler, IPoint
     [SerializeField] Image[] skillPoints;
     [SerializeField] Sprite filled;
     [SerializeField] Sprite empty;
+    [SerializeField] Sprite overcharged;
     [SerializeField] TextMeshProUGUI title;
     [SerializeField] TextMeshProUGUI desc;
     [SerializeField] Vector2 offset;
+    [SerializeField] GhostSkillTreeUIBehaviour skillTree;
 
     private int onPanel = 0;
     private bool hovering;
@@ -42,7 +44,16 @@ public class GhostSkillUIBehaviour : MonoBehaviour, IPointerEnterHandler, IPoint
             desc.gameObject.SetActive(true);
             desc.gameObject.transform.position = Input.mousePosition + new Vector3(offset.x, offset.y, 0);
             desc.text = skill.GetDescription();
-            Debug.Log(desc.text);
+        }
+
+        if (Input.GetMouseButtonDown(0) && hovering)
+        {
+            Skill skill = skillTree.AddSkillPointToSkill(this.skill, 1);
+            if (skill != null)
+            {
+                Visualize(skill);
+                this.skill = skill;
+            }
         }
     }
 
@@ -58,6 +69,7 @@ public class GhostSkillUIBehaviour : MonoBehaviour, IPointerEnterHandler, IPoint
 
     public void Visualize(Skill skill)
     {
+        this.skill = skill;
         for (int i = 0; i < skillPoints.Length; i++)
         {
             skillPoints[i].sprite = empty;
