@@ -26,9 +26,6 @@ public class OscillateFollowEntity : MonoBehaviour, IParty
     [SerializeField]
     Vector3 timeMultipliers; // multiply time by these numbers when rotating by axis
 
-    [SerializeField]
-    Boolean showRadiusAndCenter; // for debugging
-
     Rigidbody2D rb;
 
     /// <summary>
@@ -43,7 +40,7 @@ public class OscillateFollowEntity : MonoBehaviour, IParty
         centerPosition.y += offset.y;
         centerPosition.x += offset.x;
 
-        Vector3 movement = new Vector3(radius, radius, radius);
+        Vector3 movement = new Vector3(radius, 0, 0);
 
         movement = Quaternion.AngleAxis(Time.frameCount * timeMultipliers.x, Vector3.forward) * movement;
         movement = Quaternion.AngleAxis(Time.frameCount * timeMultipliers.y, Vector3.right) * movement;
@@ -51,6 +48,20 @@ public class OscillateFollowEntity : MonoBehaviour, IParty
 
         rb.transform.position = centerPosition + movement;
 
+    }
+
+    /// <summary>
+    /// Draw radius for debugging
+    /// </summary>
+    private void OnDrawGizmos()
+    {
+        if (target == null) return;
+        // entity will revolve around this position
+        Vector3 centerPosition = target.transform.position;
+        centerPosition.y += offset.y;
+        centerPosition.x += offset.x;
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawWireSphere(centerPosition, radius);
     }
 
     // Start is called before the first frame update
@@ -61,7 +72,6 @@ public class OscillateFollowEntity : MonoBehaviour, IParty
 
     void FixedUpdate()
     {
-        //Steer();
         Oscillate();
     }
 
