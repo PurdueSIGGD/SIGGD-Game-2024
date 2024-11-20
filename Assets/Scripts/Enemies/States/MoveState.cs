@@ -19,7 +19,7 @@ public class MoveState : EnemyStates
 
     public override void UpdateState(EnemyStateManager enemy)
     {
-        if (enemy.pool.HasActionsInRange()) // If Enemy attacks can reach player, enter AggroState
+        if (enemy.pool.HasActionsReady()) // If Enemy attacks can reach player, enter AggroState
         {
             enemy.SwitchState(enemy.AggroState);
         }

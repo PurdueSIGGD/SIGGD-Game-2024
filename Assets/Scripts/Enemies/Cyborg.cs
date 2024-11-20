@@ -14,14 +14,7 @@ public class Cyborg : EnemyStateManager
     [SerializeField] protected Transform stingerTrigger; // Area in which enemy will attempt to use stinger attack
     [SerializeField] protected Transform stingerHitBox; // Area in which the stinger attack will do damage
 
-    // Use a more agressive AI
-    protected override void Awake()
-    {
-        AggroState = new GreedyAggroState();
-        MoveState = new GreedyMoveState();
-        base.Awake();
-    }
-
+    // Cybor will draw actions greedily
     protected override ActionPool GenerateActionPool()
     {
         Action cyborgSlash = new(meleeTrigger, 0.0f, 7f, "Cyborg Slash");
@@ -32,12 +25,13 @@ public class Cyborg : EnemyStateManager
         Action move = new(null, 0.0f, 0.0f, "move");
         Action idle = new(null, 0.0f, 0.0f, "idle");
 
-        return new ActionPool(new List<Action> { cyborgSlash, cyborgBack, cyborgForward, cyborgStinger }, move, idle);
+        return new GreedyActionPool(new List<Action> { cyborgSlash, cyborgBack, cyborgForward, cyborgStinger }, move, idle);
     }
 
     // Generate damage frame for melee slash attack
     protected void OnSlashEvent()
     {
+        print("slashing");
         Collider2D hit = Physics2D.OverlapBox(meleeTrigger.position, meleeTrigger.lossyScale, 0f, LayerMask.GetMask("Player"));
         if (hit)
         {
@@ -48,6 +42,7 @@ public class Cyborg : EnemyStateManager
     // Teleports the cyborg backwards
     protected void OnTPBackEvent()
     {
+        print("moving back");
         RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.right * -1, stingerTrigger.transform.localPosition.x, LayerMask.GetMask("Ground"));
         if (hit)
         {
@@ -62,6 +57,7 @@ public class Cyborg : EnemyStateManager
     // Teleprts the cyborg forward
     protected void OnTPForwardEvent1()
     {
+        print("moving forward");
         Vector2 dest = new(player.position.x + meleeTrigger.lossyScale.x, player.position.y + 1);
         gameObject.transform.position = dest;
         rb.gravityScale = 0;
@@ -71,6 +67,7 @@ public class Cyborg : EnemyStateManager
     // Generate damage frame for follow up attack after teleporting forward
     protected void OnTPForwardEvent2()
     {
+        print("stinger spin");
         Collider2D hit = Physics2D.OverlapBox(tpBackTrigger.position, tpBackTrigger.lossyScale, 0f, LayerMask.GetMask("Player"));
         if (hit)
         {
@@ -81,6 +78,7 @@ public class Cyborg : EnemyStateManager
     // Generate damage frame for long range stinger attack
     protected void OnStingerEvent()
     {
+        print("extending stinger");
         Collider2D hit = Physics2D.OverlapBox(stingerHitBox.position, stingerHitBox.lossyScale, 0f, LayerMask.GetMask("Player"));
         if (hit)
         {

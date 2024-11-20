@@ -24,7 +24,7 @@ public class BusyState : EnemyStates
     {
         if (enemy.HasLineOfSight(true))
         {
-            if (enemy.pool.HasActionsInRange()) // If enemy still in attack range, return to AggroState
+            if (enemy.pool.HasActionsReady()) // If enemy still in attack range, return to AggroState
             {
                 enemy.SwitchState(enemy.AggroState);
             }

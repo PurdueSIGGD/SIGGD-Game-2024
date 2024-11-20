@@ -12,7 +12,7 @@ using UnityEngine.InputSystem;
 /// </summary>
 public class ActionPool
 {
-    private List<Action> actions;
+    protected List<Action> actions;
     public Action move;
     public Action idle;
 
@@ -64,27 +64,11 @@ public class ActionPool
     /// Finds if any Actions in pool can reach the player
     /// </summary>
     /// <returns> true if Player is in attack range </returns>
-    public bool HasActionsInRange()
+    public virtual bool HasActionsReady()
     {
         foreach (Action a in actions)
         {
             if (a.InAttackRange())
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /// <summary>
-    /// Finds if any Actions can be used immediately
-    /// </summary>
-    /// <returns> true if has attacks ready to use </returns>
-    public bool HasActionsReady()
-    {
-        foreach (Action a in actions)
-        {
-            if (a.Ready() & a.InAttackRange())
             {
                 return true;
             }

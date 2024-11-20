@@ -11,7 +11,7 @@ public class RiotPolice : EnemyStateManager
     [SerializeField] protected Transform batonTrigger;
     protected override ActionPool GenerateActionPool()
     {
-        Action batonSwing = new(batonTrigger, 2.0f, 3f, "Riot_Police_Swing");
+        Action batonSwing = new(batonTrigger, 2.0f, 1f, "Riot_Police_Swing");
 
         Action move = new(null, 0.0f, 0.0f, "Riot_Police_Run");
         Action idle = new(null, 0.0f, 0.0f, "Riot_Police_Idle");

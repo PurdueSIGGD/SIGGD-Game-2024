@@ -13,20 +13,18 @@ public class AggroState : EnemyStates
     public override void EnterState(EnemyStateManager enemy)
     {
         rb = enemy.GetComponent<Rigidbody2D>();
-        rb.velocity = new Vector2(2, rb.velocity.y); // Make sure Enemy stops moving
+        rb.velocity = new Vector2(0, rb.velocity.y); // Make sure Enemy stops moving
         enemy.pool.idle.Play(enemy.animator); // Play the idle animation when in between attacks
     }
 
     public override void UpdateState(EnemyStateManager enemy)
     {
-        enemy.pool.UpdateAllCD(); // Count down enemy's cool down
-
         if (!enemy.HasLineOfSight(true)) // If line of sight is lost, return to IdleState
         {
             enemy.SwitchState(enemy.IdleState);
             return;
         }
-        if (!enemy.pool.HasActionsInRange()) // If player moves away, enter MoveState
+        if (!enemy.pool.HasActionsReady()) // If player moves away, enter MoveState
         {
             enemy.SwitchState(enemy.MoveState);
             return;

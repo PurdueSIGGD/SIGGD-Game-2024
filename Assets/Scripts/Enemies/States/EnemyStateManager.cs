@@ -34,6 +34,10 @@ public class EnemyStateManager : MonoBehaviour
 
     protected void FixedUpdate()
     {
+        if (curState != IdleState)
+        {
+            pool.UpdateAllCD(); // Count down enemy's cool down
+        }
         curState.UpdateState(this);
     }
 
