@@ -34,7 +34,6 @@ public class Dash : MonoBehaviour
     }
 
     private void FixedUpdate() {
-        Debug.Log(rb.velocity);
         if (isDashing) {
             rb.velocity = velocity;
         } else if (isSlowing) {

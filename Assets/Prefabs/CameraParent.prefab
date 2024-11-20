@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5756767116697722584}
-  - component: {fileID: 5720067505828588230}
+  - component: {fileID: 5787160968998678031}
   m_Layer: 0
   m_Name: CameraParent
   m_TagString: Untagged
@@ -34,7 +34,7 @@ Transform:
   - {fileID: 4950793562597851651}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5720067505828588230
+--- !u!114 &5787160968998678031
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -43,7 +43,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4874346817367694505}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6327725920c636d4eb60661a84d6935c, type: 3}
+  m_Script: {fileID: 11500000, guid: b527d55861a73264ea0ef48354386b89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   testTransform: {fileID: 8961600892819581215}
@@ -269,6 +269,7 @@ GameObject:
   - component: {fileID: 8680656009280804880}
   - component: {fileID: 2564359917639791026}
   - component: {fileID: 7498172565998322545}
+  - component: {fileID: 9198228206675385161}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -395,6 +396,18 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!114 &9198228206675385161
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6785143693288198753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31f32a6f47990c44187b252b03efbdc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &9102504904704423267
 GameObject:
   m_ObjectHideFlags: 0
@@ -404,7 +417,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4950793562597851651}
-  - component: {fileID: 3199869564179170281}
+  - component: {fileID: 302285611751123220}
   m_Layer: 0
   m_Name: CameraBuffer
   m_TagString: Untagged
@@ -428,7 +441,7 @@ Transform:
   - {fileID: 660373205209113513}
   m_Father: {fileID: 5756767116697722584}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3199869564179170281
+--- !u!114 &302285611751123220
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -437,7 +450,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 9102504904704423267}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45be67dbc5181b6479c9bdbadc81fd05, type: 3}
+  m_Script: {fileID: 11500000, guid: 805dc361a10497848ac4891a2c2bd31e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   panSpeedScale: 0.1
