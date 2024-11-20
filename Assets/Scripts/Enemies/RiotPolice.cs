@@ -25,7 +25,7 @@ public class RiotPolice : EnemyStateManager
         Collider2D hit = Physics2D.OverlapBox(batonTrigger.position, batonTrigger.lossyScale, 0f, LayerMask.GetMask("Player"));
         if (hit)
         {
-            hit.GetComponent<PlayerHealth>().takeDamage(15);
+            hit.GetComponent<PlayerHealth>().TakeDamage(15);
         }
     }
 

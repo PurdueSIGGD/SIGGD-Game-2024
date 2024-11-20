@@ -18,7 +18,7 @@ public class PoliceShield : MonoBehaviour
         }
         GameObject player = collision.gameObject;
 
-        player.GetComponent<PlayerHealth>().takeDamage(10);
+        player.GetComponent<PlayerHealth>().TakeDamage(10);
         gameObject.GetComponentInParent<Animator>().SetBool("HasCollided", true);
 
         ToggleCollision();

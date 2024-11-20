@@ -25,7 +25,7 @@ public class Roomba : EnemyStateManager
         Collider2D hit = Physics2D.OverlapCircle(kaboomTrigger.position, kaboomTrigger.lossyScale.x, LayerMask.GetMask("Player"));
         if (hit)
         {
-            hit.GetComponent<PlayerHealth>().takeDamage(20);
+            hit.GetComponent<PlayerHealth>().TakeDamage(20);
         }
     }
 

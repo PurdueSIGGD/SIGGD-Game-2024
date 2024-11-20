@@ -35,7 +35,7 @@ public class Cyborg : EnemyStateManager
         Collider2D hit = Physics2D.OverlapBox(meleeTrigger.position, meleeTrigger.lossyScale, 0f, LayerMask.GetMask("Player"));
         if (hit)
         {
-            hit.GetComponent<PlayerHealth>().takeDamage(1);
+            hit.GetComponent<PlayerHealth>().TakeDamage(1);
         }
     }
 
@@ -71,7 +71,7 @@ public class Cyborg : EnemyStateManager
         Collider2D hit = Physics2D.OverlapBox(tpBackTrigger.position, tpBackTrigger.lossyScale, 0f, LayerMask.GetMask("Player"));
         if (hit)
         {
-            hit.GetComponent<PlayerHealth>().takeDamage(1);
+            hit.GetComponent<PlayerHealth>().TakeDamage(1);
         }
     }
 
@@ -82,7 +82,7 @@ public class Cyborg : EnemyStateManager
         Collider2D hit = Physics2D.OverlapBox(stingerHitBox.position, stingerHitBox.lossyScale, 0f, LayerMask.GetMask("Player"));
         if (hit)
         {
-            hit.GetComponent<PlayerHealth>().takeDamage(1);
+            hit.GetComponent<PlayerHealth>().TakeDamage(1);
         }
     }
 

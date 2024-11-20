@@ -30,7 +30,7 @@ public class GunWithLegs : EnemyStateManager
         Collider2D hit = Physics2D.OverlapBox(gunKick.position, gunKick.lossyScale, 0f, LayerMask.GetMask("Player"));
         if (hit)
         {
-            hit.GetComponent<PlayerHealth>().takeDamage(10);
+            hit.GetComponent<PlayerHealth>().TakeDamage(10);
         }
     }
 
