@@ -8,20 +8,24 @@ public class PartyEditor : MonoBehaviour
     [SerializeField] GameObject bankBar;
 
     PartyManager partyManager;
-
     GhostIdentity[] identities;
-    List<GhostMenuItem> menuItems = new();
-    GhostMenuItem selectedMenuItem = new();
+
+    public List<GhostMenuItem> menuItems = new();
+    public GhostMenuItem selectedMenuItem;
 
     void Start()
     {
         partyManager = FindObjectOfType<PartyManager>();
         identities = FindObjectsOfType<GhostIdentity>();
+        gameObject.SetActive(false);
     }
 
     void OnEnable()
     {
         menuItems.Clear();
+        partyBar.transform.DetachChildren();
+        bankBar.transform.DetachChildren();
+
         foreach (GhostIdentity identity in identities)
         {
             GameObject menuItemObject = Instantiate(menuItemPrefab);
@@ -43,7 +47,12 @@ public class PartyEditor : MonoBehaviour
 
     public void Select(GhostMenuItem menuItem)
     {
-        selectedMenuItem.SetSelected(false);
+        if (selectedMenuItem != null)
+        {
+            selectedMenuItem.SetSelected(false);
+        }
+
+        selectedMenuItem = menuItem;
         menuItem.SetSelected(true);
     }
 

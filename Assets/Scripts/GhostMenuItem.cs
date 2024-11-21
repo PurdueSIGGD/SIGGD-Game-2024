@@ -31,4 +31,9 @@ public class GhostMenuItem : MonoBehaviour
             imageComponent.color = Color.gray;
         }
     }
+
+    public void UISelect()
+    {
+        menu.Select(this);
+    }
 }
