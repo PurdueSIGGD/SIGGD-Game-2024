@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8318595516242551159}
-  m_Layer: 0
+  m_Layer: 21
   m_Name: RangeOrigin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3423025847710183529}
-  m_Layer: 0
+  m_Layer: 21
   m_Name: MeleeHitBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -71,7 +71,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2425615495639063641}
-  m_Layer: 0
+  m_Layer: 21
   m_Name: RangeHitBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -108,7 +108,7 @@ GameObject:
   - component: {fileID: 1524967089078299542}
   - component: {fileID: 3945173690903396810}
   - component: {fileID: 752561269483410646}
-  m_Layer: 0
+  m_Layer: 21
   m_Name: DummyEnemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -168,10 +168,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 4
   aggroRange: 10
-  player: {fileID: 0}
   animator: {fileID: 4967756639582714965}
-  meleeHit: {fileID: 3423025847710183529}
-  rangeHit: {fileID: 2425615495639063641}
+  meleeTrigger: {fileID: 3423025847710183529}
+  rangeTrigger: {fileID: 2425615495639063641}
   rangeOrig: {fileID: 8318595516242551159}
   projectile: {fileID: 7215835285119065845, guid: 53c6f7019cd48bd46905979fe721a70e,
     type: 3}
