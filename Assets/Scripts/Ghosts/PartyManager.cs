@@ -1,11 +1,8 @@
 /// Party management script that tracks every active major ghost
 /// Attaches to Player
 
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using TMPro;
 
 public class PartyManager : MonoBehaviour
 {
@@ -75,6 +72,19 @@ public class PartyManager : MonoBehaviour
             ghostMajorList.RemoveAt(ghostIndex);
 
             //toggleParty = false;
+        }
+    }
+
+    /// <summary>
+    /// Removes from player's major ghost list based off reference
+    /// </summary>
+    /// <param ghostName="ghostIndex"></param>
+    public void RemoveMajorGhost(GhostIdentity ghost)
+    {
+        int index = ghostMajorList.IndexOf(ghost);
+        if (index != -1)
+        {
+            RemoveMajorGhost(index);
         }
     }
 
