@@ -76,7 +76,7 @@ public class Dash : MonoBehaviour
     private IEnumerator DashCoroutine() {
         isDashing = true;
         GetComponent<MoveCharacter>().enabled = false;
-        GetComponent<GrappleBehavioiur>().enabled = false;
+        //GetComponent<GrappleBehavioiur>().enabled = false;
         GetComponent<PlayerGroundAtack>().enabled = false;
         GetComponent<PartyManager>().enabled = false;
 
