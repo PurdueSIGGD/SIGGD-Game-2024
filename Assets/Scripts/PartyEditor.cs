@@ -21,7 +21,6 @@ public class PartyEditor : MonoBehaviour
 
     void OnEnable()
     {
-
         menuItems.Clear();
         foreach (GhostIdentity identity in identities)
         {
