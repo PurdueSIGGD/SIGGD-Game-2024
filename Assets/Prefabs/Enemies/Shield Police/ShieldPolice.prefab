@@ -195,6 +195,8 @@ GameObject:
   - component: {fileID: 2146038469359978738}
   - component: {fileID: 2471215486050197891}
   - component: {fileID: 2153542378424773396}
+  - component: {fileID: 6887818589130474418}
+  - component: {fileID: 783357568447536721}
   m_Layer: 21
   m_Name: ShieldPolice
   m_TagString: Untagged
@@ -398,6 +400,36 @@ FixedJoint2D:
   m_BreakAction: 3
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: 0.64499664, y: 0}
+  m_ConnectedAnchor: {x: 0.64500046, y: 0}
   m_DampingRatio: 0
   m_Frequency: 0
+--- !u!114 &6887818589130474418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5499330591125181409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 532320b84239cf640a651fa5709b989a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stats:
+  - name: Max Health
+    value: 10
+    modifier: 100
+--- !u!114 &783357568447536721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5499330591125181409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc353fcbdb963e84d880d2d6cb407830, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 0
+  isAlive: 1
