@@ -1,7 +1,7 @@
 using UnityEngine;
 
 //This script allows dampened movement of the camera to follow a target position
-public class CameraBufferController : MonoBehaviour
+public class CameraBuffer : MonoBehaviour
 {
     // The buffer's current position
     private Vector2 curPos;
