@@ -150,6 +150,9 @@ GameObject:
   - component: {fileID: 1517576928667760269}
   - component: {fileID: 8201876142469624994}
   - component: {fileID: 3624071700847622077}
+  - component: {fileID: 118981068259158260}
+  - component: {fileID: 4440255880866092738}
+  - component: {fileID: 1039001908307975498}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -273,6 +276,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 4
+  m_GravityScale: 4
   m_Material: {fileID: 6200000, guid: 587b41f0a588fdd4d84b560e107181bb, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
@@ -282,7 +286,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!114 &8949576389562570489
 MonoBehaviour:
@@ -298,9 +302,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stats:
   - name: Move Speed
-    value: 5
+    value: 1
     modifier: 100
   - name: Jump Force
+    value: 20
+    modifier: 100
+  - name: Damage
+    value: 10
+    modifier: 100
+  - name: Max Health
     value: 10
     modifier: 100
   - name: Damage
@@ -321,7 +331,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b579baa973c99664f9b4e760237e5c45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  topSpeed: 0
+  topSpeed: 100
   doubleJump: 1
 --- !u!114 &6932071826997146900
 MonoBehaviour:
@@ -335,8 +345,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1c04be6b75188b4b83b9130b9980f88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 10
-  speed: 10
+  range: 20
+  speed: 100
 --- !u!114 &2579712507819662700
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -364,7 +374,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6da0f2ae8388c2439a26c3c2d51616c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ghostMajorLimit: 1
+  ghostMajorLimit: 2
   range: 3
 --- !u!58 &8201876142469624994
 CircleCollider2D:
@@ -414,3 +424,57 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   glideFallSpeed: 1
+--- !u!114 &118981068259158260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1487048547261826030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc353fcbdb963e84d880d2d6cb407830, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 100
+  isAlive: 1
+--- !u!114 &4440255880866092738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1487048547261826030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38c953434b50c3347ad65fd4e598e821, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  grounded: 0
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  moving: 0
+  falling: 0
+  currentAnimation: 
+--- !u!95 &1039001908307975498
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1487048547261826030}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
