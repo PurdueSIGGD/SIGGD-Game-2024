@@ -20,6 +20,8 @@ public class PlayerStateMachine : MonoBehaviour
     InputAction moveInput; // The move action from the playerInput component
     [SerializeField] bool falling; // Is player velocity less than zero?
     float minimumFallSpeed = -0.1f; // The minimum negative vertical velocity required to be considered falling
+    [SerializeField] bool special; // Is player currently using their special ability?
+    InputAction specialInput; // The special key action from the playerInput component
 
     [Header("References")]
     Animator animator; // the animator of the player object
@@ -30,6 +32,7 @@ public class PlayerStateMachine : MonoBehaviour
     void Start()
     {
         moveInput = GetComponent<PlayerInput>().actions.FindAction("Movement");
+        specialInput = GetComponent<PlayerInput>().actions.FindAction("Special");
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
     }
@@ -40,6 +43,10 @@ public class PlayerStateMachine : MonoBehaviour
         UpdateMovingBool();
         UpdateFallingBool();
         ReadCurrentAnimatorState();
+    }
+    void UpdateSpecialBool()
+    {
+
     }
     /// <summary>
     /// Toggles falling boolean of this script and animator if -y velocity is great enough to be considered falling 
