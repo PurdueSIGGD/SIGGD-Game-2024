@@ -9,7 +9,7 @@ using UnityEngine.InputSystem;
 //<summary>
 // Base player action: player dashes towards the mouse location in a fixed time
 //</summary>
-public class Dash : MonoBehaviour
+public class Dash : MonoBehaviour, ISpecialMove
 {
     [SerializeField] float maxDistance; // Maximum distance the player can dash
 
@@ -80,6 +80,10 @@ public class Dash : MonoBehaviour
         }
         this.velocity = displacement / dashTime;
         StartCoroutine(DashCoroutine());
+    }
+    public bool GetBool()
+    {
+        return isDashing;
     }
 
     private IEnumerator DashCoroutine()
