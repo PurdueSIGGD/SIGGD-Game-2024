@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class glide : MonoBehaviour
+public class Glide : MonoBehaviour
 {
     //initiate variables
     //the constant fall speed for glide
