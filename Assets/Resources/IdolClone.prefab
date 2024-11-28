@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1252115979647592461}
   - component: {fileID: 3452378153493066586}
   - component: {fileID: 8297260018861357083}
+  - component: {fileID: 248038355521225297}
   m_Layer: 6
   m_Name: IdolClone
   m_TagString: Player
@@ -78,7 +79,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b,
     type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.4745098}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -110,7 +111,7 @@ Rigidbody2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
@@ -166,3 +167,16 @@ MonoBehaviour:
   - name: Max Health
     value: 10
     modifier: 100
+--- !u!114 &248038355521225297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7482494425360345118}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2402d86ab7a820e4d9425b19763b2e92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 4
