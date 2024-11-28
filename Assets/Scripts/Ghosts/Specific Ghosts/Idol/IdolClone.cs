@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Script for Idol's clone, destroys self after duration time has passed
+/// </summary>
 public class IdolClone : MonoBehaviour
 {
-    [SerializeField] float duration = 6.0f;
-
+    [SerializeField] float duration = 6.0f; // duration clone can last
     private GameObject player;
 
     void Update()
@@ -24,6 +26,11 @@ public class IdolClone : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Pass reference of player to clone, so to check which ghost player is
+    /// using
+    /// </summary>
+    /// <param name="player"> player gameobject </param>
     public void Initialize(GameObject player)
     {
         this.player = player;

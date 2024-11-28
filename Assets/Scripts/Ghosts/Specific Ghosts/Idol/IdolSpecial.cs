@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Special action for the idol ghost, teleports the player towards mouse position
+/// and leaves a clone that player may swap position with.
+/// </summary>
 public class IdolSpecial: MonoBehaviour, ISpecialMove
 {
     [SerializeField] float maxDistance = 8.0f;
@@ -23,6 +27,11 @@ public class IdolSpecial: MonoBehaviour, ISpecialMove
         idolClone = Resources.Load<GameObject>("IdolClone");
     }
 
+    /// <summary>
+    /// Swaps position with clone if one is active
+    /// If none is active and the skill is not under cooldown, attempt to
+    /// teleport the player towards the mouse position.
+    /// </summary>
     void OnSpecial()
     {
         if (canSwitch) // if there is currently a clone active, switch with it
@@ -40,6 +49,9 @@ public class IdolSpecial: MonoBehaviour, ISpecialMove
         return isDashing;
     }
 
+    /// <summary>
+    /// Teleports the player and creates a clone
+    /// </summary>
     private IEnumerator DashCoroutine()
     {
         isDashing = true;
@@ -70,6 +82,9 @@ public class IdolSpecial: MonoBehaviour, ISpecialMove
         canTp = true;
     }
 
+    /// <summary>
+    /// Switch position with clone
+    /// </summary>
     private IEnumerator SwitchCoroutine()
     {
         canSwitch = false;
