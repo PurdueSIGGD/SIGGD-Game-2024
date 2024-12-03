@@ -16,7 +16,6 @@ public class Move : MonoBehaviour
     private Stats stats;
     private int maxSpeedIdx;
     private int accelerationIdx;
-    private int jumpForceIdx;
 
     // Start is called before the first frame update
     void Start()
@@ -28,7 +27,6 @@ public class Move : MonoBehaviour
         maxSpeedIdx = stats.GetStatIndex("Max Speed");
         accelerationIdx = stats.GetStatIndex("Acceleration");
 
-        jumpForceIdx = stats.GetStatIndex("Jump Force");
     }
 
     // Update is called once per frame
@@ -70,7 +68,7 @@ public class Move : MonoBehaviour
     /// <summary>
     /// Method is called once the player presses the button binded to "Jump" in Player Actions also controlls double jump
     /// </summary>
-    private void OnJump()
+    /*private void OnJump()
     {
         if (OnGround())
         {
@@ -87,7 +85,7 @@ public class Move : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x, 0);
             rb.AddForce(new Vector2(0, 1) * stats.ComputeValue(jumpForceIdx), ForceMode2D.Impulse);
         }
-    }
+    }*/
 
     /// <summary>
     /// Method that uses a circle cast to determine whether or not the player in on the ground

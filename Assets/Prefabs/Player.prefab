@@ -142,7 +142,6 @@ GameObject:
   - component: {fileID: 7871911102278751832}
   - component: {fileID: 3935771107499560438}
   - component: {fileID: 8700201412831605424}
-  - component: {fileID: 1037255807944073325}
   - component: {fileID: 3927073135763558212}
   - component: {fileID: 8201876142469624994}
   - component: {fileID: 1039001908307975498}
@@ -154,6 +153,7 @@ GameObject:
   - component: {fileID: 4440255880866092738}
   - component: {fileID: 1507407040549389404}
   - component: {fileID: 4245367702598116901}
+  - component: {fileID: 228254763707272612}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -261,20 +261,6 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &1037255807944073325
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1487048547261826030}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29af8171297c4c544b544b68d1f7d6dd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  indicator: {fileID: 0}
-  dmg: 1000
 --- !u!50 &3927073135763558212
 Rigidbody2D:
   serializedVersion: 4
@@ -468,6 +454,7 @@ MonoBehaviour:
   falling: 0
   special: 0
   gliding: 0
+  jumping: 0
   currentAnimation: 
 --- !u!114 &1507407040549389404
 MonoBehaviour:
@@ -497,5 +484,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8680cd79ce0025e4c984cc3e2d28137f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  topSpeed: 100
   doubleJump: 1
+--- !u!114 &228254763707272612
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1487048547261826030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0eab6954326a70447a2336298f82dffa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

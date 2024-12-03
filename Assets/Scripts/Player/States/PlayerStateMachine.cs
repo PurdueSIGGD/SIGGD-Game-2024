@@ -27,6 +27,10 @@ public class PlayerStateMachine : MonoBehaviour
     [SerializeField] bool gliding; // Is player currently gliding in the air?
     InputAction jumpInput; // The jump action from the playerInput component
     IGlideMove glideScript; // Reference to the interface attatched to glide script
+    [SerializeField] bool jumping;
+
+    bool i_up, i_down, i_horizontal, i_special, p_grounded, p_falling;
+
 
     [Header("References")]
     Animator animator; // the animator of the player object
@@ -45,11 +49,14 @@ public class PlayerStateMachine : MonoBehaviour
 
     void Update()
     {
-        UpdateGroundedBool();
-        UpdateMovingBool();
-        UpdateFallingBool();
-        UpdateSpecialBool();
-        UpdateGlidingBool();
+
+        UpdateHorizontal();
+        UpdateGrounded();
+        UpdateFalling();
+        UpdateUp();
+
+        //UpdateSpecialBool();
+        //UpdateGlidingBool();
         ReadCurrentAnimatorState();
     }
     /// <summary>
@@ -91,36 +98,35 @@ public class PlayerStateMachine : MonoBehaviour
     /// Toggles falling boolean of this script and animator if -y velocity is great enough to be considered falling and player's special ability is not active
     /// and the player is not gliding.
     /// </summary>
-    void UpdateFallingBool()
+    void UpdateFalling()
     {
-        falling = rb.velocity.y < minimumFallSpeed && !special && !gliding;
-        if (falling != animator.GetBool("falling"))
-        {
-            animator.SetBool("falling", falling);
-        }
+        p_falling = rb.velocity.y < minimumFallSpeed;
+        animator.SetBool("p_falling", p_falling);
     }
     /// <summary>
     /// Toggles moving boolean of this script and animator if moveInput is not zero and the horizontal velocity exceeds minimum move speed threshold
     /// </summary>
-    void UpdateMovingBool()
+    void UpdateHorizontal()
     {
-        moving = moveInput.ReadValue<float>() != 0 && Math.Abs(rb.velocity.x) >= minimumMoveSpeed;
-        if (moving != animator.GetBool("moving"))
-        {
-            animator.SetBool("moving", moving);
-        }
+        i_horizontal = moveInput.ReadValue<float>() != 0;
+        animator.SetBool("i_horizontal", i_horizontal);
     }
+
     /// <summary>
     /// Toggles grounded boolean of this script and animator if player detects ground at feet
     /// </summary>
-    void UpdateGroundedBool()
+    void UpdateGrounded()
     {
-        grounded = Physics2D.OverlapCircle(transform.position + new Vector3(0, yFeetDisplacement, 0), groundDetectRadius, groundLayer);
-        if (grounded != animator.GetBool("grounded"))
-        {
-            animator.SetBool("grounded", grounded);
-        }
+        p_grounded = Physics2D.OverlapCircle(transform.position + new Vector3(0, yFeetDisplacement, 0), groundDetectRadius, groundLayer);
+        animator.SetBool("p_grounded", p_grounded);
     }
+
+    void UpdateUp()
+    {
+        i_up = jumpInput.ReadValue<float>() != 0;
+        animator.SetBool("i_up", i_up);
+    }
+
     /// <summary>
     /// Reads the current animator state and sets the currentAnimation string to the currently playing animation
     /// </summary>
