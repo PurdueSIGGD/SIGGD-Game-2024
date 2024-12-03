@@ -6,7 +6,7 @@
             "id": "cd58a73f-b267-4f2b-a2c2-fc186d99599b",
             "actions": [
                 {
-                    "name": "Movement",
+                    "name": "Move",
                     "type": "Button",
                     "id": "5f8bb8e1-d818-44ea-aa57-8331d908d535",
                     "expectedControlType": "Button",
@@ -24,18 +24,18 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Hit",
-                    "type": "Button",
-                    "id": "9e392b54-a39e-4f12-ae8f-0115e5072dd1",
+                    "name": "Fall",
+                    "type": "Value",
+                    "id": "eb3dd209-ba2d-485f-be72-df03fa5a2ecb",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
-                    "name": "Grapple",
+                    "name": "Hit",
                     "type": "Button",
-                    "id": "98a77aa7-d7d8-4361-9dba-90d46b37a15d",
+                    "id": "9e392b54-a39e-4f12-ae8f-0115e5072dd1",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -67,15 +67,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "Down",
-                    "type": "Value",
-                    "id": "eb3dd209-ba2d-485f-be72-df03fa5a2ecb",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
                 },
                 {
                     "name": "Interact",
@@ -113,7 +104,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Movement",
+                    "action": "Move",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -124,7 +115,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Movement",
+                    "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -135,7 +126,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Movement",
+                    "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -174,17 +165,6 @@
                 },
                 {
                     "name": "",
-                    "id": "fd5f2974-9a09-46e6-a2f6-fd9ec5c02e36",
-                    "path": "<Mouse>/rightButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Grapple",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "0d65bac9-34f6-4692-a6c8-42a6411b2c8c",
                     "path": "<Keyboard>/f",
                     "interactions": "",
@@ -213,17 +193,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "Special",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "d98a04e2-d9b6-457f-bfd6-c3b8aae09826",
-                    "path": "<Keyboard>/s",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Down",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -312,6 +281,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Shake",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d98a04e2-d9b6-457f-bfd6-c3b8aae09826",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Fall",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

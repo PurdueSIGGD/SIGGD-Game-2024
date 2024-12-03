@@ -30,7 +30,7 @@ public class Move : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        moveInput = GetComponent<PlayerInput>().actions.FindAction("Movement");
+        moveInput = GetComponent<PlayerInput>().actions.FindAction("Move");
         rb = GetComponent<Rigidbody2D>();
         stats = GetComponent<Stats>();
 
