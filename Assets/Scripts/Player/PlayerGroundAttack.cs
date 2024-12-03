@@ -8,6 +8,7 @@ public class PlayerGroundAtack : MonoBehaviour
     [SerializeField] GameObject indicator; //The hitbox for the sword attack
     [SerializeField] float swordDist; //How far away the sword should rotate from the player
     [SerializeField] float cooldown = 1; // Cooldown of player attack
+    [SerializeField] LayerMask attackMask;
     private float damage;
     float cooldown_cur = 0; // Current timer
     private Stats stats;
@@ -47,7 +48,7 @@ public class PlayerGroundAtack : MonoBehaviour
     /// If Enemy tag then hits with sword damage
     /// </summary>
     private void attack() {
-        Collider2D[] collided = Physics2D.OverlapBoxAll(new Vector2(indicator.transform.position.x,indicator.transform.position.y), indicator.transform.localScale, indicator.transform.eulerAngles.z);
+        Collider2D[] collided = Physics2D.OverlapBoxAll(new Vector2(indicator.transform.position.x,indicator.transform.position.y), indicator.transform.localScale, indicator.transform.eulerAngles.z, attackMask);
         foreach(Collider2D collide in collided) {
             // Currently hits all enemies in range
            if (collide.gameObject.GetComponent<IDamageable>() != null) {

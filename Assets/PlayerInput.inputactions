@@ -78,6 +78,15 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "Interact",
+                    "type": "Button",
+                    "id": "b65b62c4-3984-4c2d-864e-e69e9d45a697",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Hotbar",
                     "type": "Value",
                     "id": "ffb1c747-6c90-4806-8a10-33a4d032e3f0",
@@ -85,6 +94,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Shake",
+                    "type": "Button",
+                    "id": "ce4a0230-1dd3-43ea-8f7b-e0fa564ba766",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -190,7 +208,7 @@
                 {
                     "name": "",
                     "id": "51f1fa2b-cec3-40b0-89ce-c380138d0f17",
-                    "path": "<Keyboard>/q",
+                    "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -206,6 +224,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Down",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6f8719f5-2ffb-49db-84bc-8fb160b8ae12",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Interact",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -272,6 +301,17 @@
                     "processors": "Scale(factor=6)",
                     "groups": "",
                     "action": "Hotbar",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "454083c4-da83-4543-80b5-50b1aeb270b0",
+                    "path": "<Keyboard>/p",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Shake",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

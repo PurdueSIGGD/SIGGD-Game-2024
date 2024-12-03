@@ -16,13 +16,13 @@ public class EnemyStateManager : MonoBehaviour
     public float aggroRange; // Range for detecting players 
     
     public ActionPool pool; // A pool of attacks to randomly choose from
-    public Transform player; // The player
-
-    protected EnemyStates curState; // Enemy's current State, defaults to idle
+    public EnemyStates curState; // Enemy's current State, defaults to idle
     public Animator animator;
+
+    protected Transform player;
     protected Rigidbody2D rb;
     
-    void Awake()
+    protected virtual void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
         animator = GetComponent<Animator>();
@@ -32,9 +32,12 @@ public class EnemyStateManager : MonoBehaviour
         SwitchState(IdleState);
     }
 
-    void FixedUpdate()
+    protected void FixedUpdate()
     {
-        pool.UpdateAllCD();
+        if (curState != IdleState)
+        {
+            pool.UpdateAllCD(); // Count down enemy's cool down
+        }
         curState.UpdateState(this);
     }
 
@@ -88,13 +91,26 @@ public class EnemyStateManager : MonoBehaviour
     /// Produce a list off Actions which randomly generates the next action
     /// </summary>
     /// <returns></returns>
-    protected virtual ActionPool GenerateActionPool() { return null; }
+    protected virtual ActionPool GenerateActionPool() 
+    { 
+        return null; 
+    }
 
     /// <summary>
-    /// Draws the Enemy's line of sight range in editor
+    /// Draws the Enemy's line of sight in editor
     /// </summary>
     protected virtual void OnDrawGizmos()
     {
         Gizmos.DrawRay(transform.position, transform.TransformDirection(Vector2.right) * aggroRange);
+    }
+
+    /// <summary>
+    /// Please attach this to the end of the animations that we wish
+    /// not to be interrupted by other behaviors (attack animations)
+    /// Attach this to an animation event at the end of animation
+    /// </summary>
+    protected virtual void OnFinishAnimation()
+    {
+        BusyState.ExitState(this);
     }
 }

@@ -12,14 +12,14 @@ public class MoveState : EnemyStates
 
     public override void EnterState(EnemyStateManager enemy)
     {
-        player = enemy.player;
+        player = GameObject.FindGameObjectWithTag("Player").transform;
         rb = enemy.GetComponent<Rigidbody2D>();
         enemy.pool.move.Play(enemy.animator); // Play the moving animation on entering state
     }
 
     public override void UpdateState(EnemyStateManager enemy)
     {
-        if (enemy.pool.HasActionsInRange()) // If Enemy attacks can reach player, enter AggroState
+        if (enemy.pool.HasActionsReady()) // If Enemy attacks can reach player, enter AggroState
         {
             enemy.SwitchState(enemy.AggroState);
         }
@@ -34,17 +34,16 @@ public class MoveState : EnemyStates
     }
 
     // Moves the Enemy body towards the player
-    private void Move(EnemyStateManager enemy)
+    protected void Move(EnemyStateManager enemy)
     {
         if (player.position.x - enemy.transform.position.x < 0)
         {
             enemy.Flip(false);
-            rb.velocity = new Vector2(enemy.speed*-1f, rb.velocity.y);
         }
         else
         {
             enemy.Flip(true);
-            rb.velocity = new Vector2(enemy.speed, rb.velocity.y);
         }
+        rb.velocity = new Vector2(enemy.speed * enemy.transform.right.x, rb.velocity.y);
     }
 }
