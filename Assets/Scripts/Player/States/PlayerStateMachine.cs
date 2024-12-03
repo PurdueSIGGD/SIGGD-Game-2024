@@ -36,7 +36,6 @@ public class PlayerStateMachine : MonoBehaviour
 
     void Start()
     {
-
         moveInput = GetComponent<PlayerInput>().actions.FindAction("Movement");
         specialInput = GetComponent<PlayerInput>().actions.FindAction("Special");
         jumpInput = GetComponent<PlayerInput>().actions.FindAction("Jump");

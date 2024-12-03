@@ -2,19 +2,20 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
+using UnityEditor.SceneTemplate;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class MoveCharacter : MonoBehaviour
+public class Move : MonoBehaviour
 {
-    [SerializeField] float topSpeed; //top velocity of the player
     private InputAction playerActionMovement;
     private InputAction playerActionDown;
     private Rigidbody2D rb;
     public Boolean doubleJump = true;
 
     private Stats stats;
-    private int moveSpeedIdx;
+    private int maxSpeedIdx;
+    private int accelerationIdx;
     private int jumpForceIdx;
 
     // Start is called before the first frame update
@@ -24,18 +25,15 @@ public class MoveCharacter : MonoBehaviour
         playerActionDown = GetComponent<PlayerInput>().actions.FindAction("Down");
         rb = GetComponent<Rigidbody2D>();
         stats = GetComponent<Stats>();
-        moveSpeedIdx = stats.GetStatIndex("Move Speed");
+        maxSpeedIdx = stats.GetStatIndex("Max Speed");
+        accelerationIdx = stats.GetStatIndex("Acceleration");
+
         jumpForceIdx = stats.GetStatIndex("Jump Force");
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!doubleJump)
-        {
-            doubleJump = OnGround();
-        }
-
         Movement();
     }
 
@@ -45,16 +43,28 @@ public class MoveCharacter : MonoBehaviour
     private void Movement()
     {
         float input = playerActionMovement.ReadValue<float>();
-        rb.velocity = new Vector2(rb.velocity.x + input * stats.ComputeValue(moveSpeedIdx), rb.velocity.y);
-        //makes player fall downard if not on ground
-        if (!OnGround())
-            rb.velocity = new Vector2(rb.velocity.x * 0.9f, rb.velocity.y - playerActionDown.ReadValue<float>());
-        else
-            rb.velocity = new Vector2(rb.velocity.x * 0.9f, rb.velocity.y);
-        if (rb.velocity.magnitude > topSpeed)
+        Vector2 newVel = new Vector2(0, 0);
+
+        // accelerates player in direction of input
+        newVel.x = rb.velocity.x + input * stats.ComputeValue(accelerationIdx);
+
+        // caps top speed
+        if (newVel.magnitude > stats.ComputeValue(maxSpeedIdx))
         {
-            rb.velocity = rb.velocity.normalized * topSpeed;
+            newVel = newVel.normalized * stats.ComputeValue(maxSpeedIdx);
         }
+
+        // deaccelerate if no input
+        if (input == 0)
+        {
+            newVel.x *= 0.9f;
+        }
+
+        // keep updating y velocity
+        newVel.y = rb.velocity.y;
+
+        // update rigidbody velocity to new velocity
+        rb.velocity = newVel;
     }
 
     /// <summary>

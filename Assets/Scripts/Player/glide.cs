@@ -8,14 +8,14 @@ public class Glide : MonoBehaviour, IGlideMove
     //initiate variables
     //the constant fall speed for glide
     [SerializeField] private float glideFallSpeed = 2f;
-    private MoveCharacter moveCharacter;
+    private Move moveCharacter;
     private Rigidbody2D rb;
     private InputAction playerActionJump;
     private bool isGliding = false;
 
     private void Start()
     {
-        moveCharacter = GetComponent<MoveCharacter>();
+        moveCharacter = GetComponent<Move>();
         rb = GetComponent<Rigidbody2D>();
         playerActionJump = GetComponent<PlayerInput>().actions.FindAction("Jump");
     }
