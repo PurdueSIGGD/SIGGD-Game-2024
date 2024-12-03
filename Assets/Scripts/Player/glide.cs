@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class glide : MonoBehaviour
+public class Glide : MonoBehaviour, IGlideMove
 {
     //initiate variables
     //the constant fall speed for glide
@@ -62,5 +62,9 @@ public class glide : MonoBehaviour
     {
         isGliding = false;
         rb.gravityScale = 4;
+    }
+    public bool GetBool()
+    {
+        return isGliding;
     }
 }
