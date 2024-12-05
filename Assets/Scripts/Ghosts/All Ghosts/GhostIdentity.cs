@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-public class GhostIdentity : MonoBehaviour
+public class GhostIdentity : MonoBehaviour, IInteractable
 {
     [SerializeField]
     private string ghostName;
@@ -77,6 +77,13 @@ public class GhostIdentity : MonoBehaviour
             }
 
         }
+    }
+
+    public void Interact()
+    {
+        Debug.Log("Ghost Interacted with!");
+        Debug.Log(PlayerID.instance == null);
+        PlayerID.instance.GetComponent<PartyManager>().AddMajorGhost(this);
     }
 
 }

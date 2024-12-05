@@ -16,7 +16,7 @@ public class PartyManager : MonoBehaviour
     // Major Ghosts
     private List<GhostIdentity> ghostMajorList = new List<GhostIdentity>(); // List of each major ghost
 
-    /// <summary>
+    /*/// <summary>
     /// Temporary function to find and add ghosts nearby to party if space available. Max 1 ghost per function call
     /// </summary>
     public void OnFindGhosts()
@@ -34,7 +34,7 @@ public class PartyManager : MonoBehaviour
                 }
             }
         }
-    }
+    }*/
 
     /// <summary>
     /// Temporary function to remove the least recent ghost added to party
