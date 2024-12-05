@@ -20,6 +20,7 @@ public class PlayerStateMachine : MonoBehaviour
     InputAction jumpInput; // The jump action from the playerInput component
     InputAction fallInput; // The fall actions frmo playerINput component
     InputAction specialInput; // The special key action from the playerInput component
+    InputAction attackInput;
 
     Animator animator; // the animator of the player object
     Rigidbody2D rb; // the rigidbody of the player object
@@ -32,6 +33,7 @@ public class PlayerStateMachine : MonoBehaviour
         moveInput = input.actions.FindAction("Move");
         jumpInput = input.actions.FindAction("Jump");
         fallInput = input.actions.FindAction("Fall");
+        attackInput = input.actions.FindAction("Attack");
         specialInput = input.actions.FindAction("Special");
 
         animator = GetComponent<Animator>();
@@ -45,6 +47,8 @@ public class PlayerStateMachine : MonoBehaviour
         UpdateGrounded();
         UpdateFalling();
         UpdateUp();
+        UpdateDown();
+        UpdateAttack();
         ReadCurrentAnimatorState();
     }
 
@@ -86,6 +90,12 @@ public class PlayerStateMachine : MonoBehaviour
     {
         bool i_down = fallInput.ReadValue<float>() != 0;
         animator.SetBool("i_down", i_down);
+    }
+
+    void UpdateAttack()
+    {
+        bool i_attack = attackInput.ReadValue<float>() != 0;
+        animator.SetBool("i_attack", i_attack);
     }
 
     /// <summary>

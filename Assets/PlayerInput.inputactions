@@ -33,27 +33,9 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Hit",
+                    "name": "Attack",
                     "type": "Button",
                     "id": "9e392b54-a39e-4f12-ae8f-0115e5072dd1",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "FindGhosts",
-                    "type": "Button",
-                    "id": "f4d2cfc2-dbc4-49bf-ac8f-a01c722948fc",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "RemoveGhosts",
-                    "type": "Button",
-                    "id": "5c3f34c0-fa4c-4a2b-82cc-7c0dcf26d20c",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -85,6 +67,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "FindGhosts",
+                    "type": "Button",
+                    "id": "f4d2cfc2-dbc4-49bf-ac8f-a01c722948fc",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "RemoveGhosts",
+                    "type": "Button",
+                    "id": "5c3f34c0-fa4c-4a2b-82cc-7c0dcf26d20c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Shake",
@@ -159,7 +159,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Hit",
+                    "action": "Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -182,6 +182,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "RemoveGhosts",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "454083c4-da83-4543-80b5-50b1aeb270b0",
+                    "path": "<Keyboard>/p",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Shake",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d98a04e2-d9b6-457f-bfd6-c3b8aae09826",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Fall",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -270,28 +292,6 @@
                     "processors": "Scale(factor=6)",
                     "groups": "",
                     "action": "Hotbar",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "454083c4-da83-4543-80b5-50b1aeb270b0",
-                    "path": "<Keyboard>/p",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Shake",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "d98a04e2-d9b6-457f-bfd6-c3b8aae09826",
-                    "path": "<Keyboard>/s",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Fall",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

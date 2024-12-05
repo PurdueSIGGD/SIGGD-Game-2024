@@ -1,17 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.ParticleSystem;
 
-public class ManageIdleState : StateMachineBehaviour
+public class ManageLightState : StateMachineBehaviour
 {
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.SetTrigger("ATK");
-        animator.gameObject.SendMessage("StartIdle");
+        animator.gameObject.SendMessage("StartLightAttack");
+        Debug.Log("XXX - IN Light Attack State!");
     }
+
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.gameObject.SendMessage("StopIdle");
+        animator.gameObject.SendMessage("StopLightAttack");
     }
 }
