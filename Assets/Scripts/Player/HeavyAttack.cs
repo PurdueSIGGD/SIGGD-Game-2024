@@ -7,6 +7,7 @@ public class HeavyAttack : MonoBehaviour
 {
     [SerializeField] GameObject indicator;
     [SerializeField] int dmg;
+    [SerializeField] float offsetX;
     private Camera mainCamera;
     private float timer;
 
@@ -29,11 +30,11 @@ public class HeavyAttack : MonoBehaviour
         Vector3 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         if (mousePos.x < transform.position.x)
         {
-            indicator.transform.localPosition = new Vector3(-1, indicator.transform.localPosition.y, 0);
+            indicator.transform.localPosition = new Vector3(-offsetX, indicator.transform.localPosition.y, 0);
         }
         else
         {
-            indicator.transform.localPosition = new Vector3(1, indicator.transform.localPosition.y, 0);
+            indicator.transform.localPosition = new Vector3(offsetX, indicator.transform.localPosition.y, 0);
         }
     }
 
