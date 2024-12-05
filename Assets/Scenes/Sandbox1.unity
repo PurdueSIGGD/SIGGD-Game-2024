@@ -2381,6 +2381,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ShieldPolice
       objectReference: {fileID: 0}
+    - target: {fileID: 5499330591125181409, guid: a9d096ed04322f54a9a2ad5c38bda6b7,
+        type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4342,6 +4347,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Cyborg
+      objectReference: {fileID: 0}
+    - target: {fileID: 2119936537419083514, guid: 0fedb38f283d38a4faca7620ea8ae537,
+        type: 3}
+      propertyPath: m_TagString
+      value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 7275294119749337559, guid: 0fedb38f283d38a4faca7620ea8ae537,
         type: 3}
@@ -6567,6 +6577,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Camera Drone
       objectReference: {fileID: 0}
+    - target: {fileID: 8652318323731026824, guid: b5d7b25097e81c641a939214d938169d,
+        type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -8090,12 +8105,12 @@ GameObject:
   - component: {fileID: 8949576390292046859}
   - component: {fileID: 1517576929582834815}
   - component: {fileID: 4440255881712616496}
-  - component: {fileID: 2579712509186674590}
   - component: {fileID: 3624071700118529359}
   - component: {fileID: 118981069039499782}
   - component: {fileID: 1507407039080666798}
   - component: {fileID: 4245367703328257239}
   - component: {fileID: 228254765008363350}
+  - component: {fileID: 8949576390292046860}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -8186,24 +8201,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2579712509186674590
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1487048546346619164}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 066d6eb94556a8d4eb54327276580930, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  indicator: {fileID: 564604468345059084}
-  swordDist: 1.5
-  cooldown: 1
-  attackMask:
-    serializedVersion: 2
-    m_Bits: 2097280
 --- !u!114 &3624071700118529359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8516,6 +8513,20 @@ MonoBehaviour:
   - name: Glide Fall Speed
     value: 2
     modifier: 100
+--- !u!114 &8949576390292046860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1487048546346619164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29af8171297c4c544b544b68d1f7d6dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  indicator: {fileID: 564604468345059084}
+  dmg: 150
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

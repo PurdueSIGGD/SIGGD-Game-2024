@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
-public class PlayerHeavy : MonoBehaviour
+public class HeavyAttack : MonoBehaviour
 {
     [SerializeField] GameObject indicator;
     [SerializeField] int dmg;
@@ -37,14 +37,8 @@ public class PlayerHeavy : MonoBehaviour
         }
     }
 
-    private void OnHit()
+    public void StartHeavyAttack()
     {
-        //Attack();
-    }
-
-    private void Attack()
-    {
-        Debug.Log("eeee");
         indicator.SetActive(true);
         timer = 0.5f;
         RaycastHit2D[] hits = Physics2D.BoxCastAll(indicator.transform.position, indicator.transform.localScale, 0, new Vector2(0, 0));
@@ -60,5 +54,4 @@ public class PlayerHeavy : MonoBehaviour
             }
         }
     }
-    
 }
