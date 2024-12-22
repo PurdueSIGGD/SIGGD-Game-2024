@@ -11,7 +11,7 @@ public class IdolPassive : MonoBehaviour
     [SerializeField] public int tempoStack = 0; // Buff count, maxes at 3 stacks
     [SerializeField] public int runSpeedMod = 20; // Run speed modifier for each buff stack, in percentage
     [SerializeField] public int glideSpeedMod = 8; // Glide speed modifier for each buff stack, in percentage
-    [SerializedField] public float tempoDuration = 8.0f; // Duration before 1 stack of tempo expires
+    [SerializeField] public float tempoDuration = 8.0f; // Duration before 1 stack of tempo expires
 
     // Reference to player stats
     private Stats stats;
