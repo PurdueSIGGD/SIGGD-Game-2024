@@ -47,7 +47,7 @@ public class Dash : MonoBehaviour, ISpecialMove
                 velocity = Vector2.zero;
                 rb.velocity = new Vector2(0, rb.velocity.y);
                 isSlowing = false;
-                GetComponent<MoveCharacter>().enabled = true;
+                GetComponent<Move>().enabled = true;
                 return;
             }
 
@@ -57,7 +57,7 @@ public class Dash : MonoBehaviour, ISpecialMove
                 velocity = Vector2.zero;
                 rb.velocity = new Vector2(0, rb.velocity.y);
                 isSlowing = false;
-                GetComponent<MoveCharacter>().enabled = true;
+                GetComponent<Move>().enabled = true;
             }
         }
     }
@@ -89,7 +89,7 @@ public class Dash : MonoBehaviour, ISpecialMove
     private IEnumerator DashCoroutine()
     {
         isDashing = true;
-        GetComponent<MoveCharacter>().enabled = false;
+        GetComponent<Move>().enabled = false;
         //GetComponent<GrappleBehavioiur>().enabled = false;
         GetComponent<PlayerGroundAtack>().enabled = false;
         GetComponent<PartyManager>().enabled = false;

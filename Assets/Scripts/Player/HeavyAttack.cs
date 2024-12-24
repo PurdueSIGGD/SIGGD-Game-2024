@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
-public class PlayerHeavy : MonoBehaviour
+public class HeavyAttack : MonoBehaviour
 {
     [SerializeField] GameObject indicator;
     [SerializeField] int dmg;
+    [SerializeField] float offsetX;
     private Camera mainCamera;
     private float timer;
 
@@ -29,22 +30,16 @@ public class PlayerHeavy : MonoBehaviour
         Vector3 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         if (mousePos.x < transform.position.x)
         {
-            indicator.transform.localPosition = new Vector3(-1, indicator.transform.localPosition.y, 0);
+            indicator.transform.localPosition = new Vector3(-offsetX, indicator.transform.localPosition.y, 0);
         }
         else
         {
-            indicator.transform.localPosition = new Vector3(1, indicator.transform.localPosition.y, 0);
+            indicator.transform.localPosition = new Vector3(offsetX, indicator.transform.localPosition.y, 0);
         }
     }
 
-    private void OnHit()
+    public void StartHeavyAttack()
     {
-        //Attack();
-    }
-
-    private void Attack()
-    {
-        Debug.Log("eeee");
         indicator.SetActive(true);
         timer = 0.5f;
         RaycastHit2D[] hits = Physics2D.BoxCastAll(indicator.transform.position, indicator.transform.localScale, 0, new Vector2(0, 0));
@@ -60,5 +55,4 @@ public class PlayerHeavy : MonoBehaviour
             }
         }
     }
-    
 }
