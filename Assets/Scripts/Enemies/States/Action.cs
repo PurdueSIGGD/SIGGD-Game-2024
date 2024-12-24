@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
@@ -8,13 +9,14 @@ using UnityEngine;
 /// </summary>
 public class Action
 {
-    public Transform hitBox;
-    public float coolDown;
-    public float priority;
-    public string anim;
-    
-    private float maxCD;
+    public bool ready = true; // Could change later so certain actions may not be immediately accessible at the start of encounter
 
+    private Transform hitBox;
+    private float maxCD;
+    private float coolDown;
+    private float priority;
+    private string anim;
+    
     /// <summary>
     /// Constructs an Action for a particular Enemy
     /// </summary>
@@ -38,8 +40,8 @@ public class Action
     /// <param name="fadeDuration"> Optional transition duration for the animation </param>
     public void Play(Animator animator, float fadeDuration = 0.2f)
     {
-        ResetCD();
         animator.CrossFade(anim, fadeDuration);
+        DoCoolDown();
     }
 
     /// <summary>
@@ -52,25 +54,25 @@ public class Action
     }
 
     /// <summary>
-    /// Finds if Action has finished cool down
+    /// Resets the Action's cooldown
     /// </summary>
-    /// <returns> True if Action finished cool down </returns>
-    public bool Ready()
+    public void ResetCD()
     {
-        return coolDown <= 0;
+        coolDown = maxCD;
+    }
+
+    public float GetPriority()
+    {
+        return this.priority;
     }
 
     /// <summary>
-    /// Updates the Action's cool down
+    /// Make this action go into cooldown
     /// </summary>
-    public void UpdateCD()
+    private async Task DoCoolDown()
     {
-        coolDown -= Time.deltaTime;
-    }
-
-    // Resets the Action's cool down
-    private void ResetCD()
-    {
-        coolDown = maxCD;
+        ready = false;
+        await Task.Delay((int)(coolDown * 1000));
+        ready = true;
     }
 }

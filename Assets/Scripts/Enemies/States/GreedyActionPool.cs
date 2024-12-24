@@ -18,7 +18,7 @@ public class GreedyActionPool : ActionPool
     {
         foreach (Action a in actions)
         {
-            if (a.Ready() & a.InAttackRange())
+            if (a.ready & a.InAttackRange())
             {
                 return true;
             }

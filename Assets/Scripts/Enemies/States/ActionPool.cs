@@ -49,7 +49,7 @@ public class ActionPool
         double r = random.NextDouble();
         foreach (Action action in avaliableActions)
         {
-            r -= action.priority / curWeight;
+            r -= action.GetPriority() / curWeight;
             if (r <= 0)
             {
                 nextAction = action;
@@ -76,27 +76,16 @@ public class ActionPool
         return false;
     }
 
-    /// <summary>
-    /// Updates the cool down time of all the Actions in pool
-    /// </summary>
-    public void UpdateAllCD()
-    {
-        foreach (Action a in actions)
-        {
-            a.UpdateCD();
-        }
-    }
-
     // Return a list of actions that is currently avaliable
     private List<Action> GetAvaliableActions()
     {
         List<Action> avaliableActions = new List<Action>();
         foreach (Action a in actions)
         {
-            if (a.InAttackRange() & a.Ready())
+            if (a.InAttackRange() & a.ready)
             {
                 avaliableActions.Add(a);
-                curWeight += a.priority;
+                curWeight += a.GetPriority();
             }
         }
         return avaliableActions;
