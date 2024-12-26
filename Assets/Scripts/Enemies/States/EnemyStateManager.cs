@@ -84,6 +84,31 @@ public class EnemyStateManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Do damage to player if they are inside of trigger box
+    /// </summary>
+    /// <param name="gizmoTrigger">Transform component for drawing damage box</param>
+    /// <param name="damage">Points of damage to deal</param>
+    protected void GenerateDamageFrame(Transform gizmoTrigger, float damage)
+    {
+#if DEBUG // Draw the damage box in the editor 
+        Vector2 center = gizmoTrigger.position;
+        float hWidth = gizmoTrigger.lossyScale.x/2;
+        float hHeight = gizmoTrigger.lossyScale.y/2;
+
+        Debug.DrawLine(new Vector2(center.x - hWidth, center.y + hWidth), new Vector2(center.x + hWidth, center.y + hWidth)); // draw top line
+        Debug.DrawLine(new Vector2(center.x - hWidth, center.y + hWidth), new Vector2(center.x - hWidth, center.y - hWidth)); // draw left line
+        Debug.DrawLine(new Vector2(center.x - hWidth, center.y - hWidth), new Vector2(center.x + hWidth, center.y - hWidth)); // draw bottom line
+        Debug.DrawLine(new Vector2(center.x + hWidth, center.y + hWidth), new Vector2(center.x + hWidth, center.y - hWidth)); // draw right line
+#endif
+        // Check for player to do damage
+        Collider2D hit = Physics2D.OverlapBox(gizmoTrigger.position, gizmoTrigger.lossyScale, 0f, LayerMask.GetMask("Player"));
+        if (hit)
+        {
+            hit.GetComponent<PlayerHealth>().TakeDamage(damage);
+        }
+    }
+
+    /// <summary>
     /// Produce a list off Actions which randomly generates the next action
     /// </summary>
     /// <returns></returns>
