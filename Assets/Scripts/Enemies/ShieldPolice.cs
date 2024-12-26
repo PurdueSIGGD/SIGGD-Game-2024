@@ -11,6 +11,7 @@ public class ShieldPolice : EnemyStateManager
 {
     [SerializeField] protected Transform batonTrigger;
     [SerializeField] protected Transform chargeTrigger;
+    [SerializeField] protected float chargeSpeed;
 
     protected bool isCharging;
     protected Vector2 chargePos;
@@ -19,7 +20,7 @@ public class ShieldPolice : EnemyStateManager
     {
         if (isCharging)
         {
-            rb.velocity = new Vector2(speed * 4, rb.velocity.y) * transform.right;
+            rb.velocity = new Vector2(chargeSpeed, rb.velocity.y) * transform.right;
         }
     }
 

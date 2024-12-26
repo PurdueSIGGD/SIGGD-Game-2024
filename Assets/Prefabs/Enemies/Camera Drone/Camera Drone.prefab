@@ -47,6 +47,7 @@ GameObject:
   - component: {fileID: 3602954514945515610}
   - component: {fileID: 7679382285400612018}
   - component: {fileID: 7321790019576285446}
+  - component: {fileID: 8856570929518799469}
   m_Layer: 21
   m_Name: Camera Drone
   m_TagString: Untagged
@@ -227,9 +228,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20782b93b693591488b8c308e283c380, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 4.83
-  aggroRange: 16.76
+  stats: {fileID: 0}
   animator: {fileID: 6400381198355053387}
+  aggroRange: 16.76
   alarmTrigger: {fileID: 7775618551989780944}
   enemyToSummon: {fileID: 2119936537419083514, guid: 0fedb38f283d38a4faca7620ea8ae537,
     type: 3}
@@ -263,3 +264,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 0
   isAlive: 1
+--- !u!114 &8856570929518799469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8652318323731026824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 532320b84239cf640a651fa5709b989a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stats:
+  - name: Speed
+    value: 1
+    modifier: 100
+  - name: Max Health
+    value: 1
+    modifier: 100

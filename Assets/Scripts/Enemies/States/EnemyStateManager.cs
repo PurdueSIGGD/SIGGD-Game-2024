@@ -1,5 +1,7 @@
 using System;
+using System.Net.Mime;
 using Unity.VisualScripting;
+using UnityEditor.Build;
 using UnityEngine;
 
 /// <summary>
@@ -12,23 +14,23 @@ public class EnemyStateManager : MonoBehaviour
     public EnemyStates BusyState = new BusyState();
     public EnemyStates MoveState = new MoveState();
 
-    public float speed; // Movement speed
-    public float aggroRange; // Range for detecting players 
-    
-    public ActionPool pool; // A pool of attacks to randomly choose from
-    public EnemyStates curState; // Enemy's current State, defaults to idle
-    public Animator animator;
+    [HideInInspector] public Stats stats; // Enemy stats component
+    [HideInInspector] public ActionPool pool; // A pool of attacks to randomly choose from
+    [HideInInspector] public Animator animator;
 
+    [SerializeField] float aggroRange; // Range for detecting players 
+    protected EnemyStates curState; // Enemy's current State, defaults to idle
     protected Transform player;
     protected Rigidbody2D rb;
     
     protected virtual void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
+        stats = GetComponent<Stats>();
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         pool = GenerateActionPool();
-
+        
         SwitchState(IdleState);
     }
 
@@ -74,7 +76,7 @@ public class EnemyStateManager : MonoBehaviour
     /// <summary>
     /// Flip the Enemy object across the Y-axis
     /// </summary>
-    /// <param ghostName="isFlipped"> Enemy's current orientation </param>
+    /// <param name="isFlipped"> Enemy's current orientation </param>
     public void Flip(bool isFlipped)
     {
         if (isFlipped)
@@ -95,10 +97,10 @@ public class EnemyStateManager : MonoBehaviour
         float hWidth = gizmoTrigger.lossyScale.x/2;
         float hHeight = gizmoTrigger.lossyScale.y/2;
 
-        Debug.DrawLine(new Vector2(center.x - hWidth, center.y + hWidth), new Vector2(center.x + hWidth, center.y + hWidth)); // draw top line
-        Debug.DrawLine(new Vector2(center.x - hWidth, center.y + hWidth), new Vector2(center.x - hWidth, center.y - hWidth)); // draw left line
-        Debug.DrawLine(new Vector2(center.x - hWidth, center.y - hWidth), new Vector2(center.x + hWidth, center.y - hWidth)); // draw bottom line
-        Debug.DrawLine(new Vector2(center.x + hWidth, center.y + hWidth), new Vector2(center.x + hWidth, center.y - hWidth)); // draw right line
+        Debug.DrawLine(new Vector2(center.x - hWidth, center.y + hHeight), new Vector2(center.x + hWidth, center.y + hHeight)); // draw top line
+        Debug.DrawLine(new Vector2(center.x - hWidth, center.y + hHeight), new Vector2(center.x - hWidth, center.y - hHeight)); // draw left line
+        Debug.DrawLine(new Vector2(center.x - hWidth, center.y - hHeight), new Vector2(center.x + hWidth, center.y - hHeight)); // draw bottom line
+        Debug.DrawLine(new Vector2(center.x + hWidth, center.y + hHeight), new Vector2(center.x + hWidth, center.y - hHeight)); // draw right line
 #endif
         // Check for player to do damage
         Collider2D hit = Physics2D.OverlapBox(gizmoTrigger.position, gizmoTrigger.lossyScale, 0f, LayerMask.GetMask("Player"));

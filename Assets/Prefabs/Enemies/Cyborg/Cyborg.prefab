@@ -262,9 +262,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03dbe72ab01511e4eb989afdb7a8fadf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 4
-  aggroRange: 18.6
+  stats: {fileID: 0}
   animator: {fileID: 7905894014490810442}
+  aggroRange: 18.6
   meleeTrigger: {fileID: 2358971396437510415}
   tpBackTrigger: {fileID: 1365265030456903513}
   tpForwardTrigger: {fileID: 3423477219027819224}
@@ -284,6 +284,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stats:
   - name: Max Health
+    value: 10
+    modifier: 100
+  - name: Speed
     value: 10
     modifier: 100
 --- !u!114 &8480991602502054467

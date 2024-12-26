@@ -379,11 +379,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f2deedc49f7bfd48abc35bdcc0fb1cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
-  aggroRange: 9.32
+  stats: {fileID: 0}
   animator: {fileID: 9133294469049910592}
+  aggroRange: 9.32
   batonTrigger: {fileID: 7835333299776145468}
   chargeTrigger: {fileID: 5532669551329529462}
+  chargeSpeed: 0
 --- !u!255 &2153542378424773396
 FixedJoint2D:
   m_ObjectHideFlags: 0
@@ -400,7 +401,7 @@ FixedJoint2D:
   m_BreakAction: 3
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: 0.64500046, y: 0}
+  m_ConnectedAnchor: {x: -0.645, y: 0}
   m_DampingRatio: 0
   m_Frequency: 0
 --- !u!114 &6887818589130474418
@@ -418,6 +419,9 @@ MonoBehaviour:
   stats:
   - name: Max Health
     value: 10
+    modifier: 100
+  - name: Speed
+    value: 1
     modifier: 100
 --- !u!114 &783357568447536721
 MonoBehaviour:

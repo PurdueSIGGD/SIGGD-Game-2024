@@ -44,6 +44,8 @@ public class MoveState : EnemyStates
         {
             enemy.Flip(true);
         }
-        rb.velocity = new Vector2(enemy.speed * enemy.transform.right.x, rb.velocity.y);
+
+        float speed = enemy.stats.ComputeValue("Speed");
+        rb.velocity = new Vector2(speed * enemy.transform.right.x, rb.velocity.y);
     }
 }

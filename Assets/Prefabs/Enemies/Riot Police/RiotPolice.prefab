@@ -45,6 +45,7 @@ GameObject:
   - component: {fileID: 2458881036478296064}
   - component: {fileID: 5267342110057752590}
   - component: {fileID: 2197548027611747354}
+  - component: {fileID: 9121469439051838776}
   m_Layer: 21
   m_Name: RiotPolice
   m_TagString: Untagged
@@ -225,7 +226,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47a0dd1a6bcc7584d8521953966c8c06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
-  aggroRange: 7.33
+  stats: {fileID: 0}
   animator: {fileID: 8056966106870366120}
+  aggroRange: 7.33
   batonTrigger: {fileID: 3561678645181035360}
+--- !u!114 &9121469439051838776
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1393067818931581941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 532320b84239cf640a651fa5709b989a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stats:
+  - name: Speed
+    value: 1
+    modifier: 100
+  - name: Max Health
+    value: 1
+    modifier: 100
