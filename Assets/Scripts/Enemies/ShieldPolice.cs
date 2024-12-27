@@ -39,11 +39,7 @@ public class ShieldPolice : EnemyStateManager
     // Generate damage frame for baton swing
     protected void OnBatonEvent()
     {
-        Collider2D hit = Physics2D.OverlapBox(batonTrigger.position, batonTrigger.lossyScale, 0f, LayerMask.GetMask("Player"));
-        if (hit)
-        {
-            hit.GetComponent<PlayerHealth>().TakeDamage(15);
-        }
+        GenerateDamageFrame(batonTrigger, 1.0f);
     }
 
     // Ask police to begin charging and enable shield damage

@@ -27,11 +27,7 @@ public class GunWithLegs : EnemyStateManager
     // Check for kick collision and do damageg
     protected void OnKickEvent()
     {
-        Collider2D hit = Physics2D.OverlapBox(gunKick.position, gunKick.lossyScale, 0f, LayerMask.GetMask("Player"));
-        if (hit)
-        {
-            hit.GetComponent<PlayerHealth>().TakeDamage(10);
-        }
+        GenerateDamageFrame(gunKick, 1.0f);
     }
 
     // Instantiate projectile prefab and push self back

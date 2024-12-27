@@ -97,10 +97,10 @@ public class EnemyStateManager : MonoBehaviour
         float hWidth = gizmoTrigger.lossyScale.x/2;
         float hHeight = gizmoTrigger.lossyScale.y/2;
 
-        Debug.DrawLine(new Vector2(center.x - hWidth, center.y + hHeight), new Vector2(center.x + hWidth, center.y + hHeight)); // draw top line
-        Debug.DrawLine(new Vector2(center.x - hWidth, center.y + hHeight), new Vector2(center.x - hWidth, center.y - hHeight)); // draw left line
-        Debug.DrawLine(new Vector2(center.x - hWidth, center.y - hHeight), new Vector2(center.x + hWidth, center.y - hHeight)); // draw bottom line
-        Debug.DrawLine(new Vector2(center.x + hWidth, center.y + hHeight), new Vector2(center.x + hWidth, center.y - hHeight)); // draw right line
+        Debug.DrawLine(new Vector2(center.x - hWidth, center.y + hHeight), new Vector2(center.x + hWidth, center.y + hHeight), Color.white, 0.2f); // draw top line
+        Debug.DrawLine(new Vector2(center.x - hWidth, center.y + hHeight), new Vector2(center.x - hWidth, center.y - hHeight), Color.white, 0.2f); // draw left line
+        Debug.DrawLine(new Vector2(center.x - hWidth, center.y - hHeight), new Vector2(center.x + hWidth, center.y - hHeight), Color.white, 0.2f); // draw bottom line
+        Debug.DrawLine(new Vector2(center.x + hWidth, center.y + hHeight), new Vector2(center.x + hWidth, center.y - hHeight), Color.white, 0.2f); // draw right line
 #endif
         // Check for player to do damage
         Collider2D hit = Physics2D.OverlapBox(gizmoTrigger.position, gizmoTrigger.lossyScale, 0f, LayerMask.GetMask("Player"));

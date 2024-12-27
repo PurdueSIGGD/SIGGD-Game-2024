@@ -22,11 +22,7 @@ public class RiotPolice : EnemyStateManager
     // Check for collision in swing range to deal damage
     protected void OnBatonEvent()
     {
-        Collider2D hit = Physics2D.OverlapBox(batonTrigger.position, batonTrigger.lossyScale, 0f, LayerMask.GetMask("Player"));
-        if (hit)
-        {
-            hit.GetComponent<PlayerHealth>().TakeDamage(15);
-        }
+        GenerateDamageFrame(batonTrigger, 1);
     }
 
     // Draws the Enemy attack range in the editor

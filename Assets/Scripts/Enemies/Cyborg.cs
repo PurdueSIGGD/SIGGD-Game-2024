@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Experimental.Playables;
 
 /// <summary>
 /// Enemy AI for the Cyborg
@@ -31,18 +32,12 @@ public class Cyborg : EnemyStateManager
     // Generate damage frame for melee slash attack
     protected void OnSlashEvent()
     {
-        print("slashing");
-        Collider2D hit = Physics2D.OverlapBox(meleeTrigger.position, meleeTrigger.lossyScale, 0f, LayerMask.GetMask("Player"));
-        if (hit)
-        {
-            hit.GetComponent<PlayerHealth>().TakeDamage(1);
-        }
+        GenerateDamageFrame(meleeTrigger, 1.0f);
     }
 
     // Teleports the cyborg backwards
     protected void OnTPBackEvent()
     {
-        print("moving back");
         RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.right * -1, stingerTrigger.transform.localPosition.x, LayerMask.GetMask("Ground"));
         if (hit)
         {
@@ -57,7 +52,6 @@ public class Cyborg : EnemyStateManager
     // Teleprts the cyborg forward
     protected void OnTPForwardEvent1()
     {
-        print("moving forward");
         Vector2 dest = new(player.position.x + meleeTrigger.lossyScale.x, player.position.y + 1);
         gameObject.transform.position = dest;
         rb.gravityScale = 0;
@@ -67,23 +61,13 @@ public class Cyborg : EnemyStateManager
     // Generate damage frame for follow up attack after teleporting forward
     protected void OnTPForwardEvent2()
     {
-        print("stinger spin");
-        Collider2D hit = Physics2D.OverlapBox(tpBackTrigger.position, tpBackTrigger.lossyScale, 0f, LayerMask.GetMask("Player"));
-        if (hit)
-        {
-            hit.GetComponent<PlayerHealth>().TakeDamage(1);
-        }
+        GenerateDamageFrame(tpBackTrigger, 1.0f);
     }
 
     // Generate damage frame for long range stinger attack
     protected void OnStingerEvent()
     {
-        print("extending stinger");
-        Collider2D hit = Physics2D.OverlapBox(stingerHitBox.position, stingerHitBox.lossyScale, 0f, LayerMask.GetMask("Player"));
-        if (hit)
-        {
-            hit.GetComponent<PlayerHealth>().TakeDamage(1);
-        }
+        GenerateDamageFrame(stingerHitBox, 1.0f);
     }
 
     protected override void OnFinishAnimation()
