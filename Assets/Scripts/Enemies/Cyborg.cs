@@ -32,7 +32,7 @@ public class Cyborg : EnemyStateManager
     // Generate damage frame for melee slash attack
     protected void OnSlashEvent()
     {
-        GenerateDamageFrame(meleeTrigger, 1.0f);
+        GenerateDamageFrame(meleeTrigger.position, meleeTrigger.lossyScale.x, meleeTrigger.lossyScale.y, 1.0f);
     }
 
     // Teleports the cyborg backwards
@@ -61,13 +61,13 @@ public class Cyborg : EnemyStateManager
     // Generate damage frame for follow up attack after teleporting forward
     protected void OnTPForwardEvent2()
     {
-        GenerateDamageFrame(tpBackTrigger, 1.0f);
+        GenerateDamageFrame(tpBackTrigger.position, tpBackTrigger.lossyScale.x, tpBackTrigger.lossyScale.y, 1.0f);
     }
 
     // Generate damage frame for long range stinger attack
     protected void OnStingerEvent()
     {
-        GenerateDamageFrame(stingerHitBox, 1.0f);
+        GenerateDamageFrame(stingerHitBox.position, stingerHitBox.lossyScale.x, stingerHitBox.lossyScale.y, 1.0f);
     }
 
     protected override void OnFinishAnimation()

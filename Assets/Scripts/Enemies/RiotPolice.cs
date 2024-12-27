@@ -22,7 +22,7 @@ public class RiotPolice : EnemyStateManager
     // Check for collision in swing range to deal damage
     protected void OnBatonEvent()
     {
-        GenerateDamageFrame(batonTrigger, 1);
+        GenerateDamageFrame(batonTrigger.position, batonTrigger.lossyScale.x, batonTrigger.lossyScale.y, 1);
     }
 
     // Draws the Enemy attack range in the editor

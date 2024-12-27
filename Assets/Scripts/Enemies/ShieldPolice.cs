@@ -39,7 +39,7 @@ public class ShieldPolice : EnemyStateManager
     // Generate damage frame for baton swing
     protected void OnBatonEvent()
     {
-        GenerateDamageFrame(batonTrigger, 1.0f);
+        GenerateDamageFrame(batonTrigger.position, batonTrigger.lossyScale.x, batonTrigger.lossyScale.y, 1.0f);
     }
 
     // Ask police to begin charging and enable shield damage

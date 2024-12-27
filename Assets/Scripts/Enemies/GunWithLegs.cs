@@ -27,7 +27,7 @@ public class GunWithLegs : EnemyStateManager
     // Check for kick collision and do damageg
     protected void OnKickEvent()
     {
-        GenerateDamageFrame(gunKick, 1.0f);
+        GenerateDamageFrame(gunKick.position, gunKick.lossyScale.x, gunKick.lossyScale.y, 1.0f);
     }
 
     // Instantiate projectile prefab and push self back

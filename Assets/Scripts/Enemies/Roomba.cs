@@ -22,11 +22,7 @@ public class Roomba : EnemyStateManager
     // Check for player in blast radius and do damage
     protected void OnKaboomEvent()
     {
-        Collider2D hit = Physics2D.OverlapCircle(kaboomTrigger.position, kaboomTrigger.lossyScale.x, LayerMask.GetMask("Player"));
-        if (hit)
-        {
-            hit.GetComponent<PlayerHealth>().TakeDamage(20);
-        }
+        GenerateDamageFrame(kaboomTrigger.position, kaboomTrigger.lossyScale.x, 5.0f);
     }
 
     protected override void OnFinishAnimation()

@@ -88,22 +88,57 @@ public class EnemyStateManager : MonoBehaviour
     /// <summary>
     /// Do damage to player if they are inside of trigger box
     /// </summary>
-    /// <param name="gizmoTrigger">Transform component for drawing damage box</param>
+    /// <param name="pos">Position of the trigger box</param>
+    /// <para name="width">X value of the lossyscale of the trigger box</para>
+    /// <para name="height">Y value of the lossyscale of the trigger box</para>
     /// <param name="damage">Points of damage to deal</param>
-    protected void GenerateDamageFrame(Transform gizmoTrigger, float damage)
+    protected void GenerateDamageFrame(Vector2 pos, float width, float height, float damage)
     {
-#if DEBUG // Draw the damage box in the editor 
-        Vector2 center = gizmoTrigger.position;
-        float hWidth = gizmoTrigger.lossyScale.x/2;
-        float hHeight = gizmoTrigger.lossyScale.y/2;
+#if DEBUG // Draw the damage box in the editor
+        float hWidth = width/2;
+        float hHeight = height/2;
+        float duration = 0.2f;
 
-        Debug.DrawLine(new Vector2(center.x - hWidth, center.y + hHeight), new Vector2(center.x + hWidth, center.y + hHeight), Color.white, 0.2f); // draw top line
-        Debug.DrawLine(new Vector2(center.x - hWidth, center.y + hHeight), new Vector2(center.x - hWidth, center.y - hHeight), Color.white, 0.2f); // draw left line
-        Debug.DrawLine(new Vector2(center.x - hWidth, center.y - hHeight), new Vector2(center.x + hWidth, center.y - hHeight), Color.white, 0.2f); // draw bottom line
-        Debug.DrawLine(new Vector2(center.x + hWidth, center.y + hHeight), new Vector2(center.x + hWidth, center.y - hHeight), Color.white, 0.2f); // draw right line
+        Debug.DrawLine(new Vector2(pos.x - hWidth, pos.y + hHeight), new Vector2(pos.x + hWidth, pos.y + hHeight), Color.white, duration); // draw top line
+        Debug.DrawLine(new Vector2(pos.x - hWidth, pos.y + hHeight), new Vector2(pos.x - hWidth, pos.y - hHeight), Color.white, duration); // draw left line
+        Debug.DrawLine(new Vector2(pos.x - hWidth, pos.y - hHeight), new Vector2(pos.x + hWidth, pos.y - hHeight), Color.white, duration); // draw bottom line
+        Debug.DrawLine(new Vector2(pos.x + hWidth, pos.y + hHeight), new Vector2(pos.x + hWidth, pos.y - hHeight), Color.white, duration); // draw right line
 #endif
         // Check for player to do damage
-        Collider2D hit = Physics2D.OverlapBox(gizmoTrigger.position, gizmoTrigger.lossyScale, 0f, LayerMask.GetMask("Player"));
+        Collider2D hit = Physics2D.OverlapBox(pos, new Vector2(width, height), 0f, LayerMask.GetMask("Player"));
+        if (hit)
+        {
+            hit.GetComponent<PlayerHealth>().TakeDamage(damage);
+        }
+    }
+
+    /// <summary>
+    /// Do damage to player if they are inside of trigger circle
+    /// </summary>
+    /// <param name="pos">Position of the trigger box</param>
+    /// <param name="radius">X value of the lossyscale of the trigger circle</param>
+    /// <param name="damage">Points of damage to deal</param>
+    protected void GenerateDamageFrame(Vector2 pos, float radius, float damage)
+    {
+#if DEBUG // Draw the damage circle in the editor
+        int segment = 180;
+        float duration = 0.2f;
+
+        float angleDiv = 360f / segment;
+        Vector2 p1 = new Vector2(pos.x + radius, pos.y);
+        Vector2 p2;
+
+        for (int i = 0; i < segment; i++)
+        {
+            float angle = angleDiv * i * Mathf.Deg2Rad;
+            p2 = new Vector2(pos.x + Mathf.Cos(angle) * radius, pos.y + Mathf.Sin(angle) * radius);
+
+            Debug.DrawLine(p1, p2, Color.white, duration);
+            p1 = p2;
+        }
+#endif
+        // Check for player to do damage
+        Collider2D hit = Physics2D.OverlapCircle(pos, radius, LayerMask.GetMask("Player"));
         if (hit)
         {
             hit.GetComponent<PlayerHealth>().TakeDamage(damage);
