@@ -29,7 +29,7 @@ public class EnemyStateManager : MonoBehaviour
         stats = GetComponent<Stats>();
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
-        pool = GenerateActionPool();
+        pool = GetComponent<ActionPool>();
         
         SwitchState(IdleState);
     }
@@ -97,7 +97,7 @@ public class EnemyStateManager : MonoBehaviour
 #if DEBUG // Draw the damage box in the editor
         float hWidth = width/2;
         float hHeight = height/2;
-        float duration = 0.2f;
+        float duration = 0.1f;
 
         Debug.DrawLine(new Vector2(pos.x - hWidth, pos.y + hHeight), new Vector2(pos.x + hWidth, pos.y + hHeight), Color.white, duration); // draw top line
         Debug.DrawLine(new Vector2(pos.x - hWidth, pos.y + hHeight), new Vector2(pos.x - hWidth, pos.y - hHeight), Color.white, duration); // draw left line

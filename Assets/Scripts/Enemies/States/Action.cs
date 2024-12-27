@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -7,30 +8,30 @@ using UnityEngine;
 /// <summary>
 /// An Action that an Enemy can take
 /// </summary>
+[Serializable]
 public class Action
 {
-    public bool ready = true; // Could change later so certain actions may not be immediately accessible at the start of encounter
+    [SerializeField] private string name;
+    [SerializeField] private Transform hitBox; // The area in which if a player is inside, the action will be performed
+    [SerializeField] private float coolDown;
+    [SerializeField] private AnimationClip animationClip;
+    public float priority;
+    public bool ready = true;
 
-    private Transform hitBox;
-    private float maxCD;
-    private float coolDown;
-    private float priority;
-    private string anim;
-    
     /// <summary>
     /// Constructs an Action for a particular Enemy
     /// </summary>
-    /// <param name="hitBox"> Range of the Action </param>
+    /// <param name="hitBox"> The area in which if a player is inside, the action will be performed </param>
     /// <param name="coolDown"> Length of the Action's cool down </param>
-    /// <param name="priority"> Tendancy to do this Action (1-10)  </param>
+    /// <param name="priority"> Tendency to do this Action (1-10)  </param>
     /// <param name="anim"> Name of the animation to be played </param>
-    public Action(Transform hitBox, float coolDown, float priority, string anim)
+    public Action(Transform hitBox, float coolDown, float priority, AnimationClip anim)
     {
         this.hitBox = hitBox;
-        this.maxCD = coolDown;
-        this.coolDown = 0;
+        this.coolDown = coolDown;
         this.priority = priority;
-        this.anim = anim;
+        this.animationClip = anim;
+        this.ready = true;
     }
 
     /// <summary>
@@ -40,7 +41,8 @@ public class Action
     /// <param name="fadeDuration"> Optional transition duration for the animation </param>
     public void Play(Animator animator, float fadeDuration = 0.2f)
     {
-        animator.CrossFade(anim, fadeDuration);
+        Debug.Log(animationClip.name + " is " + ready);
+        animator.CrossFade(animationClip.name, fadeDuration);
         DoCoolDown();
     }
 
@@ -53,17 +55,15 @@ public class Action
         return Physics2D.OverlapBox(hitBox.position, hitBox.lossyScale, 0f, LayerMask.GetMask("Player"));
     }
 
-    /// <summary>
-    /// Resets the Action's cooldown
-    /// </summary>
-    public void ResetCD()
-    {
-        coolDown = maxCD;
-    }
-
     public float GetPriority()
     {
         return this.priority;
+    }
+
+    public bool IsReady()
+    {
+        Debug.Log(name + " ready is " + ready);
+        return ready;
     }
 
     /// <summary>
@@ -74,5 +74,6 @@ public class Action
         ready = false;
         await Task.Delay((int)(coolDown * 1000));
         ready = true;
+        Debug.Log(name + " has finished cooldown ");
     }
 }

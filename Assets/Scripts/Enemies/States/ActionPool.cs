@@ -10,14 +10,21 @@ using UnityEngine.InputSystem;
 /// A list of possible Actions an Enemy can take.
 /// An Action Pool is used to randomly output an avaliable action.
 /// </summary>
-public class ActionPool
+public class ActionPool : MonoBehaviour
 {
-    protected List<Action> actions;
+    [SerializeField] protected List<Action> actions;
     public Action move;
     public Action idle;
-
+    
     private float curWeight = 0f;
-    private System.Random random = new System.Random();
+
+    void Start()
+    {
+        foreach (Action a in actions)
+        {
+            a.ready = true; // default each action is ready on start, subject to change
+        }
+    }
 
     /// <summary>
     /// Constructs a new Action Pool
@@ -25,12 +32,12 @@ public class ActionPool
     /// <param name="actions"> List of Attack Actions </param>
     /// <param name="move"> Action containing moving animation </param>
     /// <param name="idle"> Action containing idling animation </param>
-    public ActionPool(List<Action> actions, Action move, Action idle)
-    {
-        this.actions = actions;
-        this.move = move;
-        this.idle = idle;
-    }
+    // public ActionPool(List<Action> actions, Action move, Action idle)
+    //{
+    //    this.actions = actions;
+    //    this.move = move;
+    //    this.idle = idle;
+    //}
 
     /// <summary>
     /// Choose an action randomly out of all the currently avaliable actions
@@ -46,7 +53,7 @@ public class ActionPool
         }
 
         Action nextAction = avaliableActions[0];
-        double r = random.NextDouble();
+        double r = Random.value;
         foreach (Action action in avaliableActions)
         {
             r -= action.GetPriority() / curWeight;
@@ -82,7 +89,7 @@ public class ActionPool
         List<Action> avaliableActions = new List<Action>();
         foreach (Action a in actions)
         {
-            if (a.InAttackRange() & a.ready)
+            if (a.InAttackRange() & a.IsReady())
             {
                 avaliableActions.Add(a);
                 curWeight += a.GetPriority();

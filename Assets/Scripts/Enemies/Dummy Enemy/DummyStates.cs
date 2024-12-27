@@ -22,21 +22,21 @@ public class DummyStates : EnemyStateManager, IDamageable
     public GameObject projectile;
 
     // Dummy Enemy's all possible actions
-    protected override ActionPool GenerateActionPool()
-    {
-        // Declare the Enemy's attacks
-        Action dummySlash = new(meleeTrigger, 4.0f, 3f, "HeroKnight_Attack1");
-        Action dummyShoot = new(rangeTrigger, 4.0f, 7f, "Dummy_Shoot");
+    //protected override ActionPool GenerateActionPool()
+    //{
+    //    // Declare the Enemy's attacks
+    //    Action dummySlash = new(meleeTrigger, 4.0f, 3f, "HeroKnight_Attack1");
+    //    Action dummyShoot = new(rangeTrigger, 4.0f, 7f, "Dummy_Shoot");
         
-        // Most Enemy should also add their Run and Idle animations to the ActionPool
-        Action move = new(null, 0.0f, 0.0f, "HeroKnight_Run");
-        Action idle = new(null, 0.0f, 0.0f, "HeroKnight_Idle");
+    //    // Most Enemy should also add their Run and Idle animations to the ActionPool
+    //    Action move = new(null, 0.0f, 0.0f, "HeroKnight_Run");
+    //    Action idle = new(null, 0.0f, 0.0f, "HeroKnight_Idle");
 
-        //Future stunned state --> Stun Hit (NOT IMPLEMENTED YET)
-        Action stunned = new(null, 0.0f, 0.0f, "HeroKnight_Idle");
+    //    //Future stunned state --> Stun Hit (NOT IMPLEMENTED YET)
+    //    Action stunned = new(null, 0.0f, 0.0f, "HeroKnight_Idle");
 
-        return new ActionPool(new List<Action> { dummySlash, dummyShoot }, move, idle);
-    }
+    //    return new ActionPool(new List<Action> { dummySlash, dummyShoot }, move, idle);
+    //}
 
     void Start()
     {

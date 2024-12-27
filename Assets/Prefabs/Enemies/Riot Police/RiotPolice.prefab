@@ -46,6 +46,7 @@ GameObject:
   - component: {fileID: 5267342110057752590}
   - component: {fileID: 2197548027611747354}
   - component: {fileID: 9121469439051838776}
+  - component: {fileID: 628772375253420757}
   m_Layer: 21
   m_Name: RiotPolice
   m_TagString: Untagged
@@ -227,6 +228,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stats: {fileID: 0}
+  pool: {fileID: 0}
   animator: {fileID: 8056966106870366120}
   aggroRange: 7.33
   batonTrigger: {fileID: 3561678645181035360}
@@ -249,3 +251,36 @@ MonoBehaviour:
   - name: Max Health
     value: 1
     modifier: 100
+--- !u!114 &628772375253420757
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1393067818931581941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 872d96247465fd541bea93e36537b26f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actions:
+  - name: Baton Swing
+    ready: 0
+    hitBox: {fileID: 3561678645181035360}
+    maxCoolDown: 2
+    priority: 1
+    animationClip: {fileID: 7400000, guid: f612aa8e9cc4b4a488df5b9e1c8237d2, type: 2}
+  move:
+    name: 
+    ready: 0
+    hitBox: {fileID: 0}
+    maxCoolDown: 0
+    priority: 0
+    animationClip: {fileID: 7400000, guid: e1d9f2c18293436429c8a1403b4ada95, type: 2}
+  idle:
+    name: 
+    ready: 0
+    hitBox: {fileID: 0}
+    maxCoolDown: 0
+    priority: 0
+    animationClip: {fileID: 7400000, guid: 968e5750ed810fb418cf0add49c4620a, type: 2}

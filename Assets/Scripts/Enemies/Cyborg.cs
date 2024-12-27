@@ -16,18 +16,18 @@ public class Cyborg : EnemyStateManager
     [SerializeField] protected Transform stingerHitBox; // Area in which the stinger attack will do damage
 
     // Cybor will draw actions greedily
-    protected override ActionPool GenerateActionPool()
-    {
-        Action cyborgSlash = new(meleeTrigger, 0.0f, 7f, "Cyborg Slash");
-        Action cyborgBack = new(tpBackTrigger, 7.0f, 1f, "TP Back");
-        Action cyborgForward = new(tpForwardTrigger, 18.0f, 5f, "TP Forward");
-        Action cyborgStinger = new(stingerTrigger, 4.0f, 1f, "Cyborg Stinger");
+    //protected override ActionPool GenerateActionPool()
+    //{
+    //    Action cyborgSlash = new(meleeTrigger, 0.0f, 7f, "Cyborg Slash");
+    //    Action cyborgBack = new(tpBackTrigger, 7.0f, 1f, "TP Back");
+    //    Action cyborgForward = new(tpForwardTrigger, 18.0f, 5f, "TP Forward");
+    //    Action cyborgStinger = new(stingerTrigger, 4.0f, 1f, "Cyborg Stinger");
 
-        Action move = new(null, 0.0f, 0.0f, "move");
-        Action idle = new(null, 0.0f, 0.0f, "idle");
+    //    Action move = new(null, 0.0f, 0.0f, "move");
+    //    Action idle = new(null, 0.0f, 0.0f, "idle");
 
-        return new GreedyActionPool(new List<Action> { cyborgSlash, cyborgBack, cyborgForward, cyborgStinger }, move, idle);
-    }
+    //    return new GreedyActionPool(new List<Action> { cyborgSlash, cyborgBack, cyborgForward, cyborgStinger }, move, idle);
+    //}
 
     // Generate damage frame for melee slash attack
     protected void OnSlashEvent()

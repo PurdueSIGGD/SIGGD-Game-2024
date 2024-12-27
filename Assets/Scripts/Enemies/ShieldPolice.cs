@@ -25,16 +25,16 @@ public class ShieldPolice : EnemyStateManager
     }
 
     // Shielded Police will draw actions greedily
-    protected override ActionPool GenerateActionPool()
-    {
-        Action batonSwing = new(batonTrigger, 0.0f, 3f, "Shield_Police_Swing");
-        Action shieldCharge = new(chargeTrigger, 10.0f, 3f, "Shield_Police_Charge_1");
+    //protected override ActionPool GenerateActionPool()
+    //{
+    //    Action batonSwing = new(batonTrigger, 0.0f, 3f, "Shield_Police_Swing");
+    //    Action shieldCharge = new(chargeTrigger, 10.0f, 3f, "Shield_Police_Charge_1");
 
-        Action move = new(null, 0.0f, 0.0f, "Shield_Police_Run");
-        Action idle = new(null, 0.0f, 0.0f, "Shield_Police_Idle");
+    //    Action move = new(null, 0.0f, 0.0f, "Shield_Police_Run");
+    //    Action idle = new(null, 0.0f, 0.0f, "Shield_Police_Idle");
 
-        return new GreedyActionPool(new List<Action> { batonSwing, shieldCharge }, move, idle);
-    }
+    //    return new GreedyActionPool(new List<Action> { batonSwing, shieldCharge }, move, idle);
+    //}
 
     // Generate damage frame for baton swing
     protected void OnBatonEvent()
