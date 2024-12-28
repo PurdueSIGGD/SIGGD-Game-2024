@@ -11,28 +11,12 @@ using UnityEngine;
 [Serializable]
 public class Action
 {
-    [SerializeField] public string name;
+    public string name;
+    public float priority;
+    public bool ready = true;
     [SerializeField] private Transform hitBox; // The area in which if a player is inside, the action will be performed
     [SerializeField] private float coolDown;
     [SerializeField] private AnimationClip animationClip;
-    public float priority;
-    public bool ready = true;
-
-    /// <summary>
-    /// Constructs an Action for a particular Enemy
-    /// </summary>
-    /// <param name="hitBox"> The area in which if a player is inside, the action will be performed </param>
-    /// <param name="coolDown"> Length of the Action's cool down </param>
-    /// <param name="priority"> Tendency to do this Action (1-10)  </param>
-    /// <param name="anim"> Name of the animation to be played </param>
-    public Action(Transform hitBox, float coolDown, float priority, AnimationClip anim)
-    {
-        this.hitBox = hitBox;
-        this.coolDown = coolDown;
-        this.priority = priority;
-        this.animationClip = anim;
-        this.ready = true;
-    }
 
     /// <summary>
     /// Executes the Action
@@ -57,11 +41,6 @@ public class Action
     public float GetPriority()
     {
         return this.priority;
-    }
-
-    public bool IsReady()
-    {
-        return ready;
     }
 
     /// <summary>

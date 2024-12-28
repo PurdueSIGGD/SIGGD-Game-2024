@@ -9,16 +9,6 @@ public class Roomba : EnemyStateManager
 {
     [SerializeField] protected Transform kaboomTrigger;
 
-    //protected override ActionPool GenerateActionPool()
-    //{
-    //    Action kaboom = new(kaboomTrigger, 0.0f, 1f, "kaboom");
-
-    //    Action move = new(null, 0.0f, 0.0f, "move");
-    //    Action idle = new(null, 0.0f, 0.0f, "idle");
-
-    //    return new ActionPool(new List<Action> { kaboom }, move, idle);
-    //}
-
     // Check for player in blast radius and do damage
     protected void OnKaboomEvent()
     {

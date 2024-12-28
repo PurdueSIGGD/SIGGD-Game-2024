@@ -146,15 +146,6 @@ public class EnemyStateManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Produce a list off Actions which randomly generates the next action
-    /// </summary>
-    /// <returns></returns>
-    protected virtual ActionPool GenerateActionPool() 
-    { 
-        return null; 
-    }
-
-    /// <summary>
     /// Draws the Enemy's line of sight in editor
     /// </summary>
     protected virtual void OnDrawGizmos()

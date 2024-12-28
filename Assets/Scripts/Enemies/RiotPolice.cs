@@ -9,15 +9,6 @@ using UnityEngine;
 public class RiotPolice : EnemyStateManager
 {
     [SerializeField] protected Transform batonTrigger;
-    //protected override ActionPool GenerateActionPool()
-    //{
-    //    Action batonSwing = new(batonTrigger, 2.0f, 1f, "Riot_Police_Swing");
-
-    //    Action move = new(null, 0.0f, 0.0f, "Riot_Police_Run");
-    //    Action idle = new(null, 0.0f, 0.0f, "Riot_Police_Idle");
-
-    //    return new ActionPool(new List<Action> { batonSwing }, move, idle);
-    //}
 
     // Check for collision in swing range to deal damage
     protected void OnBatonEvent()

@@ -76,7 +76,7 @@ public class ActionPool : MonoBehaviour
         List<Action> availableActions = new List<Action>();
         foreach (Action a in actions)
         {
-            if (a.InAttackRange() & a.IsReady())
+            if (a.InAttackRange() & a.ready)
             {
                 availableActions.Add(a);
                 curWeight += a.GetPriority();
