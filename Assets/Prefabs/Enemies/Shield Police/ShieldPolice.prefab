@@ -197,6 +197,7 @@ GameObject:
   - component: {fileID: 2153542378424773396}
   - component: {fileID: 6887818589130474418}
   - component: {fileID: 783357568447536721}
+  - component: {fileID: 8825911081079385304}
   m_Layer: 21
   m_Name: ShieldPolice
   m_TagString: Untagged
@@ -380,6 +381,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stats: {fileID: 0}
+  pool: {fileID: 0}
   animator: {fileID: 9133294469049910592}
   aggroRange: 9.32
   batonTrigger: {fileID: 7835333299776145468}
@@ -437,3 +439,42 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 0
   isAlive: 1
+--- !u!114 &8825911081079385304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5499330591125181409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20d794b3ea5a6da42ac5b8feade20f68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actions:
+  - name: Baton Swing
+    hitBox: {fileID: 7835333299776145468}
+    coolDown: 0
+    animationClip: {fileID: 7400000, guid: e1d9d9dad2b0cbc459e43540f42e4eb2, type: 2}
+    priority: 3
+    ready: 0
+  - name: Shield Charge
+    hitBox: {fileID: 7835333299776145468}
+    coolDown: 10
+    animationClip: {fileID: 7400000, guid: eb1df1c681087954eb5856c1fc5b1ac6, type: 2}
+    priority: 3
+    ready: 0
+  move:
+    name: Move
+    hitBox: {fileID: 0}
+    coolDown: 0
+    animationClip: {fileID: 7400000, guid: ba7699e38c76f1d4795bcb3af0b15454, type: 2}
+    priority: 0
+    ready: 0
+  idle:
+    name: Idle
+    hitBox: {fileID: 0}
+    coolDown: 0
+    animationClip: {fileID: 7400000, guid: bc4a8229d1d0f3244bdb56bfc380f945, type: 2}
+    priority: 0
+    ready: 0

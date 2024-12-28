@@ -11,7 +11,7 @@ using UnityEngine;
 [Serializable]
 public class Action
 {
-    [SerializeField] private string name;
+    [SerializeField] public string name;
     [SerializeField] private Transform hitBox; // The area in which if a player is inside, the action will be performed
     [SerializeField] private float coolDown;
     [SerializeField] private AnimationClip animationClip;
@@ -41,7 +41,6 @@ public class Action
     /// <param name="fadeDuration"> Optional transition duration for the animation </param>
     public void Play(Animator animator, float fadeDuration = 0.2f)
     {
-        Debug.Log(animationClip.name + " is " + ready);
         animator.CrossFade(animationClip.name, fadeDuration);
         DoCoolDown();
     }
@@ -62,7 +61,6 @@ public class Action
 
     public bool IsReady()
     {
-        Debug.Log(name + " ready is " + ready);
         return ready;
     }
 
@@ -74,6 +72,5 @@ public class Action
         ready = false;
         await Task.Delay((int)(coolDown * 1000));
         ready = true;
-        Debug.Log(name + " has finished cooldown ");
     }
 }

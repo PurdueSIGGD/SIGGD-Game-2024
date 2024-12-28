@@ -45,9 +45,9 @@ GameObject:
   - component: {fileID: 1467948147633493128}
   - component: {fileID: 1603849808541719507}
   - component: {fileID: 3602954514945515610}
-  - component: {fileID: 7679382285400612018}
   - component: {fileID: 7321790019576285446}
   - component: {fileID: 8856570929518799469}
+  - component: {fileID: 3715663957954540872}
   m_Layer: 21
   m_Name: Camera Drone
   m_TagString: Untagged
@@ -229,27 +229,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stats: {fileID: 0}
+  pool: {fileID: 0}
   animator: {fileID: 6400381198355053387}
   aggroRange: 16.76
   alarmTrigger: {fileID: 7775618551989780944}
   enemyToSummon: {fileID: 2119936537419083514, guid: 0fedb38f283d38a4faca7620ea8ae537,
     type: 3}
---- !u!114 &7679382285400612018
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8652318323731026824}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 532320b84239cf640a651fa5709b989a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stats:
-  - name: Max Health
-    value: 10
-    modifier: 100
 --- !u!114 &7321790019576285446
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -283,3 +268,36 @@ MonoBehaviour:
   - name: Max Health
     value: 1
     modifier: 100
+--- !u!114 &3715663957954540872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8652318323731026824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 872d96247465fd541bea93e36537b26f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actions:
+  - name: Call Alarm
+    hitBox: {fileID: 7775618551989780944}
+    coolDown: 5
+    animationClip: {fileID: 7400000, guid: 6be99b37274953c40b797d9e1744a2a7, type: 2}
+    priority: 1
+    ready: 0
+  move:
+    name: Move
+    hitBox: {fileID: 0}
+    coolDown: 0
+    animationClip: {fileID: 7400000, guid: 4739459637a37884c8ebb6a3ce1e90ce, type: 2}
+    priority: 0
+    ready: 0
+  idle:
+    name: 
+    hitBox: {fileID: 0}
+    coolDown: 0
+    animationClip: {fileID: 7400000, guid: 468a49c330cf0294486adcfa8c854b6e, type: 2}
+    priority: 0
+    ready: 0

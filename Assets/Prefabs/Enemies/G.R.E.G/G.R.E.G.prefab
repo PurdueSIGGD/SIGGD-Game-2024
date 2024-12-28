@@ -108,6 +108,7 @@ GameObject:
   - component: {fileID: 166145500235385066}
   - component: {fileID: 8152285351237874372}
   - component: {fileID: 3440705048582449508}
+  - component: {fileID: 310345646144262094}
   m_Layer: 21
   m_Name: G.R.E.G
   m_TagString: Untagged
@@ -291,6 +292,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stats: {fileID: 0}
+  pool: {fileID: 0}
   animator: {fileID: 166145500235385066}
   aggroRange: 9.92
   gunKick: {fileID: 8875514496581505741}
@@ -317,3 +319,42 @@ MonoBehaviour:
   - name: Max Health
     value: 1
     modifier: 100
+--- !u!114 &310345646144262094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8433722653154054174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 872d96247465fd541bea93e36537b26f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actions:
+  - name: Kick
+    hitBox: {fileID: 8875514496581505741}
+    coolDown: 4
+    animationClip: {fileID: 7400000, guid: 8c897a8a0dede6440a96aac7136b23fc, type: 2}
+    priority: 7
+    ready: 0
+  - name: Shoot
+    hitBox: {fileID: 6754032986899484797}
+    coolDown: 4
+    animationClip: {fileID: 7400000, guid: e06dacd5cab3a6349968796d2cef56de, type: 2}
+    priority: 3
+    ready: 0
+  move:
+    name: Move
+    hitBox: {fileID: 0}
+    coolDown: 0
+    animationClip: {fileID: 7400000, guid: 50188f8587fb1d944acdb9fdcc0b1425, type: 2}
+    priority: 0
+    ready: 0
+  idle:
+    name: Idle
+    hitBox: {fileID: 0}
+    coolDown: 0
+    animationClip: {fileID: 7400000, guid: ff1895b71cbdcc8408401395813d5733, type: 2}
+    priority: 0
+    ready: 0
