@@ -1,16 +1,11 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// Enemy AI for Camera Drone
-/// </summary>
-[Serializable]
 public class CameraDrone : EnemyStateManager
 {
-    protected Transform alarmTrigger;
-    protected GameObject enemyToSummon;
+    [SerializeField] protected Transform alarmTrigger;
+    [SerializeField] protected GameObject enemyToSummon;
 
     /// <summary>
     /// Summons an enemy

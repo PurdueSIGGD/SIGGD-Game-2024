@@ -5,16 +5,14 @@ using UnityEngine;
 /// <summary>
 /// Enemy AI for Roomba
 /// </summary>
-[SerializeField]
 public class Roomba : EnemyStateManager
 {
-    protected Transform kaboomTrigger;
-    protected float kaboomDamage;
+    [SerializeField] protected Transform kaboomTrigger;
 
     // Check for player in blast radius and do damage
     protected void OnKaboomEvent()
     {
-        GenerateDamageFrame(kaboomTrigger.position, kaboomTrigger.lossyScale.x, kaboomDamage);
+        GenerateDamageFrame(kaboomTrigger.position, kaboomTrigger.lossyScale.x, 5.0f);
     }
 
     protected override void OnFinishAnimation()

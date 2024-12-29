@@ -6,25 +6,21 @@ using UnityEngine.Experimental.Playables;
 /// <summary>
 /// Enemy AI for the Cyborg
 /// </summary>
-[SerializeField]
 public class Cyborg : EnemyStateManager
 {
-    protected Transform meleeTrigger; // Area in which enemy will attempt to melee
-    protected float meleeDamage;
-    protected Transform tpBackTrigger; // Area in which enemy will attempt to teleport backward
-    protected float spinDamage;
-    protected Transform tpForwardTrigger; // Area in which enemy will attempt to teleport forward
+    [SerializeField] protected Transform meleeTrigger; // Area in which enemy will attempt to melee
+    [SerializeField] protected Transform tpBackTrigger; // Area in which enemy will attempt to teleport backward
+    [SerializeField] protected Transform tpForwardTrigger; // Area in which enemy will attempt to teleport forward
     
-    protected Transform stingerTrigger; // Area in which enemy will attempt to use stinger attack
-    protected Transform stingerHitBox; // Area in which the stinger attack will do damage
-    protected float stingerDamage;
+    [SerializeField] protected Transform stingerTrigger; // Area in which enemy will attempt to use stinger attack
+    [SerializeField] protected Transform stingerHitBox; // Area in which the stinger attack will do damage
 
     // Cyborg will draw actions greedily
 
     // Generate damage frame for melee slash attack
     protected void OnSlashEvent()
     {
-        GenerateDamageFrame(meleeTrigger.position, meleeTrigger.lossyScale.x, meleeTrigger.lossyScale.y, meleeDamage);
+        GenerateDamageFrame(meleeTrigger.position, meleeTrigger.lossyScale.x, meleeTrigger.lossyScale.y, 1.0f);
     }
 
     // Teleports the cyborg backwards
@@ -53,13 +49,13 @@ public class Cyborg : EnemyStateManager
     // Generate damage frame for follow up attack after teleporting forward
     protected void OnTPForwardEvent2()
     {
-        GenerateDamageFrame(tpBackTrigger.position, tpBackTrigger.lossyScale.x, tpBackTrigger.lossyScale.y, spinDamage);
+        GenerateDamageFrame(tpBackTrigger.position, tpBackTrigger.lossyScale.x, tpBackTrigger.lossyScale.y, 1.0f);
     }
 
     // Generate damage frame for long range stinger attack
     protected void OnStingerEvent()
     {
-        GenerateDamageFrame(stingerHitBox.position, stingerHitBox.lossyScale.x, stingerHitBox.lossyScale.y, stingerDamage);
+        GenerateDamageFrame(stingerHitBox.position, stingerHitBox.lossyScale.x, stingerHitBox.lossyScale.y, 1.0f);
     }
 
     protected override void OnFinishAnimation()
