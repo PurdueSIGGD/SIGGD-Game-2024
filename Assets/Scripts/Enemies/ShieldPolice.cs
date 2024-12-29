@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -7,11 +8,13 @@ using UnityEngine;
 /// <summary>
 /// Enemy AI for a Shielded Riot Police
 /// </summary>
+[Serializable]
 public class ShieldPolice : EnemyStateManager
 {
-    [SerializeField] protected Transform batonTrigger;
-    [SerializeField] protected Transform chargeTrigger;
-    [SerializeField] protected float chargeSpeed;
+    protected Transform batonTrigger;
+    protected float batonDamage;
+    protected Transform chargeTrigger;
+    protected float chargeSpeed;
 
     protected bool isCharging;
     protected Vector2 chargePos;
@@ -27,7 +30,7 @@ public class ShieldPolice : EnemyStateManager
     // Generate damage frame for baton swing
     protected void OnBatonEvent()
     {
-        GenerateDamageFrame(batonTrigger.position, batonTrigger.lossyScale.x, batonTrigger.lossyScale.y, 1.0f);
+        GenerateDamageFrame(batonTrigger.position, batonTrigger.lossyScale.x, batonTrigger.lossyScale.y, batonDamage);
     }
 
     // Ask police to begin charging and enable shield damage

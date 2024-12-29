@@ -1,22 +1,26 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 /// <summary>
 /// Enemy AI for gun with legs
 /// </summary>
+[Serializable]
 public class GunWithLegs : EnemyStateManager
 {
-    [SerializeField] protected Transform gunKick;
-    [SerializeField] protected Transform gunShoot;
-    [SerializeField] protected Transform rangeOrig;
+    protected Transform gunKick;
+    protected float kickDamage;
+    protected Transform gunShoot;
+    protected Transform rangeOrig;
 
-    [SerializeField] protected Transform projectile;
+    protected GameObject projectile;
 
     // Check for kick collision and do damage
     protected void OnKickEvent()
     {
-        GenerateDamageFrame(gunKick.position, gunKick.lossyScale.x, gunKick.lossyScale.y, 1.0f);
+        GenerateDamageFrame(gunKick.position, gunKick.lossyScale.x, gunKick.lossyScale.y, kickDamage);
     }
 
     // Instantiate projectile prefab and push self back
