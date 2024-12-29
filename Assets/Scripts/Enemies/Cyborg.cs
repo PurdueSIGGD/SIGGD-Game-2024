@@ -8,19 +8,28 @@ using UnityEngine.Experimental.Playables;
 /// </summary>
 public class Cyborg : EnemyStateManager
 {
+    [Header("Melee Attack")]
     [SerializeField] protected Transform meleeTrigger; // Area in which enemy will attempt to melee
+    [SerializeField] protected float meleeDamage;
+
+    [Header("Teleporting Backwards")]
     [SerializeField] protected Transform tpBackTrigger; // Area in which enemy will attempt to teleport backward
+
+    [Header("Teleporting Forwards")]
     [SerializeField] protected Transform tpForwardTrigger; // Area in which enemy will attempt to teleport forward
-    
+    [SerializeField] protected float spinDamage;
+
+    [Header("Extend Stingers")]
     [SerializeField] protected Transform stingerTrigger; // Area in which enemy will attempt to use stinger attack
     [SerializeField] protected Transform stingerHitBox; // Area in which the stinger attack will do damage
+    [SerializeField] protected float stingerDamage;
 
     // Cyborg will draw actions greedily
 
     // Generate damage frame for melee slash attack
     protected void OnSlashEvent()
     {
-        GenerateDamageFrame(meleeTrigger.position, meleeTrigger.lossyScale.x, meleeTrigger.lossyScale.y, 1.0f);
+        GenerateDamageFrame(meleeTrigger.position, meleeTrigger.lossyScale.x, meleeTrigger.lossyScale.y, meleeDamage);
     }
 
     // Teleports the cyborg backwards
@@ -49,13 +58,13 @@ public class Cyborg : EnemyStateManager
     // Generate damage frame for follow up attack after teleporting forward
     protected void OnTPForwardEvent2()
     {
-        GenerateDamageFrame(tpBackTrigger.position, tpBackTrigger.lossyScale.x, tpBackTrigger.lossyScale.y, 1.0f);
+        GenerateDamageFrame(tpBackTrigger.position, tpBackTrigger.lossyScale.x, tpBackTrigger.lossyScale.y, spinDamage);
     }
 
     // Generate damage frame for long range stinger attack
     protected void OnStingerEvent()
     {
-        GenerateDamageFrame(stingerHitBox.position, stingerHitBox.lossyScale.x, stingerHitBox.lossyScale.y, 1.0f);
+        GenerateDamageFrame(stingerHitBox.position, stingerHitBox.lossyScale.x, stingerHitBox.lossyScale.y, stingerDamage);
     }
 
     protected override void OnFinishAnimation()

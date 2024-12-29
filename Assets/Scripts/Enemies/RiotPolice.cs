@@ -8,12 +8,14 @@ using UnityEngine;
 /// </summary>
 public class RiotPolice : EnemyStateManager
 {
+    [Header("Baton Attack")]
     [SerializeField] protected Transform batonTrigger;
+    [SerializeField] protected float batonDamage;
 
     // Check for collision in swing range to deal damage
     protected void OnBatonEvent()
     {
-        GenerateDamageFrame(batonTrigger.position, batonTrigger.lossyScale.x, batonTrigger.lossyScale.y, 1);
+        GenerateDamageFrame(batonTrigger.position, batonTrigger.lossyScale.x, batonTrigger.lossyScale.y, batonDamage);
     }
 
     // Draws the Enemy attack range in the editor

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CameraDrone : EnemyStateManager
 {
+    [Header("Call Reinforcement")]
     [SerializeField] protected Transform alarmTrigger;
     [SerializeField] protected GameObject enemyToSummon;
 

@@ -7,16 +7,19 @@ using UnityEngine;
 /// </summary>
 public class GunWithLegs : EnemyStateManager
 {
+    [Header("Kick")]
     [SerializeField] protected Transform gunKick;
+    [SerializeField] protected float kickDamage;
+
+    [Header("Shoot")]
     [SerializeField] protected Transform gunShoot;
     [SerializeField] protected Transform rangeOrig;
-
     [SerializeField] protected Transform projectile;
 
     // Check for kick collision and do damage
     protected void OnKickEvent()
     {
-        GenerateDamageFrame(gunKick.position, gunKick.lossyScale.x, gunKick.lossyScale.y, 1.0f);
+        GenerateDamageFrame(gunKick.position, gunKick.lossyScale.x, gunKick.lossyScale.y, kickDamage);
     }
 
     // Instantiate projectile prefab and push self back
