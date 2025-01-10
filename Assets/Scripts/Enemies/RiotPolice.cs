@@ -10,12 +10,13 @@ public class RiotPolice : EnemyStateManager
 {
     [Header("Baton Attack")]
     [SerializeField] protected Transform batonTrigger;
-    [SerializeField] protected float batonDamage;
+    //[SerializeField] protected float batonDamage;
+    [SerializeField] protected DamageContext batonDamage;
 
     // Check for collision in swing range to deal damage
     protected void OnBatonEvent()
     {
-        GenerateDamageFrame(batonTrigger.position, batonTrigger.lossyScale.x, batonTrigger.lossyScale.y, batonDamage);
+        GenerateDamageFrame(batonTrigger.position, batonTrigger.lossyScale.x, batonTrigger.lossyScale.y, batonDamage, gameObject);
     }
 
     // Draws the Enemy attack range in the editor

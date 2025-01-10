@@ -35,14 +35,17 @@ public enum ActionType
     SKILL,
     SACRIFICE,
     ITEM,
+    ENEMY_ATTACK,
     MISCELLANEOUS,
 }
 
 public enum DamageStrength
 {
+    MEAGER,
     LIGHT,
     MODERATE,
     HEAVY,
+    DEVASTATING,
 }
 
 public enum DamageType

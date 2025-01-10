@@ -16,9 +16,10 @@ GameObject:
   - component: {fileID: 4950017548320773108}
   - component: {fileID: -4750325557521470314}
   - component: {fileID: 8922106226278131008}
+  - component: {fileID: 4678795254975193693}
   m_Layer: 21
   m_Name: Roomba
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -37,6 +38,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2932781976428712665}
+  - {fileID: 8774589307886561326}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &6971829175617292507
@@ -201,6 +203,13 @@ MonoBehaviour:
   animator: {fileID: 6971829175617292507}
   aggroRange: 7.76
   kaboomTrigger: {fileID: 2932781976428712665}
+  kaboomDamage:
+    damage: 25
+    damageStrength: 3
+    damageTypes: 02000000
+    actionID: 17
+    actionTypes: 07000000
+    extraContext: Roomba Kaboom
 --- !u!114 &-4750325557521470314
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -218,7 +227,7 @@ MonoBehaviour:
     value: 1
     modifier: 100
   - name: Max Health
-    value: 1
+    value: 10
     modifier: 100
 --- !u!114 &8922106226278131008
 MonoBehaviour:
@@ -234,25 +243,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actions:
   - name: Kaboom
+    priority: 1
+    ready: 0
     hitBox: {fileID: 2932781976428712665}
     coolDown: 0
     animationClip: {fileID: 7400000, guid: 92ad5adfcb80c584282d7d47fcaf3fdd, type: 2}
-    priority: 1
-    ready: 0
   move:
     name: Move
+    priority: 0
+    ready: 0
     hitBox: {fileID: 0}
     coolDown: 0
     animationClip: {fileID: 7400000, guid: b9d7f051e662c1a4194355e44cb4b865, type: 2}
-    priority: 0
-    ready: 0
   idle:
     name: Idle
+    priority: 0
+    ready: 0
     hitBox: {fileID: 0}
     coolDown: 0
     animationClip: {fileID: 7400000, guid: fac5a37b0d3e17043920d1176804a9d1, type: 2}
-    priority: 0
-    ready: 0
+--- !u!114 &4678795254975193693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1487853512614266132}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a13ad00583bca6b4fa6de9939a968201, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 10
 --- !u!1 &4301427481350538189
 GameObject:
   m_ObjectHideFlags: 0
@@ -284,3 +306,77 @@ Transform:
   m_Children: []
   m_Father: {fileID: 7682996264086659794}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &6636911203922081307
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 7682996264086659794}
+    m_Modifications:
+    - target: {fileID: 2728778880471080501, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2728778880471080501, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2728778880471080501, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2728778880471080501, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2728778880471080501, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2728778880471080501, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2728778880471080501, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2728778880471080501, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2728778880471080501, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2728778880471080501, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3487495804464263818, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
+        type: 3}
+      propertyPath: m_Name
+      value: HealthUI
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 57736c042d8d73b4abf9d13b8d2a3ad3, type: 3}
+--- !u!4 &8774589307886561326 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2728778880471080501, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
+    type: 3}
+  m_PrefabInstance: {fileID: 6636911203922081307}
+  m_PrefabAsset: {fileID: 0}

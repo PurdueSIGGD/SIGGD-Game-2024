@@ -15,7 +15,7 @@ public class DummyStates : EnemyStateManager, IDamageable
     [SerializeField] protected Transform rangeOrig; // Location where Dummy Shoot's Projectile will spawn
 
     private int meleeDamage = 0; // Melee Damage of Enemy --> For 'Slash Action'
-    private int rangeDamage = 0; // Range Damage of Enemy --> For 'Shoot Action'
+    //private int rangeDamage = 0; // Range Damage of Enemy --> For 'Shoot Action'
     private float damageReduction;
     private float health;
     private Stats stats;
@@ -28,7 +28,7 @@ public class DummyStates : EnemyStateManager, IDamageable
         health = (int) stats.ComputeValue("Health"); 
         damageReduction = stats.ComputeValue("Armor");  
         meleeDamage = (int) stats.ComputeValue("Melee Damage");
-        rangeDamage = (int) stats.ComputeValue("Range Damage");
+        //rangeDamage = (int) stats.ComputeValue("Range Damage");
 
         if (damageReduction < 0 || damageReduction > 1)
         {
@@ -43,7 +43,7 @@ public class DummyStates : EnemyStateManager, IDamageable
     protected void OnShootEvent()
     {
         GameObject proj_i = Instantiate(projectile, rangeOrig.position, transform.rotation);
-        proj_i.GetComponent<EnemyProjectile>().damage = rangeDamage;
+        //proj_i.GetComponent<EnemyProjectile>().damage = rangeDamage;
     }
     // Checks for collision with Player during Dummy Shoot.
     protected void OnSlashEvent()

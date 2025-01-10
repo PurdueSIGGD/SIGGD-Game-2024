@@ -48,7 +48,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
-  damage: 15
+  projectileDamage:
+    damage: 5
+    damageStrength: 0
+    damageTypes: 01000000
+    actionID: 17
+    actionTypes: 07000000
+    extraContext: GREG Projectile
   range: 25
 --- !u!61 &2646517134290584728
 BoxCollider2D:

@@ -11,7 +11,8 @@ public class ShieldPolice : EnemyStateManager
 {
     [Header("Baton Attack")]
     [SerializeField] protected Transform batonTrigger;
-    [SerializeField] protected float batonDamage;
+    //[SerializeField] protected float batonDamage;
+    [SerializeField] protected DamageContext batonDamage;
 
     [Header("Charge Attack (See shield to define damage)")]
     [SerializeField] protected Transform chargeTrigger;
@@ -31,7 +32,8 @@ public class ShieldPolice : EnemyStateManager
     // Generate damage frame for baton swing
     protected void OnBatonEvent()
     {
-        GenerateDamageFrame(batonTrigger.position, batonTrigger.lossyScale.x, batonTrigger.lossyScale.y, batonDamage);
+        //GenerateDamageFrame(batonTrigger.position, batonTrigger.lossyScale.x, batonTrigger.lossyScale.y, batonDamage);
+        GenerateDamageFrame(batonTrigger.position, batonTrigger.lossyScale.x, batonTrigger.lossyScale.y, batonDamage, gameObject);
     }
 
     // Ask police to begin charging and enable shield damage

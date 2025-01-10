@@ -9,7 +9,8 @@ public class GunWithLegs : EnemyStateManager
 {
     [Header("Kick")]
     [SerializeField] protected Transform gunKick;
-    [SerializeField] protected float kickDamage;
+    //[SerializeField] protected float kickDamage;
+    [SerializeField] protected DamageContext kickDamage;
 
     [Header("Shoot")]
     [SerializeField] protected Transform gunShoot;
@@ -19,7 +20,8 @@ public class GunWithLegs : EnemyStateManager
     // Check for kick collision and do damage
     protected void OnKickEvent()
     {
-        GenerateDamageFrame(gunKick.position, gunKick.lossyScale.x, gunKick.lossyScale.y, kickDamage);
+        //GenerateDamageFrame(gunKick.position, gunKick.lossyScale.x, gunKick.lossyScale.y, kickDamage);
+        GenerateDamageFrame(gunKick.position, gunKick.lossyScale.x, gunKick.lossyScale.y, kickDamage, gameObject);
     }
 
     // Instantiate projectile prefab and push self back

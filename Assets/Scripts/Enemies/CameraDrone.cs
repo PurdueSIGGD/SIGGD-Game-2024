@@ -14,7 +14,7 @@ public class CameraDrone : EnemyStateManager
     protected void OnCallAlarm()
     {
 #if DEBUG
-        GenerateDamageFrame(alarmTrigger.position, alarmTrigger.lossyScale.x, alarmTrigger.lossyScale.y, 0);
+        GenerateDamageFrame(alarmTrigger.position, alarmTrigger.lossyScale.x, alarmTrigger.lossyScale.y, default, gameObject);
 #endif
         Vector3 dest = transform.position + new Vector3(transform.right.x*transform.lossyScale.x, -transform.lossyScale.y, 0);
         Instantiate(enemyToSummon, dest, transform.rotation);

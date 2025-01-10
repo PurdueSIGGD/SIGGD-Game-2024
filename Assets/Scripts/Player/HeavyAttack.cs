@@ -6,7 +6,8 @@ using UnityEngine;
 public class HeavyAttack : MonoBehaviour
 {
     [SerializeField] GameObject indicator;
-    [SerializeField] int dmg;
+    //[SerializeField] int dmg;
+    [SerializeField] DamageContext heavyDamage;
     [SerializeField] float offsetX;
     private Camera mainCamera;
     private float timer;
@@ -47,11 +48,16 @@ public class HeavyAttack : MonoBehaviour
         {
             if(hit.transform.gameObject.tag == "Enemy")
             {
-                IDamageable ehealth = hit.transform.gameObject.GetComponent<IDamageable>();
-                if (ehealth != null)
+                Debug.Log("Heavy Attack Hit: " + hit.transform.gameObject.name);
+                /*
+                IDamageable enemyhealth = hit.transform.gameObject.GetComponent<IDamageable>();
+                if (enemyhealth != null)
                 {
-                    ehealth.TakeDamage(dmg);
+                    //ehealth.TakeDamage(dmg);
+                    enemyhealth.Damage(heavyDamage, gameObject);
                 }
+                */
+                hit.transform.gameObject.GetComponent<Health>().Damage(heavyDamage, gameObject);
             }
         }
     }

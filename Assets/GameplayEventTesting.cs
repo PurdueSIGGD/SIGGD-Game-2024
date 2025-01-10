@@ -7,16 +7,14 @@ public class GameplayEventTesting : MonoBehaviour
 
     private void OnEnable()
     {
-        //GameplayEventManager.OnDamageReceived += damageReceivedDebug;
+        GameplayEventHolder.OnDamageDealt += damageDealtDebug;
         GameplayEventHolder.OnDamageReceived += damageReceivedDebug;
-        //GameplayEventManager.OnLethalDamageReceived += lethalDamageReceivedDebug;
     }
 
     private void OnDisable()
     {
-        //GameplayEventManager.OnDamageReceived -= damageReceivedDebug;
+        GameplayEventHolder.OnDamageDealt -= damageDealtDebug;
         GameplayEventHolder.OnDamageReceived -= damageReceivedDebug;
-        //GameplayEventManager.OnLethalDamageReceived -= lethalDamageReceivedDebug;
     }
 
     // Start is called before the first frame update
@@ -31,12 +29,39 @@ public class GameplayEventTesting : MonoBehaviour
         
     }
 
-    /*
-    private void damageReceivedDebug(float damage, GameObject attacker, GameObject victim, string context)
+
+
+    private void damageDealtDebug(DamageContext context)
     {
-        Debug.Log("Damage Received: " + damage + " Attacker: " + attacker.name + " Victim: " + victim.name + " Context: " + context);
+        if (context.Equals(default(DamageContext)))
+        {
+            Debug.Log("DAMAGE DEALT\n" + "No context provided.");
+            return;
+        }
+        string damageTypes = "";
+        foreach (DamageType type in context.damageTypes)
+        {
+            damageTypes += type + ", ";
+        }
+        string actionTypes = "";
+        foreach (ActionType type in context.actionTypes)
+        {
+            actionTypes += type + ", ";
+        }
+        Debug.Log("DAMAGE DEALT\n" +
+                  "Attacker: " + context.attacker + "\n" +
+                  "Victim: " + context.victim + "\n" +
+                  "Damage: " + context.damage + "\n" +
+                  "True Damage: " + context.trueDamage + "\n" +
+                  "Damage Strength: " + context.damageStrength + "\n" +
+                  "Damage Types: " + damageTypes + "\n" +
+                  "Ability ID: " + context.actionID + "\n" +
+                  "Ability Types: " + actionTypes + "\n" +
+                  "Invoking Script: " + context.invokingScript + "\n" +
+                  "Extra Context: " + context.extraContext);
     }
-    */
+
+
 
     private void damageReceivedDebug(DamageContext context)
     {
@@ -68,8 +93,4 @@ public class GameplayEventTesting : MonoBehaviour
                   "Extra Context: " + context.extraContext);
     }
 
-    private void lethalDamageReceivedDebug(float damage, GameObject attacker, GameObject victim, string context)
-    {
-        Debug.Log("Damage Received: " + damage + " Attacker: " + attacker.name + " Victim: " + victim.name + " Context: " + context);
-    }
 }

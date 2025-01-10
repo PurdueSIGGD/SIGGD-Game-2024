@@ -47,9 +47,10 @@ GameObject:
   - component: {fileID: 2197548027611747354}
   - component: {fileID: 9121469439051838776}
   - component: {fileID: 628772375253420757}
+  - component: {fileID: 2121035421530653855}
   m_Layer: 21
   m_Name: RiotPolice
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -68,6 +69,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3561678645181035360}
+  - {fileID: 438740059758093778}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &8056966106870366120
@@ -232,6 +234,13 @@ MonoBehaviour:
   animator: {fileID: 8056966106870366120}
   aggroRange: 7.33
   batonTrigger: {fileID: 3561678645181035360}
+  batonDamage:
+    damage: 10
+    damageStrength: 1
+    damageTypes: 00000000
+    actionID: 17
+    actionTypes: 07000000
+    extraContext: Riot Police Baton
 --- !u!114 &9121469439051838776
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -249,7 +258,7 @@ MonoBehaviour:
     value: 4
     modifier: 100
   - name: Max Health
-    value: 1
+    value: 100
     modifier: 100
 --- !u!114 &628772375253420757
 MonoBehaviour:
@@ -265,22 +274,109 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actions:
   - name: Baton Swing
+    priority: 1
     ready: 0
     hitBox: {fileID: 3561678645181035360}
-    maxCoolDown: 2
-    priority: 1
+    coolDown: 0
     animationClip: {fileID: 7400000, guid: f612aa8e9cc4b4a488df5b9e1c8237d2, type: 2}
   move:
     name: 
+    priority: 0
     ready: 0
     hitBox: {fileID: 0}
-    maxCoolDown: 0
-    priority: 0
+    coolDown: 0
     animationClip: {fileID: 7400000, guid: e1d9f2c18293436429c8a1403b4ada95, type: 2}
   idle:
     name: 
+    priority: 0
     ready: 0
     hitBox: {fileID: 0}
-    maxCoolDown: 0
-    priority: 0
+    coolDown: 0
     animationClip: {fileID: 7400000, guid: 968e5750ed810fb418cf0add49c4620a, type: 2}
+--- !u!114 &2121035421530653855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1393067818931581941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a13ad00583bca6b4fa6de9939a968201, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 125
+--- !u!1001 &2578352764128885735
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 9074763983707266519}
+    m_Modifications:
+    - target: {fileID: 2728778880471080501, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2728778880471080501, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2728778880471080501, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2728778880471080501, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2728778880471080501, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2728778880471080501, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2728778880471080501, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2728778880471080501, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2728778880471080501, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2728778880471080501, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3487495804464263818, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
+        type: 3}
+      propertyPath: m_Name
+      value: HealthUI
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 57736c042d8d73b4abf9d13b8d2a3ad3, type: 3}
+--- !u!4 &438740059758093778 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2728778880471080501, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
+    type: 3}
+  m_PrefabInstance: {fileID: 2578352764128885735}
+  m_PrefabAsset: {fileID: 0}

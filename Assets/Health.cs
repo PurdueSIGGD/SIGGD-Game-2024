@@ -51,6 +51,7 @@ public class Health : MonoBehaviour, IDamageable
         currentHealth -= context.damage;
 
         // Trigger events
+        GameplayEventHolder.OnDamageDealt?.Invoke(context);
         GameplayEventHolder.OnDamageReceived?.Invoke(context);
 
         // Kill entity

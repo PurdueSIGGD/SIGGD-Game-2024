@@ -92,7 +92,7 @@ public class EnemyStateManager : MonoBehaviour
     /// <para name="width">X value of the lossyscale of the trigger box</para>
     /// <para name="height">Y value of the lossyscale of the trigger box</para>
     /// <param name="damage">Points of damage to deal</param>
-    protected void GenerateDamageFrame(Vector2 pos, float width, float height, float damage)
+    protected void GenerateDamageFrame(Vector2 pos, float width, float height, DamageContext damageContext, GameObject attacker /*float damage*/)
     {
 #if DEBUG // Draw the damage box in the editor
         float hWidth = width/2;
@@ -108,7 +108,8 @@ public class EnemyStateManager : MonoBehaviour
         Collider2D hit = Physics2D.OverlapBox(pos, new Vector2(width, height), 0f, LayerMask.GetMask("Player"));
         if (hit)
         {
-            hit.GetComponent<PlayerHealth>().TakeDamage(damage);
+            //hit.GetComponent<PlayerHealth>().TakeDamage(damage);
+            hit.GetComponent<Health>().Damage(damageContext, attacker);
         }
     }
 
@@ -118,7 +119,7 @@ public class EnemyStateManager : MonoBehaviour
     /// <param name="pos">Position of the trigger box</param>
     /// <param name="radius">X value of the lossyscale of the trigger circle</param>
     /// <param name="damage">Points of damage to deal</param>
-    protected void GenerateDamageFrame(Vector2 pos, float radius, float damage)
+    protected void GenerateDamageFrame(Vector2 pos, float radius, DamageContext damageContext, GameObject attacker /*float damage*/)
     {
 #if DEBUG // Draw the damage circle in the editor
         int segment = 180;
@@ -141,7 +142,8 @@ public class EnemyStateManager : MonoBehaviour
         Collider2D hit = Physics2D.OverlapCircle(pos, radius, LayerMask.GetMask("Player"));
         if (hit)
         {
-            hit.GetComponent<PlayerHealth>().TakeDamage(damage);
+            //hit.GetComponent<PlayerHealth>().TakeDamage(damage);
+            hit.GetComponent<Health>().Damage(damageContext, attacker);
         }
     }
 
