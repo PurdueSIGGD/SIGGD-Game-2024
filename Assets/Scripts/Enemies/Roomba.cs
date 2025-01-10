@@ -7,26 +7,14 @@ using UnityEngine;
 /// </summary>
 public class Roomba : EnemyStateManager
 {
+    [Header("Self Detonate")]
     [SerializeField] protected Transform kaboomTrigger;
-
-    protected override ActionPool GenerateActionPool()
-    {
-        Action kaboom = new(kaboomTrigger, 0.0f, 1f, "kaboom");
-
-        Action move = new(null, 0.0f, 0.0f, "move");
-        Action idle = new(null, 0.0f, 0.0f, "idle");
-
-        return new ActionPool(new List<Action> { kaboom }, move, idle);
-    }
+    [SerializeField] protected float kaboomDamage;
 
     // Check for player in blast radius and do damage
     protected void OnKaboomEvent()
     {
-        Collider2D hit = Physics2D.OverlapCircle(kaboomTrigger.position, kaboomTrigger.lossyScale.x, LayerMask.GetMask("Player"));
-        if (hit)
-        {
-            hit.GetComponent<PlayerHealth>().TakeDamage(20);
-        }
+        GenerateDamageFrame(kaboomTrigger.position, kaboomTrigger.lossyScale.x, kaboomDamage);
     }
 
     protected override void OnFinishAnimation()

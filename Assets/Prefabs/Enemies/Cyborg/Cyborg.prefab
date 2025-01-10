@@ -78,6 +78,7 @@ GameObject:
   - component: {fileID: 953836412094399138}
   - component: {fileID: 8868405178309692734}
   - component: {fileID: 8480991602502054467}
+  - component: {fileID: 7261880397543917784}
   m_Layer: 21
   m_Name: Cyborg
   m_TagString: Untagged
@@ -262,9 +263,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03dbe72ab01511e4eb989afdb7a8fadf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 4
-  aggroRange: 18.6
+  stats: {fileID: 0}
+  pool: {fileID: 0}
   animator: {fileID: 7905894014490810442}
+  aggroRange: 18.6
   meleeTrigger: {fileID: 2358971396437510415}
   tpBackTrigger: {fileID: 1365265030456903513}
   tpForwardTrigger: {fileID: 3423477219027819224}
@@ -286,6 +288,9 @@ MonoBehaviour:
   - name: Max Health
     value: 10
     modifier: 100
+  - name: Speed
+    value: 10
+    modifier: 100
 --- !u!114 &8480991602502054467
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -300,6 +305,57 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 0
   isAlive: 1
+--- !u!114 &7261880397543917784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2119936537419083514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20d794b3ea5a6da42ac5b8feade20f68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actions:
+  - name: Slash
+    hitBox: {fileID: 2358971396437510415}
+    coolDown: 0
+    animationClip: {fileID: 7400000, guid: d69a7e64e120bf14a9aa1e57c15eeb6a, type: 2}
+    priority: 7
+    ready: 0
+  - name: Teleport Backwards
+    hitBox: {fileID: 1365265030456903513}
+    coolDown: 7
+    animationClip: {fileID: 7400000, guid: a5a8d9d16988a1f499f24e6107fe9dff, type: 2}
+    priority: 1
+    ready: 0
+  - name: Teleport Forwards
+    hitBox: {fileID: 3423477219027819224}
+    coolDown: 18
+    animationClip: {fileID: 7400000, guid: 012a586afaa024e44ab554a7584bd561, type: 2}
+    priority: 5
+    ready: 0
+  - name: Stinger Attack
+    hitBox: {fileID: 6623908715604477131}
+    coolDown: 4
+    animationClip: {fileID: 7400000, guid: 1414bb1595d35334baa24da1ab98026c, type: 2}
+    priority: 2
+    ready: 0
+  move:
+    name: Move
+    hitBox: {fileID: 0}
+    coolDown: 0
+    animationClip: {fileID: 7400000, guid: 106e624640ffb024a911166cfd9df3ac, type: 2}
+    priority: 0
+    ready: 0
+  idle:
+    name: Idle
+    hitBox: {fileID: 0}
+    coolDown: 0
+    animationClip: {fileID: 7400000, guid: d9b9bb522aca7c043b7f8568e51360fa, type: 2}
+    priority: 0
+    ready: 0
 --- !u!1 &2960955476441126688
 GameObject:
   m_ObjectHideFlags: 0

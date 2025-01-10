@@ -7,6 +7,7 @@ using UnityEngine;
 /// </summary>
 public class PoliceShield : MonoBehaviour
 {
+    [SerializeField] private float chargeDamage;
     private bool isCharging = false;
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -18,7 +19,7 @@ public class PoliceShield : MonoBehaviour
         }
         GameObject player = collision.gameObject;
 
-        player.GetComponent<PlayerHealth>().TakeDamage(10);
+        player.GetComponent<PlayerHealth>().TakeDamage(chargeDamage);
         gameObject.GetComponentInParent<Animator>().SetBool("HasCollided", true);
 
         ToggleCollision();

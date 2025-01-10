@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 9070280046442885385}
   - component: {fileID: 5620131887818746087}
   - component: {fileID: 4950017548320773108}
+  - component: {fileID: -4750325557521470314}
+  - component: {fileID: 8922106226278131008}
   m_Layer: 21
   m_Name: Roomba
   m_TagString: Untagged
@@ -194,10 +196,63 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 952f5b6ed55837944ba140fdc84331fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
-  aggroRange: 7.76
+  stats: {fileID: 0}
+  pool: {fileID: 0}
   animator: {fileID: 6971829175617292507}
+  aggroRange: 7.76
   kaboomTrigger: {fileID: 2932781976428712665}
+--- !u!114 &-4750325557521470314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1487853512614266132}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 532320b84239cf640a651fa5709b989a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stats:
+  - name: Speed
+    value: 1
+    modifier: 100
+  - name: Max Health
+    value: 1
+    modifier: 100
+--- !u!114 &8922106226278131008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1487853512614266132}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 872d96247465fd541bea93e36537b26f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actions:
+  - name: Kaboom
+    hitBox: {fileID: 2932781976428712665}
+    coolDown: 0
+    animationClip: {fileID: 7400000, guid: 92ad5adfcb80c584282d7d47fcaf3fdd, type: 2}
+    priority: 1
+    ready: 0
+  move:
+    name: Move
+    hitBox: {fileID: 0}
+    coolDown: 0
+    animationClip: {fileID: 7400000, guid: b9d7f051e662c1a4194355e44cb4b865, type: 2}
+    priority: 0
+    ready: 0
+  idle:
+    name: Idle
+    hitBox: {fileID: 0}
+    coolDown: 0
+    animationClip: {fileID: 7400000, guid: fac5a37b0d3e17043920d1176804a9d1, type: 2}
+    priority: 0
+    ready: 0
 --- !u!1 &4301427481350538189
 GameObject:
   m_ObjectHideFlags: 0
