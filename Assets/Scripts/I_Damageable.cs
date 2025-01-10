@@ -10,7 +10,11 @@ using UnityEngine;
         /// </summary>
         /// <param name="damage"></param>
         /// Takes a damage from player or some sort of attacker/enemy or Enviromental object
-        void TakeDamage(float damage); 
+        void TakeDamage(float damage);
+
+        float Damage(DamageContext context, GameObject attacker);
+
+        float Heal(HealingContext context, GameObject healer);
 
     }
 

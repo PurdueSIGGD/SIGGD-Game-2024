@@ -94,4 +94,14 @@ public class DummyStates : EnemyStateManager, IDamageable
         Gizmos.DrawWireCube(rangeTrigger.position, rangeTrigger.lossyScale);
         Gizmos.DrawWireSphere(rangeOrig.position, 0.1f);
     }
+
+    public float Damage(DamageContext context, GameObject attacker)
+    {
+        return 0f;
+    }
+
+    public float Heal(HealingContext context, GameObject healer)
+    {
+        return 0f;
+    }
 }
