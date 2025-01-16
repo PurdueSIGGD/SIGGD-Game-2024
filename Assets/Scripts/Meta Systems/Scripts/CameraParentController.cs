@@ -13,6 +13,9 @@ public class CameraParentController : MonoBehaviour
     // Testing field, takes the transform of a test target
     [SerializeField] private Transform testTransform;
 
+    //
+    [SerializeField] private Vector2 targetOfset;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,6 +28,7 @@ public class CameraParentController : MonoBehaviour
         // This is only present for testing
         if (testTransform != null) {
             cameraTarget = testTransform.position;
+            cameraTarget = new Vector3(cameraTarget.x + targetOfset.x, cameraTarget.y + targetOfset.y, 0f);
         }
     }
 
