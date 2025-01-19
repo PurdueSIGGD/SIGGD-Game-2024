@@ -52,7 +52,7 @@ public class PlayerGroundAtack : MonoBehaviour
         foreach(Collider2D collide in collided) {
             // Currently hits all enemies in range
            if (collide.gameObject.GetComponent<IDamageable>() != null) {
-                collide.GetComponent<IDamageable>().TakeDamage(damage);
+                //collide.GetComponent<IDamageable>().TakeDamage(damage);
            }
         }
     }

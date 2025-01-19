@@ -32,7 +32,7 @@ public class CameraBuffer : MonoBehaviour
 
     // LateUpdate is called once per frame (after update)
     // The camera's position is moved
-    void LateUpdate()
+    void FixedUpdate()
     {
         targetPos = parentController.getTarget();
         curPos = this.gameObject.transform.position;

@@ -9,7 +9,6 @@ public class Roomba : EnemyStateManager
 {
     [Header("Self Detonate")]
     [SerializeField] protected Transform kaboomTrigger;
-    //[SerializeField] protected float kaboomDamage;
     [SerializeField] protected DamageContext kaboomDamage;
 
     // Check for player in blast radius and do damage

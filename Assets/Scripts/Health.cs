@@ -10,7 +10,7 @@ public class Health : MonoBehaviour, IDamageable
 
     public float maxHealth; // Max health of player
     [NonSerialized] public float currentHealth; // Current health of player
-    [NonSerialized] public bool isAlive = true; // Checks if player is still alive, if not Player lose (?)
+    [NonSerialized] public bool isAlive = true; // Checks if player is still alive
     private Stats stats;
 
 
@@ -19,7 +19,10 @@ public class Health : MonoBehaviour, IDamageable
     void Start()
     {
         stats = GetComponent<Stats>();
-        maxHealth = stats.ComputeValue("Max Health");
+        if (stats != null )
+        {
+            maxHealth = stats.ComputeValue("Max Health");
+        }
         currentHealth = maxHealth;
     }
 
@@ -27,13 +30,6 @@ public class Health : MonoBehaviour, IDamageable
     void Update()
     {
         
-    }
-
-
-
-    public void TakeDamage(float damage)
-    {
-
     }
 
 
@@ -88,6 +84,9 @@ public class Health : MonoBehaviour, IDamageable
     public void Kill()
     {
         isAlive = false;
+
+        //Trigger Events
+
         Destroy(this.gameObject);
     }
 }

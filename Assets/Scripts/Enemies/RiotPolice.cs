@@ -10,7 +10,6 @@ public class RiotPolice : EnemyStateManager
 {
     [Header("Baton Attack")]
     [SerializeField] protected Transform batonTrigger;
-    //[SerializeField] protected float batonDamage;
     [SerializeField] protected DamageContext batonDamage;
 
     // Check for collision in swing range to deal damage
