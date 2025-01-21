@@ -11,16 +11,28 @@ public class GameplayEventHolder : MonoBehaviour
     /// <param name="context">Struct containing context for this event.</param>
     public delegate void DamageDealtEvent(DamageContext context);
     /// <summary>
-    /// Invoked when the player deals damage.
+    /// Invoked when an entity deals damage.
     /// </summary>
     public static DamageDealtEvent OnDamageDealt;
 
-    // ON DAMAGE RECEIVED
+
+
+    // ON HEALING DEALT
     /// <param name="context">Struct containing context for this event.</param>
-    public delegate void DamageReceivedEvent(DamageContext context);
+    public delegate void HealingDealtEvent(HealingContext context);
     /// <summary>
-    /// Invoked when the player receives damage.
+    /// Invoked when an entity causes healing.
     /// </summary>
-    public static DamageReceivedEvent OnDamageReceived;
+    public static HealingDealtEvent OnHealingDealt;
+
+
+
+    // ON DEATH
+    /// <param name="context">Struct containing context for this event.</param>
+    public delegate void DeathEvent(DamageContext context);
+    /// <summary>
+    /// Invoked when an entity dies.
+    /// </summary>
+    public static DeathEvent OnDeath;
 
 }

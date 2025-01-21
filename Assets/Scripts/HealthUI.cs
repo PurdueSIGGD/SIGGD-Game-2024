@@ -9,12 +9,14 @@ public class HealthUI : MonoBehaviour
 
     [SerializeField] public TextMeshProUGUI healthText;
     private Health health;
+    private Stats stats;
     private Quaternion UIRotation;
 
     // Start is called before the first frame update
     void Start()
     {
         health = transform.parent.GetComponent<Health>();
+        stats = transform.parent.GetComponent<Stats>();
         UIRotation = new Quaternion(0f, transform.parent.rotation.y, 0f, 0f);
     }
 
@@ -23,7 +25,6 @@ public class HealthUI : MonoBehaviour
     {
         UIRotation.y = transform.parent.rotation.y;
         transform.localRotation = UIRotation;
-        //Debug.Log("UIRotation.y: " + UIRotation.y + "   |   transform.parent.rotation.y: " + transform.parent.rotation.y + "   |   transform.localRotation.y: " + transform.localRotation.y);
-        healthText.text = health.currentHealth + " | " + health.maxHealth;
+        healthText.text = Mathf.CeilToInt(health.currentHealth) + " | " + Mathf.CeilToInt(stats.ComputeValue("Max Health"));
     }
 }

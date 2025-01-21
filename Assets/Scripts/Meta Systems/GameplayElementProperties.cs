@@ -6,6 +6,9 @@ using UnityEngine;
 
 public enum ActionID
 {
+    //IMPORTANT NOTE: Do NOT add new values to this enum above any existing values.
+    //                Doing so will cause EVERY serialized instance of this enum to be corrupted.
+    //                You may still add values under the existing ones.
     GHOST_SWAP,
     PLAYER_LIGHT_ATTACK,
     PLAYER_HEAVY_ATTACK,
@@ -28,6 +31,9 @@ public enum ActionID
 
 public enum ActionType
 {
+    //IMPORTANT NOTE: Do NOT add new values to this enum above any existing values.
+    //                Doing so will cause EVERY serialized instance of this enum to be corrupted.
+    //                You may still add values under the existing ones.
     LIGHT_ATTACK,
     HEAVY_ATTACK,
     BASIC_ABILITY,
@@ -41,6 +47,9 @@ public enum ActionType
 
 public enum DamageStrength
 {
+    //IMPORTANT NOTE: Do NOT add new values to this enum above any existing values.
+    //                Doing so will cause EVERY serialized instance of this enum to be corrupted.
+    //                You may still add values under the existing ones.
     MEAGER,
     LIGHT,
     MODERATE,
@@ -50,6 +59,9 @@ public enum DamageStrength
 
 public enum DamageType
 {
+    //IMPORTANT NOTE: Do NOT add new values to this enum above any existing values.
+    //                Doing so will cause EVERY serialized instance of this enum to be corrupted.
+    //                You may still add values under the existing ones.
     MELEE,
     PROJECTILE,
     AREA,
@@ -62,10 +74,6 @@ public enum DamageType
 /// </summary>
 [Serializable] public struct DamageContext
 {
-    //IMPORTANT NOTE: Do NOT add new fields to this struct above any existing fields.
-    //                Doing so will cause serialized damage information to be corrupted for EVERY attack in this project.
-    //                You may still add fields under the existing ones.
-
     /// <summary>
     /// The GameObject that is inflicting damage.
     /// </summary>
@@ -113,10 +121,6 @@ public enum DamageType
 /// </summary>
 [Serializable] public struct HealingContext
 {
-    //IMPORTANT NOTE: Do NOT add new fields to this struct above any existing fields.
-    //                Doing so will cause serialized healing information to be corrupted for EVERY healing action in this project.
-    //                You may still add fields under the existing ones.
-
     /// <summary>
     /// The GameObject that is providing healing.
     /// </summary>
@@ -156,10 +160,6 @@ public enum DamageType
 /// </summary>
 [Serializable] public struct ActionContext
 {
-    //IMPORTANT NOTE: Do NOT add new fields to this struct above any existing fields.
-    //                Doing so will cause serialized action information to be corrupted for EVERY action using this struct.
-    //                You may still add fields under the existing ones.
-
     /// <summary>
     /// An identifier for this action.
     /// </summary>

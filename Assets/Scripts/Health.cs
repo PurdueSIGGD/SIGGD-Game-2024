@@ -8,7 +8,7 @@ using UnityEngine;
 public class Health : MonoBehaviour, IDamageable
 {
 
-    public float maxHealth; // Max health of player
+    private float maxHealth; // Max health of player
     [NonSerialized] public float currentHealth; // Current health of player
     [NonSerialized] public bool isAlive = true; // Checks if player is still alive
     private Stats stats;
@@ -48,12 +48,11 @@ public class Health : MonoBehaviour, IDamageable
 
         // Trigger events
         GameplayEventHolder.OnDamageDealt?.Invoke(context);
-        GameplayEventHolder.OnDamageReceived?.Invoke(context);
 
         // Kill entity
         if (currentHealth <= 0f)
         {
-            Kill();
+            Kill(context);
         }
 
         return context.damage;
@@ -75,17 +74,19 @@ public class Health : MonoBehaviour, IDamageable
         currentHealth += context.healing;
 
         // Trigger events
+        GameplayEventHolder.OnHealingDealt?.Invoke(context);
 
         return context.healing;
     }
 
 
 
-    public void Kill()
+    public void Kill(DamageContext context)
     {
         isAlive = false;
 
         //Trigger Events
+        GameplayEventHolder.OnDeath?.Invoke(context);
 
         Destroy(this.gameObject);
     }

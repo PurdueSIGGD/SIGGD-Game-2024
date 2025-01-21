@@ -29,8 +29,6 @@ public class CameraParentController : MonoBehaviour
     // The z coordinate is ignored.  
     private Vector3 cameraTarget;
 
-    private Vector3 mousePosition;
-    private Vector3 homePosition;
     private bool isAimPulling = false;
 
 
@@ -49,11 +47,13 @@ public class CameraParentController : MonoBehaviour
     void FixedUpdate()
     {
         if (playerTransform != null) {
-            // Get mouse world position and standard home position
-            mousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+            // Get mouse and screen center world position and standard home position
+            Vector3 mousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
             mousePosition.z = 0f;
-            homePosition = new Vector3(playerTransform.position.x + targetOffset.x, playerTransform.position.y + targetOffset.y, 0f);
-            Vector3 aimingDirection = mousePosition - homePosition;
+            Vector3 screenCenterPosition = mainCamera.transform.position;
+            screenCenterPosition.z = 0f;
+            Vector3 homePosition = new Vector3(playerTransform.position.x + targetOffset.x, playerTransform.position.y + targetOffset.y, 0f);
+            Vector3 aimingDirection = mousePosition - screenCenterPosition;
 
             // Determine whether aim pull is needed
             bool isAimingWide = (Mathf.Abs(aimingDirection.x) >= aimPullXDistance ||

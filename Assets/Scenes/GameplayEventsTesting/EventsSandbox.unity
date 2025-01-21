@@ -1034,9 +1034,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   useCustomAmplitude: 0
-  customAmplitude: 0.1
+  customAmplitude: 1
   playerScreenShakeMultiplier: 2
-  meagerAmplitude: 0
+  meagerAmplitude: 0.04
   lightAmplitude: 0.2
   moderateAmplitude: 0.4
   heavyAmplitude: 0.8
@@ -5832,6 +5832,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4071386136463933295, guid: e7efa1ed21b10204fbbb9248b1925aa4,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 0.16
+      objectReference: {fileID: 0}
+    - target: {fileID: 4071386136463933295, guid: e7efa1ed21b10204fbbb9248b1925aa4,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 0.16
+      objectReference: {fileID: 0}
     - target: {fileID: 4698209600753623609, guid: e7efa1ed21b10204fbbb9248b1925aa4,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -8864,6 +8874,11 @@ PrefabInstance:
     - target: {fileID: 8547351280330222855, guid: dc37ada359206f040b1417c5d790c31f,
         type: 3}
       propertyPath: attackInfo.damageTypes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8547351280330222855, guid: dc37ada359206f040b1417c5d790c31f,
+        type: 3}
+      propertyPath: heavyDamage.damageTypes.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8547351280330222855, guid: dc37ada359206f040b1417c5d790c31f,
