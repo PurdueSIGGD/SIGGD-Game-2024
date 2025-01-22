@@ -36,4 +36,15 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         Destroy(this.gameObject);
     }
 
+
+    public float Damage(DamageContext context, GameObject attacker)
+    {
+        return 0f;
+    }
+
+    public float Heal(HealingContext context, GameObject healer)
+    {
+        return 0f;
+    }
+
 }

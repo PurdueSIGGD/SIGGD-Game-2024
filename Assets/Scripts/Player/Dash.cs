@@ -22,16 +22,16 @@ public class Dash : MonoBehaviour, ISpecialMove
     private Rigidbody2D rb;
 
     private InputAction playerActionMovement;
-    private Vector2 velocity = Vector2.zero;
+    [SerializeField] private Vector2 velocity = Vector2.zero;
 
-    private bool canDash = true;
-    private bool isDashing = false;
-    private bool isSlowing = false;
+    [SerializeField] private bool canDash = true;
+    [SerializeField] private bool isDashing = false;
+    [SerializeField] private bool isSlowing = false;
     private void Start()
     {
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         rb = GetComponent<Rigidbody2D>();
-        playerActionMovement = GetComponent<PlayerInput>().actions.FindAction("Movement");
+        playerActionMovement = GetComponent<PlayerInput>().actions.FindAction("Move");
     }
 
     private void FixedUpdate()
@@ -45,17 +45,21 @@ public class Dash : MonoBehaviour, ISpecialMove
             if (playerActionMovement.ReadValue<float>() != 0)
             {
                 velocity = Vector2.zero;
-                rb.velocity = new Vector2(0, rb.velocity.y);
+                //rb.velocity = new Vector2(0, rb.velocity.y);
+                rb.velocity = velocity;
                 isSlowing = false;
                 GetComponent<Move>().enabled = true;
                 return;
             }
 
-            rb.velocity = new Vector2(Mathf.MoveTowards(rb.velocity.x, 0, Mathf.Abs(velocity.x * slowRate)), rb.velocity.y);
+            //rb.velocity = new Vector2(Mathf.MoveTowards(rb.velocity.x, 0, Mathf.Abs(velocity.x * slowRate)), rb.velocity.y);
+            rb.velocity = new Vector2(Mathf.MoveTowards(rb.velocity.x, 0, Mathf.Abs(velocity.x * slowRate)),
+                                      Mathf.MoveTowards(rb.velocity.y, 0, Mathf.Abs(velocity.y * slowRate)));
             if (Mathf.Abs(rb.velocity.x) < 3f)
             {
                 velocity = Vector2.zero;
-                rb.velocity = new Vector2(0, rb.velocity.y);
+                //rb.velocity = new Vector2(0, rb.velocity.y);
+                rb.velocity = velocity;
                 isSlowing = false;
                 GetComponent<Move>().enabled = true;
             }
@@ -91,16 +95,18 @@ public class Dash : MonoBehaviour, ISpecialMove
         isDashing = true;
         GetComponent<Move>().enabled = false;
         //GetComponent<GrappleBehavioiur>().enabled = false;
-        GetComponent<PlayerGroundAtack>().enabled = false;
-        GetComponent<PartyManager>().enabled = false;
+        //GetComponent<PlayerGroundAtack>().enabled = false;
+        //GetComponent<PartyManager>().enabled = false;
 
+        Debug.Log("Starting wait: " + dashTime);
         yield return new WaitForSeconds(dashTime);
+        Debug.Log("Done waiting: " + dashTime);
 
         isDashing = false;
         isSlowing = true;
         //GetComponent<GrappleBehavioiur>().enabled = true;
-        GetComponent<PlayerGroundAtack>().enabled = true;
-        GetComponent<PartyManager>().enabled = true;
+        //GetComponent<PlayerGroundAtack>().enabled = true;
+        //GetComponent<PartyManager>().enabled = true;
         yield return new WaitForSeconds(cooldown);
         canDash = true;
     }
