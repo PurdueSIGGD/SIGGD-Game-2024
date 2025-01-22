@@ -25,6 +25,7 @@ public class Move : MonoBehaviour
     private int glideDeaccelIdx;
 
     private bool gliding = false;
+    private bool dashing = false;
 
 
     // Start is called before the first frame update
@@ -44,9 +45,12 @@ public class Move : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        Movement();
+        if (!dashing)
+        {
+            Movement();
+        }
     }
 
     /// <summary>
@@ -73,7 +77,7 @@ public class Move : MonoBehaviour
         // accelerates player in direction of input
         newVel.x = rb.velocity.x + input * accel;
 
-        // caps top speed
+        // caps top horizontal speed
         if (newVel.magnitude > maxSpeed)
         {
             newVel = newVel.normalized * maxSpeed;
@@ -100,5 +104,14 @@ public class Move : MonoBehaviour
     public void StopGlide()
     {
         gliding = false;
+    }
+    public void StartDash()
+    {
+        dashing = true;
+    }
+
+    public void StopDash()
+    {
+        dashing = false;
     }
 }

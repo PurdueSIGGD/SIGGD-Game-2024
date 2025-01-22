@@ -12,6 +12,8 @@ using UnityEngine.Windows;
 public class PlayerStateMachine : MonoBehaviour
 {
     [SerializeField] LayerMask groundLayer; //The layer representing ground
+    [SerializeField] String currentAnimation;
+
     float groundDetectRadius = 0.5f; //The radius of the circle checking for ground overlap
     float minimumFallSpeed = -0.1f; // The minimum negative vertical velocity required to be considered falling
     float yFeetDisplacement = -0.5f; // Distance between the transform position of player and the player's "feet"
@@ -24,7 +26,6 @@ public class PlayerStateMachine : MonoBehaviour
 
     Animator animator; // the animator of the player object
     Rigidbody2D rb; // the rigidbody of the player object
-    [SerializeField] String currentAnimation;
 
 
     void Start()
@@ -49,6 +50,7 @@ public class PlayerStateMachine : MonoBehaviour
         UpdateUp();
         UpdateDown();
         UpdateAttack();
+        UpdateSpecial();
         ReadCurrentAnimatorState();
     }
 
@@ -98,6 +100,12 @@ public class PlayerStateMachine : MonoBehaviour
         animator.SetBool("i_attack", i_attack);
     }
 
+    void UpdateSpecial()
+    {
+        bool i_special = specialInput.ReadValue<float>() != 0;
+        animator.SetBool("i_special", i_special);
+    }
+
     /// <summary>
     /// Reads the current animator state and sets the currentAnimation string to the currently playing animation
     /// </summary>
@@ -105,5 +113,20 @@ public class PlayerStateMachine : MonoBehaviour
     {
         AnimatorClipInfo[] animatorClip = animator.GetCurrentAnimatorClipInfo(0);
         currentAnimation = animatorClip[0].clip.name;
+    }
+
+    public void EnableTrigger(string triggerName)
+    {
+        animator.SetTrigger(triggerName);
+    }
+
+    public void OnCooldown(string cooldownName)
+    {
+        animator.SetBool(cooldownName, true);
+    }
+
+    public void OffCooldown(string cooldownName)
+    {
+        animator.SetBool(cooldownName, false);
     }
 }

@@ -8,6 +8,7 @@ public class ManageIdleState : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         animator.SetTrigger("ATK");
+        animator.SetTrigger("SPEC");
         animator.gameObject.SendMessage("StartIdle", null, SendMessageOptions.DontRequireReceiver);
     }
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
