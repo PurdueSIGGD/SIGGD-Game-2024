@@ -16,7 +16,7 @@ public abstract class WorldInteractable : MonoBehaviour
 
     // These two methods are to be implemented by each specific menu instance.
     public abstract void InitializeOptions();
-    public abstract void UpdateOptions();
+    public abstract void UpdateOptions(); // Updates the options that are available to the player and will be displayed when the menu spawns (or greyed out?)
 
     private void OnEnable()
     {
@@ -34,14 +34,14 @@ public abstract class WorldInteractable : MonoBehaviour
         if (dist.magnitude > activationRange) return;
 
         canvas.enabled = true;
-        rectTransform.position = cam.WorldToScreenPoint(transform.position);
+        rectTransform.position = cam.WorldToScreenPoint(transform.position); // TODO check if menu is in cam bounds
         Debug.Log("Player is in menu range");
 
         UpdateOptions();
 
 
         /*
-        foreach (WorldInteractableOption opt in options)
+        foreach (WorldInteractableOption opt in options) // TODO enumerate all options available
         {
         
         }
