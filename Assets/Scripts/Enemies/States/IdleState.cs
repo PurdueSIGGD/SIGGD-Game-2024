@@ -20,7 +20,7 @@ public class IdleState : EnemyStates
 
     public override void UpdateState(EnemyStateManager enemy)
     {
-        if (enemy.pool.HasActionsInRange()) // If has player in attack range, enter AggroState
+        if (enemy.pool.HasActionsReady()) // If has player in attack range, enter AggroState
         {
             enemy.SwitchState(enemy.AggroState);
         }

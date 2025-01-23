@@ -5,10 +5,12 @@ using UnityEngine;
 /// <summary>
 /// A tier that consists of a left skill and a right skill and can be unlocked.
 /// </summary>
+
+[System.Serializable]
 public class SkillTier
 {
-    private Skill skillLeft;
-    private Skill skillRight;
+    [SerializeField] public Skill skillLeft;
+    [SerializeField] public Skill skillRight;
     private bool unlocked = false;
     private int totalSkillPts = 0;
     
@@ -41,6 +43,16 @@ public class SkillTier
         unlocked = true; 
     }
 
+    public bool IsUnlocked()
+    {
+        return unlocked; 
+    }
+
+    public int GetTotalSkillPts()
+    {
+        return totalSkillPts; 
+    }
+
     /// <summary>
     /// Adds a skill point to skill tier only if skill tier is already unlocked.
     /// Skill point is automatically added to the first skill.
@@ -49,9 +61,19 @@ public class SkillTier
         if (unlocked)
         {
             totalSkillPts += 1;
-            skillLeft.AddSkillPts(1);
+            //skillLeft.AddSkillPts(1);
         } 
     }
+
+    public void SubSkillPts()
+    {
+        if (unlocked)
+        {
+            totalSkillPts -= 1;
+            //skillLeft.AddSkillPts(-1);
+        }
+    }
+
 
     /// <summary>
     /// Swaps 1 skill point from one skill to another. Use SkillTier.SKILL_LEFT and SkillTier.SKILL_RIGHT for arguments.

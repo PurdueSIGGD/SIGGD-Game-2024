@@ -13,7 +13,7 @@ public class Stats : MonoBehaviour
     [Serializable]
     public struct Stat {
         public string name;
-        public int value;
+        public float value;
         public int modifier;
     }
 
