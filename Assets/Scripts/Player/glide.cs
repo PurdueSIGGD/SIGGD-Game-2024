@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class Glide : MonoBehaviour
 {
@@ -10,6 +7,7 @@ public class Glide : MonoBehaviour
     private Stats stats;
 
     private int glideFallSpeedIdx;
+    private bool isFalling;
 
     private void Start()
     {
@@ -19,14 +17,23 @@ public class Glide : MonoBehaviour
         glideFallSpeedIdx = stats.GetStatIndex("Glide Fall Speed");
     }
 
+    private void FixedUpdate()
+    {
+        if (isFalling)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, -1 * stats.ComputeValue(glideFallSpeedIdx));
+        }
+    }
+
     public void StartGlide()
     {
-        rb.velocity = new Vector2(rb.velocity.x, -1 * stats.ComputeValue(glideFallSpeedIdx));
+        isFalling = true;
         rb.gravityScale = 0;
     }
 
     public void StopGlide()
     {
+        isFalling = false;
         rb.gravityScale = 4;
     }
 }
