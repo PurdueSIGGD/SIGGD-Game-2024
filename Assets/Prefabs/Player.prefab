@@ -283,6 +283,7 @@ GameObject:
   - component: {fileID: 2221814288652233453}
   - component: {fileID: 7635436938379705283}
   - component: {fileID: 4910711782724507570}
+  - component: {fileID: 2427372984791243572}
   - component: {fileID: 8547351280330222855}
   - component: {fileID: 591852133945516386}
   - component: {fileID: 2579748896217751675}
@@ -585,7 +586,7 @@ MonoBehaviour:
   maxDistance: 7
   dashTime: 0.1
   cooldown: 1
-  slowRate: 0.05
+  postDashMomentumFraction: 0
   velocity: {x: 0, y: 0}
   canDash: 1
   isDashing: 0
@@ -613,6 +614,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0eab6954326a70447a2336298f82dffa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2427372984791243572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8252758106455385166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0d10fbf13e5ab846ab1d7e0e050404d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &8547351280330222855
@@ -673,7 +686,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a13ad00583bca6b4fa6de9939a968201, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
 --- !u!1001 &8503109854660319302
 PrefabInstance:
   m_ObjectHideFlags: 0
