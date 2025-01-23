@@ -10,6 +10,7 @@ public abstract class WorldInteractable : MonoBehaviour
     [SerializeField] private float activationRange;
     [SerializeField] private Camera cam;
     [SerializeField] private UIBehaviour menu;
+    private CanvasGroup menuGroup;
 
     protected List<WorldInteractableOption> options;
 
@@ -20,19 +21,20 @@ public abstract class WorldInteractable : MonoBehaviour
     private void OnEnable()
     {
         options = new List<WorldInteractableOption> ();
+        menuGroup = menu.GetComponent<CanvasGroup> ();
         InitializeOptions();
     }
 
     // Update function checks if player is in range, then updates and displays the options list.
     private void Update()
     {
-        menu.enabled = false;
+        menuGroup.alpha = 0.0f;
 
         Vector3 dist = player.transform.position - transform.position;
         if (dist.magnitude > activationRange) return;
 
-        menu.enabled = true;
         menu.transform.position = cam.WorldToScreenPoint(transform.position);
+        menuGroup.alpha = 1.0f;
         UpdateOptions();
 
 
