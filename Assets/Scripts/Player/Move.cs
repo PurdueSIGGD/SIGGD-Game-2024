@@ -9,20 +9,14 @@ using UnityEngine.InputSystem;
 
 public class Move : MonoBehaviour
 {
+
+
     private InputAction moveInput;
     private InputAction playerActionDown;
     private Rigidbody2D rb;
     public Boolean doubleJump = true;
 
-    private Stats stats;
-    private int maxRunningSpeedIdx;
-    private int runningAccelIdx;
-    private int runningDeaccelIdx;
-
-
-    private int maxGlideSpeedIdx;
-    private int glideAccelIdx;
-    private int glideDeaccelIdx;
+    private StatManager stats;
 
     private bool gliding = false;
     private bool dashing = false;
@@ -33,15 +27,7 @@ public class Move : MonoBehaviour
     {
         moveInput = GetComponent<PlayerInput>().actions.FindAction("Move");
         rb = GetComponent<Rigidbody2D>();
-        stats = GetComponent<Stats>();
-
-        maxRunningSpeedIdx = stats.GetStatIndex("Max Running Speed");
-        runningAccelIdx = stats.GetStatIndex("Running Acceleration");
-        runningDeaccelIdx = stats.GetStatIndex("Running Deacceleration");
-
-        maxGlideSpeedIdx = stats.GetStatIndex("Max Glide Speed");
-        glideAccelIdx = stats.GetStatIndex("Glide Acceleration");
-        glideDeaccelIdx = stats.GetStatIndex("Glide Deacceleration");
+        stats = GetComponent<StatManager>();
     }
 
     // Update is called once per frame
@@ -61,14 +47,14 @@ public class Move : MonoBehaviour
         float accel, maxSpeed, deaccel = 0;
         if (gliding)
         {
-            accel = stats.ComputeValue(glideAccelIdx);
-            maxSpeed = stats.ComputeValue(maxGlideSpeedIdx);
-            deaccel = stats.ComputeValue(glideDeaccelIdx);
+            accel = stats.ComputeValue("Glide Accel.");
+            maxSpeed = stats.ComputeValue("Max Glide Speed");
+            deaccel = stats.ComputeValue("Glide Deaccel.");
         } else
         {
-            accel = stats.ComputeValue(runningAccelIdx);
-            maxSpeed = stats.ComputeValue(maxRunningSpeedIdx);
-            deaccel = stats.ComputeValue(runningDeaccelIdx);
+            accel = stats.ComputeValue("Running Accel.");
+            maxSpeed = stats.ComputeValue("Max Running Speed");
+            deaccel = stats.ComputeValue("Running Deaccel.");
         }
 
         float input = moveInput.ReadValue<float>();

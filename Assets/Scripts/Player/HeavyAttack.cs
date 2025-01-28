@@ -3,8 +3,12 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
-public class HeavyAttack : MonoBehaviour
+public class HeavyAttack : MonoBehaviour, IStatList
 {
+    [SerializeField]
+    public StatManager.Stat[] statList;
+
+
     [SerializeField] GameObject indicator;
     //[SerializeField] int dmg;
     [SerializeField] DamageContext heavyDamage;
@@ -60,5 +64,10 @@ public class HeavyAttack : MonoBehaviour
                 hit.transform.gameObject.GetComponent<Health>().Damage(heavyDamage, gameObject);
             }
         }
+    }
+
+    public StatManager.Stat[] GetStatList()
+    {
+        return statList;
     }
 }
