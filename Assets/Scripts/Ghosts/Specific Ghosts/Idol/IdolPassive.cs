@@ -23,6 +23,11 @@ public class IdolPassive : MonoBehaviour
     private int glideAccelIdx;
     private int glideDeaccelIdx;
 
+    void OnEnable()
+    {
+        GameplayEventHolder.OnDeath += IncrementTempo;
+    }
+
     void Start()
     {
         stats = GetComponent<Stats>();
@@ -38,9 +43,13 @@ public class IdolPassive : MonoBehaviour
     /// <summary>
     /// Increases the Idol buff count by one
     /// </summary>
-    public void IncrementTempo()
+    public void IncrementTempo(DamageContext context)
     {
-        StartCoroutine(TempoCoroutine());
+        Debug.Log("Increasing tempo");
+        if (context.attacker == gameObject)
+        {
+            StartCoroutine(TempoCoroutine());
+        }
     }
 
     /// <summary>
