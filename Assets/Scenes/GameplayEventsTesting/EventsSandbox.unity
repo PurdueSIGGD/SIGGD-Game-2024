@@ -6038,6 +6038,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1314806274}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1318103812 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8252758106455385166, guid: dc37ada359206f040b1417c5d790c31f,
+    type: 3}
+  m_PrefabInstance: {fileID: 6866802807537367769}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1451521094
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8763,6 +8769,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 8533305504645411692, guid: dc37ada359206f040b1417c5d790c31f,
+        type: 3}
+      propertyPath: stats.Array.data[2].value
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8533305504645411692, guid: dc37ada359206f040b1417c5d790c31f,
+        type: 3}
+      propertyPath: stats.Array.data[0].modifier
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 8533305504645411692, guid: dc37ada359206f040b1417c5d790c31f,
+        type: 3}
+      propertyPath: stats.Array.data[2].modifier
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 8533305504645411692, guid: dc37ada359206f040b1417c5d790c31f,
+        type: 3}
+      propertyPath: stats.Array.data[4].modifier
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 8547351280330222855, guid: dc37ada359206f040b1417c5d790c31f,
         type: 3}
       propertyPath: attackInfo.damage
@@ -8850,7 +8876,11 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1227198663}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8252758106455385166, guid: dc37ada359206f040b1417c5d790c31f,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7871911103126193339}
   m_SourcePrefab: {fileID: 100100000, guid: dc37ada359206f040b1417c5d790c31f, type: 3}
 --- !u!4 &7871911103126193322 stripped
 Transform:
@@ -8858,6 +8888,31 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 6866802807537367769}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7871911103126193339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1318103812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8507ecce12f8e2441968163d3314ad5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  statsbuff:
+  - name: Speed Buff
+    key: k
+    modname: Max Running Speed
+    buff: 50
+  - name: Jump Buff
+    key: j
+    modname: Jump Force
+    buff: 100
+  - name: Health Buff
+    key: h
+    modname: Max Health
+    buff: 150
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
