@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
+[DisallowMultipleComponent]
 public class Jump : MonoBehaviour, IStatList
 {
 
@@ -16,7 +17,7 @@ public class Jump : MonoBehaviour, IStatList
     {
         rb = GetComponent<Rigidbody2D>();
         stats = GetComponent<StatManager>();
-
+        Dash h = new Dash();
     }
 
     public void StartJump()

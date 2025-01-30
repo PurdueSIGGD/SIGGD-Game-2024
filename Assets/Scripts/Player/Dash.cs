@@ -9,6 +9,7 @@ using UnityEngine.InputSystem;
 //<summary>
 // Base player action: player dashes towards the mouse location in a fixed time
 //</summary>
+[DisallowMultipleComponent]
 public class Dash : MonoBehaviour, IStatList
 {
     [SerializeField]

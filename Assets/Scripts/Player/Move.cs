@@ -7,6 +7,7 @@ using UnityEditor.U2D;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[DisallowMultipleComponent]
 public class Move : MonoBehaviour
 {
 

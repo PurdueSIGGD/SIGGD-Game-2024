@@ -5,8 +5,10 @@ using Unity.VisualScripting;
 using UnityEngine;
 using static GhostBuff;
 
+[DisallowMultipleComponent]
 public class StatManager : MonoBehaviour, IStatList
 {
+
     [SerializeField]
     private Stat[] statList;
 

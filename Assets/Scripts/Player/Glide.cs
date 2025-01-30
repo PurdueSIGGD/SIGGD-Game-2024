@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[DisallowMultipleComponent]
 public class Glide : MonoBehaviour
 {
     //initiate variables

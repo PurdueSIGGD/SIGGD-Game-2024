@@ -5,6 +5,7 @@ using Unity.Collections;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
+[DisallowMultipleComponent]
 public class Health : MonoBehaviour, IDamageable, IStatList
 {
     [SerializeField]
