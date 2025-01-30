@@ -1,17 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class KnightOffence : MonoBehaviour
+/// <summary>
+/// Enemy AI for Knight (Offence Variant)
+/// </summary>
+public class KnightOffence : EnemyStateManager
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [Header("Sword Attack")]
+    [SerializeField] protected Transform swordTrigger;
+    [SerializeField] protected DamageContext swordDamage;
 
-    // Update is called once per frame
-    void Update()
+    protected void OnSwordEvent()
     {
         
     }
