@@ -17,4 +17,14 @@ public interface ISpecialMove
     /// </summary>
     /// <returns>true if the special move is currently active, false if the special move is not active</returns>
     public bool GetBool();
+    /// <summary>
+    /// Calls the associated function to start the special move action.
+    /// </summary>
+    /// <returns></returns>
+    public void StartSpecial();
+    /// <summary>
+    /// Calls the associated function to end the special move action, if applicable.
+    /// </summary>
+    /// <returns></returns>
+    public void EndSpecial();
 }

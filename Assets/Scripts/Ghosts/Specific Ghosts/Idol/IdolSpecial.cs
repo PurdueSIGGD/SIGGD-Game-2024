@@ -6,12 +6,12 @@ using UnityEngine;
 /// Special action for the idol ghost, teleports the player towards mouse position
 /// and leaves a clone that player may swap position with.
 /// </summary>
-public class IdolSpecial: MonoBehaviour, ISpecialMove
+public class IdolSpecial : MonoBehaviour, ISpecialMove
 {
     [SerializeField] float maxDistance = 8.0f;
     [SerializeField] float tpCoolDown = 8.0f; // cooldown for teleporting special action
     [SerializeField] float switchCoolDown = 0.5f; // cooldown for switching with clones
-    
+
     private bool isDashing; // bool for if is currently dashing
     private bool canTp = true;
     private bool canSwitch = false;
@@ -32,7 +32,7 @@ public class IdolSpecial: MonoBehaviour, ISpecialMove
     /// If none is active and the skill is not under cooldown, attempt to
     /// teleport the player towards the mouse position.
     /// </summary>
-    void OnSpecial()
+    void HoloJump()
     {
         if (canSwitch) // if there is currently a clone active, switch with it
         {
@@ -42,6 +42,16 @@ public class IdolSpecial: MonoBehaviour, ISpecialMove
         {
             StartCoroutine(DashCoroutine());
         }
+    }
+
+    public void StartSpecial()
+    {
+        print("Miku Holo Jump Activated!");
+        HoloJump();
+    }
+    public void EndSpecial()
+    {
+
     }
 
     public bool GetBool()

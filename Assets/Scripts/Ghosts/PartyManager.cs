@@ -16,7 +16,7 @@ public class PartyManager : MonoBehaviour
     // Major Ghosts
     private List<GhostIdentity> ghostMajorList = new List<GhostIdentity>(); // List of each major ghost
 
-    /*/// <summary>
+    /// <summary>
     /// Temporary function to find and add ghosts nearby to party if space available. Max 1 ghost per function call
     /// </summary>
     public void OnFindGhosts()
@@ -34,7 +34,7 @@ public class PartyManager : MonoBehaviour
                 }
             }
         }
-    }*/
+    }
 
     /// <summary>
     /// Temporary function to remove the least recent ghost added to party
@@ -118,6 +118,7 @@ public class PartyManager : MonoBehaviour
             }
             ghostMajorList[i].SetPossessing(false);
         }
+        print("Current ghost: " + ghostMajorList[index].GetName());
     }
 
     /// <summary>
@@ -140,5 +141,20 @@ public class PartyManager : MonoBehaviour
     public List<GhostIdentity> GetGhostMajorList()
     {
         return ghostMajorList;
+    }
+    /// <summary>
+    /// returns the currently posessing ghost identity script
+    /// </summary>
+    /// <returns></returns>
+    public GhostIdentity GetCurrentGhost()
+    {
+        for (int i = 0; i < ghostMajorList.Count; i++)
+        {
+            if (ghostMajorList[i].IsPossessing())
+            {
+                return ghostMajorList[i];
+            }
+        }
+        return null;
     }
 }
