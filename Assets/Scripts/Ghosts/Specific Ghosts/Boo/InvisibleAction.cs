@@ -5,14 +5,17 @@ using UnityEditor.Experimental.GraphView;
 /// <summary>
 /// Special action: player sprite color changes to 0.3 alpha for 8 seconds
 /// </summary>
-public class InvisibleAction : MonoBehaviour, IParty, ISelectable
+public class InvisibleAction : MonoBehaviour, IParty, ISelectable, ISpecialMove
 {
     [SerializeField]
     private float invisDuration;
-
+    private float invisClickCD = 0f; // the timer before the invis special action can be performed again
+    [SerializeField]
+    private bool canClickInvis = true; // bool for invis click cd
     GameObject player;
     SpriteRenderer playerSpriteRenderer;
 
+    [SerializeField]
     private bool _isInvisible = false;
     private Coroutine _resetInvisibleCoroutine;
     private bool inParty = false;
@@ -38,6 +41,7 @@ public class InvisibleAction : MonoBehaviour, IParty, ISelectable
         inParty = false;
         this.player = null;
         playerSpriteRenderer = null;
+        _resetInvisibleCoroutine = null;
     }
     public void Select(GameObject player)
     {
@@ -52,9 +56,33 @@ public class InvisibleAction : MonoBehaviour, IParty, ISelectable
             _isInvisible = true;
         }
     }
-
-    public void OnSpecial()
+    public bool GetBool()
     {
+        return _isInvisible;
+    }
+    public void StartSpecial()
+    {
+        print("Boo Going Invisible!");
+        GoInvisible();
+    }
+    public void EndSpecial()
+    {
+        return;
+    }
+    public void GoInvisible()
+    {
+        PlayerStateMachine psm = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStateMachine>();
+        psm.EnableTrigger("OPT");
+
+        if (!canClickInvis)
+        {
+            return;
+        }
+        else
+        {
+            StartCoroutine(InvisClickCDTimer());
+        }
+
         if (inParty && possessing)
         {
             if (!_isInvisible)
@@ -75,6 +103,7 @@ public class InvisibleAction : MonoBehaviour, IParty, ISelectable
                 }
             }
         }
+        print("Invisible Status: " + _isInvisible);
     }
 
     private IEnumerator ResetInvisible()
@@ -83,5 +112,12 @@ public class InvisibleAction : MonoBehaviour, IParty, ISelectable
         playerSpriteRenderer.color = new Color(1, 1, 1, 1);
         _isInvisible = false;
         _resetInvisibleCoroutine = null;
+    }
+
+    private IEnumerator InvisClickCDTimer()
+    {
+        canClickInvis = false;
+        yield return new WaitForSeconds(invisClickCD);
+        canClickInvis = true;
     }
 }
