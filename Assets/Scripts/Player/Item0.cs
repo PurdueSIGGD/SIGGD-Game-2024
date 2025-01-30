@@ -7,38 +7,44 @@ using UnityEngine;
 public class Item : MonoBehaviour
 {
     private Stats stats;
-    [SerializeField]
-    private StatBuff[] statsbuff;
-
-    //Dictioanry to check if buff/item is active or not
-    private Dictionary<string, bool> activeItems = new Dictionary<string, bool>();
-
-    [Serializable]
-    //List of the buffs and the stats
-    public struct StatBuff
-    {
-        public string name;
-        public string key; // key pressed to activeate/deactivate the stat
-        public string modname; //original stat the buff should modify
-        public int buff; //amount the buff changes
-    }
+    private bool isactive;
+    private int effect;
     // Start is called before the first frame update
     void Start()
     {
         stats = PlayerID.instance.GetComponent<Stats>();
-        foreach (var stBuff in statsbuff)
-        {
-            activeItems[stBuff.name] = false;
-        }//initialize dict
-
+        effect = 150;
+        isactive = false;
     }
-
+    void ItemActivate()
+    {
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            stats.ModifyStat("Max Health", effect);
+            isactive = true;
+        }
+    }
+    void ItemDeactivate()
+    {
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            stats.ModifyStat("Max Health", -effect);
+            isactive = false;
+        }
+    }
     // Update is called once per frame
     void Update()
     {
-        ItemActive();
+        if (isactive)
+        {
+            ItemDeactivate();
+        }
+        else
+        {
+            ItemActivate();
+        }
     }
-    void ItemActive()
+  /*  void ItemActive()
     {
         for (int i = 0; i < statsbuff.Length; i++)
             {
@@ -60,5 +66,5 @@ public class Item : MonoBehaviour
                     }
                 }
             }
-    }
+    }*/
 }
