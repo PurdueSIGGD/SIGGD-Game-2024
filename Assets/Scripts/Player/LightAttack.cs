@@ -75,9 +75,16 @@ public class LightAttack : MonoBehaviour
     private void DrawCone(Vector2 center)
     {
         Vector2 orig = transform.position;
-        float halfAngle = angle / 2;
+        float halfAngle = (angle / 2) * Mathf.Deg2Rad;
 
-        Vector2 a = new Vector2(Mathf.Sin(halfAngle * Mathf.Deg2Rad), Mathf.Cos(halfAngle * Mathf.Deg2Rad)) * range;
-        Debug.DrawLine(center, a);
+        Vector2 a = new Vector2(center.x * Mathf.Cos(halfAngle) - center.y * Mathf.Sin(halfAngle), 
+                                center.x * Mathf.Sin(halfAngle) + center.y * Mathf.Cos(halfAngle));
+
+        Vector2 b = new Vector2(center.x * Mathf.Cos(halfAngle) + center.y * Mathf.Sin(halfAngle),
+                                -center.x * Mathf.Sin(halfAngle) + center.y * Mathf.Cos(halfAngle));
+
+        Debug.DrawLine(orig, center, Color.white, 1.0f);
+        Debug.DrawLine(orig, a, Color.white, 1.0f);
+        Debug.DrawLine(orig, b, Color.white, 1.0f);
     }
 }
