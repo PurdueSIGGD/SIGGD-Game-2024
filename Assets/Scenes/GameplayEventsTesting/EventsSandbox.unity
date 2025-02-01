@@ -1246,6 +1246,21 @@ PrefabInstance:
       propertyPath: m_TaaSettings.m_ContrastAdaptiveSharpening
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8680656009280804880, guid: 76b9e740d729c384899729fc3d28aec8,
+        type: 3}
+      propertyPath: m_BackGroundColor.b
+      value: 0.42767292
+      objectReference: {fileID: 0}
+    - target: {fileID: 8680656009280804880, guid: 76b9e740d729c384899729fc3d28aec8,
+        type: 3}
+      propertyPath: m_BackGroundColor.g
+      value: 0.42767292
+      objectReference: {fileID: 0}
+    - target: {fileID: 8680656009280804880, guid: 76b9e740d729c384899729fc3d28aec8,
+        type: 3}
+      propertyPath: m_BackGroundColor.r
+      value: 0.42767292
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -8819,6 +8834,51 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7635436938379705283, guid: dc37ada359206f040b1417c5d790c31f,
+        type: 3}
+      propertyPath: statList.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7635436938379705283, guid: dc37ada359206f040b1417c5d790c31f,
+        type: 3}
+      propertyPath: statList.Array.data[0].name
+      value: Move Speed
+      objectReference: {fileID: 0}
+    - target: {fileID: 7635436938379705283, guid: dc37ada359206f040b1417c5d790c31f,
+        type: 3}
+      propertyPath: statList.Array.data[1].name
+      value: Max Running Speed
+      objectReference: {fileID: 0}
+    - target: {fileID: 7635436938379705283, guid: dc37ada359206f040b1417c5d790c31f,
+        type: 3}
+      propertyPath: statList.Array.data[2].name
+      value: Running Accel.
+      objectReference: {fileID: 0}
+    - target: {fileID: 7635436938379705283, guid: dc37ada359206f040b1417c5d790c31f,
+        type: 3}
+      propertyPath: statList.Array.data[3].name
+      value: Running Deaccel.
+      objectReference: {fileID: 0}
+    - target: {fileID: 7635436938379705283, guid: dc37ada359206f040b1417c5d790c31f,
+        type: 3}
+      propertyPath: statList.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7635436938379705283, guid: dc37ada359206f040b1417c5d790c31f,
+        type: 3}
+      propertyPath: statList.Array.data[1].value
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7635436938379705283, guid: dc37ada359206f040b1417c5d790c31f,
+        type: 3}
+      propertyPath: statList.Array.data[2].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7635436938379705283, guid: dc37ada359206f040b1417c5d790c31f,
+        type: 3}
+      propertyPath: statList.Array.data[3].value
+      value: 0.9
+      objectReference: {fileID: 0}
     - target: {fileID: 8252758106455385166, guid: dc37ada359206f040b1417c5d790c31f,
         type: 3}
       propertyPath: m_Name
@@ -8856,6 +8916,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8547351280330222855, guid: dc37ada359206f040b1417c5d790c31f,
         type: 3}
+      propertyPath: statList.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8547351280330222855, guid: dc37ada359206f040b1417c5d790c31f,
+        type: 3}
       propertyPath: heavyAttackInfo.damage
       value: 150
       objectReference: {fileID: 0}
@@ -8873,6 +8938,11 @@ PrefabInstance:
         type: 3}
       propertyPath: attackInfo.damageStrength
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8547351280330222855, guid: dc37ada359206f040b1417c5d790c31f,
+        type: 3}
+      propertyPath: statList.Array.data[0].name
+      value: Heavy Damage
       objectReference: {fileID: 0}
     - target: {fileID: 8547351280330222855, guid: dc37ada359206f040b1417c5d790c31f,
         type: 3}
@@ -8924,8 +8994,7 @@ PrefabInstance:
       propertyPath: heavyAttackInfo.actionTypes.Array.data[0]
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 8533305504645411692, guid: dc37ada359206f040b1417c5d790c31f, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 6481614880432510513, guid: dc37ada359206f040b1417c5d790c31f,

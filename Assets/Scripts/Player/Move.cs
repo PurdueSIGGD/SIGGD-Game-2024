@@ -7,8 +7,11 @@ using UnityEditor.U2D;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Move : MonoBehaviour
+public class Move : MonoBehaviour, IStatList
 {
+    [SerializeField]
+    private StatManager.Stat[] statList;
+
     private InputAction moveInput;
     private InputAction playerActionDown;
     private Rigidbody2D rb;
@@ -153,5 +156,10 @@ public class Move : MonoBehaviour
         accel = stats.ComputeValue("Running Accel.");
         maxSpeed = stats.ComputeValue("Max Running Speed");
         deaccel = stats.ComputeValue("Running Deaccel.");
+    }
+
+    public StatManager.Stat[] GetStatList()
+    {
+        return statList;
     }
 }
