@@ -12,8 +12,16 @@ public class KnightOffence : EnemyStateManager
     [SerializeField] protected Transform swordTrigger;
     [SerializeField] protected DamageContext swordDamage;
 
+    // Check for collision in swing range to deal damage
     protected void OnSwordEvent()
     {
-        
+        GenerateDamageFrame(batonTrigger.position, batonTrigger.lossyScale.x, batonTrigger.lossyScale.y, batonDamage, gameObject);
+    }
+
+    // Draws the Enemy attack range in the editor
+    protected override void OnDrawGizmos()
+    {
+        base.OnDrawGizmos();
+        Gizmos.DrawWireCube(batonTrigger.position, batonTrigger.lossyScale);
     }
 }
