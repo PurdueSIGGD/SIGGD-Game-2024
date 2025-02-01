@@ -8,14 +8,13 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [DisallowMultipleComponent]
-public class Move : MonoBehaviour
+public class Move : MonoBehaviour, IStatList
 {
-
+    [SerializeField]
+    private StatManager.Stat[] statList;
 
     private InputAction moveInput;
-    private InputAction playerActionDown;
     private Rigidbody2D rb;
-    public Boolean doubleJump = true;
 
     private StatManager stats;
 
@@ -57,6 +56,7 @@ public class Move : MonoBehaviour
             maxSpeed = stats.ComputeValue("Max Running Speed");
             deaccel = stats.ComputeValue("Running Deaccel.");
         }
+//        Debug.Log(String.Format("Max speed: {0}, Accel: {1}, Deaccel {2}", maxSpeed, accel, deaccel));
 
         float input = moveInput.ReadValue<float>();
         Vector2 newVel = new Vector2(0, 0);
@@ -100,5 +100,10 @@ public class Move : MonoBehaviour
     public void StopDash()
     {
         dashing = false;
+    }
+
+    public StatManager.Stat[] GetStatList()
+    {
+        return statList;
     }
 }

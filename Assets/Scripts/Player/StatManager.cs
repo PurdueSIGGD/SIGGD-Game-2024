@@ -1,7 +1,5 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using static GhostBuff;
 
@@ -18,7 +16,7 @@ public class StatManager : MonoBehaviour, IStatList
     public struct Stat {
         public string name;
         public float value;
-        public int modifier;
+        [NonSerialized] public int modifier;
     }
 
     private void Start()
@@ -26,10 +24,13 @@ public class StatManager : MonoBehaviour, IStatList
         IStatList[] scripts = this.GetComponents<IStatList>();
         foreach (IStatList script in scripts)
         {
-            foreach (Stat stat in script.GetStatList())
+            Stat[] list = script.GetStatList();
+            for (int i = 0; i < list.Length; i++)
             {
+                Stat stat = list[i];
                 try
                 {
+                    stat.modifier = 100;
                     statMap.Add(stat.name, stat);
                 }
                 catch (ArgumentException)
@@ -64,6 +65,7 @@ public class StatManager : MonoBehaviour, IStatList
     public float ComputeValue(string statName) {
         if (statMap.TryGetValue(statName, out Stat stat))
         {
+            Debug.Log(stat.value);
             return stat.value * (stat.modifier / 100f);
         } else
         {

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 [DisallowMultipleComponent]
@@ -9,18 +10,19 @@ public class HeavyAttack : MonoBehaviour, IStatList
     [SerializeField]
     public StatManager.Stat[] statList;
 
-
     [SerializeField] GameObject indicator;
     //[SerializeField] int dmg;
     [SerializeField] DamageContext heavyDamage;
     [SerializeField] float offsetX;
     private Camera mainCamera;
     private float timer;
+    private StatManager stats;
 
     private void Start()
     {
         indicator.SetActive(false);
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+        stats = this.GetComponent<StatManager>();
     }
 
     private void Update()
@@ -62,6 +64,7 @@ public class HeavyAttack : MonoBehaviour, IStatList
                     enemyhealth.Damage(heavyDamage, gameObject);
                 }
                 */
+                heavyDamage.damage = stats.ComputeValue("Heavy Damage");
                 hit.transform.gameObject.GetComponent<Health>().Damage(heavyDamage, gameObject);
             }
         }

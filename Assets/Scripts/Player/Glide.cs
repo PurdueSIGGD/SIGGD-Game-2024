@@ -1,8 +1,11 @@
 using UnityEngine;
 
 [DisallowMultipleComponent]
-public class Glide : MonoBehaviour
+public class Glide : MonoBehaviour, IStatList
 {
+    [SerializeField]
+    private StatManager.Stat[] statList;
+
     //initiate variables
     private Rigidbody2D rb;
     private StatManager stats;
@@ -34,5 +37,10 @@ public class Glide : MonoBehaviour
     {
         isFalling = false;
         rb.gravityScale = 4;
+    }
+
+    public StatManager.Stat[] GetStatList()
+    {
+        return statList;
     }
 }

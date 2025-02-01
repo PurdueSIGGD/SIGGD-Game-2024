@@ -48,7 +48,7 @@ public class Dash : MonoBehaviour, IStatList
     public void StartDash()
     {
         Vector3 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-        Vector2 displacement = Vector2.ClampMagnitude((Vector2)mousePos - (Vector2)transform.position, stats.ComputeValue("Max Distance"));
+        Vector2 displacement = Vector2.ClampMagnitude((Vector2)mousePos - (Vector2)transform.position, stats.ComputeValue("Max Dash Distance"));
 
         RaycastHit2D hit = Physics2D.Raycast(transform.position, displacement.normalized, displacement.magnitude, LayerMask.GetMask("Ground"));
         if (hit.collider != null)
