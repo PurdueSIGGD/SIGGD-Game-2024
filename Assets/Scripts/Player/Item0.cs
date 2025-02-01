@@ -18,30 +18,27 @@ public class Item : MonoBehaviour
     }
     void ItemActivate()
     {
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            stats.ModifyStat("Max Health", effect);
-            isactive = true;
-        }
+        stats.ModifyStat("Max Health", effect);
+        isactive = true;
     }
     void ItemDeactivate()
     {
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            stats.ModifyStat("Max Health", -effect);
-            isactive = false;
-        }
+        stats.ModifyStat("Max Health", -effect);
+        isactive = false;
     }
     // Update is called once per frame
     void Update()
     {
-        if (isactive)
+        if (Input.GetKeyDown(KeyCode.H))
         {
-            ItemDeactivate();
-        }
-        else
-        {
-            ItemActivate();
+            if (!isactive)
+            {
+                ItemActivate();
+            }
+            else
+            {
+                ItemDeactivate();
+            }
         }
     }
   /*  void ItemActive()

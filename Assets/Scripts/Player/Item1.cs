@@ -19,31 +19,29 @@ public class Item1 : MonoBehaviour
     }
     void ItemActivate()
     {
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            stats.ModifyStat("Max Running Speed", effect);
-            isactive = true;
-        }
+        stats.ModifyStat("Max Running Speed", effect);
+        isactive = true;
     }
     void ItemDeactivate()
     {
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            stats.ModifyStat("Max Running Speed", -effect);
-            isactive = false;
-        }
+        stats.ModifyStat("Max Running Speed", -effect);
+        isactive = false;
+  
     }
 
         // Update is called once per frame
     void Update()
     {
-        if (isactive)
+        if (Input.GetKeyDown(KeyCode.K))
         {
-            ItemDeactivate();
-        }
-        else 
-        {
-            ItemActivate();
+            if (!isactive)
+            {
+                ItemActivate();
+            }
+            else
+            {
+                ItemDeactivate();
+            }
         }
     }
 }

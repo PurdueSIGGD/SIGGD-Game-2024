@@ -16,31 +16,28 @@ public class Item2 : MonoBehaviour
     }
     void ItemActivate()
     {
-        if (Input.GetKeyDown(KeyCode.J))
-        {
-            stats.ModifyStat("Jump Force", effect);
-            isactive = true;
-        }
+        stats.ModifyStat("Jump Force", effect);
+        isactive = true;
     }
     void ItemDeactivate()
     {
-        if (Input.GetKeyDown(KeyCode.J))
-        {
-            stats.ModifyStat("Jump Force", -effect);
-            isactive = false;
-        }
+        stats.ModifyStat("Jump Force", -effect);
+        isactive = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (isactive)
+        if (Input.GetKeyDown(KeyCode.J))
         {
-            ItemDeactivate();
-        }
-        else
-        {
-            ItemActivate();
+            if (!isactive)
+            {
+                ItemActivate();
+            }
+            else
+            {
+                ItemDeactivate();
+            }
         }
     }
 }
