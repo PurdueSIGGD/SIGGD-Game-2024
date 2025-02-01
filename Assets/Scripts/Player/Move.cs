@@ -7,21 +7,17 @@ using UnityEditor.U2D;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Move : MonoBehaviour
+public class Move : MonoBehaviour, IStatList
 {
+    [SerializeField]
+    private StatManager.Stat[] statList;
+
     private InputAction moveInput;
     private InputAction playerActionDown;
     private Rigidbody2D rb;
     public Boolean doubleJump = true;
 
-    private Stats stats;
-    private int maxRunningSpeedIdx;
-    private int runningAccelIdx;
-    private int runningDeaccelIdx;
-
-    private int maxGlideSpeedIdx;
-    private int glideAccelIdx;
-    private int glideDeaccelIdx;
+    private StatManager stats;
 
     private bool gliding = false;
     private bool dashing = false;
@@ -37,19 +33,11 @@ public class Move : MonoBehaviour
     {
         moveInput = GetComponent<PlayerInput>().actions.FindAction("Move");
         rb = GetComponent<Rigidbody2D>();
-        stats = GetComponent<Stats>();
+        stats = GetComponent<StatManager>();
 
-        maxRunningSpeedIdx = stats.GetStatIndex("Max Running Speed");
-        runningAccelIdx = stats.GetStatIndex("Running Acceleration");
-        runningDeaccelIdx = stats.GetStatIndex("Running Deacceleration");
-
-        maxGlideSpeedIdx = stats.GetStatIndex("Max Glide Speed");
-        glideAccelIdx = stats.GetStatIndex("Glide Acceleration");
-        glideDeaccelIdx = stats.GetStatIndex("Glide Deacceleration");
-
-        accel = stats.ComputeValue(runningAccelIdx);
-        maxSpeed = stats.ComputeValue(maxRunningSpeedIdx);
-        deaccel = stats.ComputeValue(runningDeaccelIdx);
+        accel = stats.ComputeValue("Running Accel.");
+        maxSpeed = stats.ComputeValue("Max Running Speed");
+        deaccel = stats.ComputeValue("Running Deaccel.");
     }
 
     // Update is called once per frame
@@ -109,24 +97,24 @@ public class Move : MonoBehaviour
     public void StartGlide()
     {
         gliding = true;
-        accel = stats.ComputeValue(glideAccelIdx);
-        maxSpeed = stats.ComputeValue(maxGlideSpeedIdx);
-        deaccel = stats.ComputeValue(glideDeaccelIdx);
+        accel = stats.ComputeValue("Glide Accel.");
+        maxSpeed = stats.ComputeValue("Max Glide Speed");
+        deaccel = stats.ComputeValue("Glide Deaccel.");
     }
 
     public void StopGlide()
     {
         gliding = false;
-        accel = stats.ComputeValue(runningAccelIdx);
-        maxSpeed = stats.ComputeValue(maxRunningSpeedIdx);
-        deaccel = stats.ComputeValue(runningDeaccelIdx);
+        accel = stats.ComputeValue("Running Accel.");
+        maxSpeed = stats.ComputeValue("Max Running Speed");
+        deaccel = stats.ComputeValue("Running Deaccel.");
     }
     public void StartDash()
     {
         dashing = true;
-        accel = stats.ComputeValue(runningAccelIdx);
-        maxSpeed = stats.ComputeValue(maxRunningSpeedIdx);
-        deaccel = stats.ComputeValue(runningDeaccelIdx);
+        accel = stats.ComputeValue("Running Accel.");
+        maxSpeed = stats.ComputeValue("Max Running Speed");
+        deaccel = stats.ComputeValue("Running Deaccel.");
     }
 
     public void StopDash()
@@ -137,9 +125,9 @@ public class Move : MonoBehaviour
     public void StartHeavyChargeUp()
     {
         charging = true;
-        accel = stats.ComputeValue(runningAccelIdx)/2;
-        maxSpeed = stats.ComputeValue(maxRunningSpeedIdx)/2;
-        deaccel = stats.ComputeValue(runningDeaccelIdx);
+        accel = stats.ComputeValue("Accel. while Heavy");
+        maxSpeed = stats.ComputeValue("Max Speed while Heavy");
+        deaccel = stats.ComputeValue("Deaccel. while Heavy");
     }
 
     public void StopHeavyChargeUp()
@@ -147,9 +135,9 @@ public class Move : MonoBehaviour
         if (charging)
         {
             charging = false;
-            accel = stats.ComputeValue(runningAccelIdx);
-            maxSpeed = stats.ComputeValue(maxRunningSpeedIdx);
-            deaccel = stats.ComputeValue(runningDeaccelIdx);
+            accel = stats.ComputeValue("Running Accel.");
+            maxSpeed = stats.ComputeValue("Max Running Speed");
+            deaccel = stats.ComputeValue("Running Deaccel.");
             Debug.Log("Stop Heavy ChargeUp");
         }
     }
@@ -158,15 +146,20 @@ public class Move : MonoBehaviour
     {
         Debug.Log("Primed");
         charging = false;
-        accel = stats.ComputeValue(runningAccelIdx) / 2;
-        maxSpeed = stats.ComputeValue(maxRunningSpeedIdx) / 2;
-        deaccel = stats.ComputeValue(runningDeaccelIdx);
+        accel = stats.ComputeValue("Accel. while Heavy");
+        maxSpeed = stats.ComputeValue("Max Speed while Heavy");
+        deaccel = stats.ComputeValue("Deaccel. while Heavy");
     }
 
     public void StopHeavyPrimed()
     {
-        accel = stats.ComputeValue(runningAccelIdx);
-        maxSpeed = stats.ComputeValue(maxRunningSpeedIdx);
-        deaccel = stats.ComputeValue(runningDeaccelIdx);
+        accel = stats.ComputeValue("Running Accel.");
+        maxSpeed = stats.ComputeValue("Max Running Speed");
+        deaccel = stats.ComputeValue("Running Deaccel.");
+    }
+
+    public StatManager.Stat[] GetStatList()
+    {
+        return statList;
     }
 }

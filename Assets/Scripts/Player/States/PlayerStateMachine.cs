@@ -9,6 +9,7 @@ using UnityEngine.Windows;
 /// <summary>
 /// A simple state machine for the player that toggles booleans hooked up to an animator
 /// </summary>
+[DisallowMultipleComponent]
 public class PlayerStateMachine : MonoBehaviour
 {
     [SerializeField] LayerMask groundLayer; //The layer representing ground

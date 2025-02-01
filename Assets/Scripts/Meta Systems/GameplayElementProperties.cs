@@ -85,7 +85,7 @@ public enum DamageType
     /// <summary>
     /// The amount of damage dealt in this damage instance.
     /// </summary>
-    public float damage;
+    [NonSerialized] public float damage;
     /// <summary>
     /// The damage value of the attack that is causing this damage instance. This might not equal the actual damage dealt.
     /// </summary>
