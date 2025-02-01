@@ -6,13 +6,13 @@ using UnityEngine;
 
 public class Item : MonoBehaviour
 {
-    private Stats stats;
+    private StatManager stats;
     private bool isactive;
     private int effect;
     // Start is called before the first frame update
     void Start()
     {
-        stats = PlayerID.instance.GetComponent<Stats>();
+        stats = PlayerID.instance.GetComponent<StatManager>();
         effect = 150;
         isactive = false;
     }

@@ -7,13 +7,13 @@ using UnityEngine;
 public class Item1 : MonoBehaviour
 {
 
-    private Stats stats;
+    private StatManager stats;
     private bool isactive;
     private int effect;
     // Start is called before the first frame update
     void Start()
     {
-        stats = PlayerID.instance.GetComponent<Stats>();
+        stats = PlayerID.instance.GetComponent<StatManager>();
         effect = 50;
         isactive = false;
     }
