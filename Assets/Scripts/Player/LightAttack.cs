@@ -46,8 +46,8 @@ public class LightAttack : MonoBehaviour
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, range, attackMask);
 
-        Vector2 orig = transform.position;
-        Vector2 center = mainCamera.ScreenToWorldPoint(Input.mousePosition).normalized * range; // furtherest point of player attack cone
+        Vector3 orig = transform.position;
+        Vector3 center = (mainCamera.ScreenToWorldPoint(Input.mousePosition) - orig).normalized * range + orig; // furtherest point of player attack cone
 
         DrawCone(center);
 
@@ -59,11 +59,13 @@ public class LightAttack : MonoBehaviour
             {
                 continue;
             }
-            Vector2 hitPos = hit.transform.position;
-            Vector2 a = hitPos - orig;
-            Vector2 b = center - orig;
+            Vector3 hitPos = hit.transform.position;
+            Vector3 a = hitPos - orig;
+            Debug.DrawLine(orig, a, Color.red, 1.0f);
+            Vector3 b = center;
+            Debug.DrawLine(orig, b, Color.blue, 1.0f);
 
-            float hitAngle = Vector2.Dot(a, b) / (a.magnitude * b.magnitude);
+            float hitAngle = Mathf.Acos(Vector2.Dot(a, b) / (a.magnitude * b.magnitude)) * Mathf.Rad2Deg;
 
             if (hitAngle <= angle / 2)
             {
@@ -74,17 +76,17 @@ public class LightAttack : MonoBehaviour
 
     private void DrawCone(Vector2 center)
     {
-        Vector2 orig = transform.position;
+        Vector3 orig = transform.position;
         float halfAngle = (angle / 2) * Mathf.Deg2Rad;
 
-        Vector2 a = new Vector2(center.x * Mathf.Cos(halfAngle) - center.y * Mathf.Sin(halfAngle), 
+        Vector3 a = new Vector3(center.x * Mathf.Cos(halfAngle) - center.y * Mathf.Sin(halfAngle), 
                                 center.x * Mathf.Sin(halfAngle) + center.y * Mathf.Cos(halfAngle));
 
-        Vector2 b = new Vector2(center.x * Mathf.Cos(halfAngle) + center.y * Mathf.Sin(halfAngle),
+        Vector3 b = new Vector3(center.x * Mathf.Cos(halfAngle) + center.y * Mathf.Sin(halfAngle),
                                 -center.x * Mathf.Sin(halfAngle) + center.y * Mathf.Cos(halfAngle));
 
         Debug.DrawLine(orig, center, Color.white, 1.0f);
-        Debug.DrawLine(orig, a, Color.white, 1.0f);
-        Debug.DrawLine(orig, b, Color.white, 1.0f);
+        //Debug.DrawLine(orig, a, Color.white, 1.0f);
+        //Debug.DrawLine(orig, b, Color.white, 1.0f);
     }
 }
