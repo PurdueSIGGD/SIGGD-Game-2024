@@ -14,7 +14,7 @@ public class EnemyStateManager : MonoBehaviour
     public EnemyStates BusyState = new BusyState();
     public EnemyStates MoveState = new MoveState();
 
-    [HideInInspector] public Stats stats; // Enemy stats component
+    [HideInInspector] public StatManager stats; // Enemy stats component
     [HideInInspector] public ActionPool pool; // A pool of attacks to randomly choose from
     [HideInInspector] public Animator animator;
 
@@ -26,7 +26,7 @@ public class EnemyStateManager : MonoBehaviour
     protected virtual void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
-        stats = GetComponent<Stats>();
+        stats = GetComponent<StatManager>();
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         pool = GetComponent<ActionPool>();

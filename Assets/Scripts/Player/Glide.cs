@@ -1,27 +1,29 @@
 using UnityEngine;
 
-public class Glide : MonoBehaviour
+[DisallowMultipleComponent]
+public class Glide : MonoBehaviour, IStatList
 {
+    [SerializeField]
+    private StatManager.Stat[] statList;
+
     //initiate variables
     private Rigidbody2D rb;
-    private Stats stats;
+    private StatManager stats;
 
-    private int glideFallSpeedIdx;
     private bool isFalling;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        stats = GetComponent<Stats>();
+        stats = GetComponent<StatManager>();
 
-        glideFallSpeedIdx = stats.GetStatIndex("Glide Fall Speed");
     }
 
     private void FixedUpdate()
     {
         if (isFalling)
         {
-            rb.velocity = new Vector2(rb.velocity.x, -1 * stats.ComputeValue(glideFallSpeedIdx));
+            rb.velocity = new Vector2(rb.velocity.x, -1 * stats.ComputeValue("Glide Fall Speed"));
         }
     }
 
@@ -35,5 +37,10 @@ public class Glide : MonoBehaviour
     {
         isFalling = false;
         rb.gravityScale = 4;
+    }
+
+    public StatManager.Stat[] GetStatList()
+    {
+        return statList;
     }
 }

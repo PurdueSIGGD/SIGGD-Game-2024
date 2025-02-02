@@ -270,7 +270,6 @@ MonoBehaviour:
   aggroRange: 18.6
   meleeTrigger: {fileID: 2358971396437510415}
   meleeDamage:
-    damage: 10
     damageStrength: 1
     damageTypes: 00000000
     actionID: 17
@@ -279,7 +278,6 @@ MonoBehaviour:
   tpBackTrigger: {fileID: 1365265030456903513}
   tpForwardTrigger: {fileID: 3423477219027819224}
   spinDamage:
-    damage: 40
     damageStrength: 3
     damageTypes: 0000000002000000
     actionID: 17
@@ -288,7 +286,6 @@ MonoBehaviour:
   stingerTrigger: {fileID: 6623908715604477131}
   stingerHitBox: {fileID: 3547627012480381979}
   stingerDamage:
-    damage: 15
     damageStrength: 2
     damageTypes: 00000000
     actionID: 17
@@ -303,16 +300,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 2119936537419083514}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 532320b84239cf640a651fa5709b989a, type: 3}
+  m_Script: {fileID: 11500000, guid: 83a0782e8961e074bbf391401404ae17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stats:
-  - name: Max Health
-    value: 250
-    modifier: 100
+  statList:
   - name: Speed
     value: 10
-    modifier: 100
 --- !u!114 &7261880397543917784
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -376,7 +369,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a13ad00583bca6b4fa6de9939a968201, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 250
+  statList:
+  - name: Max Health
+    value: 250
 --- !u!1 &2960955476441126688
 GameObject:
   m_ObjectHideFlags: 0
