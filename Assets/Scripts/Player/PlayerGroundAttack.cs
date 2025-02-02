@@ -11,15 +11,15 @@ public class PlayerGroundAtack : MonoBehaviour
     [SerializeField] LayerMask attackMask;
     private float damage;
     float cooldown_cur = 0; // Current timer
-    private Stats stats;
+    private StatManager stats;
     
     private int counter = 0;
     private Camera mainCamera;
     
     private void Start()
     {
-        //Stats grab
-        stats = GetComponent<Stats>();
+        //StatManager grab
+        stats = GetComponent<StatManager>();
         damage = stats.ComputeValue("Damage");
 
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();

@@ -10,10 +10,10 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     public int health; // Health of player
     public bool isAlive = true; // Checks if player is still alive, if not Player lose (?)
-    private Stats stats;
+    private StatManager stats;
 
     public void Start() {
-        stats = GetComponent<Stats>();
+        stats = GetComponent<StatManager>();
         health = (int) stats.ComputeValue("Max Health");
     }   
 
