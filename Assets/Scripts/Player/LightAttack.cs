@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -6,87 +8,68 @@ using UnityEngine.InputSystem;
 /// </summary>
 public class LightAttack : MonoBehaviour
 {
-    [SerializeField] float range; // radius of the attack cone
-    [SerializeField] float angle; // angle of the attack cone
+    [SerializeField] float range = 1.2f; // radius of the attack cone
+    [SerializeField] float angle = 80f; // angle of the attack cone
     [SerializeField] DamageContext lightDamage;
     [SerializeField] float cooldown = 1; // Cooldown of player attack
+    [SerializeField] float rayCount = 6; // number of rays used to check for collision
     [SerializeField] LayerMask attackMask;
-    
-    private float damage;
-    private float cooldown_cur = 0; // Current timer
-    private Stats stats;
-    private int counter = 0;
+
+    private HashSet<int> hits; // stores which targets have already been hit in one attack
     private Camera mainCamera;
     
     private void Start()
     {
-        //Stats grab
-        stats = GetComponent<Stats>();
-        damage = stats.ComputeValue("Damage");
-
+        hits = new HashSet<int>();
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
     }
 
     /// <summary>
-    /// A function that gets called whenever the "Hit" action in Player Actions (currently mouse left)
-    /// </summary>
-    //private void OnHit()
-    //{
-    //    if (cooldown < cooldown_cur)
-    //    { // If cooldown is over
-    //        Attack();
-    //    }
-    //}
-
-    /// <summary>
-    /// Checks sword collision with objects
-    /// If Enemy tag then hits with sword damage
+    /// Damage enemies in a cone shape in the direction of the cursor
     /// </summary>
     public void StartLightAttack()
     {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, range, attackMask);
+        float halfAngle = angle / 2; // angle above and below the centerline of the attack cone
+        float deltaAngle = halfAngle / rayCount * 2; // change in degree between each ray
 
-        Vector3 orig = transform.position;
-        Vector3 center = (mainCamera.ScreenToWorldPoint(Input.mousePosition) - orig).normalized * range + orig; // furtherest point of player attack cone
+        Vector2 orig = transform.position;
+        Vector2 center = (mainCamera.ScreenToWorldPoint(Input.mousePosition) - transform.position); // center ray
+        center = center.normalized;
 
-        DrawCone(center);
+#if DEBUG        
+        Debug.DrawLine(orig, center * range + orig, Color.red, 1.0f);
+#endif
 
-        foreach (Collider2D hit in hits)
+        for (int i = 1; i <= rayCount / 2; i ++)
         {
-            IDamageable damageableComponent = hit.gameObject.GetComponent<IDamageable>();
-            // if obj cannot be damaged, forget it..
-            if (damageableComponent == null)
-            {
-                continue;
-            }
-            Vector3 hitPos = hit.transform.position;
-            Vector3 a = hitPos - orig;
-            Debug.DrawLine(orig, a, Color.red, 1.0f);
-            Vector3 b = center;
-            Debug.DrawLine(orig, b, Color.blue, 1.0f);
-
-            float hitAngle = Mathf.Acos(Vector2.Dot(a, b) / (a.magnitude * b.magnitude)) * Mathf.Rad2Deg;
-
-            if (hitAngle <= angle / 2)
-            {
-                damageableComponent.Damage(lightDamage, gameObject);
-            }
+            CastRay(orig, deltaAngle * i, center);
+            CastRay(orig, deltaAngle * -i, center);
         }
+        hits.Clear(); // re-enable damage to all hit enemy
     }
 
-    private void DrawCone(Vector2 center)
+    /// <summary>
+    /// Cast a ray in some deviation in angle from the centerRay
+    /// Check for 
+    /// </summary>
+    private void CastRay(Vector2 orig, float angle, Vector3 centerRay)
     {
-        Vector3 orig = transform.position;
-        float halfAngle = (angle / 2) * Mathf.Deg2Rad;
+        Quaternion rot = Quaternion.AngleAxis(angle, Vector3.forward);
+        RaycastHit2D hit = Physics2D.Raycast(orig, rot * centerRay, range, attackMask);
 
-        Vector3 a = new Vector3(center.x * Mathf.Cos(halfAngle) - center.y * Mathf.Sin(halfAngle), 
-                                center.x * Mathf.Sin(halfAngle) + center.y * Mathf.Cos(halfAngle));
+#if DEBUG
+        Debug.DrawLine(orig, rot * centerRay * range + transform.position, Color.blue, 1.0f);
+#endif
 
-        Vector3 b = new Vector3(center.x * Mathf.Cos(halfAngle) + center.y * Mathf.Sin(halfAngle),
-                                -center.x * Mathf.Sin(halfAngle) + center.y * Mathf.Cos(halfAngle));
-
-        Debug.DrawLine(orig, center, Color.white, 1.0f);
-        //Debug.DrawLine(orig, a, Color.white, 1.0f);
-        //Debug.DrawLine(orig, b, Color.white, 1.0f);
+        // check if hit is valid
+        if (hit.collider == null || !hits.Add(hit.collider.gameObject.GetInstanceID()))
+        {
+            return;
+        }
+        IDamageable damageable = hit.collider.gameObject.GetComponent<IDamageable>();
+        if (damageable != null)
+        {
+            damageable.Damage(lightDamage, gameObject);
+        }
     }
 }
