@@ -274,12 +274,10 @@ GameObject:
   - component: {fileID: 5199045754590476303}
   - component: {fileID: 3385906143252303106}
   - component: {fileID: 5963340162267139679}
-  - component: {fileID: 668697143291369845}
   - component: {fileID: 748031234321096532}
   - component: {fileID: 8533305504645411692}
   - component: {fileID: 2518153858615184674}
   - component: {fileID: 3265562016652939407}
-  - component: {fileID: 749117840576027207}
   - component: {fileID: 2221814288652233453}
   - component: {fileID: 7635436938379705283}
   - component: {fileID: 4910711782724507570}
@@ -288,6 +286,8 @@ GameObject:
   - component: {fileID: 591852133945516386}
   - component: {fileID: 2579748896217751675}
   - component: {fileID: 5792560551522244267}
+  - component: {fileID: 8726217195226940082}
+  - component: {fileID: 5130688100074952564}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -354,8 +354,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b,
-    type: 3}
+  m_Sprite: {fileID: 375534085, guid: 4fc3b5f8863d60845b08275312c356d9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -424,41 +423,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!58 &668697143291369845
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8252758106455385166}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.5
 --- !u!95 &748031234321096532
 Animator:
   serializedVersion: 5
@@ -489,46 +453,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 8252758106455385166}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 532320b84239cf640a651fa5709b989a, type: 3}
+  m_Script: {fileID: 11500000, guid: 83a0782e8961e074bbf391401404ae17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stats:
-  - name: Move Speed
-    value: 1
-    modifier: 100
-  - name: Jump Force
-    value: 20
-    modifier: 100
-  - name: Damage
-    value: 10
-    modifier: 100
-  - name: Max Health
-    value: 100
-    modifier: 100
-  - name: Damage
-    value: 10
-    modifier: 100
-  - name: Max Running Speed
-    value: 10
-    modifier: 100
-  - name: Running Acceleration
-    value: 1
-    modifier: 100
-  - name: Running Deacceleration
-    value: 0.9
-    modifier: 100
-  - name: Max Glide Speed
-    value: 5
-    modifier: 100
-  - name: Glide Acceleration
-    value: 0.5
-    modifier: 100
-  - name: Glide Deacceleration
-    value: 0.9999
-    modifier: 100
-  - name: Glide Fall Speed
-    value: 2
-    modifier: 100
+  statList: []
 --- !u!114 &2518153858615184674
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -559,18 +487,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   currentAnimation: 
---- !u!114 &749117840576027207
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8252758106455385166}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7acaa2ba2ca020743b70b4148edb9fba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &2221814288652233453
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -583,10 +499,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d4ac36eb04f848748ba6e29110a6d05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxDistance: 7
-  dashTime: 0.1
-  cooldown: 1
-  postDashMomentumFraction: 0
+  statList:
+  - name: Max Dash Distance
+    value: 7
+  - name: Dash Time
+    value: 0.1
+  - name: Dash Cooldown
+    value: 1
+  - name: Post Dash Momentum Fraction
+    value: 0.5
   velocity: {x: 0, y: 0}
   canDash: 1
   isDashing: 0
@@ -603,6 +524,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8680cd79ce0025e4c984cc3e2d28137f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  statList:
+  - name: Move Speed
+    value: 1
+  - name: Max Running Speed
+    value: 10
+  - name: Running Accel.
+    value: 1
+  - name: Running Deaccel.
+    value: 0.9
   doubleJump: 1
 --- !u!114 &4910711782724507570
 MonoBehaviour:
@@ -616,6 +546,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0eab6954326a70447a2336298f82dffa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  statList:
+  - name: Jump Force
+    value: 20
 --- !u!114 &2427372984791243572
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -628,6 +561,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0d10fbf13e5ab846ab1d7e0e050404d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  forceStrength: -100
 --- !u!114 &8547351280330222855
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -640,9 +574,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29af8171297c4c544b544b68d1f7d6dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  statList:
+  - name: Heavy Damage
+    value: 80
   indicator: {fileID: 1398568264850401254}
   heavyDamage:
-    damage: 80
     damageStrength: 2
     damageTypes: 00000000
     actionID: 2
@@ -686,6 +622,75 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a13ad00583bca6b4fa6de9939a968201, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  statList:
+  - name: Max Health
+    value: 100
+--- !u!61 &8726217195226940082
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8252758106455385166}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.10998535, y: -0.15005708}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 3.5310345, y: 2.7}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.3225079, y: 2.065783}
+  m_EdgeRadius: 0
+--- !u!114 &5130688100074952564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8252758106455385166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7acaa2ba2ca020743b70b4148edb9fba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  statList:
+  - name: Max Glide Speed
+    value: 5
+  - name: Glide Accel.
+    value: 0.5
+  - name: Glide Deaccel.
+    value: 0.9999
+  - name: Glide Fall Speed
+    value: 2
 --- !u!1001 &8503109854660319302
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -702,7 +707,7 @@ PrefabInstance:
     - target: {fileID: 2728778880471080501, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.25
+      value: 1.51
       objectReference: {fileID: 0}
     - target: {fileID: 2728778880471080501, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
         type: 3}

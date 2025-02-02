@@ -9,6 +9,7 @@ using UnityEngine.Windows;
 /// <summary>
 /// A simple state machine for the player that toggles booleans hooked up to an animator
 /// </summary>
+[DisallowMultipleComponent]
 public class PlayerStateMachine : MonoBehaviour
 {
     [SerializeField] LayerMask groundLayer; //The layer representing ground
@@ -16,7 +17,7 @@ public class PlayerStateMachine : MonoBehaviour
 
     float groundDetectRadius = 0.5f; //The radius of the circle checking for ground overlap
     float minimumFallSpeed = -0.1f; // The minimum negative vertical velocity required to be considered falling
-    float yFeetDisplacement = -0.5f; // Distance between the transform position of player and the player's "feet"
+    float yFeetDisplacement = -2f; // Distance between the transform position of player and the player's "feet"
 
     InputAction moveInput; // The move action from the playerInput component
     InputAction jumpInput; // The jump action from the playerInput component
