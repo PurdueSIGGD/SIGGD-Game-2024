@@ -55,21 +55,24 @@ public class LightAttack : MonoBehaviour
     private void CastRay(Vector2 orig, float angle, Vector3 centerRay)
     {
         Quaternion rot = Quaternion.AngleAxis(angle, Vector3.forward);
-        RaycastHit2D hit = Physics2D.Raycast(orig, rot * centerRay, range, attackMask);
+        RaycastHit2D[] hit = Physics2D.RaycastAll(orig, rot * centerRay, range, attackMask);
 
 #if DEBUG
         Debug.DrawLine(orig, rot * centerRay * range + transform.position, Color.blue, 1.0f);
 #endif
 
-        // check if hit is valid
-        if (hit.collider == null || !hits.Add(hit.collider.gameObject.GetInstanceID()))
+        foreach (RaycastHit2D h in hit)
         {
-            return;
-        }
-        IDamageable damageable = hit.collider.gameObject.GetComponent<IDamageable>();
-        if (damageable != null)
-        {
-            damageable.Damage(lightDamage, gameObject);
+            // check if hit is valid
+            if (h.collider == null || !hits.Add(h.collider.gameObject.GetInstanceID()))
+            {
+                return;
+            }
+            IDamageable damageable = h.collider.gameObject.GetComponent<IDamageable>();
+            if (damageable != null)
+            {
+                damageable.Damage(lightDamage, gameObject);
+            }
         }
     }
 }
