@@ -97,6 +97,7 @@ public class IdolPassive : MonoBehaviour
 
         yield return new WaitForSeconds(tempoDuration);
         tempoStack --;
+        Debug.Log("Tempo expired");
         UpdateSpeed(-1);
     }
 }
