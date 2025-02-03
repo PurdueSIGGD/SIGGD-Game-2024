@@ -6,14 +6,13 @@ using UnityEngine;
 public abstract class WorldInteractableOption
 {
     // Name to be displayed on labels.
-    // Ideally this would be an abstract static member but C# has no such functionality.
-    public abstract string GetName();
+    public string name;
 
-    // Checks and returns whether or not the option should be displayed at all on a menu.
-    public abstract bool IsVisible();
+    // Whether or not the option should be displayed at all on a menu.
+    public bool isVisible;
 
-    // Checks and returns whether or not the option should be locked/greyed out on a menu.
-    public abstract bool IsLocked();
+    // Whether or not the option should be locked/greyed out on a menu.
+    public bool isLocked;
 
     // Callback for the given action.
     public abstract void Action();
