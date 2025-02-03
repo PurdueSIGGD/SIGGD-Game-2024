@@ -5,8 +5,10 @@ using UnityEditor.Experimental.GraphView;
 /// <summary>
 /// Special action: player sprite color changes to 0.3 alpha for 8 seconds
 /// </summary>
-public class InvisibleAction : MonoBehaviour, IParty, ISelectable, ISpecialMove
+public class InvisibleAction : MonoBehaviour, IParty, ISelectable
 {
+    PlayerStateMachine psm;
+
     [SerializeField]
     private float invisDuration;
     private float invisClickCD = 0f; // the timer before the invis special action can be performed again
@@ -46,6 +48,9 @@ public class InvisibleAction : MonoBehaviour, IParty, ISelectable, ISpecialMove
     public void Select(GameObject player)
     {
         possessing = true;
+        player.GetComponent<Dash>().specialAction = GoInvisible;
+        psm = player.GetComponent<PlayerStateMachine>();
+
     }
     public void DeSelect(GameObject player)
     {
@@ -55,6 +60,7 @@ public class InvisibleAction : MonoBehaviour, IParty, ISelectable, ISpecialMove
             playerSpriteRenderer.color = new Color(1, 1, 1, 1);
             _isInvisible = true;
         }
+        player.GetComponent<Dash>().specialAction = null;
     }
     public bool GetBool()
     {
@@ -62,7 +68,6 @@ public class InvisibleAction : MonoBehaviour, IParty, ISelectable, ISpecialMove
     }
     public void StartSpecial()
     {
-        print("Boo Going Invisible!");
         GoInvisible();
     }
     public void EndSpecial()
@@ -71,7 +76,6 @@ public class InvisibleAction : MonoBehaviour, IParty, ISelectable, ISpecialMove
     }
     public void GoInvisible()
     {
-        PlayerStateMachine psm = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStateMachine>();
         psm.EnableTrigger("OPT");
 
         if (!canClickInvis)

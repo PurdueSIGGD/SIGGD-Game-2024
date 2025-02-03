@@ -7,6 +7,9 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 //<summary>
+// Special ability script for player - if a ghost is currently posessing and 
+// overrides the special move delegate, that delegate will run. Else, the player
+// dash function will run like normal.
 // Base player action: player dashes towards the mouse location in a fixed time
 //</summary>
 public class Dash : MonoBehaviour
@@ -26,21 +29,16 @@ public class Dash : MonoBehaviour
     [SerializeField] private bool isDashing = false;
     [SerializeField] private bool isSlowing = false;
 
-    [Header("Posession and Delegate Shenanigans")]
-    PartyManager partyManager; // reference to party manager on player
-    ISpecialMove specialMoveScript; // reference to special move interface of currently active ghost
-    delegate void SpecialAction(); // delegate to contain the 
-    SpecialAction specialAction;
+    [Header("Delegate Override Variables")]
+    public SpecialAction specialAction;
+    public delegate void SpecialAction(); // delegate to contain any ghost overrides
+
 
     private void Start()
     {
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         rb = GetComponent<Rigidbody2D>();
-
-        // set default special action to dash
         specialAction = null;
-        // get party manager reference
-        partyManager = GetComponent<PartyManager>();
     }
 
     private void FixedUpdate()
@@ -49,39 +47,18 @@ public class Dash : MonoBehaviour
         {
             rb.velocity = velocity;
         }
-
-        // change special action delegate
-        if (partyManager.GetCurrentGhost() != null)
-        {
-            GameObject currentGhost = partyManager.GetCurrentGhost().gameObject;
-            specialMoveScript = currentGhost.GetComponent<ISpecialMove>();
-            // specialMoveScript is reference to an ISpecialMove interface attached to a special move script
-            specialAction = specialMoveScript.StartSpecial;
-        }
-        else
-        {
-            specialAction = null;
-        }
     }
 
-    /// <summary>
-    /// General function to (eventually) be called through the animation state machine when the 
-    /// special action state is entered. 
-    /// </summary>
-    public void StartSpecialAction()
-    {
-        print("Starting General Special Action!");
-        specialAction();
-    }
     //<summary>
-    // Function called through the animation state machine when player is meant to "Dash"
+    // Function called through the animation state machine when player is meant to "Dash".
     // Calculates the displacement vector between the player and the mouse and starts the dash
+    // Can be overriden by any posesssing ghost's start special ability function.
     //</summary>
     public void StartDash()
     {
         if (specialAction != null)
         {
-            StartSpecialAction();
+            specialAction();
         }
         else
         {
