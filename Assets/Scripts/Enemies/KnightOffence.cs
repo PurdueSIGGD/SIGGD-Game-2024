@@ -15,13 +15,13 @@ public class KnightOffence : EnemyStateManager
     // Check for collision in swing range to deal damage
     protected void OnSwordEvent()
     {
-        GenerateDamageFrame(batonTrigger.position, batonTrigger.lossyScale.x, batonTrigger.lossyScale.y, batonDamage, gameObject);
+        GenerateDamageFrame(swordTrigger.position, swordTrigger.lossyScale.x, swordTrigger.lossyScale.y, swordDamage, gameObject);
     }
 
     // Draws the Enemy attack range in the editor
     protected override void OnDrawGizmos()
     {
         base.OnDrawGizmos();
-        Gizmos.DrawWireCube(batonTrigger.position, batonTrigger.lossyScale);
+        Gizmos.DrawWireCube(swordTrigger.position, swordTrigger.lossyScale);
     }
 }
