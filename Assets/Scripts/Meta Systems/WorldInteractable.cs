@@ -32,17 +32,20 @@ public abstract class WorldInteractable : MonoBehaviour
     // Update function checks if player is in range, then updates and displays the options list.
     private void Update()
     {
-        canvas.enabled = false;
         Vector3 dist = player.transform.position - transform.position;
-        if (dist.magnitude > activationRange) return;
+        if (dist.magnitude > activationRange)
+        {
+            HideButtons();
+        }
 
-        canvas.enabled = true;
+        ShowButtons();
 
-        RectTransform panelTransform = panel.GetComponent<RectTransform> ();
-        panelTransform.position = cam.WorldToScreenPoint(transform.position); // TODO check if menu is in cam bounds
-        Debug.Log("Player is in menu range");
+ 
+    }
 
-        UpdateButtons();
+    public void SetOptions()
+    {
+
     }
 
     private void InstantiateButtons() // Creates all button objects which are to be displayed in the menu
@@ -61,7 +64,7 @@ public abstract class WorldInteractable : MonoBehaviour
         }
     }
 
-    private void UpdateButtons() // Updates the visibility and layout of all buttons in the menu
+    private void ShowButtons() // Updates the visibility and layout of all buttons in the menu
     {
         float currentY = 0;
         float buttonHeight = 30;
@@ -73,5 +76,16 @@ public abstract class WorldInteractable : MonoBehaviour
             buttonTransform.anchoredPosition = new Vector2(0,currentY);
             currentY += buttonHeight;
         }
+
+        canvas.enabled = true;
+
+        RectTransform panelTransform = panel.GetComponent<RectTransform>();
+        panelTransform.position = cam.WorldToScreenPoint(transform.position); // TODO check if menu is in cam bounds
+        Debug.Log("Player is in menu range");
+    }
+
+    private void HideButtons()
+    {
+        canvas.enabled = false;
     }
 }
