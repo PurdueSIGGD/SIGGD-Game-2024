@@ -10,12 +10,14 @@ public class GhostIdentity : MonoBehaviour
     private bool inParty = false;
     private GameObject player;
     private IParty[] partyScripts;
+    private int trust;
 
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         partyScripts = this.GetComponents<IParty>();
+        trust = 0;
     }
 
     // Update is called once per frame
@@ -47,6 +49,11 @@ public class GhostIdentity : MonoBehaviour
                 script.ExitParty(player);
             }
         }
+    }
+
+    public void addTrust(int amount) {
+        trust += amount;
+        Debug.Log(trust);
     }
 
 }
