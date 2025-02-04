@@ -18,14 +18,14 @@ public class GhostBuff : MonoBehaviour, IParty
     bool inParty;
 
     public void EnterParty(GameObject player)  {
-        Stats stats = player.GetComponent<Stats>();
+        StatManager stats = player.GetComponent<StatManager>();
         foreach (StatBuff statBuff in buffs){
             stats.ModifyStat(statBuff.name, statBuff.buff);
         }
     }
 
     public void ExitParty(GameObject player) {
-        Stats stats = player.GetComponent<Stats>();
+        StatManager stats = player.GetComponent<StatManager>();
         foreach (StatBuff statBuff in buffs){
             stats.ModifyStat(statBuff.name, -1 * statBuff.buff);
         }

@@ -14,7 +14,7 @@ public class IdolPassive : MonoBehaviour
     [SerializeField] public float tempoDuration = 8.0f; // Duration before 1 stack of tempo expires
 
     // Reference to player stats
-    private Stats stats;
+    private StatManager stats;
     private int maxRunningSpeedIdx;
     private int runningAccelIdx;
     private int runningDeaccelIdx;
@@ -25,14 +25,7 @@ public class IdolPassive : MonoBehaviour
 
     void Start()
     {
-        stats = GetComponent<Stats>();
-        maxRunningSpeedIdx = stats.GetStatIndex("Max Running Speed");
-        runningAccelIdx = stats.GetStatIndex("Running Acceleration");
-        runningDeaccelIdx = stats.GetStatIndex("Running Deacceleration");
-
-        maxGlideSpeedIdx = stats.GetStatIndex("Max Glide Speed");
-        glideAccelIdx = stats.GetStatIndex("Glide Acceleration");
-        glideDeaccelIdx = stats.GetStatIndex("Glide Deacceleration");
+        stats = GetComponent<StatManager>();
     }
 
     /// <summary>
@@ -71,13 +64,13 @@ public class IdolPassive : MonoBehaviour
     /// <param name="deltaStack"></param>
     private void UpdateSpeed(int deltaStack)
     {
-        stats.ModifyStat(maxRunningSpeedIdx, runSpeedMod * deltaStack);
-        stats.ModifyStat(runningAccelIdx, runSpeedMod * deltaStack);
-        stats.ModifyStat(runningDeaccelIdx, runSpeedMod * deltaStack);
+        stats.ModifyStat("Max Running Speed", runSpeedMod * deltaStack);
+        stats.ModifyStat("Running Accel.", runSpeedMod * deltaStack);
+        stats.ModifyStat("Running Deaccel.", runSpeedMod * deltaStack);
 
-        stats.ModifyStat(maxGlideSpeedIdx, glideSpeedMod * deltaStack);
-        stats.ModifyStat(glideAccelIdx, glideSpeedMod * deltaStack);
-        stats.ModifyStat(glideDeaccelIdx, glideSpeedMod * deltaStack);
+        stats.ModifyStat("Max Glide Speed", glideSpeedMod * deltaStack);
+        stats.ModifyStat("Glide Accel.", glideSpeedMod * deltaStack);
+        stats.ModifyStat("Glide Deaccel.", glideSpeedMod * deltaStack);
     }
 
     /// <summary>

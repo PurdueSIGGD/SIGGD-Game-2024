@@ -1,29 +1,22 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.Collections;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
-public class Health : MonoBehaviour, IDamageable
+[DisallowMultipleComponent]
+public class Health : MonoBehaviour, IDamageable, IStatList
 {
+    [SerializeField]
+    public StatManager.Stat[] statList;
 
-    private float maxHealth; // Max health of player
     [NonSerialized] public float currentHealth; // Current health of player
     [NonSerialized] public bool isAlive = true; // Checks if player is still alive
-    private Stats stats;
+    private StatManager stats;
 
 
 
     // Start is called before the first frame update
     void Start()
     {
-        stats = GetComponent<Stats>();
-        if (stats != null )
-        {
-            maxHealth = stats.ComputeValue("Max Health");
-        }
-        currentHealth = maxHealth;
+        stats = GetComponent<StatManager>();
     }
 
     // Update is called once per frame
@@ -63,7 +56,7 @@ public class Health : MonoBehaviour, IDamageable
     public float Heal(HealingContext context, GameObject healer)
     {
         // Configure healing context
-        float missingHealth = maxHealth - currentHealth;
+        float missingHealth = stats.ComputeValue("Max Health") - currentHealth;
         context.healer = healer;
         context.healee = gameObject;
         context.trueHealing = context.healing;
@@ -79,8 +72,6 @@ public class Health : MonoBehaviour, IDamageable
         return context.healing;
     }
 
-
-
     public void Kill(DamageContext context)
     {
         isAlive = false;
@@ -89,5 +80,10 @@ public class Health : MonoBehaviour, IDamageable
         GameplayEventHolder.OnDeath?.Invoke(context);
 
         Destroy(this.gameObject);
+    }
+
+    public StatManager.Stat[] GetStatList()
+    {
+        return statList;
     }
 }

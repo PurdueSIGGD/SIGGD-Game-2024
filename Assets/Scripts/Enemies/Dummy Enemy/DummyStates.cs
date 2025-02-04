@@ -18,13 +18,13 @@ public class DummyStates : EnemyStateManager, IDamageable
     //private int rangeDamage = 0; // Range Damage of Enemy --> For 'Shoot Action'
     private float damageReduction;
     private float health;
-    private Stats stats;
+    private StatManager stats;
     public GameObject projectile;
 
     void Start()
     {
-        // Stats grab
-        stats = GetComponent<Stats>();
+        // StatManager grab
+        stats = GetComponent<StatManager>();
         health = (int) stats.ComputeValue("Health"); 
         damageReduction = stats.ComputeValue("Armor");  
         meleeDamage = (int) stats.ComputeValue("Melee Damage");

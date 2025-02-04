@@ -9,14 +9,14 @@ public class HealthUI : MonoBehaviour
 
     [SerializeField] public TextMeshProUGUI healthText;
     private Health health;
-    private Stats stats;
+    private StatManager stats;
     private Quaternion UIRotation;
 
     // Start is called before the first frame update
     void Start()
     {
         health = transform.parent.GetComponent<Health>();
-        stats = transform.parent.GetComponent<Stats>();
+        stats = transform.parent.GetComponent<StatManager>();
         UIRotation = new Quaternion(0f, transform.parent.rotation.y, 0f, 0f);
     }
 

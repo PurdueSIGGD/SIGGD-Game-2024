@@ -154,7 +154,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chargeDamage:
-    damage: 20
     damageStrength: 2
     damageTypes: 00000000
     actionID: 17
@@ -394,7 +393,6 @@ MonoBehaviour:
   aggroRange: 9.32
   batonTrigger: {fileID: 7835333299776145468}
   batonDamage:
-    damage: 10
     damageStrength: 1
     damageTypes: 00000000
     actionID: 17
@@ -418,7 +416,7 @@ FixedJoint2D:
   m_BreakAction: 3
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: -0.645, y: 0}
+  m_ConnectedAnchor: {x: 0.64499664, y: 0}
   m_DampingRatio: 0
   m_Frequency: 0
 --- !u!114 &6887818589130474418
@@ -430,16 +428,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 5499330591125181409}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 532320b84239cf640a651fa5709b989a, type: 3}
+  m_Script: {fileID: 11500000, guid: 83a0782e8961e074bbf391401404ae17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stats:
-  - name: Max Health
-    value: 100
-    modifier: 100
+  statList:
   - name: Speed
     value: 4
-    modifier: 100
 --- !u!114 &8825911081079385304
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -491,7 +485,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a13ad00583bca6b4fa6de9939a968201, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
+  statList:
+  - name: Max Health
+    value: 100
 --- !u!1001 &1841495103992843679
 PrefabInstance:
   m_ObjectHideFlags: 0
