@@ -16,21 +16,14 @@ public abstract class WorldInteractable : MonoBehaviour
     [SerializeField] private GameObject panel;
     [SerializeField] private GameObject buttonTemplate;
 
-    protected List<WorldInteractableOption> options;
-    private List<GameObject> buttons;
-
-    // These two methods are to be implemented by each specific menu instance.
-    public abstract void InitializeOptions(); // Initializes the list of options which are managed by the menu
-    public abstract void UpdateOptions(); // Updates the options that are available to the player and will be displayed when the menu spawns (or greyed out?)
-
+    private List<WorldInteractableOption> options;
+    private List<GameObject> buttons;     
 
     private void OnEnable()
     {
         canvas.enabled = false;
 
         options = new List<WorldInteractableOption> ();
-        InitializeOptions();
-
         buttons = new List<GameObject>();
         InstantiateButtons();
         buttonTemplate.SetActive(false);
@@ -49,7 +42,6 @@ public abstract class WorldInteractable : MonoBehaviour
         panelTransform.position = cam.WorldToScreenPoint(transform.position); // TODO check if menu is in cam bounds
         Debug.Log("Player is in menu range");
 
-        UpdateOptions();
         UpdateButtons();
     }
 
@@ -63,7 +55,7 @@ public abstract class WorldInteractable : MonoBehaviour
             GameObject label = newButton.transform.Find("Label").gameObject;
             TextMeshProUGUI labelText = label.GetComponent<TextMeshProUGUI>();
             labelText.fontSize = 14;
-            labelText.text = opt.GetName();
+            labelText.text = opt.name;
             
             buttons.Add(newButton);
         }
