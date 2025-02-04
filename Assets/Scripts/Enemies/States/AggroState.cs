@@ -8,14 +8,12 @@ using UnityEngine;
 /// </summary>
 public class AggroState : EnemyStates
 {
-    private Transform player;
     private Rigidbody2D rb;
 
     public override void EnterState(EnemyStateManager enemy)
     {
-        player = GameObject.FindGameObjectWithTag("Player").transform;
         rb = enemy.GetComponent<Rigidbody2D>();
-        rb.velocity = Vector2.zero; // Make sure Enemy stops moving
+        rb.velocity = new Vector2(0, rb.velocity.y); // Make sure Enemy stops moving
         enemy.pool.idle.Play(enemy.animator); // Play the idle animation when in between attacks
     }
 
@@ -26,7 +24,7 @@ public class AggroState : EnemyStates
             enemy.SwitchState(enemy.IdleState);
             return;
         }
-        if (!enemy.pool.HasActionsInRange()) // If player moves away, enter MoveState
+        if (!enemy.pool.HasActionsReady()) // If player moves away, enter MoveState
         {
             enemy.SwitchState(enemy.MoveState);
             return;

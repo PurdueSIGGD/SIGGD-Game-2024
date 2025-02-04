@@ -1,5 +1,7 @@
 using System;
+using System.Net.Mime;
 using Unity.VisualScripting;
+using UnityEditor.Build;
 using UnityEngine;
 
 /// <summary>
@@ -12,29 +14,28 @@ public class EnemyStateManager : MonoBehaviour
     public EnemyStates BusyState = new BusyState();
     public EnemyStates MoveState = new MoveState();
 
-    public float speed; // Movement speed
-    public float aggroRange; // Range for detecting players 
-    
-    public ActionPool pool; // A pool of attacks to randomly choose from
-    public Transform player; // The player
+    [HideInInspector] public StatManager stats; // Enemy stats component
+    [HideInInspector] public ActionPool pool; // A pool of attacks to randomly choose from
+    [HideInInspector] public Animator animator;
 
+    [SerializeField] float aggroRange; // Range for detecting players 
     protected EnemyStates curState; // Enemy's current State, defaults to idle
-    public Animator animator;
+    protected Transform player;
     protected Rigidbody2D rb;
     
-    void Awake()
+    protected virtual void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
+        stats = GetComponent<StatManager>();
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
-        pool = GenerateActionPool();
-
+        pool = GetComponent<ActionPool>();
+        
         SwitchState(IdleState);
     }
 
-    void FixedUpdate()
+    protected void FixedUpdate()
     {
-        pool.UpdateAllCD();
         curState.UpdateState(this);
     }
 
@@ -75,7 +76,7 @@ public class EnemyStateManager : MonoBehaviour
     /// <summary>
     /// Flip the Enemy object across the Y-axis
     /// </summary>
-    /// <param ghostName="isFlipped"> Enemy's current orientation </param>
+    /// <param name="isFlipped"> Enemy's current orientation </param>
     public void Flip(bool isFlipped)
     {
         if (isFlipped)
@@ -85,16 +86,82 @@ public class EnemyStateManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Produce a list off Actions which randomly generates the next action
+    /// Do damage to player if they are inside of trigger box
     /// </summary>
-    /// <returns></returns>
-    protected virtual ActionPool GenerateActionPool() { return null; }
+    /// <param name="pos">Position of the trigger box</param>
+    /// <para name="width">X value of the lossyscale of the trigger box</para>
+    /// <para name="height">Y value of the lossyscale of the trigger box</para>
+    /// <param name="damage">Points of damage to deal</param>
+    protected void GenerateDamageFrame(Vector2 pos, float width, float height, DamageContext damageContext, GameObject attacker /*float damage*/)
+    {
+#if DEBUG // Draw the damage box in the editor
+        float hWidth = width/2;
+        float hHeight = height/2;
+        float duration = 0.1f;
+
+        Debug.DrawLine(new Vector2(pos.x - hWidth, pos.y + hHeight), new Vector2(pos.x + hWidth, pos.y + hHeight), Color.white, duration); // draw top line
+        Debug.DrawLine(new Vector2(pos.x - hWidth, pos.y + hHeight), new Vector2(pos.x - hWidth, pos.y - hHeight), Color.white, duration); // draw left line
+        Debug.DrawLine(new Vector2(pos.x - hWidth, pos.y - hHeight), new Vector2(pos.x + hWidth, pos.y - hHeight), Color.white, duration); // draw bottom line
+        Debug.DrawLine(new Vector2(pos.x + hWidth, pos.y + hHeight), new Vector2(pos.x + hWidth, pos.y - hHeight), Color.white, duration); // draw right line
+#endif
+        // Check for player to do damage
+        Collider2D hit = Physics2D.OverlapBox(pos, new Vector2(width, height), 0f, LayerMask.GetMask("Player"));
+        if (hit)
+        {
+            //hit.GetComponent<PlayerHealth>().TakeDamage(damage);
+            hit.GetComponent<Health>().Damage(damageContext, attacker);
+        }
+    }
 
     /// <summary>
-    /// Draws the Enemy's line of sight range in editor
+    /// Do damage to player if they are inside of trigger circle
+    /// </summary>
+    /// <param name="pos">Position of the trigger box</param>
+    /// <param name="radius">X value of the lossyscale of the trigger circle</param>
+    /// <param name="damage">Points of damage to deal</param>
+    protected void GenerateDamageFrame(Vector2 pos, float radius, DamageContext damageContext, GameObject attacker /*float damage*/)
+    {
+#if DEBUG // Draw the damage circle in the editor
+        int segment = 180;
+        float duration = 0.2f;
+
+        float angleDiv = 360f / segment;
+        Vector2 p1 = new Vector2(pos.x + radius, pos.y);
+        Vector2 p2;
+
+        for (int i = 0; i < segment; i++)
+        {
+            float angle = angleDiv * i * Mathf.Deg2Rad;
+            p2 = new Vector2(pos.x + Mathf.Cos(angle) * radius, pos.y + Mathf.Sin(angle) * radius);
+
+            Debug.DrawLine(p1, p2, Color.white, duration);
+            p1 = p2;
+        }
+#endif
+        // Check for player to do damage
+        Collider2D hit = Physics2D.OverlapCircle(pos, radius, LayerMask.GetMask("Player"));
+        if (hit)
+        {
+            //hit.GetComponent<PlayerHealth>().TakeDamage(damage);
+            hit.GetComponent<Health>().Damage(damageContext, attacker);
+        }
+    }
+
+    /// <summary>
+    /// Draws the Enemy's line of sight in editor
     /// </summary>
     protected virtual void OnDrawGizmos()
     {
         Gizmos.DrawRay(transform.position, transform.TransformDirection(Vector2.right) * aggroRange);
+    }
+
+    /// <summary>
+    /// Please attach this to the end of the animations that we wish
+    /// not to be interrupted by other behaviors (attack animations)
+    /// Attach this to an animation event at the end of animation
+    /// </summary>
+    protected virtual void OnFinishAnimation()
+    {
+        BusyState.ExitState(this);
     }
 }

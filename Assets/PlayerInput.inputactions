@@ -1,12 +1,12 @@
 {
-    "name": "PlayerActions",
+    "name": "PlayerInput",
     "maps": [
         {
             "name": "Player",
             "id": "cd58a73f-b267-4f2b-a2c2-fc186d99599b",
             "actions": [
                 {
-                    "name": "Movement",
+                    "name": "Move",
                     "type": "Button",
                     "id": "5f8bb8e1-d818-44ea-aa57-8331d908d535",
                     "expectedControlType": "Button",
@@ -24,7 +24,16 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Hit",
+                    "name": "Fall",
+                    "type": "Value",
+                    "id": "eb3dd209-ba2d-485f-be72-df03fa5a2ecb",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Attack",
                     "type": "Button",
                     "id": "9e392b54-a39e-4f12-ae8f-0115e5072dd1",
                     "expectedControlType": "Button",
@@ -33,13 +42,31 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Grapple",
+                    "name": "Special",
                     "type": "Button",
-                    "id": "98a77aa7-d7d8-4361-9dba-90d46b37a15d",
+                    "id": "94edfd67-b90d-4196-b871-54401e29f825",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Interact",
+                    "type": "Button",
+                    "id": "b65b62c4-3984-4c2d-864e-e69e9d45a697",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Hotbar",
+                    "type": "Value",
+                    "id": "ffb1c747-6c90-4806-8a10-33a4d032e3f0",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 },
                 {
                     "name": "FindGhosts",
@@ -60,22 +87,13 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Special",
+                    "name": "Shake",
                     "type": "Button",
-                    "id": "94edfd67-b90d-4196-b871-54401e29f825",
+                    "id": "ce4a0230-1dd3-43ea-8f7b-e0fa564ba766",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "Down",
-                    "type": "Value",
-                    "id": "eb3dd209-ba2d-485f-be72-df03fa5a2ecb",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -86,7 +104,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Movement",
+                    "action": "Move",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -97,7 +115,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Movement",
+                    "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -108,7 +126,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Movement",
+                    "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -141,18 +159,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Hit",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "fd5f2974-9a09-46e6-a2f6-fd9ec5c02e36",
-                    "path": "<Mouse>/rightButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Grapple",
+                    "action": "Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -180,12 +187,12 @@
                 },
                 {
                     "name": "",
-                    "id": "51f1fa2b-cec3-40b0-89ce-c380138d0f17",
-                    "path": "<Keyboard>/space",
+                    "id": "454083c4-da83-4543-80b5-50b1aeb270b0",
+                    "path": "<Keyboard>/p",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Special",
+                    "action": "Shake",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -196,7 +203,95 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Down",
+                    "action": "Fall",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "51f1fa2b-cec3-40b0-89ce-c380138d0f17",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Special",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6f8719f5-2ffb-49db-84bc-8fb160b8ae12",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c87fb4a1-016f-45c7-8110-d5a4752caad3",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "Scale",
+                    "groups": "",
+                    "action": "Hotbar",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bf3e8c51-3727-4d22-a8fa-702ecc6164ef",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "Scale(factor=2)",
+                    "groups": "",
+                    "action": "Hotbar",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c4401109-ccf5-402f-bbf3-5169f31ef7a7",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "Scale(factor=3)",
+                    "groups": "",
+                    "action": "Hotbar",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "58b118e8-e55d-4c0e-8c40-6ffcc4d52587",
+                    "path": "<Keyboard>/4",
+                    "interactions": "",
+                    "processors": "Scale(factor=4)",
+                    "groups": "",
+                    "action": "Hotbar",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b4b977a2-3b57-40bc-a709-fa15e3a9d271",
+                    "path": "<Keyboard>/5",
+                    "interactions": "",
+                    "processors": "Scale(factor=5)",
+                    "groups": "",
+                    "action": "Hotbar",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "06be8389-1a1a-45d7-bf3f-f6a6af2378f5",
+                    "path": "<Keyboard>/6",
+                    "interactions": "",
+                    "processors": "Scale(factor=6)",
+                    "groups": "",
+                    "action": "Hotbar",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

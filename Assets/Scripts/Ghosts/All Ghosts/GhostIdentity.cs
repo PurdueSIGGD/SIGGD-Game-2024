@@ -13,7 +13,6 @@ public class GhostIdentity : MonoBehaviour, IInteractable
     private GameObject player;
     private IParty[] partyScripts;
     private ISelectable[] possessingScripts;
-    private int trust;
 
     // Start is called before the first frame update
     void Start()
@@ -21,7 +20,6 @@ public class GhostIdentity : MonoBehaviour, IInteractable
         player = GameObject.FindGameObjectWithTag("Player");
         partyScripts = this.GetComponents<IParty>();
         possessingScripts = this.GetComponents<ISelectable>();
-        trust = 0;
     }
     /// <summary>
     /// getter method for the ghost's name
@@ -86,11 +84,6 @@ public class GhostIdentity : MonoBehaviour, IInteractable
         Debug.Log("Ghost Interacted with!");
         Debug.Log(PlayerID.instance == null);
         PlayerID.instance.GetComponent<PartyManager>().AddMajorGhost(this);
-    }
-
-    public void addTrust(int amount) {
-        trust += amount;
-        Debug.Log(trust);
     }
 
 }
