@@ -1,19 +1,20 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 // Template class for options that are to be displayed on interactable menus.
 public abstract class WorldInteractableOption
 {
-    // Name to be displayed on labels.
-    public string name;
+    public abstract string GetName();
 
-    // Whether or not the option should be displayed at all on a menu.
+    // Whether or not the option should be displayed on the menu.
     public bool isVisible;
 
-    // Whether or not the option should be locked/greyed out on a menu.
-    public bool isLocked;
+    protected abstract void Action();
 
-    // Callback for the given action.
-    public abstract void Action();
+    public void OnClick() {
+        if (isVisible) Action();
+    }
 }

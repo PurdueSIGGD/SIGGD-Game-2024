@@ -1,91 +1,91 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public abstract class WorldInteractable : MonoBehaviour
+public class WorldInteractable : MonoBehaviour
 {
+    private Dictionary<WorldInteractableOption, GameObject> buttons;
+
     [SerializeField] private GameObject player;
-    [SerializeField] private float activationRange;
     [SerializeField] private Camera cam;
+    [SerializeField] private float activationRange;
+
     [SerializeField] private Canvas canvas;
     [SerializeField] private GameObject panel;
     [SerializeField] private GameObject buttonTemplate;
 
-    private List<WorldInteractableOption> options;
-    private List<GameObject> buttons;     
-
-    private void OnEnable()
+    void OnEnable()
     {
         canvas.enabled = false;
-
-        options = new List<WorldInteractableOption> ();
-        buttons = new List<GameObject>();
-        InstantiateButtons();
-        buttonTemplate.SetActive(false);
     }
 
-    // Update function checks if player is in range, then updates and displays the options list.
-    private void Update()
+    // Enable/disable the entire canvas if the player is in range 
+    void Update()
     {
         Vector3 dist = player.transform.position - transform.position;
         if (dist.magnitude > activationRange)
         {
-            HideButtons();
+            canvas.enabled = false;
         }
-
-        ShowButtons();
-
- 
-    }
-
-    public void SetOptions()
-    {
-
-    }
-
-    private void InstantiateButtons() // Creates all button objects which are to be displayed in the menu
-    {
-        foreach (WorldInteractableOption opt in options) // TODO enumerate all options available in the UI
-        {
-            GameObject newButton = GameObject.Instantiate(buttonTemplate, panel.transform); // TODO change this to use a preset prefab to ensure the presence of text object???
-            
-            // Button Label Setup
-            GameObject label = newButton.transform.Find("Label").gameObject;
-            TextMeshProUGUI labelText = label.GetComponent<TextMeshProUGUI>();
-            labelText.fontSize = 14;
-            labelText.text = opt.name;
-            
-            buttons.Add(newButton);
-        }
-    }
-
-    private void ShowButtons() // Updates the visibility and layout of all buttons in the menu
-    {
-        float currentY = 0;
-        float buttonHeight = 30;
-
-        // Place each new visible button at the bottom of the column of visible buttons, and then position the list where it needs to be in the panel.
-        foreach (GameObject button in buttons)
-        {
-            RectTransform buttonTransform = button.GetComponent<RectTransform>();
-            buttonTransform.anchoredPosition = new Vector2(0,currentY);
-            currentY += buttonHeight;
-        }
-
         canvas.enabled = true;
-
-        RectTransform panelTransform = panel.GetComponent<RectTransform>();
-        panelTransform.position = cam.WorldToScreenPoint(transform.position); // TODO check if menu is in cam bounds
-        Debug.Log("Player is in menu range");
     }
 
-    private void HideButtons()
+    // Instantiate all the buttons which are to display the available options
+    private void InstantiateButtons(List<WorldInteractableOption> opts)
     {
-        canvas.enabled = false;
+        // Clean up prior buttons if they exist
+        if (buttons != null) {
+            foreach (KeyValuePair<WorldInteractableOption, GameObject> p in buttons) {
+                Destroy(p.Value);
+            }
+        }
+        buttons = new Dictionary<WorldInteractableOption, GameObject>();
+
+        // For each option, create button and set up 
+        foreach (WorldInteractableOption opt in opts)
+        {
+            GameObject button = Instantiate(buttonTemplate, panel.transform);
+            button.SetActive(false);
+            buttons[opt] = button;
+
+            // Fill button label
+            GameObject labelObject = button.transform.Find("Label").gameObject;
+            TextMeshProUGUI labelText = labelObject.GetComponent<TextMeshProUGUI>();
+            labelText.text = opt.name;
+
+            // Connect callback
+            button.GetComponent<Button>().onClick.AddListener(opt.OnClick);
+        }
+    }
+
+    // Rearrange the buttons to reflect the visibility of each option
+    public void UpdateButtons()
+    {
+        float currentY = 0.0f;
+        float spacing = 30.0f;
+
+        foreach (KeyValuePair<WorldInteractableOption, GameObject> p in buttons)
+        {
+            WorldInteractableOption opt = p.Key;
+            GameObject button = p.Value;
+            if (opt.isVisible)
+            {
+                // Show button
+                button.SetActive(true);
+                // Arrange button
+                RectTransform buttonT = button.GetComponent<RectTransform>();
+                buttonT.anchoredPosition = new Vector2(0, currentY);
+                currentY += spacing;
+            }
+            else
+            {
+                // Hide button
+                button.SetActive(false);
+            }
+        }
+
     }
 }
