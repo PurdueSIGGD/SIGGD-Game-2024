@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.PlasticSCM.Editor.WebApi;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -11,6 +12,7 @@ using Button = UnityEngine.UI.Button;
 /// <summary>
 /// 
 /// Dialogue Format: TODO
+/// TODO: What should happen at the end?
 /// 
 /// DialogueBox contains:
 /// 
@@ -19,15 +21,19 @@ using Button = UnityEngine.UI.Button;
 /// </summary>
 public class DialogueManager : MonoBehaviour
 {
-    [SerializeField]
-    private TextAsset dialogueText; // Dialogue text asset
+
+    private const string DELIMITER = "//"; // Delimiter between the dialogue of two characters is //
+
+    private const string DEFAULT_TEXT = "..."; // Empty text box displays this
 
     [SerializeField]
-    private GameObject DialogueBox; // PANEL where the text is displayed
+    private TextAsset dialogueTextAsset; // Dialogue text asset
 
-    private const String DELIMITER = "//"; // Delimiter between the dialogue of two characters is //
+    private GameObject dialogueBox; // PANEL where the text is displayed
 
-    private String dialogue = ""; // Dialogue text, will be altered
+    private TMP_Text dialogueText; // Set this to change dialogue text on screen
+
+    private string dialogueToRead = ""; // Dialogue text, will be altered
 
     private Boolean isPlaying = false; // whether the dialogue is currently being played;
 
@@ -43,6 +49,7 @@ public class DialogueManager : MonoBehaviour
     void StartDialogue() {
         if (!isPlaying) {
             isPlaying = true;
+            dialogueToRead = dialogueTextAsset.text;
             nextButton.gameObject.SetActive(true);
             startButton.gameObject.SetActive(false);
             NextDialogue();
@@ -57,7 +64,8 @@ public class DialogueManager : MonoBehaviour
         // get & check next line
         // FIXME: currently doesn't read last line if there is no \n
 
-        int ind = dialogue.IndexOf('\n');
+        int ind = dialogueToRead.IndexOf('\n');
+        bool doAgain = false; // if character name was read, this flag tells the program to read the next line
 
         if (ind < 0)
         {
@@ -67,16 +75,29 @@ public class DialogueManager : MonoBehaviour
 
         // display next line and remove from text to read
 
-        String line = dialogue.Substring(0, ind);
+        string line = dialogueToRead.Substring(0, ind - 1);
 
-        if (line.Equals(DELIMITER)) {
-            Debug.Log("Character changed");
+        if (line.Equals(DELIMITER))
+        {
+            // Debug.Log("Character changed");
+
+            // Set name panel TODO
+
+            // Read next line 
+            doAgain = true;
+        }
+        else
+        {
+            // set text (TODO: better code)
+            dialogueText.text = line;
         }
 
-        dialogue = dialogue.Substring(ind + 1);
+        // chop dialogue for next read
+        dialogueToRead = dialogueToRead.Substring(ind + 1);
 
-        Debug.Log(line);
-        //DialogueBox.transform.Find("DialogueText").gameObject.GetComponent<Text>().text = line;
+        if (doAgain) {
+            NextDialogue();
+        }
 
     }
 
@@ -86,13 +107,12 @@ public class DialogueManager : MonoBehaviour
     void EndDialogue() {
         nextButton.gameObject.SetActive(false);
         isPlaying = false;
-        // TODO - how to stop?
+        dialogueText.text = DEFAULT_TEXT;
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        dialogue = dialogueText.text;
 
         // Set next button to disabled and add action listener
         nextButton = transform.Find("NextButton").gameObject.GetComponent<Button>();
@@ -104,6 +124,10 @@ public class DialogueManager : MonoBehaviour
         startButton.gameObject.SetActive(true);
         startButton.onClick.AddListener(StartDialogue);
 
+        // Find dialogue box Game Object and text
+        dialogueBox = this.transform.Find("DialogueBox").gameObject;
+        dialogueText = dialogueBox.transform.Find("DialogueText").gameObject.GetComponent<TMP_Text>();
+        dialogueText.text = DEFAULT_TEXT;
 
     }
 
