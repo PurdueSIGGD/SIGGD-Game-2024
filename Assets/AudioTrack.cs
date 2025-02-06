@@ -5,7 +5,7 @@ using UnityEngine;
 public class AudioTrack : MonoBehaviour
 {
     // The sound file this script is attached to
-    private AudioSource audio = null;
+    private AudioSource audio;
     void Start()
     {
         audio = GetComponent<AudioSource>();
