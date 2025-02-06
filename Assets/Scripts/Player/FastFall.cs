@@ -7,15 +7,15 @@ using UnityEngine.InputSystem;
 
 public class FastFall : MonoBehaviour
 {
-    private InputAction moveInput;
     private Rigidbody2D rb;
 
     [SerializeField] private float forceStrength = -100.0f;
 
+    private bool isFastFalling = false;
+
     // Start is called before the first frame update
     void Start()
     {
-        moveInput = GetComponent<PlayerInput>().actions.FindAction("Fall");
         rb = GetComponent<Rigidbody2D>();
     }
 
@@ -23,11 +23,21 @@ public class FastFall : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        float input = moveInput.ReadValue<float>();
         Vector2 downwardForce = new Vector2(0.0f, forceStrength);
-        if (input != 0f)
+        if (isFastFalling)
         {
             rb.AddForce(downwardForce);
         }
     }
+
+    void StartFastFall()
+    {
+        isFastFalling = true;
+    }
+
+    void StopFastFall()
+    {
+        isFastFalling = false;
+    }
+
 }
