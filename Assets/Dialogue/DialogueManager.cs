@@ -77,7 +77,7 @@ public class DialogueManager : MonoBehaviour
 
         string line = dialogueToRead.Substring(0, ind - 1);
 
-        if (line.Equals(DELIMITER))
+        if (line.Contains(DELIMITER))
         {
             // Debug.Log("Character changed");
 
