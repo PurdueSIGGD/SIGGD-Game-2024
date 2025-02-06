@@ -108,10 +108,10 @@ public class PartyManager : MonoBehaviour
             return;
         }
 
-        // deselect all ghosts in the list
+        // deselect all ghosts in the list unless ghost is posessing
         for (int i = 0; i < ghostMajorList.Count; i++)
         {
-            ghostMajorList[i].SetPossessing(false);
+            ghostMajorList[i].SetPossessing(i == index);
         }
 
         // do not possess if player selected base kit
@@ -120,8 +120,6 @@ public class PartyManager : MonoBehaviour
             print("Posessed by nobody and nospirit.");
             return;
         }
-
-        ghostMajorList[index].SetPossessing(true);
         print("Possessed by... " + ghostMajorList[index].GetName() + "!!!");
     }
 
