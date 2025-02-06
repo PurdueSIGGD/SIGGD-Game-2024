@@ -83,11 +83,11 @@ public class IdolPassive : MonoBehaviour
         {
             yield break;
         }
-        tempoStack++;
+        tempoStack ++;
         UpdateSpeed(1);
 
         yield return new WaitForSeconds(tempoDuration);
-        tempoStack--;
+        tempoStack --;
         UpdateSpeed(-1);
     }
 }
