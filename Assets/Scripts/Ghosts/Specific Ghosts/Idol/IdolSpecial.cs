@@ -42,7 +42,6 @@ public class IdolSpecial : MonoBehaviour, IParty, ISelectable
     }
     public void DeSelect(GameObject player)
     {
-        StopAllCoroutines();
         possessing = false;
 
         // unoverride delegate
