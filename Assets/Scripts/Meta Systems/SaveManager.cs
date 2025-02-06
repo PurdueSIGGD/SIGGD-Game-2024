@@ -13,6 +13,8 @@ public class SaveManager : MonoBehaviour
 
     public void Awake()
     {
+        DontDestroyOnLoad(this);
+
         folderPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 
         // TODO: support multiple save files?

@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class SaveData : ScriptableObject
 {
+    private readonly PartyManager partyManager = FindObjectOfType<PartyManager>();
+
     public List<string> partyMembers;
 
     /// <summary>
@@ -11,14 +13,29 @@ public class SaveData : ScriptableObject
     public void InitializeSaveData()
     {
         partyMembers = new List<string>();
-        foreach (GhostIdentity ghost in FindObjectOfType<PartyManager>().GetGhostMajorList())
+        foreach (GhostIdentity ghost in partyManager.GetGhostMajorList())
         {
             partyMembers.Add(ghost.name);
         }
     }
 
+    /// <summary>
+    /// Modifies the game state to match the save data.
+    /// </summary>
     public void ApplySaveData()
     {
-        // TODO
+        partyManager.GetGhostMajorList().Clear();
+        GhostIdentity[] ghosts = FindObjectsOfType<GhostIdentity>();
+        foreach (string member in partyMembers)
+        {
+            foreach (GhostIdentity ghost in ghosts)
+            {
+                if (ghost.name == member)
+                {
+                    partyManager.AddMajorGhost(ghost);
+                    break;
+                }
+            }
+        }
     }
 }
