@@ -34,7 +34,7 @@ public class WorldInteractable : MonoBehaviour
     }
 
     // Instantiate all the buttons which are to display the available options
-    private void InstantiateButtons(List<WorldInteractableOption> opts)
+    public void InstantiateButtons(List<WorldInteractableOption> opts)
     {
         // Clean up prior buttons if they exist
         if (buttons != null) {
@@ -54,7 +54,7 @@ public class WorldInteractable : MonoBehaviour
             // Fill button label
             GameObject labelObject = button.transform.Find("Label").gameObject;
             TextMeshProUGUI labelText = labelObject.GetComponent<TextMeshProUGUI>();
-            labelText.text = opt.name;
+            labelText.text = opt.GetName();
 
             // Connect callback
             button.GetComponent<Button>().onClick.AddListener(opt.OnClick);
