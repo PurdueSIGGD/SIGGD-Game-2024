@@ -10,7 +10,7 @@ public abstract class WorldInteractableOption
     public abstract string GetName();
 
     // Whether or not the option should be displayed on the menu.
-    public bool isVisible;
+    public bool isVisible = true;
 
     protected abstract void Action();
 

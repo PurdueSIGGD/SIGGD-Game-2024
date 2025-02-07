@@ -8,11 +8,12 @@ public class WorldInteractableDriver : MonoBehaviour
     [SerializeField] WorldInteractable menu;
     private void Start()
     {
-        List<WorldInteractableOption> opts = new List<WorldInteractableOption> ();
-        WorldInteractableOptionPlaceholder opt1 = new WorldInteractableOptionPlaceholder ();
-        WorldInteractableOptionPlaceholder opt2 = new WorldInteractableOptionPlaceholder ();
-        WorldInteractableOptionPlaceholder opt3 = new WorldInteractableOptionPlaceholder ();
-
+        List<WorldInteractableOption> opts = new List<WorldInteractableOption> () {
+            new WorldInteractableOptionPlaceholder (),
+            new WorldInteractableOptionPlaceholder (),
+            new WorldInteractableOptionPlaceholder (),
+        };
         menu.InstantiateButtons(opts);
+        menu.UpdateButtons();
     }
 }

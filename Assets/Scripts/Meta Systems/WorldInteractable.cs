@@ -30,12 +30,16 @@ public class WorldInteractable : MonoBehaviour
         {
             canvas.enabled = false;
         }
-        canvas.enabled = true;
+        else {
+            canvas.enabled = true;
+            panel.GetComponent<RectTransform>().position = cam.WorldToScreenPoint(transform.position);
+        }
     }
 
     // Instantiate all the buttons which are to display the available options
     public void InstantiateButtons(List<WorldInteractableOption> opts)
     {
+        Debug.Log("Instantiating buttons");
         // Clean up prior buttons if they exist
         if (buttons != null) {
             foreach (KeyValuePair<WorldInteractableOption, GameObject> p in buttons) {
