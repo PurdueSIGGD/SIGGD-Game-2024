@@ -23,7 +23,6 @@ public class Treasure : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(renderer.isVisible);
         if (Input.GetKeyDown(KeyCode.L) && renderer.isVisible) {
             Interact(GameObject.Find("Player"));
             Destroy(gameObject);
