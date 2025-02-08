@@ -288,6 +288,7 @@ GameObject:
   - component: {fileID: 5792560551522244267}
   - component: {fileID: 8726217195226940082}
   - component: {fileID: 5130688100074952564}
+  - component: {fileID: 584762093013841786}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -577,6 +578,12 @@ MonoBehaviour:
   statList:
   - name: Heavy Damage
     value: 80
+  - name: Accel. while Heavy
+    value: 80
+  - name: Deaccel. while Heavy
+    value: 80
+  - name: Max Speed while Heavy
+    value: 80
   indicator: {fileID: 1398568264850401254}
   heavyDamage:
     damageStrength: 2
@@ -691,6 +698,31 @@ MonoBehaviour:
     value: 0.9999
   - name: Glide Fall Speed
     value: 2
+--- !u!114 &584762093013841786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8252758106455385166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 066d6eb94556a8d4eb54327276580930, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  range: 1.2
+  angle: 80
+  lightDamage:
+    damageStrength: 0
+    damageTypes: 
+    actionID: 0
+    actionTypes: 
+    extraContext: 
+  cooldown: 1
+  rayCount: 6
+  attackMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1001 &8503109854660319302
 PrefabInstance:
   m_ObjectHideFlags: 0
