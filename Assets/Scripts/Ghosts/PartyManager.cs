@@ -16,7 +16,7 @@ public class PartyManager : MonoBehaviour
     // Major Ghosts
     private List<GhostIdentity> ghostMajorList = new List<GhostIdentity>(); // List of each major ghost
 
-    /*/// <summary>
+    /// <summary>
     /// Temporary function to find and add ghosts nearby to party if space available. Max 1 ghost per function call
     /// </summary>
     public void OnFindGhosts()
@@ -34,7 +34,7 @@ public class PartyManager : MonoBehaviour
                 }
             }
         }
-    }*/
+    }
 
     /// <summary>
     /// Temporary function to remove the least recent ghost added to party
@@ -95,29 +95,34 @@ public class PartyManager : MonoBehaviour
     /// <summary>
     /// Switches the currently posessing ghost based on hotkey input (1,2,3, etc.)
     /// </summary>
-    /// <param name="inputNum">The int value of the input read from the keyboard(value is always 1-6)</param>
+    /// <param name="inputNum">The index to select from the list(value is either 1(player kit), 2, or 3)</param>
     public void ChangePosessingGhost(int inputNum)
     {
-        if (inputNum > ghostMajorList.Count)
+        // hotkey #2 is 0th ghost index in list
+        int index = inputNum - 2;
+
+        // handle bad input
+        if (index > ghostMajorList.Count)
         {
-            print("Input num out of range of Ghost List");
+            print("Input " + index + " out of range of list length " + ghostMajorList.Count + ".");
             return;
         }
-        int index = inputNum - 1;
 
-        if (ghostMajorList[index].IsPossessing() == false)
-        {
-            ghostMajorList[index].SetPossessing(true);
-            print("Changed posessed to" + ghostMajorList[index].GetName());
-        }
+        // deselect all ghosts in the list
         for (int i = 0; i < ghostMajorList.Count; i++)
         {
-            if (i == index)
-            {
-                continue;
-            }
             ghostMajorList[i].SetPossessing(false);
         }
+
+        // do not possess if player selected base kit
+        if (index == -1)
+        {
+            print("Posessed by nobody and nospirit.");
+            return;
+        }
+
+        ghostMajorList[index].SetPossessing(true);
+        print("Possessed by... " + ghostMajorList[index].GetName() + "!!!");
     }
 
     /// <summary>
@@ -140,5 +145,20 @@ public class PartyManager : MonoBehaviour
     public List<GhostIdentity> GetGhostMajorList()
     {
         return ghostMajorList;
+    }
+    /// <summary>
+    /// returns the currently possessing ghost identity script
+    /// </summary>
+    /// <returns></returns>
+    public GhostIdentity GetCurrentGhost()
+    {
+        for (int i = 0; i < ghostMajorList.Count; i++)
+        {
+            if (ghostMajorList[i].IsPossessing())
+            {
+                return ghostMajorList[i];
+            }
+        }
+        return null;
     }
 }
