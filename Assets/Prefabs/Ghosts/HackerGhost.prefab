@@ -10,9 +10,13 @@ GameObject:
   m_Component:
   - component: {fileID: 2521389767202695054}
   - component: {fileID: 7432033330267407823}
-  m_Layer: 19
+  - component: {fileID: -7077216466196385565}
+  - component: {fileID: 6731271416232205447}
+  - component: {fileID: 5889194028552533716}
+  - component: {fileID: 5359615627061519659}
+  m_Layer: 17
   m_Name: HackerGhost
-  m_TagString: Untagged
+  m_TagString: GhostMajor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -48,8 +52,109 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  maxSpeed: 0
-  maxForce: 0
+  offset: {x: 0, y: 2}
+  radius: 1.5
+  timeMultipliers: {x: 1, y: 1, z: 1}
+--- !u!114 &-7077216466196385565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981645078808632434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64193cb6f57202744bf8fb56115e3b2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ghostName: HATSUNE MIKU FROM FORTNITE
+--- !u!114 &6731271416232205447
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981645078808632434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d82c975382925943a6220b301b349c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxDistance: 8
+  tpCoolDown: 8
+  switchCoolDown: 0.5
+--- !u!50 &5889194028552533716
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981645078808632434}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
+--- !u!61 &5359615627061519659
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981645078808632434}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!1 &4936111184687609786
 GameObject:
   m_ObjectHideFlags: 0
@@ -60,7 +165,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3631785349028548994}
   - component: {fileID: 3253848009710469503}
-  m_Layer: 19
+  m_Layer: 17
   m_Name: Dummy Left Eye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -145,7 +250,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3359998400708292433}
   - component: {fileID: 1991336476531270916}
-  m_Layer: 19
+  m_Layer: 17
   m_Name: Dummy Right Eye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -230,7 +335,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6631059536473991929}
   - component: {fileID: 4330402025110322720}
-  m_Layer: 19
+  m_Layer: 17
   m_Name: Dummy White Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
