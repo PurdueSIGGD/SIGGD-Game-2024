@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -7,22 +8,28 @@ using UnityEngine.UI;
 
 public class WorldInteractable : MonoBehaviour
 {
-    private Dictionary<WorldInteractableOption, GameObject> buttons;
-
     [SerializeField] private GameObject player;
     [SerializeField] private Camera cam;
     [SerializeField] private float activationRange;
 
+    // Expects a GUI hierarchy of canvas > panel > buttons
     [SerializeField] private Canvas canvas;
     [SerializeField] private GameObject panel;
     [SerializeField] private GameObject buttonTemplate;
 
+    [SerializeField] private float buttonSpacing; // TODO change this to be calculated based on buttonTemplate size?
+
+    // Buttons are created after feeding list of options to InstantiateButtons()
+    private Dictionary<WorldInteractableOption, GameObject> buttons;
+
+    // Invisible on instantiation
     void OnEnable()
     {
         canvas.enabled = false;
+        buttonTemplate.SetActive(false);
     }
 
-    // Enable/disable the entire canvas if the player is in range 
+    // Enable/disable the entire canvas if the player is in range, and position it in world space 
     void Update()
     {
         Vector3 dist = player.transform.position - transform.position;
@@ -36,10 +43,9 @@ public class WorldInteractable : MonoBehaviour
         }
     }
 
-    // Instantiate all the buttons which are to display the available options
+    // Instantiate all the buttons which are to display the available options, and arrange them
     public void InstantiateButtons(List<WorldInteractableOption> opts)
     {
-        Debug.Log("Instantiating buttons");
         // Clean up prior buttons if they exist
         if (buttons != null) {
             foreach (KeyValuePair<WorldInteractableOption, GameObject> p in buttons) {
@@ -65,11 +71,11 @@ public class WorldInteractable : MonoBehaviour
         }
     }
 
-    // Rearrange the buttons to reflect the visibility of each option
+    // Update the arrangement and visibility of the buttons
     public void UpdateButtons()
     {
-        float currentY = 0.0f;
-        float spacing = 30.0f;
+        int count = buttons.Count;
+        float currentY = count * buttonSpacing * 0.5f;
 
         foreach (KeyValuePair<WorldInteractableOption, GameObject> p in buttons)
         {
@@ -82,7 +88,7 @@ public class WorldInteractable : MonoBehaviour
                 // Arrange button
                 RectTransform buttonT = button.GetComponent<RectTransform>();
                 buttonT.anchoredPosition = new Vector2(0, currentY);
-                currentY += spacing;
+                currentY -= buttonSpacing;
             }
             else
             {
