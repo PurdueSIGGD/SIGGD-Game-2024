@@ -6,18 +6,23 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
+/*
+ *  Class for spawning a menu in the world. Expects to be fed a list of WorldInteractableOptions
+ *  through InstantiateButtons, then will display a column of copies of buttonTemplate whenever
+ *  the player is in range.
+ */
 public class WorldInteractable : MonoBehaviour
 {
     [SerializeField] private GameObject player;
     [SerializeField] private Camera cam;
-    [SerializeField] private float activationRange;
+    [SerializeField] private float activationRange = 15.0f;
 
-    // Expects a GUI hierarchy of canvas > panel > buttons
+    // Expects a hierarchy of canvas > panel > buttons
     [SerializeField] private Canvas canvas;
     [SerializeField] private GameObject panel;
     [SerializeField] private GameObject buttonTemplate;
 
-    [SerializeField] private float buttonSpacing; // TODO change this to be calculated based on buttonTemplate size?
+    [SerializeField] private float buttonSpacing = 30.0f; // TODO change this to be calculated based on buttonTemplate size?
 
     // Buttons are created after feeding list of options to InstantiateButtons()
     private Dictionary<WorldInteractableOption, GameObject> buttons;
