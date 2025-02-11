@@ -14,7 +14,9 @@ using Button = UnityEngine.UI.Button;
 /// Dialogue Format: TODO
 /// TODO: What should happen at the end?
 /// 
-/// DialogueBox contains:
+/// DialogueBox should contain (this script uses)
+/// CharacterNameText
+/// DialogueText
 /// 
 /// When should the text file be loaded?
 /// 
@@ -33,9 +35,9 @@ public class DialogueManager : MonoBehaviour
 
     private TMP_Text dialogueText; // Set this to change dialogue text on screen
 
-    private string dialogueToRead = ""; // Dialogue text, will be altered
+    private TMP_Text characterNameText; // Set this to character name (who is speaking?)
 
-    private Boolean isPlaying = false; // whether the dialogue is currently being played;
+    private string dialogueToRead = ""; // Dialogue text, will be altered
 
     private Button startButton; // When clicked, causes the dialogue to start
     private Button nextButton; // When clicked, causes the next line of dialogue to be displayed
@@ -45,24 +47,21 @@ public class DialogueManager : MonoBehaviour
 
     /// <summary>
     /// Called when the Start Button is clicked
+    /// Updates buttons, starts first line of dialogue
     /// </summary>
     void StartDialogue() {
-        if (!isPlaying) {
-            isPlaying = true;
-            dialogueToRead = dialogueTextAsset.text;
-            nextButton.gameObject.SetActive(true);
-            startButton.gameObject.SetActive(false);
-            NextDialogue();
-        }
+        dialogueToRead = dialogueTextAsset.text;
+        nextButton.gameObject.SetActive(true);
+        startButton.gameObject.SetActive(false);
+        NextDialogue();
     }
 
     /// <summary>
-    /// Called when the start button is clicked.
+    /// Called when the start or next button is clicked.
     /// </summary>
     void NextDialogue()
     {
         // get & check next line
-        // FIXME: currently doesn't read last line if there is no \n
 
         int ind = dialogueToRead.IndexOf('\n');
         bool doAgain = false; // if character name was read, this flag tells the program to read the next line
@@ -79,16 +78,15 @@ public class DialogueManager : MonoBehaviour
 
         if (line.Contains(DELIMITER))
         {
-            // Debug.Log("Character changed");
+            // Set name
+            characterNameText.text = line.Substring(DELIMITER.Length); // chop off first two characters
 
-            // Set name panel TODO
-
-            // Read next line 
+            // Flag to read first line of next character's dialogue
             doAgain = true;
         }
         else
         {
-            // set text (TODO: better code)
+            // set text
             dialogueText.text = line;
         }
 
@@ -102,12 +100,16 @@ public class DialogueManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 
+    /// Called when the last line of dialogue is read. TODO: Figure out how to reset for next play.
     /// </summary>
     void EndDialogue() {
         nextButton.gameObject.SetActive(false);
-        isPlaying = false;
         dialogueText.text = DEFAULT_TEXT;
+
+        // Reset for next play
+        dialogueToRead = dialogueTextAsset.text;
+        characterNameText.text = "";
+
     }
 
     // Start is called before the first frame update
@@ -128,6 +130,10 @@ public class DialogueManager : MonoBehaviour
         dialogueBox = this.transform.Find("DialogueBox").gameObject;
         dialogueText = dialogueBox.transform.Find("DialogueText").gameObject.GetComponent<TMP_Text>();
         dialogueText.text = DEFAULT_TEXT;
+
+        // Do the same for character name
+        characterNameText = dialogueBox.transform.Find("CharacterNameText").gameObject.GetComponent<TMP_Text>();
+        characterNameText.text = "";
 
     }
 
