@@ -12,7 +12,7 @@ public class EnemyProjectile : MonoBehaviour
     [SerializeField] protected float range = Screen.width; // Range of the projectile, defaults to the bounds of the camera.
 
 
-    protected Transform target; // Target location at the time of releasing the projectile
+    //protected Transform target; // Target location at the time of releasing the projectile
     protected Vector3 dir;
     protected Rigidbody2D rb;
     protected Vector3 bounds;
@@ -20,16 +20,28 @@ public class EnemyProjectile : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        target = GameObject.FindGameObjectWithTag("Player").transform;
+        //target = GameObject.FindGameObjectWithTag("Player").transform;
 
-        dir = (target.position - transform.position).normalized;
-        bounds = dir * range + transform.position;
+        //dir = (target.position - transform.position).normalized;
+        //bounds = dir * range + transform.position;
     }
 
     void FixedUpdate()
     {
         Move();
         CheckOutOfBounds();
+    }
+
+    /// <summary>
+    /// Initialize the projectile with a target location and a damage value
+    /// </summary>
+    /// <param name="target"> transform of the target object </param>
+    /// <param name="damage"> damage of the projectile </param>
+    public void Init(Vector3 target, float damage)
+    {
+        projectileDamage.damage = damage;
+        dir = (target - transform.position).normalized;
+        bounds = dir * range + transform.position;
     }
 
     void OnCollisionEnter2D(Collision2D collision)
