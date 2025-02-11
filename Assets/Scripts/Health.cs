@@ -8,6 +8,7 @@ public class Health : MonoBehaviour, IDamageable, IStatList
     public StatManager.Stat[] statList;
 
     [NonSerialized] public float currentHealth; // Current health of player
+    [NonSerialized] public float currentStun; // Current stun meter
     [NonSerialized] public bool isAlive = true; // Checks if player is still alive
     private StatManager stats;
 
@@ -17,14 +18,9 @@ public class Health : MonoBehaviour, IDamageable, IStatList
     void Start()
     {
         stats = GetComponent<StatManager>();
+        currentHealth = stats.ComputeValue("Max Health");
+        currentStun = stats.ComputeValue("Stun Threshold");
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
 
 
     public float Damage(DamageContext context, GameObject attacker)
