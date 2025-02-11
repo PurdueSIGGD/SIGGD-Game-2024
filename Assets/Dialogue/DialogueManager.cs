@@ -11,25 +11,19 @@ using Button = UnityEngine.UI.Button;
 
 /// <summary>
 /// 
-/// Dialogue Format: TODO
-/// TODO: What should happen at the end?
+/// Runs conversations.
 /// 
 /// DialogueBox should contain (this script uses)
 /// CharacterNameText
 /// DialogueText
-/// 
-/// When should the text file be loaded?
-/// 
+///  
 /// </summary>
 public class DialogueManager : MonoBehaviour
 {
 
-    private const string DELIMITER = "//"; // Delimiter between the dialogue of two characters is //
-
     private const string DEFAULT_TEXT = "..."; // Empty text box displays this
 
-    [SerializeField]
-    private TextAsset dialogueTextAsset; // Dialogue text asset
+    public ConversationTemp conversation; // Conversation Scriptable Object
 
     private GameObject dialogueBox; // PANEL where the text is displayed
 
@@ -37,23 +31,25 @@ public class DialogueManager : MonoBehaviour
 
     private TMP_Text characterNameText; // Set this to character name (who is speaking?)
 
-    private string dialogueToRead = ""; // Dialogue text, will be altered
-
-    private Button startButton; // When clicked, causes the dialogue to start
     private Button nextButton; // When clicked, causes the next line of dialogue to be displayed
 
-    //private GameObject nextButton; // button to go to next line of dialogue
-    //private GameObject startButton; // button to initiate dialogue
+    bool isRunning = false; // Whether a dialogue is currently being run.
+
+    int currentLine = 0; // which line is currently being read
 
     /// <summary>
-    /// Called when the Start Button is clicked
+    /// Pass in a ConversationTemp scriptable object to start dialogue.
     /// Updates buttons, starts first line of dialogue
     /// </summary>
-    void StartDialogue() {
-        dialogueToRead = dialogueTextAsset.text;
-        nextButton.gameObject.SetActive(true);
-        startButton.gameObject.SetActive(false);
-        NextDialogue();
+    public void StartDialogue(ConversationTemp conversationToRun) {
+
+        if (!isRunning) {
+            conversation = conversationToRun;
+            this.gameObject.SetActive(true);
+            NextDialogue();
+            isRunning = true;
+        }
+
     }
 
     /// <summary>
@@ -61,70 +57,47 @@ public class DialogueManager : MonoBehaviour
     /// </summary>
     void NextDialogue()
     {
-        // get & check next line
+        // check if we are at end if dialogue
 
-        int ind = dialogueToRead.IndexOf('\n');
-        bool doAgain = false; // if character name was read, this flag tells the program to read the next line
-
-        if (ind < 0)
+        if (currentLine == conversation.dialogueLines.Count)
         {
             EndDialogue();
             return;
         }
 
-        // display next line and remove from text to read
+        // Display next line
+        dialogueText.text = conversation.dialogueLines[currentLine].line;
 
-        string line = dialogueToRead.Substring(0, ind - 1);
+        // Set name
+        characterNameText.text = conversation.dialogueLines[currentLine].character.characterName;
 
-        if (line.Contains(DELIMITER))
-        {
-            // Set name
-            characterNameText.text = line.Substring(DELIMITER.Length); // chop off first two characters
+        // TODO: set image
 
-            // Flag to read first line of next character's dialogue
-            doAgain = true;
-        }
-        else
-        {
-            // set text
-            dialogueText.text = line;
-        }
-
-        // chop dialogue for next read
-        dialogueToRead = dialogueToRead.Substring(ind + 1);
-
-        if (doAgain) {
-            NextDialogue();
-        }
+        currentLine++;
 
     }
 
     /// <summary>
-    /// Called when the last line of dialogue is read. TODO: Figure out how to reset for next play.
+    /// Called when the last line of dialogue is read.
     /// </summary>
     void EndDialogue() {
-        nextButton.gameObject.SetActive(false);
-        dialogueText.text = DEFAULT_TEXT;
-
         // Reset for next play
-        dialogueToRead = dialogueTextAsset.text;
         characterNameText.text = "";
-
+        dialogueText.text = DEFAULT_TEXT;
+        this.gameObject.SetActive(false);
+        isRunning = false;
     }
 
     // Start is called before the first frame update
     void Start()
     {
 
+        this.gameObject.SetActive(false);
+
         // Set next button to disabled and add action listener
         nextButton = transform.Find("NextButton").gameObject.GetComponent<Button>();
         nextButton.gameObject.SetActive(false);
         nextButton.onClick.AddListener(NextDialogue);
-
-        // Initialize start button
-        startButton = transform.Find("StartDialogueButton").gameObject.GetComponent<Button>();
-        startButton.gameObject.SetActive(true);
-        startButton.onClick.AddListener(StartDialogue);
 
         // Find dialogue box Game Object and text
         dialogueBox = this.transform.Find("DialogueBox").gameObject;
