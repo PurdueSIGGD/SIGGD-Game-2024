@@ -83,14 +83,14 @@ public class IdolSpecial : MonoBehaviour, IParty, ISelectable
 
         isDashing = true;
         canTp = false;
-        dir = (mainCamera.ScreenToWorldPoint(Input.mousePosition) - transform.position).normalized;
+        dir = (mainCamera.ScreenToWorldPoint(Input.mousePosition) - psm.transform.position).normalized;
 
         // create a clone
-        activeClone = Instantiate(idolClone, transform.position, transform.rotation);
+        activeClone = Instantiate(idolClone, psm.transform.position, psm.transform.rotation);
         activeClone.GetComponent<IdolClone>().Initialize(gameObject);
         canSwitch = true;
 
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, maxDistance, LayerMask.GetMask("Ground"));
+        RaycastHit2D hit = Physics2D.Raycast(psm.transform.position, dir, maxDistance, LayerMask.GetMask("Ground"));
         Vector3 dest;
         if (hit)
         {
@@ -98,13 +98,16 @@ public class IdolSpecial : MonoBehaviour, IParty, ISelectable
         }
         else
         {
-            float destX = transform.position.x + (dir * maxDistance).x;
-            float destY = transform.position.y + (dir * maxDistance).y;
+            float destX = psm.transform.position.x + (dir * maxDistance).x;
+            float destY = psm.transform.position.y + (dir * maxDistance).y;
             dest = new Vector2(destX, destY);
         }
-        transform.position = dest;
+        psm.transform.position = dest;
         isDashing = false;
 
+        psm.OnCooldown("c_special");
+        yield return new WaitForSeconds(switchCoolDown);
+        psm.OffCooldown("c_special");
         // do not use psm cooldown because of swap mechanic
         // psm.OnCooldown("c_special");
         yield return new WaitForSeconds(tpCoolDown);
@@ -133,7 +136,7 @@ public class IdolSpecial : MonoBehaviour, IParty, ISelectable
             psm.EnableTrigger("OPT");
 
             // if so, switch places with clone
-            (transform.position, activeClone.transform.position) = (activeClone.transform.position, transform.position);
+            (psm.transform.position, activeClone.transform.position) = (activeClone.transform.position, psm.transform.position);
             psm.OnCooldown("c_special");
             yield return new WaitForSeconds(switchCoolDown);
             psm.OffCooldown("c_special");
