@@ -87,7 +87,7 @@ public class GhostIdentity : MonoBehaviour, IInteractable
         PlayerID.instance.GetComponent<PartyManager>().AddMajorGhost(this);
     }
 
-    public void addTrust(int amount) {
+    public void AddTrust(int amount) {
         trust += amount;
         Debug.Log(trust);
     }

@@ -34,7 +34,7 @@ public class Treasure : MonoBehaviour
         PartyManager party = player.GetComponent<PartyManager>();
         foreach (GhostIdentity g in party.GetGhostMajorList()) {
             if (string.Equals(g.GetName(), ghostName)) {
-                g.addTrust(trust);
+                g.AddTrust(trust);
             }
         }
     }
