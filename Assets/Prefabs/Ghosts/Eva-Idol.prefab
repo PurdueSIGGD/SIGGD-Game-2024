@@ -9,15 +9,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2521389767202695054}
-  - component: {fileID: 7432033330267407823}
   - component: {fileID: 493112488793715324}
   - component: {fileID: 518060757831962552}
+  - component: {fileID: 7432033330267407823}
   - component: {fileID: 4831227066257484011}
-  - component: {fileID: 2902764879451139279}
-  - component: {fileID: 3353147799457559522}
+  - component: {fileID: 8801380349187384279}
   m_Layer: 17
-  m_Name: Joules
-  m_TagString: GhostMajor
+  m_Name: Eva-Idol
+  m_TagString: Ghost
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -40,22 +39,6 @@ Transform:
   - {fileID: 3359998400708292433}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7432033330267407823
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 981645078808632434}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b451521938e32a418da59314d5fe97d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  offset: {x: 0, y: 2}
-  radius: 1.5
-  timeMultipliers: {x: 1, y: 0.2, z: 2}
 --- !u!50 &493112488793715324
 Rigidbody2D:
   serializedVersion: 4
@@ -128,6 +111,22 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &7432033330267407823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981645078808632434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b451521938e32a418da59314d5fe97d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  offset: {x: 0, y: 2}
+  radius: 1.5
+  timeMultipliers: {x: 0.5, y: 0.5, z: 1}
 --- !u!114 &4831227066257484011
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -140,8 +139,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64193cb6f57202744bf8fb56115e3b2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ghostName: Joules
---- !u!114 &2902764879451139279
+  ghostName: Eva
+--- !u!114 &8801380349187384279
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -150,26 +149,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 981645078808632434}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 866b671ae53ac3a48942990feff4e1e7, type: 3}
+  m_Script: {fileID: 11500000, guid: 645bc16239d4c9644939b3c962b821e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buffs:
-  - name: Move Speed
-    buff: 100
---- !u!114 &3353147799457559522
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 981645078808632434}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b623e538cb1d4d999802651460e73b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lightningPrefab: {fileID: 6093124114558295634, guid: ffd62934a14d643058f6ad62dc0f609f,
-    type: 3}
+  tempoStack: 0
+  runSpeedMod: 20
+  glideSpeedMod: 8
+  tempoDuration: 8
 --- !u!1 &4936111184687609786
 GameObject:
   m_ObjectHideFlags: 0
@@ -351,7 +337,7 @@ GameObject:
   - component: {fileID: 6631059536473991929}
   - component: {fileID: 4330402025110322720}
   m_Layer: 17
-  m_Name: Dummy White Square
+  m_Name: Dummy Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -415,7 +401,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6,
     type: 3}
-  m_Color: {r: 1, g: 0.9907145, b: 0, a: 0.5882353}
+  m_Color: {r: 0, g: 0.97016597, b: 1, a: 0.5882353}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
