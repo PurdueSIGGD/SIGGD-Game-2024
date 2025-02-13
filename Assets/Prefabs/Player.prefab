@@ -510,9 +510,7 @@ MonoBehaviour:
   - name: Post Dash Momentum Fraction
     value: 0.5
   velocity: {x: 0, y: 0}
-  canDash: 1
   isDashing: 0
-  isSlowing: 0
 --- !u!114 &7635436938379705283
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -562,7 +560,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0d10fbf13e5ab846ab1d7e0e050404d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  forceStrength: -100
+  forceStrength: -200
 --- !u!114 &8547351280330222855
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -579,11 +577,11 @@ MonoBehaviour:
   - name: Heavy Damage
     value: 80
   - name: Accel. while Heavy
-    value: 80
+    value: 0.5
   - name: Deaccel. while Heavy
-    value: 80
+    value: 0.8
   - name: Max Speed while Heavy
-    value: 80
+    value: 5
   indicator: {fileID: 1398568264850401254}
   heavyDamage:
     damageStrength: 2
