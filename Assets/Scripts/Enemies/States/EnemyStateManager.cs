@@ -29,7 +29,7 @@ public class EnemyStateManager : MonoBehaviour
         stats = GetComponent<StatManager>();
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
-        pool = GetComponent<ActionPool>();
+        pool = GetComponent<ActionPool>(); 
         
         SwitchState(IdleState);
     }
