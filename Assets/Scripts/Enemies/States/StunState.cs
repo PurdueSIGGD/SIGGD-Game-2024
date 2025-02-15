@@ -7,40 +7,41 @@ using UnityEngine;
 /// after a set amount of time.
 /// Consider it as a state connected from "Any State".
 /// </summary>
-public class StunState : EnemyStates
+public class StunState : MonoBehaviour, IEnemyStates
 {
     float stunDuration = 0.5f; // default stun duration, used for hit-stuns
 
-    public override void EnterState(EnemyStateManager enemy)
+    // TODO remove
+    private SpriteRenderer sr;
+
+    public void EnterState(EnemyStateManager enemy)
     {
-        Rigidbody2D rb = enemy.GetComponent<Rigidbody2D>();
-        rb.velocity = Vector2.zero;
-        enemy.pool.idle.Play(enemy.animator);
+        StartCoroutine(StunCoroutine(enemy, stunDuration));
+
+        // TODO remove
+        sr = GetComponent<SpriteRenderer>();
+        sr.color = Color.red;
     }
 
     public void EnterState(EnemyStateManager enemy, float duration)
     {
+        StartCoroutine(StunCoroutine(enemy, duration));
+
+        // TODO remove
+        sr = GetComponent<SpriteRenderer>();
+        sr.color = Color.red;
+    }
+
+    private IEnumerator StunCoroutine(EnemyStateManager enemy, float duration)
+    {
+        Debug.Log(enemy.name + " stunned! stun test");
         Rigidbody2D rb = enemy.GetComponent<Rigidbody2D>();
         rb.velocity = Vector2.zero;
         enemy.pool.idle.Play(enemy.animator);
-        stunDuration = duration;
-    }
-    
-    public override void UpdateState(EnemyStateManager enemy)
-    {
-        // throw new UnityException("Obsolete method, please overload the method with delta time");
-        // or
-        enemy.SwitchState(enemy.AggroState); // immediately exits the stun
-        stunDuration = 0.5f;
+        yield return new WaitForSeconds(duration);
+        enemy.SwitchState(enemy.AggroState);
+        Debug.Log(enemy.name + " recovered! stun test");
     }
 
-    public void UpdateState(EnemyStateManager enemy, float deltaT)
-    {
-        stunDuration -= deltaT;
-        if (stunDuration <= 0)
-        {
-            enemy.SwitchState(enemy.AggroState);
-            stunDuration = 0.5f;
-        }
-    }
+    public void UpdateState(EnemyStateManager enemy) { /* do nothing */ }
 }
