@@ -5,19 +5,19 @@ using UnityEngine;
 /// <summary>
 /// A state/mode of Enemy behavior
 /// </summary>
-public abstract class EnemyStates
+public interface IEnemyStates
 {
     /// <summary>
     /// Behavior to be executed upon entering the state
     /// </summary>
     /// <param name="enemy"> reference to the enemy currently entering this state </param>
-    public abstract void EnterState(EnemyStateManager enemy);
+    void EnterState(EnemyStateManager enemy);
 
     /// <summary>
     /// Behavior to be checked/executed every frame
     /// </summary>
     /// <param name="enemy"> reference to the enemy currently in this state </param>
-    public abstract void UpdateState(EnemyStateManager enemy);
+    void UpdateState(EnemyStateManager enemy);
 
-    public virtual void ExitState(EnemyStateManager enemy) { }
+    void ExitState(EnemyStateManager enemy) { }
 }
