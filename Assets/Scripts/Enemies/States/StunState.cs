@@ -40,6 +40,7 @@ public class StunState : MonoBehaviour, IEnemyStates
         enemy.pool.idle.Play(enemy.animator);
         yield return new WaitForSeconds(duration);
         enemy.SwitchState(enemy.AggroState);
+        sr.color = Color.white;
         Debug.Log(enemy.name + " recovered! stun test");
     }
 

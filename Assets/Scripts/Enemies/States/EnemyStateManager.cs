@@ -34,7 +34,7 @@ public class EnemyStateManager : MonoBehaviour
         
         SwitchState(IdleState);
 
-        // TODO remove
+        // stun state is added as a component as it is a monobehaviour
         StunState = gameObject.AddComponent<StunState>();
     }
 
