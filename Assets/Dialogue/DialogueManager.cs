@@ -1,9 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using TMPro;
 using Unity.PlasticSCM.Editor.WebApi;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
@@ -13,9 +15,11 @@ using Button = UnityEngine.UI.Button;
 /// 
 /// Runs conversations.
 /// 
-/// DialogueBox should contain (this script uses)
+/// DialogueBox should contain
 /// CharacterNameText
 /// DialogueText
+/// 
+/// TODO: set character profile image based on who is speaking
 ///  
 /// </summary>
 public class DialogueManager : MonoBehaviour
@@ -23,7 +27,7 @@ public class DialogueManager : MonoBehaviour
 
     private const string DEFAULT_TEXT = "..."; // Empty text box displays this
 
-    public ConversationTemp conversation; // Conversation Scriptable Object
+    private ConversationTemp conversation; // Conversation Scriptable Object
 
     private GameObject dialogueBox; // PANEL where the text is displayed
 
@@ -33,21 +37,21 @@ public class DialogueManager : MonoBehaviour
 
     private Button nextButton; // When clicked, causes the next line of dialogue to be displayed
 
-    bool isRunning = false; // Whether a dialogue is currently being run.
+    private bool isRunning = false; // Whether a dialogue is currently being run.
 
-    int currentLine = 0; // which line is currently being read
+    private int currentLine = 0; // which line is currently being read
 
     /// <summary>
     /// Pass in a ConversationTemp scriptable object to start dialogue.
-    /// Updates buttons, starts first line of dialogue
+    /// Sets visibility and starts first line of dialogue
     /// </summary>
     public void StartDialogue(ConversationTemp conversationToRun) {
 
         if (!isRunning) {
             conversation = conversationToRun;
-            this.gameObject.SetActive(true);
-            NextDialogue();
             isRunning = true;
+            toggleVisibility();
+            NextDialogue();
         }
 
     }
@@ -84,19 +88,26 @@ public class DialogueManager : MonoBehaviour
         // Reset for next play
         characterNameText.text = "";
         dialogueText.text = DEFAULT_TEXT;
-        this.gameObject.SetActive(false);
         isRunning = false;
+        toggleVisibility();
+        currentLine = 0;
+    }
+
+    /// <summary>
+    /// Toggles the visibility of all dialogue components.
+    /// Call when isRunning is changed.
+    /// </summary>
+    void toggleVisibility() {
+        dialogueBox.SetActive(isRunning);
+        nextButton.gameObject.SetActive(isRunning);
     }
 
     // Start is called before the first frame update
     void Start()
     {
 
-        this.gameObject.SetActive(false);
-
         // Set next button to disabled and add action listener
         nextButton = transform.Find("NextButton").gameObject.GetComponent<Button>();
-        nextButton.gameObject.SetActive(false);
         nextButton.onClick.AddListener(NextDialogue);
 
         // Find dialogue box Game Object and text
@@ -108,12 +119,13 @@ public class DialogueManager : MonoBehaviour
         characterNameText = dialogueBox.transform.Find("CharacterNameText").gameObject.GetComponent<TMP_Text>();
         characterNameText.text = "";
 
+        toggleVisibility();
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
     }
 
 }
