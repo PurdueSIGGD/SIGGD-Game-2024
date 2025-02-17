@@ -65,7 +65,7 @@ public class StatManager : MonoBehaviour, IStatList
     public float ComputeValue(string statName) {
         if (statMap.TryGetValue(statName, out Stat stat))
         {
-            Debug.Log(stat.value);
+            // Debug.Log(stat.value);
             return stat.value * (stat.modifier / 100f);
         } else
         {

@@ -10,13 +10,14 @@ public class TrackingProjectile : EnemyProjectile
 {
     [SerializeField] float trackingStrength; // A larger value will allow the projectile to turn faster.
     [SerializeField] float trackingDistance; // A larger value will lead the projectile to loose tracking earlier
+    protected Vector3 target;
     private float hangTime = 0;
     private bool tracking = true;
 
 
     void FixedUpdate()
     {
-        if (Vector3.Distance(transform.position, target.position) <= trackingDistance)
+        if (Vector3.Distance(transform.position, target) <= trackingDistance)
         {
             tracking = false;
         }
@@ -24,12 +25,17 @@ public class TrackingProjectile : EnemyProjectile
         CheckOutOfBounds(Time.deltaTime);
     }
 
+    public void Init()
+    {
+        
+    }
+
     // Moves the projectile
     protected new void Move()
     {
         if (tracking)
         {
-            Quaternion rotation = Quaternion.LookRotation(target.position - transform.position);
+            Quaternion rotation = Quaternion.LookRotation(target - transform.position);
             rb.MoveRotation(Quaternion.RotateTowards(transform.rotation, rotation, trackingStrength));
         }
         rb.velocity = transform.forward * speed;
