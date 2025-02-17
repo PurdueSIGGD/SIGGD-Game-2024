@@ -14,17 +14,17 @@ public class StunState : IEnemyStates
 
     public void EnterState(EnemyStateManager enemy)
     {
+        Debug.Log(enemy.name + " stunned! stun test");
         isStunned = true;
         this.stunDuration = 0.5f; // default stun duration, used for hit-stuns
     }
 
     public void EnterState(EnemyStateManager enemy, float stunDuration)
     {
+        Debug.Log(enemy.name + " stunned! stun test");
         isStunned = true;
         this.stunDuration = stunDuration;
     }
-
-    public void UpdateState(EnemyStateManager enemy) { /* do nothing */ }
     
     public void UpdateState(EnemyStateManager enemy, float delta)
     {
@@ -33,16 +33,15 @@ public class StunState : IEnemyStates
         {
             isStunned = false;
             enemy.SwitchState(enemy.AggroState);
-            Debug.Log(enemy.name + " recovered! stun test");
+            Debug.Log(enemy.name + " recovered from stun!");
         }
         else
         {
-            // TODO remove
-            Debug.Log(enemy.name + " stunned! stun test");
-
             Rigidbody2D rb = enemy.GetComponent<Rigidbody2D>();
             rb.velocity = Vector2.zero;
             enemy.pool.idle.Play(enemy.animator);
         }
     }
+
+    public void UpdateState(EnemyStateManager enemy) { /* do nothing */ }
 }
