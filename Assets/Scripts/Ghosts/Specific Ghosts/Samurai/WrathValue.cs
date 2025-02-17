@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
+using UnityEngine.Experimental.GlobalIllumination;
 
 public class WrathHeavyAttack : MonoBehaviour, IStatList
 {
@@ -9,6 +10,7 @@ public class WrathHeavyAttack : MonoBehaviour, IStatList
     private StatManager.Stat[] statList;
 
     [SerializeField] private DamageContext dashDamageContext;
+    [SerializeField] private LayerMask attackMask;
 
     private float wrathPercent = 0.0f;
     private StatManager stats;
@@ -19,6 +21,7 @@ public class WrathHeavyAttack : MonoBehaviour, IStatList
     private bool decaying = false;
     private float timer = 0.0f;
     private bool startTimer = false;
+    private float dashSpeed = 0.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -41,22 +44,25 @@ public class WrathHeavyAttack : MonoBehaviour, IStatList
             }
         }
 
-        if (decaying && wrathPercent >= stats.ComputeValue("Wratch Decay Rate") * Time.deltaTime)
+        if (decaying && wrathPercent >= stats.ComputeValue("Wrath Decay Rate") * Time.deltaTime)
         {
-            wrathPercent -= stats.ComputeValue("Wratch Decay Rate") * Time.deltaTime;
+            wrathPercent -= stats.ComputeValue("Wrath Decay Rate") * Time.deltaTime;
         }
         else
         {
             wrathPercent = 0.0f;
         }
 
+        Debug.Log("Time delta: " + Time.deltaTime);
+
         if (startTimer)
         {
             timer -= Time.deltaTime;
-            if (timer < 0.0f)
+            if (timer <= 0.0f)
             {
                 PlayerID.instance.GetComponent<Move>().PlayerGo();
                 PlayerID.instance.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
+                PlayerID.instance.GetComponent<Animator>().SetBool("finishWrath", true);
                 startTimer = false;
             }
         }
@@ -75,6 +81,7 @@ public class WrathHeavyAttack : MonoBehaviour, IStatList
             decayTimer = stats.ComputeValue("Wrath Decay Buffer");
             startingToDecay = true;
             decaying = false;
+            Debug.Log("Wrath Percent Now: " +  wrathPercent);
         }
         else if (context.victim == gameObject)
         {
@@ -84,24 +91,46 @@ public class WrathHeavyAttack : MonoBehaviour, IStatList
 
     public void StartHeavyAttack()
     {
+        Vector2 dir = Vector2.zero;
         Vector3 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         if (mousePos.x < PlayerID.instance.transform.position.x)
         {
-            PlayerID.instance.GetComponent<Rigidbody2D>().velocity = new Vector2(-stats.ComputeValue("Dash Speed"), 0);
+            dir = new Vector2(-1, 0);
         }
         else
         {
-            PlayerID.instance.GetComponent<Rigidbody2D>().velocity = new Vector2(stats.ComputeValue("Dash Speed"), 0);
+            dir = new Vector2(1, 0);
         }
-        timer = Mathf.Lerp(0, stats.ComputeValue("Max Dash Distance"), wrathPercent) / stats.ComputeValue("Dash Speed");
-        startTimer = true;
+
+        float dist = Mathf.Lerp(stats.ComputeValue("Base Dash Distance"), stats.ComputeValue("Max Dash Distance"), wrathPercent);
+        Debug.Log("Wrath percent: " + wrathPercent);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, dist, attackMask);
+        if (hit)
+        {
+            dist = transform.position.x - hit.point.x;
+        }
+        PlayerID.instance.GetComponent<Rigidbody2D>().velocity = stats.ComputeValue("Dash Speed") * dir;
         PlayerID.instance.GetComponent<Move>().PlayerStop();
-        wrathPercent = 0.0f;
+        timer = dist / stats.ComputeValue("Dash Speed");
+        startTimer = true;
+        Empty();
     }
 
     public void StopHeavyAttack()
     {
         PlayerID.instance.GetComponent<Move>().PlayerGo();
+        PlayerID.instance.GetComponent<Animator>().SetBool("finishWrath", false);
+
+        Collider2D[] hit = Physics2D.OverlapBoxAll(transform.position, new Vector2(2, 1), 0, attackMask);
+        foreach (Collider2D h in hit)
+        {
+            IDamageable damageable = h.gameObject.GetComponent<IDamageable>();
+            dashDamageContext.damage = stats.ComputeValue("Dash Damage");
+            if (damageable != null)
+            {
+                damageable.Damage(dashDamageContext, gameObject);
+            }
+        }
     }
 
     public void Empty()
