@@ -13,7 +13,7 @@ public class EnemyStateManager : MonoBehaviour
     public IEnemyStates AggroState = new AggroState();
     public IEnemyStates BusyState = new BusyState();
     public IEnemyStates MoveState = new MoveState();
-    public StunState StunState;
+    public StunState StunState = new StunState();
 
     [HideInInspector] public StatManager stats; // Enemy stats component
     [HideInInspector] public ActionPool pool; // A pool of attacks to randomly choose from
@@ -33,14 +33,17 @@ public class EnemyStateManager : MonoBehaviour
         pool = GetComponent<ActionPool>();
         
         SwitchState(IdleState);
-
-        // stun state is added as a component as it is a monobehaviour
-        StunState = gameObject.AddComponent<StunState>();
     }
 
     protected void FixedUpdate()
     {
-        curState.UpdateState(this);
+        if (StunState.isStunned) {
+            StunState.UpdateState(this, Time.deltaTime);
+        }
+        else
+        {
+            curState.UpdateState(this);
+        }
     }
 
     /// <summary>
