@@ -5,7 +5,6 @@ using UnityEngine;
 /// <summary>
 /// Passive for the Idol Ghost, boosts player speed when enemy dies.
 /// </summary>
-/// TODO hook up enemy death event to call IncrementTempo
 public class IdolPassive : MonoBehaviour
 {
     [SerializeField] public int tempoStack = 0; // Buff count, maxes at 3 stacks

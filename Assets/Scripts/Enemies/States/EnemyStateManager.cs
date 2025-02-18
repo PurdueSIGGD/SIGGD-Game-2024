@@ -132,7 +132,7 @@ public class EnemyStateManager : MonoBehaviour
         Collider2D hit = Physics2D.OverlapBox(pos, new Vector2(width, height), 0f, LayerMask.GetMask("Player"));
         if (hit)
         {
-            //hit.GetComponent<PlayerHealth>().TakeDamage(damage);
+            PlayerID.instance.GetComponent<PlayerStateMachine>().SetStun(0.2f);
             hit.GetComponent<Health>().Damage(damageContext, attacker);
         }
     }
@@ -166,7 +166,6 @@ public class EnemyStateManager : MonoBehaviour
         Collider2D hit = Physics2D.OverlapCircle(pos, radius, LayerMask.GetMask("Player"));
         if (hit)
         {
-            //hit.GetComponent<PlayerHealth>().TakeDamage(damage);
             hit.GetComponent<Health>().Damage(damageContext, attacker);
         }
     }
