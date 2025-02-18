@@ -1,11 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Crow : EnemyStateManager
 {
-    [Header("Custom Crow Tracking")]
+    [Header("Crow State Overrides")]
+    public new IEnemyStates MoveState = new CrowMoveState();
 
+    [Header("Custom Crow Tracking")]
     [SerializeField] float detectionRadius;
 
     [Header("Dive")]
@@ -22,7 +25,6 @@ public class Crow : EnemyStateManager
     {
         bool hit_player = false;
 
-        print("Looking!");
         Vector2 dir = transform.TransformDirection(Vector2.right);
         float maxDistance = detectionRadius;
 
