@@ -19,7 +19,6 @@ public class Move : MonoBehaviour, IStatList
 
     private StatManager stats;
 
-    private bool gliding = false;
     private bool dashing = false;
     private bool charging = false;
 
@@ -54,19 +53,6 @@ public class Move : MonoBehaviour, IStatList
     /// </summary>
     private void Movement()
     {
-        //float accel, maxSpeed, deaccel = 0;
-        /*if (gliding)
-        {
-            accel = stats.ComputeValue(glideAccelIdx);
-            maxSpeed = stats.ComputeValue(maxGlideSpeedIdx);
-            deaccel = stats.ComputeValue(glideDeaccelIdx);
-        } else
-        {
-            accel = stats.ComputeValue(runningAccelIdx);
-            maxSpeed = stats.ComputeValue(maxRunningSpeedIdx);
-            deaccel = stats.ComputeValue(runningDeaccelIdx);
-        }*/
-
         float input = moveInput.ReadValue<float>();
         Vector2 newVel = new Vector2(0, 0);
 
@@ -96,7 +82,6 @@ public class Move : MonoBehaviour, IStatList
 
     public void StartGlide()
     {
-        gliding = true;
         accel = stats.ComputeValue("Glide Accel.");
         maxSpeed = stats.ComputeValue("Max Glide Speed");
         deaccel = stats.ComputeValue("Glide Deaccel.");
@@ -104,7 +89,6 @@ public class Move : MonoBehaviour, IStatList
 
     public void StopGlide()
     {
-        gliding = false;
         accel = stats.ComputeValue("Running Accel.");
         maxSpeed = stats.ComputeValue("Max Running Speed");
         deaccel = stats.ComputeValue("Running Deaccel.");

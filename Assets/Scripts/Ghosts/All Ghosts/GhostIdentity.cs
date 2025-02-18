@@ -82,8 +82,30 @@ public class GhostIdentity : MonoBehaviour, IInteractable
     public void Interact()
     {
         Debug.Log("Ghost Interacted with!");
-        Debug.Log(PlayerID.instance == null);
-        PlayerID.instance.GetComponent<PartyManager>().AddMajorGhost(this);
+        //Debug.Log(PlayerID.instance == null);
+        //PlayerID.instance.GetComponent<PartyManager>().AddMajorGhost(this);
+        WorldInteract WI = GameObject.FindAnyObjectByType<WorldInteract>();
+        WorldInteract.InteractOption opt1 = new WorldInteract.InteractOption("Test 1", Empty);
+        WorldInteract.InteractOption opt2 = new WorldInteract.InteractOption("Test 2", DebugHi);
+        WorldInteract.InteractOption opt3 = new WorldInteract.InteractOption("Test 3", DebugDie);
+
+        WI.CreateInteractMenu(this.transform.position + new Vector3(0, 5, 0), opt1, opt2, opt3);
+
+    }
+
+    public void Empty()
+    {
+
+    }
+
+    public void DebugHi()
+    {
+        Debug.Log("Hi!");
+    }
+
+    public void DebugDie()
+    {
+        Debug.Log("Die");
     }
 
 }
