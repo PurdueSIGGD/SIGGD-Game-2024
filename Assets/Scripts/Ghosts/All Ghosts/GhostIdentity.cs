@@ -82,8 +82,8 @@ public class GhostIdentity : MonoBehaviour, IInteractable
     public void Interact()
     {
         Debug.Log("Ghost Interacted with!");
-        Debug.Log(PlayerID.instance == null);
-        PlayerID.instance.GetComponent<PartyManager>().AddMajorGhost(this);
+        //Debug.Log(PlayerID.instance == null);
+        //PlayerID.instance.GetComponent<PartyManager>().AddMajorGhost(this);
     }
 
 }
