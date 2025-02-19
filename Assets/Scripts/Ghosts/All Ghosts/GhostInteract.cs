@@ -1,25 +1,48 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
 
-public class GhostInteract : MonoBehaviour, IInteractable
+public class GhostInteract : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField]
+    private float interactRange;
+
+    [SerializeField]
+    private Vector3 menuOffset;
+
+    private GameObject interactMenu;
+
+
+    public void Update()
     {
-        
+        if (PlayerInRange() && interactMenu == null)
+        {
+            CreateInteractMenu();
+        } else if (!PlayerInRange() && interactMenu != null)
+        {
+            Destroy(interactMenu);
+            interactMenu = null;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    private bool PlayerInRange()
     {
-        
+        float dist = Vector3.Distance(PlayerID.instance.transform.position, this.transform.position);
+
+        return (dist < interactRange);
     }
 
-    ///
-    public void Interact()
+    private void CreateInteractMenu()
     {
-        Debug.Log("Ghost Interacted with!");
-    }
+        WorldInteract WI = FindAnyObjectByType<WorldInteract>();
+        WorldInteract.InteractOption opt1 = new WorldInteract.InteractOption("Talk", null);
+        WorldInteract.InteractOption opt2 = new WorldInteract.InteractOption("Add to Party", null);
 
+        Vector3 menuPos = this.transform.position + menuOffset;
+
+        interactMenu = WI.CreateInteractMenu(menuPos, opt1, opt2);
+    }
 }
