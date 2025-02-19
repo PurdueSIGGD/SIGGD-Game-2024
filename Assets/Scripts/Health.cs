@@ -17,6 +17,7 @@ public class Health : MonoBehaviour, IDamageable, IStatList
     void Start()
     {
         stats = GetComponent<StatManager>();
+        currentHealth = stats.ComputeValue("Max Health");
     }
 
     // Update is called once per frame
