@@ -3,21 +3,31 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System;
+using UnityEngine.UI;
 
 public class UITextBoxCurrencies : MonoBehaviour
 {
     // Start is called before the first frame update
-    private static GameObject player;
+    
+    [SerializeField]
+    int currency_type;
 
-    public UITextBoxCurrencies() {
-        player = GameObject.FindWithTag("Player");
+    public Text currencyText;
+    
+    public void OnTextPress() {
+        if (currency_type == 1) {
+            SpiritCurrencyTracker.blue_spirits++;
+        }
+        else if (currency_type == 2) {
+            SpiritCurrencyTracker.red_spirits++;
+        }
+        else if (currency_type == 3) {
+            SpiritCurrencyTracker.purple_spirits++;
+        }
+        else if (currency_type == 4) {
+            SpiritCurrencyTracker.yellow_spirits++;
+        }
     }
-    private static SpiritCurrencyTracker SpiritTracker =  player.GetComponent<SpiritCurrencyTracker>();
-    SpiritTypes spiritTypes = SpiritTracker.SpiritTypes;
-    private int blue_currency = (int) SpiritTracker.SpiritTypes.Blue;
-    private int red_currency = player.GetComponent<SpiritCurrencyTracker>().Red;
-    private int purple_currency = player.GetComponent<SpiritCurrencyTracker>().Purple;
-    private int yellow_currency = player.GetComponent<SpiritCurrencyTracker>().Yellow;
     void Start()
     {
     }
