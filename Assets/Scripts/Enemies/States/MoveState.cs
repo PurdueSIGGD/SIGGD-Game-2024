@@ -45,7 +45,16 @@ public class MoveState : EnemyStates
             enemy.Flip(true);
         }
 
+        RaycastHit2D hit = Physics2D.Raycast(enemy.transform.position, Vector2.down, 20f, LayerMask.GetMask("Ground"));
+        if (!hit)
+        {
+            rb.velocity = new Vector2(0, rb.velocity.y);
+            return;
+        }
+
         float speed = enemy.stats.ComputeValue("Speed");
         rb.velocity = new Vector2(speed * enemy.transform.right.x, rb.velocity.y);
     }
+
+
 }

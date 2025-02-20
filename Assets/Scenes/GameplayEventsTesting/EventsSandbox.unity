@@ -4343,6 +4343,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 947338785010040998, guid: 73f93381fbec0764a90fbc89c20293ff,
+        type: 3}
+      propertyPath: statList.Array.data[0].name
+      value: Speed
+      objectReference: {fileID: 0}
+    - target: {fileID: 947338785010040998, guid: 73f93381fbec0764a90fbc89c20293ff,
+        type: 3}
+      propertyPath: statList.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1487853512614266132, guid: 73f93381fbec0764a90fbc89c20293ff,
         type: 3}
       propertyPath: m_Name
@@ -4351,6 +4361,11 @@ PrefabInstance:
     - target: {fileID: 1487853512614266132, guid: 73f93381fbec0764a90fbc89c20293ff,
         type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4678795254975193693, guid: 73f93381fbec0764a90fbc89c20293ff,
+        type: 3}
+      propertyPath: statList.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7682996264086659794, guid: 73f93381fbec0764a90fbc89c20293ff,
@@ -8916,11 +8931,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8547351280330222855, guid: dc37ada359206f040b1417c5d790c31f,
         type: 3}
-      propertyPath: statList.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8547351280330222855, guid: dc37ada359206f040b1417c5d790c31f,
-        type: 3}
       propertyPath: heavyAttackInfo.damage
       value: 150
       objectReference: {fileID: 0}
@@ -8941,13 +8951,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8547351280330222855, guid: dc37ada359206f040b1417c5d790c31f,
         type: 3}
-      propertyPath: statList.Array.data[0].name
-      value: Heavy Damage
+      propertyPath: heavyAttackInfo.extraContext
+      value: peepee poopoo
       objectReference: {fileID: 0}
     - target: {fileID: 8547351280330222855, guid: dc37ada359206f040b1417c5d790c31f,
         type: 3}
-      propertyPath: heavyAttackInfo.extraContext
-      value: peepee poopoo
+      propertyPath: statList.Array.data[1].value
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8547351280330222855, guid: dc37ada359206f040b1417c5d790c31f,
+        type: 3}
+      propertyPath: statList.Array.data[2].value
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8547351280330222855, guid: dc37ada359206f040b1417c5d790c31f,
+        type: 3}
+      propertyPath: statList.Array.data[3].value
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8547351280330222855, guid: dc37ada359206f040b1417c5d790c31f,
         type: 3}
@@ -8962,11 +8982,6 @@ PrefabInstance:
     - target: {fileID: 8547351280330222855, guid: dc37ada359206f040b1417c5d790c31f,
         type: 3}
       propertyPath: attackInfo.damageTypes.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8547351280330222855, guid: dc37ada359206f040b1417c5d790c31f,
-        type: 3}
-      propertyPath: heavyDamage.damageTypes.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8547351280330222855, guid: dc37ada359206f040b1417c5d790c31f,
