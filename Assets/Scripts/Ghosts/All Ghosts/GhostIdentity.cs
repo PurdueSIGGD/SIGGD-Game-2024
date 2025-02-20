@@ -13,6 +13,7 @@ public class GhostIdentity : MonoBehaviour
 
     private IParty[] partyScripts;
     private ISelectable[] possessingScripts;
+    private int trust;
 
     void Start()
     {
@@ -73,5 +74,10 @@ public class GhostIdentity : MonoBehaviour
             }
 
         }
+    }
+    
+    public void AddTrust(int amount) {
+        trust += amount;
+        Debug.Log(trust);
     }
 }
