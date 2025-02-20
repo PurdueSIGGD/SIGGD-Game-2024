@@ -44,7 +44,8 @@ public class GhostIdentity : MonoBehaviour
             if (inParty)
             {
                 script.EnterParty(PlayerID.instance.gameObject);
-            } else
+            }
+            else
             {
                 script.ExitParty(PlayerID.instance.gameObject);
             }
@@ -57,7 +58,7 @@ public class GhostIdentity : MonoBehaviour
         return isSelected;
     }
 
-    public void SetPossessing(bool possessing)
+    public void SetSelected(bool possessing)
     {
         this.isSelected = possessing;
         foreach (ISelectable action in possessingScripts)

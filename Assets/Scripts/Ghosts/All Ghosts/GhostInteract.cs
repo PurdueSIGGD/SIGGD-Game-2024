@@ -26,7 +26,7 @@ public class GhostInteract : MonoBehaviour
     {
         if (!identity.IsInParty())
         {
-           CheckInteractMenu();
+            CheckInteractMenu();
         }
     }
 

@@ -14,10 +14,9 @@ GameObject:
   - component: {fileID: 7432033330267407823}
   - component: {fileID: 4831227066257484011}
   - component: {fileID: 584133115329307738}
-  - component: {fileID: 8801380349187384279}
-  - component: {fileID: 2452548669096362065}
+  - component: {fileID: 3280267376664184250}
   m_Layer: 17
-  m_Name: Eva-Idol
+  m_Name: North-Police_Chief
   m_TagString: Ghost
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -141,7 +140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64193cb6f57202744bf8fb56115e3b2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ghostName: Eva
+  ghostName: North
 --- !u!114 &584133115329307738
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -156,7 +155,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactRange: 3
   menuOffset: {x: 0, y: 2, z: 0}
---- !u!114 &8801380349187384279
+--- !u!114 &3280267376664184250
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -165,28 +164,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 981645078808632434}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 645bc16239d4c9644939b3c962b821e6, type: 3}
+  m_Script: {fileID: 11500000, guid: 1bfd65cc56c16d64c8b81448d2f20dfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tempoStack: 0
-  runSpeedMod: 20
-  glideSpeedMod: 8
-  tempoDuration: 8
---- !u!114 &2452548669096362065
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 981645078808632434}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d82c975382925943a6220b301b349c3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxDistance: 8
-  tpCoolDown: 8
-  switchCoolDown: 0.5
+  statList: []
 --- !u!1 &4936111184687609786
 GameObject:
   m_ObjectHideFlags: 0
@@ -432,7 +413,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6,
     type: 3}
-  m_Color: {r: 0, g: 0.97016597, b: 1, a: 0.5882353}
+  m_Color: {r: 0.08375845, g: 0.2933453, b: 0.7610062, a: 0.5882353}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
