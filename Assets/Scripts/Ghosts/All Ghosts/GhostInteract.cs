@@ -55,10 +55,11 @@ public class GhostInteract : MonoBehaviour
         WorldInteract WI = FindAnyObjectByType<WorldInteract>();
         WorldInteract.InteractOption opt1 = new WorldInteract.InteractOption("Talk", null);
         WorldInteract.InteractOption opt2 = new WorldInteract.InteractOption("Add to Party", AddGhostToParty);
+        WorldInteract.InteractOption opt3 = new WorldInteract.InteractOption("View Skill Tree", AddGhostToParty);
 
         Vector3 menuPos = this.transform.position + menuOffset;
 
-        interactMenu = WI.CreateInteractMenu(menuPos, opt1, opt2);
+        interactMenu = WI.CreateInteractMenu(menuPos, opt1, opt2, opt3);
     }
 
     private void AddGhostToParty()
