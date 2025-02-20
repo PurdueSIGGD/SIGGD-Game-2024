@@ -1,5 +1,8 @@
 using System;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 [DisallowMultipleComponent]
 public class Health : MonoBehaviour, IDamageable, IStatList
@@ -79,7 +82,33 @@ public class Health : MonoBehaviour, IDamageable, IStatList
         //Trigger Events
         GameplayEventHolder.OnDeath?.Invoke(context);
 
-        Destroy(this.gameObject);
+        StartCoroutine(DeathCoroutine());
+    }
+
+    private IEnumerator DeathCoroutine()
+    {
+        Time.timeScale = 0;
+        gameObject.layer = 0; // I really hope this doesn't collide with anything
+        GetComponent<PlayerInput>().enabled = false;
+
+        float startTime = Time.unscaledTime;
+        float endTime = startTime + 3;
+
+        Vector3 originalScale = transform.localScale;
+
+        while (Time.unscaledTime < endTime)
+        {
+            float timePercentage = (Time.unscaledTime - startTime) / (endTime - startTime);
+
+            transform.Rotate(0, 0, Time.unscaledDeltaTime * 360);
+            transform.localScale = originalScale * (1 - timePercentage);
+
+            yield return null;
+        }
+
+        gameObject.SetActive(false);
+
+        SceneManager.LoadScene("HubWorld");
     }
 
     public StatManager.Stat[] GetStatList()
