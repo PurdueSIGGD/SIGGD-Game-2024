@@ -13,6 +13,9 @@ public class GhostInteract : MonoBehaviour
     [SerializeField]
     private Vector3 menuOffset;
 
+    [SerializeField]
+    private ConversationTemp hubConvo;
+
     private GameObject interactMenu;
     private GhostIdentity identity;
 
@@ -53,9 +56,9 @@ public class GhostInteract : MonoBehaviour
     private void CreateInteractMenu()
     {
         WorldInteract WI = FindAnyObjectByType<WorldInteract>();
-        WorldInteract.InteractOption opt1 = new WorldInteract.InteractOption("Talk", null);
+        WorldInteract.InteractOption opt1 = new WorldInteract.InteractOption("Talk", StartDialogue);
         WorldInteract.InteractOption opt2 = new WorldInteract.InteractOption("Add to Party", AddGhostToParty);
-        WorldInteract.InteractOption opt3 = new WorldInteract.InteractOption("View Skill Tree", AddGhostToParty);
+        WorldInteract.InteractOption opt3 = new WorldInteract.InteractOption("View Skill Tree", null);
 
         Vector3 menuPos = this.transform.position + menuOffset;
 
@@ -69,5 +72,11 @@ public class GhostInteract : MonoBehaviour
 
         PartyManager partyManger = PlayerID.instance.GetComponent<PartyManager>();
         partyManger.AddGhostToParty(this.GetComponent<GhostIdentity>());
+    }
+
+    private void StartDialogue()
+    {
+        DialogueManager dialogueManager = FindAnyObjectByType<DialogueManager>();
+        dialogueManager.StartDialogue(hubConvo);
     }
 }
