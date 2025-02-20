@@ -20,6 +20,7 @@ public class Move : MonoBehaviour, IStatList
     private StatManager stats;
 
     private bool dashing = false;
+    private bool stopMoving = false;
     private bool charging = false;
 
     private float accel;
@@ -42,7 +43,7 @@ public class Move : MonoBehaviour, IStatList
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (!dashing)
+        if (!dashing && !stopMoving)
         {
             Movement();
         }
@@ -140,6 +141,17 @@ public class Move : MonoBehaviour, IStatList
         accel = stats.ComputeValue("Running Accel.");
         maxSpeed = stats.ComputeValue("Max Running Speed");
         deaccel = stats.ComputeValue("Running Deaccel.");
+        Debug.Log("Back to normal");
+    }
+
+    public void PlayerStop()
+    {
+        stopMoving = true;
+    }
+
+    public void PlayerGo()
+    {
+        stopMoving = false;
     }
 
     public StatManager.Stat[] GetStatList()

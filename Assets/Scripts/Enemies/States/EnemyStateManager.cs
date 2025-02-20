@@ -9,17 +9,18 @@ using UnityEngine;
 /// </summary>
 public class EnemyStateManager : MonoBehaviour
 {
-    public EnemyStates IdleState = new IdleState();
-    public EnemyStates AggroState = new AggroState();
-    public EnemyStates BusyState = new BusyState();
-    public EnemyStates MoveState = new MoveState();
+    public IEnemyStates IdleState = new IdleState();
+    public IEnemyStates AggroState = new AggroState();
+    public IEnemyStates BusyState = new BusyState();
+    public IEnemyStates MoveState = new MoveState();
+    public StunState StunState = new StunState();
 
     [HideInInspector] public StatManager stats; // Enemy stats component
     [HideInInspector] public ActionPool pool; // A pool of attacks to randomly choose from
     [HideInInspector] public Animator animator;
 
     [SerializeField] float aggroRange; // Range for detecting players 
-    protected EnemyStates curState; // Enemy's current State, defaults to idle
+    protected IEnemyStates curState; // Enemy's current State, defaults to idle
     protected Transform player;
     protected Rigidbody2D rb;
     
@@ -36,14 +37,20 @@ public class EnemyStateManager : MonoBehaviour
 
     protected void FixedUpdate()
     {
-        curState.UpdateState(this);
+        if (StunState.isStunned) {
+            StunState.UpdateState(this, Time.deltaTime);
+        }
+        else
+        {
+            curState.UpdateState(this);
+        }
     }
 
     /// <summary>
     /// Transitions to another Enemy State
     /// </summary>
     /// <param name="state"> The new Enemy State </param>
-    public void SwitchState(EnemyStates state)
+    public void SwitchState(IEnemyStates state)
     {
         curState = state;
         state.EnterState(this);
@@ -71,6 +78,23 @@ public class EnemyStateManager : MonoBehaviour
             return hit.collider.gameObject.CompareTag("Player");
         }
         return false;
+    }
+
+    /// <summary>
+    /// Stun the enemy for a set duration
+    /// </summary>
+    /// <param name="damageContext"> the damage context that resulted in the stun </param>
+    /// <param name="duration"> the duration of the stun </param>
+    public void Stun(DamageContext damageContext, float duration = 0f)
+    {
+        if (duration == 0f)
+        {
+            StunState.EnterState(this);
+        }
+        else
+        {
+            StunState.EnterState(this, duration);
+        }
     }
 
     /// <summary>
@@ -108,7 +132,7 @@ public class EnemyStateManager : MonoBehaviour
         Collider2D hit = Physics2D.OverlapBox(pos, new Vector2(width, height), 0f, LayerMask.GetMask("Player"));
         if (hit)
         {
-            //hit.GetComponent<PlayerHealth>().TakeDamage(damage);
+            PlayerID.instance.GetComponent<PlayerStateMachine>().SetStun(0.2f);
             hit.GetComponent<Health>().Damage(damageContext, attacker);
         }
     }
@@ -142,7 +166,6 @@ public class EnemyStateManager : MonoBehaviour
         Collider2D hit = Physics2D.OverlapCircle(pos, radius, LayerMask.GetMask("Player"));
         if (hit)
         {
-            //hit.GetComponent<PlayerHealth>().TakeDamage(damage);
             hit.GetComponent<Health>().Damage(damageContext, attacker);
         }
     }

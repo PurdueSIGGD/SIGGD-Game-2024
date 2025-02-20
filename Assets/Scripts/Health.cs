@@ -17,14 +17,8 @@ public class Health : MonoBehaviour, IDamageable, IStatList
     void Start()
     {
         stats = GetComponent<StatManager>();
+        currentHealth = stats.ComputeValue("Max Health");
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
 
 
     public float Damage(DamageContext context, GameObject attacker)

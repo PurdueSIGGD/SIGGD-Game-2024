@@ -5,19 +5,19 @@ using UnityEngine;
 /// <summary>
 /// Enemy behavior when aggro but cannot reach player
 /// </summary>
-public class MoveState : EnemyStates
+public class MoveState : IEnemyStates
 {
     public Transform player;
     public Rigidbody2D rb;
 
-    public override void EnterState(EnemyStateManager enemy)
+    public void EnterState(EnemyStateManager enemy)
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
         rb = enemy.GetComponent<Rigidbody2D>();
         enemy.pool.move.Play(enemy.animator); // Play the moving animation on entering state
     }
 
-    public override void UpdateState(EnemyStateManager enemy)
+    public void UpdateState(EnemyStateManager enemy)
     {
         if (enemy.pool.HasActionsReady()) // If Enemy attacks can reach player, enter AggroState
         {
