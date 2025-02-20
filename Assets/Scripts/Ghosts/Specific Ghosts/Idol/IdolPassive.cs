@@ -15,13 +15,6 @@ public class IdolPassive : MonoBehaviour
 
     // Reference to player stats
     private StatManager stats;
-    private int maxRunningSpeedIdx;
-    private int runningAccelIdx;
-    private int runningDeaccelIdx;
-
-    private int maxGlideSpeedIdx;
-    private int glideAccelIdx;
-    private int glideDeaccelIdx;
 
     void OnEnable()
     {

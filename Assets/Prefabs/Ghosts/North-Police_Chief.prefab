@@ -9,14 +9,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2521389767202695054}
+  - component: {fileID: 493112488793715324}
+  - component: {fileID: 518060757831962552}
   - component: {fileID: 7432033330267407823}
-  - component: {fileID: -7077216466196385565}
-  - component: {fileID: 6731271416232205447}
-  - component: {fileID: 5889194028552533716}
-  - component: {fileID: 5359615627061519659}
+  - component: {fileID: 4831227066257484011}
+  - component: {fileID: 584133115329307738}
   m_Layer: 17
-  m_Name: HackerGhost
-  m_TagString: GhostMajor
+  m_Name: North-Police_Chief
+  m_TagString: Ghost
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -39,51 +39,7 @@ Transform:
   - {fileID: 3359998400708292433}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7432033330267407823
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 981645078808632434}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b451521938e32a418da59314d5fe97d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  offset: {x: 0, y: 2}
-  radius: 1.5
-  timeMultipliers: {x: 1, y: 1, z: 1}
---- !u!114 &-7077216466196385565
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 981645078808632434}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64193cb6f57202744bf8fb56115e3b2e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ghostName: HATSUNE MIKU FROM FORTNITE
---- !u!114 &6731271416232205447
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 981645078808632434}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d82c975382925943a6220b301b349c3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxDistance: 8
-  tpCoolDown: 8
-  switchCoolDown: 0.5
---- !u!50 &5889194028552533716
+--- !u!50 &493112488793715324
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 0
@@ -110,7 +66,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!61 &5359615627061519659
+--- !u!61 &518060757831962552
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -155,6 +111,50 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &7432033330267407823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981645078808632434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b451521938e32a418da59314d5fe97d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  offset: {x: 0, y: 2}
+  radius: 1.5
+  timeMultipliers: {x: 1, y: 0.5, z: 0.5}
+--- !u!114 &4831227066257484011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981645078808632434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64193cb6f57202744bf8fb56115e3b2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ghostName: North
+--- !u!114 &584133115329307738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981645078808632434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eae8f9653188d9f45824a0d369ba8ac5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactRange: 3
+  menuOffset: {x: 0, y: 2, z: 0}
+  hubConvo: {fileID: 11400000, guid: d4d980ef81b3c2e4dbaebb3b83bf48d2, type: 2}
 --- !u!1 &4936111184687609786
 GameObject:
   m_ObjectHideFlags: 0
@@ -227,7 +227,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6,
     type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
@@ -312,7 +312,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6,
     type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
@@ -336,7 +336,7 @@ GameObject:
   - component: {fileID: 6631059536473991929}
   - component: {fileID: 4330402025110322720}
   m_Layer: 17
-  m_Name: Dummy White Square
+  m_Name: Dummy Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -351,7 +351,7 @@ Transform:
   m_GameObject: {fileID: 7017972217767908525}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -397,10 +397,10 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6,
     type: 3}
-  m_Color: {r: 0, g: 1, b: 0.8887594, a: 1}
+  m_Color: {r: 0.1037933, g: 0.3226771, b: 0.8050314, a: 0.5882353}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

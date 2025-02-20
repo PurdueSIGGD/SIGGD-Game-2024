@@ -23,9 +23,7 @@ public class Dash : MonoBehaviour, IStatList
     private Rigidbody2D rb;
 
     [SerializeField] private Vector2 velocity = Vector2.zero;
-    [SerializeField] private bool canDash = true;
     [SerializeField] private bool isDashing = false;
-    [SerializeField] private bool isSlowing = false;
 
     private StatManager stats;
 
@@ -80,9 +78,7 @@ public class Dash : MonoBehaviour, IStatList
         isDashing = true;
         PlayerStateMachine psm = this.GetComponent<PlayerStateMachine>();
         
-        Debug.Log("Starting wait: " + stats.ComputeValue("Dash Time"));
         yield return new WaitForSeconds(stats.ComputeValue("Dash Time"));
-        Debug.Log("Done waiting: " + stats.ComputeValue("Dash Time"));
 
         rb.velocity *= stats.ComputeValue("Post Dash Momentum Fraction");
         psm.EnableTrigger("OPT");

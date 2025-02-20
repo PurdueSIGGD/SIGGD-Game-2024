@@ -7,22 +7,50 @@ using UnityEngine;
 /// </summary>
 public class PlatformParentPlayer : MonoBehaviour
 {
-    //make it so the player moves with the platform and not just the platform moving
+    public Vector3 lastPlatformPosition;
+    public Vector3 playerpos;
+    public GameObject player;
+    private bool playerOnPlatform = false;
+
+    void Start()
+    {
+        lastPlatformPosition = transform.position;
+        playerpos = transform.position;
+    }
+
+    void Update()
+    {
+        //Platform position is updated
+        lastPlatformPosition = transform.position;
+    }
+
+    void LateUpdate()
+    { //player position is updated according to the platform movement
+
+        if (playerOnPlatform && player != null)
+        {
+            Vector3 platformMovement = transform.position - lastPlatformPosition;
+            player.transform.position += platformMovement;
+        }
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        //when player collides w platformm set the platform as the parent object of the object that is colliding w the platform
+        //Empty platform turns into collision object to get the possition
         if (collision.gameObject.CompareTag("Player"))
         {
-            collision.transform.SetParent(transform);
+                player = collision.gameObject;
+                playerOnPlatform = true;
         }
-
     }
+
     private void OnCollisionExit2D(Collision2D collision)
     {
-        //when the player exits the collision set it back to normal
+        //player empty object becomes empty again
         if (collision.gameObject.CompareTag("Player"))
         {
-            collision.transform.SetParent(null);
+            playerOnPlatform = false;
+            player = null;
         }
     }
 }
