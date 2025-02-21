@@ -18,13 +18,18 @@ public class Move : MonoBehaviour, IStatList
     public Boolean doubleJump = true;
 
     private StatManager stats;
+    private Animator animator;
 
     private bool dashing = false;
+    //private bool dashEnding = false;
     private bool charging = false;
 
     private float accel;
     private float deaccel;
-    private float maxSpeed;
+    public float maxSpeed;
+
+    public float overflowSpeed;
+    private float overflowDeaccel;
 
 
     // Start is called before the first frame update
@@ -33,10 +38,14 @@ public class Move : MonoBehaviour, IStatList
         moveInput = GetComponent<PlayerInput>().actions.FindAction("Move");
         rb = GetComponent<Rigidbody2D>();
         stats = GetComponent<StatManager>();
+        animator = GetComponent<Animator>();
 
         accel = stats.ComputeValue("Running Accel.");
         maxSpeed = stats.ComputeValue("Max Running Speed");
         deaccel = stats.ComputeValue("Running Deaccel.");
+
+        overflowSpeed = maxSpeed;
+        overflowDeaccel = 0.96f;
     }
 
     // Update is called once per frame
@@ -59,11 +68,29 @@ public class Move : MonoBehaviour, IStatList
         // accelerates player in direction of input
         newVel.x = rb.velocity.x + input * accel;
 
+
+
+        if (overflowSpeed > maxSpeed)
+        {
+            newVel.x = Mathf.Clamp(newVel.x, -1 * overflowSpeed, overflowSpeed);
+            overflowSpeed = Mathf.Clamp(Mathf.Abs(rb.velocity.x), maxSpeed, overflowSpeed * overflowDeaccel);
+        }
+        else
+        {
+            newVel.x = Mathf.Clamp(newVel.x, -1 * maxSpeed, maxSpeed);
+            overflowSpeed = maxSpeed;
+        }
+        
+
+        
+        /*
         // caps top horizontal speed
         if (newVel.magnitude > maxSpeed)
         {
             newVel = newVel.normalized * maxSpeed;
         }
+        */
+        
 
         // deaccelerate if no input
         if (input == 0)
@@ -78,6 +105,65 @@ public class Move : MonoBehaviour, IStatList
         rb.velocity = newVel;
 
         gameObject.transform.localScale = new Vector3(Mathf.Sign(rb.velocity.x) * 1, 1, 1);
+    }
+
+    /*
+    public void StartIdle()
+    {
+        //if (dashEnding) return;
+        //dashEnding = false;
+        accel = stats.ComputeValue("Running Accel.");
+        maxSpeed = stats.ComputeValue("Max Running Speed");
+        deaccel = stats.ComputeValue("Running Deaccel.");
+    }
+    */
+
+    public void StartJump()
+    {
+        accel = stats.ComputeValue("Airborne Accel.");
+        maxSpeed = stats.ComputeValue("Max Running Speed");
+        deaccel = stats.ComputeValue("Airborne Deaccel.");
+    }
+
+    public void StopJump()
+    {
+        accel = stats.ComputeValue("Running Accel.");
+        maxSpeed = stats.ComputeValue("Max Running Speed");
+        deaccel = stats.ComputeValue("Running Deaccel.");
+    }
+
+    public void StartFall()
+    {
+        /*if (dashEnding)
+        {
+            dashEnding = false;
+            return;
+        }*/
+        accel = stats.ComputeValue("Airborne Accel.");
+        maxSpeed = stats.ComputeValue("Max Running Speed");
+        deaccel = stats.ComputeValue("Airborne Deaccel.");
+    }
+
+    public void StopFall()
+    {
+        //if (dashEnding) return;
+        accel = stats.ComputeValue("Running Accel.");
+        maxSpeed = stats.ComputeValue("Max Running Speed");
+        deaccel = stats.ComputeValue("Running Deaccel.");
+    }
+
+    public void StartFastFall()
+    {
+        accel = stats.ComputeValue("Airborne Accel.");
+        maxSpeed = stats.ComputeValue("Max Running Speed");
+        deaccel = stats.ComputeValue("Airborne Deaccel.");
+    }
+
+    public void StopFastFall()
+    {
+        accel = stats.ComputeValue("Running Accel.");
+        maxSpeed = stats.ComputeValue("Max Running Speed");
+        deaccel = stats.ComputeValue("Running Deaccel.");
     }
 
     public void StartGlide()
@@ -104,7 +190,33 @@ public class Move : MonoBehaviour, IStatList
     public void StopDash()
     {
         dashing = false;
+        //Debug.Log("GROUNDED: " + animator.GetBool("p_grounded"));
+        if (animator.GetBool("p_grounded")) return;
+        //dashEnding = true;
+        //accel = 1f;
+        //maxSpeed = Mathf.Abs(rb.velocity.x);
+        //maxSpeed = 10f;
+        //overflowSpeed = Mathf.Abs(rb.velocity.magnitude);
+        //Debug.Log("OVERFLOW SPEED: " + overflowSpeed);
+        //deaccel = 0.99f;
+        //StartCoroutine(DashEndingSpeed());
+        ApplyKnockback(rb.velocity.normalized, rb.velocity.magnitude);
     }
+
+    /*
+    private IEnumerator DashEndingSpeed()
+    {
+        dashEnding = true;
+        accel = 1f;
+        maxSpeed = 10f;
+        deaccel = 0.9999f;
+        yield return new WaitForSeconds(0.5f);
+        //accel = stats.ComputeValue("Running Accel.");
+        //maxSpeed = stats.ComputeValue("Max Running Speed");
+        //deaccel = stats.ComputeValue("Running Deaccel.");
+        dashEnding = false;
+    }
+    */
 
     public void StartHeavyChargeUp()
     {
@@ -145,5 +257,12 @@ public class Move : MonoBehaviour, IStatList
     public StatManager.Stat[] GetStatList()
     {
         return statList;
+    }
+
+    public void ApplyKnockback(Vector2 direction, float knockbackStrength)
+    {
+        overflowSpeed = knockbackStrength;
+        //deaccel = 99f;
+        rb.AddForce(direction.normalized * knockbackStrength);
     }
 }
