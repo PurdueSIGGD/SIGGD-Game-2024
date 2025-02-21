@@ -1,27 +1,32 @@
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using Unity.VisualScripting.Antlr3.Runtime.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 /// <summary>
 /// This is the script that contains the code form the player's melee attack
 /// </summary>
-public class LightAttack : MonoBehaviour
+public class LightAttack : MonoBehaviour, IStatList
 {
     [SerializeField] float range = 1.2f; // radius of the attack cone
     [SerializeField] float angle = 80f; // angle of the attack cone
     [SerializeField] DamageContext lightDamage;
+    [SerializeField] StatManager.Stat[] statList;
     [SerializeField] float cooldown = 1; // Cooldown of player attack
     [SerializeField] float rayCount = 6; // number of rays used to check for collision
     [SerializeField] LayerMask attackMask;
 
     private HashSet<int> hits; // stores which targets have already been hit in one attack
     private Camera mainCamera;
-    
+    private StatManager stats;
+
     private void Start()
     {
         hits = new HashSet<int>();
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+        stats = gameObject.GetComponent<StatManager>();
+        lightDamage.damage = stats.ComputeValue("Damage");
     }
 
     /// <summary>
@@ -68,11 +73,16 @@ public class LightAttack : MonoBehaviour
             {
                 return;
             }
-            IDamageable damageable = h.collider.gameObject.GetComponent<IDamageable>();
-            if (damageable != null)
+
+            foreach (IDamageable damageable in h.collider.gameObject.GetComponents<IDamageable>())
             {
                 damageable.Damage(lightDamage, gameObject);
             }
         }
+    }
+
+    public StatManager.Stat[] GetStatList()
+    {
+        return statList;
     }
 }

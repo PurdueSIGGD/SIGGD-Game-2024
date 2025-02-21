@@ -44,7 +44,6 @@ public class PlayerStateMachine : MonoBehaviour
 
     void Update()
     {
-
         UpdateHorizontal();
         UpdateGrounded();
         UpdateFalling();
@@ -129,5 +128,29 @@ public class PlayerStateMachine : MonoBehaviour
     public void OffCooldown(string cooldownName)
     {
         animator.SetBool(cooldownName, false);
+    }
+
+    /// <summary>
+    /// Stuns the player by locking all player inputs
+    /// </summary>
+    /// <param name="duration"></param>
+    public void SetStun(float duration)
+    {
+        StartCoroutine(StunCoroutine(duration));
+    }
+
+    private IEnumerator StunCoroutine(float duration)
+    {
+        animator.speed = 0;
+        moveInput.Disable();
+        jumpInput.Disable();
+        specialInput.Disable();
+        attackInput.Disable();
+        yield return new WaitForSeconds(duration);
+        animator.speed = 1;
+        moveInput.Enable();
+        jumpInput.Enable();
+        specialInput.Enable();
+        attackInput.Enable();
     }
 }
