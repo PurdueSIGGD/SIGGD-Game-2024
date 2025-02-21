@@ -64,13 +64,16 @@ public class Dash : MonoBehaviour, IStatList
             //Vector2 displacement = Vector2.ClampMagnitude((Vector2)mousePos - (Vector2)transform.position, stats.ComputeValue("Max Dash Distance"));
 
             Vector2 displacement = ((Vector2)mousePos - (Vector2)transform.position).normalized * stats.ComputeValue("Max Dash Distance");
+            
             /*
             RaycastHit2D hit = Physics2D.Raycast(transform.position, displacement.normalized, displacement.magnitude, LayerMask.GetMask("Ground"));
             if (hit.collider != null)
             {
                 displacement = hit.point - (Vector2)transform.position - displacement.normalized * rb.GetComponent<Collider2D>().bounds.extents.magnitude;
             }
+            displacement = (displacement.magnitude < 5f) ? displacement.normalized * 5f : displacement;
             */
+
             this.velocity = displacement / stats.ComputeValue("Dash Time");
             StartCoroutine(DashCoroutine());
         }
