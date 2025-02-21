@@ -26,9 +26,9 @@ public class Move : MonoBehaviour, IStatList
 
     private float accel;
     private float deaccel;
-    public float maxSpeed;
+    private float maxSpeed;
 
-    public float overflowSpeed;
+    private float overflowSpeed;
     private float overflowDeaccel;
 
 
