@@ -11,6 +11,8 @@ public class HealthUI : MonoBehaviour
     private Health health;
     private StatManager stats;
     private Quaternion UIRotation;
+    private Vector3 UIScale;
+    private float UIScaleFactor;
 
     // Start is called before the first frame update
     void Start()
@@ -18,6 +20,8 @@ public class HealthUI : MonoBehaviour
         health = transform.parent.GetComponent<Health>();
         stats = transform.parent.GetComponent<StatManager>();
         UIRotation = new Quaternion(0f, transform.parent.rotation.y, 0f, 0f);
+        UIScale = new Vector3(transform.parent.localScale.x, transform.localScale.y, transform.localScale.z);
+        UIScaleFactor = transform.localScale.x;
     }
 
     // Update is called once per frame
@@ -25,6 +29,8 @@ public class HealthUI : MonoBehaviour
     {
         UIRotation.y = transform.parent.rotation.y;
         transform.localRotation = UIRotation;
+        UIScale.x = (transform.parent.localScale.x / Mathf.Abs(transform.parent.localScale.x)) * UIScaleFactor;
+        transform.localScale = UIScale;
         healthText.text = Mathf.CeilToInt(health.currentHealth) + " | " + Mathf.CeilToInt(stats.ComputeValue("Max Health"));
     }
 }
