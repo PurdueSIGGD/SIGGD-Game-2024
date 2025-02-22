@@ -4,6 +4,9 @@ using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using UnityEngine.Experimental.GlobalIllumination;
 
+/// <summary>
+/// Thsi is the script that manages the "Wrath" value and activates the Samurai Heavy Attack Dash
+/// </summary>
 public class WrathHeavyAttack : MonoBehaviour, IStatList
 {
     [SerializeField]
@@ -22,6 +25,7 @@ public class WrathHeavyAttack : MonoBehaviour, IStatList
     private float timer = 0.0f;
     private bool startTimer = false;
     private float dashSpeed = 0.0f;
+    private bool resetDecay = false;
 
     // Start is called before the first frame update
     void Start()
@@ -47,10 +51,12 @@ public class WrathHeavyAttack : MonoBehaviour, IStatList
         if (decaying && wrathPercent >= stats.ComputeValue("Wrath Decay Rate") * Time.deltaTime)
         {
             wrathPercent -= stats.ComputeValue("Wrath Decay Rate") * Time.deltaTime;
+            Debug.Log("currentWrathPercentage: " + wrathPercent);
         }
-        else
+        else if (decaying)
         {
             wrathPercent = 0.0f;
+            decaying = false;
         }
 
         Debug.Log("Time delta: " + Time.deltaTime);
@@ -60,19 +66,13 @@ public class WrathHeavyAttack : MonoBehaviour, IStatList
             timer -= Time.deltaTime;
             if (timer <= 0.0f)
             {
-                PlayerID.instance.GetComponent<Move>().PlayerGo();
-                PlayerID.instance.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
                 PlayerID.instance.GetComponent<Animator>().SetBool("finishWrath", true);
                 startTimer = false;
             }
         }
     }
 
-    public float GetWrath()
-    {
-        return wrathPercent;
-    }
-
+    //The function gets called (via event) whenever something gets damaged in the scene
     public void OnDamage(DamageContext context)
     {
         if (context.attacker == gameObject && context.actionTypes[0] == ActionType.LIGHT_ATTACK)
@@ -81,7 +81,6 @@ public class WrathHeavyAttack : MonoBehaviour, IStatList
             decayTimer = stats.ComputeValue("Wrath Decay Buffer");
             startingToDecay = true;
             decaying = false;
-            Debug.Log("Wrath Percent Now: " +  wrathPercent);
         }
         else if (context.victim == gameObject)
         {
@@ -89,6 +88,14 @@ public class WrathHeavyAttack : MonoBehaviour, IStatList
         }
     }
 
+    //this functionn get called (via message from animator) when you enter the Heavy Charge up state
+    public void StartHeavyChargeUp()
+    {
+        decaying = false;
+        resetDecay = true;
+    }
+
+    //this function get called (via message form animator) when you enter the Heavy Attack state
     public void StartHeavyAttack()
     {
         Vector2 dir = Vector2.zero;
@@ -103,41 +110,53 @@ public class WrathHeavyAttack : MonoBehaviour, IStatList
         }
 
         float dist = Mathf.Lerp(stats.ComputeValue("Base Dash Distance"), stats.ComputeValue("Max Dash Distance"), wrathPercent);
-        Debug.Log("Wrath percent: " + wrathPercent);
         RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, dist, attackMask);
         if (hit)
         {
-            dist = transform.position.x - hit.point.x;
+            dist = Mathf.Abs(transform.position.x - hit.point.x);
         }
         PlayerID.instance.GetComponent<Rigidbody2D>().velocity = stats.ComputeValue("Dash Speed") * dir;
         PlayerID.instance.GetComponent<Move>().PlayerStop();
         timer = dist / stats.ComputeValue("Dash Speed");
         startTimer = true;
-        Empty();
     }
 
+    //this function get called (via message form animator) when you exit the Heavy Attack state
     public void StopHeavyAttack()
     {
-        PlayerID.instance.GetComponent<Move>().PlayerGo();
         PlayerID.instance.GetComponent<Animator>().SetBool("finishWrath", false);
 
         Collider2D[] hit = Physics2D.OverlapBoxAll(transform.position, new Vector2(2, 1), 0, attackMask);
         foreach (Collider2D h in hit)
         {
-            IDamageable damageable = h.gameObject.GetComponent<IDamageable>();
-            dashDamageContext.damage = stats.ComputeValue("Dash Damage");
-            if (damageable != null)
+            dashDamageContext.damage = Mathf.Lerp(stats.ComputeValue("Base Dash Damage"), stats.ComputeValue("Max Dash Damage"), wrathPercent);
+            foreach (IDamageable damageable in h.gameObject.GetComponents<IDamageable>())
             {
                 damageable.Damage(dashDamageContext, gameObject);
             }
         }
+        Empty();
     }
 
+    //this function get called (via message form animator) when you exit the 2nd Heavy Attack state
+    public void StopSamuraiHeavyAttack()
+    {
+        PlayerID.instance.GetComponent<Move>().PlayerGo();
+        PlayerID.instance.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
+        if (resetDecay)
+        {
+            decaying = true;
+            resetDecay = false;
+        }
+    }
+
+    //Used to empty the remaining wrath percentage
     public void Empty()
     {
         wrathPercent = 0.0f;
     }
 
+    //Needed for implementing IStatList
     public StatManager.Stat[] GetStatList()
     {
         return statList;
