@@ -22,15 +22,18 @@ public class MusicTrack : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update() { 
-        if (tracks[nextSource].isPlaying) {
-            tracks[nextSource].PlayScheduled(AudioSettings.dspTime + (loopEnd - loopStart));
+    void Update() {
+        int currentSource = 1 - nextSource;
+        if (!tracks[currentSource].isPlaying) {
             nextSource = 1 - nextSource;
+            tracks[nextSource].Play();
+            tracks[nextSource].time = loopStart;
         }
     }
 
     public void PlayTrack() {
         tracks[0].Play();
+        double trackTime = tracks[nextSource].time;
         nextSource = 1;
     }
 

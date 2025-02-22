@@ -26,10 +26,6 @@ public class AudioManager : MonoBehaviour {
 
     private MusicTrackName currentTrackName;
     // Start is called before the first frame update
-    private void Awake()
-    {
-        DontDestroyOnLoad(gameObject);
-    }
 
     void Start() {
         currentTrackName = MusicTrackName.JAPAN;
@@ -37,9 +33,8 @@ public class AudioManager : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update() {      
+    void Update() {
         // Temporary audio code below
-
         if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)) {
             tempStepCounter += Time.deltaTime;
             if (tempStepCounter > 0.4f) {
