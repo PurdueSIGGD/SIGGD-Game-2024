@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ItemUI : MonoBehaviour
@@ -9,6 +10,7 @@ public class ItemUI : MonoBehaviour
     private bool IsBought = false;
     private bool IsSelected = false;
     [SerializeField] public TextMeshProUGUI buttonText;
+    [SerializeField] public TextMeshProUGUI itemText;
 
 
 
@@ -40,5 +42,9 @@ public class ItemUI : MonoBehaviour
             buttonText.text = "Select";
         }
         
+    }
+
+    public void setItemName(string name) {
+        itemText.text = name;
     }
 }
