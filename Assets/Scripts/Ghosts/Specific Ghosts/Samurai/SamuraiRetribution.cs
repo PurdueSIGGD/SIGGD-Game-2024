@@ -41,15 +41,11 @@ public class SamuraiRetribution : MonoBehaviour
                 coll2d.gameObject.GetComponent<EnemyProjectile>().SwitchDirections();
             }
         }
-
-        Debug.Log("Start Parrying");
     }
 
     public void StopDash()
     {
         GameplayEventHolder.OnDamageFilter.Remove(ParryingFilter);
-
-        Debug.Log("Stop Parrying");
     }
 
     public void ParryingFilter(DamageContext context)
@@ -62,7 +58,6 @@ public class SamuraiRetribution : MonoBehaviour
             newContext.victim = context.attacker;
             context.attacker.GetComponent<Health>().Damage(newContext, gameObject);
             context.damage = 0;
-            Debug.Log("Parried");
         }
     }
 }

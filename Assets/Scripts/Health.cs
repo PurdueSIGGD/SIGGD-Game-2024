@@ -40,7 +40,6 @@ public class Health : MonoBehaviour, IDamageable, IStatList
 
         foreach (GameplayEventHolder.DamageFilterEvent filter in GameplayEventHolder.OnDamageFilter)
         {
-            Debug.Log("Found filter");
             filter(context);
         }
 
@@ -71,6 +70,11 @@ public class Health : MonoBehaviour, IDamageable, IStatList
         context.healing = Mathf.Clamp(context.healing, 0f, missingHealth);
         context.invokingScript = this;
 
+        foreach (GameplayEventHolder.HealingFilterEvent filter in GameplayEventHolder.OnHealingFilter)
+        {
+            filter(context);
+        }
+
         // Increase current health
         currentHealth += context.healing;
 
@@ -83,6 +87,11 @@ public class Health : MonoBehaviour, IDamageable, IStatList
     public void Kill(DamageContext context)
     {
         isAlive = false;
+
+        foreach (GameplayEventHolder.DeathFilterEvent filter in GameplayEventHolder.OnDeathFilter)
+        {
+            filter(context);
+        }
 
         //Trigger Events
         GameplayEventHolder.OnDeath?.Invoke(context);
