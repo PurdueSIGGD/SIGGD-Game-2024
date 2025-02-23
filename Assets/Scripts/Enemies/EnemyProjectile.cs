@@ -11,6 +11,7 @@ public class EnemyProjectile : MonoBehaviour
 
     [SerializeField] protected float range = Screen.width; // Range of the projectile, defaults to the bounds of the camera.
 
+    public string target = "Player";
 
     //protected Transform target; // Target location at the time of releasing the projectile
     protected Vector3 dir;
@@ -46,11 +47,13 @@ public class EnemyProjectile : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag(target))
         {
             collision.gameObject.GetComponent<Health>().Damage(projectileDamage, gameObject);
         }
-        Destroy(gameObject);
+
+        if (collision.gameObject.CompareTag(target) || collision.gameObject.CompareTag("Enviroment"))
+            Destroy(gameObject);
     }
 
     // Moves the projectile according to speed.
@@ -66,6 +69,13 @@ public class EnemyProjectile : MonoBehaviour
             (transform.position.y - bounds.y <= 0) == (dir.y <= 0))
         {
             Destroy(gameObject);
+            Debug.Log("outta bouds");
         }
+    }
+
+    public void SwitchDirections()
+    {
+        dir = new Vector3(-dir.x, -dir.y, 0);
+        bounds = dir * range + transform.position;
     }
 }

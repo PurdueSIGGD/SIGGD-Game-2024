@@ -15,6 +15,13 @@ public class GameplayEventHolder : MonoBehaviour
     /// </summary>
     public static DamageDealtEvent OnDamageDealt;
 
+    // ON DAMAGE FILTER
+    /// <param name="context">Struct containing context for this event.</param>
+    public delegate void DamageFilterEvent(DamageContext context);
+    /// <summary>
+    /// Invoked when an entity deals damage.
+    /// </summary>
+    public static List<DamageFilterEvent> OnDamageFilter = new List<DamageFilterEvent>();
 
 
     // ON HEALING DEALT

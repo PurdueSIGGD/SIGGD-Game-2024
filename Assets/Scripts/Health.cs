@@ -11,12 +11,14 @@ public class Health : MonoBehaviour, IDamageable, IStatList
     [NonSerialized] public bool isAlive = true; // Checks if player is still alive
     private StatManager stats;
 
+    public delegate void DamageFilters(DamageContext context);
 
 
     // Start is called before the first frame update
     void Start()
     {
         stats = GetComponent<StatManager>();
+        currentHealth = stats.ComputeValue("Max Health");
     }
 
     // Update is called once per frame
@@ -35,6 +37,12 @@ public class Health : MonoBehaviour, IDamageable, IStatList
         context.trueDamage = context.damage;
         context.damage = Mathf.Clamp(context.damage, 0f, currentHealth);
         context.invokingScript = this;
+
+        foreach (GameplayEventHolder.DamageFilterEvent filter in GameplayEventHolder.OnDamageFilter)
+        {
+            Debug.Log("Found filter");
+            filter(context);
+        }
 
         // Reduce current health
         currentHealth -= context.damage;
