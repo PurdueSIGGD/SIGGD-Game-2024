@@ -115,7 +115,7 @@ public class EnemyStateManager : MonoBehaviour
     /// <param name="pos">Position of the trigger box</param>
     /// <para name="width">X value of the lossyscale of the trigger box</para>
     /// <para name="height">Y value of the lossyscale of the trigger box</para>
-    /// <param name="damage">Points of damage to deal</param>
+    /// <param name="damageContext">Instance of damage context</param>
     protected void GenerateDamageFrame(Vector2 pos, float width, float height, DamageContext damageContext, GameObject attacker /*float damage*/)
     {
 #if DEBUG // Draw the damage box in the editor
@@ -142,7 +142,7 @@ public class EnemyStateManager : MonoBehaviour
     /// </summary>
     /// <param name="pos">Position of the trigger box</param>
     /// <param name="radius">X value of the lossyscale of the trigger circle</param>
-    /// <param name="damage">Points of damage to deal</param>
+    /// <param name="damageContext">Instance of damage context</param>
     protected void GenerateDamageFrame(Vector2 pos, float radius, DamageContext damageContext, GameObject attacker /*float damage*/)
     {
 #if DEBUG // Draw the damage circle in the editor
@@ -166,6 +166,7 @@ public class EnemyStateManager : MonoBehaviour
         Collider2D hit = Physics2D.OverlapCircle(pos, radius, LayerMask.GetMask("Player"));
         if (hit)
         {
+            PlayerID.instance.GetComponent<PlayerStateMachine>().SetStun(0.2f);
             hit.GetComponent<Health>().Damage(damageContext, attacker);
         }
     }
