@@ -30,12 +30,12 @@ public class FastFall : MonoBehaviour
         }
     }
 
-    void StartFastFall()
+    public void StartFastFall()
     {
         isFastFalling = true;
     }
 
-    void StopFastFall()
+    public void StopFastFall()
     {
         isFastFalling = false;
     }

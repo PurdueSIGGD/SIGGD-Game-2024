@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4831227066257484011}
   - component: {fileID: 584133115329307738}
   m_Layer: 17
-  m_Name: Eva-Idol
+  m_Name: North-Police_Chief
   m_TagString: Ghost
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -126,7 +126,7 @@ MonoBehaviour:
   target: {fileID: 0}
   offset: {x: 0, y: 2}
   radius: 1.5
-  timeMultipliers: {x: 0.5, y: 0.5, z: 1}
+  timeMultipliers: {x: 1, y: 0.5, z: 0.5}
 --- !u!114 &4831227066257484011
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -139,7 +139,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64193cb6f57202744bf8fb56115e3b2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ghostName: Eva
+  ghostName: North
 --- !u!114 &584133115329307738
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -154,7 +154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactRange: 3
   menuOffset: {x: 0, y: 2, z: 0}
-  hubConvo: {fileID: 11400000, guid: a9f9877b4a87fc140986ff519984aca4, type: 2}
+  hubConvo: {fileID: 11400000, guid: d4d980ef81b3c2e4dbaebb3b83bf48d2, type: 2}
 --- !u!1 &4936111184687609786
 GameObject:
   m_ObjectHideFlags: 0
@@ -227,7 +227,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6,
     type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
@@ -312,7 +312,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6,
     type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
@@ -397,10 +397,10 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6,
     type: 3}
-  m_Color: {r: 0, g: 0.97016597, b: 1, a: 0.5882353}
+  m_Color: {r: 0.1037933, g: 0.3226771, b: 0.8050314, a: 0.5882353}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

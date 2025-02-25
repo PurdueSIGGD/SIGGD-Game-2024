@@ -18,6 +18,7 @@ public class Move : MonoBehaviour, IStatList
     public Boolean doubleJump = true;
 
     private StatManager stats;
+    private Animator animator;
 
     private bool dashing = false;
     private bool stopMoving = false;
@@ -27,6 +28,9 @@ public class Move : MonoBehaviour, IStatList
     private float deaccel;
     private float maxSpeed;
 
+    private float overflowSpeed;
+    private float overflowDeaccel;
+
 
     // Start is called before the first frame update
     void Start()
@@ -34,10 +38,14 @@ public class Move : MonoBehaviour, IStatList
         moveInput = GetComponent<PlayerInput>().actions.FindAction("Move");
         rb = GetComponent<Rigidbody2D>();
         stats = GetComponent<StatManager>();
+        animator = GetComponent<Animator>();
 
         accel = stats.ComputeValue("Running Accel.");
         maxSpeed = stats.ComputeValue("Max Running Speed");
         deaccel = stats.ComputeValue("Running Deaccel.");
+
+        overflowSpeed = maxSpeed;
+        overflowDeaccel = 0.96f;
     }
 
     // Update is called once per frame
@@ -60,10 +68,16 @@ public class Move : MonoBehaviour, IStatList
         // accelerates player in direction of input
         newVel.x = rb.velocity.x + input * accel;
 
-        // caps top horizontal speed
-        if (newVel.magnitude > maxSpeed)
+        // caps top horizontal speed, accounting for overflow top speed due to knockback
+        if (overflowSpeed > maxSpeed)
         {
-            newVel = newVel.normalized * maxSpeed;
+            newVel.x = Mathf.Clamp(newVel.x, -1 * overflowSpeed, overflowSpeed);
+            overflowSpeed = Mathf.Clamp(Mathf.Abs(rb.velocity.x), maxSpeed, overflowSpeed * overflowDeaccel);
+        }
+        else
+        {
+            newVel.x = Mathf.Clamp(newVel.x, -1 * maxSpeed, maxSpeed);
+            overflowSpeed = maxSpeed;
         }
 
         // deaccelerate if no input
@@ -79,6 +93,48 @@ public class Move : MonoBehaviour, IStatList
         rb.velocity = newVel;
 
         gameObject.transform.localScale = new Vector3(Mathf.Sign(rb.velocity.x) * 1, 1, 1);
+    }
+
+    public void StartJump()
+    {
+        accel = stats.ComputeValue("Airborne Accel.");
+        maxSpeed = stats.ComputeValue("Max Running Speed");
+        deaccel = stats.ComputeValue("Airborne Deaccel.");
+    }
+
+    public void StopJump()
+    {
+        accel = stats.ComputeValue("Running Accel.");
+        maxSpeed = stats.ComputeValue("Max Running Speed");
+        deaccel = stats.ComputeValue("Running Deaccel.");
+    }
+
+    public void StartFall()
+    {
+        accel = stats.ComputeValue("Airborne Accel.");
+        maxSpeed = stats.ComputeValue("Max Running Speed");
+        deaccel = stats.ComputeValue("Airborne Deaccel.");
+    }
+
+    public void StopFall()
+    {
+        accel = stats.ComputeValue("Running Accel.");
+        maxSpeed = stats.ComputeValue("Max Running Speed");
+        deaccel = stats.ComputeValue("Running Deaccel.");
+    }
+
+    public void StartFastFall()
+    {
+        accel = stats.ComputeValue("Airborne Accel.");
+        maxSpeed = stats.ComputeValue("Max Running Speed");
+        deaccel = stats.ComputeValue("Airborne Deaccel.");
+    }
+
+    public void StopFastFall()
+    {
+        accel = stats.ComputeValue("Running Accel.");
+        maxSpeed = stats.ComputeValue("Max Running Speed");
+        deaccel = stats.ComputeValue("Running Deaccel.");
     }
 
     public void StartGlide()
@@ -105,6 +161,8 @@ public class Move : MonoBehaviour, IStatList
     public void StopDash()
     {
         dashing = false;
+        if (animator.GetBool("p_grounded")) return;
+        ApplyKnockback(rb.velocity.normalized, rb.velocity.magnitude);
     }
 
     public void StartHeavyChargeUp()
@@ -157,5 +215,11 @@ public class Move : MonoBehaviour, IStatList
     public StatManager.Stat[] GetStatList()
     {
         return statList;
+    }
+
+    public void ApplyKnockback(Vector2 direction, float knockbackStrength)
+    {
+        overflowSpeed = knockbackStrength;
+        rb.AddForce(direction.normalized * knockbackStrength);
     }
 }

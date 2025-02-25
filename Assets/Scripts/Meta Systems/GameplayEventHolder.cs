@@ -15,6 +15,13 @@ public class GameplayEventHolder : MonoBehaviour
     /// </summary>
     public static DamageDealtEvent OnDamageDealt;
 
+    // ON DAMAGE FILTER
+    /// <param name="context">Struct containing context for this event.</param>
+    public delegate void DamageFilterEvent(DamageContext context);
+    /// <summary>
+    /// Invoked when an entity deals damage.
+    /// </summary>
+    public static List<DamageFilterEvent> OnDamageFilter = new List<DamageFilterEvent>();
 
 
     // ON HEALING DEALT
@@ -25,6 +32,14 @@ public class GameplayEventHolder : MonoBehaviour
     /// </summary>
     public static HealingDealtEvent OnHealingDealt;
 
+    // ON HEALING FILTER
+    /// <param name="context">Struct containing context for this event.</param>
+    public delegate void HealingFilterEvent(HealingContext context);
+    /// <summary>
+    /// Invoked when an entity deals damage.
+    /// </summary>
+    public static List<HealingFilterEvent> OnHealingFilter = new List<HealingFilterEvent>();
+
 
 
     // ON DEATH
@@ -34,5 +49,13 @@ public class GameplayEventHolder : MonoBehaviour
     /// Invoked when an entity dies.
     /// </summary>
     public static DeathEvent OnDeath;
+
+    // ON DEATH FILTER
+    /// <param name="context">Struct containing context for this event.</param>
+    public delegate void DeathFilterEvent(DamageContext context);
+    /// <summary>
+    /// Invoked when an entity deals damage.
+    /// </summary>
+    public static List<DeathFilterEvent> OnDeathFilter = new List<DeathFilterEvent>();
 
 }
