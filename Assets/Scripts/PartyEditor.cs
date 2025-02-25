@@ -60,7 +60,7 @@ public class PartyEditor : MonoBehaviour
     {
         if (selectedMenuItem.identity.IsInParty()) return;
 
-        partyManager.AddMajorGhost(selectedMenuItem.identity);
+        partyManager.AddGhostToParty(selectedMenuItem.identity);
         selectedMenuItem.transform.SetParent(partyBar.transform);
     }
 
@@ -68,7 +68,7 @@ public class PartyEditor : MonoBehaviour
     {
         if (!selectedMenuItem.identity.IsInParty()) return;
 
-        partyManager.RemoveMajorGhost(selectedMenuItem.identity);
+        partyManager.RemoveGhostFromParty(selectedMenuItem.identity);
         selectedMenuItem.transform.SetParent(bankBar.transform);
     }
 }

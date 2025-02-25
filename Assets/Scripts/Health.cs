@@ -21,13 +21,6 @@ public class Health : MonoBehaviour, IDamageable, IStatList
         currentHealth = stats.ComputeValue("Max Health");
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-
 
     public float Damage(DamageContext context, GameObject attacker)
     {

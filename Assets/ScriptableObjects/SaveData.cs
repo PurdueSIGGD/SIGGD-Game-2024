@@ -32,7 +32,7 @@ public class SaveData : ScriptableObject
             {
                 if (ghost.name == member)
                 {
-                    partyManager.AddMajorGhost(ghost);
+                    partyManager.AddGhostToParty(ghost);
                     break;
                 }
             }

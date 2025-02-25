@@ -17,7 +17,7 @@ public class PlayerStateMachine : MonoBehaviour
 
     float groundDetectRadius = 0.5f; //The radius of the circle checking for ground overlap
     float minimumFallSpeed = -0.1f; // The minimum negative vertical velocity required to be considered falling
-    float yFeetDisplacement = -2f; // Distance between the transform position of player and the player's "feet"
+    float yFeetDisplacement = -1.5f; // Distance between the transform position of player and the player's "feet"
 
     InputAction moveInput; // The move action from the playerInput component
     InputAction jumpInput; // The jump action from the playerInput component
@@ -44,7 +44,6 @@ public class PlayerStateMachine : MonoBehaviour
 
     void Update()
     {
-
         UpdateHorizontal();
         UpdateGrounded();
         UpdateFalling();
@@ -129,5 +128,29 @@ public class PlayerStateMachine : MonoBehaviour
     public void OffCooldown(string cooldownName)
     {
         animator.SetBool(cooldownName, false);
+    }
+
+    /// <summary>
+    /// Stuns the player by locking all player inputs
+    /// </summary>
+    /// <param name="duration"></param>
+    public void SetStun(float duration)
+    {
+        StartCoroutine(StunCoroutine(duration));
+    }
+
+    private IEnumerator StunCoroutine(float duration)
+    {
+        animator.speed = 0;
+        moveInput.Disable();
+        jumpInput.Disable();
+        specialInput.Disable();
+        attackInput.Disable();
+        yield return new WaitForSeconds(duration);
+        animator.speed = 1;
+        moveInput.Enable();
+        jumpInput.Enable();
+        specialInput.Enable();
+        attackInput.Enable();
     }
 }
