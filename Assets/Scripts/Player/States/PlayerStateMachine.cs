@@ -27,6 +27,7 @@ public class PlayerStateMachine : MonoBehaviour
 
     Animator animator; // the animator of the player object
     Rigidbody2D rb; // the rigidbody of the player object
+    Camera mainCamera; //the main camera of the current scene
 
 
     void Start()
@@ -40,6 +41,7 @@ public class PlayerStateMachine : MonoBehaviour
 
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
+        mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
     }
 
     void Update()
@@ -51,6 +53,7 @@ public class PlayerStateMachine : MonoBehaviour
         UpdateDown();
         UpdateAttack();
         UpdateSpecial();
+        UpdateMoveForward();
         ReadCurrentAnimatorState();
     }
 
@@ -104,6 +107,12 @@ public class PlayerStateMachine : MonoBehaviour
     {
         bool i_special = specialInput.ReadValue<float>() != 0;
         animator.SetBool("i_special", i_special);
+    }
+
+    void UpdateMoveForward()
+    {
+        bool moveForward = Mathf.Sign(rb.velocity.x) != Mathf.Sign(transform.position.x - mainCamera.ScreenToWorldPoint(UnityEngine.Input.mousePosition).x);
+        animator.SetBool("moveForwards", moveForward);
     }
 
     /// <summary>
