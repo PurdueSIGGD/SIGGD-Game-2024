@@ -111,7 +111,7 @@ public class PlayerStateMachine : MonoBehaviour
 
     void UpdateMoveForward()
     {
-        bool moveForward = Mathf.Sign(rb.velocity.x) != Mathf.Sign(transform.position.x - mainCamera.ScreenToWorldPoint(UnityEngine.Input.mousePosition).x);
+        bool moveForward = Mathf.Sign(rb.velocity.x) == Mathf.Sign(mainCamera.ScreenToWorldPoint(UnityEngine.Input.mousePosition).x - transform.position.x);
         animator.SetBool("moveForwards", moveForward);
     }
 
