@@ -114,7 +114,6 @@ public class PlayerStateMachine : MonoBehaviour
         int mouseDir = 0;
         Vector2 mouseDiff = transform.position - mainCamera.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
         float angle = Mathf.Atan2(mouseDiff.y, mouseDiff.x) + Mathf.PI;
-        Debug.Log("current angle: " + angle);
         if (angle > Mathf.PI/4 && angle < 3 * Mathf.PI / 4)
         {
             mouseDir = 1;
