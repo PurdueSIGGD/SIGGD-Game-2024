@@ -27,6 +27,7 @@ public class PlayerStateMachine : MonoBehaviour
 
     Animator animator; // the animator of the player object
     Rigidbody2D rb; // the rigidbody of the player object
+    Camera mainCamera; //the main Camera of the current Scene
 
 
     void Start()
@@ -40,6 +41,7 @@ public class PlayerStateMachine : MonoBehaviour
 
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
+        mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
     }
 
     void Update()
@@ -51,6 +53,7 @@ public class PlayerStateMachine : MonoBehaviour
         UpdateDown();
         UpdateAttack();
         UpdateSpecial();
+        UpdateMouseDir();
         ReadCurrentAnimatorState();
     }
 
@@ -104,6 +107,26 @@ public class PlayerStateMachine : MonoBehaviour
     {
         bool i_special = specialInput.ReadValue<float>() != 0;
         animator.SetBool("i_special", i_special);
+    }
+
+    void UpdateMouseDir()
+    {
+        int mouseDir = 0;
+        Vector2 mouseDiff = transform.position - mainCamera.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
+        float angle = Mathf.Atan2(mouseDiff.y, mouseDiff.x) + Mathf.PI;
+        Debug.Log("current angle: " + angle);
+        if (angle > Mathf.PI/4 && angle < 3 * Mathf.PI / 4)
+        {
+            mouseDir = 1;
+        }else if (angle > 3 * Mathf.PI / 4 &&  angle < 5 * Mathf.PI / 4)
+        {
+            mouseDir = 2;
+        }
+        else if (angle > 5 * Mathf.PI / 4 && angle < 7 * Mathf.PI / 4)
+        {
+            mouseDir = 3;
+        }
+        animator.SetInteger("m_dir", mouseDir);
     }
 
     /// <summary>

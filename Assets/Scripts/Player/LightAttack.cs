@@ -39,6 +39,20 @@ public class LightAttack : MonoBehaviour, IStatList
 
         Vector2 orig = transform.position;
         Vector2 center = (mainCamera.ScreenToWorldPoint(Input.mousePosition) - transform.position); // center ray
+        float m_angle = Mathf.Atan2(center.x, center.y) + Mathf.PI;
+        center = new Vector2(0, -1);
+        if (m_angle > Mathf.PI / 4 && m_angle < 3 * Mathf.PI / 4)
+        {
+            center = new Vector2(-1, 0);
+        }
+        else if (m_angle > 3 * Mathf.PI / 4 && m_angle < 5 * Mathf.PI / 4)
+        {
+            center = new Vector2(0, 1);
+        }
+        else if (m_angle > 5 * Mathf.PI / 4 && m_angle < 7 * Mathf.PI / 4)
+        {
+            center = new Vector2(1, 0);
+        }
         center = center.normalized;
 
 #if DEBUG        
