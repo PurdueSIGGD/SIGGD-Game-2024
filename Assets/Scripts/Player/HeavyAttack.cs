@@ -48,7 +48,7 @@ public class HeavyAttack : MonoBehaviour, IStatList
 
     public void StartHeavyAttack()
     {
-        indicator.SetActive(true);
+        //indicator.SetActive(true);
         timer = 0.5f;
         RaycastHit2D[] hits = Physics2D.BoxCastAll(indicator.transform.position, indicator.transform.localScale, 0, new Vector2(0, 0));
         foreach(RaycastHit2D hit in hits)
