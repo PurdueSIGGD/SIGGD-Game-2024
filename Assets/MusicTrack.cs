@@ -10,7 +10,7 @@ public class MusicTrack : MonoBehaviour
     [SerializeField] float loopEnd;
 
     // The index of the next track to play
-    private int nextSource;
+    private int nextSource = 1;
     // An array of both tracks
     [SerializeField] AudioSource[] tracks;
 
@@ -22,23 +22,37 @@ public class MusicTrack : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update() {
-        int currentSource = 1 - nextSource;
-        if (!tracks[currentSource].isPlaying) {
-            nextSource = 1 - nextSource;
-            tracks[nextSource].Play();
-            tracks[nextSource].time = loopStart;
-        }
-    }
+    void Update() { }
 
     public void PlayTrack() {
         tracks[0].Play();
-        double trackTime = tracks[nextSource].time;
         nextSource = 1;
+        StartCoroutine(autoLoop());
     }
 
     public void StopTrack() {
         tracks[0].Stop();
         tracks[1].Stop();
+        StopCoroutine(autoLoop());
+    }
+
+    private IEnumerator autoLoop() {
+        // Initial entry point
+        float trackPlaytime = loopEnd - tracks[1 - nextSource].time;
+        // Wait most of the track
+        yield return new WaitForSecondsRealtime(trackPlaytime - 5.0f);
+        // Wait for the rest of the track to avoid weird playing offset
+        trackPlaytime = loopEnd - tracks[1 - nextSource].time;
+        yield return new WaitForSecondsRealtime(trackPlaytime);
+
+        while (true) {
+            nextSource = 1 - nextSource;
+            tracks[nextSource].Play();
+            tracks[nextSource].time = loopStart;
+            trackPlaytime = loopEnd - loopStart - 5.0f;
+            yield return new WaitForSecondsRealtime(trackPlaytime - 5.0f);
+            trackPlaytime = loopEnd - tracks[1 - nextSource].time;
+            yield return new WaitForSecondsRealtime(trackPlaytime);
+        }
     }
 }
