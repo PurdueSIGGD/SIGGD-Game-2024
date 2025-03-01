@@ -10,7 +10,7 @@ public class MusicTrack : MonoBehaviour
     [SerializeField] float loopEnd;
 
     // The index of the next track to play
-    private int nextSource = 1;
+    private int currentTrackId = 0;
     // An array of both tracks
     [SerializeField] AudioSource[] tracks;
 
@@ -26,7 +26,7 @@ public class MusicTrack : MonoBehaviour
 
     public void PlayTrack() {
         tracks[0].Play();
-        nextSource = 1;
+        currentTrackId = 0;
         StartCoroutine(autoLoop());
     }
 
@@ -37,21 +37,20 @@ public class MusicTrack : MonoBehaviour
     }
 
     private IEnumerator autoLoop() {
-        // Initial entry point
-        float trackPlaytime = loopEnd - tracks[1 - nextSource].time;
+        float trackPlaytime = loopEnd - tracks[currentTrackId].time;
         // Wait most of the track
         yield return new WaitForSecondsRealtime(trackPlaytime - 5.0f);
         // Wait for the rest of the track to avoid weird playing offset
-        trackPlaytime = loopEnd - tracks[1 - nextSource].time;
+        trackPlaytime = loopEnd - tracks[currentTrackId].time;
         yield return new WaitForSecondsRealtime(trackPlaytime);
 
         while (true) {
-            nextSource = 1 - nextSource;
-            tracks[nextSource].Play();
-            tracks[nextSource].time = loopStart;
-            trackPlaytime = loopEnd - loopStart - 5.0f;
+            currentTrackId = 1 - currentTrackId;
+            tracks[currentTrackId].Play();
+            tracks[currentTrackId].time = loopStart;
+            trackPlaytime = loopEnd - tracks[currentTrackId].time;
             yield return new WaitForSecondsRealtime(trackPlaytime - 5.0f);
-            trackPlaytime = loopEnd - tracks[1 - nextSource].time;
+            trackPlaytime = loopEnd - tracks[currentTrackId].time;
             yield return new WaitForSecondsRealtime(trackPlaytime);
         }
     }
