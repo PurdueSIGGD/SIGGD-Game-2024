@@ -31,6 +31,8 @@ public class Move : MonoBehaviour, IStatList
     private float overflowSpeed;
     private float overflowDeaccel;
 
+    private bool stopTurning;
+
 
     // Start is called before the first frame update
     void Start()
@@ -92,7 +94,10 @@ public class Move : MonoBehaviour, IStatList
         // update rigidbody velocity to new velocity
         rb.velocity = newVel;
 
-        gameObject.transform.localScale = new Vector3(Mathf.Sign(rb.velocity.x) * 1, 1, 1);
+        if (!stopTurning)
+        {
+            gameObject.transform.localScale = new Vector3(Mathf.Sign(rb.velocity.x) * 1, 1, 1);
+        }
     }
 
     public void StartJump()
@@ -165,6 +170,19 @@ public class Move : MonoBehaviour, IStatList
         ApplyKnockback(rb.velocity.normalized, rb.velocity.magnitude);
     }
 
+    public void StartLightAttack()
+    {
+        stopTurning = true;
+    }
+
+    public void StopLightAttack()
+    {
+        if (!charging)
+        {
+            stopTurning = false;
+        }
+    }
+
     public void StartHeavyChargeUp()
     {
         charging = true;
@@ -177,6 +195,7 @@ public class Move : MonoBehaviour, IStatList
     {
         if (charging)
         {
+            stopTurning = false;
             charging = false;
             accel = stats.ComputeValue("Running Accel.");
             maxSpeed = stats.ComputeValue("Max Running Speed");
@@ -196,6 +215,7 @@ public class Move : MonoBehaviour, IStatList
 
     public void StopHeavyPrimed()
     {
+        stopTurning = false;
         accel = stats.ComputeValue("Running Accel.");
         maxSpeed = stats.ComputeValue("Max Running Speed");
         deaccel = stats.ComputeValue("Running Deaccel.");
