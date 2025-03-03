@@ -581,8 +581,6 @@ MonoBehaviour:
   - name: Airborne Deaccel.
     value: 0.96
   doubleJump: 1
-  maxSpeed: 0
-  overflowSpeed: 0
 --- !u!114 &4910711782724507570
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -725,6 +723,9 @@ MonoBehaviour:
     actionID: 0
     actionTypes: 
     extraContext: 
+  statList:
+  - name: Damage
+    value: 10
   cooldown: 1
   rayCount: 6
   attackMask:
@@ -741,7 +742,7 @@ PrefabInstance:
     - target: {fileID: 2728778880471080501, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 0.155
       objectReference: {fileID: 0}
     - target: {fileID: 2728778880471080501, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
         type: 3}
@@ -788,15 +789,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2792638077557101623, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2792638077557101623, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3052211537680228573, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
         type: 3}
       propertyPath: m_fontColor.b
-      value: 0.89433956
+      value: 0.89411765
       objectReference: {fileID: 0}
     - target: {fileID: 3052211537680228573, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
         type: 3}
       propertyPath: m_fontColor.g
-      value: 0.87387997
+      value: 0.01479003
       objectReference: {fileID: 0}
     - target: {fileID: 3052211537680228573, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
         type: 3}
@@ -806,7 +817,7 @@ PrefabInstance:
     - target: {fileID: 3052211537680228573, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
         type: 3}
       propertyPath: m_fontColor32.rgba
-      value: 4293189376
+      value: 4293133312
       objectReference: {fileID: 0}
     - target: {fileID: 3487495804464263818, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
         type: 3}

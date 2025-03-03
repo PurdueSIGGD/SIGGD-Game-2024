@@ -3,11 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HealthUI : MonoBehaviour
 {
 
     [SerializeField] public TextMeshProUGUI healthText;
+    [SerializeField] private Slider healthSlider;
     private Health health;
     private StatManager stats;
     private Quaternion UIRotation;
@@ -22,6 +24,9 @@ public class HealthUI : MonoBehaviour
         UIRotation = new Quaternion(0f, transform.parent.rotation.y, 0f, 0f);
         UIScale = new Vector3(transform.parent.localScale.x, transform.localScale.y, transform.localScale.z);
         UIScaleFactor = transform.localScale.x;
+
+        healthSlider.maxValue = stats.ComputeValue("Max Health");
+        healthSlider.value = healthSlider.maxValue;
     }
 
     // Update is called once per frame
@@ -32,5 +37,7 @@ public class HealthUI : MonoBehaviour
         UIScale.x = (transform.parent.localScale.x / Mathf.Abs(transform.parent.localScale.x)) * UIScaleFactor;
         transform.localScale = UIScale;
         healthText.text = Mathf.CeilToInt(health.currentHealth) + " | " + Mathf.CeilToInt(stats.ComputeValue("Max Health"));
+
+        healthSlider.value = health.currentHealth;
     }
 }
