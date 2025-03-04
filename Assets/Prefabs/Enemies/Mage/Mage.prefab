@@ -211,7 +211,7 @@ MonoBehaviour:
   lightningRadius: 3
   lightningRange: 12
   lightningChargeDuration: 1
-  cooldown: 3
+  cooldown: 2
   lightningPrefab: {fileID: 3530741045561927567, guid: 3fbf525f0e6c1a04e8dc4d84879763fc,
     type: 3}
 --- !u!114 &4299196913714008640
@@ -253,7 +253,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a13ad00583bca6b4fa6de9939a968201, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statList: []
+  statList:
+  - name: Max Health
+    value: 100
 --- !u!114 &7990850349161753078
 MonoBehaviour:
   m_ObjectHideFlags: 0
