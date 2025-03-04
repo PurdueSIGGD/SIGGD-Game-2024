@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using Unity.VisualScripting.Antlr3.Runtime.Collections;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 /// <summary>
 /// This is the script that contains the code form the player's melee attack
@@ -20,6 +22,7 @@ public class LightAttack : MonoBehaviour, IStatList
     private HashSet<int> hits; // stores which targets have already been hit in one attack
     private Camera mainCamera;
     private StatManager stats;
+    private Vector2 lastMousePos;
 
     private void Start()
     {
@@ -60,13 +63,13 @@ public class LightAttack : MonoBehaviour, IStatList
         hits.Clear(); // re-enable damage to all hit enemy
     }
 
-    public void StartSkyLightAttack()
+    public void CompileSkyAttack()
     {
         float halfAngle = angle / 2; // angle above and below the centerline of the attack cone
         float deltaAngle = halfAngle / rayCount * 2; // change in degree between each ray
 
         Vector2 orig = transform.position;
-        Vector2 mouseDiff = (mainCamera.ScreenToWorldPoint(Input.mousePosition) - transform.position); // center ray
+        Vector2 mouseDiff = lastMousePos;
         float m_angle = Mathf.Atan2(mouseDiff.x, mouseDiff.y) + Mathf.PI;
         Vector2 center = new Vector2(Mathf.Sign(mouseDiff.x), 0);
         transform.localScale = new Vector2(center.x, 1);
@@ -80,9 +83,6 @@ public class LightAttack : MonoBehaviour, IStatList
         }
         center = center.normalized;
 
-        Debug.Log(center);
-        GetComponent<Rigidbody2D>().AddForce(center * 2000000, ForceMode2D.Impulse);
-
 #if DEBUG        
         Debug.DrawLine(orig, center * range + orig, Color.red, 1.0f);
 #endif
@@ -93,6 +93,29 @@ public class LightAttack : MonoBehaviour, IStatList
             CastRay(orig, deltaAngle * -i, center);
         }
         hits.Clear(); // re-enable damage to all hit enemy
+    }
+
+    public void StartSkyLightAttack()
+    {
+        Vector2 orig = transform.position;
+        Vector2 mouseDiff = (mainCamera.ScreenToWorldPoint(Input.mousePosition) - transform.position); // center ray
+        float m_angle = Mathf.Atan2(mouseDiff.x, mouseDiff.y) + Mathf.PI;
+        lastMousePos = mouseDiff;
+
+        Vector2 center = new Vector2(Mathf.Sign(mouseDiff.x), 0);
+        transform.localScale = new Vector2(center.x, 1);
+        if (m_angle > 3 * Mathf.PI / 4 && m_angle < 5 * Mathf.PI / 4)
+        {
+            center = new Vector2(0, 1);
+        }
+        if (m_angle > 7 * Mathf.PI / 4 && m_angle < 9 * Mathf.PI / 4)
+        {
+            center = new Vector2(0, -1);
+        }
+        center = center.normalized;
+
+        Debug.Log(center * 10);
+        GetComponent<Rigidbody2D>().AddForce(center * 10, ForceMode2D.Impulse);
     }
 
     /// <summary>
