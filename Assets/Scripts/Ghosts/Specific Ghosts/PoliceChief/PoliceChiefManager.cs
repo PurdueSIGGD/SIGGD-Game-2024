@@ -17,7 +17,7 @@ public class PoliceChiefManager : MonoBehaviour, ISelectable
     {
         animator = PlayerID.instance.GetComponent<Animator>();
     }
-
+    // ISelectable interface in use
     public void Select(GameObject player)
     {
         PlayerID.instance.AddComponent<PoliceChiefSpecial>();
