@@ -60,6 +60,41 @@ public class LightAttack : MonoBehaviour, IStatList
         hits.Clear(); // re-enable damage to all hit enemy
     }
 
+    public void StartSkyLightAttack()
+    {
+        float halfAngle = angle / 2; // angle above and below the centerline of the attack cone
+        float deltaAngle = halfAngle / rayCount * 2; // change in degree between each ray
+
+        Vector2 orig = transform.position;
+        Vector2 mouseDiff = (mainCamera.ScreenToWorldPoint(Input.mousePosition) - transform.position); // center ray
+        float m_angle = Mathf.Atan2(mouseDiff.x, mouseDiff.y) + Mathf.PI;
+        Vector2 center = new Vector2(Mathf.Sign(mouseDiff.x), 0);
+        transform.localScale = new Vector2(center.x, 1);
+        if (m_angle > 3 * Mathf.PI / 4 && m_angle < 5 * Mathf.PI / 4)
+        {
+            center = new Vector2(0, 1);
+        }
+        if (m_angle > 7 * Mathf.PI / 4 && m_angle < 9 * Mathf.PI / 4)
+        {
+            center = new Vector2(0, -1);
+        }
+        center = center.normalized;
+
+        Debug.Log(center);
+        GetComponent<Rigidbody2D>().AddForce(center * 2000000, ForceMode2D.Impulse);
+
+#if DEBUG        
+        Debug.DrawLine(orig, center * range + orig, Color.red, 1.0f);
+#endif
+
+        for (int i = 1; i <= rayCount / 2; i++)
+        {
+            CastRay(orig, deltaAngle * i, center);
+            CastRay(orig, deltaAngle * -i, center);
+        }
+        hits.Clear(); // re-enable damage to all hit enemy
+    }
+
     /// <summary>
     /// Cast a ray in some deviation in angle from the centerRay
     /// Check for 
