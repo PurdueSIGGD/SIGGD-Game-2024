@@ -10,10 +10,16 @@ public class HeavyAttack : MonoBehaviour, IStatList
     [SerializeField]
     public StatManager.Stat[] statList;
 
-    [SerializeField] GameObject indicator;
-    //[SerializeField] int dmg;
-    [SerializeField] DamageContext heavyDamage;
-    [SerializeField] float offsetX;
+    [SerializeField] 
+    private GameObject indicator;
+
+    [SerializeField] 
+    private DamageContext heavyDamage;
+
+    [SerializeField] 
+    private float offsetX;
+
+
     private Camera mainCamera;
     private float timer;
     private StatManager stats;

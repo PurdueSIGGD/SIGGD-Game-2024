@@ -9,13 +9,13 @@ using UnityEngine.InputSystem;
 /// </summary>
 public class LightAttack : MonoBehaviour, IStatList
 {
-    [SerializeField] float range = 1.2f; // radius of the attack cone
-    [SerializeField] float angle = 80f; // angle of the attack cone
-    [SerializeField] DamageContext lightDamage;
-    [SerializeField] StatManager.Stat[] statList;
-    [SerializeField] float cooldown = 1; // Cooldown of player attack
-    [SerializeField] float rayCount = 6; // number of rays used to check for collision
-    [SerializeField] LayerMask attackMask;
+    [SerializeField] private float range = 1.2f; // radius of the attack cone
+    [SerializeField] private float angle = 80f; // angle of the attack cone
+    [SerializeField] private DamageContext lightDamage;
+    [SerializeField] private StatManager.Stat[] statList;
+    [SerializeField] private float cooldown = 1; // Cooldown of player attack
+    [SerializeField] private float rayCount = 6; // number of rays used to check for collision
+    [SerializeField] private LayerMask attackMask;
 
     private HashSet<int> hits; // stores which targets have already been hit in one attack
     private Camera mainCamera;
