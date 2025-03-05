@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2646517134290584728}
   - component: {fileID: 2030212979296746396}
   - component: {fileID: 5699505238202723438}
-  m_Layer: 22
+  m_Layer: 21
   m_Name: G.R.E.G Projectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47,15 +47,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24a6068743ef1304da96631080e5fc37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 1
+  speed: 30
   projectileDamage:
+    damage: 5
     damageStrength: 1
     damageTypes: 01000000
     actionID: 17
     actionTypes: 07000000
     extraContext: GREG Projectile
   range: 25
-  target: Player
 --- !u!61 &2646517134290584728
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -123,7 +123,7 @@ Rigidbody2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 4194304
+    m_Bits: 2097152
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0

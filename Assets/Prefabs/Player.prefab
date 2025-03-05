@@ -274,7 +274,6 @@ GameObject:
   - component: {fileID: 5199045754590476303}
   - component: {fileID: 3385906143252303106}
   - component: {fileID: 5963340162267139679}
-  - component: {fileID: 8726217195226940082}
   - component: {fileID: 748031234321096532}
   - component: {fileID: 8533305504645411692}
   - component: {fileID: 2518153858615184674}
@@ -287,6 +286,7 @@ GameObject:
   - component: {fileID: 591852133945516386}
   - component: {fileID: 2579748896217751675}
   - component: {fileID: 5792560551522244267}
+  - component: {fileID: 8726217195226940082}
   - component: {fileID: 5130688100074952564}
   - component: {fileID: 584762093013841786}
   m_Layer: 6
@@ -424,51 +424,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!61 &8726217195226940082
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8252758106455385166}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.2, y: -0.13}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 3.5310345, y: 2.7}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.7, y: 1.8}
-  m_EdgeRadius: 0
 --- !u!95 &748031234321096532
 Animator:
   serializedVersion: 5
@@ -515,7 +470,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6da0f2ae8388c2439a26c3c2d51616c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ghostLimit: 2
+  ghostMajorLimit: 2
+  range: 3
 --- !u!114 &3265562016652939407
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -546,15 +502,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Max Dash Distance
-    value: 10
+    value: 7
   - name: Dash Time
-    value: 0.25
+    value: 0.1
   - name: Dash Cooldown
     value: 1
   - name: Post Dash Momentum Fraction
-    value: 0.6
+    value: 0.5
   velocity: {x: 0, y: 0}
+  canDash: 1
   isDashing: 0
+  isSlowing: 0
 --- !u!114 &7635436938379705283
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -573,13 +531,9 @@ MonoBehaviour:
   - name: Max Running Speed
     value: 10
   - name: Running Accel.
-    value: 2
-  - name: Running Deaccel.
-    value: 0.75
-  - name: Airborne Accel.
     value: 1
-  - name: Airborne Deaccel.
-    value: 0.96
+  - name: Running Deaccel.
+    value: 0.9
   doubleJump: 1
 --- !u!114 &4910711782724507570
 MonoBehaviour:
@@ -595,7 +549,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Jump Force
-    value: 17
+    value: 20
 --- !u!114 &2427372984791243572
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -608,7 +562,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0d10fbf13e5ab846ab1d7e0e050404d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  forceStrength: -50
+  forceStrength: -100
 --- !u!114 &8547351280330222855
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -625,11 +579,11 @@ MonoBehaviour:
   - name: Heavy Damage
     value: 80
   - name: Accel. while Heavy
-    value: 0.5
+    value: 80
   - name: Deaccel. while Heavy
-    value: 0.8
+    value: 80
   - name: Max Speed while Heavy
-    value: 5
+    value: 80
   indicator: {fileID: 1398568264850401254}
   heavyDamage:
     damageStrength: 2
@@ -662,7 +616,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 412b0c6baef4e414b82ee7e3c28e34f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactRadius: 5
+  interactRadius: 0
 --- !u!114 &5792560551522244267
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -678,6 +632,51 @@ MonoBehaviour:
   statList:
   - name: Max Health
     value: 100
+--- !u!61 &8726217195226940082
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8252758106455385166}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.10998535, y: -0.15005708}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 3.5310345, y: 2.7}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.3225079, y: 2.065783}
+  m_EdgeRadius: 0
 --- !u!114 &5130688100074952564
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -692,17 +691,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Max Glide Speed
-    value: 8
+    value: 5
   - name: Glide Accel.
-    value: 1
+    value: 0.5
   - name: Glide Deaccel.
-    value: 0.99
+    value: 0.9999
   - name: Glide Fall Speed
     value: 2
-  - name: Glide Fall Upward Deaccel.
-    value: 0.93
-  - name: Glide Fall Downward Deaccel.
-    value: 0.8
 --- !u!114 &584762093013841786
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -723,14 +718,11 @@ MonoBehaviour:
     actionID: 0
     actionTypes: 
     extraContext: 
-  statList:
-  - name: Damage
-    value: 10
   cooldown: 1
   rayCount: 6
   attackMask:
     serializedVersion: 2
-    m_Bits: 2097152
+    m_Bits: 0
 --- !u!1001 &8503109854660319302
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -742,7 +734,7 @@ PrefabInstance:
     - target: {fileID: 2728778880471080501, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.155
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2728778880471080501, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
         type: 3}
@@ -789,25 +781,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2792638077557101623, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
-        type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2792638077557101623, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3052211537680228573, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
         type: 3}
       propertyPath: m_fontColor.b
-      value: 0.89411765
+      value: 0.89433956
       objectReference: {fileID: 0}
     - target: {fileID: 3052211537680228573, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
         type: 3}
       propertyPath: m_fontColor.g
-      value: 0.01479003
+      value: 0.87387997
       objectReference: {fileID: 0}
     - target: {fileID: 3052211537680228573, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
         type: 3}
@@ -817,7 +799,7 @@ PrefabInstance:
     - target: {fileID: 3052211537680228573, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
         type: 3}
       propertyPath: m_fontColor32.rgba
-      value: 4293133312
+      value: 4293189376
       objectReference: {fileID: 0}
     - target: {fileID: 3487495804464263818, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
         type: 3}

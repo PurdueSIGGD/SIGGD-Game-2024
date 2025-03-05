@@ -16,23 +16,16 @@ public class GunWithLegs : EnemyStateManager
     [SerializeField] protected Transform rangeOrig;
     [SerializeField] protected Transform projectile;
 
-    protected Vector3 target; // used to track player location for shooting
-
     // Check for kick collision and do damage
     protected void OnKickEvent()
     {
         GenerateDamageFrame(gunKick.position, gunKick.lossyScale.x, gunKick.lossyScale.y, kickDamage, gameObject);
     }
 
-    protected void OnShootEvent1()
-    {
-        target = player.position;
-    }
-
     // Instantiate projectile prefab and push self back
-    protected void OnShootEvent2()
+    protected void OnShootEvent()
     {
-        Instantiate(projectile, rangeOrig.position, transform.rotation).GetComponent<EnemyProjectile>().Init(target, 5.0f);
+        Instantiate(projectile, rangeOrig.position, transform.rotation);
 
         rb.AddForce(transform.right * -3, ForceMode2D.Impulse);
     }

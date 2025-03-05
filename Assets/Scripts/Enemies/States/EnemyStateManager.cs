@@ -13,7 +13,7 @@ public class EnemyStateManager : MonoBehaviour
     public IEnemyStates AggroState = new AggroState();
     public IEnemyStates BusyState = new BusyState();
     public IEnemyStates MoveState = new MoveState();
-    public StunState StunState = new StunState();
+    public StunState StunState;
 
     [HideInInspector] public StatManager stats; // Enemy stats component
     [HideInInspector] public ActionPool pool; // A pool of attacks to randomly choose from
@@ -30,20 +30,17 @@ public class EnemyStateManager : MonoBehaviour
         stats = GetComponent<StatManager>();
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
-        pool = GetComponent<ActionPool>(); 
+        pool = GetComponent<ActionPool>();
         
         SwitchState(IdleState);
+
+        // TODO remove
+        StunState = gameObject.AddComponent<StunState>();
     }
 
     protected void FixedUpdate()
     {
-        if (StunState.isStunned) {
-            StunState.UpdateState(this, Time.deltaTime);
-        }
-        else
-        {
-            curState.UpdateState(this);
-        }
+        curState.UpdateState(this);
     }
 
     /// <summary>
@@ -132,7 +129,7 @@ public class EnemyStateManager : MonoBehaviour
         Collider2D hit = Physics2D.OverlapBox(pos, new Vector2(width, height), 0f, LayerMask.GetMask("Player"));
         if (hit)
         {
-            PlayerID.instance.GetComponent<PlayerStateMachine>().SetStun(0.2f);
+            //hit.GetComponent<PlayerHealth>().TakeDamage(damage);
             hit.GetComponent<Health>().Damage(damageContext, attacker);
         }
     }
@@ -166,6 +163,7 @@ public class EnemyStateManager : MonoBehaviour
         Collider2D hit = Physics2D.OverlapCircle(pos, radius, LayerMask.GetMask("Player"));
         if (hit)
         {
+            //hit.GetComponent<PlayerHealth>().TakeDamage(damage);
             hit.GetComponent<Health>().Damage(damageContext, attacker);
         }
     }
