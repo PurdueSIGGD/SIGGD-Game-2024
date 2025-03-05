@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3207697602105300225}
   - component: {fileID: 303911244869561853}
   - component: {fileID: 5549844303208003201}
-  - component: {fileID: -5992306921938734020}
+  - component: {fileID: 1560373620958999328}
   m_Layer: 3
   m_Name: Transparent-Large
   m_TagString: Untagged
@@ -140,7 +140,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 3
-      m_TileSpriteIndex: 3
+      m_TileSpriteIndex: 4
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -163,10 +163,10 @@ Tilemap:
     m_Data: {fileID: 814620477, guid: 517ddb00fc83bbb47b6010428cb46976, type: 3}
   - m_RefCount: 0
     m_Data: {fileID: 0}
-  - m_RefCount: 1
-    m_Data: {fileID: 109285819, guid: 517ddb00fc83bbb47b6010428cb46976, type: 3}
   - m_RefCount: 0
     m_Data: {fileID: 0}
+  - m_RefCount: 1
+    m_Data: {fileID: 109285819, guid: 517ddb00fc83bbb47b6010428cb46976, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: 1674662441, guid: 517ddb00fc83bbb47b6010428cb46976, type: 3}
   m_TileMatrixArray:
@@ -384,7 +384,7 @@ CompositeCollider2D:
   m_OffsetDistance: 0.00005
   m_UseDelaunayMesh: 0
   m_CompositeGameObject: {fileID: 5086203054081820927}
---- !u!114 &-5992306921938734020
+--- !u!114 &1560373620958999328
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -393,10 +393,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 5086203054081820927}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c6b6c4298a43b24287a183d9e6c5da0, type: 3}
+  m_Script: {fileID: 11500000, guid: 91e9f1aaab6e21f4da97b6074dc16da1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0
-  startingPoint: 0
-  platform: {fileID: 0}
-  points: []

@@ -50,7 +50,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 0
-      m_TileSpriteIndex: 0
+      m_TileSpriteIndex: 1
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -95,10 +95,10 @@ Tilemap:
   - m_RefCount: 0
     m_Data: {fileID: 0}
   m_TileSpriteArray:
-  - m_RefCount: 1
-    m_Data: {fileID: 871124088, guid: 482ba94eb03423645bac06c71ebf6058, type: 3}
   - m_RefCount: 0
     m_Data: {fileID: 0}
+  - m_RefCount: 1
+    m_Data: {fileID: 871124088, guid: 482ba94eb03423645bac06c71ebf6058, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: 987912872, guid: 482ba94eb03423645bac06c71ebf6058, type: 3}
   - m_RefCount: 2
@@ -242,7 +242,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5086203054081820927}
-  m_BodyType: 2
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -330,7 +330,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c6b6c4298a43b24287a183d9e6c5da0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0
-  startingPoint: 0
-  platform: {fileID: 0}
-  points: []
+  speed: 5
