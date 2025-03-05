@@ -65,9 +65,9 @@ public class CrowMoveState : MoveState
             // avoid any division by zero
             distanceToPlayer = distanceToPlayer < 0.001f ? 0.1f : distanceToPlayer;
             float repellMagnitude = -1 / distanceToPlayer * repellFactor;
-            if (repellMagnitude > 1)
+            if (repellMagnitude < -2)
             {
-                repellMagnitude = 1;
+                repellMagnitude = -2;
             }
             rb.AddForce(repellMagnitude * directionToPlayer.normalized.x * Vector2.right, ForceMode2D.Impulse);
         }
