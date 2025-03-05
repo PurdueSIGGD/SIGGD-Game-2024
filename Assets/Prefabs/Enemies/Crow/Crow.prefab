@@ -200,7 +200,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: c4658aba8aaa57f46bdb7f1b59937590, type: 3}
   m_Color: {r: 0.16981131, g: 0.13296546, b: 0.13296546, a: 1}
-  m_FlipX: 1
+  m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 6.2, y: 8.1}
@@ -265,7 +265,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -301,7 +301,7 @@ MonoBehaviour:
   detectionRadius: 10
   crowDive: {fileID: 4386996987313725797}
   diveDamage:
-    damageStrength: 4
+    damageStrength: 0
     damageTypes: 00000000
     actionID: 17
     actionTypes: 
@@ -319,8 +319,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   statList:
-  - name: Speed
-    value: 10
+  - name: HEIGHT_OFFSET
+    value: 3
+  - name: FLIGHT_FORCE
+    value: 0.3
+  - name: CATCHUP_FACTOR
+    value: 0.01
+  - name: REPELL_FACTOR
+    value: 5
+  - name: MIN_REPELL
+    value: 7
+  - name: DIVE_WAIT
+    value: 0.5
+  - name: DIVE_SPEED
+    value: 16
 --- !u!114 &8661561925913866990
 MonoBehaviour:
   m_ObjectHideFlags: 0
