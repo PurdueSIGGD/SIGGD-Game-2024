@@ -23,7 +23,9 @@ public class Dash : MonoBehaviour, IStatList
     private Rigidbody2D rb;
 
     [SerializeField] private Vector2 velocity = Vector2.zero;
+    [SerializeField] private bool canDash = true;
     [SerializeField] private bool isDashing = false;
+    [SerializeField] private bool isSlowing = false;
 
     private StatManager stats;
 
@@ -61,19 +63,13 @@ public class Dash : MonoBehaviour, IStatList
         else
         {
             Vector3 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-            //Vector2 displacement = Vector2.ClampMagnitude((Vector2)mousePos - (Vector2)transform.position, stats.ComputeValue("Max Dash Distance"));
-
-            Vector2 displacement = ((Vector2)mousePos - (Vector2)transform.position).normalized * stats.ComputeValue("Max Dash Distance");
-            
-            /*
+            Vector2 displacement = Vector2.ClampMagnitude((Vector2)mousePos - (Vector2)transform.position, stats.ComputeValue("Max Dash Distance"));
+    
             RaycastHit2D hit = Physics2D.Raycast(transform.position, displacement.normalized, displacement.magnitude, LayerMask.GetMask("Ground"));
             if (hit.collider != null)
             {
                 displacement = hit.point - (Vector2)transform.position - displacement.normalized * rb.GetComponent<Collider2D>().bounds.extents.magnitude;
             }
-            displacement = (displacement.magnitude < 5f) ? displacement.normalized * 5f : displacement;
-            */
-
             this.velocity = displacement / stats.ComputeValue("Dash Time");
             StartCoroutine(DashCoroutine());
         }
@@ -84,7 +80,9 @@ public class Dash : MonoBehaviour, IStatList
         isDashing = true;
         PlayerStateMachine psm = this.GetComponent<PlayerStateMachine>();
         
+        Debug.Log("Starting wait: " + stats.ComputeValue("Dash Time"));
         yield return new WaitForSeconds(stats.ComputeValue("Dash Time"));
+        Debug.Log("Done waiting: " + stats.ComputeValue("Dash Time"));
 
         rb.velocity *= stats.ComputeValue("Post Dash Momentum Fraction");
         psm.EnableTrigger("OPT");

@@ -9,6 +9,8 @@ public class PartyPedestal : MonoBehaviour, IInteractable
 
     SpriteRenderer spriteRenderer;
 
+    bool interactable = false;
+
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
