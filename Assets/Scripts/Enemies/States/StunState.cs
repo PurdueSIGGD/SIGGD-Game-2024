@@ -7,40 +7,40 @@ using UnityEngine;
 /// after a set amount of time.
 /// Consider it as a state connected from "Any State".
 /// </summary>
-public class StunState : MonoBehaviour, IEnemyStates
+public class StunState : IEnemyStates
 {
-    float stunDuration = 0.5f; // default stun duration, used for hit-stuns
-
-    // TODO remove
-    private SpriteRenderer sr;
+    public bool isStunned;
+    protected float stunDuration;
 
     public void EnterState(EnemyStateManager enemy)
     {
-        StartCoroutine(StunCoroutine(enemy, stunDuration));
-
-        // TODO remove
-        sr = GetComponent<SpriteRenderer>();
-        sr.color = Color.red;
+        Debug.Log(enemy.name + " stunned! stun test");
+        isStunned = true;
+        this.stunDuration = 0.5f; // default stun duration, used for hit-stuns
     }
 
-    public void EnterState(EnemyStateManager enemy, float duration)
-    {
-        StartCoroutine(StunCoroutine(enemy, duration));
-
-        // TODO remove
-        sr = GetComponent<SpriteRenderer>();
-        sr.color = Color.red;
-    }
-
-    private IEnumerator StunCoroutine(EnemyStateManager enemy, float duration)
+    public void EnterState(EnemyStateManager enemy, float stunDuration)
     {
         Debug.Log(enemy.name + " stunned! stun test");
-        Rigidbody2D rb = enemy.GetComponent<Rigidbody2D>();
-        rb.velocity = Vector2.zero;
-        enemy.pool.idle.Play(enemy.animator);
-        yield return new WaitForSeconds(duration);
-        enemy.SwitchState(enemy.AggroState);
-        Debug.Log(enemy.name + " recovered! stun test");
+        isStunned = true;
+        this.stunDuration = stunDuration;
+    }
+    
+    public void UpdateState(EnemyStateManager enemy, float delta)
+    {
+        stunDuration -= delta;
+        if (stunDuration <= 0.0f)
+        {
+            isStunned = false;
+            enemy.SwitchState(enemy.AggroState);
+            Debug.Log(enemy.name + " recovered from stun!");
+        }
+        else
+        {
+            Rigidbody2D rb = enemy.GetComponent<Rigidbody2D>();
+            rb.velocity = Vector2.zero;
+            enemy.pool.idle.Play(enemy.animator);
+        }
     }
 
     public void UpdateState(EnemyStateManager enemy) { /* do nothing */ }

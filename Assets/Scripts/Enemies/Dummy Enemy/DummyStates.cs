@@ -18,8 +18,7 @@ public class DummyStates : EnemyStateManager, IDamageable
     //private int rangeDamage = 0; // Range Damage of Enemy --> For 'Shoot Action'
     private float damageReduction;
     private float health;
-    private StatManager stats;
-    public GameObject projectile;
+    public GameObject projectile; 
 
     void Start()
     {
