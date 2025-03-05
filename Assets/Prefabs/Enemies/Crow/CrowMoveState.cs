@@ -6,12 +6,6 @@ using UnityEngine.Rendering.Universal.Internal;
 
 public class CrowMoveState : MoveState
 {
-    float heightOffset = 3;
-    float flightForce = 0.7f;
-    float catchupFactor = 0.01f;
-
-    float repellFactor = 10f;
-    float minRepell = 5f;
 
     // Movement override to make bird keep birding when action is on cooldown
     public virtual void UpdateState(EnemyStateManager enemy)
@@ -34,6 +28,13 @@ public class CrowMoveState : MoveState
     protected override void Move(EnemyStateManager enemy)
     {
 
+        float heightOffset = enemy.stats.ComputeValue("HEIGHT_OFFSET"); // how far up target is from player
+        float flightForce = enemy.stats.ComputeValue("FLIGHT_FORCE"); // force of flight
+        float catchupFactor = enemy.stats.ComputeValue("CATCHUP_FACTOR"); // idk if this even does anything anymore
+
+        float repellFactor = enemy.stats.ComputeValue("REPELL_FACTOR"); // repelling force of player on crow
+        float minRepell = enemy.stats.ComputeValue("MIN_REPELL"); // minimum distance for repelling force to take effect
+
         if (player.position.x - enemy.transform.position.x < 0)
         {
             enemy.Flip(false);
@@ -43,7 +44,6 @@ public class CrowMoveState : MoveState
             enemy.Flip(true);
         }
 
-        float speed = enemy.stats.ComputeValue("Speed");
         Vector2 target = new Vector2(player.position.x, player.position.y) + Vector2.up * heightOffset;
         Vector2 current = new Vector2(enemy.gameObject.transform.position.x, enemy.gameObject.transform.position.y);
 

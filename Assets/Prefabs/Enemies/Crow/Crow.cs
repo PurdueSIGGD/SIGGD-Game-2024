@@ -29,8 +29,8 @@ public class Crow : EnemyStateManager
         print("DIVING AHHHHHH");
 
         // dive charge up wait time
-        float waitTime = 0.25f;
-        float diveSpeed = 20f;
+        float waitTime = stats.ComputeValue("DIVE_WAIT");
+        float diveSpeed = stats.ComputeValue("DIVE_SPEED");
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
 
         StartCoroutine(DiveWaitCoroutine(rb, diveSpeed, waitTime));
@@ -38,7 +38,11 @@ public class Crow : EnemyStateManager
 
     public void EndDive()
     {
+        Collider2D col = GetComponent<Collider2D>();
+        col.isTrigger = false;
+        transform.rotation = Quaternion.identity;
         diving = false;
+        StopAllCoroutines();
         BusyState.ExitState(this);
     }
 
@@ -92,10 +96,19 @@ public class Crow : EnemyStateManager
 
     IEnumerator DiveWaitCoroutine(Rigidbody2D rb, float diveSpeed, float waitTime)
     {
+
         print("WAIT............");
         rb.velocity = Vector2.zero;
         yield return new WaitForSeconds(waitTime);
         Vector2 directionToPlayer = new Vector2(player.position.x - transform.position.x, player.position.y - transform.position.y);
+        Vector2 directionX = (Vector2.right * directionToPlayer.x).normalized;
+        // rotate crow to face player
+        float angle = Vector2.Angle(Vector2.right * -1 * directionToPlayer.x, directionToPlayer.normalized);
+        angle = angle - 180;
+        int rot_flip = directionToPlayer.x > 0 ? 0 : 180;
+        // angle = directionToPlayer.x > 0 ? angle - 180 : 360 - angle;
+        transform.rotation = Quaternion.Euler(new Vector3(0, rot_flip, angle));
+
         // record whether the dive started on the left(<0) or right(>0) of the player
         StartCoroutine(DiveMoveCoroutine(rb, diveSpeed, directionToPlayer.x, directionToPlayer.y, directionToPlayer.normalized));
     }
@@ -104,6 +117,10 @@ public class Crow : EnemyStateManager
     {
         while (true)
         {
+            Collider2D col = GetComponent<Collider2D>();
+            col.isTrigger = true;
+
+            Debug.DrawLine(crowDive.position, crowDive.position + Vector3.right * 0.65f);
             print("GRAHHHHHHHH");
             if (GenerateDamageFrame(crowDive.position, 0.65f, diveDamage, gameObject))
             {
@@ -116,7 +133,7 @@ public class Crow : EnemyStateManager
                 break;
             }
 
-            Vector2 directionToPlayer = new Vector2(player.position.x - transform.position.x, player.position.y - transform.position.y);
+            Vector2 directionToPlayer = player.position - transform.position;
 
             // stop dive if crow flies through / past player
             // crow on opposite side of start side always is negative (-x * y)
@@ -127,10 +144,7 @@ public class Crow : EnemyStateManager
                 break;
             }
 
-            Vector2 newDir = (prevDir).normalized;
-            Vector2 newVelocity = diveSpeed * newDir;
-
-            prevDir = newDir;
+            Vector2 newVelocity = diveSpeed * prevDir;
             rb.velocity = newVelocity;
             yield return null;
         }
