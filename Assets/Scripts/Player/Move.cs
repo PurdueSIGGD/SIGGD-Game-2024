@@ -57,6 +57,11 @@ public class Move : MonoBehaviour, IStatList
         {
             Movement();
         }
+
+        if (stopMoving && animator.GetBool("p_grounded"))
+        {
+            GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x * 0.9f, GetComponent<Rigidbody2D>().velocity.y);
+        }
     }
 
     /// <summary>
