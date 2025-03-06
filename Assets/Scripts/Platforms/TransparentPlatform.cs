@@ -8,11 +8,6 @@ using UnityEngine.InputSystem;
 /// </summary>
 public class TransparentPlatform : MonoBehaviour
 {
-
-    private Collider2D _collider;
-    private bool _playerOnPlatform;
-    private GameObject player;
-    private Collider2D playercollider;
     private InputAction fallAction;
     private PlatformEffector2D effector;
     private IEnumerator coroutine;
@@ -20,15 +15,6 @@ public class TransparentPlatform : MonoBehaviour
 
     private void Start()
     {
-        //Gets player object
-        player = GameObject.FindGameObjectWithTag("Player");
-        if (player == null)
-        {
-            print("ERROR: no player tag in scene");
-        }
-
-        _collider = GetComponent<Collider2D>();
-        playercollider = player.GetComponent<Collider2D>();
         fallAction = GetComponent<PlayerInput>().actions.FindAction("Fall");
         effector = GetComponent<PlatformEffector2D>();
         coroutine = null;
@@ -55,8 +41,7 @@ public class TransparentPlatform : MonoBehaviour
         {
             yield return null;
         }
-        // _collider.enabled = true;
-        effector.surfaceArc = 180;
+        effector.surfaceArc = 170;
         coroutine = null;
     }
     
