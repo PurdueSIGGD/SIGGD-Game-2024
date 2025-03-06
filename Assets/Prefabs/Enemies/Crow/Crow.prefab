@@ -306,6 +306,9 @@ MonoBehaviour:
     actionID: 17
     actionTypes: 07000000
     extraContext: Crow Dive
+  damage: 2
+  poisonDebuff: {fileID: 7565183235025711588, guid: e8aa912d65ec96c43ac28ce27387314e,
+    type: 3}
 --- !u!114 &5543341696101581592
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -328,13 +331,13 @@ MonoBehaviour:
   - name: REPELL_FACTOR
     value: 5
   - name: MIN_REPELL
-    value: 6
+    value: 5
   - name: DIVE_WAIT
     value: 0.5
   - name: DIVE_SPEED
     value: 16
-  - name: Damage
-    value: 1
+  - name: RANDOM_FACTOR
+    value: 0.2
 --- !u!114 &8661561925913866990
 MonoBehaviour:
   m_ObjectHideFlags: 0

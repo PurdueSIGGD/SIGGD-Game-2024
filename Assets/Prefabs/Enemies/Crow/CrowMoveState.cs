@@ -34,6 +34,7 @@ public class CrowMoveState : MoveState
 
         float repellFactor = enemy.stats.ComputeValue("REPELL_FACTOR"); // repelling force of player on crow
         float minRepell = enemy.stats.ComputeValue("MIN_REPELL"); // minimum distance for repelling force to take effect
+        float randomFactor = enemy.stats.ComputeValue("RANDOM_FACTOR"); // force of random force
 
         if (player.position.x - enemy.transform.position.x < 0)
         {
@@ -71,5 +72,9 @@ public class CrowMoveState : MoveState
             }
             rb.AddForce(repellMagnitude * directionToPlayer.normalized.x * Vector2.right, ForceMode2D.Impulse);
         }
+
+        // RANDOM MOVEMENT!!!
+        Vector2 random_vector = new Vector2(Random.value * 2 - 1, Random.value * 2 - 1);
+        rb.AddForce(randomFactor * random_vector.normalized, ForceMode2D.Impulse);
     }
 }
