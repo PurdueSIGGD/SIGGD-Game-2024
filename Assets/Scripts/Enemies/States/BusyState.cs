@@ -7,20 +7,20 @@ using UnityEngine;
 /// <summary>
 /// Enemy behavior when executing attack animations
 /// </summary>
-public class BusyState : EnemyStates
+public class BusyState : IEnemyStates
 {
     public Animator animator;
 
-    public override void EnterState(EnemyStateManager enemy)
+    public void EnterState(EnemyStateManager enemy)
     {
         animator = enemy.animator;
     }
 
     // We want the enemy to do nothing for the duration of the animation
-    public override void UpdateState(EnemyStateManager enemy) { }
+    public void UpdateState(EnemyStateManager enemy) { }
 
     // Once the animation is finished, transition to the next state
-    public override void ExitState(EnemyStateManager enemy)
+    public void ExitState(EnemyStateManager enemy)
     {
         if (enemy.HasLineOfSight(true))
         {

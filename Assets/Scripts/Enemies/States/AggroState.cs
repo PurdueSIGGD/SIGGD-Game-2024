@@ -6,18 +6,18 @@ using UnityEngine;
 /// <summary>
 /// Enemy behavior when aggroing on player
 /// </summary>
-public class AggroState : EnemyStates
+public class AggroState : IEnemyStates
 {
     private Rigidbody2D rb;
 
-    public override void EnterState(EnemyStateManager enemy)
+    public void EnterState(EnemyStateManager enemy)
     {
         rb = enemy.GetComponent<Rigidbody2D>();
         rb.velocity = new Vector2(0, rb.velocity.y); // Make sure Enemy stops moving
         enemy.pool.idle.Play(enemy.animator); // Play the idle animation when in between attacks
     }
 
-    public override void UpdateState(EnemyStateManager enemy)
+    public void UpdateState(EnemyStateManager enemy)
     {
         if (!enemy.HasLineOfSight(true)) // If line of sight is lost, return to IdleState
         {

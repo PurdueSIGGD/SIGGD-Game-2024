@@ -7,7 +7,7 @@ using UnityEngine;
 /// Special action for the idol ghost, teleports the player towards mouse position
 /// and leaves a clone that player may swap position with.
 /// </summary>
-public class IdolSpecial : MonoBehaviour, IParty, ISelectable
+public class IdolSpecial : MonoBehaviour, ISelectable
 {
     bool possessing;
     PlayerStateMachine psm;
@@ -24,14 +24,6 @@ public class IdolSpecial : MonoBehaviour, IParty, ISelectable
     private GameObject idolClone; // ref to clone prefab
     private GameObject activeClone; // ref to currently active clone, if exists
 
-    public void EnterParty(GameObject player)
-    {
-        return;
-    }
-    public void ExitParty(GameObject player)
-    {
-        return;
-    }
     public void Select(GameObject player)
     {
         possessing = true;

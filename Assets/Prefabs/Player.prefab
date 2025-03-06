@@ -456,7 +456,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.10998535, y: -0.15005708}
+  m_Offset: {x: 0.2, y: -0.13}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -467,7 +467,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.3225079, y: 2.065783}
+  m_Size: {x: 0.7, y: 1.8}
   m_EdgeRadius: 0
 --- !u!95 &748031234321096532
 Animator:
@@ -546,13 +546,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Max Dash Distance
-    value: 7
+    value: 10
   - name: Dash Time
-    value: 0.1
+    value: 0.25
   - name: Dash Cooldown
     value: 1
   - name: Post Dash Momentum Fraction
-    value: 0.5
+    value: 0.6
   velocity: {x: 0, y: 0}
   isDashing: 0
 --- !u!114 &7635436938379705283
@@ -573,9 +573,13 @@ MonoBehaviour:
   - name: Max Running Speed
     value: 10
   - name: Running Accel.
-    value: 1
+    value: 2
   - name: Running Deaccel.
-    value: 0.9
+    value: 0.75
+  - name: Airborne Accel.
+    value: 1
+  - name: Airborne Deaccel.
+    value: 0.96
   doubleJump: 1
 --- !u!114 &4910711782724507570
 MonoBehaviour:
@@ -591,7 +595,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Jump Force
-    value: 20
+    value: 17
 --- !u!114 &2427372984791243572
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -604,7 +608,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0d10fbf13e5ab846ab1d7e0e050404d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  forceStrength: -200
+  forceStrength: -50
 --- !u!114 &8547351280330222855
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -688,13 +692,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Max Glide Speed
-    value: 5
+    value: 8
   - name: Glide Accel.
-    value: 0.5
+    value: 1
   - name: Glide Deaccel.
-    value: 0.9999
+    value: 0.99
   - name: Glide Fall Speed
     value: 2
+  - name: Glide Fall Upward Deaccel.
+    value: 0.93
+  - name: Glide Fall Downward Deaccel.
+    value: 0.8
 --- !u!114 &584762093013841786
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -715,6 +723,9 @@ MonoBehaviour:
     actionID: 0
     actionTypes: 
     extraContext: 
+  statList:
+  - name: Damage
+    value: 10
   cooldown: 1
   rayCount: 6
   attackMask:
@@ -731,7 +742,7 @@ PrefabInstance:
     - target: {fileID: 2728778880471080501, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 0.155
       objectReference: {fileID: 0}
     - target: {fileID: 2728778880471080501, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
         type: 3}
@@ -778,15 +789,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2792638077557101623, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2792638077557101623, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3052211537680228573, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
         type: 3}
       propertyPath: m_fontColor.b
-      value: 0.89433956
+      value: 0.89411765
       objectReference: {fileID: 0}
     - target: {fileID: 3052211537680228573, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
         type: 3}
       propertyPath: m_fontColor.g
-      value: 0.87387997
+      value: 0.01479003
       objectReference: {fileID: 0}
     - target: {fileID: 3052211537680228573, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
         type: 3}
@@ -796,7 +817,7 @@ PrefabInstance:
     - target: {fileID: 3052211537680228573, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
         type: 3}
       propertyPath: m_fontColor32.rgba
-      value: 4293189376
+      value: 4293133312
       objectReference: {fileID: 0}
     - target: {fileID: 3487495804464263818, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
         type: 3}
