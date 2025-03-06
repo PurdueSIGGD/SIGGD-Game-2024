@@ -13,7 +13,7 @@ public class PartyEditor : MonoBehaviour
     public List<GhostMenuItem> menuItems = new();
     public GhostMenuItem selectedMenuItem;
 
-    void Start()
+    void Awake()
     {
         partyManager = FindObjectOfType<PartyManager>();
         identities = FindObjectsOfType<GhostIdentity>();
