@@ -58,7 +58,7 @@ public class PartyEditor : MonoBehaviour
 
     public void UIAdd()
     {
-        if (selectedMenuItem.identity.IsInParty()) return;
+        if (!selectedMenuItem || selectedMenuItem.identity.IsInParty()) return;
 
         partyManager.AddMajorGhost(selectedMenuItem.identity);
         selectedMenuItem.transform.SetParent(partyBar.transform);
@@ -66,7 +66,7 @@ public class PartyEditor : MonoBehaviour
 
     public void UIRemove()
     {
-        if (!selectedMenuItem.identity.IsInParty()) return;
+        if (!selectedMenuItem || !selectedMenuItem.identity.IsInParty()) return;
 
         partyManager.RemoveMajorGhost(selectedMenuItem.identity);
         selectedMenuItem.transform.SetParent(bankBar.transform);

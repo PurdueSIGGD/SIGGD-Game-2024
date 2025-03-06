@@ -109,6 +109,7 @@ public class Health : MonoBehaviour, IDamageable, IStatList
         gameObject.SetActive(false);
 
         SceneManager.LoadScene("HubWorld");
+        Time.timeScale = 1;
     }
 
     public StatManager.Stat[] GetStatList()
