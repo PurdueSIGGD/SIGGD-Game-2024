@@ -15,7 +15,6 @@ public class Move : MonoBehaviour, IStatList
     private InputAction moveInput;
     private InputAction playerActionDown;
     private Rigidbody2D rb;
-    public Boolean doubleJump = true;
 
     private StatManager stats;
     private Animator animator;
