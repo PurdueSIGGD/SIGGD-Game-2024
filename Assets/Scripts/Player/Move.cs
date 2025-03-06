@@ -56,6 +56,11 @@ public class Move : MonoBehaviour, IStatList
         {
             Movement();
         }
+
+        if (stopMoving && animator.GetBool("p_grounded"))
+        {
+            GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x * 0.9f, GetComponent<Rigidbody2D>().velocity.y);
+        }
     }
 
     /// <summary>
@@ -90,13 +95,20 @@ public class Move : MonoBehaviour, IStatList
         // keep updating y velocity
         newVel.y = rb.velocity.y;
 
+        if (!stopTurning && Mathf.Abs(newVel.x) > 0.1f)
+        {
+            if (newVel.x < 0f)
+            {
+                transform.rotation = Quaternion.Euler(0, 180, 0);
+            }
+            else if (newVel.x > 0f)
+            {
+                transform.rotation = Quaternion.Euler(0, 0, 0);
+            }
+        }
+
         // update rigidbody velocity to new velocity
         rb.velocity = newVel;
-
-        if (!stopTurning)
-        {
-            gameObject.transform.localScale = new Vector3(Mathf.Sign(rb.velocity.x) * 1, 1, 1);
-        }
     }
 
     public void StartJump()
