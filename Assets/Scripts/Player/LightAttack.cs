@@ -46,7 +46,16 @@ public class LightAttack : MonoBehaviour, IStatList
         Vector2 mouseDiff = (mainCamera.ScreenToWorldPoint(Input.mousePosition) - transform.position); // center ray
         float m_angle = Mathf.Atan2(mouseDiff.x, mouseDiff.y) + Mathf.PI;
         Vector2 center = new Vector2(Mathf.Sign(mouseDiff.x), 0);
-        transform.localScale = new Vector2(center.x, 1);
+        
+        if (center.x == 1) // update player facing direction
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
+        else if (center.x == -1)
+        {
+            transform.rotation = Quaternion.Euler(0, 180, 0);
+        }
+
         if (m_angle > 3 * Mathf.PI / 4 && m_angle < 5 * Mathf.PI / 4)
         {
             center = new Vector2(0, 1);
