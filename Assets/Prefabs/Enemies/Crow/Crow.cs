@@ -11,11 +11,14 @@ public class Crow : EnemyStateManager
     [Header("Dive")]
     [SerializeField] protected Transform crowDive;
     [SerializeField] protected DamageContext diveDamage;
+    [SerializeField] protected int damage;
+    [SerializeField] GameObject poisonDebuff;
     protected bool diving = false;
 
     void Start()
     {
         MoveState = new CrowMoveState();
+        diveDamage.damage = damage;
     }
 
     // Check for dive collision and do damage
@@ -125,11 +128,14 @@ public class Crow : EnemyStateManager
             if (GenerateDamageFrame(crowDive.position, 0.65f, diveDamage, gameObject))
             {
                 print("WE HIT EM LETS GOOOOOO");
+                Instantiate(poisonDebuff, player.transform);
+                EndDive();
                 break;
             }
             if (Physics2D.OverlapCircle(crowDive.position, 0.65f, LayerMask.GetMask("Ground")))
             {
                 print("CRASHED INTO DA GROUND");
+                EndDive();
                 break;
             }
 
