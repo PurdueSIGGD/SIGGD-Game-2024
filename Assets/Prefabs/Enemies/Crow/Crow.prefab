@@ -293,7 +293,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 668ac5b5b506ffb47960eb58de6bddad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StunState: {fileID: 0}
   stats: {fileID: 0}
   pool: {fileID: 0}
   animator: {fileID: 0}
@@ -352,7 +351,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Max Health
-    value: 10
+    value: 75
 --- !u!95 &8340500370151633248
 Animator:
   serializedVersion: 5
@@ -391,7 +390,7 @@ MonoBehaviour:
     priority: 5
     ready: 0
     hitBox: {fileID: 219341358132932125}
-    coolDown: 8
+    coolDown: 6
     animationClip: {fileID: 7400000, guid: f6b75464b2c0acc41a2a4f3e9c171ed4, type: 2}
   move:
     name: 
