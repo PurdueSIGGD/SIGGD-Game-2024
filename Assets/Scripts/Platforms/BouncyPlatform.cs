@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// Code for a trampoline platform that launches the player upon landing
 /// </summary>
-public class BouncyPlatformScript : MonoBehaviour
+public class BouncyPlatform : MonoBehaviour
 {
     // Instantiates player and player's rigidbody component
     private GameObject player;
