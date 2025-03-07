@@ -8,77 +8,23 @@ using UnityEngine.InputSystem;
 public class PartyManager : MonoBehaviour
 {
     [SerializeField]
-    private int ghostMajorLimit; // Amount of major ghosts player can wield at one time
+    private int ghostLimit; // maximum number of ghosts player can wield at one time
 
-    [SerializeField]
-    private float range; // Temporary variable to store find ghost range
-
-    // Major Ghosts
-    private List<GhostIdentity> ghostMajorList = new List<GhostIdentity>(); // List of each major ghost
+    private List<GhostIdentity> ghostsInParty = new List<GhostIdentity>(); // list of each ghost in party
 
     /// <summary>
-    /// Temporary function to find and add ghosts nearby to party if space available. Max 1 ghost per function call
-    /// </summary>
-    public void OnFindGhosts()
-    {
-        if (ghostMajorList.Count < ghostMajorLimit)
-        {
-            Collider2D[] colliders = Physics2D.OverlapCircleAll(this.transform.position, range, LayerMask.GetMask("Ghosts"));
-            foreach (Collider2D collider in colliders)
-            {
-                GhostIdentity identity = collider.gameObject.GetComponent<GhostIdentity>();
-                if (!identity.IsInParty())
-                {
-                    AddMajorGhost(identity);
-                    break;
-                }
-            }
-        }
-    }
-
-    /// <summary>
-    /// Temporary function to remove the least recent ghost added to party
-    /// </summary>
-    public void OnRemoveGhosts()
-    {
-        if (ghostMajorList.Count >= 1)
-        {
-            RemoveMajorGhost(0);
-        }
-    }
-
-    /// <summary>
-    /// Adds onto player's major ghost list based off index
+    /// Adds ghost to end of player's ghost list
     /// </summary>
     /// <param ghostName="ghost"></param>
-    public void AddMajorGhost(GhostIdentity ghost)
+    public void AddGhostToParty(GhostIdentity ghost)
     {
         if (!ghost.IsInParty())
         {
-            ghostMajorList.Add(ghost);
-            ghost.SetInParty(true);
-            //ghost.gameObject.GetComponent<SpriteRenderer>().color = inPartyColor;
-            Debug.Log("Major ghosts has been updated. It is now: " + ghostMajorList.Count + "/" + ghostMajorLimit);
+            ghostsInParty.Add(ghost);
+            ghost.SetPartyStatus(true);
         }
     }
 
-    /// <summary>
-    /// Removes from player's major ghost list based off index
-    /// </summary>
-    /// <param ghostName="ghostIndex"></param>
-    public void RemoveMajorGhost(int ghostIndex)
-    {
-        if (ghostMajorList[ghostIndex].IsInParty())
-        {
-            Debug.Log("Removed " + ghostMajorList[ghostIndex].GetName() + ". Exiting party customization...");
-
-            ghostMajorList[ghostIndex].SetInParty(false);
-            //ghostMajorList[ghostIndex].gameObject.GetComponent<SpriteRenderer>().color = notInPartyColor;
-            ghostMajorList.RemoveAt(ghostIndex);
-
-            //toggleParty = false;
-        }
-    }
     /// <summary>
     /// Called whenever the hotbar action is triggered by player input,
     /// ignoring `0` value inputs
@@ -102,40 +48,33 @@ public class PartyManager : MonoBehaviour
         int index = inputNum - 2;
 
         // handle bad input
-        if (index > ghostMajorList.Count)
+        if (index > ghostsInParty.Count)
         {
-            print("Input " + index + " out of range of list length " + ghostMajorList.Count + ".");
             return;
         }
 
         // deselect all ghosts in the list
-        for (int i = 0; i < ghostMajorList.Count; i++)
+        for (int i = 0; i < ghostsInParty.Count; i++)
         {
-            ghostMajorList[i].SetPossessing(false);
+            ghostsInParty[i].SetSelected(false);
         }
 
         // do not possess if player selected base kit
         if (index == -1)
         {
-            print("Posessed by nobody and nospirit.");
             return;
         }
 
-        ghostMajorList[index].SetPossessing(true);
-        print("Possessed by... " + ghostMajorList[index].GetName() + "!!!");
+        ghostsInParty[index].SetSelected(true);
     }
 
     /// <summary>
     /// Removes from player's major ghost list based off reference
     /// </summary>
     /// <param ghostName="ghostIndex"></param>
-    public void RemoveMajorGhost(GhostIdentity ghost)
+    public void RemoveGhostFromParty(GhostIdentity ghost)
     {
-        int index = ghostMajorList.IndexOf(ghost);
-        if (index != -1)
-        {
-            RemoveMajorGhost(index);
-        }
+        ghostsInParty.Remove(ghost);
     }
 
     /// <summary>
@@ -144,21 +83,6 @@ public class PartyManager : MonoBehaviour
     /// <returns></returns>
     public List<GhostIdentity> GetGhostMajorList()
     {
-        return ghostMajorList;
-    }
-    /// <summary>
-    /// returns the currently possessing ghost identity script
-    /// </summary>
-    /// <returns></returns>
-    public GhostIdentity GetCurrentGhost()
-    {
-        for (int i = 0; i < ghostMajorList.Count; i++)
-        {
-            if (ghostMajorList[i].IsPossessing())
-            {
-                return ghostMajorList[i];
-            }
-        }
-        return null;
+        return ghostsInParty;
     }
 }
