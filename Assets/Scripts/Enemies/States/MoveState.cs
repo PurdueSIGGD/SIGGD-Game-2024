@@ -34,7 +34,7 @@ public class MoveState : IEnemyStates
     }
 
     // Moves the Enemy body towards the player
-    protected void Move(EnemyStateManager enemy)
+    protected virtual void Move(EnemyStateManager enemy)
     {
         if (player.position.x - enemy.transform.position.x < 0)
         {
