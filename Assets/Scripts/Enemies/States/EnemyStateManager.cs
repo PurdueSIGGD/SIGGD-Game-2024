@@ -13,7 +13,7 @@ public class EnemyStateManager : MonoBehaviour
     public IEnemyStates AggroState = new AggroState();
     public IEnemyStates BusyState = new BusyState();
     public IEnemyStates MoveState = new MoveState();
-    public StunState StunState;
+    public StunState StunState = new StunState();
 
     [HideInInspector] public StatManager stats; // Enemy stats component
     [HideInInspector] public ActionPool pool; // A pool of attacks to randomly choose from
@@ -23,7 +23,7 @@ public class EnemyStateManager : MonoBehaviour
     protected IEnemyStates curState; // Enemy's current State, defaults to idle
     protected Transform player;
     protected Rigidbody2D rb;
-    
+
     protected virtual void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
@@ -31,16 +31,20 @@ public class EnemyStateManager : MonoBehaviour
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         pool = GetComponent<ActionPool>();
-        
-        SwitchState(IdleState);
 
-        // TODO remove
-        StunState = gameObject.AddComponent<StunState>();
+        SwitchState(IdleState);
     }
 
     protected void FixedUpdate()
     {
-        curState.UpdateState(this);
+        if (StunState.isStunned)
+        {
+            StunState.UpdateState(this, Time.deltaTime);
+        }
+        else
+        {
+            curState.UpdateState(this);
+        }
     }
 
     /// <summary>
@@ -58,7 +62,7 @@ public class EnemyStateManager : MonoBehaviour
     /// </summary>
     /// <param name="tracking"> If true, will actively track player for extended range </param>
     /// <returns> If there is a Player in Enemy line of sight </returns>
-    public bool HasLineOfSight(bool tracking)
+    public virtual bool HasLineOfSight(bool tracking)
     {
         Vector2 dir = transform.TransformDirection(Vector2.right);
         float maxDistance = aggroRange;
@@ -112,12 +116,12 @@ public class EnemyStateManager : MonoBehaviour
     /// <param name="pos">Position of the trigger box</param>
     /// <para name="width">X value of the lossyscale of the trigger box</para>
     /// <para name="height">Y value of the lossyscale of the trigger box</para>
-    /// <param name="damage">Points of damage to deal</param>
-    protected void GenerateDamageFrame(Vector2 pos, float width, float height, DamageContext damageContext, GameObject attacker /*float damage*/)
+    /// <param name="damageContext">Instance of damage context</param>
+    protected bool GenerateDamageFrame(Vector2 pos, float width, float height, DamageContext damageContext, GameObject attacker /*float damage*/)
     {
 #if DEBUG // Draw the damage box in the editor
-        float hWidth = width/2;
-        float hHeight = height/2;
+        float hWidth = width / 2;
+        float hHeight = height / 2;
         float duration = 0.1f;
 
         Debug.DrawLine(new Vector2(pos.x - hWidth, pos.y + hHeight), new Vector2(pos.x + hWidth, pos.y + hHeight), Color.white, duration); // draw top line
@@ -129,9 +133,10 @@ public class EnemyStateManager : MonoBehaviour
         Collider2D hit = Physics2D.OverlapBox(pos, new Vector2(width, height), 0f, LayerMask.GetMask("Player"));
         if (hit)
         {
-            //hit.GetComponent<PlayerHealth>().TakeDamage(damage);
+            PlayerID.instance.GetComponent<PlayerStateMachine>().SetStun(0.2f);
             hit.GetComponent<Health>().Damage(damageContext, attacker);
         }
+        return hit;
     }
 
     /// <summary>
@@ -139,8 +144,8 @@ public class EnemyStateManager : MonoBehaviour
     /// </summary>
     /// <param name="pos">Position of the trigger box</param>
     /// <param name="radius">X value of the lossyscale of the trigger circle</param>
-    /// <param name="damage">Points of damage to deal</param>
-    protected void GenerateDamageFrame(Vector2 pos, float radius, DamageContext damageContext, GameObject attacker /*float damage*/)
+    /// <param name="damageContext">Instance of damage context</param>
+    protected bool GenerateDamageFrame(Vector2 pos, float radius, DamageContext damageContext, GameObject attacker /*float damage*/)
     {
 #if DEBUG // Draw the damage circle in the editor
         int segment = 180;
@@ -163,9 +168,10 @@ public class EnemyStateManager : MonoBehaviour
         Collider2D hit = Physics2D.OverlapCircle(pos, radius, LayerMask.GetMask("Player"));
         if (hit)
         {
-            //hit.GetComponent<PlayerHealth>().TakeDamage(damage);
+            PlayerID.instance.GetComponent<PlayerStateMachine>().SetStun(0.2f);
             hit.GetComponent<Health>().Damage(damageContext, attacker);
         }
+        return hit;
     }
 
     /// <summary>
