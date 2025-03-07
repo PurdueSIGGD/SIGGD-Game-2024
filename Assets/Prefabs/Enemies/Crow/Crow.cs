@@ -41,8 +41,6 @@ public class Crow : EnemyStateManager
 
     public void EndDive()
     {
-        Collider2D col = GetComponent<Collider2D>();
-        col.isTrigger = false;
         transform.rotation = Quaternion.identity;
         diving = false;
         StopAllCoroutines();
@@ -120,9 +118,6 @@ public class Crow : EnemyStateManager
     {
         while (true)
         {
-            Collider2D col = GetComponent<Collider2D>();
-            col.isTrigger = true;
-
             Debug.DrawLine(crowDive.position, crowDive.position + Vector3.right * 0.65f);
             print("GRAHHHHHHHH");
             if (GenerateDamageFrame(crowDive.position, 0.65f, diveDamage, gameObject))

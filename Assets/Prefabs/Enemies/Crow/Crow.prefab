@@ -129,9 +129,9 @@ GameObject:
   - component: {fileID: 5090651685950925802}
   - component: {fileID: 7145772130016075742}
   - component: {fileID: 5543341696101581592}
-  - component: {fileID: 8661561925913866990}
   - component: {fileID: 7013784201154695011}
   - component: {fileID: 8340500370151633248}
+  - component: {fileID: 5307358471673918345}
   m_Layer: 21
   m_Name: Crow
   m_TagString: Enemy
@@ -338,39 +338,6 @@ MonoBehaviour:
     value: 16
   - name: RANDOM_FACTOR
     value: 0.2
---- !u!114 &8661561925913866990
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6632946035724622827}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 872d96247465fd541bea93e36537b26f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  actions:
-  - name: Dive
-    priority: 5
-    ready: 0
-    hitBox: {fileID: 219341358132932125}
-    coolDown: 8
-    animationClip: {fileID: 7400000, guid: f6b75464b2c0acc41a2a4f3e9c171ed4, type: 2}
-  move:
-    name: 
-    priority: 0
-    ready: 0
-    hitBox: {fileID: 0}
-    coolDown: 0
-    animationClip: {fileID: 7400000, guid: 50188f8587fb1d944acdb9fdcc0b1425, type: 2}
-  idle:
-    name: 
-    priority: 0
-    ready: 0
-    hitBox: {fileID: 0}
-    coolDown: 0
-    animationClip: {fileID: 7400000, guid: ff1895b71cbdcc8408401395813d5733, type: 2}
 --- !u!114 &7013784201154695011
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -407,6 +374,39 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5307358471673918345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6632946035724622827}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20d794b3ea5a6da42ac5b8feade20f68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actions:
+  - name: Dive
+    priority: 5
+    ready: 0
+    hitBox: {fileID: 219341358132932125}
+    coolDown: 8
+    animationClip: {fileID: 7400000, guid: f6b75464b2c0acc41a2a4f3e9c171ed4, type: 2}
+  move:
+    name: 
+    priority: 0
+    ready: 0
+    hitBox: {fileID: 0}
+    coolDown: 0
+    animationClip: {fileID: 7400000, guid: a0c26b3b1b38dd3488d4038f7ed235a6, type: 2}
+  idle:
+    name: 
+    priority: 0
+    ready: 0
+    hitBox: {fileID: 0}
+    coolDown: 0
+    animationClip: {fileID: 7400000, guid: e14c119fcb507e8469f394f79fd2757a, type: 2}
 --- !u!1001 &6956540531030817948
 PrefabInstance:
   m_ObjectHideFlags: 0
