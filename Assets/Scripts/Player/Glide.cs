@@ -23,28 +23,7 @@ public class Glide : MonoBehaviour, IStatList
     {
         if (isFalling)
         {
-            Vector2 newVel = new Vector2(rb.velocity.x, 0f);
-            float glideFallSpeed = -1 * stats.ComputeValue("Glide Fall Speed");
-
-            //Glide deceleration while moving up
-            if (rb.velocity.y > glideFallSpeed)
-            {
-                float deaccel = Mathf.Clamp(rb.velocity.y * (1 - stats.ComputeValue("Glide Fall Upward Deaccel.")), 0.2f, 100f);
-                newVel.y = Mathf.Max(rb.velocity.y - deaccel, glideFallSpeed);
-            }
-            //Glide deceleration while moving down
-            else if (rb.velocity.y < glideFallSpeed)
-            {
-                float deaccel = Mathf.Clamp(rb.velocity.y * (1 - stats.ComputeValue("Glide Fall Downward Deaccel.")), -100f, -0.2f);
-                newVel.y = Mathf.Min(rb.velocity.y - deaccel, glideFallSpeed);
-            }
-            //Maintain standard glide speed
-            else
-            {
-                newVel.y = glideFallSpeed;
-            }
-
-            rb.velocity = newVel;
+            rb.velocity = new Vector2(rb.velocity.x, -1 * stats.ComputeValue("Glide Fall Speed"));
         }
     }
 

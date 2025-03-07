@@ -9,9 +9,7 @@ public class ConversationTemp : ScriptableObject
     [System.Serializable]
     public class DialogueLine
     {
-        public CharacterSO character;
-        public string expression;
-        [TextArea (5,3)]
+        public string speakerName;
         public string line;
     }
 

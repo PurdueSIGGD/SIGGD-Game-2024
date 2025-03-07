@@ -6,6 +6,6 @@ public class PedestalTest : MonoBehaviour
 
     void OnInteract()
     {
-        //pedestal.Interact();
+        pedestal.Interact();
     }
 }

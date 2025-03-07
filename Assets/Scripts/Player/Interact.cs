@@ -4,12 +4,20 @@ using UnityEngine;
 
 public class Interact : MonoBehaviour
 {
-    [SerializeField] 
-    float interactRadius; // player can only interact with game objects within this radius
+    [SerializeField] float interactRadius;
 
-    /// <summary>
-    /// Input Function - called when player presses button to interact with closest object
-    /// </summary>
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+
     public void OnInteract()
     {
         Debug.Log("Interact Input Sensed");

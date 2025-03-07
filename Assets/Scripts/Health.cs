@@ -8,10 +8,10 @@ public class Health : MonoBehaviour, IDamageable, IStatList
     public StatManager.Stat[] statList;
 
     [NonSerialized] public float currentHealth; // Current health of player
+    [NonSerialized] public float currentStun; // Current stun meter
     [NonSerialized] public bool isAlive = true; // Checks if player is still alive
     private StatManager stats;
 
-    public delegate void DamageFilters(DamageContext context);
 
 
     // Start is called before the first frame update
@@ -19,6 +19,7 @@ public class Health : MonoBehaviour, IDamageable, IStatList
     {
         stats = GetComponent<StatManager>();
         currentHealth = stats.ComputeValue("Max Health");
+        currentStun = stats.ComputeValue("Stun Threshold");
     }
 
 
@@ -30,11 +31,6 @@ public class Health : MonoBehaviour, IDamageable, IStatList
         context.trueDamage = context.damage;
         context.damage = Mathf.Clamp(context.damage, 0f, currentHealth);
         context.invokingScript = this;
-
-        foreach (GameplayEventHolder.DamageFilterEvent filter in GameplayEventHolder.OnDamageFilter)
-        {
-            filter(context);
-        }
 
         // Reduce current health
         currentHealth -= context.damage;
@@ -63,11 +59,6 @@ public class Health : MonoBehaviour, IDamageable, IStatList
         context.healing = Mathf.Clamp(context.healing, 0f, missingHealth);
         context.invokingScript = this;
 
-        foreach (GameplayEventHolder.HealingFilterEvent filter in GameplayEventHolder.OnHealingFilter)
-        {
-            filter(context);
-        }
-
         // Increase current health
         currentHealth += context.healing;
 
@@ -80,11 +71,6 @@ public class Health : MonoBehaviour, IDamageable, IStatList
     public void Kill(DamageContext context)
     {
         isAlive = false;
-
-        foreach (GameplayEventHolder.DeathFilterEvent filter in GameplayEventHolder.OnDeathFilter)
-        {
-            filter(context);
-        }
 
         //Trigger Events
         GameplayEventHolder.OnDeath?.Invoke(context);

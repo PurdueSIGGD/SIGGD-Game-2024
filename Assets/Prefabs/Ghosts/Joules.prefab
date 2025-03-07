@@ -12,13 +12,12 @@ GameObject:
   - component: {fileID: 7432033330267407823}
   - component: {fileID: 493112488793715324}
   - component: {fileID: 518060757831962552}
-  - component: {fileID: 7607564647396193336}
   - component: {fileID: 4831227066257484011}
   - component: {fileID: 2902764879451139279}
-  - component: {fileID: 2935516607787880725}
+  - component: {fileID: 3353147799457559522}
   m_Layer: 17
-  m_Name: Boo
-  m_TagString: Ghost
+  m_Name: Joules
+  m_TagString: GhostMajor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -56,7 +55,7 @@ MonoBehaviour:
   target: {fileID: 0}
   offset: {x: 0, y: 2}
   radius: 1.5
-  timeMultipliers: {x: 0.5, y: 0.5, z: 1}
+  timeMultipliers: {x: 1, y: 0.2, z: 2}
 --- !u!50 &493112488793715324
 Rigidbody2D:
   serializedVersion: 4
@@ -129,37 +128,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &7607564647396193336
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 981645078808632434}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 7441a07986282894f9b8ec56babf8da2,
-    type: 3}
-  m_NotificationBehavior: 0
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: Player
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
 --- !u!114 &4831227066257484011
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,7 +140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64193cb6f57202744bf8fb56115e3b2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ghostName: Boo
+  ghostName: Joules
 --- !u!114 &2902764879451139279
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -186,9 +154,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buffs:
-  - name: Jump Force
-    buff: 50
---- !u!114 &2935516607787880725
+  - name: Move Speed
+    buff: 100
+--- !u!114 &3353147799457559522
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -197,12 +165,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 981645078808632434}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1ef5f3db288143babf35d16fda12433, type: 3}
+  m_Script: {fileID: 11500000, guid: 4b623e538cb1d4d999802651460e73b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  invisDuration: 1
-  canClickInvis: 0
-  _isInvisible: 0
+  lightningPrefab: {fileID: 6093124114558295634, guid: ffd62934a14d643058f6ad62dc0f609f,
+    type: 3}
 --- !u!1 &4936111184687609786
 GameObject:
   m_ObjectHideFlags: 0
@@ -448,7 +415,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6,
     type: 3}
-  m_Color: {r: 0.6603774, g: 0.6603774, b: 0.6603774, a: 0.5882353}
+  m_Color: {r: 1, g: 0.9907145, b: 0, a: 0.5882353}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
