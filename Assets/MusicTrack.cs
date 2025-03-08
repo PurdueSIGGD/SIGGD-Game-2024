@@ -8,7 +8,7 @@ public class MusicTrack : MonoBehaviour
     // The timestamps of the loop points in seconds
     [SerializeField] float loopStart;
     [SerializeField] float loopEnd;
-
+    
     // The index of the next track to play
     // When 0, plays tracks 0, 2, and 4
     // When 1, plays tracks 1, 3, and 5
@@ -44,7 +44,7 @@ public class MusicTrack : MonoBehaviour
     void Update() {
         // Tests if the energy level went from above to below high energy or vice versa
         // If so, we need to flip between tracks 1 and 3
-        bool didEnergySwap = energyLevel > 0.5 == isHighEnergy;
+        bool didEnergySwap = energyLevel < 0.5 == isHighEnergy;
         isHighEnergy = energyLevel > 0.5;
         // Keep the music level on par with the player's experience
         // This will probably be a variable external to the audio system later
@@ -104,7 +104,8 @@ public class MusicTrack : MonoBehaviour
     private IEnumerator autoLoop() {
         float trackPlaytime = loopEnd - tracks[LEVEL_TWO_TRACK_OFFSET + currentTrackOffset].time;
         // Wait most of the track
-        yield return new WaitForSecondsRealtime(trackPlaytime - 5.0f);
+        float trackMajorityLength = trackPlaytime * 0.98f;
+        yield return new WaitForSecondsRealtime(trackMajorityLength);
         // Wait for the rest of the track to avoid weird playing offset
         trackPlaytime = loopEnd - tracks[LEVEL_TWO_TRACK_OFFSET + currentTrackOffset].time;
         yield return new WaitForSecondsRealtime(trackPlaytime);
@@ -123,8 +124,8 @@ public class MusicTrack : MonoBehaviour
                 tracks[LEVEL_THREE_TRACK_OFFSET + currentTrackOffset].time = loopStart;
             }
 
-            trackPlaytime = loopEnd - tracks[LEVEL_TWO_TRACK_OFFSET + currentTrackOffset].time;
-            yield return new WaitForSecondsRealtime(trackPlaytime - 5.0f);
+            trackMajorityLength = (loopEnd - tracks[LEVEL_TWO_TRACK_OFFSET + currentTrackOffset].time) * 0.98f;
+            yield return new WaitForSecondsRealtime(trackMajorityLength);
             trackPlaytime = loopEnd - tracks[LEVEL_TWO_TRACK_OFFSET + currentTrackOffset].time;
             yield return new WaitForSecondsRealtime(trackPlaytime);
         }

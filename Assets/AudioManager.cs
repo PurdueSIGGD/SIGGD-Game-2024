@@ -11,7 +11,7 @@ public class AudioManager : MonoBehaviour {
     [SerializeField] MusicTrack japanTheme;
     
     public enum MusicTrackName {
-        JAPAN
+        JAPAN // loopStart = 21.943; loopEnd = 197.486  
     }
 
     // SFX
