@@ -37,7 +37,6 @@ public class MusicTrack : MonoBehaviour
         if (Math.Abs(loopEnd - tracks[0].clip.length) < 0.05f) {
             loopEnd = tracks[0].clip.length;
         }
-        StartCoroutine(Debug_Track_Status());
     }
 
     // Update is called once per frame
@@ -131,6 +130,7 @@ public class MusicTrack : MonoBehaviour
         }
     }
 
+    // Debug tool: Call this to get music information
     private IEnumerator Debug_Track_Status() {
         while (true) {
             String msg = "";
