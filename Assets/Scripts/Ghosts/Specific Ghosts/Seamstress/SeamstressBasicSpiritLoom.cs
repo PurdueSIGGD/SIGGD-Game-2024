@@ -44,7 +44,8 @@ public class SeamstressBasicSpiritLoom : MonoBehaviour
             }
 
             // Cancel if not on ground TODO or S is released
-
+            // or any other action other than jump/move occurs
+            
 
 
         }
@@ -62,6 +63,7 @@ public class SeamstressBasicSpiritLoom : MonoBehaviour
     public void StopSpiritLoom()
     {
         curr_spools = 0;
+        timer = 0;
     }
 
     /// <summary>
