@@ -27,7 +27,7 @@ public class TrackingProjectile : EnemyProjectile
 
     public void Init()
     {
-        
+
     }
 
     // Moves the projectile

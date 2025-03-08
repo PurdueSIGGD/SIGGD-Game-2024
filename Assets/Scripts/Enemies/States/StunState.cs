@@ -25,7 +25,7 @@ public class StunState : IEnemyStates
         isStunned = true;
         this.stunDuration = stunDuration;
     }
-    
+
     public void UpdateState(EnemyStateManager enemy, float delta)
     {
         stunDuration -= delta;
