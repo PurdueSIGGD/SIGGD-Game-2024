@@ -22,7 +22,7 @@ public class SeamstressManager : MonoBehaviour, ISelectable
         PlayerID.instance.AddComponent<SeamstressBasicSpiritLoom>();
 
         // Remove Default
-        Destroy(PlayerID.instance.GetComponent<FastFall>());
+        // Destroy(PlayerID.instance.GetComponent<FastFall>());
 
         // Change Animation Controller
         animator.runtimeAnimatorController = seamstressController;
@@ -36,10 +36,10 @@ public class SeamstressManager : MonoBehaviour, ISelectable
         {
             Destroy(PlayerID.instance.GetComponent<SeamstressBasicSpiritLoom>());
         }
-        if (!PlayerID.instance.GetComponent<FastFall>())
-        {
-            PlayerID.instance.AddComponent<FastFall>();
-        }
+        //if (!PlayerID.instance.GetComponent<FastFall>())
+        //{
+        //    PlayerID.instance.AddComponent<FastFall>();
+        //}
 
         // change back to default player controller
         animator.runtimeAnimatorController = defaultController;
