@@ -6,10 +6,10 @@ public class ManageFallState : StateMachineBehaviour
 {
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.gameObject.SendMessage("StartFall");
+        animator.gameObject.SendMessage("StartFall", null, SendMessageOptions.DontRequireReceiver);
     }
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.gameObject.SendMessage("StopFall");
+        animator.gameObject.SendMessage("StopFall", null, SendMessageOptions.DontRequireReceiver);
     }
 }

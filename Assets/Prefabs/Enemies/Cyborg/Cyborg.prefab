@@ -77,10 +77,11 @@ GameObject:
   - component: {fileID: 3422689676663734510}
   - component: {fileID: 953836412094399138}
   - component: {fileID: 8868405178309692734}
-  - component: {fileID: 8480991602502054467}
+  - component: {fileID: 7261880397543917784}
+  - component: {fileID: 4952809451759924538}
   m_Layer: 21
   m_Name: Cyborg
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -103,6 +104,7 @@ Transform:
   - {fileID: 3423477219027819224}
   - {fileID: 6623908715604477131}
   - {fileID: 3547627012480381979}
+  - {fileID: 3706242395289478027}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &7905894014490810442
@@ -262,14 +264,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03dbe72ab01511e4eb989afdb7a8fadf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 4
-  aggroRange: 18.6
+  stats: {fileID: 0}
+  pool: {fileID: 0}
   animator: {fileID: 7905894014490810442}
+  aggroRange: 18.6
   meleeTrigger: {fileID: 2358971396437510415}
+  meleeDamage:
+    damageStrength: 1
+    damageTypes: 00000000
+    actionID: 17
+    actionTypes: 07000000
+    extraContext: Cyborg Melee
   tpBackTrigger: {fileID: 1365265030456903513}
   tpForwardTrigger: {fileID: 3423477219027819224}
+  spinDamage:
+    damageStrength: 3
+    damageTypes: 0000000002000000
+    actionID: 17
+    actionTypes: 07000000
+    extraContext: Cyborg Teleport Spin
   stingerTrigger: {fileID: 6623908715604477131}
   stingerHitBox: {fileID: 3547627012480381979}
+  stingerDamage:
+    damageStrength: 2
+    damageTypes: 00000000
+    actionID: 17
+    actionTypes: 07000000
+    extraContext: Cyborg Stinger
 --- !u!114 &8868405178309692734
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -279,14 +300,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 2119936537419083514}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 532320b84239cf640a651fa5709b989a, type: 3}
+  m_Script: {fileID: 11500000, guid: 83a0782e8961e074bbf391401404ae17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stats:
-  - name: Max Health
+  statList:
+  - name: Speed
     value: 10
-    modifier: 100
---- !u!114 &8480991602502054467
+--- !u!114 &7261880397543917784
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -295,11 +315,63 @@ MonoBehaviour:
   m_GameObject: {fileID: 2119936537419083514}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc353fcbdb963e84d880d2d6cb407830, type: 3}
+  m_Script: {fileID: 11500000, guid: 20d794b3ea5a6da42ac5b8feade20f68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 0
-  isAlive: 1
+  actions:
+  - name: Slash
+    priority: 7
+    ready: 0
+    hitBox: {fileID: 2358971396437510415}
+    coolDown: 0
+    animationClip: {fileID: 7400000, guid: d69a7e64e120bf14a9aa1e57c15eeb6a, type: 2}
+  - name: Teleport Backwards
+    priority: 1
+    ready: 0
+    hitBox: {fileID: 1365265030456903513}
+    coolDown: 7
+    animationClip: {fileID: 7400000, guid: a5a8d9d16988a1f499f24e6107fe9dff, type: 2}
+  - name: Teleport Forwards
+    priority: 5
+    ready: 0
+    hitBox: {fileID: 3423477219027819224}
+    coolDown: 18
+    animationClip: {fileID: 7400000, guid: 012a586afaa024e44ab554a7584bd561, type: 2}
+  - name: Stinger Attack
+    priority: 2
+    ready: 0
+    hitBox: {fileID: 6623908715604477131}
+    coolDown: 4
+    animationClip: {fileID: 7400000, guid: 1414bb1595d35334baa24da1ab98026c, type: 2}
+  move:
+    name: Move
+    priority: 0
+    ready: 0
+    hitBox: {fileID: 0}
+    coolDown: 0
+    animationClip: {fileID: 7400000, guid: 106e624640ffb024a911166cfd9df3ac, type: 2}
+  idle:
+    name: Idle
+    priority: 0
+    ready: 0
+    hitBox: {fileID: 0}
+    coolDown: 0
+    animationClip: {fileID: 7400000, guid: d9b9bb522aca7c043b7f8568e51360fa, type: 2}
+--- !u!114 &4952809451759924538
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2119936537419083514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a13ad00583bca6b4fa6de9939a968201, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  statList:
+  - name: Max Health
+    value: 250
 --- !u!1 &2960955476441126688
 GameObject:
   m_ObjectHideFlags: 0
@@ -393,3 +465,77 @@ Transform:
   m_Children: []
   m_Father: {fileID: 7275294119749337559}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1635270921971957182
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 7275294119749337559}
+    m_Modifications:
+    - target: {fileID: 2728778880471080501, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2728778880471080501, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2728778880471080501, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2728778880471080501, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2728778880471080501, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2728778880471080501, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2728778880471080501, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2728778880471080501, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2728778880471080501, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2728778880471080501, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3487495804464263818, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
+        type: 3}
+      propertyPath: m_Name
+      value: HealthUI
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 57736c042d8d73b4abf9d13b8d2a3ad3, type: 3}
+--- !u!4 &3706242395289478027 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2728778880471080501, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
+    type: 3}
+  m_PrefabInstance: {fileID: 1635270921971957182}
+  m_PrefabAsset: {fileID: 0}

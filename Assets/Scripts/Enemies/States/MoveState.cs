@@ -5,19 +5,19 @@ using UnityEngine;
 /// <summary>
 /// Enemy behavior when aggro but cannot reach player
 /// </summary>
-public class MoveState : EnemyStates
+public class MoveState : IEnemyStates
 {
     public Transform player;
     public Rigidbody2D rb;
 
-    public override void EnterState(EnemyStateManager enemy)
+    public void EnterState(EnemyStateManager enemy)
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
         rb = enemy.GetComponent<Rigidbody2D>();
         enemy.pool.move.Play(enemy.animator); // Play the moving animation on entering state
     }
 
-    public override void UpdateState(EnemyStateManager enemy)
+    public void UpdateState(EnemyStateManager enemy)
     {
         if (enemy.pool.HasActionsReady()) // If Enemy attacks can reach player, enter AggroState
         {
@@ -34,7 +34,7 @@ public class MoveState : EnemyStates
     }
 
     // Moves the Enemy body towards the player
-    protected void Move(EnemyStateManager enemy)
+    protected virtual void Move(EnemyStateManager enemy)
     {
         if (player.position.x - enemy.transform.position.x < 0)
         {
@@ -44,6 +44,17 @@ public class MoveState : EnemyStates
         {
             enemy.Flip(true);
         }
-        rb.velocity = new Vector2(enemy.speed * enemy.transform.right.x, rb.velocity.y);
+
+        RaycastHit2D hit = Physics2D.Raycast(enemy.transform.position, Vector2.down, 20f, LayerMask.GetMask("Ground"));
+        if (!hit)
+        {
+            rb.velocity = new Vector2(0, rb.velocity.y);
+            return;
+        }
+
+        float speed = enemy.stats.ComputeValue("Speed");
+        rb.velocity = new Vector2(speed * enemy.transform.right.x, rb.velocity.y);
     }
+
+
 }

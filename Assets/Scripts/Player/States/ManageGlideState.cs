@@ -6,11 +6,11 @@ public class ManageGlideState : StateMachineBehaviour
 {
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.gameObject.SendMessage("StartGlide");
+        animator.gameObject.SendMessage("StartGlide", null, SendMessageOptions.DontRequireReceiver);
     }
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.gameObject.SendMessage("StopGlide");
+        animator.gameObject.SendMessage("StopGlide", null, SendMessageOptions.DontRequireReceiver);
     }
 
 }

@@ -9,8 +9,13 @@ using UnityEngine;
 /// </summary>
 public class ShieldPolice : EnemyStateManager
 {
+    [Header("Baton Attack")]
     [SerializeField] protected Transform batonTrigger;
+    [SerializeField] protected DamageContext batonDamage;
+
+    [Header("Charge Attack (See shield to define damage)")]
     [SerializeField] protected Transform chargeTrigger;
+    [SerializeField] protected float chargeSpeed;
 
     protected bool isCharging;
     protected Vector2 chargePos;
@@ -19,30 +24,14 @@ public class ShieldPolice : EnemyStateManager
     {
         if (isCharging)
         {
-            rb.velocity = new Vector2(speed * 4, rb.velocity.y) * transform.right;
+            rb.velocity = new Vector2(chargeSpeed, rb.velocity.y) * transform.right;
         }
-    }
-
-    // Shielded Police will draw actions greedily
-    protected override ActionPool GenerateActionPool()
-    {
-        Action batonSwing = new(batonTrigger, 0.0f, 3f, "Shield_Police_Swing");
-        Action shieldCharge = new(chargeTrigger, 10.0f, 3f, "Shield_Police_Charge_1");
-
-        Action move = new(null, 0.0f, 0.0f, "Shield_Police_Run");
-        Action idle = new(null, 0.0f, 0.0f, "Shield_Police_Idle");
-
-        return new GreedyActionPool(new List<Action> { batonSwing, shieldCharge }, move, idle);
     }
 
     // Generate damage frame for baton swing
     protected void OnBatonEvent()
     {
-        Collider2D hit = Physics2D.OverlapBox(batonTrigger.position, batonTrigger.lossyScale, 0f, LayerMask.GetMask("Player"));
-        if (hit)
-        {
-            hit.GetComponent<PlayerHealth>().TakeDamage(15);
-        }
+        GenerateDamageFrame(batonTrigger.position, batonTrigger.lossyScale.x, batonTrigger.lossyScale.y, batonDamage, gameObject);
     }
 
     // Ask police to begin charging and enable shield damage

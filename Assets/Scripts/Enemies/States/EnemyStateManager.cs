@@ -1,5 +1,7 @@
 using System;
+using System.Net.Mime;
 using Unity.VisualScripting;
+using UnityEditor.Build;
 using UnityEngine;
 
 /// <summary>
@@ -7,45 +9,48 @@ using UnityEngine;
 /// </summary>
 public class EnemyStateManager : MonoBehaviour
 {
-    public EnemyStates IdleState = new IdleState();
-    public EnemyStates AggroState = new AggroState();
-    public EnemyStates BusyState = new BusyState();
-    public EnemyStates MoveState = new MoveState();
+    public IEnemyStates IdleState = new IdleState();
+    public IEnemyStates AggroState = new AggroState();
+    public IEnemyStates BusyState = new BusyState();
+    public IEnemyStates MoveState = new MoveState();
+    public StunState StunState = new StunState();
 
-    public float speed; // Movement speed
-    public float aggroRange; // Range for detecting players 
-    
-    public ActionPool pool; // A pool of attacks to randomly choose from
-    public EnemyStates curState; // Enemy's current State, defaults to idle
-    public Animator animator;
+    [HideInInspector] public StatManager stats; // Enemy stats component
+    [HideInInspector] public ActionPool pool; // A pool of attacks to randomly choose from
+    [HideInInspector] public Animator animator;
 
+    [SerializeField] float aggroRange; // Range for detecting players 
+    protected IEnemyStates curState; // Enemy's current State, defaults to idle
     protected Transform player;
     protected Rigidbody2D rb;
-    
+
     protected virtual void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
+        stats = GetComponent<StatManager>();
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
-        pool = GenerateActionPool();
-
+        pool = GetComponent<ActionPool>();
         SwitchState(IdleState);
     }
 
     protected void FixedUpdate()
     {
-        if (curState != IdleState)
+        if (StunState.isStunned)
         {
-            pool.UpdateAllCD(); // Count down enemy's cool down
+            StunState.UpdateState(this, Time.deltaTime);
         }
-        curState.UpdateState(this);
+        else
+        {
+            curState.UpdateState(this);
+        }
     }
 
     /// <summary>
     /// Transitions to another Enemy State
     /// </summary>
     /// <param name="state"> The new Enemy State </param>
-    public void SwitchState(EnemyStates state)
+    public void SwitchState(IEnemyStates state)
     {
         curState = state;
         state.EnterState(this);
@@ -56,7 +61,7 @@ public class EnemyStateManager : MonoBehaviour
     /// </summary>
     /// <param name="tracking"> If true, will actively track player for extended range </param>
     /// <returns> If there is a Player in Enemy line of sight </returns>
-    public bool HasLineOfSight(bool tracking)
+    public virtual bool HasLineOfSight(bool tracking)
     {
         Vector2 dir = transform.TransformDirection(Vector2.right);
         float maxDistance = aggroRange;
@@ -76,9 +81,26 @@ public class EnemyStateManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Stun the enemy for a set duration
+    /// </summary>
+    /// <param name="damageContext"> the damage context that resulted in the stun </param>
+    /// <param name="duration"> the duration of the stun </param>
+    public void Stun(DamageContext damageContext, float duration = 0f)
+    {
+        if (duration == 0f)
+        {
+            StunState.EnterState(this);
+        }
+        else
+        {
+            StunState.EnterState(this, duration);
+        }
+    }
+
+    /// <summary>
     /// Flip the Enemy object across the Y-axis
     /// </summary>
-    /// <param ghostName="isFlipped"> Enemy's current orientation </param>
+    /// <param name="isFlipped"> Enemy's current orientation </param>
     public void Flip(bool isFlipped)
     {
         if (isFlipped)
@@ -88,12 +110,67 @@ public class EnemyStateManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Produce a list off Actions which randomly generates the next action
+    /// Do damage to player if they are inside of trigger box
     /// </summary>
-    /// <returns></returns>
-    protected virtual ActionPool GenerateActionPool() 
-    { 
-        return null; 
+    /// <param name="pos">Position of the trigger box</param>
+    /// <para name="width">X value of the lossyscale of the trigger box</para>
+    /// <para name="height">Y value of the lossyscale of the trigger box</para>
+    /// <param name="damageContext">Instance of damage context</param>
+    protected bool GenerateDamageFrame(Vector2 pos, float width, float height, DamageContext damageContext, GameObject attacker /*float damage*/)
+    {
+#if DEBUG // Draw the damage box in the editor
+        float hWidth = width / 2;
+        float hHeight = height / 2;
+        float duration = 0.1f;
+
+        Debug.DrawLine(new Vector2(pos.x - hWidth, pos.y + hHeight), new Vector2(pos.x + hWidth, pos.y + hHeight), Color.white, duration); // draw top line
+        Debug.DrawLine(new Vector2(pos.x - hWidth, pos.y + hHeight), new Vector2(pos.x - hWidth, pos.y - hHeight), Color.white, duration); // draw left line
+        Debug.DrawLine(new Vector2(pos.x - hWidth, pos.y - hHeight), new Vector2(pos.x + hWidth, pos.y - hHeight), Color.white, duration); // draw bottom line
+        Debug.DrawLine(new Vector2(pos.x + hWidth, pos.y + hHeight), new Vector2(pos.x + hWidth, pos.y - hHeight), Color.white, duration); // draw right line
+#endif
+        // Check for player to do damage
+        Collider2D hit = Physics2D.OverlapBox(pos, new Vector2(width, height), 0f, LayerMask.GetMask("Player"));
+        if (hit)
+        {
+            PlayerID.instance.GetComponent<PlayerStateMachine>().SetStun(0.2f);
+            hit.GetComponent<Health>().Damage(damageContext, attacker);
+        }
+        return hit;
+    }
+
+    /// <summary>
+    /// Do damage to player if they are inside of trigger circle
+    /// </summary>
+    /// <param name="pos">Position of the trigger box</param>
+    /// <param name="radius">X value of the lossyscale of the trigger circle</param>
+    /// <param name="damageContext">Instance of damage context</param>
+    protected bool GenerateDamageFrame(Vector2 pos, float radius, DamageContext damageContext, GameObject attacker /*float damage*/)
+    {
+#if DEBUG // Draw the damage circle in the editor
+        int segment = 180;
+        float duration = 0.2f;
+
+        float angleDiv = 360f / segment;
+        Vector2 p1 = new Vector2(pos.x + radius, pos.y);
+        Vector2 p2;
+
+        for (int i = 0; i < segment; i++)
+        {
+            float angle = angleDiv * i * Mathf.Deg2Rad;
+            p2 = new Vector2(pos.x + Mathf.Cos(angle) * radius, pos.y + Mathf.Sin(angle) * radius);
+
+            Debug.DrawLine(p1, p2, Color.white, duration);
+            p1 = p2;
+        }
+#endif
+        // Check for player to do damage
+        Collider2D hit = Physics2D.OverlapCircle(pos, radius, LayerMask.GetMask("Player"));
+        if (hit)
+        {
+            PlayerID.instance.GetComponent<PlayerStateMachine>().SetStun(0.2f);
+            hit.GetComponent<Health>().Damage(damageContext, attacker);
+        }
+        return hit;
     }
 
     /// <summary>

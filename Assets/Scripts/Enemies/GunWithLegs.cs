@@ -7,37 +7,32 @@ using UnityEngine;
 /// </summary>
 public class GunWithLegs : EnemyStateManager
 {
+    [Header("Kick")]
     [SerializeField] protected Transform gunKick;
+    [SerializeField] protected DamageContext kickDamage;
+
+    [Header("Shoot")]
     [SerializeField] protected Transform gunShoot;
     [SerializeField] protected Transform rangeOrig;
-
     [SerializeField] protected Transform projectile;
 
-    protected override ActionPool GenerateActionPool()
-    {
-        Action kick = new(gunKick, 4.0f, 3f, "Gun_W_Leg_Kick");
-        Action shoot = new(gunShoot, 4.0f, 7f, "Gun_W_Leg_Shoot");
+    protected Vector3 target; // used to track player location for shooting
 
-        Action move = new(null, 0.0f, 0.0f, "move");
-        Action idle = new(null, 0.0f, 0.0f, "idle");
-
-        return new ActionPool(new List<Action> { kick, shoot }, move, idle);
-    }
-
-    // Check for kick collision and do damageg
+    // Check for kick collision and do damage
     protected void OnKickEvent()
     {
-        Collider2D hit = Physics2D.OverlapBox(gunKick.position, gunKick.lossyScale, 0f, LayerMask.GetMask("Player"));
-        if (hit)
-        {
-            hit.GetComponent<PlayerHealth>().TakeDamage(10);
-        }
+        GenerateDamageFrame(gunKick.position, gunKick.lossyScale.x, gunKick.lossyScale.y, kickDamage, gameObject);
+    }
+
+    protected void OnShootEvent1()
+    {
+        target = player.position;
     }
 
     // Instantiate projectile prefab and push self back
-    protected void OnShootEvent()
+    protected void OnShootEvent2()
     {
-        Instantiate(projectile, rangeOrig.position, transform.rotation);
+        Instantiate(projectile, rangeOrig.position, transform.rotation).GetComponent<EnemyProjectile>().Init(target, 5.0f);
 
         rb.AddForce(transform.right * -3, ForceMode2D.Impulse);
     }

@@ -11,7 +11,18 @@ public class GhostMenuItem : MonoBehaviour
     public GhostIdentity identity;
     public PartyEditor menu;
 
-    void Start()
+    private bool initialized;
+
+    void Update()
+    {
+        if (!initialized && identity != null && menu != null)
+        {
+            initialized = true;
+            Init();
+        }
+    }
+
+    void Init()
     {
         textComponent.SetText(identity.name);
         buttonComponent.onClick.AddListener(() =>

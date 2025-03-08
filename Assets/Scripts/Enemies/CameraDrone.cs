@@ -4,18 +4,13 @@ using UnityEngine;
 
 public class CameraDrone : EnemyStateManager
 {
+    [Header("Call Reinforcement")]
     [SerializeField] protected Transform alarmTrigger;
     [SerializeField] protected GameObject enemyToSummon;
-    protected override ActionPool GenerateActionPool()
-    {
-        Action callAlarm = new(alarmTrigger, 5.0f, 1f, "Call Alarm");
 
-        Action move = new(null, 0.0f, 0.0f, "move");
-        Action idle = new(null, 0.0f, 0.0f, "idle");
-
-        return new ActionPool(new List<Action> { callAlarm }, move, idle);
-    }
-
+    /// <summary>
+    /// Summons an enemy
+    /// </summary>
     protected void OnCallAlarm()
     {
         Vector3 dest = transform.position + new Vector3(transform.right.x*transform.lossyScale.x, -transform.lossyScale.y, 0);

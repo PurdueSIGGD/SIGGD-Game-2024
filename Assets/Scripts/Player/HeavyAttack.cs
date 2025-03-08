@@ -1,20 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
-public class HeavyAttack : MonoBehaviour
+[DisallowMultipleComponent]
+public class HeavyAttack : MonoBehaviour, IStatList
 {
+    [SerializeField]
+    public StatManager.Stat[] statList;
+
     [SerializeField] GameObject indicator;
-    [SerializeField] int dmg;
+    //[SerializeField] int dmg;
+    [SerializeField] DamageContext heavyDamage;
     [SerializeField] float offsetX;
     private Camera mainCamera;
     private float timer;
+    private StatManager stats;
 
     private void Start()
     {
         indicator.SetActive(false);
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+        stats = this.GetComponent<StatManager>();
     }
 
     private void Update()
@@ -40,19 +48,30 @@ public class HeavyAttack : MonoBehaviour
 
     public void StartHeavyAttack()
     {
-        indicator.SetActive(true);
+        //indicator.SetActive(true);
         timer = 0.5f;
         RaycastHit2D[] hits = Physics2D.BoxCastAll(indicator.transform.position, indicator.transform.localScale, 0, new Vector2(0, 0));
         foreach(RaycastHit2D hit in hits)
         {
             if(hit.transform.gameObject.tag == "Enemy")
             {
-                IDamageable ehealth = hit.transform.gameObject.GetComponent<IDamageable>();
-                if (ehealth != null)
+                Debug.Log("Heavy Attack Hit: " + hit.transform.gameObject.name);
+                /*
+                IDamageable enemyhealth = hit.transform.gameObject.GetComponent<IDamageable>();
+                if (enemyhealth != null)
                 {
-                    ehealth.TakeDamage(dmg);
+                    //ehealth.TakeDamage(dmg);
+                    enemyhealth.Damage(heavyDamage, gameObject);
                 }
+                */
+                heavyDamage.damage = stats.ComputeValue("Heavy Damage");
+                hit.transform.gameObject.GetComponent<Health>().Damage(heavyDamage, gameObject);
             }
         }
+    }
+
+    public StatManager.Stat[] GetStatList()
+    {
+        return statList;
     }
 }
