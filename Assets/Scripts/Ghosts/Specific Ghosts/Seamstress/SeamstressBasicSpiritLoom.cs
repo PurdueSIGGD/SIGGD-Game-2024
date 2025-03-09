@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEditor.PackageManager;
 using UnityEngine;
 
@@ -10,7 +11,7 @@ public class SeamstressBasicSpiritLoom : MonoBehaviour
     private static float SPOOL_GENERATION_INITIAL_BUFFER_TIME = 1.0f;
     private static float SPOOL_GENERATION_SUBSEQUENT_BUFFER_TIME 0.5f;
     private static float HEAVY_ATTACK_STUN_TIME = 1.0f;
-    private static int HEAVY_ATTACK_SPOOL_COST = 10.0f;
+    private static int HEAVY_ATTACK_SPOOL_COST = 1;
 
     private PlayerStateMachine playerStateMachine;
 
@@ -23,12 +24,14 @@ public class SeamstressBasicSpiritLoom : MonoBehaviour
     {
         playerStateMachine = GetComponent<PlayerStateMachine>();
 
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
+
+        // timer has started
         if (timer > 0.0f)
         {
 
@@ -45,14 +48,29 @@ public class SeamstressBasicSpiritLoom : MonoBehaviour
 
             // Cancel if not on ground TODO or S is released
             // or any other action other than jump/move occurs
-            
+            if (!CanSpiritLoom()) {
+                curr_spools = 0;
+                timer = 0;
+                Debug.Log("Canceled: " + curr_spools);
+            }
 
-
+        }
+        // timer has not started
+        else if (CanSpiritLoom())
+        {
+            timer = SPOOL_GENERATION_INITIAL_BUFFER_TIME;
         }
 
 
 
 
+    }
+
+    private bool CanSpiritLoom()
+    {
+        Animator anim = playerStateMachine.GetComponent<Animator>();
+        return anim.GetBool("i_down") &&
+               anim.GetBool("p_grounded");
     }
 
     public void StartSpiritLoom()
