@@ -33,8 +33,11 @@ public class Health : MonoBehaviour, IDamageable, IStatList
 
         foreach (GameplayEventHolder.DamageFilterEvent filter in GameplayEventHolder.OnDamageFilter)
         {
-            filter(context);
+            filter(ref context);
+            Debug.Log("After Filter: " + context.damage);
         }
+
+        Debug.Log("Damaged: " + context.damage);
 
         // Reduce current health
         currentHealth -= context.damage;
@@ -65,7 +68,7 @@ public class Health : MonoBehaviour, IDamageable, IStatList
 
         foreach (GameplayEventHolder.HealingFilterEvent filter in GameplayEventHolder.OnHealingFilter)
         {
-            filter(context);
+            filter(ref context);
         }
 
         // Increase current health
@@ -87,7 +90,7 @@ public class Health : MonoBehaviour, IDamageable, IStatList
         }
 
         //Trigger Events
-        GameplayEventHolder.OnDeath?.Invoke(context);
+        GameplayEventHolder.OnDeath?.Invoke(ref context);
 
         Destroy(this.gameObject);
     }
