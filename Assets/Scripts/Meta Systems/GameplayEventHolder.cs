@@ -34,7 +34,7 @@ public class GameplayEventHolder : MonoBehaviour
 
     // ON HEALING FILTER
     /// <param name="context">Struct containing context for this event.</param>
-    public delegate void HealingFilterEvent(HealingContext context);
+    public delegate void HealingFilterEvent(ref HealingContext context);
     /// <summary>
     /// Invoked when an entity deals damage.
     /// </summary>

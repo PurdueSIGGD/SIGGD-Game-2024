@@ -36,6 +36,7 @@ public class Health : MonoBehaviour, IDamageable, IStatList
             filter(ref context);
             Debug.Log("After Filter: " + context.damage);
         }
+        print("IN HEALTH DAMAGE: " + context.damage);
 
         Debug.Log("Damaged: " + context.damage);
 
@@ -86,7 +87,7 @@ public class Health : MonoBehaviour, IDamageable, IStatList
 
         foreach (GameplayEventHolder.DeathFilterEvent filter in GameplayEventHolder.OnDeathFilter)
         {
-            filter(context);
+            filter(ref context);
         }
 
         //Trigger Events
