@@ -4,12 +4,16 @@ using UnityEditor.Experimental.GraphView;
 using UnityEditor.PackageManager;
 using UnityEngine;
 
+/// <summary>
+///   // TODO: stop if  any other action other than jump/move occurs
+///   // current: instant wind-up and recovery time
+/// </summary>
 public class SeamstressBasicSpiritLoom : MonoBehaviour
 {
 
     private static int MAX_SPOOLS = 4;
-    private static float SPOOL_GENERATION_INITIAL_BUFFER_TIME = 1.0f;
-    private static float SPOOL_GENERATION_SUBSEQUENT_BUFFER_TIME 0.5f;
+    private static float SPOOL_GENERATION_INITIAL_BUFFER_TIME = 2.0f;
+    private static float SPOOL_GENERATION_SUBSEQUENT_BUFFER_TIME = 1.0f;
     private static float HEAVY_ATTACK_STUN_TIME = 1.0f;
     private static int HEAVY_ATTACK_SPOOL_COST = 1;
 
@@ -23,52 +27,50 @@ public class SeamstressBasicSpiritLoom : MonoBehaviour
     void Start()
     {
         playerStateMachine = GetComponent<PlayerStateMachine>();
-
-
     }
 
     // Update is called once per frame
     void Update()
     {
-
         // timer has started
         if (timer > 0.0f)
         {
 
             timer -= Time.deltaTime;
 
-            if (timer < 0.0f && curr_spools < MAX_SPOOLS)
+            if (timer <= 0.0f && curr_spools < MAX_SPOOLS)
             {
-                curr_spools++;
-                Debug.Log(curr_spools);
+                if (curr_spools < MAX_SPOOLS) {
+                    curr_spools++;
+                    Debug.Log("added " + curr_spools);
+                }
+                else {
+                    Debug.Log("max spools reached");
+                }
                 timer = SPOOL_GENERATION_SUBSEQUENT_BUFFER_TIME;
-                // TODO timer is up
-                // playerStateMachine.OffCooldown("c_specialNO");
+
             }
 
-            // Cancel if not on ground TODO or S is released
-            // or any other action other than jump/move occurs
-            if (!CanSpiritLoom()) {
-                curr_spools = 0;
-                timer = 0;
-                Debug.Log("Canceled: " + curr_spools);
+            // Cancel if not on ground or S is released
+            if (!SpiritLoomEligible()) {
+                StopSpiritLoom();
+                Debug.Log("We canceled " + curr_spools);
+
             }
 
         }
         // timer has not started
-        else if (CanSpiritLoom())
+        else if (SpiritLoomEligible())
         {
             timer = SPOOL_GENERATION_INITIAL_BUFFER_TIME;
+            Debug.Log("We started " + timer + " spools " + curr_spools);
         }
-
-
-
-
     }
 
-    private bool CanSpiritLoom()
+    private bool SpiritLoomEligible()
     {
         Animator anim = playerStateMachine.GetComponent<Animator>();
+
         return anim.GetBool("i_down") &&
                anim.GetBool("p_grounded");
     }
@@ -82,6 +84,7 @@ public class SeamstressBasicSpiritLoom : MonoBehaviour
     {
         curr_spools = 0;
         timer = 0;
+
     }
 
     /// <summary>
@@ -96,6 +99,7 @@ public class SeamstressBasicSpiritLoom : MonoBehaviour
             Debug.Log(curr_spools);
 
             // TODO enemies hit by attack will be stunned
+
 
         }
     }
