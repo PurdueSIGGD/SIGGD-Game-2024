@@ -39,7 +39,6 @@ public class Health : MonoBehaviour, IDamageable, IStatList
             filter(ref context);
             Debug.Log("After Filter: " + context.damage);
         }
-        print("IN HEALTH DAMAGE: " + context.damage);
 
         Debug.Log("Damaged: " + context.damage);
 

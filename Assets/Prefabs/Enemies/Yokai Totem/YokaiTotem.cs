@@ -65,10 +65,7 @@ public class YokaiTotem : MonoBehaviour
     {
         if (context.victim.CompareTag("Player"))
         {
-            print("BEFORE DEBUFF: " + context.damage);
             context.damage = context.damage * multiplier;
-            print("GET WEAKENED LOSER!!!!!");
-            print("AFTER DEBUFF: " + context.damage);
         }
     }
 }
