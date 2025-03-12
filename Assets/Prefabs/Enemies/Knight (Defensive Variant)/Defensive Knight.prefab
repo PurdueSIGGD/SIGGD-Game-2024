@@ -13,12 +13,12 @@ GameObject:
   - component: {fileID: 4777747813877726284}
   - component: {fileID: 2458881036478296064}
   - component: {fileID: 5267342110057752590}
-  - component: {fileID: 628772375253420757}
   - component: {fileID: 2121035421530653855}
   - component: {fileID: 8198236020869808662}
-  - component: {fileID: 9074761656079202644}
+  - component: {fileID: 1243085981701666578}
+  - component: {fileID: 5997742084055537745}
   m_Layer: 21
-  m_Name: Knight
+  m_Name: Defensive Knight
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37,8 +37,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 7053703775646020486}
   - {fileID: 438740059758093778}
+  - {fileID: 7053703775646020486}
+  - {fileID: 3135132596927877074}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &8056966106870366120
@@ -51,7 +52,7 @@ Animator:
   m_GameObject: {fileID: 1393067818931581941}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: dfaf3c322f55807419a85477948b237a, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -186,39 +187,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.9941934, y: 1.01124}
   m_EdgeRadius: 0
---- !u!114 &628772375253420757
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1393067818931581941}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 872d96247465fd541bea93e36537b26f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  actions:
-  - name: Sword Attack
-    priority: 1
-    ready: 0
-    hitBox: {fileID: 7053703775646020486}
-    coolDown: 4
-    animationClip: {fileID: 7400000, guid: f612aa8e9cc4b4a488df5b9e1c8237d2, type: 2}
-  move:
-    name: 
-    priority: 0
-    ready: 0
-    hitBox: {fileID: 0}
-    coolDown: 0
-    animationClip: {fileID: 7400000, guid: e1d9f2c18293436429c8a1403b4ada95, type: 2}
-  idle:
-    name: 
-    priority: 0
-    ready: 0
-    hitBox: {fileID: 0}
-    coolDown: 0
-    animationClip: {fileID: 7400000, guid: 968e5750ed810fb418cf0add49c4620a, type: 2}
 --- !u!114 &2121035421530653855
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -249,7 +217,7 @@ MonoBehaviour:
   statList:
   - name: Speed
     value: 10
---- !u!114 &9074761656079202644
+--- !u!114 &1243085981701666578
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -258,20 +226,59 @@ MonoBehaviour:
   m_GameObject: {fileID: 1393067818931581941}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9c96d1a20189154d87f58aa38e760df, type: 3}
+  m_Script: {fileID: 11500000, guid: d8a085c18178a1e4398a251a1e92faad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   stats: {fileID: 0}
   pool: {fileID: 0}
   animator: {fileID: 0}
-  aggroRange: 6.27
-  swordTrigger: {fileID: 7053703775646020486}
+  aggroRange: 0
+  swordTrigger: {fileID: 0}
   swordDamage:
     damageStrength: 0
     damageTypes: 
     actionID: 0
     actionTypes: 
     extraContext: 
+--- !u!114 &5997742084055537745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1393067818931581941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20d794b3ea5a6da42ac5b8feade20f68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actions:
+  - name: Sword Swing
+    priority: 1
+    ready: 0
+    hitBox: {fileID: 7053703775646020486}
+    coolDown: 4
+    animationClip: {fileID: 0}
+  - name: Walk to Defend Target
+    priority: 99
+    ready: 0
+    hitBox: {fileID: 3135132596927877074}
+    coolDown: 2
+    animationClip: {fileID: 0}
+  move:
+    name: 
+    priority: 0
+    ready: 1
+    hitBox: {fileID: 0}
+    coolDown: 0
+    animationClip: {fileID: 0}
+  idle:
+    name: 
+    priority: 0
+    ready: 1
+    hitBox: {fileID: 0}
+    coolDown: 0
+    animationClip: {fileID: 0}
 --- !u!1 &7921356762480239732
 GameObject:
   m_ObjectHideFlags: 0
@@ -299,6 +306,37 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.964, y: 0, z: 0}
   m_LocalScale: {x: 1.8356159, y: 1.6333, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9074763983707266519}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &9043164497701570976
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3135132596927877074}
+  m_Layer: 21
+  m_Name: Defend Trigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3135132596927877074
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9043164497701570976}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9074763983707266519}
