@@ -8,16 +8,18 @@ using UnityEngine;
 ///   // TODO: stop if  any other action other than jump/move occurs
 ///   // current: instant wind-up and recovery time
 /// </summary>
-public class SeamstressBasicSpiritLoom : MonoBehaviour
+public class SeamstressBasicSpiritLoom : MonoBehaviour, IStatList
 {
 
-    private static int MAX_SPOOLS = 4;
-    private static float SPOOL_GENERATION_INITIAL_BUFFER_TIME = 2.0f;
-    private static float SPOOL_GENERATION_SUBSEQUENT_BUFFER_TIME = 1.0f;
-    private static float HEAVY_ATTACK_STUN_TIME = 1.0f;
-    private static int HEAVY_ATTACK_SPOOL_COST = 1;
+    [SerializeField] public StatManager.Stat[] statList;
+
+    public StatManager stats;
+
+    [SerializeField]
+    DamageContext damageContext;
 
     private PlayerStateMachine playerStateMachine;
+    private EnemyStateManager enemyStateManager;
 
     private float timer = 0.0f;
     private int curr_spools = 0; // 0 to num spools
@@ -27,6 +29,7 @@ public class SeamstressBasicSpiritLoom : MonoBehaviour
     void Start()
     {
         playerStateMachine = GetComponent<PlayerStateMachine>();
+        enemyStateManager = GetComponent<EnemyStateManager>();
     }
 
     // Update is called once per frame
@@ -41,12 +44,12 @@ public class SeamstressBasicSpiritLoom : MonoBehaviour
 
             if (timer <= 0.0f)
             {
-                if (curr_spools < MAX_SPOOLS)
+                if (curr_spools < stats.ComputeValue("Max Spools"))
                 {
                     curr_spools++;
                 }
-                
-                timer = SPOOL_GENERATION_SUBSEQUENT_BUFFER_TIME;
+
+                timer = stats.ComputeValue("Spool Generation Subsequent Buffer Time");
             }
 
             // Cancel if not on ground or S is released
@@ -60,7 +63,7 @@ public class SeamstressBasicSpiritLoom : MonoBehaviour
         // timer has not started
         else if (SpiritLoomEligible())
         {
-            timer = SPOOL_GENERATION_INITIAL_BUFFER_TIME;
+            StartSpiritLoom();
         }
     }
 
@@ -74,7 +77,7 @@ public class SeamstressBasicSpiritLoom : MonoBehaviour
 
     public void StartSpiritLoom()
     {
-        timer = SPOOL_GENERATION_INITIAL_BUFFER_TIME;
+        timer = stats.ComputeValue("Spool Generation Initial Buffer Time");
     }
     
     public void StopSpiritLoom()
@@ -92,11 +95,10 @@ public class SeamstressBasicSpiritLoom : MonoBehaviour
     {
         if (curr_spools > 0) { 
         
-            curr_spools -= HEAVY_ATTACK_SPOOL_COST;
+            curr_spools -= (int) stats.ComputeValue("Heavy Attack Spool Cost");
             Debug.Log(curr_spools);
 
-            // TODO enemies hit by attack will be stunned
-            
+            enemyStateManager.Stun(damageContext, stats.ComputeValue("Heavy Attack Stun Time"));
 
 
         }
@@ -110,7 +112,8 @@ public class SeamstressBasicSpiritLoom : MonoBehaviour
 
     }
 
-    
-
-    
+    public StatManager.Stat[] GetStatList()
+    {
+        return statList;
+    }
 }
