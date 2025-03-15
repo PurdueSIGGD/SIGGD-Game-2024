@@ -32,29 +32,27 @@ public class SeamstressBasicSpiritLoom : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         // timer has started
         if (timer > 0.0f)
         {
 
             timer -= Time.deltaTime;
 
-            if (timer <= 0.0f && curr_spools < MAX_SPOOLS)
+            if (timer <= 0.0f)
             {
-                if (curr_spools < MAX_SPOOLS) {
+                if (curr_spools < MAX_SPOOLS)
+                {
                     curr_spools++;
-                    Debug.Log("added " + curr_spools);
                 }
-                else {
-                    Debug.Log("max spools reached");
-                }
+                
                 timer = SPOOL_GENERATION_SUBSEQUENT_BUFFER_TIME;
-
             }
 
             // Cancel if not on ground or S is released
-            if (!SpiritLoomEligible()) {
+            if (!SpiritLoomEligible())
+            {
                 StopSpiritLoom();
-                Debug.Log("We canceled " + curr_spools);
 
             }
 
@@ -63,7 +61,6 @@ public class SeamstressBasicSpiritLoom : MonoBehaviour
         else if (SpiritLoomEligible())
         {
             timer = SPOOL_GENERATION_INITIAL_BUFFER_TIME;
-            Debug.Log("We started " + timer + " spools " + curr_spools);
         }
     }
 
@@ -83,7 +80,7 @@ public class SeamstressBasicSpiritLoom : MonoBehaviour
     public void StopSpiritLoom()
     {
         curr_spools = 0;
-        timer = 0;
+        timer = 0.0f;
 
     }
 
@@ -99,6 +96,7 @@ public class SeamstressBasicSpiritLoom : MonoBehaviour
             Debug.Log(curr_spools);
 
             // TODO enemies hit by attack will be stunned
+            
 
 
         }
