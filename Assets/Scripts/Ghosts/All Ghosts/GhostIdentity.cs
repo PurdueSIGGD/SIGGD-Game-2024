@@ -69,7 +69,6 @@ public class GhostIdentity : MonoBehaviour
             {
                 action.DeSelect(PlayerID.instance.gameObject);
             }
-
         }
     }
     

@@ -20,6 +20,7 @@ public class PoliceChiefManager : MonoBehaviour, ISelectable
     // ISelectable interface in use
     public void Select(GameObject player)
     {
+        Debug.Log("NORTH SELECTED!");
         PlayerID.instance.AddComponent<PoliceChiefSpecial>();
         Destroy(PlayerID.instance.GetComponent<Dash>());
         // change animation controller

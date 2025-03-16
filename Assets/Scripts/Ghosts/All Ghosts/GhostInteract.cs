@@ -71,7 +71,7 @@ public class GhostInteract : MonoBehaviour
         interactMenu = null;
 
         PartyManager partyManger = PlayerID.instance.GetComponent<PartyManager>();
-        partyManger.AddGhostToParty(this.GetComponent<GhostIdentity>());
+        partyManger.TryAddGhostToParty(this.GetComponent<GhostIdentity>());
     }
 
     private void StartDialogue()
