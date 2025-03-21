@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 4831227066257484011}
   - component: {fileID: 584133115329307738}
   - component: {fileID: 6358440512691273287}
+  - component: {fileID: 7204414934066423109}
   m_Layer: 17
   m_Name: North-Police_Chief
   m_TagString: Ghost
@@ -127,7 +128,7 @@ MonoBehaviour:
   target: {fileID: 0}
   offset: {x: 0, y: 2}
   radius: 1.5
-  timeMultipliers: {x: 1, y: 0.5, z: 0.5}
+  timeMultipliers: {x: 1, y: 1, z: 0.5}
 --- !u!114 &4831227066257484011
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -168,10 +169,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e73029ca3bfa10409979280cddf52de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ghostlist: []
-  policeID: {fileID: 0}
-  defaultController: {fileID: 0}
-  policeChiefController: {fileID: 0}
+  defaultController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
+  policeChiefController: {fileID: 9100000, guid: aa15c7d7ec4345f49ae3ac6108b95001,
+    type: 2}
+  stats: {fileID: 7204414934066423109}
+--- !u!114 &7204414934066423109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981645078808632434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83a0782e8961e074bbf391401404ae17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  statList:
+  - name: BASIC_COOLDOWN
+    value: 0.75
+  - name: BASIC_DAMAGE
+    value: 50
+  - name: BASIC_RANGE
+    value: 6
 --- !u!1 &4936111184687609786
 GameObject:
   m_ObjectHideFlags: 0
