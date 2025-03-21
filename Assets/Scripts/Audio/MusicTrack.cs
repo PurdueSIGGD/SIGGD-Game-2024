@@ -43,6 +43,11 @@ public class MusicTrack : MonoBehaviour
         if (Math.Abs(loopEnd - tracks[0].clip.length) < 0.05f) {
             loopEnd = tracks[0].clip.length;
         }
+
+        // Set volumes to 0
+        for (int i = 0; i < tracks.Length; i++) {
+            tracks[i].volume = 0.0f;
+        }
         StartCoroutine(Debug_Track_Status());
     }
 
@@ -77,9 +82,11 @@ public class MusicTrack : MonoBehaviour
     }
 
     public void PlayTrack() {
+        if (isPlaying) { return; }
+        
         AudioManager am = GetComponentInParent<AudioManager>();
         // Play base level 2 (since it always plays)
-        tracks[LEVEL_TWO_TRACK_OFFSET].Play();
+        tracks[LEVEL_TWO_TRACK_OFFSET + currentTrackOffset].Play();
         // Play level 1 or 3 based on current energy level
         float energyLevel = am.GetEnergyLevel();
         if (energyLevel < 0.5) {
@@ -92,7 +99,6 @@ public class MusicTrack : MonoBehaviour
         isPlaying = true;
         AdjustLeveledTrackVolumes();
 
-        currentTrackOffset = 0;
         looper = StartCoroutine(AutoLoop());
     }
 
@@ -107,6 +113,13 @@ public class MusicTrack : MonoBehaviour
     public void SetTrackVolume(float volume) {
         maxVolume = volume;
         AdjustLeveledTrackVolumes();
+    }
+
+    public float GetTrackVolume() {
+        if (!isPlaying) {
+            return 0.0f;
+        }
+        return maxVolume;
     }
 
     // Sets track volumes to match energy levels
