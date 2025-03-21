@@ -8,7 +8,7 @@ public class AudioManager : MonoBehaviour {
 
     private float tempStepCounter = 0.0f;
 
-    // MUSIC: The game's soundtrack
+    // ********** MUSIC **********
     // Has type MusicTrack with "music_" variable name header
     // Accessed externally via PlayMusictrack()/GetMusicTrack() with MusicTrackName parameter
 
@@ -16,13 +16,8 @@ public class AudioManager : MonoBehaviour {
     [SerializeField] MusicTrack music_japan;
     [SerializeField] MusicTrack music_seamstress;
     
-    public enum MusicTrackName {
-        //                  loopStart       loopEnd
-        JAPAN, //           21.943          197.486
-        SEAMSTRESS //       11.912          83.383    
-    }
 
-    // SOUND EFFECTS: The sound effects in the game
+    // ********** SOUND EFFECTS **********
     // Has type AudioTrack with "SFX_" variable name header 
     // Accessed externally via PlaySFXtrack()/GetSFXTrack() with SFXTrackName parameter
     [Space(10)]
@@ -30,22 +25,15 @@ public class AudioManager : MonoBehaviour {
     [SerializeField] AudioTrack SFX_jump;
     [SerializeField] AudioTrack SFX_lightAttack;
     [SerializeField] AudioTrack SFX_footsteps;
-    public enum SFXTrackName {
-        JUMP,
-        LIGHT_ATTACK,
-        FOOTSTEP
-    }
 
-    // DIALOGUE: The sound effects in the game
+
+    // ********** DIALOGUE **********
     // Has type AudioTrack with "dialogue_" variable name header
     // Accessed externally via PlayDialoguetrack()/GetDialogueTrack() with DialogueTrackName parameter
     [Space(10)]
     [Header("Dialogue")]
     [SerializeField] AudioTrack dialogue_britishAnt;
 
-    public enum DialogueTrackName {
-        BRITISH_ANT // If this is still here, remove it
-    }
 
     private MusicTrackName currentTrackName;
 
@@ -56,8 +44,6 @@ public class AudioManager : MonoBehaviour {
     // Track 3 plays when energy is between 0.5 and 1.0 with greatest volume at energy = 1.0
     [Space(10)]
     [SerializeField] float energyLevel;
-
-    Coroutine crossfader;
 
     // Start is called before the first frame update
     void Start() {
@@ -90,7 +76,7 @@ public class AudioManager : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.C)) {
             MusicTrackName nextTrack = currentTrackName == MusicTrackName.JAPAN ? MusicTrackName.SEAMSTRESS : MusicTrackName.JAPAN;
-            crossfader = StartCoroutine(CrossfadeTo(nextTrack, 3.0f));
+            StartCoroutine(CrossfadeTo(nextTrack, 3.0f));
         }
 
         if (Input.GetKeyDown(KeyCode.O)) {
@@ -101,14 +87,15 @@ public class AudioManager : MonoBehaviour {
         }
     }
 
-    // Used by MusicTracks to find out which track energy levels to play
-    public float GetEnergyLevel() { return energyLevel; }
+    // ********** ********** ********** ********** ********** //
+    // ******************** Music Interface ******************** //    
+    // ********** ********** ********** ********** ********** //
 
-    // Used by tracks outside of audio to set the ~mood~
-    public void SetEnergyLevel(float newLevel) { energyLevel = newLevel; }
-
-
-    // ********** Music Interface ********** //
+    public enum MusicTrackName {
+        //                  loopStart       loopEnd
+        JAPAN, //           21.943          197.486
+        SEAMSTRESS //       11.912          83.383    
+    }
 
     // Fades into the given track over fadeTime seconds
     public IEnumerator CrossfadeTo(MusicTrackName trackName, float fadeTime) {
@@ -130,12 +117,14 @@ public class AudioManager : MonoBehaviour {
         // The rate to change the tracks' volumes
         float originalTrackVolumeDelta = -originalTrackStartVolume / fadeSteps;
         float newTrackVolumeDelta = (1 - newTrackStartVolume) / fadeSteps;
+        Debug.Log("Do: " + originalTrackVolumeDelta + "\tDn" + newTrackVolumeDelta);
 
         // Fade by adjusting volume over multiple steps
         newTrack.PlayTrack();  
         for (int i = 0; i <= fadeSteps; i++) {
             float originalTrackVolumeAdjustment = originalTrackVolumeDelta * i + originalTrackStartVolume;
             float newTrackVolumeAdjustment = newTrackVolumeDelta * i + newTrackStartVolume;
+
 
             originalTrack.SetTrackVolume(originalTrackVolumeAdjustment);
             newTrack.SetTrackVolume(newTrackVolumeAdjustment);            
@@ -164,7 +153,15 @@ public class AudioManager : MonoBehaviour {
         }
     }
 
-    // ********** SFX Interface ********** //
+    // ********** ********** ********** ********** ********** //
+    // ******************** SFX Interface ******************** //
+    // ********** ********** ********** ********** ********** //
+
+    public enum SFXTrackName {
+        JUMP,
+        LIGHT_ATTACK,
+        FOOTSTEP
+    }
 
     public void PlaySFXTrack(SFXTrackName trackName) {
         GetSFXTrack(trackName).PlayTrack();
@@ -179,7 +176,13 @@ public class AudioManager : MonoBehaviour {
         }
     }
 
-    // ********** Dialogue Interface ********** //
+    // ********** ********** ********** ********** ********** //
+    // ******************** Dialogue Interface ******************** //
+    // ********** ********** ********** ********** ********** //
+
+    public enum DialogueTrackName {
+        BRITISH_ANT // If this is still here, remove it
+    }
 
     public void PlayDialogueTrack(DialogueTrackName trackName) {
         GetDialogueTrack(trackName).PlayTrack();
@@ -191,4 +194,14 @@ public class AudioManager : MonoBehaviour {
             default:                                return null;
         }
     }
+
+    // ********** ********** ********** ********** ********** //
+    // ******************** Misc Functions ******************** //
+    // ********** ********** ********** ********** ********** //
+    
+    // Used by MusicTracks to find out which track energy levels to play
+    public float GetEnergyLevel() { return energyLevel; }
+
+    // Used by tracks outside of audio to set the ~mood~
+    public void SetEnergyLevel(float newLevel) { energyLevel = newLevel; }
 }

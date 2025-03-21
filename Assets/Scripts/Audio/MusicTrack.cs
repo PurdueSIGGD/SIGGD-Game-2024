@@ -112,6 +112,10 @@ public class MusicTrack : MonoBehaviour
  
     public void SetTrackVolume(float volume) {
         maxVolume = volume;
+        AudioManager am = GetComponentInParent<AudioManager>();
+        float tempv1 = maxVolume - Math.Abs(am.GetEnergyLevel() - (maxVolume / 2)) * 2;
+        float tempv2 = maxVolume - tempv1;
+        Debug.Log("tempv1&2: " + tempv1 + "\t" + tempv2);
         AdjustLeveledTrackVolumes();
     }
 
@@ -126,7 +130,7 @@ public class MusicTrack : MonoBehaviour
     private void AdjustLeveledTrackVolumes() {
         AudioManager am = GetComponentInParent<AudioManager>();
         // Calculates the volume of the level two track, normalizing around the maxVolume value
-        float levelTwoTrackVolume = maxVolume - Math.Abs(am.GetEnergyLevel() - (maxVolume / 2)) * 2;
+        float levelTwoTrackVolume = -2 * maxVolume * Math.Abs(am.GetEnergyLevel() - 0.5f) + maxVolume;
         float levelOneOrThreeVolume = maxVolume - levelTwoTrackVolume;
         if (isHighEnergy) {
             tracks[LEVEL_THREE_TRACK_OFFSET + currentTrackOffset].volume = levelOneOrThreeVolume;
