@@ -127,7 +127,7 @@ public class AudioManager : MonoBehaviour {
 
         // Fade by adjusting volume over multiple steps
         newTrack.PlayTrack();  
-        for (int i = 0; i < fadeSteps; i++) {
+        for (int i = 0; i <= fadeSteps; i++) {
             float newVolume = 1.0f / fadeSteps * i;
             originalTrack.SetTrackVolume(1.0f - newVolume);
             newTrack.SetTrackVolume(newVolume);            

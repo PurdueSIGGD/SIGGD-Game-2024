@@ -36,11 +36,14 @@ public class MusicTrack : MonoBehaviour
 
     private bool isPlaying = false;
 
+    Coroutine looper;
+
     void Start() { 
         // If loopEnd is the same as the end of the track, adjust it
         if (Math.Abs(loopEnd - tracks[0].clip.length) < 0.05f) {
             loopEnd = tracks[0].clip.length;
         }
+        StartCoroutine(Debug_Track_Status());
     }
 
     // Update is called once per frame 
@@ -90,7 +93,7 @@ public class MusicTrack : MonoBehaviour
         AdjustLeveledTrackVolumes();
 
         currentTrackOffset = 0;
-        StartCoroutine(AutoLoop());
+        looper = StartCoroutine(AutoLoop());
     }
 
     public void StopTrack() {
@@ -98,7 +101,7 @@ public class MusicTrack : MonoBehaviour
             tracks[i].Stop();
         }
         isPlaying = false;
-        StopCoroutine(AutoLoop());
+        StopCoroutine(looper);
     }
  
     public void SetTrackVolume(float volume) {
