@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -6,38 +7,42 @@ using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class PoliceChiefManager : MonoBehaviour, ISelectable
+public class PoliceChiefManager : GhostManager, ISelectable
 {
-    private Animator animator;
+    //private Animator animator;
 
-    [SerializeField]
-    public RuntimeAnimatorController defaultController;
-    public RuntimeAnimatorController policeChiefController;
-    void Start()
+    //[SerializeField] public StatManager.Stat[] statList;
+    //[SerializeField] public RuntimeAnimatorController defaultController;
+    //[SerializeField] public RuntimeAnimatorController policeChiefController;
+
+    //private StatManager stats;
+    private PoliceChiefSpecial special;
+
+
+
+    protected override void Start()
     {
-        animator = PlayerID.instance.GetComponent<Animator>();
+        base.Start();
     }
+
+    protected override void Update()
+    {
+        base.Update();
+    }
+
     // ISelectable interface in use
-    public void Select(GameObject player)
+    public override void Select(GameObject player)
     {
         Debug.Log("NORTH SELECTED!");
-        PlayerID.instance.AddComponent<PoliceChiefSpecial>();
-        Destroy(PlayerID.instance.GetComponent<Dash>());
-        // change animation controller
-        animator.runtimeAnimatorController = policeChiefController;
+        special = PlayerID.instance.AddComponent<PoliceChiefSpecial>();
+        special.manager = this;
+        base.Select(player);
     }
 
-    public void DeSelect(GameObject player)
+    public override void DeSelect(GameObject player)
     {
-        if (PlayerID.instance.GetComponent<PoliceChiefSpecial>() == true)
-        {
-            Destroy(PlayerID.instance.GetComponent<PoliceChiefSpecial>());
-        }
-        if (PlayerID.instance.GetComponent<Dash>() == false)
-        {
-            PlayerID.instance.AddComponent<Dash>();
-        }
-        //change back to default player controller
-        animator.runtimeAnimatorController = defaultController;
+        if (PlayerID.instance.GetComponent<PoliceChiefSpecial>()) Destroy(PlayerID.instance.GetComponent<PoliceChiefSpecial>());
+        base.DeSelect(player);
     }
+
 }

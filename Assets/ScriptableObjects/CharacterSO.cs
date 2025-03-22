@@ -6,7 +6,11 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/CharacterSO", order = 1)]
 public class CharacterSO : ScriptableObject
 {
-    public string characterName;
+    public string displayName;
+
+    public Sprite icon;
+
+    public Color primaryColor;
 
     [System.Serializable]
     public class ExpressionList

@@ -11,6 +11,7 @@ public class PartyManager : MonoBehaviour
     private int ghostLimit; // maximum number of ghosts player can wield at one time
 
     private List<GhostIdentity> ghostsInParty = new List<GhostIdentity>(); // list of each ghost in party
+    private GhostIdentity selectedGhost = null;
 
     /// <summary>
     /// Adds ghost to end of player's ghost list
@@ -49,7 +50,7 @@ public class PartyManager : MonoBehaviour
     public void ChangePosessingGhost(int index)
     {
         // handle bad input
-        if (index > ghostsInParty.Count)
+        if (index >= ghostsInParty.Count)
         {
             return;
         }
@@ -63,10 +64,12 @@ public class PartyManager : MonoBehaviour
         // do not possess if player selected base kit
         if (index == -1)
         {
+            selectedGhost = null;
             return;
         }
 
         ghostsInParty[index].SetSelected(true);
+        selectedGhost = ghostsInParty[index];
     }
 
     /// <summary>
@@ -85,5 +88,10 @@ public class PartyManager : MonoBehaviour
     public List<GhostIdentity> GetGhostMajorList()
     {
         return ghostsInParty;
+    }
+
+    public GhostIdentity GetSelectedGhost()
+    {
+        return selectedGhost;
     }
 }

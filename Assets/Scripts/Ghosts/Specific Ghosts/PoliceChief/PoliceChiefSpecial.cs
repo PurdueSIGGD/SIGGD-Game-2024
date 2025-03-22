@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PoliceChiefSpecial : MonoBehaviour, ISpecialMove, IStatList
@@ -8,12 +7,12 @@ public class PoliceChiefSpecial : MonoBehaviour, ISpecialMove, IStatList
     private StatManager.Stat[] statList;
 
     private bool shouldChangeBack = true;
-    private float timer;
     private PlayerStateMachine playerStateMachine;
     private Animator camAnim;
     private Camera cam;
-    private GameObject mainCam;
     private StatManager stats;
+
+    [HideInInspector] public PoliceChiefManager manager;
 
     void Start()
     {
@@ -25,10 +24,13 @@ public class PoliceChiefSpecial : MonoBehaviour, ISpecialMove, IStatList
 
     void Update()
     {
-        if (timer > 0)
+        if (manager != null)
         {
-            timer -= Time.deltaTime;
-            if (timer < 0)
+            if (manager.getSpecialCooldown() > 0)
+            {
+                playerStateMachine.OnCooldown("c_special");
+            }
+            else
             {
                 playerStateMachine.OffCooldown("c_special");
             }
@@ -106,7 +108,7 @@ public class PoliceChiefSpecial : MonoBehaviour, ISpecialMove, IStatList
         playerStateMachine.OnCooldown("c_special");
         camAnim.SetBool("pullBack", false);
         GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
-        timer = 8f;
+        manager.startSpecialCooldown();
     }
 
     public bool GetBool()
