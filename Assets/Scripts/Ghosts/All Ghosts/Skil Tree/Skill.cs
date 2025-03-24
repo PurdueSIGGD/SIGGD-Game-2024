@@ -9,14 +9,25 @@ public abstract class Skill : MonoBehaviour
 
     [SerializeField]
     protected SkillSO skillSO;
-    public abstract bool AddPoint();
-    public abstract bool RemovePoint();
+
+    protected int skillPts;
+
+    public abstract void AddPoint();
+    public abstract void RemovePoint();
     public abstract void ClearPoints();
 
-    public abstract int GetPoints();
-
-    public SkillSO GetSkillsSO()
+    public int GetPoints()
     {
-        return skillSO;
+        return skillPts;
+    }
+
+    public string GetName()
+    {
+        return skillSO.name;
+    }
+
+    public string GetDescription()
+    {
+        return skillSO.description;
     }
 }

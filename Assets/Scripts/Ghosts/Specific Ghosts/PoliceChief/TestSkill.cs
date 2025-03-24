@@ -4,26 +4,18 @@ using UnityEngine;
 
 public class TestSkill : Skill
 {
-    private int skillpts = 0;
-    public override bool AddPoint()
+    public override void AddPoint()
     {
-        skillpts++;
-        return true;
+        this.skillPts++;
     }
 
     public override void ClearPoints()
     {
-        skillpts = 0;
+        this.skillPts = 0;
     }
 
-    public override int GetPoints()
+    public override void RemovePoint()
     {
-        return skillpts;
-    }
-
-    public override bool RemovePoint()
-    {
-        skillpts--;
-        return true;
+        this.skillPts--;
     }
 }

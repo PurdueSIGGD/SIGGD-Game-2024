@@ -6,15 +6,12 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
 
-public class GhostSkillUIBehaviour : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class SkillUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] Skill skill;
     [SerializeField] TextMeshProUGUI title;
     [SerializeField] TextMeshProUGUI desc;
     [SerializeField] Image[] skillPoints;
-    [SerializeField] Animation showDesc;
-    [SerializeField] Animation hideDesc;
-
 
     [SerializeField] GhostSkillTreeUIBehaviour skillTree;
 
@@ -69,9 +66,8 @@ public class GhostSkillUIBehaviour : MonoBehaviour, IPointerEnterHandler, IPoint
     public void Visualize(Skill skill)
     {
         this.skill = skill;
-        SkillSO so = skill.GetSkillsSO();
-        title.text = so.name;
-        desc.text = so.description;
+        title.text = skill.GetName();
+        desc.text = skill.GetDescription();
 
         for (int i = 0; i < skillPoints.Length; i++)
         {

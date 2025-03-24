@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 
 public class GhostSkillTreeUIBehaviour : MonoBehaviour
 {
-    [SerializeField] public GhostSkillUIBehaviour[] skillsUIs;
+    [SerializeField] public SkillUI[] skillsUIs;
     [SerializeField] public GameObject[] skillPairs;
 
     /*private SkillTree skillTree;
