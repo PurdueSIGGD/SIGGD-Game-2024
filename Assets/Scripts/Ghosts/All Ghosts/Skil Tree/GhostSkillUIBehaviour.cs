@@ -24,10 +24,10 @@ public class GhostSkillUIBehaviour : MonoBehaviour, IPointerEnterHandler, IPoint
 
     private void Start()
     {
-        Visualize(skill);
+        //Visualize(skill);
     }
 
-    private void Update()
+    /*private void Update()
     {
         if (hovering)
         {
@@ -55,7 +55,7 @@ public class GhostSkillUIBehaviour : MonoBehaviour, IPointerEnterHandler, IPoint
                 this.skill = skill;
             }
         }
-    }
+    }*/
 
     public void OnPointerEnter(PointerEventData eventData)
     {
@@ -67,7 +67,7 @@ public class GhostSkillUIBehaviour : MonoBehaviour, IPointerEnterHandler, IPoint
         hovering = false;
     }
 
-    public void Visualize(Skill skill)
+    /*public void Visualize(Skill skill)
     {
         this.skill = skill;
         for (int i = 0; i < skillPoints.Length; i++)
@@ -83,5 +83,5 @@ public class GhostSkillUIBehaviour : MonoBehaviour, IPointerEnterHandler, IPoint
         desc.text = skill.GetDescription();
         title.text = skill.GetName();
         this.skill = skill;
-    }
+    }*/
 }

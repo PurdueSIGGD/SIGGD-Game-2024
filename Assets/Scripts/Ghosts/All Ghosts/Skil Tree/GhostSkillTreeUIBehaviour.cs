@@ -8,7 +8,7 @@ public class GhostSkillTreeUIBehaviour : MonoBehaviour
     [SerializeField] public GhostSkillUIBehaviour[] skillsUIs;
     [SerializeField] public GameObject[] skillPairs;
 
-    private SkillTree skillTree;
+    /*private SkillTree skillTree;
 
     // Start is called before the first frame update
     void Start()
@@ -73,5 +73,5 @@ public class GhostSkillTreeUIBehaviour : MonoBehaviour
             }
         }
         return null;
-    }
+    }*/
 }
