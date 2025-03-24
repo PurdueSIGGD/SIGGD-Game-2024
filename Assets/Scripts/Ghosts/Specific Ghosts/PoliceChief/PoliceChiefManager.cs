@@ -18,14 +18,14 @@ public class PoliceChiefManager : MonoBehaviour, ISelectable
     {
         animator = PlayerID.instance.GetComponent<Animator>();
     }
-    public GameObject basicProjectile; // visual purposes only
+
     // ISelectable interface in use
     public void Select(GameObject player)
     {
         PlayerID.instance.AddComponent<PoliceChiefSpecial>();
         Destroy(PlayerID.instance.GetComponent<Dash>());
 
-        PlayerID.instance.AddComponent<PoliceChiefBasic>().SetStats(stats);
+        PlayerID.instance.AddComponent<PoliceChiefBasic>().SetVars(stats, GetComponent<LineRenderer>());
         Destroy(PlayerID.instance.GetComponent<LightAttack>());
 
         // change animation controller
