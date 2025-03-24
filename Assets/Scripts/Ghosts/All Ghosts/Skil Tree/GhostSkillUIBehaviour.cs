@@ -9,25 +9,26 @@ using TMPro;
 public class GhostSkillUIBehaviour : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] Skill skill;
-    [SerializeField] Image icon;
-    [SerializeField] Image[] skillPoints;
-    [SerializeField] Sprite filled;
-    [SerializeField] Sprite empty;
-    [SerializeField] Sprite overcharged;
     [SerializeField] TextMeshProUGUI title;
     [SerializeField] TextMeshProUGUI desc;
-    [SerializeField] Vector2 offset;
+    [SerializeField] Image[] skillPoints;
+    [SerializeField] Animation showDesc;
+    [SerializeField] Animation hideDesc;
+
+
     [SerializeField] GhostSkillTreeUIBehaviour skillTree;
 
     private int onPanel = 0;
     private bool hovering;
+    private Animator animator;
 
     private void Start()
     {
-        //Visualize(skill);
+        animator = GetComponent<Animator>();
+        Visualize(skill);
     }
 
-    /*private void Update()
+    private void Update()
     {
         if (hovering)
         {
@@ -36,17 +37,15 @@ public class GhostSkillUIBehaviour : MonoBehaviour, IPointerEnterHandler, IPoint
         else
         {
             onPanel = 0;
-            desc.gameObject.SetActive(false);
+            animator.Play("SkillUnfocused");
         }
 
-        if(onPanel > 200)
+        if (onPanel > 200)
         {
-            desc.gameObject.SetActive(true);
-            desc.gameObject.transform.position = Input.mousePosition + new Vector3(offset.x, offset.y, 0);
-            desc.text = skill.GetDescription();
+            animator.Play("SkillFocused");
         }
 
-        if (Input.GetMouseButtonDown(0) && hovering)
+        /*if (Input.GetMouseButtonDown(0) && hovering)
         {
             Skill skill = skillTree.AddSkillPointToSkill(this.skill, 1);
             if (skill != null)
@@ -54,8 +53,8 @@ public class GhostSkillUIBehaviour : MonoBehaviour, IPointerEnterHandler, IPoint
                 Visualize(skill);
                 this.skill = skill;
             }
-        }
-    }*/
+        }*/
+    }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
@@ -67,21 +66,22 @@ public class GhostSkillUIBehaviour : MonoBehaviour, IPointerEnterHandler, IPoint
         hovering = false;
     }
 
-    /*public void Visualize(Skill skill)
+    public void Visualize(Skill skill)
     {
         this.skill = skill;
+        SkillSO so = skill.GetSkillsSO();
+        title.text = so.name;
+        desc.text = so.description;
+
         for (int i = 0; i < skillPoints.Length; i++)
         {
-            skillPoints[i].sprite = empty;
+            if (i < skill.GetPoints())
+            {
+                skillPoints[i].color = Color.red;
+            } else
+            {
+                skillPoints[i].color = Color.white;
+            }
         }
-        icon.sprite = skill.GetSprite();
-        int skillPts = skill.GetPts();
-        for (int i = 0; i < skillPts; i++)
-        {
-            skillPoints[i].sprite = filled;
-        }
-        desc.text = skill.GetDescription();
-        title.text = skill.GetName();
-        this.skill = skill;
-    }*/
+    }
 }

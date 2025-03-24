@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public abstract class Skill
+public abstract class Skill : MonoBehaviour
 {
     public static readonly int MAX_SKILL_POINTS = 4;
 
@@ -13,7 +13,7 @@ public abstract class Skill
     public abstract bool RemovePoint();
     public abstract void ClearPoints();
 
-    public abstract void GetPoints();
+    public abstract int GetPoints();
 
     public SkillSO GetSkillsSO()
     {
