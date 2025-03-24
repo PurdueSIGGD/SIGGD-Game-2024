@@ -1,14 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class GhostSkillTreeUIBehaviour : MonoBehaviour
+public class SkillTreeUI : MonoBehaviour
 {
-    [SerializeField] public SkillUI[] skillsUIs;
-    [SerializeField] public GameObject[] skillPairs;
-
-    /*private SkillTree skillTree;
+    [SerializeField] public SkillUI[] skillUis;
+    [SerializeField] public TextMeshProUGUI[] tierUis;
+    [SerializeField] SkillTree skillTree;
 
     // Start is called before the first frame update
     void Start()
@@ -18,34 +19,51 @@ public class GhostSkillTreeUIBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        Visualize(skillTree);
     }
 
     public void Visualize(SkillTree skillTree)
     {
         this.skillTree = skillTree;
-        for(int i = 0; i < skillsUIs.Length; i++){
-            if(i % 2 == 0)
-            {
-                skillsUIs[i].Visualize(skillTree.tierList[i / 2].GetLeftSkill());
-            }
-            else{
-                skillsUIs[i].Visualize(skillTree.tierList[i / 2].GetRightSkill());
-            }
+        Skill[] skills = skillTree.GetAllSkills();
+
+        for (int i = 0; i < skillUis.Length; i++)
+        {
+            skillUis[i].Visualize(skills[i]);
         }
 
-        for (int j = 0; j < skillTree.tierList.Length; j++)
+        for (int i = 0; i < tierUis.Length; i++)
         {
-            if (skillTree.tierList[j].IsUnlocked())
-            {
-                skillPairs[j].SetActive(true);
-            }
+            tierUis[i].SetText(skillTree.GetTierPoints((SkillTier) i).ToString());
         }
     }
 
-    public Skill AddSkillPointToSkill(Skill skill, int points)
+    public void ResetPointsUITier1()
     {
-        for (int i = 0; i < skillsUIs.Length; i++)
+        skillTree.ResetPoints(SkillTier.TIER_1);
+        Visualize(skillTree);
+    }
+
+    public void ResetPointsUITier2()
+    {
+        skillTree.ResetPoints(SkillTier.TIER_2);
+        Visualize(skillTree);
+    }
+    public void ResetPointsUITier3()
+    {
+        skillTree.ResetPoints(SkillTier.TIER_3);
+        Visualize(skillTree);
+    }
+
+    public void TryAddPointUI(SkillUI skillUI)
+    {
+        skillTree.TryAddPoint(skillUI.GetAssociatedSkill());
+        Visualize(skillTree);
+    }
+
+    /*public Skill AddSkillPointToSkill(Skill skill, int points)
+    {
+        for (int i = 0; i < skillUis.Length; i++)
         {
             if (i % 2 == 0)
             {

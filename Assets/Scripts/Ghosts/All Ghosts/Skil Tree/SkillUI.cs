@@ -8,12 +8,10 @@ using TMPro;
 
 public class SkillUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    [SerializeField] Skill skill;
+    [SerializeField] public Skill skill;
     [SerializeField] TextMeshProUGUI title;
     [SerializeField] TextMeshProUGUI desc;
     [SerializeField] Image[] skillPoints;
-
-    [SerializeField] GhostSkillTreeUIBehaviour skillTree;
 
     private int onPanel = 0;
     private bool hovering;
@@ -79,5 +77,10 @@ public class SkillUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
                 skillPoints[i].color = Color.white;
             }
         }
+    }
+
+    public Skill GetAssociatedSkill()
+    {
+        return skill;
     }
 }

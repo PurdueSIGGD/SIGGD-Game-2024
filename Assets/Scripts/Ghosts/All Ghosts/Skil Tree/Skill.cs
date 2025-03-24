@@ -5,8 +5,6 @@ using System;
 
 public abstract class Skill : MonoBehaviour
 {
-    public static readonly int MAX_SKILL_POINTS = 4;
-
     [SerializeField]
     protected SkillSO skillSO;
 

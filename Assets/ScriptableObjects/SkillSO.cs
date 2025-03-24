@@ -8,7 +8,5 @@ public class SkillSO : ScriptableObject
 {
     public string skillName;
     public Sprite sprite;
-
-    [TextArea(4,4)]
-    public string description;
+    [TextArea(4,4)] public string description;
 }
