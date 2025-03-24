@@ -75,7 +75,7 @@ public class GhostSkillUIBehaviour : MonoBehaviour, IPointerEnterHandler, IPoint
             skillPoints[i].sprite = empty;
         }
         icon.sprite = skill.GetSprite();
-        int skillPts = skill.GetSkillPts();
+        int skillPts = skill.GetPts();
         for (int i = 0; i < skillPts; i++)
         {
             skillPoints[i].sprite = filled;
