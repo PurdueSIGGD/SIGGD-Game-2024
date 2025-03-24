@@ -20,6 +20,9 @@ public class PlayerUI : MonoBehaviour
     [SerializeField] private Image selectedGhostIcon;
     [SerializeField] private List<Image> selectedGhostFrames;
 
+    [SerializeField] private TextMeshProUGUI selectedGhostSpecialTimer;
+    [SerializeField] private Slider selectedGhostSpecialSlider;
+
     private Health health;
     private StatManager stats;
     private PartyManager partyManager;
@@ -46,6 +49,7 @@ public class PlayerUI : MonoBehaviour
         updateGhost1Widget();
         updateGhost2Widget();
         updateSelectedGhostWidget();
+        updateSelectedGhostSpecialWidget();
     }
 
 
@@ -113,5 +117,12 @@ public class PlayerUI : MonoBehaviour
             }
         }
         //healthText.text = (ghosts.Count >= 1 && ghosts[0] != null) ? Mathf.CeilToInt(ghosts[0].GetComponent<GhostManager>().getSpecialCooldown()).ToString() : "";
+    }
+
+    private void updateSelectedGhostSpecialWidget()
+    {
+        List<GhostIdentity> ghosts = partyManager.GetGhostMajorList();
+        selectedGhostSpecialTimer.text = (ghosts.Count >= 1 && ghosts[0] != null) ? Mathf.CeilToInt(ghosts[0].GetComponent<GhostManager>().getSpecialCooldown()).ToString() : "";
+        //selectedGhostSpecialSlider.value = (ghosts.Count >= 1 && ghosts[0] != null) ? ghosts[0].GetComponent<GhostManager>().stats
     }
 }
