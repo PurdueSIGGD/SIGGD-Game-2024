@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class Spirit : MonoBehaviour
 {
+    public static event System.Action<SpiritType> SpiritCollected;
+
     [SerializeField] SpiritType type;
     [SerializeField] float collectionSpeed;
     protected Rigidbody2D rb;
-    enum SpiritType
+    public enum SpiritType
     {
         Blue,
         Red,
@@ -20,6 +22,7 @@ public class Spirit : MonoBehaviour
         // Do something
         if (collision.gameObject.CompareTag("Player"))
         {
+            SpiritCollected?.Invoke(type);
             Destroy(gameObject);
         }
     }

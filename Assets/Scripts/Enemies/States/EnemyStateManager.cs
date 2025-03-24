@@ -19,14 +19,14 @@ public class EnemyStateManager : MonoBehaviour
     [HideInInspector] public ActionPool pool; // A pool of attacks to randomly choose from
     [HideInInspector] public Animator animator;
 
-    [SerializeField] float aggroRange; // Range for detecting players 
+    [SerializeField] protected float aggroRange; // Range for detecting players 
     protected IEnemyStates curState; // Enemy's current State, defaults to idle
     protected Transform player;
     protected Rigidbody2D rb;
 
     protected virtual void Awake()
     {
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+        player = PlayerID.instance.gameObject.transform;
         stats = GetComponent<StatManager>();
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
@@ -44,6 +44,7 @@ public class EnemyStateManager : MonoBehaviour
         {
             curState.UpdateState(this);
         }
+        Debug.Log(name + " " + curState);
     }
 
     /// <summary>
