@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -92,11 +93,17 @@ public class Health : MonoBehaviour, IDamageable, IStatList
         //Trigger Events
         GameplayEventHolder.OnDeath?.Invoke(context);
 
-        StartCoroutine(DeathCoroutine());
+        StartCoroutine(DeathCoroutine(context));
     }
 
-    private IEnumerator DeathCoroutine()
+    private IEnumerator DeathCoroutine(DamageContext context)
     {
+        if (context.victim != PlayerID.instance.gameObject)
+        {
+            Destroy(gameObject);
+            yield break;
+        }
+
         Time.timeScale = 0;
         gameObject.layer = 0; // I really hope this doesn't collide with anything
         GetComponent<PlayerInput>().enabled = false;
