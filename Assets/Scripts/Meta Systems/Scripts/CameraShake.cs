@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class CameraShake : MonoBehaviour
 {
+    public static CameraShake instance;
+
     // private System.Collections.Generic.SynchronizedCollection<Vector3>() offsets;
     private ArrayList offsetss;  // stores Vector2s for each shake coroutine
     private ArrayList synchOff;  // the above, but synchronised for thread safety
@@ -23,6 +25,11 @@ public class CameraShake : MonoBehaviour
         }
     }
 
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     // Start is called before the first frame update
     void Start()

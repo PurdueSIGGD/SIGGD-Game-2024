@@ -19833,6 +19833,7 @@ GameObject:
   - component: {fileID: 5130688100074952564}
   - component: {fileID: 584762093013841786}
   - component: {fileID: 8185085331476045831}
+  - component: {fileID: 8892496296130981277}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -20091,11 +20092,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Max Dash Distance
-    value: 10
+    value: 6
   - name: Dash Time
-    value: 0.25
+    value: 0.15
   - name: Dash Cooldown
-    value: 1
+    value: 4
   - name: Post Dash Momentum Fraction
     value: 0.6
   velocity: {x: 0, y: 0}
@@ -20125,7 +20126,6 @@ MonoBehaviour:
     value: 1
   - name: Airborne Deaccel.
     value: 0.96
-  doubleJump: 1
 --- !u!114 &4910711782724507570
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20291,6 +20291,21 @@ MonoBehaviour:
   heavyCharging: {fileID: 5242799484510326725}
   heavyPrimed: {fileID: 3536454371160286638}
   heavyAttack: {fileID: 2257709941340548915}
+--- !u!114 &8892496296130981277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8252758106455385166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78971365cf7065c49b48f09c45aac2dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  statList: []
+  defaultController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
+  ghostController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
 --- !u!1001 &8503109854660319302
 PrefabInstance:
   m_ObjectHideFlags: 0

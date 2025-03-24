@@ -33,8 +33,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6631059536473991929}
   - {fileID: 3631785349028548994}
@@ -141,7 +141,7 @@ MonoBehaviour:
   target: {fileID: 0}
   offset: {x: 0, y: 2}
   radius: 1.5
-  timeMultipliers: {x: 1, y: 0.5, z: 0.5}
+  timeMultipliers: {x: 0.5, y: 0.25, z: 0.25}
 --- !u!114 &4831227066257484011
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -186,9 +186,25 @@ MonoBehaviour:
   - name: Basic Cooldown
     value: 1
   - name: Special Cooldown
-    value: 10
+    value: 15
+  - name: Special Damage
+    value: 60
+  - name: Special Travel Distance
+    value: 200
+  - name: Special Ricochet Count
+    value: 2
+  - name: Special Ricochet Minimum Normal Angle
+    value: 15
   defaultController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
   ghostController: {fileID: 9100000, guid: aa15c7d7ec4345f49ae3ac6108b95001, type: 2}
+  specialDamage:
+    damageStrength: 3
+    damageTypes: 01000000
+    actionID: 6
+    actionTypes: 03000000
+    extraContext: 
+  specialRailgunTracer: {fileID: 6718616473108262378, guid: 49747f499c76eed439fc1f48aebfd475,
+    type: 3}
 --- !u!1 &4936111184687609786
 GameObject:
   m_ObjectHideFlags: 0

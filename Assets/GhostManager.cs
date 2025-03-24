@@ -10,7 +10,7 @@ public class GhostManager : MonoBehaviour, ISelectable, IStatList
     [SerializeField] public RuntimeAnimatorController ghostController;
     
     private Animator animator;
-    private StatManager stats;
+    protected StatManager stats;
 
     private float currentBasicCooldown = 0f;
     private bool basicReady = true;
@@ -105,5 +105,10 @@ public class GhostManager : MonoBehaviour, ISelectable, IStatList
     public StatManager.Stat[] GetStatList()
     {
         return statList;
+    }
+
+    public StatManager GetStats()
+    {
+        return stats;
     }
 }

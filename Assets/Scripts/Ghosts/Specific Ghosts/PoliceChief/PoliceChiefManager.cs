@@ -9,20 +9,17 @@ using UnityEngine.UIElements;
 
 public class PoliceChiefManager : GhostManager, ISelectable
 {
-    //private Animator animator;
-
-    //[SerializeField] public StatManager.Stat[] statList;
-    //[SerializeField] public RuntimeAnimatorController defaultController;
-    //[SerializeField] public RuntimeAnimatorController policeChiefController;
-
-    //private StatManager stats;
     private PoliceChiefSpecial special;
+
+    [SerializeField] public DamageContext specialDamage;
+    [SerializeField] public GameObject specialRailgunTracer;
 
 
 
     protected override void Start()
     {
         base.Start();
+        specialDamage.damage = stats.ComputeValue("Special Damage");
     }
 
     protected override void Update()

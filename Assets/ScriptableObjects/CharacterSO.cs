@@ -8,9 +8,13 @@ public class CharacterSO : ScriptableObject
 {
     public string displayName;
 
-    public Sprite icon;
+    public Sprite characterIcon;
 
     public Color primaryColor;
+
+    public Sprite basicAbilityIcon;
+
+    public Sprite specialAbilityIcon;
 
     [System.Serializable]
     public class ExpressionList
