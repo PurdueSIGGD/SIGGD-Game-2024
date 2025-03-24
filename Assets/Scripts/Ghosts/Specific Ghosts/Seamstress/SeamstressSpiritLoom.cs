@@ -19,7 +19,6 @@ public class SeamstressBasicSpiritLoom : MonoBehaviour, IStatList
     DamageContext damageContext;
 
     private PlayerStateMachine playerStateMachine;
-    private EnemyStateManager enemyStateManager;
 
     private float timer = 0.0f;
     private int curr_spools = 0; // 0 to num spools
@@ -29,7 +28,6 @@ public class SeamstressBasicSpiritLoom : MonoBehaviour, IStatList
     void Start()
     {
         playerStateMachine = GetComponent<PlayerStateMachine>();
-        enemyStateManager = GetComponent<EnemyStateManager>();
     }
 
     // Update is called once per frame
@@ -94,12 +92,19 @@ public class SeamstressBasicSpiritLoom : MonoBehaviour, IStatList
     public void StartHeavyAttack()
     {
         if (curr_spools > 0) { 
-        
+         
             curr_spools -= (int) stats.ComputeValue("Heavy Attack Spool Cost");
             Debug.Log(curr_spools);
 
-            enemyStateManager.Stun(damageContext, stats.ComputeValue("Heavy Attack Stun Time"));
-
+            RaycastHit2D[] hits = Physics2D.BoxCastAll(indicator.transform.position, indicator.transform.localScale, 0, new Vector2(0, 0));
+            foreach (RaycastHit2D hit in hits)
+            {
+                if (hit.transform.gameObject.tag == "Enemy")
+                {
+                    EnemyStateManager esm = hit.transform.gameObject.GetComponent<EnemyStateManager>();
+                    esm.Stun(damageContext, stats.ComputeValue("Heavy Attack Stun Time"));
+                }
+            }
 
         }
     }
