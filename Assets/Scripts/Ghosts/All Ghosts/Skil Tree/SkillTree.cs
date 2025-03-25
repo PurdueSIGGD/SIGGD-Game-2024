@@ -5,16 +5,45 @@ using UnityEngine;
 
 public class SkillTree : MonoBehaviour
 {
-    public static readonly int MAX_LEVEL = 10;
+    public static readonly int LEVELS_PER_STEP = 2;
     public static readonly int SKILL_POINT_LIMIT_REG = 3;
-    public static readonly int SKILL_POINT_LIMIT_MAX = 4;
-
 
     [SerializeField]
     private Skill[] skills;
 
-    [SerializeField] private int[] tierPoints = new int[3];
+    private SkillTier[] steps;
+
+    private int[] tierPoints = new int[3];
     [SerializeField] private int level = 0;
+
+    private void Awake()
+    {
+        List<SkillTier> list = new List<SkillTier>();
+
+        // add regular steps
+        for (int i = 0; i < SKILL_POINT_LIMIT_REG; i++)
+        {
+            list.Add(SkillTier.TIER_1);
+        }
+        for (int i = 0; i < SKILL_POINT_LIMIT_REG; i++)
+        {
+            list.Add(SkillTier.TIER_2);
+        }
+        for (int i = 0; i < SKILL_POINT_LIMIT_REG; i++)
+        {
+            list.Add(SkillTier.TIER_3);
+        }
+
+        // add special tier
+        list.Add(SkillTier.TIER_4);
+
+        // add bonus steps
+        list.Add(SkillTier.TIER_1);
+        list.Add(SkillTier.TIER_2);
+        list.Add(SkillTier.TIER_3);
+
+        steps = list.ToArray();
+    }
 
     void Start()
     {
@@ -28,23 +57,31 @@ public class SkillTree : MonoBehaviour
     // -- External --
     public void LevelUp()
     {
-        if (level + 1 < MAX_LEVEL)
+        int preStep = level / LEVELS_PER_STEP;
+        int postStep = (level + 1) / LEVELS_PER_STEP;
+        if (preStep < steps.Length)
         {
-            int tier = level / 3;
-            tierPoints[tier] = tierPoints[tier] + 1;
-            level++;
-        } else if (level + 1 == MAX_LEVEL)
-        {
-            skills[skills.Length - 1].AddPoint();
+            if (preStep != postStep)
+            {
+                SkillTier tier = steps[preStep];
+                if (tier != SkillTier.TIER_4)
+                {
+                    tierPoints[(int) tier]++;
+                } else
+                {
+                    skills[skills.Length - 1].AddPoint();
+                }
+            }
         }
+        level++;
+        Debug.Log($"Level {level} \t PreStep {preStep} \t PostStep {postStep}");
     }
-    
+
     public void TryAddPoint(Skill skill)
     {
         int tierIdx = Array.IndexOf(skills, skill) / 2;
-        int limit = (level == MAX_LEVEL) ? SKILL_POINT_LIMIT_MAX : SKILL_POINT_LIMIT_REG;
 
-        if (tierPoints[tierIdx] > 0 && skill.GetPoints() < limit)
+        if (tierPoints[tierIdx] > 0)
         {
             tierPoints[tierIdx] = tierPoints[tierIdx] - 1;
             skill.AddPoint();
@@ -65,19 +102,23 @@ public class SkillTree : MonoBehaviour
 
     public Skill[] GetAllSkills()
     {
-        /*Skill[] unlocked = new Skill[((level / 3) + 1) * 2];
-        for (int i = 0; i < unlocked.Length; i++)
-        {
-            unlocked[i] = skills[i];
-        }
-        return unlocked;*/
         return skills;
     }
 
     public bool IsUnlocked(Skill skill)
     {
-        int check = ((level / 3) + 1) * 2;
-        return (Array.IndexOf(skills, skill) < check);
+        int idx = Array.IndexOf(skills, skill);
+        int points = 0;
+        if (idx % 2 == 0)
+        {
+            points = tierPoints[idx / 2] + skill.GetPoints() + skills[idx + 1].GetPoints();
+        } 
+        else
+        {
+            points = tierPoints[idx / 2] + skill.GetPoints() + skills[idx - 1].GetPoints();
+        }
+
+        return (points > 0);
     }
 
     public int GetTierPoints(SkillTier tier)
@@ -96,5 +137,6 @@ public enum SkillTier
 {
     TIER_1 = 0,
     TIER_2 = 1,
-    TIER_3 = 2
+    TIER_3 = 2,
+    TIER_4 = 3
 }

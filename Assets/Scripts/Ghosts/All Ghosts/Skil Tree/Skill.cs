@@ -8,11 +8,27 @@ public abstract class Skill : MonoBehaviour
     [SerializeField]
     protected SkillSO skillSO;
 
-    protected int skillPts;
+    protected int skillPts = 0;
 
-    public abstract void AddPoint();
-    public abstract void RemovePoint();
-    public abstract void ClearPoints();
+    public void AddPoint()
+    {
+        skillPts++;
+        AddPointTrigger();
+    }
+    public void RemovePoint()
+    {
+        skillPts--;
+        RemovePointTrigger();
+    }
+    public void ClearPoints()
+    {
+        skillPts = 0;
+        ClearPointsTrigger();
+    }
+
+    public abstract void AddPointTrigger();
+    public abstract void RemovePointTrigger();
+    public abstract void ClearPointsTrigger();
 
     public int GetPoints()
     {
