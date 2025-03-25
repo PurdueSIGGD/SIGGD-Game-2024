@@ -4,6 +4,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 public class PlayerUI : MonoBehaviour
 {
@@ -163,7 +164,9 @@ public class PlayerUI : MonoBehaviour
             selectedGhostSpecialTimer.text = "";
             selectedGhostSpecialSlider.value = 0f;
             selectedGhostSpecialBackground.color = new Color(0.863f, 1f, 1f);
-            selectedGhostSpecialIcon.enabled = true;
+            Color color = selectedGhostSpecialIcon.color;
+            color.a = 1f;
+            selectedGhostSpecialIcon.color = color;
         }
         else
         {
@@ -171,7 +174,9 @@ public class PlayerUI : MonoBehaviour
             selectedGhostSpecialSlider.maxValue = PlayerID.instance.GetComponent<StatManager>().ComputeValue("Dash Cooldown");
             selectedGhostSpecialSlider.value = selectedGhostSpecialSlider.maxValue - PlayerID.instance.GetComponent<OrionManager>().getSpecialCooldown();
             selectedGhostSpecialBackground.color = new Color(0.5f, 0.5f, 0.5f);
-            selectedGhostSpecialIcon.enabled = false;
+            Color color = selectedGhostSpecialIcon.color;
+            color.a = 0.5f;
+            selectedGhostSpecialIcon.color = color;
         }
 
         if (partyManager.GetSelectedGhost() != null)
@@ -185,6 +190,9 @@ public class PlayerUI : MonoBehaviour
                 selectedGhostSpecialFrame.color = partyManager.GetSelectedGhost().GetCharacterInfo().primaryColor;
                 selectedGhostSpecialBackground.color = new Color(0.863f, 1f, 1f);
                 selectedGhostSpecialIcon.enabled = true;
+                Color color = selectedGhostSpecialIcon.color;
+                color.a = 1f;
+                selectedGhostSpecialIcon.color = color;
             }
             else
             {
@@ -192,7 +200,9 @@ public class PlayerUI : MonoBehaviour
                 selectedGhostSpecialSlider.maxValue = partyManager.GetSelectedGhost().GetComponent<StatManager>().ComputeValue("Special Cooldown");
                 selectedGhostSpecialSlider.value = selectedGhostSpecialSlider.maxValue - partyManager.GetSelectedGhost().GetComponent<GhostManager>().getSpecialCooldown();
                 selectedGhostSpecialBackground.color = new Color(0.5f, 0.5f, 0.5f);
-                selectedGhostSpecialIcon.enabled = false;
+                Color color = selectedGhostSpecialIcon.color;
+                color.a = 0.5f;
+                selectedGhostSpecialIcon.color = color;
             }
         }
     }
@@ -224,7 +234,9 @@ public class PlayerUI : MonoBehaviour
             ghost1SpecialTimer.text = "";
             ghost1SpecialSlider.value = 0f;
             ghost1SpecialBackground.color = new Color(0.863f, 1f, 1f);
-            ghost1SpecialIcon.enabled = true;
+            Color color = ghost1SpecialIcon.color;
+            color.a = 1f;
+            ghost1SpecialIcon.color = color;
         }
         else
         {
@@ -232,7 +244,9 @@ public class PlayerUI : MonoBehaviour
             ghost1SpecialSlider.maxValue = PlayerID.instance.GetComponent<StatManager>().ComputeValue("Dash Cooldown");
             ghost1SpecialSlider.value = ghost1SpecialSlider.maxValue - PlayerID.instance.GetComponent<OrionManager>().getSpecialCooldown();
             ghost1SpecialBackground.color = new Color(0.5f, 0.5f, 0.5f);
-            ghost1SpecialIcon.enabled = false;
+            Color color = ghost1SpecialIcon.color;
+            color.a = 0.5f;
+            ghost1SpecialIcon.color = color;
         }
 
         if (!ghosts[0].IsSelected())
@@ -245,7 +259,9 @@ public class PlayerUI : MonoBehaviour
                 ghost1SpecialSlider.value = 0f;
                 ghost1SpecialFrame.color = ghosts[0].GetCharacterInfo().primaryColor;
                 ghost1SpecialBackground.color = new Color(0.863f, 1f, 1f);
-                ghost1SpecialIcon.enabled = true;
+                Color color = ghost1SpecialIcon.color;
+                color.a = 1f;
+                ghost1SpecialIcon.color = color;
             }
             else
             {
@@ -253,7 +269,9 @@ public class PlayerUI : MonoBehaviour
                 ghost1SpecialSlider.maxValue = ghosts[0].GetComponent<StatManager>().ComputeValue("Special Cooldown");
                 ghost1SpecialSlider.value = ghost1SpecialSlider.maxValue - ghosts[0].GetComponent<GhostManager>().getSpecialCooldown();
                 ghost1SpecialBackground.color = new Color(0.5f, 0.5f, 0.5f);
-                ghost1SpecialIcon.enabled = false;
+                Color color = ghost1SpecialIcon.color;
+                color.a = 0.5f;
+                ghost1SpecialIcon.color = color;
             }
         }
     }
