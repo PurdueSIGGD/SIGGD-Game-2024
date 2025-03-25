@@ -8,11 +8,13 @@ using TMPro;
 
 public class SkillUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    [SerializeField] public Skill skill;
+    [SerializeField] Image icon;
     [SerializeField] TextMeshProUGUI title;
     [SerializeField] TextMeshProUGUI desc;
+    [SerializeField] TextMeshProUGUI descVal;
     [SerializeField] Image[] skillPoints;
 
+    private Skill skill;
     private int onPanelFrameCount = 0;
     private bool isHovered;
     private Animator animator;
@@ -20,7 +22,6 @@ public class SkillUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     private void Start()
     {
         animator = GetComponent<Animator>();
-        Visualize(skill);
     }
 
     private void Update()
@@ -53,12 +54,14 @@ public class SkillUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         this.skill = skill;
         title.text = skill.GetName();
         desc.text = skill.GetDescription();
+        icon.sprite = skill.GetIcon();
+        descVal.text = skill.GetDescriptionValue();
 
         for (int i = 0; i < skillPoints.Length; i++)
         {
             if (i < skill.GetPoints())
             {
-                skillPoints[i].color = Color.red;
+                skillPoints[i].color = Color.black;
             } else
             {
                 skillPoints[i].color = Color.white;

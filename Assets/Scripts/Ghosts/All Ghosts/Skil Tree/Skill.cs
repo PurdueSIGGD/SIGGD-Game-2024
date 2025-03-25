@@ -44,4 +44,14 @@ public abstract class Skill : MonoBehaviour
     {
         return skillSO.description;
     }
+
+    public Sprite GetIcon()
+    {
+        return skillSO.sprite;
+    }
+
+    public string GetDescriptionValue()
+    {
+        return skillSO.descriptionValue;
+    }
 }
