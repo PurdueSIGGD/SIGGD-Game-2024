@@ -24,6 +24,8 @@ public class IdolSpecial : MonoBehaviour, ISpecialMove
     public GameObject idolClone; // ref to clone prefab
     private GameObject activeClone; // ref to currently active clone, if exists
 
+    [HideInInspector] public IdolManager manager;
+
     /*
     public void Select(GameObject player)
     {
@@ -47,6 +49,21 @@ public class IdolSpecial : MonoBehaviour, ISpecialMove
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         psm = GetComponent<PlayerStateMachine>();
         //idolClone = Resources.Load<GameObject>("IdolClone");
+    }
+
+    void Update()
+    {
+        if (manager != null)
+        {
+            if (manager.getSpecialCooldown() > 0)
+            {
+                psm.OnCooldown("c_special");
+            }
+            else
+            {
+                psm.OffCooldown("c_special");
+            }
+        }
     }
 
     /// <summary>
@@ -110,7 +127,9 @@ public class IdolSpecial : MonoBehaviour, ISpecialMove
         //psm.OffCooldown("c_special");
         //// do not use psm cooldown because of swap mechanic
         // psm.OnCooldown("c_special");
-        yield return new WaitForSeconds(tpCoolDown);
+        manager.startSpecialCooldown();
+        //yield return new WaitForSeconds(tpCoolDown);
+        yield return new WaitForSeconds(0.1f);
         // psm.OffCooldown("c_special");
 
         canTp = true;

@@ -26,6 +26,11 @@ public class PlayerUI : MonoBehaviour
     [Header("Ghost 2")]
     [SerializeField] private Image ghost2Icon;
     [SerializeField] private List<Image> ghost2Frames;
+    [SerializeField] private TextMeshProUGUI ghost2SpecialTimer;
+    [SerializeField] private Slider ghost2SpecialSlider;
+    [SerializeField] private Image ghost2SpecialBackground;
+    [SerializeField] private Image ghost2SpecialFrame;
+    [SerializeField] private Image ghost2SpecialIcon;
 
     [Header("Selected Ghost")]
     [SerializeField] private Image selectedGhostIcon;
@@ -64,6 +69,7 @@ public class PlayerUI : MonoBehaviour
         updateSelectedGhostWidget();
         updateSelectedGhostSpecialWidget();
         updateGhost1SpecialWidget();
+        updateGhost2SpecialWidget();
     }
 
 
@@ -272,6 +278,77 @@ public class PlayerUI : MonoBehaviour
                 Color color = ghost1SpecialIcon.color;
                 color.a = 0.5f;
                 ghost1SpecialIcon.color = color;
+            }
+        }
+    }
+
+
+
+    private void updateGhost2SpecialWidget()
+    {
+        List<GhostIdentity> ghosts = partyManager.GetGhostMajorList();
+
+        if (ghosts.Count < 2 || ghosts[1] == null)
+        {
+            ghost2SpecialBackground.enabled = false;
+            ghost2SpecialIcon.enabled = false;
+            ghost2SpecialTimer.enabled = false;
+            ghost2SpecialSlider.value = 0f;
+            ghost2SpecialSlider.enabled = false;
+            ghost2SpecialFrame.enabled = false;
+            return;
+        }
+        ghost2SpecialBackground.enabled = true;
+        ghost2SpecialIcon.enabled = true;
+        ghost2SpecialTimer.enabled = true;
+        ghost2SpecialSlider.enabled = true;
+        ghost2SpecialFrame.enabled = true;
+
+        ghost2SpecialFrame.color = orionCharacterInfo.primaryColor;
+        ghost2SpecialIcon.sprite = orionCharacterInfo.specialAbilityIcon;
+        if (PlayerID.instance.GetComponent<OrionManager>().getSpecialCooldown() <= 0f)
+        {
+            ghost2SpecialTimer.text = "";
+            ghost2SpecialSlider.value = 0f;
+            ghost2SpecialBackground.color = new Color(0.863f, 1f, 1f);
+            Color color = ghost2SpecialIcon.color;
+            color.a = 1f;
+            ghost2SpecialIcon.color = color;
+        }
+        else
+        {
+            ghost2SpecialTimer.text = Mathf.CeilToInt(PlayerID.instance.GetComponent<OrionManager>().getSpecialCooldown()).ToString();
+            ghost2SpecialSlider.maxValue = PlayerID.instance.GetComponent<StatManager>().ComputeValue("Dash Cooldown");
+            ghost2SpecialSlider.value = ghost2SpecialSlider.maxValue - PlayerID.instance.GetComponent<OrionManager>().getSpecialCooldown();
+            ghost2SpecialBackground.color = new Color(0.5f, 0.5f, 0.5f);
+            Color color = ghost2SpecialIcon.color;
+            color.a = 0.5f;
+            ghost2SpecialIcon.color = color;
+        }
+
+        if (!ghosts[1].IsSelected())
+        {
+            ghost2SpecialFrame.color = ghosts[1].GetCharacterInfo().primaryColor;
+            ghost2SpecialIcon.sprite = ghosts[1].GetCharacterInfo().specialAbilityIcon;
+            if (ghosts[1].GetComponent<GhostManager>().getSpecialCooldown() <= 0f)
+            {
+                ghost2SpecialTimer.text = "";
+                ghost2SpecialSlider.value = 0f;
+                ghost2SpecialFrame.color = ghosts[1].GetCharacterInfo().primaryColor;
+                ghost2SpecialBackground.color = new Color(0.863f, 1f, 1f);
+                Color color = ghost2SpecialIcon.color;
+                color.a = 1f;
+                ghost2SpecialIcon.color = color;
+            }
+            else
+            {
+                ghost2SpecialTimer.text = Mathf.CeilToInt(ghosts[1].GetComponent<GhostManager>().getSpecialCooldown()).ToString();
+                ghost2SpecialSlider.maxValue = ghosts[1].GetComponent<StatManager>().ComputeValue("Special Cooldown");
+                ghost2SpecialSlider.value = ghost2SpecialSlider.maxValue - ghosts[1].GetComponent<GhostManager>().getSpecialCooldown();
+                ghost2SpecialBackground.color = new Color(0.5f, 0.5f, 0.5f);
+                Color color = ghost2SpecialIcon.color;
+                color.a = 0.5f;
+                ghost2SpecialIcon.color = color;
             }
         }
     }

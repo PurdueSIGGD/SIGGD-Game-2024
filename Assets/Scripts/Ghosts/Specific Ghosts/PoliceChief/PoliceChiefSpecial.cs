@@ -11,7 +11,6 @@ public class PoliceChiefSpecial : MonoBehaviour, ISpecialMove, IStatList
     private PlayerStateMachine playerStateMachine;
     private Animator camAnim;
     private Camera cam;
-    private StatManager stats;
 
     [HideInInspector] public PoliceChiefManager manager;
 
@@ -20,7 +19,6 @@ public class PoliceChiefSpecial : MonoBehaviour, ISpecialMove, IStatList
         cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         camAnim = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Animator>();
         playerStateMachine = GetComponent<PlayerStateMachine>();
-        stats = GetComponent<StatManager>();
     }
 
     void Update()

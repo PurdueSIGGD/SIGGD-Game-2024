@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 4831227066257484011}
   - component: {fileID: 584133115329307738}
   - component: {fileID: 773703493236735993}
+  - component: {fileID: 1173352059460126574}
   m_Layer: 17
   m_Name: Eva-Idol
   m_TagString: Ghost
@@ -32,7 +33,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6631059536473991929}
@@ -125,9 +126,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  offset: {x: 0, y: 2}
+  offset: {x: 0, y: 1}
   radius: 1.5
-  timeMultipliers: {x: 0.35, y: 0.35, z: 0.7}
+  timeMultipliers: {x: 0.125, y: 0.125, z: 0.25}
 --- !u!114 &4831227066257484011
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -168,9 +169,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b69cbeba6563d04f9fae6140fd975fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  statList:
+  - name: Basic Cooldown
+    value: 1
+  - name: Special Cooldown
+    value: 6
   defaultController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
+  ghostController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
   idolClone: {fileID: 7482494425360345118, guid: 05024df506a5b824f8658954331c8231,
     type: 3}
+--- !u!114 &1173352059460126574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981645078808632434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83a0782e8961e074bbf391401404ae17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  statList: []
 --- !u!1 &4936111184687609786
 GameObject:
   m_ObjectHideFlags: 0
