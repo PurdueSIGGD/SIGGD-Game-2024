@@ -5,99 +5,123 @@ using UnityEngine;
 
 public class SkillTree : MonoBehaviour
 {
-    public static readonly int LEVELS_PER_STEP = 2;
+    public static readonly int LEVELS_PER_STEP = 1;
     public static readonly int SKILL_POINT_LIMIT_REG = 3;
+    public static readonly int TIER_COUNT = 4;
+    public static readonly int TIER_1 = 0;
+    public static readonly int TIER_2 = 1;
+    public static readonly int TIER_3 = 2;
+    public static readonly int TIER_4 = 3;
 
     [SerializeField]
     private Skill[] skills;
 
-    private SkillTier[] steps;
-
-    private int[] tierPoints = new int[3];
+    private int[] steps;
+    private SkillTier[] skillTiers;
     [SerializeField] private int level = 0;
+
 
     private void Awake()
     {
-        List<SkillTier> list = new List<SkillTier>();
+        // initialize the skill tiers
+        skillTiers = new SkillTier[TIER_COUNT];
+        for (int i = 0; i < skillTiers.Length; i++)
+        {
+            int lidx = i * 2 + 0;
+            int ridx = i * 2 + 1;
+            skillTiers[i].leftSkill = (lidx < skills.Length) ? skills[lidx] : null;
+            skillTiers[i].rightSkill = (ridx < skills.Length) ? skills[ridx] : null;
+            skillTiers[i].unusedPoints = 0;
+            skillTiers[i].isUnlocked = false;
+        }
+
+        // intiailize steps for leveling up
+        List<int> list = new List<int>();
 
         // add regular steps
         for (int i = 0; i < SKILL_POINT_LIMIT_REG; i++)
         {
-            list.Add(SkillTier.TIER_1);
+            list.Add(TIER_1);
         }
         for (int i = 0; i < SKILL_POINT_LIMIT_REG; i++)
         {
-            list.Add(SkillTier.TIER_2);
+            list.Add(TIER_2);
         }
         for (int i = 0; i < SKILL_POINT_LIMIT_REG; i++)
         {
-            list.Add(SkillTier.TIER_3);
+            list.Add(TIER_3);
         }
 
-        // add special tier
-        list.Add(SkillTier.TIER_4);
+        // add special tier step
+        list.Add(TIER_4);
 
         // add bonus steps
-        list.Add(SkillTier.TIER_1);
-        list.Add(SkillTier.TIER_2);
-        list.Add(SkillTier.TIER_3);
+        list.Add(TIER_1);
+        list.Add(TIER_2);
+        list.Add(TIER_3);
 
         steps = list.ToArray();
     }
 
-    void Start()
+    private void Update()
     {
+        int currStep = level / LEVELS_PER_STEP;
+        if (currStep < steps.Length)
+        {
+            // unlock current tier
+            skillTiers[steps[currStep]].isUnlocked = true;
+        }
     }
 
-    void Update()
+    private int GetSkillTierIndex(Skill skill)
     {
-        
+        for (int i = 0; i < skillTiers.Length; i++)
+        {
+            if (skillTiers[i].leftSkill == skill || skillTiers[i].rightSkill == skill)
+            {
+                return i;
+            }
+        }
+        return -1; // should never reach
     }
 
     // -- External --
     public void LevelUp()
     {
-        int preStep = level / LEVELS_PER_STEP;
-        int postStep = (level + 1) / LEVELS_PER_STEP;
-        if (preStep < steps.Length)
+        int currStep = level / LEVELS_PER_STEP;
+        int nextStep = (level + 1) / LEVELS_PER_STEP;
+        if (currStep < steps.Length)
         {
-            if (preStep != postStep)
+            if (currStep != nextStep)
             {
-                SkillTier tier = steps[preStep];
-                if (tier != SkillTier.TIER_4)
+                skillTiers[steps[currStep]].unusedPoints++;
+
+                if (steps[currStep] == TIER_4)
                 {
-                    tierPoints[(int) tier]++;
-                } else
-                {
-                    skills[skills.Length - 1].AddPoint();
+                    skillTiers[steps[currStep]].unusedPoints--;
+                    skillTiers[steps[currStep]].leftSkill.AddPoint();
                 }
             }
         }
         level++;
-        Debug.Log($"Level {level} \t PreStep {preStep} \t PostStep {postStep}");
     }
 
     public void TryAddPoint(Skill skill)
     {
-        int tierIdx = Array.IndexOf(skills, skill) / 2;
+        int tidx = GetSkillTierIndex(skill);
 
-        if (tierPoints[tierIdx] > 0)
+        if (skillTiers[tidx].unusedPoints > 0)
         {
-            tierPoints[tierIdx] = tierPoints[tierIdx] - 1;
+            skillTiers[tidx].unusedPoints--;
             skill.AddPoint();
         }        
     }
 
-    public void ResetPoints(SkillTier tier)
+    public void ResetPoints(int tierIdx)
     {
-        int tidx = (int) tier;
-        int lidx = tidx * 2;
-        int ridx = tidx * 2 + 1;
-
-        tierPoints[tidx] = skills[lidx].GetPoints() + skills[ridx].GetPoints() + tierPoints[tidx];
-
-        skills[lidx].ClearPoints();
-        skills[ridx].ClearPoints();
+        skillTiers[tierIdx].unusedPoints = skillTiers[tierIdx].leftSkill.GetPoints() + skillTiers[tierIdx].rightSkill.GetPoints() + skillTiers[tierIdx].unusedPoints;
+        skillTiers[tierIdx].leftSkill.ClearPoints();
+        skillTiers[tierIdx].rightSkill.ClearPoints();
     }
 
     public Skill[] GetAllSkills()
@@ -107,23 +131,17 @@ public class SkillTree : MonoBehaviour
 
     public bool IsUnlocked(Skill skill)
     {
-        int idx = Array.IndexOf(skills, skill);
-        int points = 0;
-        if (idx % 2 == 0)
-        {
-            points = tierPoints[idx / 2] + skill.GetPoints() + skills[idx + 1].GetPoints();
-        } 
-        else
-        {
-            points = tierPoints[idx / 2] + skill.GetPoints() + skills[idx - 1].GetPoints();
-        }
-
-        return (points > 0);
+        return skillTiers[GetSkillTierIndex(skill)].isUnlocked;
     }
 
-    public int GetTierPoints(SkillTier tier)
+    public bool IsUnlocked(int tierIdx)
     {
-        return tierPoints[(int) tier];
+        return skillTiers[tierIdx].isUnlocked;
+    }
+
+    public int GetTierPoints(int tierIdx)
+    {
+        return skillTiers[tierIdx].unusedPoints;
     }
 
     public void OnTestA()
@@ -133,10 +151,10 @@ public class SkillTree : MonoBehaviour
 
 }
 
-public enum SkillTier
+public struct SkillTier
 {
-    TIER_1 = 0,
-    TIER_2 = 1,
-    TIER_3 = 2,
-    TIER_4 = 3
+    public Skill leftSkill;
+    public Skill rightSkill;
+    public int unusedPoints;
+    public bool isUnlocked;
 }

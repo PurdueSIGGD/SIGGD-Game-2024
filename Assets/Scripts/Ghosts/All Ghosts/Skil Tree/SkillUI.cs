@@ -13,8 +13,8 @@ public class SkillUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     [SerializeField] TextMeshProUGUI desc;
     [SerializeField] Image[] skillPoints;
 
-    private int onPanel = 0;
-    private bool hovering;
+    private int onPanelFrameCount = 0;
+    private bool isHovered;
     private Animator animator;
 
     private void Start()
@@ -25,40 +25,27 @@ public class SkillUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     private void Update()
     {
-        if (hovering)
+        if (isHovered)
         {
-            onPanel += 1;
-        }
-        else
-        {
-            onPanel = 0;
-            animator.Play("SkillUnfocused");
+            onPanelFrameCount += 1;
         }
 
-        if (onPanel > 200)
+        if (onPanelFrameCount > 200)
         {
             animator.Play("SkillFocused");
         }
-
-        /*if (Input.GetMouseButtonDown(0) && hovering)
-        {
-            Skill skill = skillTree.AddSkillPointToSkill(this.skill, 1);
-            if (skill != null)
-            {
-                Visualize(skill);
-                this.skill = skill;
-            }
-        }*/
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        hovering = true;
+        isHovered = true;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        hovering = false;
+        isHovered = false;
+        onPanelFrameCount = 0;
+        animator.Play("SkillUnfocused");
     }
 
     public void Visualize(Skill skill)

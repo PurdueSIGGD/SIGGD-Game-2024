@@ -8,7 +8,7 @@ using UnityEngine.UIElements;
 public class SkillTreeUI : MonoBehaviour
 {
     [SerializeField] public SkillUI[] skillUis;
-    [SerializeField] public TextMeshProUGUI[] tierUis;
+    [SerializeField] public TierUI[] tierUis;
     [SerializeField] SkillTree skillTree;
 
     // Start is called before the first frame update
@@ -27,31 +27,48 @@ public class SkillTreeUI : MonoBehaviour
         this.skillTree = skillTree;
         Skill[] skills = skillTree.GetAllSkills();
 
+        // display each skill (if unlocked)
         for (int i = 0; i < skillUis.Length; i++)
         {
-            skillUis[i].Visualize(skills[i]);
+            if (skillTree.IsUnlocked(skills[i]))
+            {
+                skillUis[i].gameObject.SetActive(true);
+                skillUis[i].Visualize(skills[i]);
+            }
+            else
+            {
+                skillUis[i].gameObject.SetActive(false);
+            }
         }
 
+        // display tier unused points (if unlocked)
         for (int i = 0; i < tierUis.Length; i++)
         {
-            tierUis[i].SetText(skillTree.GetTierPoints((SkillTier) i).ToString());
+            if (skillTree.IsUnlocked(i))
+            {
+                tierUis[i].gameObject.SetActive(true);
+                tierUis[i].Visualize(skillTree.GetTierPoints(i));
+            } else
+            {
+                tierUis[i].gameObject.SetActive(false);
+            }
         }
     }
 
-    public void ResetPointsUITier1()
+    public void ResetTier1PointsUI()
     {
-        skillTree.ResetPoints(SkillTier.TIER_1);
+        skillTree.ResetPoints(SkillTree.TIER_1);
         Visualize(skillTree);
     }
 
-    public void ResetPointsUITier2()
+    public void ResetTier2PointsUI()
     {
-        skillTree.ResetPoints(SkillTier.TIER_2);
+        skillTree.ResetPoints(SkillTree.TIER_2);
         Visualize(skillTree);
     }
-    public void ResetPointsUITier3()
+    public void ResetTier3PointsUI()
     {
-        skillTree.ResetPoints(SkillTier.TIER_3);
+        skillTree.ResetPoints(SkillTree.TIER_3);
         Visualize(skillTree);
     }
 
@@ -60,36 +77,4 @@ public class SkillTreeUI : MonoBehaviour
         skillTree.TryAddPoint(skillUI.GetAssociatedSkill());
         Visualize(skillTree);
     }
-
-    /*public Skill AddSkillPointToSkill(Skill skill, int points)
-    {
-        for (int i = 0; i < skillUis.Length; i++)
-        {
-            if (i % 2 == 0)
-            {
-                if(this.skillTree.tierList[i / 2].GetLeftSkill() == skill)
-                {
-                    if (this.skillTree.tierList[i/2].GetTotalSkillPts() >= points)
-                    {
-                        this.skillTree.tierList[i / 2].GetLeftSkill().AddSkillPts(points);
-                        this.skillTree.tierList[i / 2].SubSkillPts();
-                        return this.skillTree.tierList[i / 2].GetLeftSkill();
-                    }
-                }
-            }
-            else
-            {
-                if (this.skillTree.tierList[i / 2].GetRightSkill() == skill)
-                {
-                    if (this.skillTree.tierList[i / 2].GetTotalSkillPts() >= points)
-                    {
-                        this.skillTree.tierList[i / 2].GetRightSkill().AddSkillPts(points);
-                        this.skillTree.tierList[i / 2].SubSkillPts();
-                        return this.skillTree.tierList[i / 2].GetRightSkill();
-                    }
-                }
-            }
-        }
-        return null;
-    }*/
 }

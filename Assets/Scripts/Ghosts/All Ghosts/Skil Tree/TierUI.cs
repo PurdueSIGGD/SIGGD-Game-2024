@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class TierUI : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public void Visualize(int unusedPoints)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        int i = 0;
+        foreach (Transform child in transform)
+        {
+            child.gameObject.SetActive(i < unusedPoints);
+            i++;
+        }
     }
 }
