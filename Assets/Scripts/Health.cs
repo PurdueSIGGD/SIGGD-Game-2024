@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -36,8 +37,11 @@ public class Health : MonoBehaviour, IDamageable, IStatList
 
         foreach (GameplayEventHolder.DamageFilterEvent filter in GameplayEventHolder.OnDamageFilter)
         {
-            filter(context);
+            filter(ref context);
+            Debug.Log("After Filter: " + context.damage);
         }
+
+        Debug.Log("Damaged: " + context.damage);
 
         // Reduce current health
         currentHealth -= context.damage;
@@ -68,7 +72,7 @@ public class Health : MonoBehaviour, IDamageable, IStatList
 
         foreach (GameplayEventHolder.HealingFilterEvent filter in GameplayEventHolder.OnHealingFilter)
         {
-            filter(context);
+            filter(ref context);
         }
 
         // Increase current health
@@ -86,21 +90,21 @@ public class Health : MonoBehaviour, IDamageable, IStatList
 
         foreach (GameplayEventHolder.DeathFilterEvent filter in GameplayEventHolder.OnDeathFilter)
         {
-            filter(context);
+            filter(ref context);
         }
 
         //Trigger Events
-        GameplayEventHolder.OnDeath?.Invoke(context);
+        GameplayEventHolder.OnDeath?.Invoke(ref context);
 
-        StartCoroutine(DeathCoroutine());
+        StartCoroutine(DeathCoroutine(context));
     }
 
-    private IEnumerator DeathCoroutine()
+    private IEnumerator DeathCoroutine(DamageContext context)
     {
-        if (gameObject.tag != "Player")
+        if (context.victim != PlayerID.instance.gameObject)
         {
-            GameObject.Destroy(gameObject);
-            yield return null;
+            Destroy(gameObject);
+            yield break;
         }
 
         Time.timeScale = 0;

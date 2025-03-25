@@ -33,13 +33,17 @@ public class PoliceChiefManager : GhostManager, ISelectable
         Debug.Log("NORTH SELECTED!");
         special = PlayerID.instance.AddComponent<PoliceChiefSpecial>();
         special.manager = this;
-        base.Select(player);
+        PlayerID.instance.AddComponent<PoliceChiefBasic>().SetVars(stats, GetComponent<LineRenderer>());
+        Destroy(PlayerID.instance.GetComponent<LightAttack>());
+		base.Select(player);
     }
 
     public override void DeSelect(GameObject player)
     {
         if (PlayerID.instance.GetComponent<PoliceChiefSpecial>()) Destroy(PlayerID.instance.GetComponent<PoliceChiefSpecial>());
-        base.DeSelect(player);
+        if (PlayerID.instance.GetComponent<PoliceChiefBasic>()) Destroy(PlayerID.instance.GetComponent<PoliceChiefBasic>());
+		if (!PlayerID.instance.GetComponent<LightAttack>()) PlayerID.instance.AddComponent<LightAttack>();
+		base.DeSelect(player);
     }
 
 }

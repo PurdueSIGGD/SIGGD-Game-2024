@@ -58,7 +58,7 @@ public class GhostInteract : MonoBehaviour
         WorldInteract WI = FindAnyObjectByType<WorldInteract>();
         WorldInteract.InteractOption opt1 = new WorldInteract.InteractOption("Talk", StartDialogue);
         WorldInteract.InteractOption opt2 = new WorldInteract.InteractOption("Add to Party", AddGhostToParty);
-        WorldInteract.InteractOption opt3 = new WorldInteract.InteractOption("View Skill Tree", null);
+        WorldInteract.InteractOption opt3 = new WorldInteract.InteractOption("View Skill Tree", ViewSkillTree);
 
         Vector3 menuPos = this.transform.position + menuOffset;
 
@@ -78,5 +78,11 @@ public class GhostInteract : MonoBehaviour
     {
         DialogueManager dialogueManager = FindAnyObjectByType<DialogueManager>();
         dialogueManager.StartDialogue(hubConvo);
+    }
+
+    private void ViewSkillTree()
+    {
+        SkillTreeUI skillTreeUI = FindFirstObjectByType<SkillTreeUI>(FindObjectsInactive.Include);
+        skillTreeUI.Visualize(this.gameObject);
     }
 }
