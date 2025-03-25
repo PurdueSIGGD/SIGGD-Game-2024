@@ -20,11 +20,18 @@ public class AudioManager : MonoBehaviour {
     // ********** SOUND EFFECTS **********
     // Has type AudioTrack with "SFX_" variable name header 
     // Accessed externally via PlaySFXtrack()/GetSFXTrack() with SFXTrackName parameter
+
+    // ASSIGN SFX TO THE AUDIO MIXER BASED ON THE FOLLOWING GUIDELINES
+    // Ambient SFX: Sounds which add complexity to the soundscape but are okay to override (e.g. footsteps, long passive effects)
+    // Default SFX: Middle-ground sounds - not too important but shouldn't be overridden as easily (e.g. most enemy sounds)
+    // Priority SFX: Sounds which are especially important to hear for the player (e.g. damage taken, player's attack)
+    // BIGSFX: Sounds which take the centerstage and override ALL other audio sources for impact (e.g. North railgun, T4 Sacrifice skills)
     [Space(10)]
     [Header("SFX")]
     [SerializeField] AudioTrack SFX_jump;
     [SerializeField] AudioTrack SFX_lightAttack;
     [SerializeField] AudioTrack SFX_footsteps;
+    [SerializeField] AudioTrack SFX_railgunAttack;
 
 
     // ********** DIALOGUE **********
@@ -72,6 +79,10 @@ public class AudioManager : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.B)) {
             dialogue_britishAnt.PlayTrack();
+        }
+
+        if (Input.GetKeyDown(KeyCode.R)) {
+            SFX_railgunAttack.PlayTrack();
         }
 
         if (Input.GetKeyDown(KeyCode.C)) {
@@ -160,7 +171,8 @@ public class AudioManager : MonoBehaviour {
     public enum SFXTrackName {
         JUMP,
         LIGHT_ATTACK,
-        FOOTSTEP
+        FOOTSTEP,
+        RAILGUN_ATTACK
     }
 
     public void PlaySFXTrack(SFXTrackName trackName) {
@@ -172,6 +184,7 @@ public class AudioManager : MonoBehaviour {
             case SFXTrackName.JUMP:                 return SFX_jump;
             case SFXTrackName.LIGHT_ATTACK:         return SFX_lightAttack;
             case SFXTrackName.FOOTSTEP:             return SFX_footsteps;
+            case SFXTrackName.RAILGUN_ATTACK:       return SFX_railgunAttack;
             default:                                return null;
         }
     }
