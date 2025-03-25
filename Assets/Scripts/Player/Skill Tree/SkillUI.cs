@@ -6,21 +6,28 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
 
-public class SkillUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class SkillUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
+    // -- Serialize Fields --
+    [Header("References")]
     [SerializeField] Image icon;
     [SerializeField] TextMeshProUGUI title;
     [SerializeField] TextMeshProUGUI desc;
     [SerializeField] TextMeshProUGUI descVal;
     [SerializeField] Image[] skillPoints;
+
+    [Header("Values")]
     [SerializeField] Color emptyPoint;
     [SerializeField] Color fillPoint;
 
+    // -- Private Variables --
     private Skill skill;
+    private SkillTreeUI skillTreeUI;
     private int onPanelFrameCount = 0;
     private bool isHovered;
     private Animator animator;
 
+    // -- Internal Functions --
     private void Start()
     {
         animator = GetComponent<Animator>();
@@ -39,6 +46,7 @@ public class SkillUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         }
     }
 
+    // -- External Functions --
     public void OnPointerEnter(PointerEventData eventData)
     {
         isHovered = true;
@@ -51,9 +59,11 @@ public class SkillUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         //animator.Play("SkillUnfocused");
     }
 
-    public void Visualize(Skill skill)
+    public void Visualize(Skill skill, SkillTreeUI skillTreeUI)
     {
         this.skill = skill;
+        this.skillTreeUI = skillTreeUI;
+
         title.text = skill.GetName();
         desc.text = skill.GetDescription();
         icon.sprite = skill.GetIcon();
@@ -72,8 +82,8 @@ public class SkillUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         animator.Play("SkillFocused");
     }
 
-    public Skill GetAssociatedSkill()
+    public void OnPointerClick(PointerEventData eventData)
     {
-        return skill;
+        skillTreeUI.TryAddPointUI(this.skill);
     }
 }

@@ -8,31 +8,37 @@ using UnityEngine.UIElements;
 
 public class SkillTreeUI : MonoBehaviour
 {
+    // -- Serialize Fields --
+    [Header("References")]
     [SerializeField] TextMeshProUGUI ghostName;
     [SerializeField] TextMeshProUGUI ghostTitle;
-    [SerializeField] SkillUI[] skillUis;
-    [SerializeField] TierUI[] tierUis;
 
+    // -- Private Variables --
     private GameObject ghost;
     private SkillTree skillTree;
+    private SkillUI[] skillUis;
+    private TierUI[] tierUis;
 
-    // Start is called before the first frame update
-    void Start()
+    // -- Internal Functions --
+    private void Start()
     {
+        skillUis = GetComponentsInChildren<SkillUI>();
+        tierUis = GetComponentsInChildren<TierUI>();
         HideSkillTree();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
         //Visualize(ghost);
     }
-
+    
+    // -- External Functions --
     public void Visualize(GameObject ghost)
     {
-        this.gameObject.SetActive(true);
         this.ghost = ghost;
         this.skillTree = ghost.GetComponent<SkillTree>();
+
+        this.gameObject.SetActive(true);
         Skill[] skills = skillTree.GetAllSkills();
 
         // display each skill (if unlocked)
@@ -41,24 +47,23 @@ public class SkillTreeUI : MonoBehaviour
             if (skillTree.IsUnlocked(skills[i]))
             {
                 skillUis[i].gameObject.SetActive(true);
-                skillUis[i].Visualize(skills[i]);
-            }
-            else
+                skillUis[i].Visualize(skills[i], this);
+            } else
             {
                 skillUis[i].gameObject.SetActive(false);
             }
         }
 
-        // display tier unused points (if unlocked)
-        for (int i = 0; i < tierUis.Length; i++)
+        // display each tier's unused points (if unlocked)
+        for (int tier = 0; tier < tierUis.Length; tier++)
         {
-            if (skillTree.IsUnlocked(i))
+            if (skillTree.IsUnlocked(tier))
             {
-                tierUis[i].gameObject.SetActive(true);
-                tierUis[i].Visualize(skillTree.GetTierPoints(i));
+                tierUis[tier].gameObject.SetActive(true);
+                tierUis[tier].Visualize(tier, this);
             } else
             {
-                tierUis[i].gameObject.SetActive(false);
+                tierUis[tier].gameObject.SetActive(false);
             }
         }
     }
@@ -70,26 +75,20 @@ public class SkillTreeUI : MonoBehaviour
         skillTree = null;
     }
 
-    public void ResetTier1PointsUI()
+    public void ResetTierPointsUI(int tier)
     {
-        skillTree.ResetPoints(SkillTree.TIER_1);
+        skillTree.ResetPoints(tier);
         Visualize(ghost);
     }
 
-    public void ResetTier2PointsUI()
+    public void TryAddPointUI(Skill skill)
     {
-        skillTree.ResetPoints(SkillTree.TIER_2);
-        Visualize(ghost);
-    }
-    public void ResetTier3PointsUI()
-    {
-        skillTree.ResetPoints(SkillTree.TIER_3);
+        skillTree.TryAddPoint(skill);
         Visualize(ghost);
     }
 
-    public void TryAddPointUI(SkillUI skillUI)
+    public SkillTree GetSkillTree()
     {
-        skillTree.TryAddPoint(skillUI.GetAssociatedSkill());
-        Visualize(ghost);
+        return skillTree;
     }
 }
