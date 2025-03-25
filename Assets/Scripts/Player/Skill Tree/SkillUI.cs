@@ -13,6 +13,8 @@ public class SkillUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     [SerializeField] TextMeshProUGUI desc;
     [SerializeField] TextMeshProUGUI descVal;
     [SerializeField] Image[] skillPoints;
+    [SerializeField] Color emptyPoint;
+    [SerializeField] Color fillPoint;
 
     private Skill skill;
     private int onPanelFrameCount = 0;
@@ -61,10 +63,10 @@ public class SkillUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         {
             if (i < skill.GetPoints())
             {
-                skillPoints[i].color = Color.black;
+                skillPoints[i].color = fillPoint;
             } else
             {
-                skillPoints[i].color = Color.white;
+                skillPoints[i].color = emptyPoint;
             }
         }
         animator.Play("SkillFocused");
