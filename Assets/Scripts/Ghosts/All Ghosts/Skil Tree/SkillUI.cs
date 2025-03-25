@@ -31,10 +31,10 @@ public class SkillUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             onPanelFrameCount += 1;
         }
 
-        if (onPanelFrameCount > 200)
+        /*if (onPanelFrameCount > 200)
         {
             animator.Play("SkillFocused");
-        }
+        }*/
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -46,7 +46,7 @@ public class SkillUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         isHovered = false;
         onPanelFrameCount = 0;
-        animator.Play("SkillUnfocused");
+        //animator.Play("SkillUnfocused");
     }
 
     public void Visualize(Skill skill)
@@ -67,6 +67,7 @@ public class SkillUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
                 skillPoints[i].color = Color.white;
             }
         }
+        animator.Play("SkillFocused");
     }
 
     public Skill GetAssociatedSkill()

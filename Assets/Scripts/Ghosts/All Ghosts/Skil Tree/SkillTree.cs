@@ -16,6 +16,9 @@ public class SkillTree : MonoBehaviour
     [SerializeField]
     private Skill[] skills;
 
+    [SerializeField]
+    private int startAtLevel = 0;
+
     private int[] steps;
     private SkillTier[] skillTiers;
     [SerializeField] private int level = 0;
@@ -63,6 +66,14 @@ public class SkillTree : MonoBehaviour
         steps = list.ToArray();
     }
 
+    private void Start()
+    {
+        for (int i = 0; i < startAtLevel; i++)
+        {
+            LevelUp();
+        }
+    }
+
     private void Update()
     {
         int currStep = level / LEVELS_PER_STEP;
@@ -72,6 +83,12 @@ public class SkillTree : MonoBehaviour
             skillTiers[steps[currStep]].isUnlocked = true;
         }
     }
+
+    public void OnTestA()
+    {
+        LevelUp();
+    }
+
 
     private int GetSkillTierIndex(Skill skill)
     {
@@ -143,12 +160,6 @@ public class SkillTree : MonoBehaviour
     {
         return skillTiers[tierIdx].unusedPoints;
     }
-
-    public void OnTestA()
-    {
-        LevelUp();
-    }
-
 }
 
 public struct SkillTier

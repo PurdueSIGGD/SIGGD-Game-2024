@@ -8,24 +8,31 @@ using UnityEngine.UIElements;
 
 public class SkillTreeUI : MonoBehaviour
 {
-    [SerializeField] public SkillUI[] skillUis;
-    [SerializeField] public TierUI[] tierUis;
-    [SerializeField] SkillTree skillTree;
+    [SerializeField] TextMeshProUGUI ghostName;
+    [SerializeField] TextMeshProUGUI ghostTitle;
+    [SerializeField] SkillUI[] skillUis;
+    [SerializeField] TierUI[] tierUis;
+
+    private GameObject ghost;
+    private SkillTree skillTree;
 
     // Start is called before the first frame update
     void Start()
     {
+        HideSkillTree();
     }
 
     // Update is called once per frame
     void Update()
     {
-        Visualize(skillTree);
+        //Visualize(ghost);
     }
 
-    public void Visualize(SkillTree skillTree)
+    public void Visualize(GameObject ghost)
     {
-        this.skillTree = skillTree;
+        this.gameObject.SetActive(true);
+        this.ghost = ghost;
+        this.skillTree = ghost.GetComponent<SkillTree>();
         Skill[] skills = skillTree.GetAllSkills();
 
         // display each skill (if unlocked)
@@ -56,26 +63,33 @@ public class SkillTreeUI : MonoBehaviour
         }
     }
 
+    public void HideSkillTree()
+    {
+        this.gameObject.SetActive(false);
+        ghost = null;
+        skillTree = null;
+    }
+
     public void ResetTier1PointsUI()
     {
         skillTree.ResetPoints(SkillTree.TIER_1);
-        Visualize(skillTree);
+        Visualize(ghost);
     }
 
     public void ResetTier2PointsUI()
     {
         skillTree.ResetPoints(SkillTree.TIER_2);
-        Visualize(skillTree);
+        Visualize(ghost);
     }
     public void ResetTier3PointsUI()
     {
         skillTree.ResetPoints(SkillTree.TIER_3);
-        Visualize(skillTree);
+        Visualize(ghost);
     }
 
     public void TryAddPointUI(SkillUI skillUI)
     {
         skillTree.TryAddPoint(skillUI.GetAssociatedSkill());
-        Visualize(skillTree);
+        Visualize(ghost);
     }
 }
