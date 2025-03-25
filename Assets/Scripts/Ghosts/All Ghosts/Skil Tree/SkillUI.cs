@@ -31,10 +31,10 @@ public class SkillUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             onPanelFrameCount += 1;
         }
 
-        /*if (onPanelFrameCount > 200)
+        if (onPanelFrameCount > 200)
         {
-            animator.Play("SkillFocused");
-        }*/
+            //animator.Play("SkillFocused");
+        }
     }
 
     public void OnPointerEnter(PointerEventData eventData)
