@@ -28,7 +28,7 @@ public class IdolPassive : MonoBehaviour
     /// <summary>
     /// Increases the Idol buff count by one
     /// </summary>
-    public void IncrementTempo(DamageContext context)
+    public void IncrementTempo(ref DamageContext context)
     {
         Debug.Log("Increasing tempo");
         if (context.attacker == gameObject)
@@ -84,11 +84,11 @@ public class IdolPassive : MonoBehaviour
         {
             yield break;
         }
-        tempoStack ++;
+        tempoStack++;
         UpdateSpeed(1);
 
         yield return new WaitForSeconds(tempoDuration);
-        tempoStack --;
+        tempoStack--;
         Debug.Log("Tempo expired");
         UpdateSpeed(-1);
     }

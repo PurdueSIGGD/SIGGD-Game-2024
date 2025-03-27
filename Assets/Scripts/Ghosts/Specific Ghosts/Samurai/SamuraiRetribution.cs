@@ -15,6 +15,8 @@ public class SamuraiRetribution : MonoBehaviour
 
     public void StartDash()
     {
+        Debug.Log("StartParrying");
+
         GameplayEventHolder.OnDamageFilter.Add(ParryingFilter);
 
         Vector3 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
@@ -45,12 +47,12 @@ public class SamuraiRetribution : MonoBehaviour
 
     public void StopDash()
     {
+        Debug.Log("Stop Parrying");
         GameplayEventHolder.OnDamageFilter.Remove(ParryingFilter);
     }
 
-    public void ParryingFilter(DamageContext context)
+    public void ParryingFilter(ref DamageContext context)
     {
-        Debug.Log(context.attacker.tag);
         if (context.attacker.CompareTag("Enemy"))
         {
             DamageContext newContext = context;
