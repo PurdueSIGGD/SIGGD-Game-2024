@@ -7,8 +7,9 @@ public class YumeSpecial : MonoBehaviour
 {
     [SerializeField] private GameObject projectile;
     [SerializeField] private float chainRange = float.MaxValue;
+    [SerializeField] private float flightSpeed;
 
-    private Queue<GameObject> enemies; // 
+    private Queue<GameObject> enemies;
 
     private ChainedEnemy head; // will usually be the first enemy hit by Yume's projectile
     private ChainedEnemy tail; // should always point to the end of the list
@@ -25,6 +26,7 @@ public class YumeSpecial : MonoBehaviour
     void Start()
     {
         ptr = head = tail = new ChainedEnemy();
+        enemies = new Queue<GameObject>();
     }
 
 
@@ -32,12 +34,11 @@ public class YumeSpecial : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.V))
         {
-            ChainAllEnemies();
+            FateBind();
         }
     }
 
-    // TODO rename, add comments
-    public void ChainAllEnemies()
+    public void FateBind()
     {
         // whenever ability fires, grab a copy of all enemies at play in a queue
         for (int i = 0; i < EnemySetTest.enemies.Count; i++)
@@ -48,7 +49,7 @@ public class YumeSpecial : MonoBehaviour
         }
         // now this.enemies should be populated with every enemy at play
 
-        // TODO fire projectile at mouse direction
+        StartCoroutine(FireProjectile(transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition)));
     }
 
 
@@ -121,23 +122,33 @@ public class YumeSpecial : MonoBehaviour
         return targetLoc;
     }
 
-    private IEnumerator FireProjectile(Vector2 dest)
+    private IEnumerator FireProjectile(Vector2 orig, Vector2 dest)
     {
-        YumeProjectile yumeProjectile = Instantiate(projectile, transform).GetComponent<YumeProjectile>();
+        orig = orig + (dest - orig).normalized * 2;
+        YumeProjectile yumeProjectile = Instantiate(projectile, orig, transform.rotation).GetComponent<YumeProjectile>();
+        yumeProjectile.Initialize(dest, flightSpeed, chainRange);
 
-        yield return new WaitUntil(yumeProjectile.hasExpired);
+        yield return new WaitUntil(yumeProjectile.HasExpired);
 
         // if the projectile has hit an enemy
-        GameObject hitTarget = yumeProjectile.getHitTarget();
+        GameObject hitTarget = yumeProjectile.GetHitTarget();
         if (hitTarget != null)
         {
             // then add the hit enemy to linked list
             tail.enemy = hitTarget;
+            tail.chainedTo = new ChainedEnemy();
             tail = tail.chainedTo;
 
             // find next target position and fire
-            Vector2 targetPos = FindNextTarget(hitTarget).position;
-            StartCoroutine(FireProjectile(targetPos));
+            Transform targetPos = FindNextTarget(hitTarget);
+            if (targetPos == null)
+            {
+                yield return null;
+            }
+            else
+            {
+                StartCoroutine(FireProjectile(hitTarget.transform.position, targetPos.position));
+            }
         }
         
     }

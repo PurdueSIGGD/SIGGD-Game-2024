@@ -4,9 +4,14 @@ using UnityEngine;
 
 public class YumeProjectile : MonoBehaviour
 {
-    float lifeTime;
+    float lifeTime; // time after which the projectile should expire
     bool hit = false; // if the projectile has hit an enemy
     GameObject hitTarget;
+
+    // standard projectile fields
+    Rigidbody2D rb;
+    Vector2 dir;
+    float speed;
 
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -21,8 +26,25 @@ public class YumeProjectile : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        rb = GetComponent<Rigidbody2D>();   
+    }
 
-    public bool hasExpired() { return hit || lifeTime <= 0; }
+    void Update()
+    {
+        rb.velocity = dir * speed;
+        lifeTime -= Time.deltaTime;
+    }
 
-    public GameObject getHitTarget() { return hitTarget; }
+    public void Initialize(Vector2 dest, float speed, float range)
+    {
+        lifeTime = range / speed;
+        dir = (dest - (Vector2)transform.position).normalized;
+        this.speed = speed;
+    }
+
+    public bool HasExpired() { return hit || lifeTime <= 0; }
+
+    public GameObject GetHitTarget() { return hitTarget; }
 }
