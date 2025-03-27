@@ -46,9 +46,10 @@ public class YumeSpecial : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.V))
         {
             ChainAllEnemies();
-            while (ptr.next != null)
+            while (ptr != null)
             {
                 Debug.Log(ptr.enemy.name);
+                ptr = ptr.next;
             }
         }
     }
@@ -56,14 +57,11 @@ public class YumeSpecial : MonoBehaviour
     public void ChainAllEnemies()
     {
         ptr.enemy = EnemySetTest.enemies.Dequeue();
-        Debug.Log(ptr.enemy.name);
         ptr.next = ChainNextEnemy(ptr);
     }
 
     private node ChainNextEnemy(node cur)
     {
-        Debug.Log(EnemySetTest.enemies.Count);
-
         node n = new node();
         float minDist = float.MaxValue;
         for (int i = 0; i < EnemySetTest.enemies.Count; i++)
@@ -72,6 +70,7 @@ public class YumeSpecial : MonoBehaviour
 
             if (enemy.GetInstanceID() == cur.enemy.GetInstanceID()) // if checking the currently linked enemy, pass
             {
+                i--;
                 continue;
             }
 

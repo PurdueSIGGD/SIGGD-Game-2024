@@ -18,7 +18,6 @@ public class EnemySetTest : MonoBehaviour
         foreach (GameObject gameObject in GameObject.FindGameObjectsWithTag("Enemy"))
         {
             enemies.Enqueue(gameObject);
-            Debug.Log(gameObject.name);
         }
     }
 }
