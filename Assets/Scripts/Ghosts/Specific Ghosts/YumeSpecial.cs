@@ -5,39 +5,23 @@ using UnityEngine;
 
 public class YumeSpecial : MonoBehaviour
 {
-    // TODO remove
-    private Queue<GameObject> enemies;
-    private Queue<GameObject> hitEnemies = new Queue<GameObject>();
-    private node ptr;
+    [SerializeField] private float chainRange = float.MaxValue;
+
+
+    private ChainedEnemy head; // will usually be the first enemy hit by Yume's projectile
+    private ChainedEnemy ptr;
     
-    // TODO remove
-    class node
+    class ChainedEnemy
     {
         public GameObject enemy;
-        public node next;
+        public ChainedEnemy chainedTo;
 
-        public node(GameObject enemy, node next)
-        {
-            this.enemy = enemy;
-            this.next = next;
-        }
-
-        public node(GameObject enemy)
-        {
-            this.enemy = enemy;
-            this.next = null;
-        }
-
-        public node() 
-        {
-            enemy = null;
-            next = null;
-        }
+        public ChainedEnemy() { enemy = null; chainedTo = null; }
     }
 
     void Start()
     {
-        ptr = new node();
+        ptr = head = new ChainedEnemy();
     }
 
 
@@ -46,24 +30,22 @@ public class YumeSpecial : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.V))
         {
             ChainAllEnemies();
-            while (ptr != null)
-            {
-                Debug.Log(ptr.enemy.name);
-                ptr = ptr.next;
-            }
         }
     }
 
     public void ChainAllEnemies()
     {
         ptr.enemy = EnemySetTest.enemies.Dequeue();
-        ptr.next = ChainNextEnemy(ptr);
+        ptr.chainedTo = ChainNextEnemy(ptr);
     }
 
-    private node ChainNextEnemy(node cur)
+
+    // A recursive call used to construct a list of enemies chained to one another
+    // by checking all enemies present and binding a hit enemy to the closest one
+    private ChainedEnemy ChainNextEnemy(ChainedEnemy cur)
     {
-        node n = new node();
-        float minDist = float.MaxValue;
+        ChainedEnemy n = new ChainedEnemy();
+        float minDist = chainRange;
         for (int i = 0; i < EnemySetTest.enemies.Count; i++)
         {
             GameObject enemy = EnemySetTest.enemies.Dequeue();
@@ -71,7 +53,7 @@ public class YumeSpecial : MonoBehaviour
             if (enemy.GetInstanceID() == cur.enemy.GetInstanceID()) // if checking the currently linked enemy, pass
             {
                 i--;
-                continue;
+                continue; // do not add the removed enemy back to the list, the enemy is already linked
             }
 
             float dist = Vector2.Distance(cur.enemy.transform.position, enemy.transform.position); // cur must have an enemy
@@ -90,7 +72,11 @@ public class YumeSpecial : MonoBehaviour
             return null; // end of the chain
         }
 
-        n.next = ChainNextEnemy(n); // else continue the chain
+        // TODO shoot a projectile here to [n]
+        // yield thread until function results, if projectile hits, continue
+        // if projectile misses, return
+
+        n.chainedTo = ChainNextEnemy(n); // else continue the chain
 
         return n;
     }
