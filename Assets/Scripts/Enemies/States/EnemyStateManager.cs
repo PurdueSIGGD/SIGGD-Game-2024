@@ -99,6 +99,16 @@ public class EnemyStateManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Knockback the enemy
+    /// </summary>
+    /// <param name="direction">The direction of the knockback</param>
+    /// <param name="knockbackStrength">The strength of the knockback</param>
+    public void ApplyKnockback(Vector2 direction, float knockbackStrength)
+    {
+        rb.AddForce(direction.normalized * knockbackStrength, ForceMode2D.Impulse);
+    }
+
+    /// <summary>
     /// Flip the Enemy object across the Y-axis
     /// </summary>
     /// <param name="isFlipped"> Enemy's current orientation </param>

@@ -13,7 +13,7 @@ public class AggroState : IEnemyStates
     public void EnterState(EnemyStateManager enemy)
     {
         rb = enemy.GetComponent<Rigidbody2D>();
-        rb.velocity = new Vector2(0, rb.velocity.y); // Make sure Enemy stops moving
+        //rb.velocity = new Vector2(0, rb.velocity.y); // Make sure Enemy stops moving
         enemy.pool.idle.Play(enemy.animator); // Play the idle animation when in between attacks
     }
 

@@ -14,8 +14,10 @@ public class StunState : IEnemyStates
 
     public void EnterState(EnemyStateManager enemy)
     {
+        Rigidbody rb = enemy.GetComponent<Rigidbody>();
         Debug.Log(enemy.name + " stunned! stun test");
         isStunned = true;
+        rb.velocity = new Vector2(0, rb.velocity.y);
         this.stunDuration = 0.5f; // default stun duration, used for hit-stuns
     }
 
@@ -38,7 +40,7 @@ public class StunState : IEnemyStates
         else
         {
             Rigidbody2D rb = enemy.GetComponent<Rigidbody2D>();
-            rb.velocity = Vector2.zero;
+            //rb.velocity = Vector2.zero;
             enemy.pool.idle.Play(enemy.animator);
         }
     }

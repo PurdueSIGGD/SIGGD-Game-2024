@@ -69,29 +69,18 @@ public class Dash : MonoBehaviour, IStatList
     //</summary>
     public void StartDash()
     {
-        if (specialAction != null)
-        {
-            specialAction();
-        }
-        else
-        {
-            Vector3 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-            //Vector2 displacement = Vector2.ClampMagnitude((Vector2)mousePos - (Vector2)transform.position, stats.ComputeValue("Max Dash Distance"));
+        GetComponent<Move>().PlayerStop();
+        Vector3 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 displacement = ((Vector2)mousePos - (Vector2)transform.position).normalized * stats.ComputeValue("Max Dash Distance");
+        this.velocity = displacement / stats.ComputeValue("Dash Time");
+        StartCoroutine(DashCoroutine());
+    }
 
-            Vector2 displacement = ((Vector2)mousePos - (Vector2)transform.position).normalized * stats.ComputeValue("Max Dash Distance");
-            
-            /*
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, displacement.normalized, displacement.magnitude, LayerMask.GetMask("Ground"));
-            if (hit.collider != null)
-            {
-                displacement = hit.point - (Vector2)transform.position - displacement.normalized * rb.GetComponent<Collider2D>().bounds.extents.magnitude;
-            }
-            displacement = (displacement.magnitude < 5f) ? displacement.normalized * 5f : displacement;
-            */
-
-            this.velocity = displacement / stats.ComputeValue("Dash Time");
-            StartCoroutine(DashCoroutine());
-        }
+    public void StopDash()
+    {
+        GetComponent<Move>().PlayerGo();
+        if (GetComponent<Animator>().GetBool("p_grounded")) return;
+        GetComponent<Move>().ApplyKnockback(rb.velocity.normalized, rb.velocity.magnitude);
     }
 
     private IEnumerator DashCoroutine()
@@ -103,13 +92,9 @@ public class Dash : MonoBehaviour, IStatList
 
         rb.velocity *= stats.ComputeValue("Post Dash Momentum Fraction");
         psm.EnableTrigger("OPT");
-        //psm.OnCooldown("c_special");
 
         isDashing = false;
-        //yield return new WaitForSeconds(stats.ComputeValue("Dash Cooldown"));
-        //psm.OffCooldown("c_special");
         orionManager.setSpecialCooldown(stats.ComputeValue("Dash Cooldown"));
-        //psm.EnableTrigger("OPT");
     }
 
     public StatManager.Stat[] GetStatList()
