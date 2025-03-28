@@ -26,7 +26,7 @@ public class PoliceChiefBasic : MonoBehaviour
     }
     public void SetVars(StatManager stats, LineRenderer tracer)
     {
-        cooldownTime = stats.ComputeValue("BASIC_COOLDOWN");
+        cooldownTime = stats.ComputeValue("Basic Cooldown");
         damage.damage = stats.ComputeValue("BASIC_DAMAGE");
         range = stats.ComputeValue("BASIC_RANGE");
         width = stats.ComputeValue("BASIC_WIDTH");

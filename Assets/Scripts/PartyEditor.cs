@@ -60,7 +60,7 @@ public class PartyEditor : MonoBehaviour
     {
         if (!selectedMenuItem || selectedMenuItem.identity.IsInParty()) return;
 
-        partyManager.AddGhostToParty(selectedMenuItem.identity);
+        partyManager.TryAddGhostToParty(selectedMenuItem.identity);
         selectedMenuItem.transform.SetParent(partyBar.transform);
     }
 
