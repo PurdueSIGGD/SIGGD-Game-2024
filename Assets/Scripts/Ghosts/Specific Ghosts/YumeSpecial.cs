@@ -5,15 +5,21 @@ using UnityEngine;
 
 public class YumeSpecial : MonoBehaviour
 {
+    [Header("Projectile")]
     [SerializeField] private GameObject projectile;
     [SerializeField] private float chainRange = float.MaxValue;
     [SerializeField] private float flightSpeed;
+    [SerializeField] private float chainedDuration;
 
-    private Queue<GameObject> enemies;
+    [Header("Fatebound Effect")]
+    [SerializeField] private float sharedDmgScaling;
 
+    private Queue<GameObject> linkableEnemies;
     private ChainedEnemy head; // will usually be the first enemy hit by Yume's projectile
     private ChainedEnemy tail; // should always point to the end of the list
     private ChainedEnemy ptr;
+
+    private float durationCounter;
 
     class ChainedEnemy
     {
@@ -26,7 +32,8 @@ public class YumeSpecial : MonoBehaviour
     void Start()
     {
         ptr = head = tail = new ChainedEnemy();
-        enemies = new Queue<GameObject>();
+        linkableEnemies = new Queue<GameObject>();
+        durationCounter = chainedDuration;
     }
 
 
@@ -36,6 +43,14 @@ public class YumeSpecial : MonoBehaviour
         {
             FateBind();
         }
+        if (head != null) // if linked list isn't empty
+        {
+            durationCounter -= Time.deltaTime;
+            if (durationCounter < 0)
+            {
+                ClearList();
+            }
+        }
     }
 
     public void FateBind()
@@ -44,54 +59,30 @@ public class YumeSpecial : MonoBehaviour
         for (int i = 0; i < EnemySetTest.enemies.Count; i++)
         {
             GameObject enemy = EnemySetTest.enemies.Dequeue();
-            enemies.Enqueue(enemy);
+            linkableEnemies.Enqueue(enemy);
             EnemySetTest.enemies.Enqueue(enemy);
         }
         // now this.enemies should be populated with every enemy at play
-
+        durationCounter = chainedDuration;
         StartCoroutine(FireProjectile(transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition)));
     }
 
-
-    // A recursive call used to construct a list of enemies chained to one another
-    // by checking all enemies present and binding a hit enemy to the closest one
-    private ChainedEnemy ChainNextEnemy(ChainedEnemy cur)
+    public void DamageLinkedEnemies(int enemyID, DamageContext context)
     {
-        ChainedEnemy n = new ChainedEnemy();
-        float minDist = chainRange;
-        for (int i = 0; i < EnemySetTest.enemies.Count; i++)
+        ptr = head;
+
+        while (ptr.enemy != null)
         {
-            GameObject enemy = EnemySetTest.enemies.Dequeue();
-
-            if (enemy.GetInstanceID() == cur.enemy.GetInstanceID()) // if checking the currently linked enemy, pass
+            if (ptr.enemy.GetInstanceID() != enemyID)
             {
-                i--;
-                continue; // do not add the removed enemy back to the list, the enemy is already linked
+                DamageContext sharedDmg = new DamageContext();
+                sharedDmg.damage = context.damage * sharedDmgScaling;
+                sharedDmg.damageStrength = context.damageStrength;
+
+                ptr.enemy.GetComponent<Health>().NoContextDamage(sharedDmg, PlayerID.instance.gameObject);
             }
-
-            float dist = Vector2.Distance(cur.enemy.transform.position, enemy.transform.position); // cur must have an enemy
-
-            if (dist < minDist)
-            {
-                minDist = dist;
-                n.enemy = enemy;
-            }
-
-            EnemySetTest.enemies.Enqueue(enemy);
+            ptr = ptr.chainedTo;
         }
-
-        if (n.enemy == null) // and other condtions
-        {
-            return null; // end of the chain
-        }
-
-        // TODO shoot a projectile here to [n]
-        // yield thread until function results, if projectile hits, continue
-        // if projectile misses, return
-
-        n.chainedTo = ChainNextEnemy(n); // else continue the chain
-
-        return n;
     }
 
     // should find the next closest enemy to the one given
@@ -99,9 +90,9 @@ public class YumeSpecial : MonoBehaviour
     {
         Transform targetLoc = null;
         float minDist = chainRange;
-        for (int i = 0; i < enemies.Count; i++)
+        for (int i = 0; i < linkableEnemies.Count; i++)
         {
-            GameObject enemy = enemies.Dequeue();
+            GameObject enemy = linkableEnemies.Dequeue();
 
             if (enemy.GetInstanceID() == cur.GetInstanceID()) // if checking the currently linked enemy, pass
             {
@@ -117,7 +108,7 @@ public class YumeSpecial : MonoBehaviour
                 minDist = dist;
             }
 
-            enemies.Enqueue(enemy);
+            linkableEnemies.Enqueue(enemy);
         }
         return targetLoc;
     }
@@ -135,9 +126,19 @@ public class YumeSpecial : MonoBehaviour
         if (hitTarget != null)
         {
             // then add the hit enemy to linked list
-            tail.enemy = hitTarget;
-            tail.chainedTo = new ChainedEnemy();
-            tail = tail.chainedTo;
+            hitTarget.AddComponent<FateboundDebuff>();
+
+            if (head.enemy == null)
+            {
+                head.enemy = hitTarget;
+                tail = head.chainedTo = new ChainedEnemy();
+            }
+            else
+            {
+                tail.enemy = hitTarget;
+                tail.chainedTo = new ChainedEnemy();
+                tail = tail.chainedTo;
+            }
 
             // find next target position and fire
             Transform targetPos = FindNextTarget(hitTarget);
@@ -150,6 +151,10 @@ public class YumeSpecial : MonoBehaviour
                 StartCoroutine(FireProjectile(hitTarget.transform.position, targetPos.position));
             }
         }
-        
+    }
+
+    private void ClearList()
+    {
+        ptr = head = tail = new ChainedEnemy();
     }
 }

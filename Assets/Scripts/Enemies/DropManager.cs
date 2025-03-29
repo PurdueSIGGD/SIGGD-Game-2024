@@ -13,6 +13,10 @@ public class DropManager : MonoBehaviour
     private void DropLoot(DamageContext context)
     {
         GameObject victim = context.victim;
+        if (victim == null)
+        {
+            return;            
+        }
         DropTable table = victim.GetComponent<DropTable>();
         if (!context.attacker.CompareTag("Player") || table == null) { return; }
 

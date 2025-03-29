@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -54,7 +55,20 @@ public class Health : MonoBehaviour, IDamageable, IStatList
         return context.damage;
     }
 
+    public float NoContextDamage(DamageContext context, GameObject attacker)
+    {
+        context.attacker = attacker;
+        context.damage = Mathf.Clamp(context.damage, 0f, currentHealth);
 
+        currentHealth -= context.damage;
+
+        if (currentHealth <= 0f)
+        {
+            Kill(context);
+        }
+
+        return context.damage;
+    }
 
     public float Heal(HealingContext context, GameObject healer)
     {

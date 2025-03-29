@@ -16,13 +16,22 @@ public class YumeProjectile : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        // TODO handle bounce logic
+        if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        {
+            float angle = Vector2.Angle(dir, -collision.contacts[0].normal);
+            Debug.Log(angle);
+            if (angle > 60)
+            {
+                Destroy(gameObject);
+            }
 
-        if (collision.collider.CompareTag("Enemy"))
+            dir = Vector2.Reflect(dir, collision.contacts[0].normal);
+        }
+        else if (collision.collider.CompareTag("Enemy"))
         {
             hit = true;
             hitTarget = collision.gameObject;
-            gameObject.SetActive(false); // hides the gameobject from view
+            Destroy(gameObject);
         }
     }
 
@@ -35,6 +44,8 @@ public class YumeProjectile : MonoBehaviour
     {
         rb.velocity = dir * speed;
         lifeTime -= Time.deltaTime;
+
+        if (lifeTime < 0.1) Destroy(gameObject);
     }
 
     public void Initialize(Vector2 dest, float speed, float range)
