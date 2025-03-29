@@ -55,6 +55,11 @@ public class Health : MonoBehaviour, IDamageable, IStatList
         return context.damage;
     }
 
+    /// <summary>
+    /// Damage method that does not invoke any OnDamage events and also not
+    /// processed by any damage filters, useful certain damage like Yume's
+    /// fatebound effect
+    /// </summary>
     public float NoContextDamage(DamageContext context, GameObject attacker)
     {
         context.attacker = attacker;

@@ -22,6 +22,7 @@ public class YumeProjectile : MonoBehaviour
             Debug.Log(angle);
             if (angle > 60)
             {
+                hit = true; // trigger HasExpired
                 Destroy(gameObject);
             }
 

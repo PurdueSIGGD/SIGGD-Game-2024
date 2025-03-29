@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Added debuff that shares any taken damage to other debuffed enemies
+/// </summary>
 public class FateboundDebuff : MonoBehaviour
 {
     YumeSpecial yume;

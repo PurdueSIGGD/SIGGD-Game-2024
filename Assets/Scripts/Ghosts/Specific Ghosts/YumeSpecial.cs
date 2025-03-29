@@ -67,6 +67,11 @@ public class YumeSpecial : MonoBehaviour
         StartCoroutine(FireProjectile(transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition)));
     }
 
+    /// <summary>
+    /// Call to share a damage taken by one enemy to all enemies with the fatebound
+    /// effect.
+    /// </summary>
+    /// <param name="enemyID"> The instance id of the enemy currently being damaged </param>
     public void DamageLinkedEnemies(int enemyID, DamageContext context)
     {
         ptr = head;
@@ -119,7 +124,7 @@ public class YumeSpecial : MonoBehaviour
         YumeProjectile yumeProjectile = Instantiate(projectile, orig, transform.rotation).GetComponent<YumeProjectile>();
         yumeProjectile.Initialize(dest, flightSpeed, chainRange);
 
-        yield return new WaitUntil(yumeProjectile.HasExpired);
+        yield return new WaitUntil(yumeProjectile.HasExpired); // wait until the projectile has hit or is destroyed
 
         // if the projectile has hit an enemy
         GameObject hitTarget = yumeProjectile.GetHitTarget();
