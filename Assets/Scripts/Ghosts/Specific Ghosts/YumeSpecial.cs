@@ -7,7 +7,8 @@ public class YumeSpecial : MonoBehaviour
 {
     [Header("Projectile")]
     [SerializeField] private GameObject projectile;
-    [SerializeField] private float chainRange = float.MaxValue;
+    [SerializeField] private float maxRicochet;
+    [SerializeField] private float chainRange;
     [SerializeField] private float flightSpeed;
     [SerializeField] private float chainedDuration;
 
@@ -19,6 +20,7 @@ public class YumeSpecial : MonoBehaviour
     private ChainedEnemy tail; // should always point to the end of the list
     private ChainedEnemy ptr;
 
+    private float ricochetCounter;
     private float durationCounter;
 
     class ChainedEnemy
@@ -35,7 +37,6 @@ public class YumeSpecial : MonoBehaviour
         linkableEnemies = new Queue<GameObject>();
         durationCounter = chainedDuration;
     }
-
 
     void Update()
     {
@@ -147,7 +148,7 @@ public class YumeSpecial : MonoBehaviour
 
             // find next target position and fire
             Transform targetPos = FindNextTarget(hitTarget);
-            if (targetPos == null)
+            if (targetPos == null || IncrementRicochet())
             {
                 yield return null;
             }
@@ -158,8 +159,23 @@ public class YumeSpecial : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Increment the number of times the current ability has ricocheted
+    /// </summary>
+    /// <returns> if the ability has reached its max ricochet amount </returns>
+    public bool IncrementRicochet()
+    {
+        ricochetCounter++;
+        return ricochetCounter == maxRicochet;
+    }
+
     private void ClearList()
     {
+        while (ptr.enemy != null)
+        {
+            Destroy(ptr.enemy.GetComponent<FateboundDebuff>());
+            ptr = ptr.chainedTo;
+        }
         ptr = head = tail = new ChainedEnemy();
     }
 }
