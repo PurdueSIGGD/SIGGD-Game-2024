@@ -109,7 +109,7 @@ public class Health : MonoBehaviour, IDamageable, IStatList
 
         Time.timeScale = 0;
         gameObject.layer = 0; // I really hope this doesn't collide with anything
-        GetComponent<PlayerInput>().enabled = false;
+        if (GetComponent<PlayerInput>() != null) GetComponent<PlayerInput>().enabled = false;
 
         float startTime = Time.unscaledTime;
         float endTime = startTime + 3;

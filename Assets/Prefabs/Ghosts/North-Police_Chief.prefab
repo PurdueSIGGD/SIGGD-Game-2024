@@ -42,8 +42,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6631059536473991929}
   - {fileID: 3631785349028548994}
@@ -136,9 +136,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  offset: {x: 0, y: 2}
-  radius: 1.5
-  timeMultipliers: {x: 1, y: 1, z: 0.5}
+  offset: {x: -0.5, y: 1}
+  radius: 0.75
+  timeMultipliers: {x: 0.15, y: 0.15, z: 0.075}
 --- !u!114 &4831227066257484011
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -151,7 +151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64193cb6f57202744bf8fb56115e3b2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ghostName: North
+  characterInfo: {fileID: 11400000, guid: 82f9561b0030f9b4282a3072b0d5656d, type: 2}
 --- !u!114 &584133115329307738
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179,10 +179,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e73029ca3bfa10409979280cddf52de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  statList:
+  - name: Basic Cooldown
+    value: 0.75
+  - name: Special Cooldown
+    value: 15
+  - name: Special Damage
+    value: 60
+  - name: Special Travel Distance
+    value: 200
+  - name: Special Ricochet Count
+    value: 2
+  - name: Special Ricochet Minimum Normal Angle
+    value: 15
+  - name: BASIC_DAMAGE
+    value: 50
+  - name: BASIC_RANGE
+    value: 6
+  - name: BASIC_WIDTH
+    value: 0.5
   defaultController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
-  policeChiefController: {fileID: 9100000, guid: aa15c7d7ec4345f49ae3ac6108b95001,
-    type: 2}
-  stats: {fileID: 7204414934066423109}
+  ghostController: {fileID: 9100000, guid: aa15c7d7ec4345f49ae3ac6108b95001, type: 2}
+  specialDamage:
+    damageStrength: 3
+    damageTypes: 01000000
+    actionID: 6
+    actionTypes: 03000000
+    extraContext: 
+  specialRailgunTracer: {fileID: 6718616473108262378, guid: 49747f499c76eed439fc1f48aebfd475,
+    type: 3}
 --- !u!114 &7204414934066423109
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -195,15 +220,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83a0782e8961e074bbf391401404ae17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statList:
-  - name: BASIC_COOLDOWN
-    value: 0.75
-  - name: BASIC_DAMAGE
-    value: 50
-  - name: BASIC_RANGE
-    value: 6
-  - name: BASIC_WIDTH
-    value: 0.5
+  statList: []
 --- !u!120 &253907817863650806
 LineRenderer:
   serializedVersion: 2
@@ -328,6 +345,7 @@ MonoBehaviour:
   - {fileID: 8509003940054931913}
   - {fileID: 216501609006921810}
   - {fileID: 589596433784939328}
+  startAtLevel: 0
   level: 0
 --- !u!114 &5406936487883014381
 MonoBehaviour:
