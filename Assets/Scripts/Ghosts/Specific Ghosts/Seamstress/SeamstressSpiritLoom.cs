@@ -43,7 +43,7 @@ public class SeamstressBasicSpiritLoom : MonoBehaviour, IStatList
     void Update()
     {
 
-        Debug.Log("SPPOLS " + curr_spools + "bro " + (int)stats.ComputeValue("Spool Generation Subsequent Buffer Time") + " time " + timer);
+        Debug.Log("SPOOLS " + curr_spools + " time " + timer);
 
         // timer has started
         if (timer > 0.0f)
