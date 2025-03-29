@@ -33,7 +33,7 @@ public class Treasure : MonoBehaviour
     public void Interact(GameObject player) {
         PartyManager party = player.GetComponent<PartyManager>();
         foreach (GhostIdentity g in party.GetGhostMajorList()) {
-            if (string.Equals(g.GetName(), ghostName)) {
+            if (string.Equals(g.GetCharacterInfo().name, ghostName)) {
                 g.AddTrust(trust);
             }
         }

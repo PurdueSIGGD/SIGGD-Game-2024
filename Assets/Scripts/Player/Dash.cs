@@ -26,6 +26,8 @@ public class Dash : MonoBehaviour, IStatList
     [SerializeField] private bool isDashing = false;
 
     private StatManager stats;
+    private OrionManager orionManager;
+    private PlayerStateMachine psm;
 
     [Header("Delegate Override Variables")]
     public SpecialAction specialAction;
@@ -36,6 +38,8 @@ public class Dash : MonoBehaviour, IStatList
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         rb = GetComponent<Rigidbody2D>();
         stats = GetComponent<StatManager>();
+        orionManager = GetComponent<OrionManager>();
+        psm = GetComponent<PlayerStateMachine>();
         specialAction = null;
     }
 
@@ -44,6 +48,17 @@ public class Dash : MonoBehaviour, IStatList
         if (isDashing)
         {
             rb.velocity = velocity;
+        }
+        if (orionManager != null)
+        {
+            if (orionManager.getSpecialCooldown() > 0)
+            {
+                psm.OnCooldown("c_special");
+            }
+            else
+            {
+                psm.OffCooldown("c_special");
+            }
         }
     }
 
@@ -83,16 +98,18 @@ public class Dash : MonoBehaviour, IStatList
     {
         isDashing = true;
         PlayerStateMachine psm = this.GetComponent<PlayerStateMachine>();
-        
+
         yield return new WaitForSeconds(stats.ComputeValue("Dash Time"));
 
         rb.velocity *= stats.ComputeValue("Post Dash Momentum Fraction");
         psm.EnableTrigger("OPT");
-        psm.OnCooldown("c_special");
+        //psm.OnCooldown("c_special");
 
         isDashing = false;
-        yield return new WaitForSeconds(stats.ComputeValue("Dash Cooldown"));
-        psm.OffCooldown("c_special");
+        //yield return new WaitForSeconds(stats.ComputeValue("Dash Cooldown"));
+        //psm.OffCooldown("c_special");
+        orionManager.setSpecialCooldown(stats.ComputeValue("Dash Cooldown"));
+        //psm.EnableTrigger("OPT");
     }
 
     public StatManager.Stat[] GetStatList()

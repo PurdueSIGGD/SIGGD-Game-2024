@@ -73,7 +73,7 @@ public class DialogueManager : MonoBehaviour
         dialogueText.text = conversation.dialogueLines[currentLine].line;
 
         // Set name
-        characterNameText.text = conversation.dialogueLines[currentLine].character.characterName;
+        characterNameText.text = conversation.dialogueLines[currentLine].character.displayName;
 
         // TODO: set image
 
