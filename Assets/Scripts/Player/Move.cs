@@ -165,6 +165,7 @@ public class Move : MonoBehaviour, IStatList
         maxSpeed = stats.ComputeValue("Max Running Speed");
         deaccel = stats.ComputeValue("Running Deaccel.");
     }
+
     public void StartDash()
     {
         accel = stats.ComputeValue("Running Accel.");
