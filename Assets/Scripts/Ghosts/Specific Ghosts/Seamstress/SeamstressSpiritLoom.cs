@@ -11,14 +11,20 @@ using UnityEngine;
 public class SeamstressBasicSpiritLoom : MonoBehaviour, IStatList
 {
 
-    [SerializeField] public StatManager.Stat[] statList;
+    [SerializeField]
+    public StatManager.Stat[] statList;
 
-    public StatManager stats;
+    private StatManager stats;
 
     [SerializeField]
     DamageContext damageContext;
+    [SerializeField] 
+    float offsetX;
+    [SerializeField]
+    GameObject indicator;
 
     private PlayerStateMachine playerStateMachine;
+    private Camera mainCamera;
 
     private float timer = 0.0f;
     private int curr_spools = 0; // 0 to num spools
@@ -27,12 +33,17 @@ public class SeamstressBasicSpiritLoom : MonoBehaviour, IStatList
     // Start is called before the first frame update
     void Start()
     {
+        indicator.SetActive(false);
         playerStateMachine = GetComponent<PlayerStateMachine>();
+        mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+        stats = this.GetComponent<StatManager>();
     }
 
     // Update is called once per frame
     void Update()
     {
+
+        Debug.Log("SPPOLS " + curr_spools + "bro " + (int)stats.ComputeValue("Spool Generation Subsequent Buffer Time") + " time " + timer);
 
         // timer has started
         if (timer > 0.0f)
@@ -42,9 +53,10 @@ public class SeamstressBasicSpiritLoom : MonoBehaviour, IStatList
 
             if (timer <= 0.0f)
             {
-                if (curr_spools < stats.ComputeValue("Max Spools"))
+                if (curr_spools < stats.ComputeValue("Maximum Spools"))
                 {
                     curr_spools++;
+
                 }
 
                 timer = stats.ComputeValue("Spool Generation Subsequent Buffer Time");
@@ -54,6 +66,8 @@ public class SeamstressBasicSpiritLoom : MonoBehaviour, IStatList
             if (!SpiritLoomEligible())
             {
                 StopSpiritLoom();
+                indicator.SetActive(false);
+
 
             }
 
@@ -62,6 +76,17 @@ public class SeamstressBasicSpiritLoom : MonoBehaviour, IStatList
         else if (SpiritLoomEligible())
         {
             StartSpiritLoom();
+        }
+
+        // Copied from HeavyAttack
+        Vector3 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        if (mousePos.x < transform.position.x)
+        {
+            indicator.transform.localPosition = new Vector3(-offsetX, indicator.transform.localPosition.y, 0);
+        }
+        else
+        {
+            indicator.transform.localPosition = new Vector3(offsetX, indicator.transform.localPosition.y, 0);
         }
     }
 
@@ -91,6 +116,7 @@ public class SeamstressBasicSpiritLoom : MonoBehaviour, IStatList
 
     public void StartHeavyAttack()
     {
+        indicator.SetActive(true);
         if (curr_spools > 0) { 
          
             curr_spools -= (int) stats.ComputeValue("Heavy Attack Spool Cost");
@@ -101,6 +127,7 @@ public class SeamstressBasicSpiritLoom : MonoBehaviour, IStatList
             {
                 if (hit.transform.gameObject.tag == "Enemy")
                 {
+                    Debug.Log("we have stunned");
                     EnemyStateManager esm = hit.transform.gameObject.GetComponent<EnemyStateManager>();
                     esm.Stun(damageContext, stats.ComputeValue("Heavy Attack Stun Time"));
                 }
