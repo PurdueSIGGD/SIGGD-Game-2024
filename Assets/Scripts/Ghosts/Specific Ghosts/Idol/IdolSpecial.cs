@@ -12,49 +12,26 @@ public class IdolSpecial : MonoBehaviour, ISpecialMove
     //bool possessing;
     PlayerStateMachine psm;
     [SerializeField] float maxDistance = 8.0f;
-    [SerializeField] float tpCoolDown = 8.0f; // cooldown for teleporting special action
     [SerializeField] float switchCoolDown = 0.5f; // cooldown for switching with clones
-
-    private bool isDashing; // bool for if is currently dashing
-    private bool canTp = true;
-    private bool canSwitch = false;
     private Camera mainCamera;
-    private Vector2 dir;
 
     public GameObject idolClone; // ref to clone prefab
     private GameObject activeClone; // ref to currently active clone, if exists
+    bool cloneAlive; // is the clone supposed to be alive right now?
 
     [HideInInspector] public IdolManager manager;
-
-    /*
-    public void Select(GameObject player)
-    {
-        possessing = true;
-        psm = player.GetComponent<PlayerStateMachine>();
-
-        // override delegate
-        //player.GetComponent<Dash>().specialAction = HoloJump;
-    }
-    public void DeSelect(GameObject player)
-    {
-        possessing = false;
-
-        // unoverride delegate
-        //player.GetComponent<Dash>().specialAction = null;
-    }
-    */
 
     void Start()
     {
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         psm = GetComponent<PlayerStateMachine>();
-        //idolClone = Resources.Load<GameObject>("IdolClone");
     }
 
     void Update()
     {
         if (manager != null)
         {
+            print("IDOLSPECIALCD: " + manager.getSpecialCooldown());
             if (manager.getSpecialCooldown() > 0)
             {
                 psm.OnCooldown("c_special");
@@ -64,6 +41,14 @@ public class IdolSpecial : MonoBehaviour, ISpecialMove
                 psm.OffCooldown("c_special");
             }
         }
+
+        // runs once, at the instant the clone dies
+
+        if ((activeClone == null) && cloneAlive)
+        {
+            cloneAlive = false;
+            manager.startSpecialCooldown();
+        }
     }
 
     /// <summary>
@@ -71,13 +56,13 @@ public class IdolSpecial : MonoBehaviour, ISpecialMove
     /// If none is active and the skill is not under cooldown, attempt to
     /// teleport the player towards the mouse position.
     /// </summary>
-    public void StartDash()
+    public void StartHoloJump()
     {
-        if (canSwitch) // if there is currently a clone active, switch with it
+        if (activeClone) // if there is currently a clone active, switch with it
         {
             StartCoroutine(SwitchCoroutine());
         }
-        else if (canTp) // else create clone and teleport
+        else // else create clone and teleport
         {
             StartCoroutine(DashCoroutine());
         }
@@ -90,22 +75,28 @@ public class IdolSpecial : MonoBehaviour, ISpecialMove
     {
         Debug.Log("Holo Dash!");
 
-        // instant cast time
-        //psm.EnableTrigger("OPT");
+        // calculate desired teleport position based on mouse location
 
-        isDashing = true;
-        canTp = false;
-        //dir = (mainCamera.ScreenToWorldPoint(Input.mousePosition) - transform.position).normalized;
         Vector2 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         Vector2 pos = transform.position;
-        dir = (mousePos - pos).normalized;
+        Vector2 newpos = mousePos - pos;
 
-        // create a clone
+        // cap newpos magnitude at maxDistance
+
+        if (newpos.magnitude > manager.GetStats().ComputeValue("HOLOJUMP_MAX_DISTANCE"))
+        {
+            newpos = newpos.normalized * manager.GetStats().ComputeValue("HOLOJUMP_MAX_DISTANCE");
+        }
+
+        // instantiate clone at position (right before teleporting)
+
         activeClone = Instantiate(idolClone, transform.position, transform.rotation);
         activeClone.GetComponent<IdolClone>().Initialize(gameObject);
-        canSwitch = true;
+        cloneAlive = true;
 
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, maxDistance, LayerMask.GetMask("Ground"));
+        // calculate final destination (cannot teleport through "ground" layers)
+
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, newpos.normalized, newpos.magnitude, LayerMask.GetMask("Ground"));
         Vector3 dest;
         if (hit)
         {
@@ -113,26 +104,17 @@ public class IdolSpecial : MonoBehaviour, ISpecialMove
         }
         else
         {
-            float destX = transform.position.x + (dir * maxDistance).x;
-            float destY = transform.position.y + (dir * maxDistance).y;
-            dest = new Vector2(destX, destY);
+            dest = newpos;
         }
+
+        // teleport player to final destination
+
         transform.position = dest;
-        isDashing = false;
 
-        yield return new WaitForSeconds(0.1f);
+        // small pause before player can start swapping with clone
+
+        yield return new WaitForSeconds(manager.GetStats().ComputeValue("HOLOJUMP_CLONE_SWAP_INTERVAL"));
         psm.EnableTrigger("OPT");
-        //psm.OnCooldown("c_special");
-        //yield return new WaitForSeconds(switchCoolDown);
-        //psm.OffCooldown("c_special");
-        //// do not use psm cooldown because of swap mechanic
-        // psm.OnCooldown("c_special");
-        manager.startSpecialCooldown();
-        //yield return new WaitForSeconds(tpCoolDown);
-        yield return new WaitForSeconds(0.1f);
-        // psm.OffCooldown("c_special");
-
-        canTp = true;
     }
 
     /// <summary>
@@ -140,32 +122,23 @@ public class IdolSpecial : MonoBehaviour, ISpecialMove
     /// </summary>
     private IEnumerator SwitchCoroutine()
     {
-        canSwitch = false;
         // check if clone still exists
+
         if (activeClone == null)
         {
-            // if not, dash instead
-            StartCoroutine(DashCoroutine());
+            yield break;
         }
-        else
-        {
-            Debug.Log("Holo Swap!");
+        Debug.Log("Holo Swap!");
 
-            // instant cast time
-            //psm.EnableTrigger("OPT");
+        // switch position with active clone
 
-            // if so, switch places with clone
-            (psm.transform.position, activeClone.transform.position) = (activeClone.transform.position, psm.transform.position);
-            //psm.OnCooldown("c_special");
-            yield return new WaitForSeconds(switchCoolDown);
-            //psm.OffCooldown("c_special");
-            canSwitch = true;
+        (psm.transform.position, activeClone.transform.position) = (activeClone.transform.position, psm.transform.position);
 
-            yield return new WaitForSeconds(0.1f);
-            psm.EnableTrigger("OPT");
-        }
+        // small pause before player can swap with clone again
+
+        yield return new WaitForSeconds(manager.GetStats().ComputeValue("HOLOJUMP_CLONE_SWAP_INTERVAL"));
+        psm.EnableTrigger("OPT");
     }
-
     public bool GetBool()
     {
         return true;

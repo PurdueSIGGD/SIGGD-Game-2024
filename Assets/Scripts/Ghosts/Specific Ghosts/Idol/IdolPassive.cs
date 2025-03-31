@@ -7,13 +7,14 @@ using UnityEngine;
 /// </summary>
 public class IdolPassive : MonoBehaviour
 {
-    [SerializeField] public int tempoStack = 0; // Buff count, maxes at 3 stacks
-    [SerializeField] public int runSpeedMod = 20; // Run speed modifier for each buff stack, in percentage
-    [SerializeField] public int glideSpeedMod = 8; // Glide speed modifier for each buff stack, in percentage
-    [SerializeField] public float tempoDuration = 8.0f; // Duration before 1 stack of tempo expires
+    [SerializeField] public int tempoStacks = 0; // number of stacks
+    [SerializeField] bool active; // is the idol ghost currently active?
+    [SerializeField] bool kill; // has the player just scored a kill?
+    [SerializeField] bool uptempo; // have the stored tempo stacks been activated?
 
     // Reference to player stats
-    private StatManager stats;
+    private StatManager playerStats;
+    [HideInInspector] public IdolManager manager;
 
     void OnEnable()
     {
@@ -22,7 +23,32 @@ public class IdolPassive : MonoBehaviour
 
     void Start()
     {
-        stats = GetComponent<StatManager>();
+        playerStats = PlayerID.instance.gameObject.GetComponent<StatManager>(); // yoink
+    }
+
+    /// <summary>
+    /// Called by IdolManager on swap to Idol
+    /// </summary>
+    public void ApplyBuffOnSwap()
+    {
+        UpdateSpeed(tempoStacks);
+        active = true;
+
+        // initialize tempo timer if stacks exist and tempo isn't up already
+
+        if (uptempo && (tempoStacks > 0))
+        {
+            InitializeTempoTimer();
+        }
+
+    }
+    /// <summary>
+    /// Called by IdolManager on swap away from Idol
+    /// </summary>
+    public void RemoveBuffOnSwap()
+    {
+        active = false;
+        UpdateSpeed(-tempoStacks);
     }
 
     /// <summary>
@@ -31,65 +57,116 @@ public class IdolPassive : MonoBehaviour
     public void IncrementTempo(ref DamageContext context)
     {
         Debug.Log("Increasing tempo");
-        if (context.attacker == gameObject)
+
+        // not me? DON'T CARE!!!
+
+        if (context.attacker != PlayerID.instance.gameObject)
         {
-            StartCoroutine(TempoCoroutine());
+            return;
+        }
+
+        // increment tempo stacks if it doesn't exceed maximum
+
+        if (tempoStacks > manager.GetStats().ComputeValue("TEMPO_MAX_STACKS"))
+        {
+            tempoStacks++;
+
+            // immediately apply tempo changes if Idol is active (+1 boost)
+
+            if (active)
+            {
+                UpdateSpeed(1);
+            }
+        }
+
+        // initialize tempo effect if idol is active and tempo is 1 (meaning it just got incremented from 0)
+
+        if (active && (tempoStacks == 1))
+        {
+            InitializeTempoTimer();
         }
     }
 
     /// <summary>
-    /// Increases the Idol buff count (max 3)
+    /// On your marks... get set... GOOOO!!!
+    /// Initializes the tempo timer to accurately track tempo duration until it ends.
     /// </summary>
-    /// <param name="count">number of buff stacks to add</param>
-    public void IncrementTempo(int count)
+    /// <returns></returns>
+    private string InitializeTempoTimer()
     {
-        for (int i = 0; i < count; i++)
-        {
-            StartCoroutine(TempoCoroutine());
-        }
+        StartCoroutine(TempoCoroutine(
+            manager.GetStats().ComputeValue("TEMPO_BASE_DURATION"),
+            manager.GetStats().ComputeValue("TEMPO_BASE_DURATION"),
+            manager.GetStats().ComputeValue("TEMPO_INACTIVE_DURATION_MODIFIER")
+        ));
+        return "GRAHHHHHHHHHHHHH I'M FAST AF";
     }
 
     /// <summary>
-    /// Remove all buff stacks.
-    /// Please use when switching ghost
+    /// Remove all effects of tempo stacks and resets tempo stack counter.
     /// </summary>
-    public void ResetTempo()
+    /// <returns></returns>
+    private string KillTempo()
     {
-        StopAllCoroutines();
-        tempoStack = 0;
+        UpdateSpeed(-tempoStacks);
+        tempoStacks = 0;
+
+        return "AAAOAOAOAO SH I HIT A BRICK WALL OH GOD IT HURTS";
+    }
+
+    /// <summary>
+    /// All the stuff related to timers that happens when tempo is activated.
+    /// </summary>
+    /// <param name="duration">current duration of tempo</param>
+    /// <param name="maxDuration">maximum duration of tempo</param>
+    /// <param name="inactive_modifier">factor to scale timer speed when idol is inactive</param>
+    /// <returns></returns>
+    IEnumerator TempoCoroutine(float duration, float maxDuration, float inactive_modifier)
+    {
+        uptempo = true;
+        while (duration > 0)
+        {
+            // decrement duration at a modified rate if Idol is not active
+
+            float tick = active ? Time.deltaTime : Time.deltaTime * inactive_modifier;
+            duration -= tick;
+
+            // reset duration if player scored a kill
+
+            if (kill)
+            {
+                duration = maxDuration;
+                kill = false;
+            }
+            yield return null;
+        }
+
+        // *breaks your kneecaps with a baseball bat*
+
+        KillTempo();
     }
 
     /// <summary>
     /// Modify player speed stats by changes in player stack count
     /// </summary>
     /// <param name="deltaStack"></param>
-    private void UpdateSpeed(int deltaStack)
+    private void UpdateSpeed(int delta)
     {
-        stats.ModifyStat("Max Running Speed", runSpeedMod * deltaStack);
-        stats.ModifyStat("Running Accel.", runSpeedMod * deltaStack);
-        stats.ModifyStat("Running Deaccel.", runSpeedMod * deltaStack);
+        // apply changes to each speed stat
 
-        stats.ModifyStat("Max Glide Speed", glideSpeedMod * deltaStack);
-        stats.ModifyStat("Glide Accel.", glideSpeedMod * deltaStack);
-        stats.ModifyStat("Glide Deaccel.", glideSpeedMod * deltaStack);
-    }
-
-    /// <summary>
-    /// Gain 1 stack of tempo
-    /// </summary>
-    /// <returns></returns>
-    private IEnumerator TempoCoroutine()
-    {
-        if (tempoStack == 3)
+        int mod = (int)manager.GetStats().ComputeValue("TEMPO_BUFF_PERCENT_INT");
+        List<string> statNames = new()
         {
-            yield break;
+            "Max Running Speed",
+            "Running Accel.",
+            "Running Deaccel.",
+            "Max Glide Speed",
+            "Glide Accel.",
+            "Glide Deaccel."
+        };
+        foreach (string statName in statNames)
+        {
+            playerStats.ModifyStat(statName, delta = mod);
         }
-        tempoStack++;
-        UpdateSpeed(1);
-
-        yield return new WaitForSeconds(tempoDuration);
-        tempoStack--;
-        Debug.Log("Tempo expired");
-        UpdateSpeed(-1);
     }
 }
