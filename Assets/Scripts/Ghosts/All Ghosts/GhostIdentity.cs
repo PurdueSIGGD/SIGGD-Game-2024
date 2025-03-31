@@ -2,8 +2,10 @@ using UnityEngine;
 
 public class GhostIdentity : MonoBehaviour
 {
-    [SerializeField]
-    private string ghostName;
+    //[SerializeField]
+    //private string ghostName;
+
+    [SerializeField] private CharacterSO characterInfo;
 
     private bool inParty = false;
     private bool isSelected = false;
@@ -19,13 +21,20 @@ public class GhostIdentity : MonoBehaviour
     }
 
     /// <summary>
-    /// getter method for the ghost's name
+    /// getter method for the ghost's character info
     /// </summary>
     /// <returns>ghost's name</returns>
+    /*
     public string GetName()
     {
         return ghostName;
     }
+    */
+    public CharacterSO GetCharacterInfo()
+    {
+        return characterInfo;
+    }
+
     /// <summary>
     /// checks if ghost is in the player's party
     /// </summary>
@@ -69,7 +78,6 @@ public class GhostIdentity : MonoBehaviour
             {
                 action.DeSelect(PlayerID.instance.gameObject);
             }
-
         }
     }
     

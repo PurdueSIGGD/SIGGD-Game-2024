@@ -11,18 +11,21 @@ public class PartyManager : MonoBehaviour
     private int ghostLimit; // maximum number of ghosts player can wield at one time
 
     private List<GhostIdentity> ghostsInParty = new List<GhostIdentity>(); // list of each ghost in party
+    private GhostIdentity selectedGhost = null;
 
     /// <summary>
     /// Adds ghost to end of player's ghost list
     /// </summary>
     /// <param ghostName="ghost"></param>
-    public void AddGhostToParty(GhostIdentity ghost)
+    public bool TryAddGhostToParty(GhostIdentity ghost)
     {
-        if (!ghost.IsInParty())
+        if (!ghost.IsInParty() && ghostsInParty.Count < ghostLimit)
         {
             ghostsInParty.Add(ghost);
             ghost.SetPartyStatus(true);
+            return true;
         }
+        return false;
     }
 
     /// <summary>
@@ -31,10 +34,12 @@ public class PartyManager : MonoBehaviour
     /// </summary>
     public void OnHotbar(InputValue value)
     {
+        Debug.Log("HOTBAR: " + (int)value.Get<float>());
         int keyValue = (int)value.Get<float>();
         if (keyValue != 0)
         {
-            ChangePosessingGhost((int)value.Get<float>());
+            // hotkey #2 is 0th ghost index in list
+            ChangePosessingGhost(keyValue - 2);
         }
     }
 
@@ -42,13 +47,10 @@ public class PartyManager : MonoBehaviour
     /// Switches the currently posessing ghost based on hotkey input (1,2,3, etc.)
     /// </summary>
     /// <param name="inputNum">The index to select from the list(value is either 1(player kit), 2, or 3)</param>
-    public void ChangePosessingGhost(int inputNum)
+    public void ChangePosessingGhost(int index)
     {
-        // hotkey #2 is 0th ghost index in list
-        int index = inputNum - 2;
-
         // handle bad input
-        if (index > ghostsInParty.Count)
+        if (index >= ghostsInParty.Count)
         {
             return;
         }
@@ -62,10 +64,12 @@ public class PartyManager : MonoBehaviour
         // do not possess if player selected base kit
         if (index == -1)
         {
+            selectedGhost = null;
             return;
         }
 
         ghostsInParty[index].SetSelected(true);
+        selectedGhost = ghostsInParty[index];
     }
 
     /// <summary>
@@ -84,5 +88,10 @@ public class PartyManager : MonoBehaviour
     public List<GhostIdentity> GetGhostMajorList()
     {
         return ghostsInParty;
+    }
+
+    public GhostIdentity GetSelectedGhost()
+    {
+        return selectedGhost;
     }
 }

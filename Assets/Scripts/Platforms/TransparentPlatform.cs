@@ -21,6 +21,7 @@ public class TransparentPlatform : MonoBehaviour
         isColliding = false;
     }
 
+    /*
     private void Update()
     {
         if (coroutine == null && fallAction.ReadValue<float>() != 0)
@@ -29,6 +30,7 @@ public class TransparentPlatform : MonoBehaviour
             StartCoroutine(coroutine);
         }
     }
+    */
 
     
     /// <summary>
