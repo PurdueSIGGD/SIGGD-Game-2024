@@ -88,7 +88,7 @@ public class Dash : MonoBehaviour, IStatList
     {
         GetComponent<Move>().PlayerGo();
         if (GetComponent<Animator>().GetBool("p_grounded")) return;
-        GetComponent<Move>().ApplyKnockback(rb.velocity.normalized, rb.velocity.magnitude);
+        GetComponent<Move>().ApplyKnockback(rb.velocity.normalized, rb.velocity.magnitude, true);
     }
 
     private IEnumerator DashCoroutine()

@@ -6,6 +6,7 @@ using UnityEngine;
 public class KingManager : GhostManager, ISelectable
 {
     [SerializeField] public DamageContext specialDamage;
+    [SerializeField] public GameObject specialExplosionVFX;
 
     // Start is called before the first frame update
     protected override void Start()

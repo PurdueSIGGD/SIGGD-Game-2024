@@ -127,7 +127,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
+  m_LinearDrag: 1
   m_AngularDrag: 0.05
   m_GravityScale: 4
   m_Material: {fileID: 0}
@@ -201,7 +201,10 @@ MonoBehaviour:
   stats: {fileID: 0}
   pool: {fileID: 0}
   animator: {fileID: 6971829175617292507}
+  isFlyer: 0
   aggroRange: 7.76
+  isBeingKnockedBack: 0
+  grounded: 0
   kaboomTrigger: {fileID: 2932781976428712665}
   kaboomDamage:
     damageStrength: 3

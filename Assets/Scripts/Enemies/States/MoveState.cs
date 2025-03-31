@@ -10,30 +10,27 @@ public class MoveState : IEnemyStates
     public Transform player;
     public Rigidbody2D rb;
 
-    private bool isMoving;
-
     public void EnterState(EnemyStateManager enemy)
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
         rb = enemy.GetComponent<Rigidbody2D>();
         enemy.pool.move.Play(enemy.animator); // Play the moving animation on entering state
-        isMoving = false;
     }
 
     public void UpdateState(EnemyStateManager enemy)
     {
         if (enemy.pool.HasActionsReady()) // If Enemy attacks can reach player, enter AggroState
         {
-            rb.velocity = new Vector2(0, rb.velocity.y);
+            //rb.velocity = new Vector2(0, rb.velocity.y);
             enemy.SwitchState(enemy.AggroState);
         }
         else if (enemy.HasLineOfSight(true)) // Otherwise, move towards player
         {
-            Move(enemy);
+            if (!enemy.isBeingKnockedBack) Move(enemy);
         }
         else // If line of sight is lost, enter IdleState
         {
-            rb.velocity = new Vector2(0, rb.velocity.y);
+            //rb.velocity = new Vector2(0, rb.velocity.y);
             enemy.SwitchState(enemy.IdleState);
         }
     }
@@ -50,18 +47,16 @@ public class MoveState : IEnemyStates
             enemy.Flip(true);
         }
 
-        if (isMoving)
-        {
-            return;
-        }
-        isMoving = true;
-
+        /*
         RaycastHit2D hit = Physics2D.Raycast(enemy.transform.position, Vector2.down, 1f, LayerMask.GetMask("Ground"));
         if (!hit)
         {
             //rb.velocity = new Vector2(0, rb.velocity.y);
             return;
         }
+        */
+
+        if (!(enemy.isFlyer || enemy.isGrounded())) return;
 
         float speed = enemy.stats.ComputeValue("Speed");
         rb.velocity = new Vector2(speed * enemy.transform.right.x, rb.velocity.y);

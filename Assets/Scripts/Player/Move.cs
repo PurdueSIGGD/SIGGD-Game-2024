@@ -246,13 +246,15 @@ public class Move : MonoBehaviour, IStatList
     }
 
     /// <summary>
-    /// Knockback the player
+    /// Knockback the player.
     /// </summary>
     /// <param name="direction">The direction of the knockback</param>
     /// <param name="knockbackStrength">The strength of the knockback</param>
-    public void ApplyKnockback(Vector2 direction, float knockbackStrength)
+    /// <param name="cancelCurrentMovement">If true, all player movement is overriden by this knockback</param>
+    public void ApplyKnockback(Vector2 direction, float knockbackStrength, bool cancelCurrentMovement)
     {
-        overflowSpeed = knockbackStrength;
-        rb.AddForce(direction.normalized * knockbackStrength);
+        if (overflowSpeed < knockbackStrength) overflowSpeed = knockbackStrength;
+        if (cancelCurrentMovement) rb.velocity = Vector2.zero;
+        rb.velocity += direction.normalized * knockbackStrength;
     }
 }

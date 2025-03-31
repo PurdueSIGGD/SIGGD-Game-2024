@@ -343,9 +343,27 @@ MonoBehaviour:
   - name: Basic Cooldown
     value: 1
   - name: Special Cooldown
-    value: 2
+    value: 0.5
+  - name: Special Explosion Radius
+    value: 6
+  - name: Special Damage
+    value: 10
+  - name: Special Knockback Strength
+    value: 20
+  - name: Special Minimum Upward Knockback Strength
+    value: 15
+  - name: Special Stun Duration
+    value: 0.2
   defaultController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
   ghostController: {fileID: 9100000, guid: 46f9e2905c1205144afa58418a4214c5, type: 2}
+  specialDamage:
+    damageStrength: 1
+    damageTypes: 02000000
+    actionID: 16
+    actionTypes: 03000000
+    extraContext: 
+  specialExplosionVFX: {fileID: 7966241730260626198, guid: a5295bc6cb8948243b75f99e5a18cc48,
+    type: 3}
 --- !u!114 &4931953015635928933
 MonoBehaviour:
   m_ObjectHideFlags: 0
