@@ -5,23 +5,7 @@ using UnityEngine;
 
 public class YumeSpecial : MonoBehaviour
 {
-    [Header("Projectile")]
-    [SerializeField] private GameObject projectile;
-    [SerializeField] private float maxRicochet;
-    [SerializeField] private float chainRange;
-    [SerializeField] private float flightSpeed;
-    [SerializeField] private float chainedDuration;
-
-    [Header("Fatebound Effect")]
-    [SerializeField] private float sharedDmgScaling;
-
-    private Queue<GameObject> linkableEnemies;
-    private ChainedEnemy head; // will usually be the first enemy hit by Yume's projectile
-    private ChainedEnemy tail; // should always point to the end of the list
-    private ChainedEnemy ptr;
-
-    private float ricochetCounter;
-    private float durationCounter;
+    private SeamstressManager seamstressManager;
 
     class ChainedEnemy
     {
@@ -31,26 +15,11 @@ public class YumeSpecial : MonoBehaviour
         public ChainedEnemy() { enemy = null; chainedTo = null; }
     }
 
-    void Start()
-    {
-        ptr = head = tail = new ChainedEnemy();
-        linkableEnemies = new Queue<GameObject>();
-        durationCounter = chainedDuration;
-    }
-
     void Update()
     {
         if (Input.GetKeyUp(KeyCode.V))
         {
             FateBind();
-        }
-        if (head != null) // if linked list isn't empty
-        {
-            durationCounter -= Time.deltaTime;
-            if (durationCounter < 0)
-            {
-                ClearList();
-            }
         }
     }
 
@@ -60,70 +29,19 @@ public class YumeSpecial : MonoBehaviour
         for (int i = 0; i < EnemySetTest.enemies.Count; i++)
         {
             GameObject enemy = EnemySetTest.enemies.Dequeue();
-            linkableEnemies.Enqueue(enemy);
+            SeamstressManager.linkableEnemies.Enqueue(enemy);
             EnemySetTest.enemies.Enqueue(enemy);
         }
         // now this.enemies should be populated with every enemy at play
-        durationCounter = chainedDuration;
+        SeamstressManager.ResetDuration();
         StartCoroutine(FireProjectile(transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition)));
-    }
-
-    /// <summary>
-    /// Call to share a damage taken by one enemy to all enemies with the fatebound
-    /// effect.
-    /// </summary>
-    /// <param name="enemyID"> The instance id of the enemy currently being damaged </param>
-    public void DamageLinkedEnemies(int enemyID, DamageContext context)
-    {
-        ptr = head;
-
-        while (ptr.enemy != null)
-        {
-            if (ptr.enemy.GetInstanceID() != enemyID)
-            {
-                DamageContext sharedDmg = new DamageContext();
-                sharedDmg.damage = context.damage * sharedDmgScaling;
-                sharedDmg.damageStrength = context.damageStrength;
-
-                ptr.enemy.GetComponent<Health>().NoContextDamage(sharedDmg, PlayerID.instance.gameObject);
-            }
-            ptr = ptr.chainedTo;
-        }
-    }
-
-    // should find the next closest enemy to the one given
-    private Transform FindNextTarget(GameObject cur)
-    {
-        Transform targetLoc = null;
-        float minDist = chainRange;
-        for (int i = 0; i < linkableEnemies.Count; i++)
-        {
-            GameObject enemy = linkableEnemies.Dequeue();
-
-            if (enemy.GetInstanceID() == cur.GetInstanceID()) // if checking the currently linked enemy, pass
-            {
-                i--;
-                continue; // do not add the removed enemy back to the list, the enemy is already linked
-            }
-
-            float dist = Vector2.Distance(enemy.transform.position, cur.transform.position);
-
-            if (dist < minDist)
-            {
-                targetLoc = enemy.transform;
-                minDist = dist;
-            }
-
-            linkableEnemies.Enqueue(enemy);
-        }
-        return targetLoc;
     }
 
     private IEnumerator FireProjectile(Vector2 orig, Vector2 dest)
     {
         orig = orig + (dest - orig).normalized * 2;
-        YumeProjectile yumeProjectile = Instantiate(projectile, orig, transform.rotation).GetComponent<YumeProjectile>();
-        yumeProjectile.Initialize(dest, flightSpeed, chainRange);
+        YumeProjectile yumeProjectile = Instantiate(SeamstressManager.projectile, orig, transform.rotation).GetComponent<YumeProjectile>();
+        yumeProjectile.Initialize(dest, SeamstressManager.flightSpeed, SeamstressManager.chainRange);
 
         yield return new WaitUntil(yumeProjectile.HasExpired); // wait until the projectile has hit or is destroyed
 
@@ -134,21 +52,11 @@ public class YumeSpecial : MonoBehaviour
             // then add the hit enemy to linked list
             hitTarget.AddComponent<FateboundDebuff>();
 
-            if (head.enemy == null)
-            {
-                head.enemy = hitTarget;
-                tail = head.chainedTo = new ChainedEnemy();
-            }
-            else
-            {
-                tail.enemy = hitTarget;
-                tail.chainedTo = new ChainedEnemy();
-                tail = tail.chainedTo;
-            }
+            SeamstressManager.AddEnemy(hitTarget);
 
             // find next target position and fire
-            Transform targetPos = FindNextTarget(hitTarget);
-            if (targetPos == null || IncrementRicochet())
+            Transform targetPos = SeamstressManager.FindNextTarget(hitTarget);
+            if (targetPos == null || SeamstressManager.IncrementRicochet())
             {
                 yield return null;
             }
@@ -157,25 +65,5 @@ public class YumeSpecial : MonoBehaviour
                 StartCoroutine(FireProjectile(hitTarget.transform.position, targetPos.position));
             }
         }
-    }
-
-    /// <summary>
-    /// Increment the number of times the current ability has ricocheted
-    /// </summary>
-    /// <returns> if the ability has reached its max ricochet amount </returns>
-    public bool IncrementRicochet()
-    {
-        ricochetCounter++;
-        return ricochetCounter == maxRicochet;
-    }
-
-    private void ClearList()
-    {
-        while (ptr.enemy != null)
-        {
-            Destroy(ptr.enemy.GetComponent<FateboundDebuff>());
-            ptr = ptr.chainedTo;
-        }
-        ptr = head = tail = new ChainedEnemy();
     }
 }

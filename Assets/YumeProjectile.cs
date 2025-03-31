@@ -26,7 +26,7 @@ public class YumeProjectile : MonoBehaviour
             }
 
             dir = Vector2.Reflect(dir, collision.contacts[0].normal);
-            if (PlayerID.instance.GetComponent<YumeSpecial>().IncrementRicochet()) // bouncing off surface counts as ricochet too
+            if (SeamstressManager.IncrementRicochet()) // bouncing off surface counts as ricochet too
             {
                 Destroy(gameObject);
             }
