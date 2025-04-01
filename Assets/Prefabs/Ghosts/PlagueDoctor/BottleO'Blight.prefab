@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2940974700144011754}
   - component: {fileID: 6934032980778094061}
-  m_Layer: 0
+  m_Layer: 22
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 7797356717075407880}
   - component: {fileID: 7593431225181389054}
   - component: {fileID: 4635884622024294387}
-  m_Layer: 0
+  m_Layer: 22
   m_Name: BottleO'Blight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -132,6 +132,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a35a818fa0889f46b6ba3879e185119, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  statList: []
+  range: 5
+  blightPrefab: {fileID: 329455982132843419, guid: 0d05a07857e19b5498dd81164c887119,
+    type: 3}
+  attackMask:
+    serializedVersion: 2
+    m_Bits: 2097216
 --- !u!58 &7593431225181389054
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -144,7 +151,7 @@ CircleCollider2D:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4294967295
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -161,7 +168,7 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -182,14 +189,14 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 5
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4194368
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0

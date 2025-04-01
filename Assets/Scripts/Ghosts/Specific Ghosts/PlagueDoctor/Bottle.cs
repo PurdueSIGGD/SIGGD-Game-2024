@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
 
 public class Bottle : MonoBehaviour, IStatList
@@ -7,7 +8,9 @@ public class Bottle : MonoBehaviour, IStatList
 
     [SerializeField]
     private StatManager.Stat[] statList;
-    private float range;
+    [SerializeField] private float range;
+    [SerializeField] private GameObject blightPrefab;
+    [SerializeField] private LayerMask attackMask;
 
     // Start is called before the first frame update
     void Start()
@@ -21,14 +24,16 @@ public class Bottle : MonoBehaviour, IStatList
         
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    void OnTriggerEnter2D(Collider2D collision)
     {
-        ContactPoint2D point = collision.GetContact(0);
-        Collider2D[] collides = Physics2D.OverlapCircleAll(point.point, range);
+        Debug.Log("collided");
+        Vector2 point = transform.position;
+        Collider2D[] collides = Physics2D.OverlapCircleAll(point, range, attackMask);
         foreach (Collider2D c in collides)
         {
-            c.gameObject.AddComponent<Blight>();
+            Instantiate(blightPrefab, c.transform);
         }
+        Destroy(gameObject);
     }
 
     public StatManager.Stat[] GetStatList()
