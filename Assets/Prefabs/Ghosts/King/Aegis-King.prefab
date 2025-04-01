@@ -342,8 +342,10 @@ MonoBehaviour:
   statList:
   - name: Basic Cooldown
     value: 1
-  - name: Special Cooldown
+  - name: Shield Max Health
     value: 10
+  - name: Special Cooldown
+    value: 1
   - name: Special Explosion Radius
     value: 6
   - name: Special Damage
@@ -364,8 +366,13 @@ MonoBehaviour:
     actionID: 16
     actionTypes: 03000000
     extraContext: 
+  shieldCircleVFX: {fileID: 4293710092863350538, guid: 881280630d925cc4f918efa96024a814,
+    type: 3}
+  shieldExplosionVFX: {fileID: 7966241730260626198, guid: a5295bc6cb8948243b75f99e5a18cc48,
+    type: 3}
   specialExplosionVFX: {fileID: 7966241730260626198, guid: a5295bc6cb8948243b75f99e5a18cc48,
     type: 3}
+  currentShieldHealth: 0
 --- !u!114 &4931953015635928933
 MonoBehaviour:
   m_ObjectHideFlags: 0

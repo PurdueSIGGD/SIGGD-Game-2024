@@ -69,14 +69,6 @@ public class Dash : MonoBehaviour, IStatList
     //</summary>
     public void StartDash()
     {
-        /*
-        GetComponent<Move>().ApplyKnockback(Vector2.right, 20f);
-        psm.EnableTrigger("OPT");
-
-        isDashing = false;
-        orionManager.setSpecialCooldown(stats.ComputeValue("Dash Cooldown"));
-        return;
-        */
         GetComponent<Move>().PlayerStop();
         Vector3 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         Vector2 displacement = ((Vector2)mousePos - (Vector2)transform.position).normalized * stats.ComputeValue("Max Dash Distance");

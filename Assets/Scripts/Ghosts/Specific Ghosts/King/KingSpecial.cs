@@ -46,7 +46,7 @@ public class KingSpecial : MonoBehaviour, ISpecialMove
         // Set Flags and Inits
         isCasting = true;
         isInvincibilityActive = true;
-        float animationStateDuration = 0.15f;
+        float castTime = 0.15f;
 
         // VFX
         CameraShake.instance.Shake(0.2f, 10f, 0f, 10f, new Vector2(Random.Range(-0.5f, 0.5f), 1f));
@@ -80,19 +80,12 @@ public class KingSpecial : MonoBehaviour, ISpecialMove
             enemy.gameObject.GetComponent<EnemyStateManager>().ApplyKnockback(Vector2.up, extraUpwardKnockback); // Extra knock up
         }
 
-        yield return new WaitForSeconds(animationStateDuration);
-        /*
-        playerStateMachine.EnableTrigger("OPT");
-        manager.startSpecialCooldown();
-        isCasting = false;
-        */
+        // End Cast
+        yield return new WaitForSeconds(castTime);
         stopSpecial(true, false);
 
-        yield return new WaitForSeconds(Mathf.Max((manager.GetStats().ComputeValue("Special Invincibility Duration") - animationStateDuration), 0f));
-        /*
-        GameplayEventHolder.OnDamageFilter.Remove(invincibilityFilter);
-        isInvincibilityActive = false;
-        */
+        // End Invincibility
+        yield return new WaitForSeconds(Mathf.Max((manager.GetStats().ComputeValue("Special Invincibility Duration") - castTime), 0f));
         stopSpecial(false, true);
     }
 
