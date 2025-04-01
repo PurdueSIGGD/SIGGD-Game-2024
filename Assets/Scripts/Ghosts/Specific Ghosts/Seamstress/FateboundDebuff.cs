@@ -10,11 +10,23 @@ public class FateboundDebuff : MonoBehaviour
     void Awake()
     {
         GameplayEventHolder.OnDamageDealt += ShareDamage;
+        GameplayEventHolder.OnDeath += PreserveConnection;
     }
 
 
     private void ShareDamage(DamageContext context)
     {
-        SeamstressManager.DamageLinkedEnemies(gameObject.GetInstanceID(), context);
+        if (context.victim == gameObject)
+        {
+            SeamstressManager.DamageLinkedEnemies(gameObject.GetInstanceID(), context);
+        }
+    }
+
+    private void PreserveConnection(ref DamageContext context)
+    {
+        if (context.victim == gameObject)
+        {
+            SeamstressManager.RemoveFromLink(gameObject.GetInstanceID());
+        }
     }
 }

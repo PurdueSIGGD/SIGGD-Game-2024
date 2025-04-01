@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SeamstressManager : GhostManager
@@ -52,6 +53,17 @@ public class SeamstressManager : GhostManager
         }
     }
 
+    public override void Select(GameObject player)
+    {
+        base.Select(player);
+        PlayerID.instance.AddComponent<YumeSpecial>();
+    }
+
+    public override void DeSelect(GameObject player)
+    {
+        if (PlayerID.instance.GetComponent<YumeSpecial>()) Destroy(PlayerID.instance.GetComponent<YumeSpecial>());
+    }
+
     public static void ResetDuration()
     {
         durationCounter = chainedDuration;
@@ -59,13 +71,16 @@ public class SeamstressManager : GhostManager
 
     public static void AddEnemy(GameObject hitTarget)
     {
-        if (head != null) // if linked list isn't empty
+        if (head.enemy == null)
         {
-            durationCounter -= Time.deltaTime;
-            if (durationCounter < 0)
-            {
-                ClearList();
-            }
+            head.enemy = hitTarget;
+            tail = head.chainedTo = new ChainedEnemy();
+        }
+        else
+        {
+            tail.enemy = hitTarget;
+            tail.chainedTo = new ChainedEnemy();
+            tail = tail.chainedTo;
         }
     }
 
@@ -117,6 +132,30 @@ public class SeamstressManager : GhostManager
                 ptr.enemy.GetComponent<Health>().NoContextDamage(sharedDmg, PlayerID.instance.gameObject);
             }
             ptr = ptr.chainedTo;
+        }
+    }
+
+    /// <summary>
+    /// Remove an enemy from the linked list, used for when a chained enemy dies
+    /// </summary>
+    /// <param name="enemyID"> The instance id of the enemy being removed </param>
+    public static void RemoveFromLink(int enemyID)
+    {
+        ptr = head;
+
+        if (ptr.enemy.GetInstanceID() == enemyID)
+        {
+            head = head.chainedTo;
+            return;
+        }
+
+        while(ptr.enemy != null)
+        {
+            if (ptr.chainedTo.enemy.GetInstanceID() == enemyID)
+            {
+                ptr.chainedTo = ptr.chainedTo.chainedTo;
+                return;
+            }
         }
     }
 
