@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 public class YumeSpecial : MonoBehaviour
 {
+    PlayerStateMachine psm;
     public SeamstressManager manager;
 
     class ChainedEnemy
@@ -15,15 +17,27 @@ public class YumeSpecial : MonoBehaviour
         public ChainedEnemy() { enemy = null; chainedTo = null; }
     }
 
+    void Start()
+    {
+        psm = GetComponent<PlayerStateMachine>();
+    }
+
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.V))
+        if (manager != null)
         {
-            FateBind();
+            if (manager.getSpecialCooldown() > 0)
+            {
+                psm.OnCooldown("c_special");
+            }
+            else
+            {
+                psm.OffCooldown("c_special");
+            }
         }
     }
 
-    public void FateBind()
+    public void StartFateBind()
     {
         // whenever ability fires, grab a copy of all enemies at play in a queue
         for (int i = 0; i < EnemySetTest.enemies.Count; i++)

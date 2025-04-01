@@ -199,7 +199,6 @@ public class SeamstressManager : GhostManager
             FateboundDebuff debuff = ptr.enemy.GetComponent<FateboundDebuff>();
             debuff.RemoveShareDamage();
             Destroy(debuff);
-            //linkableEnemies.Enqueue(ptr.enemy);
             ptr = ptr.chainedTo;
         }
         ptr = head = tail = new ChainedEnemy();
