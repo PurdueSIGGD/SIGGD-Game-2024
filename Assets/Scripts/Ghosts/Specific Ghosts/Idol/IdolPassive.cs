@@ -11,6 +11,15 @@ public class IdolPassive : MonoBehaviour
     [SerializeField] bool active; // is the idol ghost currently active?
     [SerializeField] bool kill; // has the player just scored a kill?
     [SerializeField] bool uptempo; // have the stored tempo stacks been activated?
+    List<string> statNames = new()
+        {
+            "Max Running Speed",
+            "Running Accel.",
+            "Running Deaccel.",
+            "Max Glide Speed",
+            "Glide Accel.",
+            "Glide Deaccel."
+        };
 
     // Reference to player stats
     private StatManager playerStats;
@@ -31,24 +40,35 @@ public class IdolPassive : MonoBehaviour
     /// </summary>
     public void ApplyBuffOnSwap()
     {
+
+        // just being cautious and double checking if idol is active
+        // swapping is so sketch but we ball
+
+        if (active)
+        {
+            return;
+        }
+
         UpdateSpeed(tempoStacks);
         active = true;
 
         // initialize tempo timer if stacks exist and tempo isn't up already
 
-        if (uptempo && (tempoStacks > 0))
+        if (!uptempo && (tempoStacks > 0))
         {
             InitializeTempoTimer();
         }
-
     }
     /// <summary>
     /// Called by IdolManager on swap away from Idol
     /// </summary>
     public void RemoveBuffOnSwap()
     {
-        active = false;
-        UpdateSpeed(-tempoStacks);
+        if (active)
+        {
+            active = false;
+            UpdateSpeed(-tempoStacks);
+        }
     }
 
     /// <summary>
@@ -67,7 +87,7 @@ public class IdolPassive : MonoBehaviour
 
         // increment tempo stacks if it doesn't exceed maximum
 
-        if (tempoStacks > manager.GetStats().ComputeValue("TEMPO_MAX_STACKS"))
+        if (tempoStacks < manager.GetStats().ComputeValue("TEMPO_MAX_STACKS"))
         {
             tempoStacks++;
 
@@ -94,6 +114,8 @@ public class IdolPassive : MonoBehaviour
     /// <returns></returns>
     private string InitializeTempoTimer()
     {
+        Debug.Log("GO GO GO GO GO");
+
         StartCoroutine(TempoCoroutine(
             manager.GetStats().ComputeValue("TEMPO_BASE_DURATION"),
             manager.GetStats().ComputeValue("TEMPO_BASE_DURATION"),
@@ -110,6 +132,7 @@ public class IdolPassive : MonoBehaviour
     {
         UpdateSpeed(-tempoStacks);
         tempoStacks = 0;
+        uptempo = false;
 
         return "AAAOAOAOAO SH I HIT A BRICK WALL OH GOD IT HURTS";
     }
@@ -155,18 +178,13 @@ public class IdolPassive : MonoBehaviour
         // apply changes to each speed stat
 
         int mod = (int)manager.GetStats().ComputeValue("TEMPO_BUFF_PERCENT_INT");
-        List<string> statNames = new()
-        {
-            "Max Running Speed",
-            "Running Accel.",
-            "Running Deaccel.",
-            "Max Glide Speed",
-            "Glide Accel.",
-            "Glide Deaccel."
-        };
         foreach (string statName in statNames)
         {
-            playerStats.ModifyStat(statName, delta = mod);
+            // flip scaling direction for deacceleration stats
+
+            delta = statName.Contains("Deaccel") ? delta * -1 : delta;
+            playerStats.ModifyStat(statName, mod * delta);
         }
+        Debug.Log("RUN STAT: " + playerStats.ComputeValue("Max Running Speed"));
     }
 }

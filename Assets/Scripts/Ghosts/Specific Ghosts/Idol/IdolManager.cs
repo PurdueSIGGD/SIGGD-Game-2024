@@ -36,6 +36,7 @@ public class IdolManager : GhostManager, ISelectable
     public override void DeSelect(GameObject player)
     {
         if (PlayerID.instance.GetComponent<IdolSpecial>()) Destroy(PlayerID.instance.GetComponent<IdolSpecial>());
+        passive.RemoveBuffOnSwap();
         base.DeSelect(player);
     }
 }

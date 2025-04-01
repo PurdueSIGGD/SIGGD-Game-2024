@@ -79,14 +79,20 @@ public class IdolSpecial : MonoBehaviour, ISpecialMove
 
         Vector2 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         Vector2 pos = transform.position;
-        Vector2 newpos = mousePos - pos;
+        Vector2 rawDir = mousePos - pos;
+
+        Debug.Log("mouse:" + mousePos + ", pos:" + pos);
+
 
         // cap newpos magnitude at maxDistance
 
-        if (newpos.magnitude > manager.GetStats().ComputeValue("HOLOJUMP_MAX_DISTANCE"))
+        Vector2 cappedDir = rawDir;
+        if (rawDir.magnitude > manager.GetStats().ComputeValue("HOLOJUMP_MAX_DISTANCE"))
         {
-            newpos = newpos.normalized * manager.GetStats().ComputeValue("HOLOJUMP_MAX_DISTANCE");
+            cappedDir = cappedDir.normalized * manager.GetStats().ComputeValue("HOLOJUMP_MAX_DISTANCE");
         }
+
+        Debug.Log("mouse - cappeddir:" + cappedDir);
 
         // instantiate clone at position (right before teleporting)
 
@@ -96,7 +102,7 @@ public class IdolSpecial : MonoBehaviour, ISpecialMove
 
         // calculate final destination (cannot teleport through "ground" layers)
 
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, newpos.normalized, newpos.magnitude, LayerMask.GetMask("Ground"));
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, cappedDir.normalized, cappedDir.magnitude, LayerMask.GetMask("Ground"));
         Vector3 dest;
         if (hit)
         {
@@ -104,8 +110,9 @@ public class IdolSpecial : MonoBehaviour, ISpecialMove
         }
         else
         {
-            dest = newpos;
+            dest = pos + cappedDir;
         }
+        Debug.DrawLine(transform.position, dest);
 
         // teleport player to final destination
 
