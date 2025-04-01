@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class KingSpecial : MonoBehaviour, ISpecialMove
@@ -8,11 +9,15 @@ public class KingSpecial : MonoBehaviour, ISpecialMove
     private PlayerStateMachine playerStateMachine;
 
     [HideInInspector] public KingManager manager;
+    [HideInInspector] public bool isCasting;
+    [HideInInspector] public bool isInvincibilityActive;
 
     // Start is called before the first frame update
     void Start()
     {
         playerStateMachine = GetComponent<PlayerStateMachine>();
+        isCasting = false;
+        isInvincibilityActive = false;
     }
 
     // Update is called once per frame
@@ -38,6 +43,11 @@ public class KingSpecial : MonoBehaviour, ISpecialMove
 
     private IEnumerator SpecialAbilityCoroutine()
     {
+        // Set Flags and Inits
+        isCasting = true;
+        isInvincibilityActive = true;
+        float animationStateDuration = 0.15f;
+
         // VFX
         CameraShake.instance.Shake(0.2f, 10f, 0f, 10f, new Vector2(Random.Range(-0.5f, 0.5f), 1f));
         GameObject ringExplosion = Instantiate(manager.specialExplosionVFX, transform.position, Quaternion.identity);
@@ -49,6 +59,9 @@ public class KingSpecial : MonoBehaviour, ISpecialMove
             GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x, Mathf.Max(GetComponent<Rigidbody2D>().velocity.y, 0f));
             GetComponent<Move>().ApplyKnockback(Vector2.up, 5f, false);
         }
+
+        // Start Invincibility
+        GameplayEventHolder.OnDamageFilter.Add(invincibilityFilter);
 
         // Affect enemies
         Collider2D[] enemies = Physics2D.OverlapCircleAll(transform.position, manager.GetStats().ComputeValue("Special Explosion Radius"), LayerMask.GetMask("Enemy"));
@@ -67,9 +80,43 @@ public class KingSpecial : MonoBehaviour, ISpecialMove
             enemy.gameObject.GetComponent<EnemyStateManager>().ApplyKnockback(Vector2.up, extraUpwardKnockback); // Extra knock up
         }
 
-        yield return new WaitForSeconds(0.15f);
+        yield return new WaitForSeconds(animationStateDuration);
+        /*
         playerStateMachine.EnableTrigger("OPT");
         manager.startSpecialCooldown();
+        isCasting = false;
+        */
+        stopSpecial(true, false);
+
+        yield return new WaitForSeconds(Mathf.Max((manager.GetStats().ComputeValue("Special Invincibility Duration") - animationStateDuration), 0f));
+        /*
+        GameplayEventHolder.OnDamageFilter.Remove(invincibilityFilter);
+        isInvincibilityActive = false;
+        */
+        stopSpecial(false, true);
+    }
+
+    public void stopSpecial(bool stopCasting, bool stopInvincibility)
+    {
+        if (isCasting && stopCasting)
+        {
+            playerStateMachine.EnableTrigger("OPT");
+            manager.startSpecialCooldown();
+            isCasting = false;
+        }
+        if (isInvincibilityActive && stopInvincibility)
+        {
+            GameplayEventHolder.OnDamageFilter.Remove(invincibilityFilter);
+            isInvincibilityActive = false;
+        }
+    }
+
+    public void invincibilityFilter(ref DamageContext context)
+    {
+        if (context.victim.tag == "Player")
+        {
+            context.damage = 0f;
+        }
     }
 
     public bool GetBool()

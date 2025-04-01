@@ -8,6 +8,8 @@ public class KingManager : GhostManager, ISelectable
     [SerializeField] public DamageContext specialDamage;
     [SerializeField] public GameObject specialExplosionVFX;
 
+    private KingSpecial special;
+
     // Start is called before the first frame update
     protected override void Start()
     {
@@ -26,12 +28,14 @@ public class KingManager : GhostManager, ISelectable
     public override void Select(GameObject player)
     {
         Debug.Log("KING SELECTED");
-        PlayerID.instance.AddComponent<KingSpecial>().manager = this;
+        special = PlayerID.instance.AddComponent<KingSpecial>();
+        special.manager = this;
         base.Select(player);
     }
 
     public override void DeSelect(GameObject player)
     {
+        special?.stopSpecial(true, true);
         if (PlayerID.instance.GetComponent<KingSpecial>()) Destroy(PlayerID.instance.GetComponent<KingSpecial>());
         base.DeSelect(player);
     }
