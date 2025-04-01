@@ -28,7 +28,7 @@ public class FateboundDebuff : MonoBehaviour
     {
         if (context.victim == gameObject)
         {
-            SeamstressManager.RemoveFromLink(gameObject.GetInstanceID());
+            manager.RemoveFromLink(gameObject.GetInstanceID());
         }
     }
 }

@@ -29,7 +29,7 @@ public class YumeSpecial : MonoBehaviour
         for (int i = 0; i < EnemySetTest.enemies.Count; i++)
         {
             GameObject enemy = EnemySetTest.enemies.Dequeue();
-            SeamstressManager.linkableEnemies.Enqueue(enemy);
+            manager.linkableEnemies.Enqueue(enemy);
             EnemySetTest.enemies.Enqueue(enemy);
         }
         // now this.enemies should be populated with every enemy at play
@@ -53,7 +53,7 @@ public class YumeSpecial : MonoBehaviour
             FateboundDebuff debuff =  hitTarget.AddComponent<FateboundDebuff>();
             debuff.manager = manager;
 
-            SeamstressManager.AddEnemy(hitTarget);
+            manager.AddEnemy(hitTarget);
 
             // find next target position and fire
             Transform targetPos = manager.FindNextTarget(hitTarget);

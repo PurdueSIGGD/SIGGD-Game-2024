@@ -7,10 +7,10 @@ public class SeamstressManager : GhostManager
 {
     [Header("Projectile")]
     public GameObject projectile;
-    [SerializeField] public float maxRicochet;
-    [SerializeField] public float flightSpeed;
-    [SerializeField] public float chainRange;
-    [SerializeField] private float chainedDuration;
+    public float maxRicochet;
+    public float flightSpeed;
+    public float chainRange;
+    public float chainedDuration;
 
     private float durationCounter;
     private float ricochetCounter;
@@ -18,11 +18,12 @@ public class SeamstressManager : GhostManager
     [Header("Fatebound Effect")]
     [SerializeField] private float sharedDmgScaling;
 
-    public static Queue<GameObject> linkableEnemies;
-    private static ChainedEnemy head; // will usually be the first enemy hit by Yume's projectile
-    private static ChainedEnemy tail; // should always point to the end of the list
-    private static ChainedEnemy ptr;
+    public Queue<GameObject> linkableEnemies;
+    private ChainedEnemy head; // will usually be the first enemy hit by Yume's projectile
+    private ChainedEnemy tail; // should always point to the end of the list
+    private ChainedEnemy ptr;
 
+    private LineRenderer lineRenderer;
 
     // Used to keep track of the all chaind enmeies
     class ChainedEnemy
@@ -38,17 +39,30 @@ public class SeamstressManager : GhostManager
         base.Start();
         ptr = head = tail = new ChainedEnemy();
         linkableEnemies = new Queue<GameObject>();
+        lineRenderer = GetComponent<LineRenderer>();
+
+        durationCounter = chainedDuration;
     }
 
     protected override void Update()
     {
         base.Update();
-        if (head != null) // if linked list isn't empty
+        if (head.enemy != null) // if linked list isn't empty
         {
             durationCounter -= Time.deltaTime;
             if (durationCounter < 0)
             {
                 ClearList();
+            }
+
+            // draw a line of connection between each enemy
+            ptr = head;
+            int i = 0;
+            while (ptr.enemy != null)
+            {
+                lineRenderer.SetPosition(i, ptr.enemy.transform.position);
+                i++;
+                ptr = ptr.chainedTo;
             }
         }
     }
@@ -70,7 +84,7 @@ public class SeamstressManager : GhostManager
         durationCounter = chainedDuration;
     }
 
-    public static void AddEnemy(GameObject hitTarget)
+    public void AddEnemy(GameObject hitTarget)
     {
         if (head.enemy == null)
         {
@@ -83,6 +97,8 @@ public class SeamstressManager : GhostManager
             tail.chainedTo = new ChainedEnemy();
             tail = tail.chainedTo;
         }
+        int count = ++lineRenderer.positionCount;
+        lineRenderer.SetPosition(count - 1, hitTarget.transform.position);
     }
 
     // should find the next closest enemy to the one given
@@ -140,7 +156,7 @@ public class SeamstressManager : GhostManager
     /// Remove an enemy from the linked list, used for when a chained enemy dies
     /// </summary>
     /// <param name="enemyID"> The instance id of the enemy being removed </param>
-    public static void RemoveFromLink(int enemyID)
+    public void RemoveFromLink(int enemyID)
     {
         ptr = head;
 
@@ -175,7 +191,7 @@ public class SeamstressManager : GhostManager
         ricochetCounter = 0;
     }
 
-    private static void ClearList()
+    private void ClearList()
     {
         while (ptr.enemy != null)
         {
@@ -184,5 +200,6 @@ public class SeamstressManager : GhostManager
             ptr = ptr.chainedTo;
         }
         ptr = head = tail = new ChainedEnemy();
+        lineRenderer.positionCount = 0;
     }
 }
