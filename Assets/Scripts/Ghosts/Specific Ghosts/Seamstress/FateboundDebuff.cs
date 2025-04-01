@@ -34,6 +34,7 @@ public class FateboundDebuff : MonoBehaviour
         if (context.victim == gameObject)
         {
             manager.RemoveFromLink(gameObject.GetInstanceID());
+            RemoveShareDamage();
         }
     }
 }
