@@ -7,6 +7,8 @@ using UnityEngine;
 /// </summary>
 public class FateboundDebuff : MonoBehaviour
 {
+    public SeamstressManager manager;
+
     void Awake()
     {
         GameplayEventHolder.OnDamageDealt += ShareDamage;
@@ -18,7 +20,7 @@ public class FateboundDebuff : MonoBehaviour
     {
         if (context.victim == gameObject)
         {
-            SeamstressManager.DamageLinkedEnemies(gameObject.GetInstanceID(), context);
+            manager.DamageLinkedEnemies(gameObject.GetInstanceID(), context);
         }
     }
 

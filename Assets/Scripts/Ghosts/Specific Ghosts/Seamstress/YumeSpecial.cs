@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class YumeSpecial : MonoBehaviour
 {
-    private SeamstressManager seamstressManager;
+    public SeamstressManager manager;
 
     class ChainedEnemy
     {
@@ -33,15 +33,15 @@ public class YumeSpecial : MonoBehaviour
             EnemySetTest.enemies.Enqueue(enemy);
         }
         // now this.enemies should be populated with every enemy at play
-        SeamstressManager.ResetDuration();
+        manager.ResetDuration();
         StartCoroutine(FireProjectile(transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition)));
     }
 
     private IEnumerator FireProjectile(Vector2 orig, Vector2 dest)
     {
         orig = orig + (dest - orig).normalized * 2;
-        YumeProjectile yumeProjectile = Instantiate(SeamstressManager.projectile, orig, transform.rotation).GetComponent<YumeProjectile>();
-        yumeProjectile.Initialize(dest, SeamstressManager.flightSpeed, SeamstressManager.chainRange);
+        YumeProjectile yumeProjectile = Instantiate(manager.projectile, orig, transform.rotation).GetComponent<YumeProjectile>();
+        yumeProjectile.Initialize(dest, manager.flightSpeed, manager.chainRange, manager);
 
         yield return new WaitUntil(yumeProjectile.HasExpired); // wait until the projectile has hit or is destroyed
 
@@ -50,14 +50,16 @@ public class YumeSpecial : MonoBehaviour
         if (hitTarget != null)
         {
             // then add the hit enemy to linked list
-            hitTarget.AddComponent<FateboundDebuff>();
+            FateboundDebuff debuff =  hitTarget.AddComponent<FateboundDebuff>();
+            debuff.manager = manager;
 
             SeamstressManager.AddEnemy(hitTarget);
 
             // find next target position and fire
-            Transform targetPos = SeamstressManager.FindNextTarget(hitTarget);
-            if (targetPos == null || SeamstressManager.IncrementRicochet())
+            Transform targetPos = manager.FindNextTarget(hitTarget);
+            if (targetPos == null || manager.IncrementRicochet())
             {
+                manager.ResetRicochet();
                 yield return null;
             }
             else

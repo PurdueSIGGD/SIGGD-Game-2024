@@ -6,17 +6,17 @@ using UnityEngine;
 public class SeamstressManager : GhostManager
 {
     [Header("Projectile")]
-    [SerializeField] public static GameObject projectile;
-    [SerializeField] public static float maxRicochet;
-    [SerializeField] public static float flightSpeed;
-    [SerializeField] public static float chainRange;
-    [SerializeField] private static float chainedDuration;
+    public GameObject projectile;
+    [SerializeField] public float maxRicochet;
+    [SerializeField] public float flightSpeed;
+    [SerializeField] public float chainRange;
+    [SerializeField] private float chainedDuration;
 
-    private static float durationCounter;
-    private static float ricochetCounter;
+    private float durationCounter;
+    private float ricochetCounter;
 
     [Header("Fatebound Effect")]
-    [SerializeField] private static float sharedDmgScaling;
+    [SerializeField] private float sharedDmgScaling;
 
     public static Queue<GameObject> linkableEnemies;
     private static ChainedEnemy head; // will usually be the first enemy hit by Yume's projectile
@@ -56,7 +56,8 @@ public class SeamstressManager : GhostManager
     public override void Select(GameObject player)
     {
         base.Select(player);
-        PlayerID.instance.AddComponent<YumeSpecial>();
+        YumeSpecial special = PlayerID.instance.AddComponent<YumeSpecial>();
+        special.manager = this;
     }
 
     public override void DeSelect(GameObject player)
@@ -64,7 +65,7 @@ public class SeamstressManager : GhostManager
         if (PlayerID.instance.GetComponent<YumeSpecial>()) Destroy(PlayerID.instance.GetComponent<YumeSpecial>());
     }
 
-    public static void ResetDuration()
+    public void ResetDuration()
     {
         durationCounter = chainedDuration;
     }
@@ -85,7 +86,7 @@ public class SeamstressManager : GhostManager
     }
 
     // should find the next closest enemy to the one given
-    public static Transform FindNextTarget(GameObject cur)
+    public Transform FindNextTarget(GameObject cur)
     {
         Transform targetLoc = null;
         float minDist = chainRange;
@@ -117,7 +118,7 @@ public class SeamstressManager : GhostManager
     /// effect.
     /// </summary>
     /// <param name="enemyID"> The instance id of the enemy currently being damaged </param>
-    public static void DamageLinkedEnemies(int enemyID, DamageContext context)
+    public void DamageLinkedEnemies(int enemyID, DamageContext context)
     {
         ptr = head;
 
@@ -163,10 +164,15 @@ public class SeamstressManager : GhostManager
     /// Increment the number of times the current ability has ricocheted
     /// </summary>
     /// <returns> if the ability has reached its max ricochet amount </returns>
-    public static bool IncrementRicochet()
+    public bool IncrementRicochet()
     {
         ricochetCounter++;
         return ricochetCounter == maxRicochet;
+    }
+
+    public void ResetRicochet()
+    {
+        ricochetCounter = 0;
     }
 
     private static void ClearList()

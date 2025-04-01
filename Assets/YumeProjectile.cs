@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class YumeProjectile : MonoBehaviour
 {
+    SeamstressManager manager;
     float lifeTime; // time after which the projectile should expire
     bool hit = false; // if the projectile has hit an enemy
     GameObject hitTarget;
@@ -26,8 +27,9 @@ public class YumeProjectile : MonoBehaviour
             }
 
             dir = Vector2.Reflect(dir, collision.contacts[0].normal);
-            if (SeamstressManager.IncrementRicochet()) // bouncing off surface counts as ricochet too
+            if (manager.IncrementRicochet()) // bouncing off surface counts as ricochet too
             {
+                manager.ResetRicochet();
                 Destroy(gameObject);
             }
         }
@@ -52,11 +54,12 @@ public class YumeProjectile : MonoBehaviour
         if (lifeTime < 0.1) Destroy(gameObject);
     }
 
-    public void Initialize(Vector2 dest, float speed, float range)
+    public void Initialize(Vector2 dest, float speed, float range, SeamstressManager manager)
     {
         lifeTime = range / speed;
         dir = (dest - (Vector2)transform.position).normalized;
         this.speed = speed;
+        this.manager = manager;
     }
 
     public bool HasExpired() { return hit || lifeTime <= 0; }
