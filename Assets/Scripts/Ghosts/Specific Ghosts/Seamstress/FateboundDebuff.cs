@@ -15,6 +15,11 @@ public class FateboundDebuff : MonoBehaviour
         GameplayEventHolder.OnDeath += PreserveConnection;
     }
 
+    public void RemoveShareDamage()
+    {
+        GameplayEventHolder.OnDamageDealt -= ShareDamage;
+        GameplayEventHolder.OnDeath -= PreserveConnection;
+    }
 
     private void ShareDamage(DamageContext context)
     {

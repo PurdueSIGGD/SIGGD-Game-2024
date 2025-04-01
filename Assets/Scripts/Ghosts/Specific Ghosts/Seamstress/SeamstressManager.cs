@@ -193,10 +193,13 @@ public class SeamstressManager : GhostManager
 
     private void ClearList()
     {
+        ptr = head;
         while (ptr.enemy != null)
         {
-            Destroy(ptr.enemy.GetComponent<FateboundDebuff>());
-            linkableEnemies.Enqueue(ptr.enemy);
+            FateboundDebuff debuff = ptr.enemy.GetComponent<FateboundDebuff>();
+            debuff.RemoveShareDamage();
+            Destroy(debuff);
+            //linkableEnemies.Enqueue(ptr.enemy);
             ptr = ptr.chainedTo;
         }
         ptr = head = tail = new ChainedEnemy();
