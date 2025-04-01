@@ -111,7 +111,21 @@ public class Move : MonoBehaviour, IStatList
         rb.velocity = newVel;
     }
 
+    public void UpdateRun()
+    {
+        accel = stats.ComputeValue("Running Accel.");
+        maxSpeed = stats.ComputeValue("Max Running Speed");
+        deaccel = stats.ComputeValue("Running Deaccel.");
+    }
+
     public void StartJump()
+    {
+        accel = stats.ComputeValue("Airborne Accel.");
+        maxSpeed = stats.ComputeValue("Max Running Speed");
+        deaccel = stats.ComputeValue("Airborne Deaccel.");
+    }
+
+    public void UpdateJump()
     {
         accel = stats.ComputeValue("Airborne Accel.");
         maxSpeed = stats.ComputeValue("Max Running Speed");
@@ -132,6 +146,13 @@ public class Move : MonoBehaviour, IStatList
         deaccel = stats.ComputeValue("Airborne Deaccel.");
     }
 
+    public void UpdateFall()
+    {
+        accel = stats.ComputeValue("Airborne Accel.");
+        maxSpeed = stats.ComputeValue("Max Running Speed");
+        deaccel = stats.ComputeValue("Airborne Deaccel.");
+    }
+
     public void StopFall()
     {
         accel = stats.ComputeValue("Running Accel.");
@@ -146,6 +167,13 @@ public class Move : MonoBehaviour, IStatList
         deaccel = stats.ComputeValue("Airborne Deaccel.");
     }
 
+    public void UpdateFastFall()
+    {
+        accel = stats.ComputeValue("Airborne Accel.");
+        maxSpeed = stats.ComputeValue("Max Running Speed");
+        deaccel = stats.ComputeValue("Airborne Deaccel.");
+    }
+
     public void StopFastFall()
     {
         accel = stats.ComputeValue("Running Accel.");
@@ -154,6 +182,13 @@ public class Move : MonoBehaviour, IStatList
     }
 
     public void StartGlide()
+    {
+        accel = stats.ComputeValue("Glide Accel.");
+        maxSpeed = stats.ComputeValue("Max Glide Speed");
+        deaccel = stats.ComputeValue("Glide Deaccel.");
+    }
+
+    public void UpdateGlide()
     {
         accel = stats.ComputeValue("Glide Accel.");
         maxSpeed = stats.ComputeValue("Max Glide Speed");
