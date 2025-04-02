@@ -186,6 +186,7 @@ GameObject:
   - component: {fileID: 425421172213063471}
   - component: {fileID: 4974482219362555187}
   - component: {fileID: 4931953015635928933}
+  - component: {fileID: 9082866802667580707}
   m_Layer: 17
   m_Name: Aegis-King
   m_TagString: Ghost
@@ -343,7 +344,9 @@ MonoBehaviour:
   - name: Basic Cooldown
     value: 1
   - name: Shield Max Health
-    value: 10
+    value: 50
+  - name: Shield Health Regeneration Rate
+    value: 5
   - name: Special Cooldown
     value: 1
   - name: Special Explosion Radius
@@ -373,6 +376,8 @@ MonoBehaviour:
   specialExplosionVFX: {fileID: 7966241730260626198, guid: a5295bc6cb8948243b75f99e5a18cc48,
     type: 3}
   currentShieldHealth: 0
+  basic: {fileID: 0}
+  special: {fileID: 0}
 --- !u!114 &4931953015635928933
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -386,6 +391,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   statList: []
+--- !u!114 &9082866802667580707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4105203604402636954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0491ede5a5a517e4492772aaa8567495, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4168595070812540214
 GameObject:
   m_ObjectHideFlags: 0

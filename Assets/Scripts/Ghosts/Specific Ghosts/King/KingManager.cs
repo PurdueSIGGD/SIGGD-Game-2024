@@ -12,8 +12,8 @@ public class KingManager : GhostManager, ISelectable
 
     public float currentShieldHealth;
 
-    private KingBasic basic;
-    private KingSpecial special;
+    [HideInInspector] public KingBasic basic;
+    [HideInInspector] public KingSpecial special;
 
     // Start is called before the first frame update
     protected override void Start()
@@ -27,6 +27,15 @@ public class KingManager : GhostManager, ISelectable
     protected override void Update()
     {
         base.Update();
+        rechargeShieldHealth();
+    }
+
+
+
+    private void rechargeShieldHealth()
+    {
+        if ((basic != null && basic.isShielding) || currentShieldHealth >= stats.ComputeValue("Shield Max Health")) return;
+        currentShieldHealth = Mathf.Clamp((currentShieldHealth + (stats.ComputeValue("Shield Health Regeneration Rate") * Time.deltaTime)), 0f, stats.ComputeValue("Shield Max Health"));
     }
 
 

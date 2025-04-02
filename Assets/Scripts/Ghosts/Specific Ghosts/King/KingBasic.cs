@@ -8,6 +8,7 @@ public class KingBasic : MonoBehaviour
     private PlayerStateMachine playerStateMachine;
 
     [HideInInspector] public KingManager manager;
+    [HideInInspector] public bool isShielding;
 
     private GameObject shieldCircle;
 
@@ -15,6 +16,7 @@ public class KingBasic : MonoBehaviour
     void Start()
     {
         playerStateMachine = GetComponent<PlayerStateMachine>();
+        isShielding = false;
     }
 
     // Update is called once per frame
@@ -30,20 +32,26 @@ public class KingBasic : MonoBehaviour
             GetComponent<PlayerStateMachine>().EnableTrigger("OPT");
             return;
         }
+
+        // Set flags and inits
+        isShielding = true;
+
         // VFX
         shieldCircle = Instantiate(manager.shieldCircleVFX, gameObject.transform.position, Quaternion.identity, gameObject.transform);
         shieldCircle.GetComponent<CircleAreaHandler>().playCircleStart(1.4f, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
 
-        // Start Invincibility
+        // Start invincibility
         GameplayEventHolder.OnDamageFilter.Add(invincibilityFilter);
     }
 
     public void StopHeavyChargeUp()
     {
+        isShielding = false;
+
         // VFX
         if (shieldCircle != null) shieldCircle.GetComponent<CircleAreaHandler>().playCircleEnd();
 
-        // End Invincibility
+        // End invincibility
         GameplayEventHolder.OnDamageFilter.Remove(invincibilityFilter);
     }
 

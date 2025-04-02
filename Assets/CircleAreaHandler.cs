@@ -52,7 +52,6 @@ public class CircleAreaHandler : MonoBehaviour
     private IEnumerator animateCircleEnd()
     {
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
-        //spriteRenderer.color = new Color(color.r, color.g, color.b, spriteRenderer.color.a);
         float initialScale = transform.localScale.x;
         float finalScale = initialScale * endFinalScaleMultiplier;
         transform.localScale = new Vector3(initialScale, initialScale, 1f);
