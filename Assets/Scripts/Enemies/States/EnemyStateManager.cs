@@ -3,6 +3,7 @@ using System.Net.Mime;
 using Unity.VisualScripting;
 using UnityEditor.Build;
 using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
 
 /// <summary>
 /// General Enemy AI to govern enemy behavior
@@ -19,10 +20,15 @@ public class EnemyStateManager : MonoBehaviour
     [HideInInspector] public ActionPool pool; // A pool of attacks to randomly choose from
     [HideInInspector] public Animator animator;
 
+    [SerializeField] public bool isFlyer;
     [SerializeField] protected float aggroRange; // Range for detecting players 
     protected IEnemyStates curState; // Enemy's current State, defaults to idle
     protected Transform player;
     protected Rigidbody2D rb;
+
+    public bool isBeingKnockedBack;
+    protected float currentKnockbackDurationTime;
+    [SerializeField] protected bool grounded;
 
     protected virtual void Awake()
     {
@@ -31,6 +37,8 @@ public class EnemyStateManager : MonoBehaviour
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         pool = GetComponent<ActionPool>();
+        isBeingKnockedBack = false;
+        
         SwitchState(IdleState);
     }
 
@@ -44,6 +52,9 @@ public class EnemyStateManager : MonoBehaviour
         {
             curState.UpdateState(this);
         }
+		
+        UpdateKnockbackTime();
+        isGrounded();
     }
 
     /// <summary>
@@ -95,6 +106,52 @@ public class EnemyStateManager : MonoBehaviour
         {
             StunState.EnterState(this, duration);
         }
+    }
+
+    /// <summary>
+    /// Knockback the enemy.
+    /// </summary>
+    /// <param name="direction">The direction of the knockback</param>
+    /// <param name="knockbackStrength">The strength of the knockback</param>
+    /// <param name="knockbackDuration">The movement lockout duration of the knockback</param>
+    public void ApplyKnockback(Vector2 direction, float knockbackStrength, float movementLockoutDuration)
+    {
+        rb.AddForce(direction.normalized * knockbackStrength, ForceMode2D.Impulse);
+        if (isBeingKnockedBack && movementLockoutDuration <= currentKnockbackDurationTime) return;
+        isBeingKnockedBack = true;
+        currentKnockbackDurationTime = movementLockoutDuration;
+    }
+
+    /// <summary>
+    /// Knockback the enemy.
+    /// </summary>
+    /// <param name="direction">The direction of the knockback</param>
+    /// <param name="knockbackStrength">The strength of the knockback</param>
+    public void ApplyKnockback(Vector2 direction, float knockbackStrength)
+    {
+        ApplyKnockback(direction, knockbackStrength, 0.5f);
+    }
+
+    private void UpdateKnockbackTime()
+    {
+        if (!isBeingKnockedBack) return;
+        Debug.DrawRay(gameObject.transform.position, gameObject.transform.position + Vector3.up, Color.green);
+        currentKnockbackDurationTime -= Time.fixedDeltaTime;
+        if (currentKnockbackDurationTime <= 0f)
+        {
+            isBeingKnockedBack = false;
+            currentKnockbackDurationTime = 0f;
+        }
+    }
+
+    /// <summary>
+    /// Returns true if the enemy is on the ground.
+    /// </summary>
+    /// <returns>Returns true if the enemy is on the ground.</returns>
+    public bool isGrounded()
+    {
+        Debug.DrawRay(transform.position, Vector2.down, Color.blue);
+        return grounded = Physics2D.Raycast(transform.position, Vector2.down, 1f, LayerMask.GetMask("Ground"));
     }
 
     /// <summary>

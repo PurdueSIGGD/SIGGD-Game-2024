@@ -158,7 +158,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
+  m_LinearDrag: 1
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -232,7 +232,10 @@ MonoBehaviour:
   stats: {fileID: 0}
   pool: {fileID: 0}
   animator: {fileID: 6400381198355053387}
+  isFlyer: 1
   aggroRange: 16.76
+  isBeingKnockedBack: 0
+  grounded: 0
   alarmTrigger: {fileID: 7775618551989780944}
   enemyToSummon: {fileID: 2119936537419083514, guid: 0fedb38f283d38a4faca7620ea8ae537,
     type: 3}

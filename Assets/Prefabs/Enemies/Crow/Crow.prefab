@@ -223,7 +223,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 1
-  m_AngularDrag: 1
+  m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 6200000, guid: b9d10c101ca602442bb84a1865e6ab95, type: 2}
   m_IncludeLayers:
@@ -296,7 +296,10 @@ MonoBehaviour:
   stats: {fileID: 0}
   pool: {fileID: 0}
   animator: {fileID: 0}
+  isFlyer: 1
   aggroRange: 10
+  isBeingKnockedBack: 0
+  grounded: 0
   detectionRadius: 10
   crowDive: {fileID: 4386996987313725797}
   diveDamage:

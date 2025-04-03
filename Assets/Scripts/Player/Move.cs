@@ -19,7 +19,6 @@ public class Move : MonoBehaviour, IStatList
     private StatManager stats;
     private Animator animator;
 
-    private bool dashing = false;
     private bool stopMoving = false;
     private bool charging = false;
 
@@ -52,7 +51,7 @@ public class Move : MonoBehaviour, IStatList
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (!dashing && !stopMoving)
+        if (!stopMoving)
         {
             Movement();
         }
@@ -166,9 +165,9 @@ public class Move : MonoBehaviour, IStatList
         maxSpeed = stats.ComputeValue("Max Running Speed");
         deaccel = stats.ComputeValue("Running Deaccel.");
     }
+
     public void StartDash()
     {
-        dashing = true;
         accel = stats.ComputeValue("Running Accel.");
         maxSpeed = stats.ComputeValue("Max Running Speed");
         deaccel = stats.ComputeValue("Running Deaccel.");
@@ -176,9 +175,7 @@ public class Move : MonoBehaviour, IStatList
 
     public void StopDash()
     {
-        dashing = false;
-        if (animator.GetBool("p_grounded")) return;
-        ApplyKnockback(rb.velocity.normalized, rb.velocity.magnitude);
+
     }
 
     public void StartLightAttack()
@@ -248,9 +245,16 @@ public class Move : MonoBehaviour, IStatList
         return statList;
     }
 
-    public void ApplyKnockback(Vector2 direction, float knockbackStrength)
+    /// <summary>
+    /// Knockback the player.
+    /// </summary>
+    /// <param name="direction">The direction of the knockback</param>
+    /// <param name="knockbackStrength">The strength of the knockback</param>
+    /// <param name="cancelCurrentMovement">If true, all player movement is overriden by this knockback</param>
+    public void ApplyKnockback(Vector2 direction, float knockbackStrength, bool cancelCurrentMovement)
     {
-        overflowSpeed = knockbackStrength;
-        rb.AddForce(direction.normalized * knockbackStrength);
+        if (overflowSpeed < knockbackStrength) overflowSpeed = knockbackStrength;
+        if (cancelCurrentMovement) rb.velocity = Vector2.zero;
+        rb.velocity += direction.normalized * knockbackStrength;
     }
 }
