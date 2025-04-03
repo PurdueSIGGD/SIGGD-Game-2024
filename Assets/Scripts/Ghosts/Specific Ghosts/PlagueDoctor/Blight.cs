@@ -11,6 +11,7 @@ public class Blight : MonoBehaviour
     [SerializeField] float deadlySeverity;
 
     private bool deadly = false;
+    public GameObject effectParent;
 
     // Start is called before the first frame update
     void Start()
@@ -33,19 +34,24 @@ public class Blight : MonoBehaviour
 
     void Damaged(DamageContext damageContext)
     {
-        if(transform.parent.gameObject != null && damageContext.victim == transform.parent.gameObject)
-            FinishDeadly(0.5f);
+        if (effectParent != null && damageContext.victim == effectParent && !damageContext.damageTypes.Contains(DamageType.STATUS)) {
+            WrapperCoroutine(0.75f);
+
+        }
+    }
+
+    private void WrapperCoroutine(float waitime)
+    {
+        StartCoroutine(FinishDeadly(waitime));
     }
 
     private IEnumerator DestroyInDuration(float waitTime)
     {
-        Debug.Log("StartBlight1");
         yield return new WaitForSeconds(waitTime);
         if(!deadly)
             gameObject.GetComponentInParent<StatManager>().ModifyStat("Speed", speedDebuff);
         else
             gameObject.GetComponentInParent<StatManager>().ModifyStat("Speed", speedDebuff + -(int)(speedDebuff * deadlySeverity));
-        Debug.Log("StopBlight1");
         Destroy(gameObject);
     }
 
@@ -53,7 +59,6 @@ public class Blight : MonoBehaviour
     {
         while (true)
         {
-            Debug.Log("hitBlight1");
             damageContext.damage = dot;
             Dmg(damageContext);
             yield return new WaitForSeconds(waitTime);

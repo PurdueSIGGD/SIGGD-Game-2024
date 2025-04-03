@@ -31,7 +31,8 @@ public class Bottle : MonoBehaviour, IStatList
         Collider2D[] collides = Physics2D.OverlapCircleAll(point, range, attackMask);
         foreach (Collider2D c in collides)
         {
-            Instantiate(blightPrefab, c.transform);
+            GameObject blight = Instantiate(blightPrefab, c.transform);
+            blight.GetComponent<Blight>().effectParent = c.gameObject;
         }
         Destroy(gameObject);
     }

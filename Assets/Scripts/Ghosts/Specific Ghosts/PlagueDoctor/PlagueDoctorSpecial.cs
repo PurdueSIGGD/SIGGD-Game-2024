@@ -10,7 +10,6 @@ public class PlagueDoctorSpecial : MonoBehaviour
     [SerializeField] float initialSpeed;
 
     private Camera mainCamera;
-    public PlagueDoctorManager manager;
 
     // Start is called before the first frame update
     void Start()
@@ -33,10 +32,5 @@ public class PlagueDoctorSpecial : MonoBehaviour
         bottle.GetComponent<Rigidbody2D>().velocity = (mousePos - playerPos).normalized * initialSpeed;
         PlayerStateMachine psm = this.GetComponent<PlayerStateMachine>();
         psm.EnableTrigger("OPT");
-    }
-
-    void StopDash()
-    {
-        manager.setSpecialCooldown(4);
     }
 }
