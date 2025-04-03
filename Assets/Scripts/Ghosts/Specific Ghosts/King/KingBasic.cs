@@ -27,7 +27,7 @@ public class KingBasic : MonoBehaviour
 
     public void StartHeavyChargeUp()
     {
-        if (manager.currentShieldHealth <= 0)
+        if (manager.currentShieldHealth <= 0f || manager.getBasicCooldown() > 0f)
         {
             GetComponent<PlayerStateMachine>().EnableTrigger("OPT");
             return;
@@ -47,6 +47,10 @@ public class KingBasic : MonoBehaviour
     public void StopHeavyChargeUp()
     {
         isShielding = false;
+        float maxCooldown = manager.GetStats().ComputeValue("Shield Max Health") / manager.GetStats().ComputeValue("Shield Health Regeneration Rate");
+        float cooldownMultiplier = (manager.GetStats().ComputeValue("Shield Max Health") - manager.currentShieldHealth - manager.GetStats().ComputeValue("Shield Health Cooldown Threshold"))
+                                   / manager.GetStats().ComputeValue("Shield Max Health");
+        manager.setBasicCooldown(maxCooldown * cooldownMultiplier);
 
         // VFX
         if (shieldCircle != null) shieldCircle.GetComponent<CircleAreaHandler>().playCircleEnd();

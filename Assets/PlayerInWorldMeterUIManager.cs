@@ -23,7 +23,6 @@ public class PlayerInWorldMeterUIManager : MonoBehaviour
     private bool isActivating;
     private bool isDeactivating;
 
-    //private float yOffset;
     public float activeYPosition;
     public float inactiveYPosition;
 
@@ -31,6 +30,9 @@ public class PlayerInWorldMeterUIManager : MonoBehaviour
     private float activeFrameBackgroundAlpha;
     private float activeMeterBackgroundAlpha;
     private float activeMeterBarAlpha;
+
+    private Color baseMeterColor;
+    private Color baseBackgroundColor;
 
     private void Awake()
     {
@@ -52,6 +54,9 @@ public class PlayerInWorldMeterUIManager : MonoBehaviour
         activeFrameBackgroundAlpha = frameBackground.color.a;
         activeMeterBackgroundAlpha = meterBackground.color.a;
         activeMeterBarAlpha = meterBar.color.a;
+
+        baseMeterColor = meterBar.color;
+        baseBackgroundColor = frameBackground.color;
 
         gameObject.SetActive(false);
     }
@@ -86,14 +91,24 @@ public class PlayerInWorldMeterUIManager : MonoBehaviour
         meterSlider.value = currentValue;
     }
 
-    public void updateMeterColor(Color color, bool preserveAlpha)
+    public void updateMeterColor(Color color)
     {
-        setImageColor(meterBar, color, preserveAlpha);
+        setImageColor(meterBar, color, true);
     }
 
-    public void updateBackgroundColor(Color color, bool preserveAlpha)
+    public void resetMeterColor()
     {
-        setImageColor(frameBackground, color, preserveAlpha);
+        setImageColor(meterBar, baseMeterColor, true);
+    }
+
+    public void updateBackgroundColor(Color color)
+    {
+        setImageColor(frameBackground, color, true);
+    }
+
+    public void resetBackgroundColor()
+    {
+        setImageColor(frameBackground, baseBackgroundColor, true);
     }
 
 

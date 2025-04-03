@@ -31,6 +31,7 @@ public class GhostManager : MonoBehaviour, ISelectable, IStatList
     protected virtual void Update()
     {
         updateSpecialCooldown();
+        updateBasicCooldown();
     }
 
     public virtual void Select(GameObject player)

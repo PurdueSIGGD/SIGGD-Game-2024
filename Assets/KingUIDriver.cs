@@ -33,7 +33,9 @@ public class KingUIDriver : GhostUIDriver
     private void updateMeterColors()
     {
         Color color = ghostIdentity.GetCharacterInfo().primaryColor;
-        meterUIManager.updateBackgroundColor(color, true);
+        meterUIManager.updateBackgroundColor(color);
+        meterUIManager.updateMeterColor(color);
+        if (manager.getBasicCooldown() > 0f) meterUIManager.resetMeterColor();
     }
 
     public void updateMeterActive()

@@ -57,7 +57,7 @@ public class KingSpecial : MonoBehaviour, ISpecialMove
         if (!GetComponent<Animator>().GetBool("p_grounded"))
         {
             GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x, Mathf.Max(GetComponent<Rigidbody2D>().velocity.y, 0f));
-            GetComponent<Move>().ApplyKnockback(Vector2.up, 5f, false);
+            GetComponent<Move>().ApplyKnockback(Vector2.up, 8f, false);
         }
 
         // Start invincibility
