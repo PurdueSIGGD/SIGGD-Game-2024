@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class GhostUIDriver : MonoBehaviour
+public class GhostUIDriver : MonoBehaviour, ISelectable
 {
     protected StatManager stats;
     protected GhostIdentity ghostIdentity;
@@ -20,6 +21,16 @@ public class GhostUIDriver : MonoBehaviour
     protected virtual void Update()
     {
 
+    }
+
+    public virtual void Select(GameObject player)
+    {
+
+    }
+
+    public virtual void DeSelect(GameObject player)
+    {
+        meterUIManager.deactivateWidget(0f);
     }
 
 }

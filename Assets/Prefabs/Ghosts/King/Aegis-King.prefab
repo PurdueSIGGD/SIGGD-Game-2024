@@ -342,15 +342,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Basic Cooldown
-    value: 1
+    value: 10
   - name: Shield Max Health
     value: 50
   - name: Shield Health Regeneration Rate
     value: 5
   - name: Shield Health Cooldown Threshold
     value: 0
+  - name: Shield Break Explosion Radius
+    value: 4
+  - name: Shield Break Damage
+    value: 10
+  - name: Shield Break Knockback Strength
+    value: 5
+  - name: Shield Break Minimum Upward Knockback Strength
+    value: 5
+  - name: Shield Break Stun Duration
+    value: 0.2
   - name: Special Cooldown
-    value: 1
+    value: 8
   - name: Special Explosion Radius
     value: 6
   - name: Special Damage
@@ -365,6 +375,12 @@ MonoBehaviour:
     value: 0.8
   defaultController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
   ghostController: {fileID: 9100000, guid: 46f9e2905c1205144afa58418a4214c5, type: 2}
+  shieldBreakDamage:
+    damageStrength: 1
+    damageTypes: 02000000
+    actionID: 15
+    actionTypes: 0100000002000000
+    extraContext: 
   specialDamage:
     damageStrength: 1
     damageTypes: 02000000

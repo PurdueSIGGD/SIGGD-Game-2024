@@ -33,14 +33,14 @@ public class KingBasic : MonoBehaviour
             return;
         }
 
-        // Set flags and inits
+        // Set flag
         isShielding = true;
 
         // VFX
         shieldCircle = Instantiate(manager.shieldCircleVFX, gameObject.transform.position, Quaternion.identity, gameObject.transform);
         shieldCircle.GetComponent<CircleAreaHandler>().playCircleStart(1.4f, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
 
-        // Start invincibility
+        // Start player effects
         GameplayEventHolder.OnDamageFilter.Add(invincibilityFilter);
     }
 
@@ -55,7 +55,7 @@ public class KingBasic : MonoBehaviour
         // VFX
         if (shieldCircle != null) shieldCircle.GetComponent<CircleAreaHandler>().playCircleEnd();
 
-        // End invincibility
+        // End effects
         GameplayEventHolder.OnDamageFilter.Remove(invincibilityFilter);
     }
 
@@ -63,18 +63,36 @@ public class KingBasic : MonoBehaviour
     {
         if (context.victim.tag != "Player") return;
 
-        // Shield Damage Absorb
+        // Shield damage absorb
         manager.currentShieldHealth = Mathf.Max(manager.currentShieldHealth - context.damage, 0f);
         context.damage = 0f;
 
-        // Shield Destroyed
+        // Shield destroyed
         if (manager.currentShieldHealth <= 0f)
         {
             // VFX
+            CameraShake.instance.Shake(0.2f, 10f, 0f, 10f, new Vector2(Random.Range(-0.5f, 0.5f), 1f));
             GameObject shieldExplosion = Instantiate(manager.shieldExplosionVFX, gameObject.transform.position, Quaternion.identity, gameObject.transform);
-            shieldExplosion.GetComponent<RingExplosionHandler>().playRingExplosion(3f, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
+            shieldExplosion.GetComponent<RingExplosionHandler>().playRingExplosion(manager.GetStats().ComputeValue("Shield Break Explosion Radius"), manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
 
-            // Cancel Shield
+            // Affect enemies
+            Collider2D[] enemies = Physics2D.OverlapCircleAll(transform.position, manager.GetStats().ComputeValue("Shield Break Explosion Radius"), LayerMask.GetMask("Enemy"));
+            foreach (Collider2D enemy in enemies)
+            {
+                enemy.gameObject.GetComponent<Health>().Damage(manager.shieldBreakDamage, gameObject);
+                enemy.gameObject.GetComponent<EnemyStateManager>().Stun(manager.shieldBreakDamage, manager.GetStats().ComputeValue("Shield Break Stun Duration"));
+
+                // Deal knockback
+                Vector2 enemyDirection = (enemy.transform.position - transform.position).normalized;
+                Vector3 knockbackDirection = new Vector2(enemyDirection.x, Mathf.Max(enemyDirection.y, 0f)).normalized; // Enemies under player will be knocked laterally, not down
+                float knockbackStrength = manager.GetStats().ComputeValue("Shield Break Knockback Strength");
+                Vector2 knockbackVector = knockbackDirection * knockbackStrength;
+                float extraUpwardKnockback = Mathf.Max(manager.GetStats().ComputeValue("Shield Break Minimum Upward Knockback Strength") - knockbackVector.y, 0f); // Enemies are guaranteed to be knocked up some amount
+                enemy.gameObject.GetComponent<EnemyStateManager>().ApplyKnockback(knockbackDirection, knockbackStrength); // Base knockback
+                enemy.gameObject.GetComponent<EnemyStateManager>().ApplyKnockback(Vector2.up, extraUpwardKnockback); // Extra knock up
+            }
+
+            // Cancel shield
             GetComponent<PlayerStateMachine>().EnableTrigger("OPT");
         }
     }

@@ -80,7 +80,7 @@ public class PlayerInWorldMeterUIManager : MonoBehaviour
 
     public void deactivateWidget(float delayTime)
     {
-        if (!isActive) return;
+        if (!isActive || !gameObject.activeInHierarchy) return;
         isActive = false;
         StartCoroutine(animateWidgetStateChange(false, delayTime));
     }
@@ -125,6 +125,7 @@ public class PlayerInWorldMeterUIManager : MonoBehaviour
     private IEnumerator animateWidgetStateChange(bool activate, float delayTime)
     {
         yield return new WaitForSeconds(delayTime);
+        if ((activate && !isActive) || (!activate && isActive)) yield break;
         isDeactivating = !activate;
         isActivating = activate;
         float initialYPosition = transform.localPosition.y;

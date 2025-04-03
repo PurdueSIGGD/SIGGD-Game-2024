@@ -38,10 +38,10 @@ public class KingSpecial : MonoBehaviour, ISpecialMove
 
     public void StartDash()
     {
-        StartCoroutine(SpecialAbilityCoroutine());
+        StartCoroutine(specialAbilityCoroutine());
     }
 
-    private IEnumerator SpecialAbilityCoroutine()
+    private IEnumerator specialAbilityCoroutine()
     {
         // Set flags and inits
         isCasting = true;

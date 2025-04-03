@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class KingManager : GhostManager, ISelectable
 {
+    [SerializeField] public DamageContext shieldBreakDamage;
     [SerializeField] public DamageContext specialDamage;
     [SerializeField] public GameObject shieldCircleVFX;
     [SerializeField] public GameObject shieldExplosionVFX;
@@ -19,6 +20,7 @@ public class KingManager : GhostManager, ISelectable
     protected override void Start()
     {
         base.Start();
+        shieldBreakDamage.damage = stats.ComputeValue("Shield Break Damage");
         specialDamage.damage = stats.ComputeValue("Special Damage");
         currentShieldHealth = stats.ComputeValue("Shield Max Health");
     }
@@ -43,6 +45,7 @@ public class KingManager : GhostManager, ISelectable
     public override void Select(GameObject player)
     {
         Debug.Log("KING SELECTED");
+        //if (PlayerID.instance.GetComponent<HeavyAttack>()) Destroy(PlayerID.instance.GetComponent<HeavyAttack>());
         basic = PlayerID.instance.AddComponent<KingBasic>();
         basic.manager = this;
         special = PlayerID.instance.AddComponent<KingSpecial>();
@@ -53,6 +56,7 @@ public class KingManager : GhostManager, ISelectable
     public override void DeSelect(GameObject player)
     {
         if (basic) Destroy(basic);
+        //if (!PlayerID.instance.GetComponent<HeavyAttack>()) PlayerID.instance.AddComponent<HeavyAttack>();
         special?.stopSpecial(true, true);
         if (special) Destroy(special);
         base.DeSelect(player);
