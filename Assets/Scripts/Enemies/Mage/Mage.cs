@@ -15,7 +15,7 @@ public class Mage : EnemyStateManager
 
     [Header("Lightning Attack")]
     
-    [SerializeField] private DamageContext lightningDamage;
+    [SerializeField] private float lightningDamage = 25;
     [SerializeField] private float lightningRadius = 10;   // the size of the ACTUAL lightning attack
     [SerializeField] private float lightningRange = 10;   // denotes from how far away the mage can attack
     
@@ -60,6 +60,7 @@ public class Mage : EnemyStateManager
             if (elapsedTime > actual_cooldown)
             {
                 Attack();
+                //Debug.Log("MAGE ATTACK");
             }
         }
     }
@@ -73,7 +74,14 @@ public class Mage : EnemyStateManager
         lightningObject = Instantiate(lightningPrefab, player.position, Quaternion.identity);
 
         MageLightningAttack attack = lightningObject.GetComponent<MageLightningAttack>();
-        attack.Initialize(player.position, lightningRadius, lightningDamage, lightningChargeDuration, gameObject);
+        
+        // creating damage context
+        DamageContext damageContext = new DamageContext();
+        damageContext.damage = lightningDamage;
+        damageContext.damageTypes = new List<DamageType>((int)DamageType.AREA);
+        damageContext.actionTypes = new List<ActionType>((int)ActionType.ENEMY_ATTACK);
+        
+        attack.Initialize(player.position, lightningRadius, damageContext, lightningChargeDuration, gameObject);
         attack.StartCharging();
     }
 
