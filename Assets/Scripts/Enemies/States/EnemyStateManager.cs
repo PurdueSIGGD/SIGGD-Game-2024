@@ -44,7 +44,6 @@ public class EnemyStateManager : MonoBehaviour
         {
             curState.UpdateState(this);
         }
-        Debug.Log(name + " " + curState);
     }
 
     /// <summary>
