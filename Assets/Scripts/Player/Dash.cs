@@ -88,13 +88,13 @@ public class Dash : MonoBehaviour, IStatList
         isDashing = true;
         PlayerStateMachine psm = this.GetComponent<PlayerStateMachine>();
 
-        yield return new WaitForSeconds(stats.ComputeValue("Dash Time"));
+        yield return new WaitForSeconds(stats.ComputeValue("Dash Time") - 0.05f);
+        orionManager.setSpecialCooldown(stats.ComputeValue("Dash Cooldown"));
+        yield return new WaitForSeconds(0.05f);
 
         rb.velocity *= stats.ComputeValue("Post Dash Momentum Fraction");
         psm.EnableTrigger("OPT");
-
         isDashing = false;
-        orionManager.setSpecialCooldown(stats.ComputeValue("Dash Cooldown"));
     }
 
     public StatManager.Stat[] GetStatList()
