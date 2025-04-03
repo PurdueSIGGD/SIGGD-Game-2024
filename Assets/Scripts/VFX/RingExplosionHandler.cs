@@ -9,9 +9,9 @@ public class RingExplosionHandler : MonoBehaviour
     [SerializeField] private float fadeOutDurationTime;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-
+        gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -20,8 +20,14 @@ public class RingExplosionHandler : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// Plays the ring explosion animation. This GameObject will remain inactive until this function is called, and will be destroyed shortly after.
+    /// </summary>
+    /// <param name="explosionRadius">The ring explosion's radius.</param>
+    /// <param name="color">The ring explosion's color.</param>
     public void playRingExplosion(float explosionRadius, Color color)
     {
+        gameObject.SetActive(true);
         StartCoroutine(animateRingExplosion(explosionRadius, color));
         StartCoroutine(fadeOutRing());
     }

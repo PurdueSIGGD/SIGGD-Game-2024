@@ -43,7 +43,7 @@ public class KingUIDriver : GhostUIDriver
         if (manager.basic == null) return;
         if (manager.basic.isShielding || manager.currentShieldHealth < stats.ComputeValue("Shield Max Health"))
         {
-            meterUIManager.activateWidget(0f);
+            meterUIManager.activateWidget();
             return;
         }
         meterUIManager.deactivateWidget(0.3f);

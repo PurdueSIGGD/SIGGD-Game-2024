@@ -70,6 +70,11 @@ public class PlayerInWorldMeterUIManager : MonoBehaviour
 
     
     // UI SETTER ENDPOINTS
+
+    /// <summary>
+    /// Show the in-world meter UI.
+    /// </summary>
+    /// <param name="delayTime">Time before the meter UI is shown.</param>
     public void activateWidget(float delayTime)
     {
         if (isActive) return;
@@ -78,6 +83,18 @@ public class PlayerInWorldMeterUIManager : MonoBehaviour
         StartCoroutine(animateWidgetStateChange(true, delayTime));
     }
 
+    /// <summary>
+    /// Show the in-world meter UI.
+    /// </summary>
+    public void activateWidget()
+    {
+        activateWidget(0f);
+    }
+
+    /// <summary>
+    /// Hide the in-world meter UI.
+    /// </summary>
+    /// <param name="delayTime">Time before the meter UI is hidden.</param>
     public void deactivateWidget(float delayTime)
     {
         if (!isActive || !gameObject.activeInHierarchy) return;
@@ -85,27 +102,54 @@ public class PlayerInWorldMeterUIManager : MonoBehaviour
         StartCoroutine(animateWidgetStateChange(false, delayTime));
     }
 
+    /// <summary>
+    /// Hide the in-world meter UI.
+    /// </summary>
+    public void deactivateWidget()
+    {
+        deactivateWidget(0f);
+    }
+
+    /// <summary>
+    /// Set the values shown by the in-world meter UI.
+    /// </summary>
+    /// <param name="currentValue">The value represented by the meter's fill bar.</param>
+    /// <param name="maxValue">The value represented by the meter's overall bar.</param>
     public void updateMeterValue(float currentValue, float maxValue)
     {
         meterSlider.maxValue = maxValue;
         meterSlider.value = currentValue;
     }
 
+    /// <summary>
+    /// Set the color of the in-world meter UI's fill bar.
+    /// </summary>
+    /// <param name="color">The color for the fill bar. The alpha value is ignored.</param>
     public void updateMeterColor(Color color)
     {
         setImageColor(meterBar, color, true);
     }
 
+    /// <summary>
+    /// Reset the color of the in-world meter UI's fill bar to its default color.
+    /// </summary>
     public void resetMeterColor()
     {
         setImageColor(meterBar, baseMeterColor, true);
     }
 
+    /// <summary>
+    /// Set the color of the in-world meter UI's background frame.
+    /// </summary>
+    /// <param name="color">The color for the background frame. The alpha value is ignored.</param>
     public void updateBackgroundColor(Color color)
     {
         setImageColor(frameBackground, color, true);
     }
 
+    /// <summary>
+    /// Reset the color of the in-world meter UI's background frame to its default color.
+    /// </summary>
     public void resetBackgroundColor()
     {
         setImageColor(frameBackground, baseBackgroundColor, true);

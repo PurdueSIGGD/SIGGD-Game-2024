@@ -30,7 +30,7 @@ public class GhostUIDriver : MonoBehaviour, ISelectable
 
     public virtual void DeSelect(GameObject player)
     {
-        meterUIManager.deactivateWidget(0f);
+        meterUIManager.deactivateWidget();
     }
 
 }

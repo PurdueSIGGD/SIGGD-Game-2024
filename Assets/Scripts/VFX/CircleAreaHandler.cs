@@ -11,9 +11,9 @@ public class CircleAreaHandler : MonoBehaviour
     [SerializeField] private float fadeOutDurationTime;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        
+        gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -22,8 +22,14 @@ public class CircleAreaHandler : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// Plays the circle area's activation animation. This GameObject will remain inactive until this function is called.
+    /// </summary>
+    /// <param name="circleRadius">The circle area's radius.</param>
+    /// <param name="color">The circle area's color.</param>
     public void playCircleStart(float circleRadius, Color color)
     {
+        gameObject.SetActive(true);
         StartCoroutine(animateCircleStart(circleRadius, color));
     }
 
@@ -43,6 +49,9 @@ public class CircleAreaHandler : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Plays the cirle area's deactivation animation. This GameObject is destroyed shortly after this function is called.
+    /// </summary>
     public void playCircleEnd()
     {
         StartCoroutine(animateCircleEnd());
