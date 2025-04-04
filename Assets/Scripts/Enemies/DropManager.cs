@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class DropManager : MonoBehaviour
@@ -15,7 +12,7 @@ public class DropManager : MonoBehaviour
         GameObject victim = context.victim;
         if (victim == null)
         {
-            return;            
+            return;
         }
         DropTable table = victim.GetComponent<DropTable>();
         if (!context.attacker.CompareTag("Player") || table == null) { return; }

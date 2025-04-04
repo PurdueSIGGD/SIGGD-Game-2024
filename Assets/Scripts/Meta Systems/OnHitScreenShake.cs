@@ -1,11 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 public class OnHitScreenShake : MonoBehaviour
 {
-    
+
     [SerializeField] private bool useCustomAmplitude = false;
     [SerializeField] private float customAmplitude = 1f;
     [SerializeField] private float playerScreenShakeMultiplier = 1f;

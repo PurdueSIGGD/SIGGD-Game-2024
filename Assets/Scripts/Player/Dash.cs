@@ -1,10 +1,5 @@
-using System;
 using System.Collections;
-using System.Threading;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 //<summary>
 // Special ability script for player - if a ghost is currently posessing and 
@@ -18,7 +13,7 @@ public class Dash : MonoBehaviour, IStatList
     [SerializeField]
     private StatManager.Stat[] statList;
 
-    
+
     private Camera mainCamera;
     private Rigidbody2D rb;
 
