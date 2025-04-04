@@ -6,8 +6,6 @@ using UnityEngine;
 
 public class PoliceChiefManager : GhostManager, ISelectable
 {
-    private PoliceChiefSpecial special;
-
     [SerializeField] public DamageContext specialDamage;
     [SerializeField] public GameObject specialRailgunTracer;
 
@@ -28,8 +26,7 @@ public class PoliceChiefManager : GhostManager, ISelectable
     public override void Select(GameObject player)
     {
         Debug.Log("NORTH SELECTED!");
-        special = PlayerID.instance.AddComponent<PoliceChiefSpecial>();
-        special.manager = this;
+        PlayerID.instance.AddComponent<PoliceChiefSpecial>().manager = this;
         PlayerID.instance.AddComponent<PoliceChiefBasic>().SetVars(stats, GetComponent<LineRenderer>());
         Destroy(PlayerID.instance.GetComponent<LightAttack>());
 		base.Select(player);

@@ -31,11 +31,12 @@ public class GhostManager : MonoBehaviour, ISelectable, IStatList
     protected virtual void Update()
     {
         updateSpecialCooldown();
+        updateBasicCooldown();
     }
 
     public virtual void Select(GameObject player)
     {
-        Destroy(PlayerID.instance.GetComponent<Dash>());
+        if (PlayerID.instance.GetComponent<Dash>()) Destroy(PlayerID.instance.GetComponent<Dash>());
         animator.runtimeAnimatorController = ghostController;
     }
 
