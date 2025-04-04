@@ -1,7 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Rendering;
 using UnityEngine;
 
 public class Item : MonoBehaviour
@@ -41,27 +37,27 @@ public class Item : MonoBehaviour
             }
         }
     }
-  /*  void ItemActive()
-    {
-        for (int i = 0; i < statsbuff.Length; i++)
-            {
-                if (Input.GetKeyDown(statsbuff[i].key))
-                {
-                    //check if buff is active or not
-                    if (!activeItems[statsbuff[i].name])
-                    {   //adds buff to stat modifier
-                        stats.ModifyStat(stats.GetStatIndex(statsbuff[i].modname), statsbuff[i].buff);
-                        activeItems[statsbuff[i].name] = true;
-                        return;
-                    }
-                    else
-                    {
-                        //subtracts buff from stat modifier
-                        stats.ModifyStat(stats.GetStatIndex(statsbuff[i].modname), -statsbuff[i].buff);
-                        activeItems[statsbuff[i].name] = false;
-                        return;
-                    }
-                }
-            }
-    }*/
+    /*  void ItemActive()
+      {
+          for (int i = 0; i < statsbuff.Length; i++)
+              {
+                  if (Input.GetKeyDown(statsbuff[i].key))
+                  {
+                      //check if buff is active or not
+                      if (!activeItems[statsbuff[i].name])
+                      {   //adds buff to stat modifier
+                          stats.ModifyStat(stats.GetStatIndex(statsbuff[i].modname), statsbuff[i].buff);
+                          activeItems[statsbuff[i].name] = true;
+                          return;
+                      }
+                      else
+                      {
+                          //subtracts buff from stat modifier
+                          stats.ModifyStat(stats.GetStatIndex(statsbuff[i].modname), -statsbuff[i].buff);
+                          activeItems[statsbuff[i].name] = false;
+                          return;
+                      }
+                  }
+              }
+      }*/
 }

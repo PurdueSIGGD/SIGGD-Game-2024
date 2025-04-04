@@ -1,10 +1,5 @@
-using System;
 using System.Collections;
-using System.Threading;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 //<summary>
 // Special ability script for player - if a ghost is currently posessing and 
@@ -18,7 +13,7 @@ public class Dash : MonoBehaviour, IStatList
     [SerializeField]
     private StatManager.Stat[] statList;
 
-    
+
     private Camera mainCamera;
     private Rigidbody2D rb;
 
@@ -79,7 +74,7 @@ public class Dash : MonoBehaviour, IStatList
             //Vector2 displacement = Vector2.ClampMagnitude((Vector2)mousePos - (Vector2)transform.position, stats.ComputeValue("Max Dash Distance"));
 
             Vector2 displacement = ((Vector2)mousePos - (Vector2)transform.position).normalized * stats.ComputeValue("Max Dash Distance");
-            
+
             /*
             RaycastHit2D hit = Physics2D.Raycast(transform.position, displacement.normalized, displacement.magnitude, LayerMask.GetMask("Ground"));
             if (hit.collider != null)
