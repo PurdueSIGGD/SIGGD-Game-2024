@@ -174,17 +174,28 @@ MonoBehaviour:
   - name: Basic Cooldown
     value: 1
   - name: Special Cooldown
-    value: 5
+    value: 6
   - name: HOLOJUMP_MAX_DISTANCE
     value: 8
   - name: HOLOJUMP_CLONE_SWAP_INTERVAL
     value: 0.5
+  - name: HOLOJUMP_IMMUNE_SECONDS
+    value: 0.1
+  - name: HOLOJUMP_DURATION_SECONDS
+    value: 8
+  - name: HOLOJUMP_DURATION_INACTIVE_MODIFIER
+    value: 100
+  - name: TEMPO_BUFF_PERCENT_INT
+    value: 25
   - name: TEMPO_BOOST_PERCENT
     value: 0.15
-  - name: TEMPO_BASE_DURATION
-    value: 8
+  - name: TEMPO_MAX_STACKS
+    value: 3
+  - name: TEMPO_INACTIVE_DURATION_MODIFIER
+    value: 2
   defaultController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
   ghostController: {fileID: 9100000, guid: 5779acd767093ee419301b684e1317dd, type: 2}
+  active: 0
   idolClone: {fileID: 7482494425360345118, guid: 05024df506a5b824f8658954331c8231,
     type: 3}
 --- !u!114 &-6798671931701359635
@@ -212,10 +223,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 645bc16239d4c9644939b3c962b821e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tempoStack: 0
-  runSpeedMod: 20
-  glideSpeedMod: 8
-  tempoDuration: 8
+  tempoStacks: 0
+  kill: 0
+  uptempo: 0
+  manager: {fileID: 0}
 --- !u!1 &4936111184687609786
 GameObject:
   m_ObjectHideFlags: 0

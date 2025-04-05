@@ -12,6 +12,8 @@ public class IdolManager : GhostManager, ISelectable
     private IdolSpecial special;
     private IdolPassive passive;
 
+    public bool active;
+
     [SerializeField] public GameObject idolClone;
 
     protected override void Start()
@@ -25,6 +27,8 @@ public class IdolManager : GhostManager, ISelectable
     {
         Debug.Log("EVA SELECTED!");
 
+        active = true;
+
         special = PlayerID.instance.AddComponent<IdolSpecial>();
         special.manager = this;
         special.idolClone = idolClone;
@@ -35,6 +39,8 @@ public class IdolManager : GhostManager, ISelectable
 
     public override void DeSelect(GameObject player)
     {
+        active = false;
+
         if (PlayerID.instance.GetComponent<IdolSpecial>()) Destroy(PlayerID.instance.GetComponent<IdolSpecial>());
         passive.RemoveBuffOnSwap();
         base.DeSelect(player);

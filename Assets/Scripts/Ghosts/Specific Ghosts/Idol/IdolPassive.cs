@@ -8,7 +8,6 @@ using UnityEngine;
 public class IdolPassive : MonoBehaviour
 {
     [SerializeField] public int tempoStacks = 0; // number of stacks
-    [SerializeField] bool active; // is the idol ghost currently active?
     [SerializeField] bool kill; // has the player just scored a kill?
     [SerializeField] bool uptempo; // have the stored tempo stacks been activated?
     List<string> statNames = new()
@@ -40,17 +39,15 @@ public class IdolPassive : MonoBehaviour
     /// </summary>
     public void ApplyBuffOnSwap()
     {
-
         // just being cautious and double checking if idol is active
         // swapping is so sketch but we ball
 
-        if (active)
+        if (manager.active)
         {
             return;
         }
 
         UpdateSpeed(tempoStacks);
-        active = true;
 
         // initialize tempo timer if stacks exist and tempo isn't up already
 
@@ -64,9 +61,8 @@ public class IdolPassive : MonoBehaviour
     /// </summary>
     public void RemoveBuffOnSwap()
     {
-        if (active)
+        if (manager.active)
         {
-            active = false;
             UpdateSpeed(-tempoStacks);
         }
     }
@@ -93,7 +89,7 @@ public class IdolPassive : MonoBehaviour
 
             // immediately apply tempo changes if Idol is active (+1 boost)
 
-            if (active)
+            if (manager.active)
             {
                 UpdateSpeed(1);
             }
@@ -101,7 +97,7 @@ public class IdolPassive : MonoBehaviour
 
         // initialize tempo effect if idol is active and tempo is 1 (meaning it just got incremented from 0)
 
-        if (active && (tempoStacks == 1))
+        if (manager.active && (tempoStacks == 1))
         {
             InitializeTempoTimer();
         }
@@ -151,7 +147,7 @@ public class IdolPassive : MonoBehaviour
         {
             // decrement duration at a modified rate if Idol is not active
 
-            float tick = active ? Time.deltaTime : Time.deltaTime * inactive_modifier;
+            float tick = manager.active ? Time.deltaTime : Time.deltaTime * inactive_modifier;
             duration -= tick;
 
             // reset duration if player scored a kill

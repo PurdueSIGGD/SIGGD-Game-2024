@@ -16,7 +16,7 @@ public class IdolSpecial : MonoBehaviour, ISpecialMove
     private Camera mainCamera;
 
     public GameObject idolClone; // ref to clone prefab
-    private GameObject activeClone; // ref to currently active clone, if exists
+    private GameObject activeClone; // ref to currently cloneAliveactive clone, if exists
     bool cloneAlive; // is the clone supposed to be alive right now?
 
     [HideInInspector] public IdolManager manager;
@@ -97,7 +97,11 @@ public class IdolSpecial : MonoBehaviour, ISpecialMove
         // instantiate clone at position (right before teleporting)
 
         activeClone = Instantiate(idolClone, transform.position, transform.rotation);
-        activeClone.GetComponent<IdolClone>().Initialize(gameObject);
+        activeClone.GetComponent<IdolClone>().Initialize(
+            gameObject,
+            manager.GetStats().ComputeValue("HOLOJUMP_DURATION_SECONDS"),
+            manager.GetStats().ComputeValue("HOLOJUMP_DURATION_INACTIVE_MODIFIER")
+        );
         cloneAlive = true;
 
         // calculate final destination (cannot teleport through "ground" layers)
@@ -120,6 +124,7 @@ public class IdolSpecial : MonoBehaviour, ISpecialMove
 
         // small pause before player can start swapping with clone
 
+        HoloJumpImmune(manager.GetStats().ComputeValue("HOLOJUMP_IMMUNE_SECONDS"));
         yield return new WaitForSeconds(manager.GetStats().ComputeValue("HOLOJUMP_CLONE_SWAP_INTERVAL"));
         psm.EnableTrigger("OPT");
     }
@@ -143,11 +148,32 @@ public class IdolSpecial : MonoBehaviour, ISpecialMove
 
         // small pause before player can swap with clone again
 
+        HoloJumpImmune(manager.GetStats().ComputeValue("HOLOJUMP_IMMUNE_SECONDS"));
         yield return new WaitForSeconds(manager.GetStats().ComputeValue("HOLOJUMP_CLONE_SWAP_INTERVAL"));
         psm.EnableTrigger("OPT");
     }
     public bool GetBool()
     {
         return true;
+    }
+
+    void HoloJumpImmune(float time)
+    {
+        StartCoroutine(ImmuneTimer(time));
+    }
+
+    IEnumerator ImmuneTimer(float time)
+    {
+        GameplayEventHolder.OnDamageFilter.Add(HoloJumpImmuneFilter);
+        yield return new WaitForSeconds(time);
+        GameplayEventHolder.OnDamageFilter.Remove(HoloJumpImmuneFilter);
+    }
+
+    void HoloJumpImmuneFilter(ref DamageContext context)
+    {
+        if (context.victim.CompareTag("Player"))
+        {
+            context.damage = 0;
+        }
     }
 }
