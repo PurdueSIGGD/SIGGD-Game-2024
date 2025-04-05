@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class ItemUI : MonoBehaviour
@@ -12,39 +9,45 @@ public class ItemUI : MonoBehaviour
     [SerializeField] public TextMeshProUGUI buttonText;
     [SerializeField] public TextMeshProUGUI itemText;
 
-
-
     // Start is called before the first frame update
     void Start()
     {
 
     }
 
-    public void onClick() {
+    public void onClick()
+    {
 
-        if (IsBought) {
+        if (IsBought)
+        {
 
-            if (IsSelected) {
+            if (IsSelected)
+            {
                 IsSelected = false;
             }
-            else {
+            else
+            {
                 IsSelected = true;
             }
-            if (IsSelected) {
+            if (IsSelected)
+            {
                 buttonText.text = "Deselect";
             }
-            else{
+            else
+            {
                 buttonText.text = "Select";
-            } 
+            }
         }
-        else {
+        else
+        {
             IsBought = true;
             buttonText.text = "Select";
         }
-        
+
     }
 
-    public void setItemName(string name) {
+    public void SetItemName(string name)
+    {
         itemText.text = name;
     }
 }

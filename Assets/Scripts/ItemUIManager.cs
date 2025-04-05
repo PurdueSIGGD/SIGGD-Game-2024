@@ -15,6 +15,6 @@ public class ItemUIManager : MonoBehaviour
     public void createItemBox(string itemName) {
         GameObject item = Instantiate(itemUIBox, Vector3.zero, Quaternion.identity);
         item.transform.SetParent(Panel);
-        item.GetComponent<ItemUI>().setItemName(itemName);
+        item.GetComponent<ItemUI>().SetItemName(itemName);
     }
 }
