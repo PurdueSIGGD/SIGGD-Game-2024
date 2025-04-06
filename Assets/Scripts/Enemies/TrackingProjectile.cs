@@ -1,6 +1,4 @@
-using UnityEditor.Rendering;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 /// <summary>
 /// A type of a an Enemy Projectile. Will track the player until a certain distance

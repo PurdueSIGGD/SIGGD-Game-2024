@@ -1,7 +1,3 @@
-using System;
-using System.Net.Mime;
-using Unity.VisualScripting;
-using UnityEditor.Build;
 using UnityEngine;
 using static UnityEngine.EventSystems.EventTrigger;
 

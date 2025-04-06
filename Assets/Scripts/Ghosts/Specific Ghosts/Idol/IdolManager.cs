@@ -1,10 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
-using UnityEditor;
-using UnityEditor.Animations;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class IdolManager : GhostManager, ISelectable
 {
