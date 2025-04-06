@@ -5,43 +5,35 @@ using UnityEngine;
 
 public class Bottle : MonoBehaviour, IStatList
 {
-
-    [SerializeField]
-    private StatManager.Stat[] statList;
-    //[SerializeField] private float range;
+    [SerializeField] private StatManager.Stat[] statList;
     [SerializeField] private GameObject blightPrefab;
     private ParticleSystem blightParticles;
-    //[SerializeField] private LayerMask attackMask;
+    private SpriteRenderer sp;
+    private Collider2D colider;
+    private Rigidbody2D rb;
 
     void Start()
     {
         blightParticles = GetComponentInChildren<ParticleSystem>();
+        sp = GetComponentInChildren<SpriteRenderer>();
+        colider = GetComponentInChildren<Collider2D>();
+        rb = GetComponent<Rigidbody2D>();
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        //Vector2 point = transform.position;
         blightParticles.Play();
-        blightParticles.transform.parent = transform.parent;
-        Destroy(gameObject);
-        //Collider2D[] collides = Physics2D.OverlapCircleAll(point, range, attackMask);
-        //foreach (Collider2D c in collides)
-        //{
-        //    GameObject blight = Instantiate(blightPrefab, c.transform);
-        //    blight.GetComponent<Blight>().effectParent = c.gameObject;
-        //}
+
+        StartCoroutine(DestroyBottle());
     }
 
-    private bool HasParticlesStopped()
+    private IEnumerator DestroyBottle()
     {
-        return !blightParticles.isEmitting;
-    }
+        sp.enabled = false; // hide the bottle
+        colider.enabled = false;
+        rb.simulated = false;
 
-    private IEnumerator SpawnParticles()
-    {
-        blightParticles.Play();
-        blightParticles.transform.parent = transform.parent;
-        yield return new WaitUntil(HasParticlesStopped);
+        yield return new WaitForSeconds(blightParticles.main.duration);
         Destroy(gameObject);
     }
 
