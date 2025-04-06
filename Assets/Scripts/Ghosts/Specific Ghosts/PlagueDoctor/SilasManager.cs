@@ -7,7 +7,6 @@ public class SilasManager : GhostManager
 {
     public GameObject blightPotion;
     public float initialSpeed;
-    public Vector2 bottleOffset;
 
 
     private PlagueDoctorSpecial specialRef;
@@ -16,7 +15,7 @@ public class SilasManager : GhostManager
     {
         Debug.Log("Plague doctor selected");
         base.Select(player);
-        specialRef = player.AddComponent<PlagueDoctorSpecial>();
+        specialRef = PlayerID.instance.AddComponent<PlagueDoctorSpecial>();
         specialRef.manager = this;
     }
 

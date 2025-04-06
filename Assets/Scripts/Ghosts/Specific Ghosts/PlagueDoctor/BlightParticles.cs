@@ -19,9 +19,11 @@ public class BlightParticles : MonoBehaviour
         if (!uniqueHits.Contains(other.GetInstanceID()))
         {
             uniqueHits.Add(other.GetInstanceID());
-
-            GameObject blight = Instantiate(blightPrefab, other.transform);
-            blight.GetComponent<Blight>().effectParent = other;
+            if (other.GetComponent<Blight>() == null)
+            {
+                GameObject blight = Instantiate(blightPrefab, other.transform);
+                blight.GetComponent<Blight>().effectParent = other;
+            }
         }
     }
 }

@@ -409,13 +409,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ecb8948755376b04cbc704e87b124eca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statList: []
+  statList:
+  - name: Special Cooldown
+    value: 4
   defaultController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
-  ghostController: {fileID: 9100000, guid: 220b14f27fe30ae45b2668da8848c7bd, type: 2}
+  ghostController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
   blightPotion: {fileID: 4699030029396985124, guid: e2fab6792587ec249a70e1b7a5314fc9,
     type: 3}
   initialSpeed: 20
-  bottleOffset: {x: 0, y: 0}
 --- !u!114 &3640821941058779060
 MonoBehaviour:
   m_ObjectHideFlags: 0
