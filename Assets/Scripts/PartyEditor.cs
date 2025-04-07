@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PartyEditor : MonoBehaviour
@@ -13,7 +13,7 @@ public class PartyEditor : MonoBehaviour
     public List<GhostMenuItem> menuItems = new();
     public GhostMenuItem selectedMenuItem;
 
-    void Start()
+    void Awake()
     {
         partyManager = FindObjectOfType<PartyManager>();
         identities = FindObjectsOfType<GhostIdentity>();
@@ -58,15 +58,15 @@ public class PartyEditor : MonoBehaviour
 
     public void UIAdd()
     {
-        if (selectedMenuItem.identity.IsInParty()) return;
+        if (!selectedMenuItem || selectedMenuItem.identity.IsInParty()) return;
 
-        partyManager.AddGhostToParty(selectedMenuItem.identity);
+        partyManager.TryAddGhostToParty(selectedMenuItem.identity);
         selectedMenuItem.transform.SetParent(partyBar.transform);
     }
 
     public void UIRemove()
     {
-        if (!selectedMenuItem.identity.IsInParty()) return;
+        if (!selectedMenuItem || !selectedMenuItem.identity.IsInParty()) return;
 
         partyManager.RemoveGhostFromParty(selectedMenuItem.identity);
         selectedMenuItem.transform.SetParent(bankBar.transform);

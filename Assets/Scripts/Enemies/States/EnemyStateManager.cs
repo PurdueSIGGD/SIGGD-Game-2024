@@ -1,8 +1,5 @@
-using System;
-using System.Net.Mime;
-using Unity.VisualScripting;
-using UnityEditor.Build;
 using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
 
 /// <summary>
 /// General Enemy AI to govern enemy behavior
@@ -19,31 +16,41 @@ public class EnemyStateManager : MonoBehaviour
     [HideInInspector] public ActionPool pool; // A pool of attacks to randomly choose from
     [HideInInspector] public Animator animator;
 
-    [SerializeField] float aggroRange; // Range for detecting players 
+    [SerializeField] public bool isFlyer;
+    [SerializeField] protected float aggroRange; // Range for detecting players 
     protected IEnemyStates curState; // Enemy's current State, defaults to idle
     protected Transform player;
     protected Rigidbody2D rb;
-    
+
+    public bool isBeingKnockedBack;
+    protected float currentKnockbackDurationTime;
+    [SerializeField] protected bool grounded;
+
     protected virtual void Awake()
     {
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+        player = PlayerID.instance.gameObject.transform;
         stats = GetComponent<StatManager>();
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
-        pool = GetComponent<ActionPool>(); 
+        pool = GetComponent<ActionPool>();
+        isBeingKnockedBack = false;
         
         SwitchState(IdleState);
     }
 
     protected void FixedUpdate()
     {
-        if (StunState.isStunned) {
+        if (StunState.isStunned)
+        {
             StunState.UpdateState(this, Time.deltaTime);
         }
         else
         {
             curState.UpdateState(this);
         }
+		
+        UpdateKnockbackTime();
+        isGrounded();
     }
 
     /// <summary>
@@ -61,7 +68,7 @@ public class EnemyStateManager : MonoBehaviour
     /// </summary>
     /// <param name="tracking"> If true, will actively track player for extended range </param>
     /// <returns> If there is a Player in Enemy line of sight </returns>
-    public bool HasLineOfSight(bool tracking)
+    public virtual bool HasLineOfSight(bool tracking)
     {
         Vector2 dir = transform.TransformDirection(Vector2.right);
         float maxDistance = aggroRange;
@@ -98,6 +105,52 @@ public class EnemyStateManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Knockback the enemy.
+    /// </summary>
+    /// <param name="direction">The direction of the knockback</param>
+    /// <param name="knockbackStrength">The strength of the knockback</param>
+    /// <param name="knockbackDuration">The movement lockout duration of the knockback</param>
+    public void ApplyKnockback(Vector2 direction, float knockbackStrength, float movementLockoutDuration)
+    {
+        rb.AddForce(direction.normalized * knockbackStrength, ForceMode2D.Impulse);
+        if (isBeingKnockedBack && movementLockoutDuration <= currentKnockbackDurationTime) return;
+        isBeingKnockedBack = true;
+        currentKnockbackDurationTime = movementLockoutDuration;
+    }
+
+    /// <summary>
+    /// Knockback the enemy.
+    /// </summary>
+    /// <param name="direction">The direction of the knockback</param>
+    /// <param name="knockbackStrength">The strength of the knockback</param>
+    public void ApplyKnockback(Vector2 direction, float knockbackStrength)
+    {
+        ApplyKnockback(direction, knockbackStrength, 0.5f);
+    }
+
+    private void UpdateKnockbackTime()
+    {
+        if (!isBeingKnockedBack) return;
+        Debug.DrawRay(gameObject.transform.position, gameObject.transform.position + Vector3.up, Color.green);
+        currentKnockbackDurationTime -= Time.fixedDeltaTime;
+        if (currentKnockbackDurationTime <= 0f)
+        {
+            isBeingKnockedBack = false;
+            currentKnockbackDurationTime = 0f;
+        }
+    }
+
+    /// <summary>
+    /// Returns true if the enemy is on the ground.
+    /// </summary>
+    /// <returns>Returns true if the enemy is on the ground.</returns>
+    public bool isGrounded()
+    {
+        Debug.DrawRay(transform.position, Vector2.down, Color.blue);
+        return grounded = Physics2D.Raycast(transform.position, Vector2.down, 1f, LayerMask.GetMask("Ground"));
+    }
+
+    /// <summary>
     /// Flip the Enemy object across the Y-axis
     /// </summary>
     /// <param name="isFlipped"> Enemy's current orientation </param>
@@ -116,11 +169,11 @@ public class EnemyStateManager : MonoBehaviour
     /// <para name="width">X value of the lossyscale of the trigger box</para>
     /// <para name="height">Y value of the lossyscale of the trigger box</para>
     /// <param name="damageContext">Instance of damage context</param>
-    protected void GenerateDamageFrame(Vector2 pos, float width, float height, DamageContext damageContext, GameObject attacker /*float damage*/)
+    protected bool GenerateDamageFrame(Vector2 pos, float width, float height, DamageContext damageContext, GameObject attacker /*float damage*/)
     {
 #if DEBUG // Draw the damage box in the editor
-        float hWidth = width/2;
-        float hHeight = height/2;
+        float hWidth = width / 2;
+        float hHeight = height / 2;
         float duration = 0.1f;
 
         Debug.DrawLine(new Vector2(pos.x - hWidth, pos.y + hHeight), new Vector2(pos.x + hWidth, pos.y + hHeight), Color.white, duration); // draw top line
@@ -135,6 +188,7 @@ public class EnemyStateManager : MonoBehaviour
             PlayerID.instance.GetComponent<PlayerStateMachine>().SetStun(0.2f);
             hit.GetComponent<Health>().Damage(damageContext, attacker);
         }
+        return hit;
     }
 
     /// <summary>
@@ -143,7 +197,7 @@ public class EnemyStateManager : MonoBehaviour
     /// <param name="pos">Position of the trigger box</param>
     /// <param name="radius">X value of the lossyscale of the trigger circle</param>
     /// <param name="damageContext">Instance of damage context</param>
-    protected void GenerateDamageFrame(Vector2 pos, float radius, DamageContext damageContext, GameObject attacker /*float damage*/)
+    protected bool GenerateDamageFrame(Vector2 pos, float radius, DamageContext damageContext, GameObject attacker /*float damage*/)
     {
 #if DEBUG // Draw the damage circle in the editor
         int segment = 180;
@@ -169,6 +223,7 @@ public class EnemyStateManager : MonoBehaviour
             PlayerID.instance.GetComponent<PlayerStateMachine>().SetStun(0.2f);
             hit.GetComponent<Health>().Damage(damageContext, attacker);
         }
+        return hit;
     }
 
     /// <summary>

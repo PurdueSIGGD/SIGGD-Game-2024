@@ -1,5 +1,8 @@
 using System;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 [DisallowMultipleComponent]
 public class Health : MonoBehaviour, IDamageable, IStatList
@@ -33,8 +36,11 @@ public class Health : MonoBehaviour, IDamageable, IStatList
 
         foreach (GameplayEventHolder.DamageFilterEvent filter in GameplayEventHolder.OnDamageFilter)
         {
-            filter(context);
+            filter(ref context);
+            Debug.Log("After Filter: " + context.damage);
         }
+
+        Debug.Log("Damaged: " + context.damage);
 
         // Reduce current health
         currentHealth -= context.damage;
@@ -51,7 +57,25 @@ public class Health : MonoBehaviour, IDamageable, IStatList
         return context.damage;
     }
 
+    /// <summary>
+    /// Damage method that does not invoke any OnDamage events and also not
+    /// processed by any damage filters, useful certain damage like Yume's
+    /// fatebound effect
+    /// </summary>
+    public float NoContextDamage(DamageContext context, GameObject attacker)
+    {
+        context.attacker = attacker;
+        context.damage = Mathf.Clamp(context.damage, 0f, currentHealth);
 
+        currentHealth -= context.damage;
+
+        if (currentHealth <= 0f)
+        {
+            Kill(context);
+        }
+
+        return context.damage;
+    }
 
     public float Heal(HealingContext context, GameObject healer)
     {
@@ -65,7 +89,7 @@ public class Health : MonoBehaviour, IDamageable, IStatList
 
         foreach (GameplayEventHolder.HealingFilterEvent filter in GameplayEventHolder.OnHealingFilter)
         {
-            filter(context);
+            filter(ref context);
         }
 
         // Increase current health
@@ -83,13 +107,46 @@ public class Health : MonoBehaviour, IDamageable, IStatList
 
         foreach (GameplayEventHolder.DeathFilterEvent filter in GameplayEventHolder.OnDeathFilter)
         {
-            filter(context);
+            filter(ref context);
         }
 
         //Trigger Events
-        GameplayEventHolder.OnDeath?.Invoke(context);
+        GameplayEventHolder.OnDeath?.Invoke(ref context);
 
-        Destroy(this.gameObject);
+        StartCoroutine(DeathCoroutine(context));
+    }
+
+    private IEnumerator DeathCoroutine(DamageContext context)
+    {
+        if (context.victim != PlayerID.instance.gameObject)
+        {
+            Destroy(gameObject);
+            yield break;
+        }
+
+        Time.timeScale = 0;
+        gameObject.layer = 0; // I really hope this doesn't collide with anything
+        if (GetComponent<PlayerInput>() != null) GetComponent<PlayerInput>().enabled = false;
+
+        float startTime = Time.unscaledTime;
+        float endTime = startTime + 3;
+
+        Vector3 originalScale = transform.localScale;
+
+        while (Time.unscaledTime < endTime)
+        {
+            float timePercentage = (Time.unscaledTime - startTime) / (endTime - startTime);
+
+            transform.Rotate(0, 0, Time.unscaledDeltaTime * 360);
+            transform.localScale = originalScale * (1 - timePercentage);
+
+            yield return null;
+        }
+
+        gameObject.SetActive(false);
+
+        SceneManager.LoadScene("HubWorld");
+        Time.timeScale = 1;
     }
 
     public StatManager.Stat[] GetStatList()

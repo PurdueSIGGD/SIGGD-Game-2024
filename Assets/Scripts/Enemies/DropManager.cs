@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class DropManager : MonoBehaviour
@@ -10,9 +7,13 @@ public class DropManager : MonoBehaviour
         GameplayEventHolder.OnDeath += DropLoot;
     }
 
-    private void DropLoot(DamageContext context)
+    private void DropLoot(ref DamageContext context)
     {
         GameObject victim = context.victim;
+        if (victim == null)
+        {
+            return;
+        }
         DropTable table = victim.GetComponent<DropTable>();
         if (!context.attacker.CompareTag("Player") || table == null) { return; }
 

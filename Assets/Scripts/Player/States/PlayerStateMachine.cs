@@ -90,7 +90,7 @@ public class PlayerStateMachine : MonoBehaviour
         bool i_up = jumpInput.ReadValue<float>() != 0;
         animator.SetBool("i_up", i_up);
     }
-    
+
     void UpdateDown()
     {
         bool i_down = fallInput.ReadValue<float>() != 0;
@@ -114,10 +114,11 @@ public class PlayerStateMachine : MonoBehaviour
         int mouseDir = 0;
         Vector2 mouseDiff = transform.position - mainCamera.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
         float angle = Mathf.Atan2(mouseDiff.y, mouseDiff.x) + Mathf.PI;
-        if (angle > Mathf.PI/4 && angle < 3 * Mathf.PI / 4)
+        if (angle > Mathf.PI / 4 && angle < 3 * Mathf.PI / 4)
         {
             mouseDir = 1;
-        }else if (angle > 3 * Mathf.PI / 4 &&  angle < 5 * Mathf.PI / 4)
+        }
+        else if (angle > 3 * Mathf.PI / 4 && angle < 5 * Mathf.PI / 4)
         {
             mouseDir = 2;
         }

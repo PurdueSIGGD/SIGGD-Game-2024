@@ -1,14 +1,6 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using TMPro;
-using Unity.PlasticSCM.Editor.WebApi;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.UIElements;
 using Button = UnityEngine.UI.Button;
 
 /// <summary>
@@ -73,7 +65,7 @@ public class DialogueManager : MonoBehaviour
         dialogueText.text = conversation.dialogueLines[currentLine].line;
 
         // Set name
-        characterNameText.text = conversation.dialogueLines[currentLine].character.characterName;
+        characterNameText.text = conversation.dialogueLines[currentLine].character.displayName;
 
         // TODO: set image
 
