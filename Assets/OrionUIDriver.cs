@@ -29,6 +29,9 @@ public class OrionUIDriver : MonoBehaviour
         basicAbilityUIManager = selectedGhostUIManager.basicAbilityUIManager;
         specialAbilityUIManager = selectedGhostUIManager.specialAbilityUIManager;
         meterUIManager = PlayerInWorldMeterUIManager.instance;
+
+        PlayerGhost1UIManager.instance.gameObject.SetActive(false);
+        PlayerGhost2UIManager.instance.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -42,6 +45,8 @@ public class OrionUIDriver : MonoBehaviour
     private void updateSelected()
     {
         isSelected = (partyManager.GetSelectedGhost() == null);
+        if (partyManager.GetGhostMajorList().Count > 0 && partyManager.GetGhostMajorList()[0].IsSelected()) deselectedGhostUIManager = PlayerGhost1UIManager.instance;
+        if (partyManager.GetGhostMajorList().Count > 1 && partyManager.GetGhostMajorList()[1].IsSelected()) deselectedGhostUIManager = PlayerGhost2UIManager.instance;
     }
 
     private void updateGhostUI()
@@ -71,6 +76,16 @@ public class OrionUIDriver : MonoBehaviour
         basicAbilityUIManager.updateIcon(orionCharacterInfo.specialAbilityIcon);
         basicAbilityUIManager.updateFrameColor(orionCharacterInfo.primaryColor);
         basicAbilityUIManager.updateAbilityCooldownTime(manager.getSpecialCooldown(), stats.ComputeValue("Dash Cooldown"));
-        specialAbilityUIManager.gameObject.SetActive(false);
+        basicAbilityUIManager.setAbilityHighlighted(true);
+        basicAbilityUIManager.setChargesWidgetActive(true);
+        basicAbilityUIManager.updateChargesValue(manager.getSpecialCooldown(), stats.ComputeValue("Dash Cooldown"));
+
+        //specialAbilityUIManager.gameObject.SetActive(false);
+        specialAbilityUIManager.updateIcon(orionCharacterInfo.specialAbilityIcon);
+        specialAbilityUIManager.updateFrameColor(orionCharacterInfo.primaryColor);
+        specialAbilityUIManager.updateAbilityCooldownTime(manager.getSpecialCooldown(), stats.ComputeValue("Dash Cooldown"));
+        specialAbilityUIManager.setAbilityHighlighted(true);
+        specialAbilityUIManager.setChargesWidgetActive(true);
+        specialAbilityUIManager.updateChargesValue(manager.getSpecialCooldown(), stats.ComputeValue("Dash Cooldown"));
     }
 }

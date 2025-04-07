@@ -64,12 +64,12 @@ public class PlayerUI : MonoBehaviour
     void Update()
     {
         //updateHealthWidget();
-        updateGhost1Widget();
-        updateGhost2Widget();
+        //updateGhost1Widget();
+        //updateGhost2Widget();
         //updateSelectedGhostWidget();
         //updateSelectedGhostSpecialWidget();
-        updateGhost1SpecialWidget();
-        updateGhost2SpecialWidget();
+        //updateGhost1SpecialWidget();
+        //updateGhost2SpecialWidget();
     }
 
 

@@ -17,6 +17,7 @@ public class KingUIDriver : GhostUIDriver
     protected override void Update()
     {
         base.Update();
+        if (!isInParty) return;
         updateBasicAbility();
         updateSpecialAbility();
         if (!ghostIdentity.IsSelected()) return;
@@ -51,6 +52,7 @@ public class KingUIDriver : GhostUIDriver
 
     private void updateBasicAbility()
     {
+        setDefaultBasicAbilityUI();
         basicAbilityUIManager.setAbilityEnabled(manager.getBasicCooldown() <= 0f);
         basicAbilityUIManager.setNumberActive(manager.getBasicCooldown() > 0f);
         basicAbilityUIManager.updateNumberValue(manager.getBasicCooldown());
@@ -59,6 +61,7 @@ public class KingUIDriver : GhostUIDriver
 
     private void updateSpecialAbility()
     {
+        setDefaultSpecialAbilityUI();
         specialAbilityUIManager.updateAbilityCooldownTime(manager.getSpecialCooldown(), stats.ComputeValue("Special Cooldown"));
     }
 

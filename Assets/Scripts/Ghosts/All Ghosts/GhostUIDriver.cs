@@ -14,6 +14,8 @@ public class GhostUIDriver : MonoBehaviour, ISelectable
     protected PlayerAbilityUIManager specialAbilityUIManager;
     protected PlayerInWorldMeterUIManager meterUIManager;
 
+    protected bool isInParty;
+
     // Start is called before the first frame update
     protected virtual void Start()
     {
@@ -25,12 +27,29 @@ public class GhostUIDriver : MonoBehaviour, ISelectable
         basicAbilityUIManager = selectedGhostUIManager.basicAbilityUIManager;
         specialAbilityUIManager = selectedGhostUIManager.specialAbilityUIManager;
         meterUIManager = PlayerInWorldMeterUIManager.instance;
+        isInParty = false;
     }
 
     // Update is called once per frame
     protected virtual void Update()
     {
+        updatePartyStatus();
+    }
 
+    private void updatePartyStatus()
+    {
+        if (!isInParty && partyManager.GetGhostMajorList().Contains(ghostIdentity))
+        {
+            isInParty = true;
+            Color ghostColor = ghostIdentity.GetCharacterInfo().primaryColor;
+            if (partyManager.GetGhostMajorList().Count > 0 && partyManager.GetGhostMajorList()[0].Equals(ghostIdentity)) deselectedGhostUIManager = PlayerGhost1UIManager.instance;
+            if (partyManager.GetGhostMajorList().Count > 1 && partyManager.GetGhostMajorList()[1].Equals(ghostIdentity)) deselectedGhostUIManager = PlayerGhost2UIManager.instance;
+            deselectedGhostUIManager.gameObject.SetActive(true);
+            deselectedGhostUIManager.updateBackgroundColor(ghostColor);
+            deselectedGhostUIManager.updateIcon(ghostIdentity.GetCharacterInfo().characterIcon);
+            deselectedGhostUIManager.updateIconFrameColor(ghostColor);
+            updateAbilityUI(false);
+        }
     }
 
     public virtual void Select(GameObject player)
@@ -67,6 +86,24 @@ public class GhostUIDriver : MonoBehaviour, ISelectable
         specialAbilityUIManager.gameObject.SetActive(true);
         specialAbilityUIManager.updateIcon(ghostIdentity.GetCharacterInfo().specialAbilityIcon);
         specialAbilityUIManager.updateFrameColor(ghostColor);
+    }
+
+    protected void setDefaultBasicAbilityUI()
+    {
+        basicAbilityUIManager.setAbilityEnabled(true);
+        basicAbilityUIManager.updateMeterValue(1f, 1f);
+        basicAbilityUIManager.setNumberActive(false);
+        basicAbilityUIManager.setAbilityHighlighted(false);
+        basicAbilityUIManager.setChargesWidgetActive(false);
+    }
+
+    protected void setDefaultSpecialAbilityUI()
+    {
+        specialAbilityUIManager.setAbilityEnabled(true);
+        specialAbilityUIManager.updateMeterValue(1f, 1f);
+        specialAbilityUIManager.setNumberActive(false);
+        specialAbilityUIManager.setAbilityHighlighted(false);
+        specialAbilityUIManager.setChargesWidgetActive(false);
     }
 
 }

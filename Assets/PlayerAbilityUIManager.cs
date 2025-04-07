@@ -4,11 +4,12 @@ using TMPro;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.Rendering.DebugUI;
 
 public class PlayerAbilityUIManager : MonoBehaviour
 {
-
     [SerializeField] private Image frame;
+    [SerializeField] private Image flareOverlay;
     [SerializeField] private Slider meterSlider;
     [SerializeField] private Image meterBackground;
     [SerializeField] private Image meterBar;
@@ -21,12 +22,21 @@ public class PlayerAbilityUIManager : MonoBehaviour
     [SerializeField] private Image subIconBackground;
     [SerializeField] private Image subIcon;
 
+    [SerializeField] private GameObject subNumberWidget;
     [SerializeField] private Image subNumberFrame;
     [SerializeField] private Image subNumberBackground;
-    [SerializeField] private Image subNumber;
+    [SerializeField] private TextMeshProUGUI subNumber;
 
     private Color baseActiveIconBackgroundColor;
     private Color baseInactiveIconBackgroundColor;
+
+    private Color basePartialSubNumberBackgroundColor;
+    private Color baseFullSubNumberBackgroundColor;
+
+    private float minHighlightedFlareAlpha;
+    private float maxHighlightedFlareAlpha;
+    private float highlightedFlarePulseDurationTime;
+    private bool isHighlighted;
 
 
     // Start is called before the first frame update
@@ -34,6 +44,13 @@ public class PlayerAbilityUIManager : MonoBehaviour
     {
         baseActiveIconBackgroundColor = meterBar.color;
         baseInactiveIconBackgroundColor = iconBackground.color;
+        if (subNumberBackground != null) basePartialSubNumberBackgroundColor = subNumberBackground.color;
+        if (subNumber != null) baseFullSubNumberBackgroundColor = subNumber.color;
+
+        minHighlightedFlareAlpha = 0f;
+        maxHighlightedFlareAlpha = 1f;
+        highlightedFlarePulseDurationTime = 0.8f;
+        isHighlighted = false;
     }
 
     // Update is called once per frame
@@ -91,7 +108,8 @@ public class PlayerAbilityUIManager : MonoBehaviour
 
     public void setAbilityEnabled(bool enabled)
     {
-        iconBackground.color = enabled ? baseActiveIconBackgroundColor : baseInactiveIconBackgroundColor;
+        Color color = enabled ? baseActiveIconBackgroundColor : baseInactiveIconBackgroundColor;
+        setImageColor(iconBackground, color, false);
     }
 
     public void updateAbilityCooldownTime(float currentCooldownTime, float totalCooldownTime)
@@ -116,6 +134,45 @@ public class PlayerAbilityUIManager : MonoBehaviour
     public void updateFrameColor(Color color)
     {
         setImageColor(frame, color, true);
+        if (subNumberFrame != null) setImageColor(subNumberFrame, color, true);
+    }
+
+    public void updateChargesValue(int currentValue, int maxValue)
+    {
+        if (subNumber == null) return;
+        subNumber.text = currentValue.ToString();
+        Color backgroundColor = (currentValue >= maxValue) ? baseFullSubNumberBackgroundColor : basePartialSubNumberBackgroundColor;
+        setImageColor(subNumberBackground, backgroundColor, true);
+        Color numberColor = (currentValue >= maxValue) ? icon.color : baseFullSubNumberBackgroundColor;
+        subNumber.color = numberColor;
+    }
+
+    public void updateChargesValue(float currentValue, float maxValue)
+    {
+        updateChargesValue(Mathf.CeilToInt(currentValue), Mathf.CeilToInt(maxValue));
+    }
+
+    public void setChargesWidgetActive(bool active)
+    {
+        subNumberWidget.SetActive(active);
+    }
+
+    public void setAbilityHighlighted(bool highlighted)
+    {
+        if ((highlighted && isHighlighted) || (!highlighted && !isHighlighted)) return;
+        //StopCoroutine(highlightedAnimationCoroutine);
+        isHighlighted = highlighted;
+        //frame.transform.localScale = (highlighted) ? (new Vector3(1.2f, 1.2f, 1f)) : (new Vector3(1f, 1f, 1f));
+        flareOverlay.gameObject.SetActive(highlighted);
+        /*
+        if (!highlighted)
+        {
+            Color color = frame.color;
+            color.a = 1f;
+            frame.color = color;
+        }
+        */
+        if (highlighted) StartCoroutine(animateHighlightedFlare());
     }
 
 
@@ -127,5 +184,24 @@ public class PlayerAbilityUIManager : MonoBehaviour
         Color newColor = color;
         if (preserveAlpha) newColor.a = image.color.a;
         image.color = newColor;
+    }
+
+    private IEnumerator animateHighlightedFlare()
+    {
+        while (isHighlighted)
+        {
+            float initialAlpha = maxHighlightedFlareAlpha;
+            float finalAlpha = minHighlightedFlareAlpha;
+            int step = 20;
+            for (int i = 0; i < step; i++)
+            {
+                if (!isHighlighted) yield break;
+                float currentAlpha = Mathf.Lerp(initialAlpha, finalAlpha, (float) i / (float) step);
+                Color color = flareOverlay.color;
+                color.a = currentAlpha;
+                flareOverlay.color = color;
+                yield return new WaitForSeconds(highlightedFlarePulseDurationTime / (float) step);
+            }
+        }
     }
 }
