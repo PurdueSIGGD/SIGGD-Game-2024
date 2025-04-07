@@ -8,7 +8,6 @@ public class SilasManager : GhostManager
     public GameObject blightPotion;
     public float initialSpeed;
 
-
     private PlagueDoctorSpecial specialRef;
 
     public override void Select(GameObject player)
