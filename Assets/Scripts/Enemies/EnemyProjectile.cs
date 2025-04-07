@@ -52,7 +52,7 @@ public class EnemyProjectile : MonoBehaviour
             collision.gameObject.GetComponent<Health>().Damage(projectileDamage, gameObject);
         }
 
-        if (collision.gameObject.CompareTag(target) || collision.gameObject.layer == LayerMask.GetMask("Ground"))
+        if (collision.gameObject.CompareTag(target) || collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
             Destroy(gameObject);
     }
 
