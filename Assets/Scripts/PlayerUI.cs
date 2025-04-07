@@ -63,11 +63,11 @@ public class PlayerUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        updateHealthWidget();
+        //updateHealthWidget();
         updateGhost1Widget();
         updateGhost2Widget();
-        updateSelectedGhostWidget();
-        updateSelectedGhostSpecialWidget();
+        //updateSelectedGhostWidget();
+        //updateSelectedGhostSpecialWidget();
         updateGhost1SpecialWidget();
         updateGhost2SpecialWidget();
     }
@@ -168,7 +168,7 @@ public class PlayerUI : MonoBehaviour
         if (PlayerID.instance.GetComponent<OrionManager>().getSpecialCooldown() <= 0f)
         {
             selectedGhostSpecialTimer.text = "";
-            selectedGhostSpecialSlider.value = 0f;
+            selectedGhostSpecialSlider.value = 1f;
             selectedGhostSpecialBackground.color = new Color(0.863f, 1f, 1f);
             Color color = selectedGhostSpecialIcon.color;
             color.a = 1f;

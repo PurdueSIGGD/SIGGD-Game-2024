@@ -7,11 +7,19 @@ using UnityEngine.InputSystem;
 
 public class PartyManager : MonoBehaviour
 {
+    public static PartyManager instance;
     [SerializeField]
     private int ghostLimit; // maximum number of ghosts player can wield at one time
 
     private List<GhostIdentity> ghostsInParty = new List<GhostIdentity>(); // list of each ghost in party
     private GhostIdentity selectedGhost = null;
+
+
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     /// <summary>
     /// Adds ghost to end of player's ghost list

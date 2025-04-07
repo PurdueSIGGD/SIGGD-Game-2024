@@ -17,9 +17,11 @@ public class KingUIDriver : GhostUIDriver
     protected override void Update()
     {
         base.Update();
+        updateBasicAbility();
+        updateSpecialAbility();
         if (!ghostIdentity.IsSelected()) return;
         updateMeterValue();
-        updateMeterColors();
+        updateMeterColor();
         updateMeterActive();
     }
 
@@ -30,15 +32,13 @@ public class KingUIDriver : GhostUIDriver
         meterUIManager.updateMeterValue(value, maxValue);
     }
 
-    private void updateMeterColors()
+    private void updateMeterColor()
     {
-        Color color = ghostIdentity.GetCharacterInfo().primaryColor;
-        meterUIManager.updateBackgroundColor(color);
-        meterUIManager.updateMeterColor(color);
+        meterUIManager.updateMeterColor(ghostIdentity.GetCharacterInfo().primaryColor);
         if (manager.getBasicCooldown() > 0f) meterUIManager.resetMeterColor();
     }
 
-    public void updateMeterActive()
+    private void updateMeterActive()
     {
         if (manager.basic == null) return;
         if (manager.basic.isShielding || manager.currentShieldHealth < stats.ComputeValue("Shield Max Health"))
@@ -47,6 +47,19 @@ public class KingUIDriver : GhostUIDriver
             return;
         }
         meterUIManager.deactivateWidget(0.3f);
+    }
+
+    private void updateBasicAbility()
+    {
+        basicAbilityUIManager.setAbilityEnabled(manager.getBasicCooldown() <= 0f);
+        basicAbilityUIManager.setNumberActive(manager.getBasicCooldown() > 0f);
+        basicAbilityUIManager.updateNumberValue(manager.getBasicCooldown());
+        basicAbilityUIManager.updateMeterValue(manager.currentShieldHealth, stats.ComputeValue("Shield Max Health"));
+    }
+
+    private void updateSpecialAbility()
+    {
+        specialAbilityUIManager.updateAbilityCooldownTime(manager.getSpecialCooldown(), stats.ComputeValue("Special Cooldown"));
     }
 
 }
