@@ -1,7 +1,4 @@
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
-using UnityEditor.Rendering;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 /// <summary>
 /// A type of a an Enemy Projectile. Will track the player until a certain distance
@@ -14,12 +11,10 @@ public class TrackingProjectile : EnemyProjectile
     private float hangTime = 0;
     private bool tracking = true;
     protected Transform player;
-    private StatManager stats;
 
     //Consistently tracks player
     protected virtual void Awake()
     {
-        stats = this.GetComponent<StatManager>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
         GameObject enemy = GameObject.FindWithTag("Enemy");
         Physics2D.IgnoreCollision(GetComponent<Collider2D>(), enemy.GetComponent<Collider2D>());
