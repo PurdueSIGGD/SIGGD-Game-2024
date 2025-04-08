@@ -10,6 +10,7 @@ public class Parallax : MonoBehaviour
     [SerializeField] private float movementFactor; // Speed of object relative to camera speed (Between 0.0f - 1.0f)
 
     private float startX;
+    private float startCamX;
     private float width;
     private float camWidth;
 
@@ -28,12 +29,13 @@ public class Parallax : MonoBehaviour
         }
 
         startX = transform.position.x;
+        startCamX = cam.transform.position.x;
     }
 
     // Update is called once per frame
     void LateUpdate()
     {
-        float camX = cam.transform.position.x;
+        float camX = cam.transform.position.x - startCamX;
 
         // Calculate the new position of the object
         float dist = camX * movementFactor;
