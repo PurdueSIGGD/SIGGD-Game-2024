@@ -8,14 +8,16 @@ using UnityEngine;
 /// </summary>
 public class Mage : EnemyStateManager
 {
+    private StatManager statManager;
     private MagesPlayerDetector playerDetector;
     private bool isPlayerInRange = false;
 
     private GameObject lightningObject;   // reference to the MageLightningAttack GameObject itself
 
     [Header("Lightning Attack")]
-    
-    [SerializeField] private float lightningDamage = 25;
+
+    //[SerializeField] private float lightningDamage = 25;
+    [SerializeField] private DamageContext lightningDamage;
     [SerializeField] private float lightningRadius = 10;   // the size of the ACTUAL lightning attack
     [SerializeField] private float lightningRange = 10;   // denotes from how far away the mage can attack
     
@@ -32,6 +34,8 @@ public class Mage : EnemyStateManager
 
     protected void Start()
     {
+        statManager = GetComponent<StatManager>();
+        lightningDamage.damage = statManager.ComputeValue("Damage");
         // Subscribing to the detector's events
         playerDetector = GetComponentInChildren<MagesPlayerDetector>();
         if (playerDetector != null)
@@ -76,12 +80,12 @@ public class Mage : EnemyStateManager
         MageLightningAttack attack = lightningObject.GetComponent<MageLightningAttack>();
         
         // creating damage context
-        DamageContext damageContext = new DamageContext();
-        damageContext.damage = lightningDamage;
-        damageContext.damageTypes = new List<DamageType>((int)DamageType.AREA);
-        damageContext.actionTypes = new List<ActionType>((int)ActionType.ENEMY_ATTACK);
+        //DamageContext damageContext = new DamageContext();
+        //damageContext.damage = lightningDamage;
+        //damageContext.damageTypes = new List<DamageType>((int)DamageType.AREA);
+        //damageContext.actionTypes = new List<ActionType>((int)ActionType.ENEMY_ATTACK);
         
-        attack.Initialize(player.position, lightningRadius, damageContext, lightningChargeDuration, gameObject);
+        attack.Initialize(player.position, lightningRadius, lightningDamage, lightningChargeDuration, gameObject);
         attack.StartCharging();
     }
 
