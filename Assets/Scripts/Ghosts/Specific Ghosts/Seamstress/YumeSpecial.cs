@@ -39,16 +39,19 @@ public class YumeSpecial : MonoBehaviour
 
     public void StartFateBind()
     {
-        // whenever ability fires, grab a copy of all enemies at play in a queue
-        for (int i = 0; i < EnemySetTest.enemies.Count; i++)
-        {
-            GameObject enemy = EnemySetTest.enemies.Dequeue();
-            manager.linkableEnemies.Enqueue(enemy);
-            EnemySetTest.enemies.Enqueue(enemy);
+        if (manager.GetSpools() >= 2) {
+            // whenever ability fires, grab a copy of all enemies at play in a queue
+            for (int i = 0; i < EnemySetTest.enemies.Count; i++)
+            {
+                GameObject enemy = EnemySetTest.enemies.Dequeue();
+                manager.linkableEnemies.Enqueue(enemy);
+                EnemySetTest.enemies.Enqueue(enemy);
+            }
+            // now this.enemies should be populated with every enemy at play
+            manager.ResetDuration();
+            StartCoroutine(FireProjectile(transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition)));
+            manager.AddSpools(-2);
         }
-        // now this.enemies should be populated with every enemy at play
-        manager.ResetDuration();
-        StartCoroutine(FireProjectile(transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition)));
     }
 
     private IEnumerator FireProjectile(Vector2 orig, Vector2 dest)

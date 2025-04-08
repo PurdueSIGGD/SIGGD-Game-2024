@@ -177,3 +177,48 @@ public enum DamageType
     /// </summary>
     public string extraContext;
 }
+
+[Serializable]
+public struct StatusEffectContext
+{
+    /// <summary>
+    /// The GameObject that is inflicting damage.
+    /// </summary>
+    [NonSerialized] public GameObject attacker;
+    /// <summary>
+    /// The GameObject that is receiving damage.
+    /// </summary>
+    [NonSerialized] public GameObject victim;
+    /// <summary>
+    /// The status effect you put on
+    /// </summary>
+    [NonSerialized] public GameObject statusEffect;
+    /// <summary>
+    /// An arbitrary value for an attack's power. Useful for determining the strength of effects such as screen shake.
+    /// </summary>
+    public DamageStrength damageStrength;
+    /// <summary>
+    /// A list of this damage instance's damage types. Can be relevant for triggering certain gameplay effects.
+    /// </summary>
+    public List<DamageType> damageTypes;
+    /// <summary>
+    /// An identifier for the action that is causing this damage instance.
+    /// </summary>
+    public ActionID actionID;
+    /// <summary>
+    /// A list of the action types of the action that is causing this damage instance. Can be relevant for triggering certain gameplay effects.
+    /// </summary>
+    public List<ActionType> actionTypes;
+    /// <summary>
+    /// A reference to the script that invoked this damage event. Useful for debugging.
+    /// </summary>
+    [NonSerialized] public object invokingScript;
+    /// <summary>
+    /// A boolean stating whetehr or not the status effect is considered a "debuff".
+    /// </summary>
+    public bool debuff;
+    /// <summary>
+    /// An arbitrary string containing any extra information the user wishes to relay through this damage instance.
+    /// </summary>
+    public string extraContext;
+}

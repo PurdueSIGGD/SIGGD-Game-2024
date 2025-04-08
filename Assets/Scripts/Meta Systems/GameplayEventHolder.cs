@@ -58,4 +58,21 @@ public class GameplayEventHolder : MonoBehaviour
     /// </summary>
     public static List<DeathFilterEvent> OnDeathFilter = new List<DeathFilterEvent>();
 
+
+    // ON STATUS EFFECT
+    /// <param name="context">Struct containing context for this event.</param>
+    public delegate void StatusEffectEvent(ref StatusEffectContext context);
+    /// <summary>
+    /// Invoked when an entity sttaches an effect to another entity
+    /// </summary>
+    public static StatusEffectEvent OnAttachStatusEffect;
+
+    // ON STATUS EFFECT FILTER
+    /// <param name="context">Struct containing context for this event.</param>
+    public delegate void StatusEffectFilterEvent(ref StatusEffectContext context);
+    /// <summary>
+    /// Invoked when an entity attaches an effect to another entity
+    /// </summary>
+    public static List<StatusEffectFilterEvent> OnStatusEffectFilter = new List<StatusEffectFilterEvent>();
+
 }

@@ -25,6 +25,10 @@ public class SeamstressManager : GhostManager
 
     private LineRenderer lineRenderer;
 
+    private int spools;
+
+    private bool added;
+
     // Used to keep track of the all chaind enmeies
     class ChainedEnemy
     {
@@ -72,11 +76,22 @@ public class SeamstressManager : GhostManager
         base.Select(player);
         YumeSpecial special = PlayerID.instance.AddComponent<YumeSpecial>();
         special.manager = this;
+        YumePassive passive = PlayerID.instance.AddComponent<YumePassive>();
+        passive.manager = this;
+        if (!added)
+        {
+            passive.StartHeavyCheck();
+            added = true;
+            PlayerID.instance.GetComponent<StatManager>().AddStats(GetComponent<YumePassive>().GetStatList());
+        }
+        PlayerID.instance.GetComponent<Animator>().runtimeAnimatorController = ghostController;
     }
 
     public override void DeSelect(GameObject player)
     {
         if (PlayerID.instance.GetComponent<YumeSpecial>()) Destroy(PlayerID.instance.GetComponent<YumeSpecial>());
+        if (PlayerID.instance.GetComponent<YumePassive>()) Destroy(PlayerID.instance.GetComponent<YumePassive>());
+        PlayerID.instance.GetComponent<Animator>().runtimeAnimatorController = defaultController;
     }
 
     public void ResetDuration()
@@ -203,5 +218,15 @@ public class SeamstressManager : GhostManager
         }
         ptr = head = tail = new ChainedEnemy();
         lineRenderer.positionCount = 0;
+    }
+
+    public int GetSpools()
+    {
+        return spools; 
+    }
+
+    public void AddSpools(int nspools)
+    {
+        spools += nspools;
     }
 }

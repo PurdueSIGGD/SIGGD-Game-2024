@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
+using UnityEngine.Experimental.GlobalIllumination;
 
 [DisallowMultipleComponent]
 public class HeavyAttack : MonoBehaviour, IStatList
@@ -14,6 +15,7 @@ public class HeavyAttack : MonoBehaviour, IStatList
     //[SerializeField] int dmg;
     [SerializeField] DamageContext heavyDamage;
     [SerializeField] float offsetX;
+    [SerializeField] LayerMask heavyLayerMask;
     private Camera mainCamera;
     private float timer;
     private StatManager stats;
@@ -50,12 +52,32 @@ public class HeavyAttack : MonoBehaviour, IStatList
     {
         //indicator.SetActive(true);
         timer = 0.5f;
-        RaycastHit2D[] hits = Physics2D.BoxCastAll(indicator.transform.position, indicator.transform.localScale, 0, new Vector2(0, 0));
-        foreach(RaycastHit2D hit in hits)
+
+        Vector3 hitPos;
+        Vector3 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        if (mousePos.x < transform.position.x)
         {
-            if(hit.transform.gameObject.tag == "Enemy")
+            hitPos = new Vector3(-offsetX, 0, 0);
+        }
+        else
+        {
+            hitPos = new Vector3(offsetX, 0, 0);
+        }
+
+        Debug.DrawLine(hitPos + transform.position, new Vector3(hitPos.x, 5, 0) + transform.position, Color.black, 5f);
+        Collider2D[] coll = Physics2D.OverlapBoxAll(hitPos + transform.position, new Vector2(5, 5), 0);
+        // RaycastHit2D[] hits = Physics2D.BoxCastAll(hitPos + transform.position, new Vector2(5, 5), 0, new Vector2(0, 0), heavyLayerMask);
+        foreach(Collider2D hit in coll)
+        {
+            if(hit.transform.gameObject.CompareTag("Enemy"))
             {
                 Debug.Log("Heavy Attack Hit: " + hit.transform.gameObject.name);
+                // hit.transform.gameObject.GetComponent<Health>();
+                heavyDamage.damage = stats.ComputeValue("Heavy Damage");
+                foreach (IDamageable damageable in hit.transform.gameObject.GetComponents<IDamageable>())
+                { 
+                    damageable.Damage(heavyDamage, gameObject);
+                }
                 /*
                 IDamageable enemyhealth = hit.transform.gameObject.GetComponent<IDamageable>();
                 if (enemyhealth != null)

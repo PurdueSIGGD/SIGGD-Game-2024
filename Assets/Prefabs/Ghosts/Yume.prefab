@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 1173352059460126574}
   - component: {fileID: 504260248778479986}
   - component: {fileID: 6265072175092927981}
+  - component: {fileID: 6565641950570550647}
   m_Layer: 17
   m_Name: Yume
   m_TagString: Ghost
@@ -299,6 +300,30 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
+--- !u!114 &6565641950570550647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981645078808632434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ee62bcf0f759944dbb7619f44379d0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  statList:
+  - name: Spool Heavy Attack Stun
+    value: 0.1
+  - name: Heavy Attack Spools Needed
+    value: 1
+  - name: Max Spools
+    value: 4
+  - name: Initial Spool Buffer Time
+    value: 0.5
+  - name: Concurrent Spool Buffer Time
+    value: 0.25
+  manager: {fileID: 0}
 --- !u!1 &4936111184687609786
 GameObject:
   m_ObjectHideFlags: 0

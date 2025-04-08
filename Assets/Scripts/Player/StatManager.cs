@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using static GhostBuff;
 
@@ -37,6 +38,23 @@ public class StatManager : MonoBehaviour, IStatList
                 {
                     Debug.LogWarning(String.Format("'{0}' stat already exists", stat.name));
                 }
+            }
+        }
+    }
+
+    public void AddStats(Stat[] list)
+    {
+        for (int i = 0; i < list.Length; i++)
+        {
+            Stat stat = list[i];
+            try
+            {
+                stat.modifier = 100;
+                statMap.Add(stat.name, stat);
+            }
+            catch (ArgumentException)
+            {
+                Debug.LogWarning(String.Format("'{0}' stat already exists", stat.name));
             }
         }
     }
