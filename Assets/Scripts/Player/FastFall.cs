@@ -46,8 +46,7 @@ public class FastFall : MonoBehaviour
     {
         if (isFastFalling == true && collision.transform.position.y < transform.position.y)
         {
-            //cameraShaker.Shake(0.35f, 10f, 0f, 10f, new Vector2(Random.Range(-0.5f, 0.5f), 1f)); // add screen shake
-            CameraShake.instance.Shake(0.35f, 10f, 0f, 10f, new Vector2(Random.Range(-0.5f, 0.5f), 1f));
+            CameraShake.instance.Shake(0.15f, 10f, 0f, 10f, new Vector2(Random.Range(-0.5f, 0.5f), 1f)); // add screen shake
         }
     }
 

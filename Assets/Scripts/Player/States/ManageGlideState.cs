@@ -12,5 +12,9 @@ public class ManageGlideState : StateMachineBehaviour
     {
         animator.gameObject.SendMessage("StopGlide", null, SendMessageOptions.DontRequireReceiver);
     }
+    public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        animator.gameObject.SendMessage("UpdateGlide", null, SendMessageOptions.DontRequireReceiver);
+    }
 
 }

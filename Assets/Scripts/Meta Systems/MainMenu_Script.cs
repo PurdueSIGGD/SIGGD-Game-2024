@@ -25,14 +25,14 @@ public class MainMenu_Script : MonoBehaviour
     public void QuitButton()
     {
         Application.Quit();
-        
+
         /* Keep this line below to simulate the quit on the Unity editor plsss */
-        
+
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #endif
     }
-    
+
     /* Used to async load the main play scene */
     IEnumerator LoadYourAsyncScene(string sceneName)
     {

@@ -105,10 +105,10 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 5
-  m_LinearDrag: 0
+  m_Mass: 1
+  m_LinearDrag: 1
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 4
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -119,7 +119,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &-7854829235183403746
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -201,12 +201,20 @@ MonoBehaviour:
   stats: {fileID: 0}
   pool: {fileID: 0}
   animator: {fileID: 0}
+  isFlyer: 0
   aggroRange: 10
-  lightningDamage: 20
-  lightningRadius: 4
+  isBeingKnockedBack: 0
+  grounded: 0
+  lightningDamage:
+    damageStrength: 1
+    damageTypes: 02000000
+    actionID: 17
+    actionTypes: 02000000
+    extraContext: 
+  lightningRadius: 3
   lightningRange: 12
   lightningChargeDuration: 1
-  cooldown: 3
+  cooldown: 2
   lightningPrefab: {fileID: 3530741045561927567, guid: 3fbf525f0e6c1a04e8dc4d84879763fc,
     type: 3}
 --- !u!114 &4299196913714008640
@@ -223,12 +231,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actions: []
   move:
-    name: Made_Idle
+    name: 
     priority: 0
     ready: 1
-    hitBox: {fileID: 1684414794241371600}
+    hitBox: {fileID: 0}
     coolDown: 0
-    animationClip: {fileID: 7400000, guid: 46036b9f46149634facd81c3664a112f, type: 2}
+    animationClip: {fileID: 0}
   idle:
     name: Mage_Idle
     priority: 0
@@ -251,8 +259,6 @@ MonoBehaviour:
   statList:
   - name: Max Health
     value: 100
-  - name: Speed
-    value: 0
 --- !u!114 &7990850349161753078
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -265,7 +271,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83a0782e8961e074bbf391401404ae17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statList: []
+  statList:
+  - name: Damage
+    value: 10
 --- !u!1 &2990550269158129846
 GameObject:
   m_ObjectHideFlags: 0
@@ -277,7 +285,7 @@ GameObject:
   - component: {fileID: 8247585021918617221}
   - component: {fileID: 3245741155086075666}
   - component: {fileID: 2693654211868371632}
-  m_Layer: 21
+  m_Layer: 0
   m_Name: MagesPlayerDetector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -354,21 +362,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1684414794241371600}
     m_Modifications:
-    - target: {fileID: 1550237811441077492, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
-        type: 3}
-      propertyPath: m_Layer
-      value: 21
-      objectReference: {fileID: 0}
-    - target: {fileID: 1972025816662888160, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
-        type: 3}
-      propertyPath: m_Layer
-      value: 21
-      objectReference: {fileID: 0}
-    - target: {fileID: 2097828392250145043, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
-        type: 3}
-      propertyPath: m_Layer
-      value: 21
-      objectReference: {fileID: 0}
     - target: {fileID: 2728778880471080501, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -419,30 +412,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2792638077557101623, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
-        type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2792638077557101623, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3487495804464263818, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
         type: 3}
       propertyPath: m_Name
       value: HealthUI
-      objectReference: {fileID: 0}
-    - target: {fileID: 6166610012089384887, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
-        type: 3}
-      propertyPath: m_Layer
-      value: 21
-      objectReference: {fileID: 0}
-    - target: {fileID: 6762894337165190201, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
-        type: 3}
-      propertyPath: m_Layer
-      value: 21
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

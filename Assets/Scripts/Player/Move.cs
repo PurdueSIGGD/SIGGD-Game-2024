@@ -1,9 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
-using UnityEditor.SceneTemplate;
-using UnityEditor.U2D;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -19,7 +14,6 @@ public class Move : MonoBehaviour, IStatList
     private StatManager stats;
     private Animator animator;
 
-    private bool dashing = false;
     private bool stopMoving = false;
     private bool charging = false;
 
@@ -52,7 +46,7 @@ public class Move : MonoBehaviour, IStatList
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (!dashing && !stopMoving)
+        if (!stopMoving)
         {
             Movement();
         }
@@ -111,7 +105,21 @@ public class Move : MonoBehaviour, IStatList
         rb.velocity = newVel;
     }
 
+    public void UpdateRun()
+    {
+        accel = stats.ComputeValue("Running Accel.");
+        maxSpeed = stats.ComputeValue("Max Running Speed");
+        deaccel = stats.ComputeValue("Running Deaccel.");
+    }
+
     public void StartJump()
+    {
+        accel = stats.ComputeValue("Airborne Accel.");
+        maxSpeed = stats.ComputeValue("Max Running Speed");
+        deaccel = stats.ComputeValue("Airborne Deaccel.");
+    }
+
+    public void UpdateJump()
     {
         accel = stats.ComputeValue("Airborne Accel.");
         maxSpeed = stats.ComputeValue("Max Running Speed");
@@ -132,6 +140,13 @@ public class Move : MonoBehaviour, IStatList
         deaccel = stats.ComputeValue("Airborne Deaccel.");
     }
 
+    public void UpdateFall()
+    {
+        accel = stats.ComputeValue("Airborne Accel.");
+        maxSpeed = stats.ComputeValue("Max Running Speed");
+        deaccel = stats.ComputeValue("Airborne Deaccel.");
+    }
+
     public void StopFall()
     {
         accel = stats.ComputeValue("Running Accel.");
@@ -140,6 +155,13 @@ public class Move : MonoBehaviour, IStatList
     }
 
     public void StartFastFall()
+    {
+        accel = stats.ComputeValue("Airborne Accel.");
+        maxSpeed = stats.ComputeValue("Max Running Speed");
+        deaccel = stats.ComputeValue("Airborne Deaccel.");
+    }
+
+    public void UpdateFastFall()
     {
         accel = stats.ComputeValue("Airborne Accel.");
         maxSpeed = stats.ComputeValue("Max Running Speed");
@@ -160,15 +182,22 @@ public class Move : MonoBehaviour, IStatList
         deaccel = stats.ComputeValue("Glide Deaccel.");
     }
 
+    public void UpdateGlide()
+    {
+        accel = stats.ComputeValue("Glide Accel.");
+        maxSpeed = stats.ComputeValue("Max Glide Speed");
+        deaccel = stats.ComputeValue("Glide Deaccel.");
+    }
+
     public void StopGlide()
     {
         accel = stats.ComputeValue("Running Accel.");
         maxSpeed = stats.ComputeValue("Max Running Speed");
         deaccel = stats.ComputeValue("Running Deaccel.");
     }
+
     public void StartDash()
     {
-        dashing = true;
         accel = stats.ComputeValue("Running Accel.");
         maxSpeed = stats.ComputeValue("Max Running Speed");
         deaccel = stats.ComputeValue("Running Deaccel.");
@@ -176,9 +205,7 @@ public class Move : MonoBehaviour, IStatList
 
     public void StopDash()
     {
-        dashing = false;
-        if (animator.GetBool("p_grounded")) return;
-        ApplyKnockback(rb.velocity.normalized, rb.velocity.magnitude);
+
     }
 
     public void StartLightAttack()
@@ -248,9 +275,16 @@ public class Move : MonoBehaviour, IStatList
         return statList;
     }
 
-    public void ApplyKnockback(Vector2 direction, float knockbackStrength)
+    /// <summary>
+    /// Knockback the player.
+    /// </summary>
+    /// <param name="direction">The direction of the knockback</param>
+    /// <param name="knockbackStrength">The strength of the knockback</param>
+    /// <param name="cancelCurrentMovement">If true, all player movement is overriden by this knockback</param>
+    public void ApplyKnockback(Vector2 direction, float knockbackStrength, bool cancelCurrentMovement)
     {
-        overflowSpeed = knockbackStrength;
-        rb.AddForce(direction.normalized * knockbackStrength);
+        if (overflowSpeed < knockbackStrength) overflowSpeed = knockbackStrength;
+        if (cancelCurrentMovement) rb.velocity = Vector2.zero;
+        rb.velocity += direction.normalized * knockbackStrength;
     }
 }

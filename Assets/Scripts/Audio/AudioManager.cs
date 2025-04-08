@@ -1,10 +1,8 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
-public class AudioManager : MonoBehaviour {
+public class AudioManager : MonoBehaviour
+{
 
     private float tempStepCounter = 0.0f;
 
@@ -15,7 +13,7 @@ public class AudioManager : MonoBehaviour {
     [Header("Music")]
     [SerializeField] MusicTrack music_japan;
     [SerializeField] MusicTrack music_seamstress;
-    
+
 
     // ********** SOUND EFFECTS **********
     // Has type AudioTrack with "SFX_" variable name header 
@@ -46,43 +44,53 @@ public class AudioManager : MonoBehaviour {
     [SerializeField] float energyLevel;
 
     // Start is called before the first frame update
-    void Start() {
+    void Start()
+    {
         currentTrackName = MusicTrackName.JAPAN;
         GetCurrentMusicTrack().PlayTrack();
     }
 
     // Update is called once per frame
-    void Update() {
+    void Update()
+    {
         // Temporary audio test code: remove lines below when done
-        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)) {
+        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
+        {
             tempStepCounter += Time.deltaTime;
-            if (tempStepCounter > 0.4f) {
+            if (tempStepCounter > 0.4f)
+            {
                 SFX_footsteps.PlayTrack();
                 tempStepCounter = 0.0f;
             }
-        }   
+        }
 
-        if (Input.GetKeyDown(KeyCode.Space)) {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
             SFX_jump.PlayTrack();
         }
 
-        if (Input.GetKeyDown(KeyCode.E)) {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
             SFX_lightAttack.PlayTrack();
         }
 
-        if (Input.GetKeyDown(KeyCode.B)) {
+        if (Input.GetKeyDown(KeyCode.B))
+        {
             dialogue_britishAnt.PlayTrack();
         }
 
-        if (Input.GetKeyDown(KeyCode.C)) {
+        if (Input.GetKeyDown(KeyCode.C))
+        {
             MusicTrackName nextTrack = currentTrackName == MusicTrackName.JAPAN ? MusicTrackName.SEAMSTRESS : MusicTrackName.JAPAN;
             StartCoroutine(CrossfadeTo(nextTrack, 3.0f));
         }
 
-        if (Input.GetKeyDown(KeyCode.O)) {
+        if (Input.GetKeyDown(KeyCode.O))
+        {
             GetCurrentMusicTrack().StopTrack();
         }
-        if (Input.GetKeyDown(KeyCode.P)) {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
             GetCurrentMusicTrack().PlayTrack();
         }
     }
@@ -91,15 +99,18 @@ public class AudioManager : MonoBehaviour {
     // ******************** Music Interface ******************** //    
     // ********** ********** ********** ********** ********** //
 
-    public enum MusicTrackName {
+    public enum MusicTrackName
+    {
         //                  loopStart       loopEnd
         JAPAN, //           21.943          197.486
         SEAMSTRESS //       11.912          83.383    
     }
 
     // Fades into the given track over fadeTime seconds
-    public IEnumerator CrossfadeTo(MusicTrackName trackName, float fadeTime) {
-        if (fadeTime <= 0) {
+    public IEnumerator CrossfadeTo(MusicTrackName trackName, float fadeTime)
+    {
+        if (fadeTime <= 0)
+        {
             PlayMusicTrack(trackName);
             yield return null;
         }
@@ -108,7 +119,7 @@ public class AudioManager : MonoBehaviour {
         float stepTime = fadeTime / fadeSteps;
         MusicTrack originalTrack = GetMusicTrack(currentTrackName);
         MusicTrack newTrack = GetMusicTrack(trackName);
-        
+
         // Need to be careful since these tracks might already be playing and have their own volume
         float originalTrackStartVolume = originalTrack.GetTrackVolume();
         float newTrackStartVolume = newTrack.GetTrackVolume();
@@ -120,14 +131,15 @@ public class AudioManager : MonoBehaviour {
         Debug.Log("Do: " + originalTrackVolumeDelta + "\tDn" + newTrackVolumeDelta);
 
         // Fade by adjusting volume over multiple steps
-        newTrack.PlayTrack();  
-        for (int i = 0; i <= fadeSteps; i++) {
+        newTrack.PlayTrack();
+        for (int i = 0; i <= fadeSteps; i++)
+        {
             float originalTrackVolumeAdjustment = originalTrackVolumeDelta * i + originalTrackStartVolume;
             float newTrackVolumeAdjustment = newTrackVolumeDelta * i + newTrackStartVolume;
 
 
             originalTrack.SetTrackVolume(originalTrackVolumeAdjustment);
-            newTrack.SetTrackVolume(newTrackVolumeAdjustment);            
+            newTrack.SetTrackVolume(newTrackVolumeAdjustment);
             yield return new WaitForSeconds(stepTime);
         }
         originalTrack.StopTrack();
@@ -135,21 +147,25 @@ public class AudioManager : MonoBehaviour {
     }
 
     // Swaps the current track with NO crossfade
-    public void PlayMusicTrack(MusicTrackName trackName) {
+    public void PlayMusicTrack(MusicTrackName trackName)
+    {
         GetCurrentMusicTrack().StopTrack();
         currentTrackName = trackName;
         GetCurrentMusicTrack().PlayTrack();
     }
 
-    public MusicTrack GetCurrentMusicTrack() {
+    public MusicTrack GetCurrentMusicTrack()
+    {
         return GetMusicTrack(currentTrackName);
     }
 
-    public MusicTrack GetMusicTrack(MusicTrackName trackName) {
-        switch (trackName) {
-            case MusicTrackName.JAPAN:              return music_japan;
-            case MusicTrackName.SEAMSTRESS:         return music_seamstress;
-            default:                                return null;
+    public MusicTrack GetMusicTrack(MusicTrackName trackName)
+    {
+        switch (trackName)
+        {
+            case MusicTrackName.JAPAN: return music_japan;
+            case MusicTrackName.SEAMSTRESS: return music_seamstress;
+            default: return null;
         }
     }
 
@@ -157,22 +173,26 @@ public class AudioManager : MonoBehaviour {
     // ******************** SFX Interface ******************** //
     // ********** ********** ********** ********** ********** //
 
-    public enum SFXTrackName {
+    public enum SFXTrackName
+    {
         JUMP,
         LIGHT_ATTACK,
         FOOTSTEP
     }
 
-    public void PlaySFXTrack(SFXTrackName trackName) {
+    public void PlaySFXTrack(SFXTrackName trackName)
+    {
         GetSFXTrack(trackName).PlayTrack();
     }
 
-    public AudioTrack GetSFXTrack(SFXTrackName trackName) {
-        switch (trackName) {
-            case SFXTrackName.JUMP:                 return SFX_jump;
-            case SFXTrackName.LIGHT_ATTACK:         return SFX_lightAttack;
-            case SFXTrackName.FOOTSTEP:             return SFX_footsteps;
-            default:                                return null;
+    public AudioTrack GetSFXTrack(SFXTrackName trackName)
+    {
+        switch (trackName)
+        {
+            case SFXTrackName.JUMP: return SFX_jump;
+            case SFXTrackName.LIGHT_ATTACK: return SFX_lightAttack;
+            case SFXTrackName.FOOTSTEP: return SFX_footsteps;
+            default: return null;
         }
     }
 
@@ -180,25 +200,29 @@ public class AudioManager : MonoBehaviour {
     // ******************** Dialogue Interface ******************** //
     // ********** ********** ********** ********** ********** //
 
-    public enum DialogueTrackName {
+    public enum DialogueTrackName
+    {
         BRITISH_ANT // If this is still here, remove it
     }
 
-    public void PlayDialogueTrack(DialogueTrackName trackName) {
+    public void PlayDialogueTrack(DialogueTrackName trackName)
+    {
         GetDialogueTrack(trackName).PlayTrack();
     }
 
-    public AudioTrack GetDialogueTrack(DialogueTrackName trackName) {
-        switch (trackName) {
-            case DialogueTrackName.BRITISH_ANT:     return dialogue_britishAnt;
-            default:                                return null;
+    public AudioTrack GetDialogueTrack(DialogueTrackName trackName)
+    {
+        switch (trackName)
+        {
+            case DialogueTrackName.BRITISH_ANT: return dialogue_britishAnt;
+            default: return null;
         }
     }
 
     // ********** ********** ********** ********** ********** //
     // ******************** Misc Functions ******************** //
     // ********** ********** ********** ********** ********** //
-    
+
     // Used by MusicTracks to find out which track energy levels to play
     public float GetEnergyLevel() { return energyLevel; }
 

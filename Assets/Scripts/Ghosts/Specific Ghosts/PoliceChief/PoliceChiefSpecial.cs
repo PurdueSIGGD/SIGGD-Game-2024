@@ -2,11 +2,8 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class PoliceChiefSpecial : MonoBehaviour, ISpecialMove, IStatList
+public class PoliceChiefSpecial : MonoBehaviour, ISpecialMove
 {
-    [SerializeField]
-    private StatManager.Stat[] statList;
-
     private bool shouldChangeBack = true;
     private PlayerStateMachine playerStateMachine;
     private Animator camAnim;
@@ -118,10 +115,5 @@ public class PoliceChiefSpecial : MonoBehaviour, ISpecialMove, IStatList
     public bool GetBool()
     {
         return true;
-    }
-
-    public StatManager.Stat[] GetStatList()
-    {
-        return statList;
     }
 }

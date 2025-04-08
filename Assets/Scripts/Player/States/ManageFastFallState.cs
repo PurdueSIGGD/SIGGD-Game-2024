@@ -16,4 +16,8 @@ public class ManageFastFallState : StateMachineBehaviour
     {
         animator.gameObject.SendMessage("StopFastFall", null, SendMessageOptions.DontRequireReceiver);
     }
+    public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        animator.gameObject.SendMessage("UpdateFastFall", null, SendMessageOptions.DontRequireReceiver);
+    }
 }
