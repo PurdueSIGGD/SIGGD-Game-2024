@@ -6,8 +6,9 @@ using UnityEngine;
 /// <summary>
 /// Enemy AI for Mage.
 /// </summary>
-public class Mage : EnemyStateManager
+public class Mage : MonoBehaviour
 {
+    private GameObject player;
     private StatManager statManager;
     private MagesPlayerDetector playerDetector;
     private bool isPlayerInRange = false;
@@ -34,6 +35,7 @@ public class Mage : EnemyStateManager
 
     protected void Start()
     {
+        player = PlayerID.instance.gameObject;
         statManager = GetComponent<StatManager>();
         lightningDamage.damage = statManager.ComputeValue("Damage");
         // Subscribing to the detector's events
@@ -75,7 +77,7 @@ public class Mage : EnemyStateManager
         attackActivationTimestamp = Time.time;
 
         // spawn a lightning prefab
-        lightningObject = Instantiate(lightningPrefab, player.position, Quaternion.identity);
+        lightningObject = Instantiate(lightningPrefab, player.transform.position, Quaternion.identity);
 
         MageLightningAttack attack = lightningObject.GetComponent<MageLightningAttack>();
         
@@ -85,7 +87,7 @@ public class Mage : EnemyStateManager
         //damageContext.damageTypes = new List<DamageType>((int)DamageType.AREA);
         //damageContext.actionTypes = new List<ActionType>((int)ActionType.ENEMY_ATTACK);
         
-        attack.Initialize(player.position, lightningRadius, lightningDamage, lightningChargeDuration, gameObject);
+        attack.Initialize(player.transform.position, lightningRadius, lightningDamage, lightningChargeDuration, gameObject);
         attack.StartCharging();
     }
 
@@ -126,9 +128,8 @@ public class Mage : EnemyStateManager
 
 
     // Draws the Mage's attack range
-    protected override void OnDrawGizmos()
+    private void OnDrawGizmos()
     {
-        base.OnDrawGizmos();
         Gizmos.DrawWireSphere(transform.position, lightningRange);
     }
 }
