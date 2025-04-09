@@ -20,6 +20,8 @@ public class KingUIDriver : GhostUIDriver
         if (!isInParty) return;
         updateBasicAbility();
         updateSpecialAbility();
+        //setDefaultAbilityUI(skill1UIManager, true);
+        //setDefaultAbilityUI(skill2UIManager, true);
         if (!ghostIdentity.IsSelected()) return;
         updateMeterValue();
         updateMeterColor();
@@ -52,8 +54,9 @@ public class KingUIDriver : GhostUIDriver
 
     private void updateBasicAbility()
     {
-        setDefaultBasicAbilityUI();
-        basicAbilityUIManager.setAbilityEnabled(manager.getBasicCooldown() <= 0f);
+        //setDefaultAbilityUI(basicAbilityUIManager, false);
+        //basicAbilityUIManager.setAbilityHighlighted(manager.getBasicCooldown() <= 0f);
+        basicAbilityUIManager.setAbilityEnabled(manager.getBasicCooldown() <= 0f, true);
         basicAbilityUIManager.setNumberActive(manager.getBasicCooldown() > 0f);
         basicAbilityUIManager.updateNumberValue(manager.getBasicCooldown());
         basicAbilityUIManager.updateMeterValue(manager.currentShieldHealth, stats.ComputeValue("Shield Max Health"));
@@ -61,7 +64,8 @@ public class KingUIDriver : GhostUIDriver
 
     private void updateSpecialAbility()
     {
-        setDefaultSpecialAbilityUI();
+        //setDefaultAbilityUI(specialAbilityUIManager, true);
+        specialAbilityUIManager.setAbilityHighlighted(manager.getSpecialCooldown() <= 0f);
         specialAbilityUIManager.updateAbilityCooldownTime(manager.getSpecialCooldown(), stats.ComputeValue("Special Cooldown"));
     }
 

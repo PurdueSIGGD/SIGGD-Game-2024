@@ -5,12 +5,13 @@ using UnityEngine.UI;
 
 public class PlayerGhostUIManager : MonoBehaviour
 {
-
     [SerializeField] protected Image background;
     [SerializeField] protected Image iconFrame;
     [SerializeField] protected Image icon;
     [SerializeField] public PlayerAbilityUIManager basicAbilityUIManager;
     [SerializeField] public PlayerAbilityUIManager specialAbilityUIManager;
+    [SerializeField] public PlayerAbilityUIManager skill1UIManager;
+    [SerializeField] public PlayerAbilityUIManager skill2UIManager;
 
     // Start is called before the first frame update
     protected virtual void Start()

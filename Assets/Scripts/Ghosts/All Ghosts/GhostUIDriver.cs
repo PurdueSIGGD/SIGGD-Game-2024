@@ -12,6 +12,8 @@ public class GhostUIDriver : MonoBehaviour, ISelectable
     protected PlayerGhostUIManager deselectedGhostUIManager;
     protected PlayerAbilityUIManager basicAbilityUIManager;
     protected PlayerAbilityUIManager specialAbilityUIManager;
+    protected PlayerAbilityUIManager skill1UIManager;
+    protected PlayerAbilityUIManager skill2UIManager;
     protected PlayerInWorldMeterUIManager meterUIManager;
 
     protected bool isInParty;
@@ -26,6 +28,8 @@ public class GhostUIDriver : MonoBehaviour, ISelectable
         deselectedGhostUIManager = PlayerGhost1UIManager.instance;
         basicAbilityUIManager = selectedGhostUIManager.basicAbilityUIManager;
         specialAbilityUIManager = selectedGhostUIManager.specialAbilityUIManager;
+        skill1UIManager = selectedGhostUIManager.skill1UIManager;
+        skill2UIManager = selectedGhostUIManager.skill2UIManager;
         meterUIManager = PlayerInWorldMeterUIManager.instance;
         isInParty = false;
     }
@@ -77,33 +81,45 @@ public class GhostUIDriver : MonoBehaviour, ISelectable
     {
         basicAbilityUIManager = (selected) ? selectedGhostUIManager.basicAbilityUIManager : deselectedGhostUIManager.basicAbilityUIManager;
         specialAbilityUIManager = (selected) ? selectedGhostUIManager.specialAbilityUIManager : deselectedGhostUIManager.specialAbilityUIManager;
+        skill1UIManager = (selected) ? selectedGhostUIManager.skill1UIManager : deselectedGhostUIManager.skill1UIManager;
+        skill2UIManager = (selected) ? selectedGhostUIManager.skill2UIManager : deselectedGhostUIManager.skill2UIManager;
 
         Color ghostColor = ghostIdentity.GetCharacterInfo().primaryColor;
         basicAbilityUIManager.gameObject.SetActive(true);
         basicAbilityUIManager.updateIcon(ghostIdentity.GetCharacterInfo().basicAbilityIcon);
         basicAbilityUIManager.updateFrameColor(ghostColor);
+        setDefaultAbilityUI(basicAbilityUIManager, true);
 
         specialAbilityUIManager.gameObject.SetActive(true);
         specialAbilityUIManager.updateIcon(ghostIdentity.GetCharacterInfo().specialAbilityIcon);
         specialAbilityUIManager.updateFrameColor(ghostColor);
+        setDefaultAbilityUI(specialAbilityUIManager, true);
+
+        skill1UIManager.gameObject.SetActive(false);
+        skill1UIManager.updateIcon(ghostIdentity.GetCharacterInfo().basicAbilityIcon);
+        skill1UIManager.updateFrameColor(ghostColor);
+        setDefaultAbilityUI(skill1UIManager, true);
+
+        skill2UIManager.gameObject.SetActive(false);
+        skill2UIManager.updateIcon(ghostIdentity.GetCharacterInfo().basicAbilityIcon);
+        skill2UIManager.updateFrameColor(ghostColor);
+        setDefaultAbilityUI(skill2UIManager, true);
     }
 
-    protected void setDefaultBasicAbilityUI()
+    /// <summary>
+    /// Sets the specified ability UI manager to its default active state, with the charge widget turned off.
+    /// </summary>
+    /// <param name="abilityUIManager">The ability UI manager to modify.</param>
+    /// <param name="resetHighlight">If true, the ability's highlighted state will be set false. If false, the ability's highlighted state will not be affected.
+    /// NOTE: Do NOT reset the highlight state if the state will be immedately turned on again after this function call.</param>
+    protected void setDefaultAbilityUI(PlayerAbilityUIManager abilityUIManager, bool resetHighlight)
     {
-        basicAbilityUIManager.setAbilityEnabled(true);
-        basicAbilityUIManager.updateMeterValue(1f, 1f);
-        basicAbilityUIManager.setNumberActive(false);
-        basicAbilityUIManager.setAbilityHighlighted(false);
-        basicAbilityUIManager.setChargesWidgetActive(false);
-    }
-
-    protected void setDefaultSpecialAbilityUI()
-    {
-        specialAbilityUIManager.setAbilityEnabled(true);
-        specialAbilityUIManager.updateMeterValue(1f, 1f);
-        specialAbilityUIManager.setNumberActive(false);
-        specialAbilityUIManager.setAbilityHighlighted(false);
-        specialAbilityUIManager.setChargesWidgetActive(false);
+        abilityUIManager.gameObject.SetActive(true);
+        abilityUIManager.setAbilityEnabled(true);
+        abilityUIManager.updateMeterValue(1f, 1f);
+        abilityUIManager.setNumberActive(false);
+        if (resetHighlight) abilityUIManager.setAbilityHighlighted(false);
+        abilityUIManager.setChargesWidgetActive(false);
     }
 
 }

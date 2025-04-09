@@ -24,12 +24,12 @@ public class PoliceChiefUIDriver : GhostUIDriver
 
     private void updateBasicAbility()
     {
-        setDefaultBasicAbilityUI();
+        setDefaultAbilityUI(basicAbilityUIManager, true);
     }
 
     private void updateSpecialAbility()
     {
-        setDefaultSpecialAbilityUI();
+        setDefaultAbilityUI(specialAbilityUIManager, true);
         specialAbilityUIManager.updateAbilityCooldownTime(manager.getSpecialCooldown(), stats.ComputeValue("Special Cooldown"));
     }
 }

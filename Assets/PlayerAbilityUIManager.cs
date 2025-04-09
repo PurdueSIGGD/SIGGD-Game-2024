@@ -37,6 +37,10 @@ public class PlayerAbilityUIManager : MonoBehaviour
     private float maxHighlightedFlareAlpha;
     private float highlightedFlarePulseDurationTime;
     private bool isHighlighted;
+    private bool isHighlightedBuffer;
+
+    private bool isEnabled;
+
 
 
     // Start is called before the first frame update
@@ -51,6 +55,8 @@ public class PlayerAbilityUIManager : MonoBehaviour
         maxHighlightedFlareAlpha = 1f;
         highlightedFlarePulseDurationTime = 0.8f;
         isHighlighted = false;
+        isHighlightedBuffer = false;
+        isEnabled = false;
     }
 
     // Update is called once per frame
@@ -108,15 +114,22 @@ public class PlayerAbilityUIManager : MonoBehaviour
 
     public void setAbilityEnabled(bool enabled)
     {
+        setAbilityEnabled(enabled, false);
+    }
+
+    public void setAbilityEnabled(bool enabled, bool pingOnReenable)
+    {
         Color color = enabled ? baseActiveIconBackgroundColor : baseInactiveIconBackgroundColor;
+        if (pingOnReenable && enabled && !isEnabled && !isHighlighted) pingAbility();
         setImageColor(iconBackground, color, false);
+        isEnabled = enabled;
     }
 
     public void updateAbilityCooldownTime(float currentCooldownTime, float totalCooldownTime)
     {
         if (currentCooldownTime <= 0f)
         {
-            setAbilityEnabled(true);
+            setAbilityEnabled(true, true);
             setNumberActive(false);
             updateMeterValue(1f, 1f);
             return;
@@ -160,19 +173,23 @@ public class PlayerAbilityUIManager : MonoBehaviour
     public void setAbilityHighlighted(bool highlighted)
     {
         if ((highlighted && isHighlighted) || (!highlighted && !isHighlighted)) return;
-        //StopCoroutine(highlightedAnimationCoroutine);
-        isHighlighted = highlighted;
-        //frame.transform.localScale = (highlighted) ? (new Vector3(1.2f, 1.2f, 1f)) : (new Vector3(1f, 1f, 1f));
+        //isHighlighted = highlighted;
+        isHighlightedBuffer = highlighted;
         flareOverlay.gameObject.SetActive(highlighted);
-        /*
-        if (!highlighted)
-        {
-            Color color = frame.color;
-            color.a = 1f;
-            frame.color = color;
-        }
-        */
         if (highlighted) StartCoroutine(animateHighlightedFlare());
+    }
+
+    public void pingAbility()
+    {
+        StartCoroutine(animatePingFlare(false));
+    }
+
+    public void setUIActive(bool active)
+    {
+        if (isHighlighted) isHighlightedBuffer = false;
+        // DO SOMETHING HERE TO FIX SETTING GAMEOBJECT INACTIVE BREAKING COROUTINE
+        // I'M GOING TO TRY A SETACTIVE BUFFER BUT I AM CURRENTLY VERRRRY HUNGRY
+        // GOODBYE
     }
 
 
@@ -188,8 +205,9 @@ public class PlayerAbilityUIManager : MonoBehaviour
 
     private IEnumerator animateHighlightedFlare()
     {
-        while (isHighlighted)
+        while (isHighlighted || isHighlightedBuffer)
         {
+            /*
             float initialAlpha = maxHighlightedFlareAlpha;
             float finalAlpha = minHighlightedFlareAlpha;
             int step = 20;
@@ -202,6 +220,29 @@ public class PlayerAbilityUIManager : MonoBehaviour
                 flareOverlay.color = color;
                 yield return new WaitForSeconds(highlightedFlarePulseDurationTime / (float) step);
             }
+            */
+            yield return animatePingFlare(true);
         }
+    }
+
+    private IEnumerator animatePingFlare(bool isHighlightPing)
+    {
+        float initialAlpha = maxHighlightedFlareAlpha;
+        float finalAlpha = minHighlightedFlareAlpha;
+        int step = 20;
+        for (int i = 0; i < step; i++)
+        {
+            isHighlighted = isHighlightedBuffer;
+            if (!isHighlighted && isHighlightPing) yield break;
+            float currentAlpha = Mathf.Lerp(initialAlpha, finalAlpha, (float) i / (float) step);
+            Color color = flareOverlay.color;
+            color.a = currentAlpha;
+            flareOverlay.color = color;
+            yield return new WaitForSeconds(highlightedFlarePulseDurationTime / (float) step);
+            yield return new WaitForEndOfFrame();
+        }
+        Color finalColor = flareOverlay.color;
+        finalColor.a = finalAlpha;
+        flareOverlay.color = finalColor;
     }
 }

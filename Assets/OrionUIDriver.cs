@@ -13,6 +13,8 @@ public class OrionUIDriver : MonoBehaviour
     private PlayerGhostUIManager deselectedGhostUIManager;
     private PlayerAbilityUIManager basicAbilityUIManager;
     private PlayerAbilityUIManager specialAbilityUIManager;
+    private PlayerAbilityUIManager skill1UIManager;
+    private PlayerAbilityUIManager skill2UIManager;
     private PlayerInWorldMeterUIManager meterUIManager;
 
     private bool isSelected;
@@ -28,6 +30,8 @@ public class OrionUIDriver : MonoBehaviour
         deselectedGhostUIManager = PlayerGhost1UIManager.instance;
         basicAbilityUIManager = selectedGhostUIManager.basicAbilityUIManager;
         specialAbilityUIManager = selectedGhostUIManager.specialAbilityUIManager;
+        skill1UIManager = selectedGhostUIManager.skill1UIManager;
+        skill2UIManager = selectedGhostUIManager.skill2UIManager;
         meterUIManager = PlayerInWorldMeterUIManager.instance;
 
         PlayerGhost1UIManager.instance.gameObject.SetActive(false);
@@ -72,20 +76,33 @@ public class OrionUIDriver : MonoBehaviour
     {
         basicAbilityUIManager = (isSelected) ? selectedGhostUIManager.basicAbilityUIManager : deselectedGhostUIManager.basicAbilityUIManager;
         specialAbilityUIManager = (isSelected) ? selectedGhostUIManager.specialAbilityUIManager : deselectedGhostUIManager.specialAbilityUIManager;
+        skill1UIManager = (isSelected) ? selectedGhostUIManager.skill1UIManager : deselectedGhostUIManager.skill1UIManager;
+        skill2UIManager = (isSelected) ? selectedGhostUIManager.skill2UIManager : deselectedGhostUIManager.skill2UIManager;
 
+        basicAbilityUIManager.gameObject.SetActive(true);
         basicAbilityUIManager.updateIcon(orionCharacterInfo.specialAbilityIcon);
         basicAbilityUIManager.updateFrameColor(orionCharacterInfo.primaryColor);
         basicAbilityUIManager.updateAbilityCooldownTime(manager.getSpecialCooldown(), stats.ComputeValue("Dash Cooldown"));
-        basicAbilityUIManager.setAbilityHighlighted(true);
-        basicAbilityUIManager.setChargesWidgetActive(true);
-        basicAbilityUIManager.updateChargesValue(manager.getSpecialCooldown(), stats.ComputeValue("Dash Cooldown"));
+        basicAbilityUIManager.setAbilityHighlighted(manager.getSpecialCooldown() <= 0f);
+        basicAbilityUIManager.setChargesWidgetActive(false);
 
-        //specialAbilityUIManager.gameObject.SetActive(false);
-        specialAbilityUIManager.updateIcon(orionCharacterInfo.specialAbilityIcon);
-        specialAbilityUIManager.updateFrameColor(orionCharacterInfo.primaryColor);
-        specialAbilityUIManager.updateAbilityCooldownTime(manager.getSpecialCooldown(), stats.ComputeValue("Dash Cooldown"));
-        specialAbilityUIManager.setAbilityHighlighted(true);
-        specialAbilityUIManager.setChargesWidgetActive(true);
-        specialAbilityUIManager.updateChargesValue(manager.getSpecialCooldown(), stats.ComputeValue("Dash Cooldown"));
+        specialAbilityUIManager.gameObject.SetActive(false);
+
+        skill1UIManager.gameObject.SetActive(true);
+        skill1UIManager.setAbilityEnabled(true);
+        skill1UIManager.updateIcon(orionCharacterInfo.basicAbilityIcon);
+        skill1UIManager.updateFrameColor(orionCharacterInfo.primaryColor);
+        skill1UIManager.updateMeterValue(1f, 1f);
+        skill1UIManager.setNumberActive(false);
+        skill1UIManager.setChargesWidgetActive(false);
+
+        skill2UIManager.gameObject.SetActive(true);
+        skill2UIManager.setAbilityEnabled(true);
+        skill2UIManager.updateIcon(orionCharacterInfo.basicAbilityIcon);
+        skill2UIManager.updateFrameColor(orionCharacterInfo.primaryColor);
+        skill2UIManager.updateMeterValue(stats.ComputeValue("Dash Cooldown") - manager.getSpecialCooldown(), stats.ComputeValue("Dash Cooldown"));
+        skill2UIManager.setNumberActive(false);
+        skill2UIManager.setChargesWidgetActive(false);
+        skill2UIManager.setAbilityHighlighted(manager.getSpecialCooldown() <= 0f);
     }
 }
