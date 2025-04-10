@@ -7,11 +7,18 @@ using UnityEngine;
 /// </summary>
 public class IdolClone : MonoBehaviour
 {
-    [SerializeField] float duration = 6.0f; // duration clone can last
+    [SerializeField] float duration; // duration clone can last
+    [SerializeField] float inactiveModifier;
     private GameObject player;
 
     void Update()
     {
+        TickTimer();
+    }
+
+    void TickTimer()
+    {
+        print("Duration: " + duration);
         if (duration <= 0)
         {
             Destroy(gameObject);
@@ -22,7 +29,7 @@ public class IdolClone : MonoBehaviour
         }
         else // if player is no longer in idol mode, count down twice as fast
         {
-            duration -= Time.deltaTime * 2;
+            duration -= Time.deltaTime * inactiveModifier;
         }
     }
 
@@ -31,8 +38,10 @@ public class IdolClone : MonoBehaviour
     /// using
     /// </summary>
     /// <param name="player"> player gameobject </param>
-    public void Initialize(GameObject player)
+    public void Initialize(GameObject player, float duration, float inactiveModifier)
     {
         this.player = player;
+        this.duration = duration;
+        this.inactiveModifier = inactiveModifier;
     }
 }

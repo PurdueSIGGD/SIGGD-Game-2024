@@ -34,7 +34,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1.15, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5273232732876312737}
@@ -135,7 +135,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 2097216
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -209,12 +209,12 @@ MonoBehaviour:
     damageStrength: 1
     damageTypes: 02000000
     actionID: 17
-    actionTypes: 02000000
+    actionTypes: 07000000
     extraContext: 
-  lightningRadius: 3
+  lightningRadius: 5
   lightningRange: 12
   lightningChargeDuration: 1
-  cooldown: 2
+  cooldown: 6
   lightningPrefab: {fileID: 3530741045561927567, guid: 3fbf525f0e6c1a04e8dc4d84879763fc,
     type: 3}
 --- !u!114 &4299196913714008640
@@ -274,6 +274,8 @@ MonoBehaviour:
   statList:
   - name: Damage
     value: 10
+  - name: Speed
+    value: 0
 --- !u!1 &2990550269158129846
 GameObject:
   m_ObjectHideFlags: 0
@@ -410,6 +412,16 @@ PrefabInstance:
     - target: {fileID: 2728778880471080501, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2792638077557101623, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2792638077557101623, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
+        type: 3}
+      propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3487495804464263818, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
