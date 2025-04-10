@@ -171,7 +171,7 @@ public class PlayerInWorldMeterUIManager : MonoBehaviour
     /// </summary>
     public void resetSubMeterColor()
     {
-        setImageColor(subMeterBar, baseMeterColor, true);
+        setImageColor(subMeterBar, baseSubMeterColor, true);
     }
 
     /// <summary>

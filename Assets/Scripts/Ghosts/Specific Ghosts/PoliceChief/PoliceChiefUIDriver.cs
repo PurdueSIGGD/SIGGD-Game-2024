@@ -37,8 +37,7 @@ public class PoliceChiefUIDriver : GhostUIDriver
 
     private void updateSkill1()
     {
-        setDefaultAbilityUI(skill1UIManager, false);
-        skill1UIManager.setAbilityHighlighted(manager.getSpecialCooldown() <= 0);
+
     }
 
     private void updateSkill2()

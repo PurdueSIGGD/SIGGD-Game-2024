@@ -23,11 +23,11 @@ public class PlayerAbilityUIManager : MonoBehaviour
     [SerializeField] private Image subNumberBackground;
     [SerializeField] private TextMeshProUGUI subNumber;
 
-    private Color baseActiveIconBackgroundColor;
-    private Color baseInactiveIconBackgroundColor;
+    [SerializeField] private Color baseActiveIconBackgroundColor;
+    [SerializeField] private Color baseInactiveIconBackgroundColor;
 
-    private Color basePartialSubNumberBackgroundColor;
-    private Color baseFullSubNumberBackgroundColor;
+    [SerializeField] private Color basePartialSubNumberBackgroundColor;
+    [SerializeField] private Color baseFullSubNumberBackgroundColor;
 
     private float minHighlightedFlareAlpha;
     private float maxHighlightedFlareAlpha;
@@ -35,18 +35,13 @@ public class PlayerAbilityUIManager : MonoBehaviour
     private bool isHighlighted;
     private bool isHighlightedBuffer;
 
-    private bool isEnabled;
+    [SerializeField] private bool isEnabled;
 
 
 
     // Start is called before the first frame update
     void Start()
     {
-        baseActiveIconBackgroundColor = meterBar.color;
-        baseInactiveIconBackgroundColor = iconBackground.color;
-        if (subNumberBackground != null) basePartialSubNumberBackgroundColor = subNumberBackground.color;
-        if (subNumber != null) baseFullSubNumberBackgroundColor = subNumber.color;
-
         minHighlightedFlareAlpha = 0f;
         maxHighlightedFlareAlpha = 1f;
         highlightedFlarePulseDurationTime = 0.8f;
