@@ -31,7 +31,7 @@ public class PlayerGhostUIManager : MonoBehaviour
     /// Set the color of the ghost widget background.
     /// </summary>
     /// <param name="color">The color for the background. The alpha value is ignored.</param>
-    public void updateBackgroundColor(Color color)
+    public void setBackgroundColor(Color color)
     {
         setImageColor(background, color, true);
     }
@@ -40,12 +40,16 @@ public class PlayerGhostUIManager : MonoBehaviour
     /// Set the color of the ghost icon frame.
     /// </summary>
     /// <param name="color">The color for the frame. The alpha value is ignored.</param>
-    public void updateIconFrameColor(Color color)
+    public void setIconFrameColor(Color color)
     {
         setImageColor(iconFrame, color, true);
     }
 
-    public void updateIcon(Sprite iconSprite)
+    /// <summary>
+    /// Set the ghost character icon.
+    /// </summary>
+    /// <param name="iconSprite">The ghost character icon.</param>
+    public void setIcon(Sprite iconSprite)
     {
         icon.sprite = iconSprite;
     }

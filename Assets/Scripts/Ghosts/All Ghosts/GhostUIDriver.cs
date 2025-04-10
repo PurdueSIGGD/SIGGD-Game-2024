@@ -49,9 +49,9 @@ public class GhostUIDriver : MonoBehaviour, ISelectable
             if (partyManager.GetGhostMajorList().Count > 0 && partyManager.GetGhostMajorList()[0].Equals(ghostIdentity)) deselectedGhostUIManager = PlayerGhost1UIManager.instance;
             if (partyManager.GetGhostMajorList().Count > 1 && partyManager.GetGhostMajorList()[1].Equals(ghostIdentity)) deselectedGhostUIManager = PlayerGhost2UIManager.instance;
             deselectedGhostUIManager.gameObject.SetActive(true);
-            deselectedGhostUIManager.updateBackgroundColor(ghostColor);
-            deselectedGhostUIManager.updateIcon(ghostIdentity.GetCharacterInfo().characterIcon);
-            deselectedGhostUIManager.updateIconFrameColor(ghostColor);
+            deselectedGhostUIManager.setBackgroundColor(ghostColor);
+            deselectedGhostUIManager.setIcon(ghostIdentity.GetCharacterInfo().characterIcon);
+            deselectedGhostUIManager.setIconFrameColor(ghostColor);
             updateAbilityUI(false);
         }
     }
@@ -59,20 +59,20 @@ public class GhostUIDriver : MonoBehaviour, ISelectable
     public virtual void Select(GameObject player)
     {
         Color ghostColor = ghostIdentity.GetCharacterInfo().primaryColor;
-        selectedGhostUIManager.updateBackgroundColor(ghostColor);
-        selectedGhostUIManager.updateHealthBarFrameColor(ghostColor);
-        selectedGhostUIManager.updateIcon(ghostIdentity.GetCharacterInfo().characterIcon);
-        selectedGhostUIManager.updateIconFrameColor(ghostColor);
-        meterUIManager.updateBackgroundColor(ghostColor);
+        selectedGhostUIManager.setBackgroundColor(ghostColor);
+        selectedGhostUIManager.setHealthBarFrameColor(ghostColor);
+        selectedGhostUIManager.setIcon(ghostIdentity.GetCharacterInfo().characterIcon);
+        selectedGhostUIManager.setIconFrameColor(ghostColor);
+        meterUIManager.setBackgroundColor(ghostColor);
         updateAbilityUI(true);
     }
 
     public virtual void DeSelect(GameObject player)
     {
         Color ghostColor = ghostIdentity.GetCharacterInfo().primaryColor;
-        deselectedGhostUIManager.updateBackgroundColor(ghostColor);
-        deselectedGhostUIManager.updateIcon(ghostIdentity.GetCharacterInfo().characterIcon);
-        deselectedGhostUIManager.updateIconFrameColor(ghostColor);
+        deselectedGhostUIManager.setBackgroundColor(ghostColor);
+        deselectedGhostUIManager.setIcon(ghostIdentity.GetCharacterInfo().characterIcon);
+        deselectedGhostUIManager.setIconFrameColor(ghostColor);
         meterUIManager.deactivateWidget();
         updateAbilityUI(false);
     }
@@ -83,27 +83,25 @@ public class GhostUIDriver : MonoBehaviour, ISelectable
         specialAbilityUIManager = (selected) ? selectedGhostUIManager.specialAbilityUIManager : deselectedGhostUIManager.specialAbilityUIManager;
         skill1UIManager = (selected) ? selectedGhostUIManager.skill1UIManager : deselectedGhostUIManager.skill1UIManager;
         skill2UIManager = (selected) ? selectedGhostUIManager.skill2UIManager : deselectedGhostUIManager.skill2UIManager;
-
         Color ghostColor = ghostIdentity.GetCharacterInfo().primaryColor;
-        basicAbilityUIManager.gameObject.SetActive(true);
-        basicAbilityUIManager.updateIcon(ghostIdentity.GetCharacterInfo().basicAbilityIcon);
-        basicAbilityUIManager.updateFrameColor(ghostColor);
+
         setDefaultAbilityUI(basicAbilityUIManager, true);
+        basicAbilityUIManager.setIcon(ghostIdentity.GetCharacterInfo().basicAbilityIcon);
+        basicAbilityUIManager.setFrameColor(ghostColor);
 
-        specialAbilityUIManager.gameObject.SetActive(true);
-        specialAbilityUIManager.updateIcon(ghostIdentity.GetCharacterInfo().specialAbilityIcon);
-        specialAbilityUIManager.updateFrameColor(ghostColor);
         setDefaultAbilityUI(specialAbilityUIManager, true);
+        specialAbilityUIManager.setIcon(ghostIdentity.GetCharacterInfo().specialAbilityIcon);
+        specialAbilityUIManager.setFrameColor(ghostColor);
 
-        skill1UIManager.gameObject.SetActive(false);
-        skill1UIManager.updateIcon(ghostIdentity.GetCharacterInfo().basicAbilityIcon);
-        skill1UIManager.updateFrameColor(ghostColor);
         setDefaultAbilityUI(skill1UIManager, true);
+        skill1UIManager.setUIActive(false);
+        skill1UIManager.setIcon(ghostIdentity.GetCharacterInfo().basicAbilityIcon);
+        skill1UIManager.setFrameColor(ghostColor);
 
-        skill2UIManager.gameObject.SetActive(false);
-        skill2UIManager.updateIcon(ghostIdentity.GetCharacterInfo().basicAbilityIcon);
-        skill2UIManager.updateFrameColor(ghostColor);
         setDefaultAbilityUI(skill2UIManager, true);
+        skill2UIManager.setUIActive(false);
+        skill2UIManager.setIcon(ghostIdentity.GetCharacterInfo().basicAbilityIcon);
+        skill2UIManager.setFrameColor(ghostColor);
     }
 
     /// <summary>
@@ -114,12 +112,12 @@ public class GhostUIDriver : MonoBehaviour, ISelectable
     /// NOTE: Do NOT reset the highlight state if the state will be immedately turned on again after this function call.</param>
     protected void setDefaultAbilityUI(PlayerAbilityUIManager abilityUIManager, bool resetHighlight)
     {
-        abilityUIManager.gameObject.SetActive(true);
+        abilityUIManager.setUIActive(true);
         abilityUIManager.setAbilityEnabled(true);
-        abilityUIManager.updateMeterValue(1f, 1f);
+        abilityUIManager.setMeterValue(1f, 1f);
         abilityUIManager.setNumberActive(false);
         if (resetHighlight) abilityUIManager.setAbilityHighlighted(false);
-        abilityUIManager.setChargesWidgetActive(false);
+        abilityUIManager.setChargeWidgetActive(false);
     }
 
 }

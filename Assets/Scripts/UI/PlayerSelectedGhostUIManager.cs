@@ -32,7 +32,7 @@ public class PlayerSelectedGhostUIManager : PlayerGhostUIManager
     /// Set the color of the health bar frame.
     /// </summary>
     /// <param name="color">The color for the frame. The alpha value is ignored.</param>
-    public void updateHealthBarFrameColor(Color color)
+    public void setHealthBarFrameColor(Color color)
     {
         setImageColor(healthBarFrame, color, true);
     }

@@ -20,16 +20,34 @@ public class PoliceChiefUIDriver : GhostUIDriver
         if (!isInParty) return;
         updateBasicAbility();
         updateSpecialAbility();
+        updateSkill1();
+        updateSkill2();
+        if (ghostIdentity.IsSelected()) updateMeter();
     }
 
     private void updateBasicAbility()
     {
-        setDefaultAbilityUI(basicAbilityUIManager, true);
+
     }
 
     private void updateSpecialAbility()
     {
-        setDefaultAbilityUI(specialAbilityUIManager, true);
-        specialAbilityUIManager.updateAbilityCooldownTime(manager.getSpecialCooldown(), stats.ComputeValue("Special Cooldown"));
+        specialAbilityUIManager.setAbilityCooldownTime(manager.getSpecialCooldown(), stats.ComputeValue("Special Cooldown"));
+    }
+
+    private void updateSkill1()
+    {
+        setDefaultAbilityUI(skill1UIManager, false);
+        skill1UIManager.setAbilityHighlighted(manager.getSpecialCooldown() <= 0);
+    }
+
+    private void updateSkill2()
+    {
+
+    }
+
+    private void updateMeter()
+    {
+
     }
 }
