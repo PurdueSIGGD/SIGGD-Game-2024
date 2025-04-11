@@ -6,8 +6,8 @@ using UnityEngine;
 public class IdolManager : GhostManager, ISelectable
 {
 
-    private IdolSpecial special;
-    private IdolPassive passive;
+    [HideInInspector] public IdolSpecial special;
+    [HideInInspector] public IdolPassive passive;
 
     public bool active;
 

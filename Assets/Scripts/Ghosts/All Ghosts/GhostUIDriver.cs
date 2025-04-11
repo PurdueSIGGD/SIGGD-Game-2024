@@ -8,13 +8,13 @@ public class GhostUIDriver : MonoBehaviour, ISelectable
     protected StatManager stats;
     protected PartyManager partyManager;
     protected GhostIdentity ghostIdentity;
-    protected PlayerSelectedGhostUIManager selectedGhostUIManager;
-    protected PlayerGhostUIManager deselectedGhostUIManager;
-    protected PlayerAbilityUIManager basicAbilityUIManager;
-    protected PlayerAbilityUIManager specialAbilityUIManager;
-    protected PlayerAbilityUIManager skill1UIManager;
-    protected PlayerAbilityUIManager skill2UIManager;
-    protected PlayerInWorldMeterUIManager meterUIManager;
+    [HideInInspector] public PlayerSelectedGhostUIManager selectedGhostUIManager;
+    [HideInInspector] public PlayerGhostUIManager deselectedGhostUIManager;
+    [HideInInspector] public PlayerAbilityUIManager basicAbilityUIManager;
+    [HideInInspector] public PlayerAbilityUIManager specialAbilityUIManager;
+    [HideInInspector] public PlayerAbilityUIManager skill1UIManager;
+    [HideInInspector] public PlayerAbilityUIManager skill2UIManager;
+    [HideInInspector] public PlayerInWorldMeterUIManager meterUIManager;
 
     protected bool isInParty;
 
