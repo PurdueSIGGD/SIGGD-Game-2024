@@ -193,21 +193,33 @@ MonoBehaviour:
     value: 2
   - name: Special Ricochet Minimum Normal Angle
     value: 5
-  - name: BASIC_DAMAGE
-    value: 50
-  - name: BASIC_RANGE
-    value: 6
+  - name: Basic Damage
+    value: 40
+  - name: Basic Travel Distance
+    value: 13
   - name: BASIC_WIDTH
     value: 0.5
   defaultController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
   ghostController: {fileID: 9100000, guid: aa15c7d7ec4345f49ae3ac6108b95001, type: 2}
+  basicDamage:
+    damageStrength: 2
+    damageTypes: 01000000
+    actionID: 5
+    actionTypes: 0100000002000000
+    extraContext: 
   specialDamage:
     damageStrength: 3
     damageTypes: 01000000
     actionID: 6
     actionTypes: 03000000
     extraContext: 
-  specialRailgunTracer: {fileID: 6718616473108262378, guid: 49747f499c76eed439fc1f48aebfd475,
+  basicTracerVFX: {fileID: 6718616473108262378, guid: 49747f499c76eed439fc1f48aebfd475,
+    type: 3}
+  basicImpactExplosionVFX: {fileID: 7966241730260626198, guid: a5295bc6cb8948243b75f99e5a18cc48,
+    type: 3}
+  specialTracerVFX: {fileID: 6718616473108262378, guid: 49747f499c76eed439fc1f48aebfd475,
+    type: 3}
+  specialImpactExplosionVFX: {fileID: 7966241730260626198, guid: a5295bc6cb8948243b75f99e5a18cc48,
     type: 3}
   basic: {fileID: 0}
   special: {fileID: 0}

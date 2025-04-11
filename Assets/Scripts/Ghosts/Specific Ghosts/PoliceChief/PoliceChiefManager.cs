@@ -6,8 +6,12 @@ using UnityEngine;
 
 public class PoliceChiefManager : GhostManager, ISelectable
 {
+    [SerializeField] public DamageContext basicDamage;
     [SerializeField] public DamageContext specialDamage;
-    [SerializeField] public GameObject specialRailgunTracer;
+    [SerializeField] public GameObject basicTracerVFX;
+    [SerializeField] public GameObject basicImpactExplosionVFX;
+    [SerializeField] public GameObject specialTracerVFX;
+    [SerializeField] public GameObject specialImpactExplosionVFX;
 
     [HideInInspector] public PoliceChiefBasic basic;
     [HideInInspector] public PoliceChiefSpecial special;
@@ -15,6 +19,7 @@ public class PoliceChiefManager : GhostManager, ISelectable
     protected override void Start()
     {
         base.Start();
+        basicDamage.damage = stats.ComputeValue("Basic Damage");
         specialDamage.damage = stats.ComputeValue("Special Damage");
     }
 
@@ -27,21 +32,26 @@ public class PoliceChiefManager : GhostManager, ISelectable
     public override void Select(GameObject player)
     {
         Debug.Log("NORTH SELECTED!");
+
+        if (PlayerID.instance.GetComponent<HeavyAttack>()) Destroy(PlayerID.instance.GetComponent<HeavyAttack>());
         basic = PlayerID.instance.AddComponent<PoliceChiefBasic>();
-        basic.SetVars(stats, GetComponent<LineRenderer>());
-        //manager
+        //basic.SetVars(stats, GetComponent<LineRenderer>());
+        basic.manager = this;
+
         special = PlayerID.instance.AddComponent<PoliceChiefSpecial>();
         special.manager = this;
-        Destroy(PlayerID.instance.GetComponent<LightAttack>());
+
 		base.Select(player);
     }
 
     public override void DeSelect(GameObject player)
     {
         if (basic) Destroy(basic);
+        if (!PlayerID.instance.GetComponent<HeavyAttack>()) PlayerID.instance.AddComponent<HeavyAttack>();
+
         if (special) special.endSpecial(false);
         if (special) Destroy(special);
-		if (!PlayerID.instance.GetComponent<LightAttack>()) PlayerID.instance.AddComponent<LightAttack>();
+
 		base.DeSelect(player);
     }
 

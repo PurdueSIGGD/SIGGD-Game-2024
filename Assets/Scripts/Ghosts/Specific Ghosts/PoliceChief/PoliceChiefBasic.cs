@@ -11,30 +11,89 @@ using UnityEngine;
 /// </summary>
 public class PoliceChiefBasic : MonoBehaviour
 {
-    PlayerStateMachine psm;
+    PlayerStateMachine playerStateMachine;
+
+    public PoliceChiefManager manager;
     DamageContext damage;
     float range;
     float cooldownTime;
     float width;
     Camera mainCamera;
     LineRenderer tracer; // visual purposes only
+
     void Start()
     {
-        ResetSidearm();
-        psm = PlayerID.instance.GetComponent<PlayerStateMachine>();
+        //ResetSidearm();
+        playerStateMachine = GetComponent<PlayerStateMachine>();
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
     }
+
     public void SetVars(StatManager stats, LineRenderer tracer)
     {
+        /*
         cooldownTime = stats.ComputeValue("Basic Cooldown");
         damage.damage = stats.ComputeValue("BASIC_DAMAGE");
         range = stats.ComputeValue("BASIC_RANGE");
         width = stats.ComputeValue("BASIC_WIDTH");
         this.tracer = tracer;
+        */
     }
-    public void FireSidearm()
+
+    public void StartSidearmChargeUp()
     {
         GetComponent<Move>().PlayerStop();
+    }
+
+    public void StopSidearmChargeUp()
+    {
+        GetComponent<Move>().PlayerGo();
+    }
+
+    public void StartSidearmPrimed()
+    {
+        GetComponent<Move>().PlayerStop();
+    }
+
+    public void StopSidearmPrimed()
+    {
+        GetComponent<Move>().PlayerGo();
+    }
+
+    public void FireSidearm()
+    {
+        // Calculate initial shot aiming vector
+        Vector2 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 pos = transform.position;
+        Vector2 dir = (mousePos - pos).normalized;
+        CameraShake.instance.Shake(0.25f, 10f, 0f, 10f, new Vector2(Random.Range(-0.5f, 0.5f), 1f));
+
+        // Calculate shot vector
+        RaycastHit2D hit = Physics2D.Raycast(pos, dir, manager.GetStats().ComputeValue("Basic Travel Distance"), LayerMask.GetMask("Ground", "Enemy"));
+        Vector2 hitPoint = (hit) ? hit.point : pos + (dir * manager.GetStats().ComputeValue("Basic Travel Distance"));
+
+        // VFX
+        Debug.DrawLine(pos, hitPoint, Color.red, 5.0f);
+        GameObject railgunTracer = Instantiate(manager.basicTracerVFX, Vector3.zero, Quaternion.identity);
+        railgunTracer.GetComponent<RaycastTracerHandler>().playTracerFade(pos, hitPoint, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
+
+        // Affect enemies
+        if (hit && hit.transform.CompareTag("Enemy"))
+        {
+            hit.transform.gameObject.GetComponent<Health>().Damage(manager.basicDamage, gameObject);
+            GameObject enemyExplosion = Instantiate(manager.basicImpactExplosionVFX, hit.point, Quaternion.identity);
+            enemyExplosion.GetComponent<RingExplosionHandler>().playRingExplosion(1f, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
+            return;
+        }
+
+        // Surface impact VFX
+        if (hit)
+        {
+            GameObject enemyExplosion = Instantiate(manager.basicImpactExplosionVFX, hit.point, Quaternion.identity);
+            enemyExplosion.GetComponent<RingExplosionHandler>().playRingExplosion(0.5f, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
+        }
+
+        /*
+        //GetComponent<Move>().PlayerStop();
 
         Vector2 rawDir = mainCamera.ScreenToWorldPoint(Input.mousePosition) - transform.position;
         Vector2 dir = rawDir.normalized;
@@ -74,28 +133,34 @@ public class PoliceChiefBasic : MonoBehaviour
 
         StartCoroutine(BulletTime(0.2f));
         StartCoroutine(SidearmCooldown(cooldownTime));
+        */
     }
+
     IEnumerator BulletTime(float time)
     {
         yield return new WaitForSeconds(time);
         tracer.positionCount = 0;
     }
+
     IEnumerator SidearmCooldown(float time)
     {
         print("Sidearm cooldown");
-        psm.OnCooldown("c_sidearm");
+        playerStateMachine.OnCooldown("c_sidearm");
         yield return new WaitForSeconds(time);
-        psm.OffCooldown("c_sidearm");
+        playerStateMachine.OffCooldown("c_sidearm");
         print("Done!");
     }
+
     public void StopSidearm()
     {
-        GetComponent<Move>().PlayerGo();
+        //GetComponent<Move>().PlayerGo();
     }
+
     public void ResetSidearm()
     {
         StopAllCoroutines();
     }
+
     public void DrawLine(LineRenderer render, Vector2 start, Vector2 end)
     {
         render.positionCount = 2;
