@@ -56,8 +56,8 @@ Transform:
   m_GameObject: {fileID: 6046816053600295553}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5, y: 0.5, z: -0.016707346}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 4.98, y: 3, z: -0.016707346}
+  m_LocalScale: {x: 10.22, y: 7.06, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2836107229570927023}
@@ -264,11 +264,14 @@ MonoBehaviour:
   stats: {fileID: 0}
   pool: {fileID: 0}
   animator: {fileID: 0}
+  isFlyer: 0
   aggroRange: 10.5
+  isBeingKnockedBack: 0
+  grounded: 0
   bombPrefab: {fileID: 2721583823844912661, guid: bae46657d5d6ae642959461414e19afb,
     type: 3}
   bombCooldown: 2
-  bombSpawn: {fileID: 0}
+  bombSpawn: {fileID: 6433846695187082099}
   bombShoot: {fileID: 2041526589549026373}
 --- !u!114 &8825120488058023643
 MonoBehaviour:
@@ -316,8 +319,8 @@ MonoBehaviour:
   - name: ThrowBomb
     priority: 1
     ready: 0
-    hitBox: {fileID: 0}
-    coolDown: 0
+    hitBox: {fileID: 2041526589549026373}
+    coolDown: 4
     animationClip: {fileID: 7400000, guid: 83b19612ab1e0d442a748c2cfd9220d9, type: 2}
   move:
     name: Move

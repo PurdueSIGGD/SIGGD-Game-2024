@@ -13,11 +13,12 @@ public class TrackingProjectile : EnemyProjectile
     protected Transform player;
 
     //Consistently tracks player
-    protected virtual void Awake()
+    protected override void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").transform;
-        GameObject enemy = GameObject.FindWithTag("Enemy");
-        Physics2D.IgnoreCollision(GetComponent<Collider2D>(), enemy.GetComponent<Collider2D>());
+        rb = GetComponent<Rigidbody2D>();
+        player = PlayerID.instance.transform;
+        Vector3 directionToTarget = (player.position - transform.position).normalized;
+        rb.velocity = directionToTarget * speed;
     }
 
     void FixedUpdate()
@@ -31,10 +32,10 @@ public class TrackingProjectile : EnemyProjectile
     }
 
     // Moves the projectile
-    public void Move()
+    public new void Move()
     {
-            if (tracking)
-            {
+        if (tracking)
+        {
             Vector3 directionToTarget = (player.position - transform.position).normalized;
             Quaternion rotation = Quaternion.LookRotation(directionToTarget);
             rb.MoveRotation(Quaternion.RotateTowards(transform.rotation, rotation, trackingStrength));

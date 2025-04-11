@@ -9,7 +9,6 @@ public class SpiritBomber : EnemyStateManager
   //  [SerializeField] private float bombRange; // range of when to throw bombs
     [SerializeField] protected Transform bombSpawn;
     [SerializeField] protected Transform bombShoot;
-    private float lastBombTime = 0.15f;
 
     public void Start()
     {
@@ -26,8 +25,6 @@ public class SpiritBomber : EnemyStateManager
     //initialize bomb
     protected void ThrowBomb()
      {
-         lastBombTime = Time.time;
-         Vector3 spawnPosition = transform.position + Vector3.up * 3;
          GameObject bomb = Instantiate(bombPrefab, bombSpawn.position, transform.rotation);
          TrackingProjectile trackingProjectile = bomb.GetComponent<TrackingProjectile>();
 
