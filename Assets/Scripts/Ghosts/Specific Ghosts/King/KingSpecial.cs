@@ -82,14 +82,14 @@ public class KingSpecial : MonoBehaviour, ISpecialMove
 
         // End cast
         yield return new WaitForSeconds(castTime);
-        stopSpecial(true, false);
+        endSpecial(true, false);
 
         // End invincibility
         yield return new WaitForSeconds(Mathf.Max((manager.GetStats().ComputeValue("Special Invincibility Duration") - castTime), 0f));
-        stopSpecial(false, true);
+        endSpecial(false, true);
     }
 
-    public void stopSpecial(bool stopCasting, bool stopInvincibility)
+    public void endSpecial(bool stopCasting, bool stopInvincibility)
     {
         if (isCasting && stopCasting)
         {

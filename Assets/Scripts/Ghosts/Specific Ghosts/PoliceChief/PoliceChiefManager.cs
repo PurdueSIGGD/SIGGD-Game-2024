@@ -9,7 +9,8 @@ public class PoliceChiefManager : GhostManager, ISelectable
     [SerializeField] public DamageContext specialDamage;
     [SerializeField] public GameObject specialRailgunTracer;
 
-
+    [HideInInspector] public PoliceChiefBasic basic;
+    [HideInInspector] public PoliceChiefSpecial special;
 
     protected override void Start()
     {
@@ -26,16 +27,20 @@ public class PoliceChiefManager : GhostManager, ISelectable
     public override void Select(GameObject player)
     {
         Debug.Log("NORTH SELECTED!");
-        PlayerID.instance.AddComponent<PoliceChiefSpecial>().manager = this;
-        PlayerID.instance.AddComponent<PoliceChiefBasic>().SetVars(stats, GetComponent<LineRenderer>());
+        basic = PlayerID.instance.AddComponent<PoliceChiefBasic>();
+        basic.SetVars(stats, GetComponent<LineRenderer>());
+        //manager
+        special = PlayerID.instance.AddComponent<PoliceChiefSpecial>();
+        special.manager = this;
         Destroy(PlayerID.instance.GetComponent<LightAttack>());
 		base.Select(player);
     }
 
     public override void DeSelect(GameObject player)
     {
-        if (PlayerID.instance.GetComponent<PoliceChiefSpecial>()) Destroy(PlayerID.instance.GetComponent<PoliceChiefSpecial>());
-        if (PlayerID.instance.GetComponent<PoliceChiefBasic>()) Destroy(PlayerID.instance.GetComponent<PoliceChiefBasic>());
+        if (basic) Destroy(basic);
+        if (special) special.endSpecial(false);
+        if (special) Destroy(special);
 		if (!PlayerID.instance.GetComponent<LightAttack>()) PlayerID.instance.AddComponent<LightAttack>();
 		base.DeSelect(player);
     }

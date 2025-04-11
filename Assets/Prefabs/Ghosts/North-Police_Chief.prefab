@@ -184,15 +184,15 @@ MonoBehaviour:
   - name: Basic Cooldown
     value: 0.75
   - name: Special Cooldown
-    value: 15
+    value: 1
   - name: Special Damage
-    value: 60
+    value: 80
   - name: Special Travel Distance
     value: 200
   - name: Special Ricochet Count
     value: 2
   - name: Special Ricochet Minimum Normal Angle
-    value: 15
+    value: 5
   - name: BASIC_DAMAGE
     value: 50
   - name: BASIC_RANGE
@@ -209,6 +209,8 @@ MonoBehaviour:
     extraContext: 
   specialRailgunTracer: {fileID: 6718616473108262378, guid: 49747f499c76eed439fc1f48aebfd475,
     type: 3}
+  basic: {fileID: 0}
+  special: {fileID: 0}
 --- !u!114 &7204414934066423109
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -451,6 +453,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b24cb17adf4318f43a794db3ae32d274, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectedGhostUIManager: {fileID: 0}
+  deselectedGhostUIManager: {fileID: 0}
+  basicAbilityUIManager: {fileID: 0}
+  specialAbilityUIManager: {fileID: 0}
+  skill1UIManager: {fileID: 0}
+  skill2UIManager: {fileID: 0}
+  meterUIManager: {fileID: 0}
 --- !u!1 &4441818572976834460
 GameObject:
   m_ObjectHideFlags: 0
