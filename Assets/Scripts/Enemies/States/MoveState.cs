@@ -55,7 +55,6 @@ public class MoveState : IEnemyStates
         //    return;
         //}
 
-        Debug.Log(enemy.name + ": " + enemy.isGrounded());
         if (!(enemy.isFlyer || enemy.isGrounded())) return;
 
         float speed = enemy.stats.ComputeValue("Speed");
