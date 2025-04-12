@@ -15,7 +15,7 @@ public class TrackingProjectile : EnemyProjectile
     //Consistently tracks player
     protected override void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+        base.Start();
         player = PlayerID.instance.transform;
         Vector3 directionToTarget = (player.position - transform.position).normalized;
         rb.velocity = directionToTarget * speed;

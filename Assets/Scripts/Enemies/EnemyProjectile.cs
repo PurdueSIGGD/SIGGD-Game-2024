@@ -21,6 +21,7 @@ public class EnemyProjectile : MonoBehaviour
     protected virtual void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        statManager = GetComponent<StatManager>();
         projectileDamage.damage = statManager.ComputeValue("Damage");
     }
 

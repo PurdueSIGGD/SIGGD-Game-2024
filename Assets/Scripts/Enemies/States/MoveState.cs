@@ -47,15 +47,15 @@ public class MoveState : IEnemyStates
             enemy.Flip(true);
         }
 
-        /*
-        RaycastHit2D hit = Physics2D.Raycast(enemy.transform.position, Vector2.down, 1f, LayerMask.GetMask("Ground"));
-        if (!hit)
-        {
-            //rb.velocity = new Vector2(0, rb.velocity.y);
-            return;
-        }
-        */
 
+        //RaycastHit2D hit = Physics2D.Raycast(enemy.transform.position, Vector2.down, Mathf.Infinity, LayerMask.GetMask("Ground"));
+        //if (!hit)
+        //{
+        //    rb.velocity = new Vector2(0, rb.velocity.y);
+        //    return;
+        //}
+
+        Debug.Log(enemy.name + ": " + enemy.isGrounded());
         if (!(enemy.isFlyer || enemy.isGrounded())) return;
 
         float speed = enemy.stats.ComputeValue("Speed");
