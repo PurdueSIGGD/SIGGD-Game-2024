@@ -21,7 +21,6 @@ public class EnemyStateManager : MonoBehaviour
     protected IEnemyStates curState; // Enemy's current State, defaults to idle
     protected Transform player;
     protected Rigidbody2D rb;
-    protected SpriteRenderer sr;
 
     public bool isBeingKnockedBack;
     protected float currentKnockbackDurationTime;
@@ -33,7 +32,6 @@ public class EnemyStateManager : MonoBehaviour
         stats = GetComponent<StatManager>();
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
-        sr = GetComponent<SpriteRenderer>();
         pool = GetComponent<ActionPool>();
         isBeingKnockedBack = false;
         
@@ -148,8 +146,8 @@ public class EnemyStateManager : MonoBehaviour
     /// <returns>Returns true if the enemy is on the ground.</returns>
     public bool isGrounded()
     {
-        Debug.DrawRay(transform.position, Vector2.down * (sr.localBounds.extents.y + 0.1f), Color.blue);
-        return grounded = Physics2D.Raycast(transform.position, Vector2.down, sr.localBounds.extents.y + 0.1f, LayerMask.GetMask("Ground"));
+        Debug.DrawRay(transform.position, Vector2.down, Color.blue);
+        return grounded = Physics2D.Raycast(transform.position, Vector2.down, 1f, LayerMask.GetMask("Ground"));
     }
 
     /// <summary>
