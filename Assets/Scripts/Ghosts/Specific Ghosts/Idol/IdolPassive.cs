@@ -70,7 +70,7 @@ public class IdolPassive : MonoBehaviour
     /// <summary>
     /// Increases the Idol buff count by one
     /// </summary>
-    public void IncrementTempo(ref DamageContext context)
+    public void IncrementTempo(DamageContext context)
     {
         Debug.Log("Increasing tempo");
 

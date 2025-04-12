@@ -11,6 +11,9 @@ using UnityEngine;
 /// </summary>
 public class Door : MonoBehaviour
 {
+    public delegate void DoorOpened();
+    public static DoorOpened OnDoorOpened;
+
     [SerializeField] private GameObject dest;
     [SerializeField] private bool active;
     [SerializeField] private Vector3 menuOffset;
@@ -49,11 +52,16 @@ public class Door : MonoBehaviour
     private void CreateInteractMenu()
     {
         WorldInteract WI = FindAnyObjectByType<WorldInteract>();
-        WorldInteract.InteractOption opt1 = new WorldInteract.InteractOption("Use", TeleportPlayer);
+        WorldInteract.InteractOption opt1 = new WorldInteract.InteractOption("Use", CallDoorOpened);//TeleportPlayer);
 
         Vector3 menuPos = this.transform.position + menuOffset;
 
         interactMenu = WI.CreateInteractMenu(menuPos, opt1);
+    }
+
+    private void CallDoorOpened()
+    {
+        OnDoorOpened();
     }
 
     private void TeleportPlayer()
