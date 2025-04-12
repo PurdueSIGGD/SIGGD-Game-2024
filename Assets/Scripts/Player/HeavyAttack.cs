@@ -87,7 +87,7 @@ public class HeavyAttack : MonoBehaviour, IStatList
                 }
                 */
                 heavyDamage.damage = stats.ComputeValue("Heavy Damage");
-                hit.transform.gameObject.GetComponent<Health>().Damage(heavyDamage, gameObject);
+                // hit.transform.gameObject.GetComponent<Health>().Damage(heavyDamage, gameObject);
             }
         }
     }
