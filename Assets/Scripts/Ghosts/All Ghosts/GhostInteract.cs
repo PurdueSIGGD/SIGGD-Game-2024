@@ -1,9 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class GhostInteract : MonoBehaviour
 {
@@ -12,9 +7,6 @@ public class GhostInteract : MonoBehaviour
 
     [SerializeField]
     private Vector3 menuOffset;
-
-    [SerializeField]
-    private ConversationTemp hubConvo;
 
     private GameObject interactMenu;
     private GhostIdentity identity;
@@ -76,8 +68,7 @@ public class GhostInteract : MonoBehaviour
 
     private void StartDialogue()
     {
-        DialogueManager dialogueManager = FindAnyObjectByType<DialogueManager>();
-        dialogueManager.StartDialogue(hubConvo);
+        GetComponent<HubGhostDialogue>().TriggerHubDialogue();
     }
 
     private void ViewSkillTree()

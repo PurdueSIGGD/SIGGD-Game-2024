@@ -1,4 +1,3 @@
-using System;
 using TMPro;
 using UnityEngine;
 using Button = UnityEngine.UI.Button;
@@ -19,7 +18,7 @@ public class DialogueManager : MonoBehaviour
 
     private const string DEFAULT_TEXT = "..."; // Empty text box displays this
 
-    private ConversationTemp conversation; // Conversation Scriptable Object
+    private ConversationSO conversation; // Conversation Scriptable Object
 
     private GameObject dialogueBox; // PANEL where the text is displayed
 
@@ -37,9 +36,11 @@ public class DialogueManager : MonoBehaviour
     /// Pass in a ConversationTemp scriptable object to start dialogue.
     /// Sets visibility and starts first line of dialogue
     /// </summary>
-    public void StartDialogue(ConversationTemp conversationToRun) {
+    public void StartDialogue(ConversationSO conversationToRun)
+    {
 
-        if (!isRunning) {
+        if (!isRunning)
+        {
             conversation = conversationToRun;
             isRunning = true;
             toggleVisibility();
@@ -55,7 +56,7 @@ public class DialogueManager : MonoBehaviour
     {
         // check if we are at end if dialogue
 
-        if (currentLine == conversation.dialogueLines.Count)
+        if (currentLine == conversation.dialogueLines.Length)
         {
             EndDialogue();
             return;
@@ -76,7 +77,8 @@ public class DialogueManager : MonoBehaviour
     /// <summary>
     /// Called when the last line of dialogue is read.
     /// </summary>
-    void EndDialogue() {
+    void EndDialogue()
+    {
         // Reset for next play
         characterNameText.text = "";
         dialogueText.text = DEFAULT_TEXT;
@@ -89,7 +91,8 @@ public class DialogueManager : MonoBehaviour
     /// Toggles the visibility of all dialogue components.
     /// Call when isRunning is changed.
     /// </summary>
-    void toggleVisibility() {
+    void toggleVisibility()
+    {
         dialogueBox.SetActive(isRunning);
         nextButton.gameObject.SetActive(isRunning);
     }

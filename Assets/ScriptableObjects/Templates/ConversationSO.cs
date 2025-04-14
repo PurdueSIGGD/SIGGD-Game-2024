@@ -1,8 +1,7 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/ConversationSO", order = 1)]
-public class ConversationTemp : ScriptableObject
+public class ConversationSO : ScriptableObject
 {
     [System.Serializable]
     public class DialogueLine
@@ -13,5 +12,5 @@ public class ConversationTemp : ScriptableObject
         public string line;
     }
 
-    public List<DialogueLine> dialogueLines = new List<DialogueLine>();
+    public DialogueLine[] dialogueLines;
 }

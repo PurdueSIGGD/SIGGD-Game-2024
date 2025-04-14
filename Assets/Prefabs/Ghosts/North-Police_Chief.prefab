@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 8509003940054931913}
   - component: {fileID: 216501609006921810}
   - component: {fileID: 589596433784939328}
+  - component: {fileID: 2620951140907064994}
   m_Layer: 17
   m_Name: North-Police_Chief
   m_TagString: Ghost
@@ -166,7 +167,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactRange: 3
   menuOffset: {x: 0, y: 2, z: 0}
-  hubConvo: {fileID: 11400000, guid: d4d980ef81b3c2e4dbaebb3b83bf48d2, type: 2}
 --- !u!114 &6358440512691273287
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -438,6 +438,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: fd265e8b4f8c78f4d9da8e1564a50f39, type: 2}
+--- !u!114 &2620951140907064994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981645078808632434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3be0c75be5098b478678bc37de3c54b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  firstArrival: {fileID: 11400000, guid: f59ef870ee47a2e4ba1d3ea8f63a34d7, type: 2}
+  general: {fileID: 11400000, guid: 53f6f22cd2e260a4892e83917fb28fcd, type: 2}
 --- !u!1 &4441818572976834460
 GameObject:
   m_ObjectHideFlags: 0
