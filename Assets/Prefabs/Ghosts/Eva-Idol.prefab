@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 773703493236735993}
   - component: {fileID: -6798671931701359635}
   - component: {fileID: 276692746952485737}
+  - component: {fileID: 7482735519194016951}
   m_Layer: 17
   m_Name: Eva-Idol
   m_TagString: Ghost
@@ -157,7 +158,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactRange: 3
   menuOffset: {x: 0, y: 2, z: 0}
-  hubConvo: {fileID: 11400000, guid: a9f9877b4a87fc140986ff519984aca4, type: 2}
 --- !u!114 &773703493236735993
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -229,6 +229,20 @@ MonoBehaviour:
   kill: 0
   uptempo: 0
   manager: {fileID: 0}
+--- !u!114 &7482735519194016951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981645078808632434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3be0c75be5098b478678bc37de3c54b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  firstArrival: {fileID: 11400000, guid: 5c1234414c484dc4ca91185738233be3, type: 2}
+  general: {fileID: 11400000, guid: e69c2c3b1c59b7b4999e0ca37edae146, type: 2}
 --- !u!1 &4936111184687609786
 GameObject:
   m_ObjectHideFlags: 0
