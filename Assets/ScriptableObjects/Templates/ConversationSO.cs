@@ -1,9 +1,7 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/ConversationTemp", order = 1)]
+[CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/ConversationSO", order = 1)]
 public class ConversationTemp : ScriptableObject
 {
     [System.Serializable]
@@ -11,7 +9,7 @@ public class ConversationTemp : ScriptableObject
     {
         public CharacterSO character;
         public string expression;
-        [TextArea (5,3)]
+        [TextArea(5, 3)]
         public string line;
     }
 
