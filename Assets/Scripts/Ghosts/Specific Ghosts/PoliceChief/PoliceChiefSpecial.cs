@@ -12,6 +12,14 @@ public class PoliceChiefSpecial : MonoBehaviour, ISpecialMove
 
     [HideInInspector] public PoliceChiefManager manager;
 
+    private bool isCharging = false;
+    private float chargingTime = 0f;
+
+    private bool isPrimed = false;
+    private float primedTime = 0f;
+
+    private bool isFiring = false;
+
     void Start()
     {
         cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
@@ -21,6 +29,11 @@ public class PoliceChiefSpecial : MonoBehaviour, ISpecialMove
 
     void Update()
     {
+        if (isCharging && chargingTime > 0f) chargingTime -= Time.deltaTime;
+        if (isCharging && chargingTime <= 0f) playerStateMachine.EnableTrigger("OPT");
+
+        if (isPrimed && primedTime > 0f) primedTime -= Time.deltaTime;
+
         if (manager != null)
         {
             if (manager.getSpecialCooldown() > 0)
@@ -34,6 +47,7 @@ public class PoliceChiefSpecial : MonoBehaviour, ISpecialMove
         }
     }
 
+    /*
     public void CheckPullBack()
     {
         if (shouldChangeBack) {
@@ -41,95 +55,60 @@ public class PoliceChiefSpecial : MonoBehaviour, ISpecialMove
         }
         shouldChangeBack = true;
     }
+    */
 
     void StartSpecialChargeUp()
     {
+        chargingTime = manager.GetStats().ComputeValue("Special Charge Up Time");
+        isCharging = true;
         camAnim.SetBool("pullBack", true);
         GetComponent<Move>().PlayerStop();
     }
 
     void StopSpecialChargeUp()
     {
-        CheckPullBack();
+        if (chargingTime > 0f) endSpecial(false); //camAnim.SetBool("pullBack", false);
+        isCharging = false;
+        chargingTime = 0f;
+        //CheckPullBack();
+        //updateCameraPullBack(0.1f);
     }
 
     void StartSpecialPrimed()
     {
-        shouldChangeBack = false;
+        primedTime = manager.GetStats().ComputeValue("Special Overcharged Autofire Time");
+        isPrimed = (primedTime > 0f);
+        //shouldChangeBack = false;
     }
-
+    
     void StopSpecialPrimed()
     {
-        CheckPullBack();
+
+        //endSpecial(false); //camAnim.SetBool("pullBack", false);
+        //CheckPullBack();
+        updateCameraPullBack(0.1f);
     }
 
     void StartSpecialAttack()
     {
-        StartCoroutine(StartSpecialAttackCoroutine());
-    }
-
-    private IEnumerator StartSpecialAttackCoroutine()
-    {
-        // Disable ghost swap and camera pull-in
-        shouldChangeBack = false;
-        GetComponent<PartyManager>().SetSwappingEnabled(false);
-        List<GameObject> damagedEnemies = new List<GameObject>();
+        isFiring = true;
+        //shouldChangeBack = false;
+        //camAnim.SetBool("pullBack", true);
+        //GetComponent<Move>().PlayerStop();
 
         // Calculate initial shot aiming vector
         Vector2 mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
         Vector2 pos = transform.position;
         Vector2 dir = (mousePos - pos).normalized;
 
-        // Loop for each ricocheting shot
-        for (int i = 0; i <= manager.GetStats().ComputeValue("Special Ricochet Count"); i++)
-        {
-            if (i > 0) yield return new WaitForSeconds(0.08f);
-            CameraShake.instance.Shake(0.35f, 10f, 0f, 10f, new Vector2(Random.Range(-0.5f, 0.5f), 1f));
-
-            // Calculate shot vector
-            RaycastHit2D hit = Physics2D.Raycast(pos, dir, manager.GetStats().ComputeValue("Special Travel Distance"), LayerMask.GetMask("Ground"));
-            Vector2 hitPoint = (hit) ? hit.point : pos + (dir * manager.GetStats().ComputeValue("Special Travel Distance"));
-            RaycastHit2D[] enemyHits = Physics2D.RaycastAll(pos, (hitPoint - pos), Vector2.Distance(pos, hitPoint), LayerMask.GetMask("Enemy"));
-
-            // VFX
-            Debug.DrawLine(pos, hitPoint, Color.red, 5.0f);
-            GameObject railgunTracer = Instantiate(manager.specialTracerVFX, Vector3.zero, Quaternion.identity);
-            railgunTracer.GetComponent<RaycastTracerHandler>().playTracerFade(pos, hitPoint, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
-
-            // Affect enemies
-            foreach(RaycastHit2D enemyHit in enemyHits)
-            {
-                // Damage enemies that have not yet been hit
-                if (damagedEnemies.Contains(enemyHit.transform.gameObject)) continue;
-                damagedEnemies.Add(enemyHit.transform.gameObject);
-                enemyHit.transform.gameObject.GetComponent<Health>().Damage(manager.specialDamage, gameObject);
-
-                // Enemy impact VFX
-                GameObject enemyExplosion = Instantiate(manager.specialImpactExplosionVFX, enemyHit.transform.position, Quaternion.identity);
-                enemyExplosion.GetComponent<RingExplosionHandler>().playRingExplosion(3f, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
-            }
-
-            // Surface impact VFX
-            if (hit)
-            {
-                GameObject enemyExplosion = Instantiate(manager.specialImpactExplosionVFX, hit.point, Quaternion.identity);
-                enemyExplosion.GetComponent<RingExplosionHandler>().playRingExplosion(2f, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
-            }
-
-            // Calculate shot aiming vector for next ricochet
-            if (!hit || i == manager.GetStats().ComputeValue("Special Ricochet Count")) break;
-            float hitAngle = Vector2.Angle((pos - hit.point), hit.normal);
-            if (hitAngle < manager.GetStats().ComputeValue("Special Ricochet Minimum Normal Angle")) break;
-            Vector2 reflect = Vector2.Reflect(dir, hit.normal);
-            pos = hit.point + new Vector2(reflect.x * 0.1f, reflect.y * 0.1f);
-            dir = reflect.normalized;
-        }
-        // Reenable ghost swap
-        GetComponent<PartyManager>().SetSwappingEnabled(true);
+        // Fire shot
+        GameObject railgunShot = Instantiate(manager.specialShot, Vector3.zero, Quaternion.identity);
+        railgunShot.GetComponent<PoliceChiefRailgunShot>().fireRailgunShot(manager, pos, dir);
     }
 
     void StopSpecialAttack()
     {
+        isFiring = false;
         endSpecial(true);
     }
 
@@ -144,6 +123,27 @@ public class PoliceChiefSpecial : MonoBehaviour, ISpecialMove
         if (!startCooldown) return;
         playerStateMachine.OnCooldown("c_special");
         manager.startSpecialCooldown();
+    }
+
+    private void updateCameraPullBack(float delay)
+    {
+        StartCoroutine(delayedPullBackCheck(delay));
+    }
+
+    private void updateCameraPullBack()
+    {
+        StartCoroutine(delayedPullBackCheck(0f));
+    }
+
+    private IEnumerator delayedPullBackCheck(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if ((isCharging || isPrimed || isFiring))
+        {
+            camAnim.SetBool("pullBack", true);
+            yield break;
+        }
+        camAnim.SetBool("pullBack", false);
     }
 
     public bool GetBool()

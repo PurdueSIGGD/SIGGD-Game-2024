@@ -183,6 +183,14 @@ MonoBehaviour:
   statList:
   - name: Basic Cooldown
     value: 0.75
+  - name: Basic Damage
+    value: 40
+  - name: Basic Travel Distance
+    value: 9
+  - name: Basic Charge Up Time
+    value: 0.7
+  - name: Basic Primed Autofire Time
+    value: 1.3
   - name: Special Cooldown
     value: 1
   - name: Special Damage
@@ -193,12 +201,10 @@ MonoBehaviour:
     value: 2
   - name: Special Ricochet Minimum Normal Angle
     value: 5
-  - name: Basic Damage
-    value: 40
-  - name: Basic Travel Distance
-    value: 13
-  - name: BASIC_WIDTH
-    value: 0.5
+  - name: Special Charge Up Time
+    value: 1.3
+  - name: Special Overcharged Autofire Time
+    value: 0
   defaultController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
   ghostController: {fileID: 9100000, guid: aa15c7d7ec4345f49ae3ac6108b95001, type: 2}
   basicDamage:
@@ -213,9 +219,13 @@ MonoBehaviour:
     actionID: 6
     actionTypes: 03000000
     extraContext: 
+  basicShot: {fileID: 6659373191663231290, guid: af6d9e3fef051da4c8265b8d37aa480b,
+    type: 3}
   basicTracerVFX: {fileID: 6718616473108262378, guid: 49747f499c76eed439fc1f48aebfd475,
     type: 3}
   basicImpactExplosionVFX: {fileID: 7966241730260626198, guid: a5295bc6cb8948243b75f99e5a18cc48,
+    type: 3}
+  specialShot: {fileID: 1464258269463557602, guid: 031f97b30670c034cb3e33efd72d628a,
     type: 3}
   specialTracerVFX: {fileID: 6718616473108262378, guid: 49747f499c76eed439fc1f48aebfd475,
     type: 3}

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3603675767417467987}
   - component: {fileID: 1128092519496867641}
   m_Layer: 0
-  m_Name: PoliceChiefRailgunTracer
+  m_Name: RaycastTracerVFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -85,8 +85,17 @@ LineRenderer:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
+        time: 0
+        value: 0.1746988
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
         time: 1
-        value: 0.17469642
+        value: 0.13252112
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -149,7 +158,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d63673ecfaa5226449b79f81f167fe9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  extentionDurationTime: 0.1
   travelSpeed: 500
   fadeOutDelayTime: 0.25
   fadeOutDurationTime: 0.5

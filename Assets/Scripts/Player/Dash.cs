@@ -81,7 +81,6 @@ public class Dash : MonoBehaviour, IStatList
     private IEnumerator DashCoroutine()
     {
         isDashing = true;
-        PlayerStateMachine psm = this.GetComponent<PlayerStateMachine>();
 
         yield return new WaitForSeconds(stats.ComputeValue("Dash Time") - 0.05f);
         orionManager.setSpecialCooldown(stats.ComputeValue("Dash Cooldown"));

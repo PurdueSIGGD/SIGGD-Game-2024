@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class RaycastTracerHandler : MonoBehaviour
 {
-    [SerializeField] private float extentionDurationTime;
     [SerializeField] private float travelSpeed;
     [SerializeField] private float fadeOutDelayTime;
     [SerializeField] private float fadeOutDurationTime;
@@ -24,15 +23,19 @@ public class RaycastTracerHandler : MonoBehaviour
         
     }
 
-    public void playTracerFade(Vector2 startPosition, Vector2 endPosition, Color startColor, Color endColor)
+    public void playTracer(Vector2 startPosition, Vector2 endPosition, float travelSpeed, Color startColor, Color endColor)
     {
+        this.travelSpeed = travelSpeed;
         lineRenderer.enabled = true;
         lineRenderer.startColor = startColor;
         lineRenderer.endColor = endColor;
-        //lineRenderer.SetPosition(0, startPosition);
-        //lineRenderer.SetPosition(1, endPosition);
         StartCoroutine(extendTracer(startPosition, endPosition));
         StartCoroutine(fadeOutTracer());
+    }
+
+    public void playTracer(Vector2 startPosition, Vector2 endPosition, Color startColor, Color endColor)
+    {
+        playTracer(startPosition, endPosition, travelSpeed, startColor, endColor);
     }
 
     private IEnumerator extendTracer(Vector2 startPosition, Vector2 endPosition)

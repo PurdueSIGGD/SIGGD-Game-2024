@@ -8,8 +8,10 @@ public class PoliceChiefManager : GhostManager, ISelectable
 {
     [SerializeField] public DamageContext basicDamage;
     [SerializeField] public DamageContext specialDamage;
+    [SerializeField] public GameObject basicShot;
     [SerializeField] public GameObject basicTracerVFX;
     [SerializeField] public GameObject basicImpactExplosionVFX;
+    [SerializeField] public GameObject specialShot;
     [SerializeField] public GameObject specialTracerVFX;
     [SerializeField] public GameObject specialImpactExplosionVFX;
 
@@ -35,7 +37,6 @@ public class PoliceChiefManager : GhostManager, ISelectable
 
         if (PlayerID.instance.GetComponent<HeavyAttack>()) Destroy(PlayerID.instance.GetComponent<HeavyAttack>());
         basic = PlayerID.instance.AddComponent<PoliceChiefBasic>();
-        //basic.SetVars(stats, GetComponent<LineRenderer>());
         basic.manager = this;
 
         special = PlayerID.instance.AddComponent<PoliceChiefSpecial>();
