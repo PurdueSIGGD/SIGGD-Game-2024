@@ -101,6 +101,8 @@ public class IdolPassive : MonoBehaviour
         {
             InitializeTempoTimer();
         }
+
+        GetComponent<IdolUIDriver>().basicAbilityUIManager.pingAbility();
     }
 
     /// <summary>

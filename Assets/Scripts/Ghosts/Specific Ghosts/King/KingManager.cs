@@ -12,6 +12,7 @@ public class KingManager : GhostManager, ISelectable
     [SerializeField] public GameObject specialExplosionVFX;
 
     public float currentShieldHealth;
+    public float endShieldHealth;
 
     [HideInInspector] public KingBasic basic;
     [HideInInspector] public KingSpecial special;
@@ -23,6 +24,7 @@ public class KingManager : GhostManager, ISelectable
         shieldBreakDamage.damage = stats.ComputeValue("Shield Break Damage");
         specialDamage.damage = stats.ComputeValue("Special Damage");
         currentShieldHealth = stats.ComputeValue("Shield Max Health");
+        endShieldHealth = 0f;
     }
 
     // Update is called once per frame
