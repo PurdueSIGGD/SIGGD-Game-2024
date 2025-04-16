@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class Level : MonoBehaviour
+public class Level
 {
 
     [SerializeField] string sceneName;

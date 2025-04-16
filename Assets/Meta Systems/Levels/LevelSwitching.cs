@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -7,6 +8,8 @@ public class LevelSwitching : MonoBehaviour
 {
     [SerializeField] Level[] levels;
     [SerializeField] SpecificLevelPool[] specificLevels;
+
+    private string nextScene = "";
 
     private int levelCount = 0;
 
@@ -30,17 +33,23 @@ public class LevelSwitching : MonoBehaviour
         float totalChance = 0.0f;
         for (int i = 0; i < levelsUsing.Length; i++)
         {
-            totalChance += levelsUsing[i].GetSceneChance();
+            if (levelsUsing[i].GetSceneName() != nextScene)
+            {
+                totalChance += levelsUsing[i].GetSceneChance();
+            }
         }
 
         float rng = Random.Range(0, totalChance);
         float counter = 0.0f;
         for (int i = 0; i < levelsUsing.Length; i++)
         {
-            counter += levelsUsing[i].GetSceneChance();
-            if (counter > rng)
+            if (levelsUsing[i].GetSceneName() != nextScene)
             {
-                return levelsUsing[i];
+                counter += levelsUsing[i].GetSceneChance();
+                if (counter > rng)
+                {
+                    return levelsUsing[i];
+                }
             }
         }
         return null;
@@ -49,7 +58,34 @@ public class LevelSwitching : MonoBehaviour
 
     public void SwitchLevel()
     {
-        SceneManager.LoadScene(GetNextLevel().GetSceneName());
+        if (nextScene == "")
+        {
+            SceneManager.LoadScene(GetNextLevel().GetSceneName());
+        }
+        else
+        {
+            Debug.Log("Fast switch");
+            Debug.Log("set active: " + SceneManager.SetActiveScene(SceneManager.GetSceneByName(nextScene)));
+            // SceneManager.LoadScene(nextScene);
+        }
+        levelCount++;
+        string sceneName = GetNextLevel().GetSceneName();
+        /*SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
+        nextScene = sceneName;*/
+        StartCoroutine(LoadAsync(GetNextLevel().GetSceneName()));
+    }
+
+    IEnumerator LoadAsync(string sceneName)
+    {
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+
+        // Wait until the asynchronous scene fully loads
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+        }
+        Debug.Log("Done Loading");
+        nextScene = sceneName;
     }
 
     public void ResetLevelCount(DamageContext damageContext)
