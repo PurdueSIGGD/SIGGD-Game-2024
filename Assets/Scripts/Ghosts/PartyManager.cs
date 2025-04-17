@@ -27,10 +27,16 @@ public class PartyManager : MonoBehaviour
             ghostsByName.Add(ghost.name, ghost);
         }
 
-        SaveManager saveManager = FindObjectOfType<SaveManager>();
+        ghostsInParty = SaveManager.data.ghostsInParty;
+        selectedGhost = SaveManager.data.selectedGhost;
+    }
 
-        ghostsInParty = saveManager.data.ghostsInParty;
-        selectedGhost = saveManager.data.selectedGhost;
+    private void Start()
+    {
+        foreach (string ghost in ghostsInParty)
+        {
+            ghostsByName[ghost].SetPartyStatus(true);
+        }
     }
 
     /// <summary>

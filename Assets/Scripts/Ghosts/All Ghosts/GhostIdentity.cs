@@ -12,7 +12,7 @@ public class GhostIdentity : MonoBehaviour
     private ISelectable[] possessingScripts;
     private int trust;
 
-    void Start()
+    void Awake()
     {
         partyScripts = this.GetComponents<IParty>();
         possessingScripts = this.GetComponents<ISelectable>();

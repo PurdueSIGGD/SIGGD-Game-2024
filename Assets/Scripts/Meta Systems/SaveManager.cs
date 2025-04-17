@@ -8,22 +8,13 @@ using UnityEngine;
 [Serializable]
 public class SaveManager : MonoBehaviour
 {
-    private static GameObject instance;
-
     private static string folderPath;
     private static string savePath;
 
-    public SaveData data = new();
+    public static SaveData data = new();
 
     public void Awake()
     {
-        if (instance != null)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        instance = gameObject;
         DontDestroyOnLoad(gameObject);
 
         folderPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
