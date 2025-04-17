@@ -129,7 +129,6 @@ public class PartyManager : MonoBehaviour
     /// <returns></returns>
     public List<GhostIdentity> GetGhostPartyList()
     {
-        Debug.Log(string.Join(", ", ghostsInParty));
         return ghostsInParty.Select(ghostName => ghostsByName[ghostName]).ToList();
     }
 
