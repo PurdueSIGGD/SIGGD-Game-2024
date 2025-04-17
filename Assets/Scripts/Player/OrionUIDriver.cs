@@ -79,6 +79,7 @@ public class OrionUIDriver : MonoBehaviour
         skill1UIManager = (isSelected) ? selectedGhostUIManager.skill1UIManager : deselectedGhostUIManager.skill1UIManager;
         skill2UIManager = (isSelected) ? selectedGhostUIManager.skill2UIManager : deselectedGhostUIManager.skill2UIManager;
 
+
         
         // BASIC ABILITY
         basicAbilityUIManager.setUIActive(true);
@@ -86,7 +87,12 @@ public class OrionUIDriver : MonoBehaviour
         basicAbilityUIManager.setFrameColor(orionCharacterInfo.primaryColor);
         basicAbilityUIManager.setAbilityHighlighted(false);
         basicAbilityUIManager.setChargeWidgetActive(false);
-        basicAbilityUIManager.setAbilityCooldownTime(manager.getSpecialCooldown(), stats.ComputeValue("Dash Cooldown"));
+        basicAbilityUIManager.setNumberActive(false);
+
+        basicAbilityUIManager.setAbilityEnabled(manager.isDashEnabled, true);
+        basicAbilityUIManager.setMeterValue((stats.ComputeValue("Dash Cooldown") - manager.getSpecialCooldown()), stats.ComputeValue("Dash Cooldown"));
+
+
 
         // SPECIAL ABILITY
         specialAbilityUIManager.setUIActive(false);

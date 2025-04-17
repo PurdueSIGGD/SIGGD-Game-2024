@@ -13,12 +13,11 @@ public class Dash : MonoBehaviour, IStatList
     [SerializeField]
     private StatManager.Stat[] statList;
 
-
     private Camera mainCamera;
     private Rigidbody2D rb;
 
-    [SerializeField] private Vector2 velocity = Vector2.zero;
-    [SerializeField] private bool isDashing = false;
+    private Vector2 velocity = Vector2.zero;
+    private bool isDashing = false;
 
     private StatManager stats;
     private OrionManager orionManager;
@@ -44,9 +43,11 @@ public class Dash : MonoBehaviour, IStatList
         {
             rb.velocity = velocity;
         }
+
+
         if (orionManager != null)
         {
-            if (orionManager.getSpecialCooldown() > 0)
+            if (orionManager.getSpecialCooldown() > 0f || orionManager.isAirbornePostDash)
             {
                 psm.OnCooldown("c_special");
             }
@@ -76,6 +77,7 @@ public class Dash : MonoBehaviour, IStatList
         GetComponent<Move>().PlayerGo();
         if (GetComponent<Animator>().GetBool("p_grounded")) return;
         GetComponent<Move>().ApplyKnockback(rb.velocity.normalized, rb.velocity.magnitude, true);
+        orionManager.isAirbornePostDash = true;
     }
 
     private IEnumerator DashCoroutine()
