@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class FancyButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public static readonly float FADE_DURATION = 0.5f;
+    public static readonly float DIAMOND_RESCALE = 1.25f;
 
     [SerializeField] TextMeshProUGUI textUI;
     [SerializeField] Image diamondUI;
@@ -36,6 +37,7 @@ public class FancyButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         textUI.color = Color.Lerp(textNormColor, textHoverColor, t);
         diamondUI.color = Color.Lerp(diamondNormColor, diamondHoverColor, t);
         baseUI.color = Color.Lerp(baseNormColor, baseHoverColor, t);
+        diamondUI.gameObject.transform.localScale = Vector3.Lerp(Vector3.one, DIAMOND_RESCALE * Vector3.one, t);
 
         float val = (1f / FADE_DURATION) * Time.deltaTime;
 
