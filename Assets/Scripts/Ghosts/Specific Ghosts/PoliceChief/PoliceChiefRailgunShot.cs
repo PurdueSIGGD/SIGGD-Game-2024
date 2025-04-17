@@ -59,8 +59,7 @@ public class PoliceChiefRailgunShot : MonoBehaviour
             yield return new WaitForSeconds(Vector2.Distance(pos, hitPoint) / travelSpeed);
             if (!hit)
             {
-                Destroy(this.gameObject);
-                yield break;
+                break;
             }
 
             // Surface impact VFX
@@ -68,13 +67,15 @@ public class PoliceChiefRailgunShot : MonoBehaviour
             surfaceExplosion.GetComponent<RingExplosionHandler>().playRingExplosion(2f, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
 
             // Calculate shot aiming vector for next ricochet
-            if (i == manager.GetStats().ComputeValue("Special Ricochet Count")) yield break;
+            if (i == manager.GetStats().ComputeValue("Special Ricochet Count")) break;
             float hitAngle = Vector2.Angle((pos - hit.point), hit.normal);
-            if (hitAngle < manager.GetStats().ComputeValue("Special Ricochet Minimum Normal Angle")) yield break;
+            if (hitAngle < manager.GetStats().ComputeValue("Special Ricochet Minimum Normal Angle")) break;
             Vector2 reflect = Vector2.Reflect(dir, hit.normal);
             pos = hit.point + new Vector2(reflect.x * 0.1f, reflect.y * 0.1f);
             dir = reflect.normalized;
         }
+        yield return new WaitForSeconds(1f);
+        Destroy(this.gameObject);
     }
 
     private IEnumerator handleAffectedEnemy(RaycastHit2D enemyHit, Vector2 pos)
