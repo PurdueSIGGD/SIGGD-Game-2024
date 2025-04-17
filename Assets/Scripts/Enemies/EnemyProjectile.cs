@@ -8,23 +8,21 @@ public class EnemyProjectile : MonoBehaviour
 {
     [SerializeField] protected float speed; // Speed of the projectile
     [SerializeField] public DamageContext projectileDamage; // Damage of the projectile
-
     [SerializeField] protected float range = Screen.width; // Range of the projectile, defaults to the bounds of the camera.
 
     public string target = "Player";
 
     //protected Transform target; // Target location at the time of releasing the projectile
+    protected StatManager statManager;
     protected Vector3 dir;
     protected Rigidbody2D rb;
     protected Vector3 bounds;
 
-    void Start()
+    protected virtual void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        //target = GameObject.FindGameObjectWithTag("Player").transform;
-
-        //dir = (target.position - transform.position).normalized;
-        //bounds = dir * range + transform.position;
+        statManager = GetComponent<StatManager>();
+        projectileDamage.damage = statManager.ComputeValue("Damage");
     }
 
     void FixedUpdate()
@@ -52,7 +50,7 @@ public class EnemyProjectile : MonoBehaviour
             collision.gameObject.GetComponent<Health>().Damage(projectileDamage, gameObject);
         }
 
-        if (collision.gameObject.CompareTag(target) || collision.gameObject.layer == LayerMask.GetMask("Ground"))
+        if (collision.gameObject.CompareTag(target) || collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
             Destroy(gameObject);
     }
 

@@ -8,14 +8,22 @@ public class TrackingProjectile : EnemyProjectile
 {
     [SerializeField] float trackingStrength; // A larger value will allow the projectile to turn faster.
     [SerializeField] float trackingDistance; // A larger value will lead the projectile to loose tracking earlier
-    protected Vector3 target;
     private float hangTime = 0;
     private bool tracking = true;
+    protected Transform player;
 
+    //Consistently tracks player
+    protected override void Start()
+    {
+        base.Start();
+        player = PlayerID.instance.transform;
+        Vector3 directionToTarget = (player.position - transform.position).normalized;
+        rb.velocity = directionToTarget * speed;
+    }
 
     void FixedUpdate()
-    {
-        if (Vector3.Distance(transform.position, target) <= trackingDistance)
+    {   // Stops tracking within certain distance of player
+        if (Vector3.Distance(transform.position, player.position) <= trackingDistance)
         {
             tracking = false;
         }
@@ -23,20 +31,16 @@ public class TrackingProjectile : EnemyProjectile
         CheckOutOfBounds(Time.deltaTime);
     }
 
-    public void Init()
-    {
-
-    }
-
     // Moves the projectile
-    protected new void Move()
+    public new void Move()
     {
         if (tracking)
         {
-            Quaternion rotation = Quaternion.LookRotation(target - transform.position);
+            Vector3 directionToTarget = (player.position - transform.position).normalized;
+            Quaternion rotation = Quaternion.LookRotation(directionToTarget);
             rb.MoveRotation(Quaternion.RotateTowards(transform.rotation, rotation, trackingStrength));
+            rb.velocity = directionToTarget * speed;
         }
-        rb.velocity = transform.forward * speed;
     }
 
     // Deletes the projectile if it has existed for a certain amount of time

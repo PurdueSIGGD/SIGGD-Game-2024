@@ -224,8 +224,9 @@ public class Move : MonoBehaviour, IStatList
     public void StartHeavyChargeUp()
     {
         charging = true;
-        accel = stats.ComputeValue("Accel. while Heavy");
-        maxSpeed = stats.ComputeValue("Max Speed while Heavy");
+        accel = 0;
+        maxSpeed = 0;
+        //maxSpeed = stats.ComputeValue("Max Speed while Heavy");
         deaccel = stats.ComputeValue("Deaccel. while Heavy");
     }
 
@@ -246,16 +247,16 @@ public class Move : MonoBehaviour, IStatList
     {
         Debug.Log("Primed");
         charging = false;
-        accel = stats.ComputeValue("Accel. while Heavy");
-        maxSpeed = stats.ComputeValue("Max Speed while Heavy");
+        accel = 0;
+        maxSpeed = 0;
         deaccel = stats.ComputeValue("Deaccel. while Heavy");
     }
 
     public void StopHeavyPrimed()
     {
         stopTurning = false;
-        accel = stats.ComputeValue("Running Accel.");
-        maxSpeed = stats.ComputeValue("Max Running Speed");
+        accel = 0;
+        maxSpeed = 0;
         deaccel = stats.ComputeValue("Running Deaccel.");
         Debug.Log("Back to normal");
     }
