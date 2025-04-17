@@ -2,23 +2,35 @@
 /// Attaches to Player
 
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PartyManager : MonoBehaviour
 {
     public static PartyManager instance;
-    [SerializeField]
-    private int ghostLimit; // maximum number of ghosts player can wield at one time
 
-    private List<GhostIdentity> ghostsInParty = new List<GhostIdentity>(); // list of each ghost in party
-    private GhostIdentity selectedGhost = null;
+    [SerializeField] int ghostLimit; // maximum number of ghosts player can wield at one time
 
+    private Dictionary<string, GhostIdentity> ghostsByName = new();
 
+    // References to fields in SaveData, declared for convenience of a shorter name
+    private List<string> ghostsInParty;
+    private string selectedGhost;
 
     private void Awake()
     {
         instance = this;
+
+        foreach (GhostIdentity ghost in FindObjectsOfType<GhostIdentity>())
+        {
+            ghostsByName.Add(ghost.name, ghost);
+        }
+
+        SaveManager saveManager = FindObjectOfType<SaveManager>();
+
+        ghostsInParty = saveManager.data.ghostsInParty;
+        selectedGhost = saveManager.data.selectedGhost;
     }
 
     /// <summary>
@@ -29,7 +41,7 @@ public class PartyManager : MonoBehaviour
     {
         if (!ghost.IsInParty() && ghostsInParty.Count < ghostLimit)
         {
-            ghostsInParty.Add(ghost);
+            ghostsInParty.Add(ghost.name);
             ghost.SetPartyStatus(true);
             return true;
         }
@@ -66,7 +78,7 @@ public class PartyManager : MonoBehaviour
         // deselect all ghosts in the list
         for (int i = 0; i < ghostsInParty.Count; i++)
         {
-            ghostsInParty[i].SetSelected(false);
+            ghostsByName[ghostsInParty[i]].SetSelected(false);
         }
 
         // do not possess if player selected base kit
@@ -76,7 +88,7 @@ public class PartyManager : MonoBehaviour
             return;
         }
 
-        ghostsInParty[index].SetSelected(true);
+        ghostsByName[ghostsInParty[index]].SetSelected(true);
         selectedGhost = ghostsInParty[index];
     }
 
@@ -86,7 +98,7 @@ public class PartyManager : MonoBehaviour
     /// <param ghostName="ghostIndex"></param>
     public void RemoveGhostFromParty(GhostIdentity ghost)
     {
-        ghostsInParty.Remove(ghost);
+        ghostsInParty.Remove(ghost.name);
     }
 
     /// <summary>
@@ -95,11 +107,12 @@ public class PartyManager : MonoBehaviour
     /// <returns></returns>
     public List<GhostIdentity> GetGhostMajorList()
     {
-        return ghostsInParty;
+        Debug.Log(string.Join(", ", ghostsInParty));
+        return ghostsInParty.Select(ghostName => ghostsByName[ghostName]).ToList();
     }
 
     public GhostIdentity GetSelectedGhost()
     {
-        return selectedGhost;
+        return ghostsByName.GetValueOrDefault(selectedGhost);
     }
 }
