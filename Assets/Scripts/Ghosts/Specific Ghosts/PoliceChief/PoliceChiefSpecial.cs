@@ -15,10 +15,7 @@ public class PoliceChiefSpecial : MonoBehaviour, ISpecialMove
     private bool isCharging = false;
     private float chargingTime = 0f;
 
-    private bool isPrimed = false;
-    private float primedTime = 0f;
 
-    private bool isFiring = false;
 
     void Start()
     {
@@ -31,8 +28,6 @@ public class PoliceChiefSpecial : MonoBehaviour, ISpecialMove
     {
         if (isCharging && chargingTime > 0f) chargingTime -= Time.deltaTime;
         if (isCharging && chargingTime <= 0f) playerStateMachine.EnableTrigger("OPT");
-
-        if (isPrimed && primedTime > 0f) primedTime -= Time.deltaTime;
 
         if (manager != null)
         {
@@ -47,16 +42,9 @@ public class PoliceChiefSpecial : MonoBehaviour, ISpecialMove
         }
     }
 
-    /*
-    public void CheckPullBack()
-    {
-        if (shouldChangeBack) {
-            endSpecial(false);
-        }
-        shouldChangeBack = true;
-    }
-    */
 
+
+    // Charge Up
     void StartSpecialChargeUp()
     {
         chargingTime = manager.GetStats().ComputeValue("Special Charge Up Time");
@@ -67,34 +55,31 @@ public class PoliceChiefSpecial : MonoBehaviour, ISpecialMove
 
     void StopSpecialChargeUp()
     {
-        if (chargingTime > 0f) endSpecial(false); //camAnim.SetBool("pullBack", false);
+        if (chargingTime > 0f) endSpecial(false);
         isCharging = false;
         chargingTime = 0f;
-        //CheckPullBack();
-        //updateCameraPullBack(0.1f);
     }
 
+
+
+    // Primed
     void StartSpecialPrimed()
     {
-        primedTime = manager.GetStats().ComputeValue("Special Overcharged Autofire Time");
-        isPrimed = (primedTime > 0f);
-        //shouldChangeBack = false;
+
     }
     
     void StopSpecialPrimed()
     {
-
-        //endSpecial(false); //camAnim.SetBool("pullBack", false);
-        //CheckPullBack();
-        updateCameraPullBack(0.1f);
+        endSpecial(false);
     }
 
+
+
+    // Railgun Attack
     void StartSpecialAttack()
     {
-        isFiring = true;
-        //shouldChangeBack = false;
-        //camAnim.SetBool("pullBack", true);
-        //GetComponent<Move>().PlayerStop();
+        camAnim.SetBool("pullBack", true);
+        GetComponent<Move>().PlayerStop();
 
         // Calculate initial shot aiming vector
         Vector2 mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
@@ -108,7 +93,6 @@ public class PoliceChiefSpecial : MonoBehaviour, ISpecialMove
 
     void StopSpecialAttack()
     {
-        isFiring = false;
         endSpecial(true);
     }
 
@@ -123,27 +107,6 @@ public class PoliceChiefSpecial : MonoBehaviour, ISpecialMove
         if (!startCooldown) return;
         playerStateMachine.OnCooldown("c_special");
         manager.startSpecialCooldown();
-    }
-
-    private void updateCameraPullBack(float delay)
-    {
-        StartCoroutine(delayedPullBackCheck(delay));
-    }
-
-    private void updateCameraPullBack()
-    {
-        StartCoroutine(delayedPullBackCheck(0f));
-    }
-
-    private IEnumerator delayedPullBackCheck(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        if ((isCharging || isPrimed || isFiring))
-        {
-            camAnim.SetBool("pullBack", true);
-            yield break;
-        }
-        camAnim.SetBool("pullBack", false);
     }
 
     public bool GetBool()

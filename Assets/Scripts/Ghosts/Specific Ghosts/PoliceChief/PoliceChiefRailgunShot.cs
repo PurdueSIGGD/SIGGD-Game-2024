@@ -30,6 +30,7 @@ public class PoliceChiefRailgunShot : MonoBehaviour
     private IEnumerator railgunShotCoroutine(Vector2 pos, Vector2 dir)
     {
         damagedEnemies = new List<GameObject>();
+        float remainingDistance = manager.GetStats().ComputeValue("Special Travel Distance");
 
         // Loop for each ricocheting shot
         for (int i = 0; i <= manager.GetStats().ComputeValue("Special Ricochet Count"); i++)
@@ -37,9 +38,10 @@ public class PoliceChiefRailgunShot : MonoBehaviour
             if (i > 0) yield return new WaitForSeconds(0.04f);
 
             // Calculate shot vector
-            RaycastHit2D hit = Physics2D.Raycast(pos, dir, manager.GetStats().ComputeValue("Special Travel Distance"), LayerMask.GetMask("Ground"));
-            Vector2 hitPoint = (hit) ? hit.point : pos + (dir * manager.GetStats().ComputeValue("Special Travel Distance"));
+            RaycastHit2D hit = Physics2D.Raycast(pos, dir, remainingDistance, LayerMask.GetMask("Ground"));
+            Vector2 hitPoint = (hit) ? hit.point : pos + (dir * remainingDistance);
             RaycastHit2D[] enemyHits = Physics2D.RaycastAll(pos, (hitPoint - pos), Vector2.Distance(pos, hitPoint), LayerMask.GetMask("Enemy"));
+            remainingDistance -= Vector2.Distance(pos, hitPoint);
 
             // VFX
             Debug.DrawLine(pos, hitPoint, Color.red, 5.0f);
