@@ -2,8 +2,6 @@ using UnityEngine;
 
 public class GhostIdentity : MonoBehaviour
 {
-    //[SerializeField]
-    //private string ghostName;
 
     [SerializeField] private CharacterSO characterInfo;
 
@@ -23,13 +21,7 @@ public class GhostIdentity : MonoBehaviour
     /// <summary>
     /// getter method for the ghost's character info
     /// </summary>
-    /// <returns>ghost's name</returns>
-    /*
-    public string GetName()
-    {
-        return ghostName;
-    }
-    */
+    /// <returns>ghost's character info</returns>
     public CharacterSO GetCharacterInfo()
     {
         return characterInfo;
