@@ -6,8 +6,8 @@ using UnityEngine;
 public class IdolManager : GhostManager, ISelectable
 {
 
-    private IdolSpecial special;
-    private IdolPassive passive;
+    public IdolSpecial special;
+    public IdolPassive passive;
     [SerializeField] public GameObject idolClone;
 
     protected override void Start()
