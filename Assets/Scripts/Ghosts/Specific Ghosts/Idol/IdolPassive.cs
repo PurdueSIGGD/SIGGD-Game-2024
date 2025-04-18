@@ -29,7 +29,7 @@ public class IdolPassive : MonoBehaviour
 
     void OnEnable()
     {
-        GameplayEventHolder.OnDeath += IncrementTempo;
+        GameplayEventHolder.OnDeath += IdolOnKill;
     }
 
     void Start()
@@ -104,13 +104,8 @@ public class IdolPassive : MonoBehaviour
         Debug.Log("TEMPO AWAH DOWN");
     }
 
-    /// <summary>
-    /// Increases the Idol buff count by one
-    /// </summary>
-    public void IncrementTempo(ref DamageContext context)
+    public void IdolOnKill(ref DamageContext context)
     {
-        Debug.Log("Increasing tempo");
-
         // not me? DON'T CARE!!!
 
         if (context.attacker != PlayerID.instance.gameObject)
@@ -119,23 +114,33 @@ public class IdolPassive : MonoBehaviour
         }
         kill = true;
 
-        // increment tempo stacks if it doesn't exceed maximum
+        IncrementTempo(1);
+    }
 
-        if (tempoStacks < manager.GetStats().ComputeValue("TEMPO_MAX_STACKS"))
+    /// <summary>
+    /// Increases the Idol buff count by one
+    /// </summary>
+    public void IncrementTempo(int stacks)
+    {
+        Debug.Log("Increasing tempo");
+
+        int remainingStacks = (int)manager.GetStats().ComputeValue("TEMPO_MAX_STACKS") - tempoStacks;
+
+        // increment tempo stacks by stacks so it doesn't exceed maximum
+
+        stacks = stacks < remainingStacks ? stacks : remainingStacks;
+        tempoStacks += stacks;
+
+        // immediately apply tempo changes if Idol is active (+1 boost)
+
+        if (active)
         {
-            tempoStacks++;
-
-            // immediately apply tempo changes if Idol is active (+1 boost)
-
-            if (active)
-            {
-                UpdateSpeed(1);
-            }
+            UpdateSpeed(stacks);
         }
 
-        // initialize tempo effect if idol is active and tempo is 1 (meaning it just got incremented from 0)
+        // initialize tempo effect if idol is active, has stacks, and isn't speed boosted yet 
 
-        if (active && (tempoStacks == 1))
+        if (active && tempoStacks > 0 && !uptempo)
         {
             InitializeTempoTimer();
         }
