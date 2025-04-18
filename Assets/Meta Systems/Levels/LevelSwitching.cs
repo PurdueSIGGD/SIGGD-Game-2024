@@ -64,15 +64,19 @@ public class LevelSwitching : MonoBehaviour
         }
         else
         {
-            Debug.Log("Fast switch");
-            Debug.Log("set active: " + SceneManager.SetActiveScene(SceneManager.GetSceneByName(nextScene)));
+            //Debug.Log("Fast switch");
+            Scene scene = SceneManager.GetSceneByName(nextScene);
+            //Debug.Log("Fast Scene Loaded: " + scene.isLoaded);
+            //Debug.Log("set active: " + SceneManager.SetActiveScene(scene));
+            SceneManager.SetActiveScene(scene);
             // SceneManager.LoadScene(nextScene);
         }
         levelCount++;
-        string sceneName = GetNextLevel().GetSceneName();
-        /*SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
+        /*string sceneName = GetNextLevel().GetSceneName();
+        SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
         nextScene = sceneName;*/
         StartCoroutine(LoadAsync(GetNextLevel().GetSceneName()));
+        //Debug.Log("Scene Loaded: " + SceneManager.GetSceneByName(nextScene).isLoaded);
     }
 
     IEnumerator LoadAsync(string sceneName)
@@ -84,8 +88,12 @@ public class LevelSwitching : MonoBehaviour
         {
             yield return null;
         }
-        Debug.Log("Done Loading");
-        nextScene = sceneName;
+        if (asyncLoad.isDone)
+        {
+            //Debug.Log("Done Loading");
+            nextScene = sceneName;
+            //Debug.Log("Scene Loaded: " + SceneManager.GetSceneByName(nextScene).isLoaded);
+        }
     }
 
     public void ResetLevelCount(DamageContext damageContext)
