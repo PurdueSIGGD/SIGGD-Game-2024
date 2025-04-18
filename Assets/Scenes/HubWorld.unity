@@ -4642,12 +4642,12 @@ PrefabInstance:
     - target: {fileID: 2036965267508140759, guid: 0c4504c44e0804246b232122549aca6a,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.2290154
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2036965267508140759, guid: 0c4504c44e0804246b232122549aca6a,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -6.8288846
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2036965267508140759, guid: 0c4504c44e0804246b232122549aca6a,
         type: 3}
@@ -4702,6 +4702,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 418830519}
+    - targetCorrespondingSourceObject: {fileID: 5413687969520788832, guid: 0c4504c44e0804246b232122549aca6a,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 418830520}
   m_SourcePrefab: {fileID: 100100000, guid: 0c4504c44e0804246b232122549aca6a, type: 3}
 --- !u!1 &418830518 stripped
 GameObject:
@@ -4725,10 +4729,40 @@ MonoBehaviour:
   - sceneName: Level1Test
     sceneNumber: 0
     chance: 1
-  - sceneName: HubWorld
+  - sceneName: Level2Test
     sceneNumber: 0
     chance: 1
   specificLevels: []
+  maxLevels: 5
+  homeWorld: 
+--- !u!114 &418830520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 418830518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d62ae0ca06e1f6042b1e81bae41522e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemies:
+  - enemy: {fileID: 8433722653154054174, guid: e7efa1ed21b10204fbbb9248b1925aa4, type: 3}
+    startChance: 0.3
+    endChance: 0.5
+  - enemy: {fileID: 1393067818931581941, guid: 040374e0994a9d3488cf595921dd96e5, type: 3}
+    startChance: 0.1
+    endChance: 0.5
+  - enemy: {fileID: 1487853512614266132, guid: 73f93381fbec0764a90fbc89c20293ff, type: 3}
+    startChance: 0.6
+    endChance: 0
+  startMinEnemiesSpawn: 2
+  startMaxEnemiesSpawn: 3
+  endMinEnemiesSpawn: 3
+  endMaxEnemiesSpawn: 4
+  startWaveNum: 3
+  endWaveNum: 3
 --- !u!1001 &467322232
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5460,6 +5494,11 @@ PrefabInstance:
     - target: {fileID: 5332470824538297210, guid: c364b334cf54d5d49bddccc4741df21c,
         type: 3}
       propertyPath: active
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5332470824538297210, guid: c364b334cf54d5d49bddccc4741df21c,
+        type: 3}
+      propertyPath: specificActive
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8404277551855417558, guid: c364b334cf54d5d49bddccc4741df21c,

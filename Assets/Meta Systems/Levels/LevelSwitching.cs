@@ -8,10 +8,17 @@ public class LevelSwitching : MonoBehaviour
 {
     [SerializeField] Level[] levels;
     [SerializeField] SpecificLevelPool[] specificLevels;
+    [SerializeField] int maxLevels;
+    [SerializeField] string homeWorld;
 
     private string nextScene = "";
 
     private int levelCount = 0;
+
+    public float GetProgress()
+    {
+        return (levelCount - 1) / maxLevels;
+    }
 
     private void Start()
     {
@@ -58,25 +65,33 @@ public class LevelSwitching : MonoBehaviour
 
     public void SwitchLevel()
     {
-        if (nextScene == "")
+        if(levelCount >= maxLevels)
         {
-            SceneManager.LoadScene(GetNextLevel().GetSceneName());
+            SceneManager.LoadScene(homeWorld);
         }
         else
         {
-            //Debug.Log("Fast switch");
-            Scene scene = SceneManager.GetSceneByName(nextScene);
-            //Debug.Log("Fast Scene Loaded: " + scene.isLoaded);
-            //Debug.Log("set active: " + SceneManager.SetActiveScene(scene));
-            SceneManager.SetActiveScene(scene);
-            // SceneManager.LoadScene(nextScene);
+            if (nextScene == "")
+            {
+                SceneManager.LoadScene(GetNextLevel().GetSceneName());
+            }
+            else
+            {
+                //Debug.Log("Fast switch");
+                Scene scene = SceneManager.GetSceneByName(nextScene);
+                //Debug.Log("Fast Scene Loaded: " + scene.isLoaded);
+                //Debug.Log("set active: " + SceneManager.SetActiveScene(scene));
+                SceneManager.SetActiveScene(scene);
+                GetComponent<EnemySpawning>().StartLevel();
+                // SceneManager.LoadScene(nextScene);
+            }
+            levelCount++;
+            /*string sceneName = GetNextLevel().GetSceneName();
+            SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
+            nextScene = sceneName;*/
+            StartCoroutine(LoadAsync(GetNextLevel().GetSceneName()));
+            //Debug.Log("Scene Loaded: " + SceneManager.GetSceneByName(nextScene).isLoaded);
         }
-        levelCount++;
-        /*string sceneName = GetNextLevel().GetSceneName();
-        SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
-        nextScene = sceneName;*/
-        StartCoroutine(LoadAsync(GetNextLevel().GetSceneName()));
-        //Debug.Log("Scene Loaded: " + SceneManager.GetSceneByName(nextScene).isLoaded);
     }
 
     IEnumerator LoadAsync(string sceneName)
@@ -92,6 +107,7 @@ public class LevelSwitching : MonoBehaviour
         {
             //Debug.Log("Done Loading");
             nextScene = sceneName;
+            GetComponent<EnemySpawning>().StartLevel();
             //Debug.Log("Scene Loaded: " + SceneManager.GetSceneByName(nextScene).isLoaded);
         }
     }

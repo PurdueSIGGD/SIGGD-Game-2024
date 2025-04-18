@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class SpecificLevelPool : MonoBehaviour
+public class SpecificLevelPool
 {
     [SerializeField] Level[] levels;
     [SerializeField] int levelNum;
