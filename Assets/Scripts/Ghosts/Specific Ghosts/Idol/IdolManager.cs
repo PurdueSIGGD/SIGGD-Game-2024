@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class IdolManager : GhostManager, ISelectable
 {
-
     [HideInInspector] public IdolSpecial special;
     [HideInInspector] public IdolPassive passive;
 
@@ -13,7 +12,6 @@ public class IdolManager : GhostManager, ISelectable
     [SerializeField] ActionContext onSwapContext;
 
     public bool active;
-
     [SerializeField] public GameObject idolClone;
 
     protected override void Start()
@@ -27,8 +25,6 @@ public class IdolManager : GhostManager, ISelectable
     {
         Debug.Log("EVA SELECTED!");
 
-        active = true;
-
         special = PlayerID.instance.AddComponent<IdolSpecial>();
         special.manager = this;
         special.idolClone = idolClone;
@@ -39,10 +35,9 @@ public class IdolManager : GhostManager, ISelectable
 
     public override void DeSelect(GameObject player)
     {
-        active = false;
+        passive.RemoveBuffOnSwap();
 
         if (PlayerID.instance.GetComponent<IdolSpecial>()) Destroy(PlayerID.instance.GetComponent<IdolSpecial>());
-        passive.RemoveBuffOnSwap();
         base.DeSelect(player);
     }
 }

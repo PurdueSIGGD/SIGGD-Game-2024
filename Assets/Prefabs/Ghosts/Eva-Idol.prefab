@@ -190,8 +190,6 @@ MonoBehaviour:
     value: 100
   - name: TEMPO_BUFF_PERCENT_INT
     value: 25
-  - name: TEMPO_BOOST_PERCENT
-    value: 0.15
   - name: TEMPO_MAX_STACKS
     value: 3
   - name: TEMPO_INACTIVE_DURATION_MODIFIER
@@ -241,6 +239,9 @@ MonoBehaviour:
   tempoStacks: 0
   kill: 0
   uptempo: 0
+  duration: 0
+  tick: 0
+  active: 0
   manager: {fileID: 0}
 --- !u!114 &4337353799593711327
 MonoBehaviour:
