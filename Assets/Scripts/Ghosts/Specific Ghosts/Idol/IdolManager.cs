@@ -8,8 +8,8 @@ public class IdolManager : GhostManager, ISelectable
     [HideInInspector] public IdolSpecial special;
     [HideInInspector] public IdolPassive passive;
 
-    [SerializeField] ActionContext onDashContext;
-    [SerializeField] ActionContext onSwapContext;
+    [SerializeField] public ActionContext onDashContext;
+    [SerializeField] public ActionContext onSwapContext;
 
     public bool active;
     [SerializeField] public GameObject idolClone;
