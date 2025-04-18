@@ -29,7 +29,7 @@ public class KingBasic : MonoBehaviour
     {
         if (manager.currentShieldHealth <= 0f || manager.getBasicCooldown() > 0f)
         {
-            GetComponent<PlayerStateMachine>().EnableTrigger("OPT");
+            playerStateMachine.EnableTrigger("OPT");
             return;
         }
 
