@@ -4,7 +4,6 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 public class PlayerInWorldMeterUIManager : MonoBehaviour
 {
@@ -14,6 +13,9 @@ public class PlayerInWorldMeterUIManager : MonoBehaviour
     [SerializeField] private Slider meterSlider;
     [SerializeField] private Image meterBackground;
     [SerializeField] private Image meterBar;
+    [SerializeField] private Slider subMeterSlider;
+    [SerializeField] private Image subMeterBackground;
+    [SerializeField] private Image subMeterBar;
 
     [SerializeField] private float inactiveYPositionOffset;
     [SerializeField] private float fadeInDurationTime;
@@ -30,9 +32,12 @@ public class PlayerInWorldMeterUIManager : MonoBehaviour
     private float activeFrameBackgroundAlpha;
     private float activeMeterBackgroundAlpha;
     private float activeMeterBarAlpha;
+    private float activeSubMeterBackgroundAlpha;
+    private float activeSubMeterBarAlpha;
 
-    private Color baseMeterColor;
     private Color baseBackgroundColor;
+    private Color baseMeterColor;
+    private Color baseSubMeterColor;
 
     private void Awake()
     {
@@ -54,9 +59,12 @@ public class PlayerInWorldMeterUIManager : MonoBehaviour
         activeFrameBackgroundAlpha = frameBackground.color.a;
         activeMeterBackgroundAlpha = meterBackground.color.a;
         activeMeterBarAlpha = meterBar.color.a;
+        activeSubMeterBackgroundAlpha = subMeterBackground.color.a;
+        activeSubMeterBarAlpha = subMeterBar.color.a;
 
-        baseMeterColor = meterBar.color;
         baseBackgroundColor = frameBackground.color;
+        baseMeterColor = meterBar.color;
+        baseSubMeterColor = subMeterBar.color;
 
         gameObject.SetActive(false);
     }
@@ -115,7 +123,7 @@ public class PlayerInWorldMeterUIManager : MonoBehaviour
     /// </summary>
     /// <param name="currentValue">The value represented by the meter's fill bar.</param>
     /// <param name="maxValue">The value represented by the meter's overall bar.</param>
-    public void updateMeterValue(float currentValue, float maxValue)
+    public void setMeterValue(float currentValue, float maxValue)
     {
         meterSlider.maxValue = maxValue;
         meterSlider.value = currentValue;
@@ -125,7 +133,7 @@ public class PlayerInWorldMeterUIManager : MonoBehaviour
     /// Set the color of the in-world meter UI's fill bar.
     /// </summary>
     /// <param name="color">The color for the fill bar. The alpha value is ignored.</param>
-    public void updateMeterColor(Color color)
+    public void setMeterColor(Color color)
     {
         setImageColor(meterBar, color, true);
     }
@@ -139,10 +147,38 @@ public class PlayerInWorldMeterUIManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Set the values shown by the in-world sub meter UI.
+    /// </summary>
+    /// <param name="currentValue">The value represented by the sub meter's fill bar.</param>
+    /// <param name="maxValue">The value represented by the sub meter's overall bar.</param>
+    public void setSubMeterValue(float currentValue, float maxValue)
+    {
+        subMeterSlider.maxValue = maxValue;
+        subMeterSlider.value = currentValue;
+    }
+
+    /// <summary>
+    /// Set the color of the in-world sub meter UI's fill bar.
+    /// </summary>
+    /// <param name="color">The color for the fill bar. The alpha value is ignored.</param>
+    public void setSubMeterColor(Color color)
+    {
+        setImageColor(subMeterBar, color, true);
+    }
+
+    /// <summary>
+    /// Reset the color of the in-world sub meter UI's fill bar to its default color.
+    /// </summary>
+    public void resetSubMeterColor()
+    {
+        setImageColor(subMeterBar, baseSubMeterColor, true);
+    }
+
+    /// <summary>
     /// Set the color of the in-world meter UI's background frame.
     /// </summary>
     /// <param name="color">The color for the background frame. The alpha value is ignored.</param>
-    public void updateBackgroundColor(Color color)
+    public void setBackgroundColor(Color color)
     {
         setImageColor(frameBackground, color, true);
     }
@@ -187,6 +223,8 @@ public class PlayerInWorldMeterUIManager : MonoBehaviour
             frameBackground.color = new Color(frameBackground.color.r, frameBackground.color.g, frameBackground.color.b, activeFrameBackgroundAlpha * alphaMultiplier);
             meterBackground.color = new Color(meterBackground.color.r, meterBackground.color.g, meterBackground.color.b, activeMeterBackgroundAlpha * alphaMultiplier);
             meterBar.color = new Color(meterBar.color.r, meterBar.color.g, meterBar.color.b, activeMeterBarAlpha * alphaMultiplier);
+            subMeterBackground.color = new Color(subMeterBackground.color.r, subMeterBackground.color.g, subMeterBackground.color.b, activeSubMeterBackgroundAlpha * alphaMultiplier);
+            subMeterBar.color = new Color(subMeterBar.color.r, subMeterBar.color.g, subMeterBar.color.b, activeSubMeterBackgroundAlpha * alphaMultiplier);
             yield return new WaitForSeconds(((activate) ? fadeInDurationTime : fadeOutDurationTime) / (float) baseStep);
         }
         transform.localPosition = new Vector3(transform.localPosition.x, ((activate) ? activeYPosition : inactiveYPosition), transform.localPosition.z);
@@ -194,6 +232,8 @@ public class PlayerInWorldMeterUIManager : MonoBehaviour
         frameBackground.color = new Color(frameBackground.color.r, frameBackground.color.g, frameBackground.color.b, activeFrameBackgroundAlpha * alphaMultiplier);
         meterBackground.color = new Color(meterBackground.color.r, meterBackground.color.g, meterBackground.color.b, activeMeterBackgroundAlpha * alphaMultiplier);
         meterBar.color = new Color(meterBar.color.r, meterBar.color.g, meterBar.color.b, activeMeterBarAlpha * alphaMultiplier);
+        subMeterBackground.color = new Color(subMeterBackground.color.r, subMeterBackground.color.g, subMeterBackground.color.b, activeSubMeterBackgroundAlpha * alphaMultiplier);
+        subMeterBar.color = new Color(subMeterBar.color.r, subMeterBar.color.g, subMeterBar.color.b, activeSubMeterBackgroundAlpha * alphaMultiplier);
         if (activate)
         {
             isActivating = false;

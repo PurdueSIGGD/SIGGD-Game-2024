@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -12,13 +10,13 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void OnHome()
@@ -36,5 +34,10 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene("HubWorld");
 
+    }
+
+    public void OnQuit()
+    {
+        Application.Quit();
     }
 }

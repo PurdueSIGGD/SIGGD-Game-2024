@@ -61,6 +61,8 @@ public class EnemyStateManager : MonoBehaviour
     {
         curState = state;
         state.EnterState(this);
+
+        //Debug.Log("switched state to " + state.GetType());
     }
 
     /// <summary>

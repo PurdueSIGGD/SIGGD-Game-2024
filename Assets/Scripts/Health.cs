@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -54,6 +55,8 @@ public class Health : MonoBehaviour, IDamageable, IStatList
             Kill(context);
         }
 
+        AggroEnemy(context.victim);
+
         return context.damage;
     }
 
@@ -73,6 +76,8 @@ public class Health : MonoBehaviour, IDamageable, IStatList
         {
             Kill(context);
         }
+
+        AggroEnemy(context.victim);
 
         return context.damage;
     }
@@ -152,5 +157,17 @@ public class Health : MonoBehaviour, IDamageable, IStatList
     public StatManager.Stat[] GetStatList()
     {
         return statList;
+    }
+
+    public void AggroEnemy(GameObject obj)
+    {
+        if (obj.CompareTag("Enemy"))
+        {
+            EnemyStateManager enemy = obj.GetComponent<EnemyStateManager>();
+            if (enemy != null)
+            {
+                enemy.SwitchState(new AggroState());
+            }
+        }
     }
 }
