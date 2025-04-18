@@ -18,6 +18,8 @@ GameObject:
   - component: {fileID: -6798671931701359635}
   - component: {fileID: 276692746952485737}
   - component: {fileID: 4337353799593711327}
+  - component: {fileID: 9090882922517612345}
+  - component: {fileID: 9503783611336955}
   m_Layer: 17
   m_Name: Eva-Idol
   m_TagString: Ghost
@@ -198,6 +200,16 @@ MonoBehaviour:
     value: 6
   defaultController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
   ghostController: {fileID: 9100000, guid: 5779acd767093ee419301b684e1317dd, type: 2}
+  special: {fileID: 0}
+  passive: {fileID: 0}
+  onDashContext:
+    actionID: 8
+    actionTypes: 03000000
+    extraContext: 
+  onSwapContext:
+    actionID: 18
+    actionTypes: 08000000
+    extraContext: 
   active: 0
   idolClone: {fileID: 7482494425360345118, guid: 05024df506a5b824f8658954331c8231,
     type: 3}
@@ -242,6 +254,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 667327e63fa55ac458e714020f474959, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectedGhostUIManager: {fileID: 0}
+  deselectedGhostUIManager: {fileID: 0}
+  basicAbilityUIManager: {fileID: 0}
+  specialAbilityUIManager: {fileID: 0}
+  skill1UIManager: {fileID: 0}
+  skill2UIManager: {fileID: 0}
+  meterUIManager: {fileID: 0}
+--- !u!114 &9090882922517612345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981645078808632434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6751ace73ed618a489adcadc57478e19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skills:
+  - {fileID: 9503783611336955}
+  startAtLevel: 0
+  level: 0
+--- !u!114 &9503783611336955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981645078808632434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e5b4c3a8799b56408081c9827378104, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillSO: {fileID: 11400000, guid: ea15666da1c03af44acd60ffc6345a04, type: 2}
 --- !u!1 &4936111184687609786
 GameObject:
   m_ObjectHideFlags: 0
