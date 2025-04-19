@@ -31,7 +31,6 @@ public class IdolSpecial : MonoBehaviour, ISpecialMove
     {
         if (manager != null)
         {
-            print("IDOLSPECIALCD: " + manager.getSpecialCooldown());
             if (manager.getSpecialCooldown() > 0)
             {
                 psm.OnCooldown("c_special");
@@ -64,6 +63,7 @@ public class IdolSpecial : MonoBehaviour, ISpecialMove
         }
         else // else create clone and teleport
         {
+            GameplayEventHolder.OnAbilityUsed.Invoke(manager.onDashContext);
             StartCoroutine(DashCoroutine());
         }
     }

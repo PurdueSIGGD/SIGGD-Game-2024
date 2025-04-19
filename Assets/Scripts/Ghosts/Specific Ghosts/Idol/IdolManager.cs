@@ -5,9 +5,12 @@ using UnityEngine;
 
 public class IdolManager : GhostManager, ISelectable
 {
+    [HideInInspector] public IdolSpecial special;
+    [HideInInspector] public IdolPassive passive;
+    [SerializeField] public ActionContext onDashContext;
+    [SerializeField] public ActionContext onSwapContext;
 
-    public IdolSpecial special;
-    public IdolPassive passive;
+    public bool active;
     [SerializeField] public GameObject idolClone;
 
     protected override void Start()
