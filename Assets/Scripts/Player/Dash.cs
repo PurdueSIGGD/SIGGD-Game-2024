@@ -67,7 +67,12 @@ public class Dash : MonoBehaviour, IStatList
     {
         GetComponent<Move>().PlayerStop();
         Vector3 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-        Vector2 displacement = ((Vector2)mousePos - (Vector2)transform.position).normalized * stats.ComputeValue("Max Dash Distance");
+        Vector2 direction = ((Vector2) mousePos - (Vector2) transform.position).normalized;
+        if (GetComponent<Animator>().GetBool("p_grounded"))
+        {
+            direction = new Vector2(direction.x, Mathf.Max(direction.y, 0f)).normalized;
+        }
+        Vector2 displacement = direction * stats.ComputeValue("Max Dash Distance");
         this.velocity = displacement / stats.ComputeValue("Dash Time");
         StartCoroutine(DashCoroutine());
     }

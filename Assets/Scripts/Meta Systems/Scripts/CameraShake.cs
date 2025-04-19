@@ -68,6 +68,16 @@ public class CameraShake : MonoBehaviour
     }
 
     /// <summary>
+    /// Shakes the camera at the specified amplitude and direction. Taper, delay, and frequency are set to predefined sexy values.
+    /// </summary>
+    /// <param name="amplitude">Maximum oscillation amplitude</param>
+    /// <param name="direction">Direction of oscillation</param>
+    public void SexyShake(float amplitude, Vector2 direction)
+    {
+        Shake(amplitude, 10f, 0f, 10f, direction);
+    }
+
+    /// <summary>
     /// Decreases and resets ALL currently applied camera shake coroutines
     /// </summary>
     /// <param name="dur">Amount of time to decrease to 0 oscillation</param>
