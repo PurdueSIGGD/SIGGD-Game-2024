@@ -18,7 +18,6 @@ public class IdolClone : MonoBehaviour
 
     void TickTimer()
     {
-        print("Duration: " + duration);
         if (duration <= 0)
         {
             Destroy(gameObject);
