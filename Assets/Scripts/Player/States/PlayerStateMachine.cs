@@ -13,7 +13,7 @@ using UnityEngine.Windows;
 public class PlayerStateMachine : MonoBehaviour
 {
     [SerializeField] LayerMask groundLayer; //The layer representing ground
-    [SerializeField] String currentAnimation;
+    [SerializeField] public string currentAnimation;
 
     float groundDetectRadius = 0.5f; //The radius of the circle checking for ground overlap
     float minimumFallSpeed = -0.1f; // The minimum negative vertical velocity required to be considered falling
