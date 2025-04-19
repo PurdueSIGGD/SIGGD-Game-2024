@@ -6,11 +6,10 @@ using UnityEngine.UIElements;
 public class PoliceChiefEnergySiphonSkill : Skill
 {
     private StatManager stats;
-    private int changeAmount = 0;
+    [SerializeField] private PoliceChiefManager policeChiefManager;
     private void Start()
     {
         GameplayEventHolder.OnDamageDealt += OnDmg;
-        GameplayEventHolder.OnAbilityUsed += OnAbilityUse;
         stats = GetComponent<StatManager>();
     }
 
@@ -34,17 +33,7 @@ public class PoliceChiefEnergySiphonSkill : Skill
     {
         if (context.attacker == PlayerID.instance)
         {
-            stats.ModifyStat("Special Cooldown", -Mathf.FloorToInt(amountCooldownReduction * 100f * context.damage));
-            changeAmount -= Mathf.FloorToInt(amountCooldownReduction * 100f * context.damage);
-        }
-    }
-
-    void OnAbilityUse(ActionContext action)
-    {
-        if(action.actionID == ActionID.POLICE_CHIEF_SPECIAL)
-        {
-            stats.ModifyStat("Special Cooldown", -changeAmount);
-            changeAmount = 0;
+            policeChiefManager.setSpecialCooldown(Mathf.Max(0, policeChiefManager.getSpecialCooldown() - stats.ComputeValue("Special Cooldown") * amountCooldownReduction * context.damage));
         }
     }
 }
