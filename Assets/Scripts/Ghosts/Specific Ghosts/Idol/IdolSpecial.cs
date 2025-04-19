@@ -7,7 +7,7 @@ using UnityEngine;
 /// Special action for the idol ghost, teleports the player towards mouse position
 /// and leaves a clone that player may swap position with.
 /// </summary>
-public class IdolSpecial : MonoBehaviour, ISpecialMove
+public class IdolSpecial : MonoBehaviour
 {
     //bool possessing;
     PlayerStateMachine psm;
@@ -152,9 +152,13 @@ public class IdolSpecial : MonoBehaviour, ISpecialMove
         yield return new WaitForSeconds(manager.GetStats().ComputeValue("HOLOJUMP_CLONE_SWAP_INTERVAL"));
         psm.EnableTrigger("OPT");
     }
-    public bool GetBool()
+    
+    /// <summary>
+    /// Returns a ref to the currently active clone, may not exist
+    /// </summary>
+    public GameObject GetClone()
     {
-        return true;
+        return activeClone;
     }
 
     void HoloJumpImmune(float time)

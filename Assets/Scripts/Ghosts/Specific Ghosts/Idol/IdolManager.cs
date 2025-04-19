@@ -10,6 +10,8 @@ public class IdolManager : GhostManager, ISelectable
     [SerializeField] public ActionContext onDashContext;
     [SerializeField] public ActionContext onSwapContext;
 
+    [SerializeField] public GameObject explosionVFX;
+
     public bool active;
     [SerializeField] public GameObject idolClone;
 

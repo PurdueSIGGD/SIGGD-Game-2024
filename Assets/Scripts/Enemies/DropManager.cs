@@ -15,7 +15,7 @@ public class DropManager : MonoBehaviour
             return;
         }
         DropTable table = victim.GetComponent<DropTable>();
-        if (!context.attacker.CompareTag("Player") || table == null) { return; }
+        if (!context.victim.CompareTag("Enemy") || table == null) { return; }
 
         foreach (DropTable.Drop drop in table.dropTable)
         {
