@@ -10,6 +10,7 @@ public class PoliceChiefEnergySiphonSkill : Skill
     private void Start()
     {
         GameplayEventHolder.OnDamageDealt += OnDmg;
+        GameplayEventHolder.OnAbilityUsed += OnAbilityUse;
         stats = GetComponent<StatManager>();
     }
 
@@ -38,9 +39,9 @@ public class PoliceChiefEnergySiphonSkill : Skill
         }
     }
 
-    void OnAbilityUse(ActionID action)
+    void OnAbilityUse(ActionContext action)
     {
-        if(action == ActionID.POLICE_CHIEF_SPECIAL)
+        if(action.actionID == ActionID.POLICE_CHIEF_SPECIAL)
         {
             stats.ModifyStat("Special Cooldown", -changeAmount);
             changeAmount = 0;

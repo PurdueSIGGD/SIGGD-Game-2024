@@ -14,6 +14,7 @@ public class PoliceChiefManager : GhostManager, ISelectable
     [SerializeField] public GameObject specialShot;
     [SerializeField] public GameObject specialTracerVFX;
     [SerializeField] public GameObject specialImpactExplosionVFX;
+    [SerializeField] public ActionContext policeChiefRailgun;
 
     [HideInInspector] public PoliceChiefBasic basic;
     [HideInInspector] public PoliceChiefSpecial special;
