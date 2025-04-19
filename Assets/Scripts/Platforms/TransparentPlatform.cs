@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -21,7 +20,7 @@ public class TransparentPlatform : MonoBehaviour
         isColliding = false;
     }
 
-    /*
+
     private void Update()
     {
         if (coroutine == null && fallAction.ReadValue<float>() != 0)
@@ -30,9 +29,8 @@ public class TransparentPlatform : MonoBehaviour
             StartCoroutine(coroutine);
         }
     }
-    */
 
-    
+
     /// <summary>
     /// makes the players collider ignore the platforms collider then stops the code for 1 second in when then it reverts the colliders to normal
     /// </summary>
@@ -46,7 +44,7 @@ public class TransparentPlatform : MonoBehaviour
         effector.surfaceArc = 170;
         coroutine = null;
     }
-    
+
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.CompareTag("Player"))

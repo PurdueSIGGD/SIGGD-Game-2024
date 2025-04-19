@@ -182,33 +182,59 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Basic Cooldown
-    value: 0.75
+    value: 1
+  - name: Basic Damage
+    value: 40
+  - name: Basic Travel Distance
+    value: 9
+  - name: Basic Charge Up Time
+    value: 0.65
+  - name: Basic Primed Autofire Time
+    value: 1.3
   - name: Special Cooldown
-    value: 15
+    value: 1
   - name: Special Damage
-    value: 60
+    value: 80
   - name: Special Travel Distance
     value: 200
   - name: Special Ricochet Count
     value: 2
   - name: Special Ricochet Minimum Normal Angle
-    value: 15
-  - name: BASIC_DAMAGE
-    value: 50
-  - name: BASIC_RANGE
-    value: 6
-  - name: BASIC_WIDTH
-    value: 0.5
+    value: 5
+  - name: Special Charge Up Time
+    value: 1
   defaultController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
   ghostController: {fileID: 9100000, guid: aa15c7d7ec4345f49ae3ac6108b95001, type: 2}
+  basicDamage:
+    damageStrength: 2
+    damageTypes: 01000000
+    actionID: 5
+    actionTypes: 0100000002000000
+    extraContext: 
   specialDamage:
     damageStrength: 3
     damageTypes: 01000000
     actionID: 6
     actionTypes: 03000000
     extraContext: 
-  specialRailgunTracer: {fileID: 6718616473108262378, guid: 49747f499c76eed439fc1f48aebfd475,
+  basicShot: {fileID: 6659373191663231290, guid: af6d9e3fef051da4c8265b8d37aa480b,
     type: 3}
+  basicTracerVFX: {fileID: 6718616473108262378, guid: 49747f499c76eed439fc1f48aebfd475,
+    type: 3}
+  basicImpactExplosionVFX: {fileID: 7966241730260626198, guid: a5295bc6cb8948243b75f99e5a18cc48,
+    type: 3}
+  specialShot: {fileID: 1464258269463557602, guid: 031f97b30670c034cb3e33efd72d628a,
+    type: 3}
+  specialTracerVFX: {fileID: 6718616473108262378, guid: 49747f499c76eed439fc1f48aebfd475,
+    type: 3}
+  specialImpactExplosionVFX: {fileID: 7966241730260626198, guid: a5295bc6cb8948243b75f99e5a18cc48,
+    type: 3}
+  policeChiefRailgun:
+    actionID: 6
+    actionTypes: 
+    extraContext: 
+  basic: {fileID: 0}
+  special: {fileID: 0}
 --- !u!114 &7204414934066423109
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -451,6 +477,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b24cb17adf4318f43a794db3ae32d274, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectedGhostUIManager: {fileID: 0}
+  deselectedGhostUIManager: {fileID: 0}
+  basicAbilityUIManager: {fileID: 0}
+  specialAbilityUIManager: {fileID: 0}
+  skill1UIManager: {fileID: 0}
+  skill2UIManager: {fileID: 0}
+  meterUIManager: {fileID: 0}
 --- !u!1 &4441818572976834460
 GameObject:
   m_ObjectHideFlags: 0
