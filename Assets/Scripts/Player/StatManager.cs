@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using static GhostBuff;
 
 [DisallowMultipleComponent]
 public class StatManager : MonoBehaviour, IStatList
@@ -69,6 +70,7 @@ public class StatManager : MonoBehaviour, IStatList
     {
         if (statMap.TryGetValue(statName, out Stat stat))
         {
+            //Debug.Log(stat.name + ": " + stat.value * (stat.modifier / 100f));
             return stat.value * (stat.modifier / 100f);
         }
         else
