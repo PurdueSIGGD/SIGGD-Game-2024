@@ -12,7 +12,7 @@ public class IdolPassive : MonoBehaviour
     [SerializeField] bool uptempo; // have the stored tempo stacks been activated?
     [SerializeField] float duration;
     [SerializeField] float tick;
-    [SerializeField] bool active = false;
+    [SerializeField] public bool active = false;
     List<string> statNames = new()
         {
             "Max Running Speed",
