@@ -11,9 +11,11 @@ public class SaveManager : MonoBehaviour
     private static string folderPath;
     private static string savePath;
 
+    public static SaveData data = new();
+
     public void Awake()
     {
-        DontDestroyOnLoad(this);
+        DontDestroyOnLoad(gameObject);
 
         folderPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 
@@ -26,9 +28,7 @@ public class SaveManager : MonoBehaviour
     /// </summary>
     public void Save()
     {
-        SaveData save = new();
-        save.InitializeSaveData();
-        string saveData = JsonUtility.ToJson(save);
+        string saveData = JsonUtility.ToJson(data);
         
         if (!Directory.Exists(folderPath))
         {
@@ -61,7 +61,6 @@ public class SaveManager : MonoBehaviour
             return;
         }
 
-        SaveData save = JsonUtility.FromJson<SaveData>(saveData);
-        save.ApplySaveData();
+        data = JsonUtility.FromJson<SaveData>(saveData);
     }
 }
