@@ -1,9 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class GhostInteract : MonoBehaviour
 {
@@ -56,9 +51,9 @@ public class GhostInteract : MonoBehaviour
     private void CreateInteractMenu()
     {
         WorldInteract WI = FindAnyObjectByType<WorldInteract>();
-        WorldInteract.InteractOption opt1 = new WorldInteract.InteractOption("Talk", StartDialogue);
-        WorldInteract.InteractOption opt2 = new WorldInteract.InteractOption("Add to Party", AddGhostToParty);
-        WorldInteract.InteractOption opt3 = new WorldInteract.InteractOption("View Skill Tree", ViewSkillTree);
+        InteractOption opt1 = new InteractOption("Talk", StartDialogue);
+        InteractOption opt2 = new InteractOption("Add to Party", AddGhostToParty);
+        InteractOption opt3 = new InteractOption("View Skill Tree", ViewSkillTree);
 
         Vector3 menuPos = this.transform.position + menuOffset;
 

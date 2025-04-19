@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Net.Sockets;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -15,19 +12,6 @@ public class WorldInteract : MonoBehaviour
     [SerializeField]
     GameObject buttonTemplate;
 
-    public struct InteractOption
-    {
-        public InteractOption(string optionName, UnityAction optionAction)
-        {
-            this.OptionName = optionName;
-            this.OptionAction = optionAction;
-        }
-
-        public string OptionName { get; }
-        public UnityAction OptionAction { get; }
-    }
-
-
     public GameObject CreateInteractMenu(Vector3 centerPoint, params InteractOption[] options)
     {
         GameObject menu = Instantiate(canvasTemplate, centerPoint, Quaternion.identity);
@@ -41,3 +25,16 @@ public class WorldInteract : MonoBehaviour
         return menu;
     }
 }
+
+public struct InteractOption
+{
+    public InteractOption(string optionName, UnityAction optionAction)
+    {
+        this.OptionName = optionName;
+        this.OptionAction = optionAction;
+    }
+
+    public string OptionName { get; }
+    public UnityAction OptionAction { get; }
+}
+
