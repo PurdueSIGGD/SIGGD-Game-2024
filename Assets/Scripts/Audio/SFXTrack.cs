@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // Attached to SFX and non-loopable sounds like dialogue
-public class AudioTrack : MonoBehaviour
+public class SFXTrack : MonoBehaviour, ITrack
 {
     // The sound file this script is attached to
     [SerializeField] AudioSource track;

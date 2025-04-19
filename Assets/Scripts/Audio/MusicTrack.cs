@@ -5,7 +5,7 @@ using UnityEngine;
 
 // Attached to music which can be looped
 // Supports varying intensity levels
-public class MusicTrack : MonoBehaviour
+public class MusicTrack : MonoBehaviour, ITrack
 {
     // The timestamps of the loop points in seconds
     [SerializeField] float loopStart;

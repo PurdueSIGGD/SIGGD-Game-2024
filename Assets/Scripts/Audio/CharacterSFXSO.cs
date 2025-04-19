@@ -9,12 +9,12 @@ public class CharacterSFX : ScriptableObject
 {
     [System.Serializable]
     public class SFXPair {
-        public AudioManager.SFXTrackName trackName;
-        public AudioTrack SFXFile;
+        public SFXManager.SFXTrackName trackName;
+        public SFXTrack SFXFile;
     }
 
     public List<SFXPair> charactersSFXList = new List<SFXPair>();
-    private Dictionary<AudioManager.SFXTrackName, AudioTrack> charactersSFXdict = new Dictionary<AudioManager.SFXTrackName, AudioTrack>();
+    private Dictionary<SFXManager.SFXTrackName, SFXTrack> charactersSFXdict = new Dictionary<SFXManager.SFXTrackName, SFXTrack>();
 
     void Start() {
         foreach (var pair in charactersSFXList) {

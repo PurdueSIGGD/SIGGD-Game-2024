@@ -6,40 +6,20 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour {
 
+    public static AudioManager Instance { get; private set; }
+
+    // The AudioManager toolbox
+    public SFXManager SFXBranch { get; private set; }
+    public MusicManager MusicBranch { get; private set; }
+    // public DialogueManager DialogueBranch { get; private set; } // TODO: uncomment when other dialoguemanger is figured out
+
     private float tempStepCounter = 0.0f;
-
-    // ********** MUSIC **********
-    // Has type MusicTrack with "music_" variable name header
-    // Accessed externally via PlayMusictrack()/GetMusicTrack() with MusicTrackName parameter
-
-    [Header("Music")]
-    [SerializeField] MusicTrack music_japan;
-    [SerializeField] MusicTrack music_seamstress;
-    
-
-    // ********** SOUND EFFECTS **********
-    // Has type AudioTrack with "SFX_" variable name header 
-    // Accessed externally via PlaySFXtrack()/GetSFXTrack() with SFXTrackName parameter
-
-    // ASSIGN SFX TO THE AUDIO MIXER BASED ON THE FOLLOWING GUIDELINES
-    // Ambient SFX: Sounds which add complexity to the soundscape but are okay to override (e.g. footsteps, long passive effects)
-    // Default SFX: Middle-ground sounds - not too important but shouldn't be overridden as easily (e.g. most enemy sounds)
-    // Priority SFX: Sounds which are especially important to hear for the player (e.g. damage taken, player's attack)
-    // BIGSFX: Sounds which take the centerstage and override ALL other audio sources for impact (e.g. North railgun, T4 Sacrifice skills)
-    [Space(10)]
-    [Header("SFX")]
-    [SerializeField] AudioTrack SFX_jump;
-    [SerializeField] AudioTrack SFX_lightAttack;
-    [SerializeField] AudioTrack SFX_footsteps;
-    [SerializeField] AudioTrack SFX_railgunAttack;
 
 
     // ********** DIALOGUE **********
     // Has type AudioTrack with "dialogue_" variable name header
     // Accessed externally via PlayDialoguetrack()/GetDialogueTrack() with DialogueTrackName parameter
-    [Space(10)]
-    [Header("Dialogue")]
-    [SerializeField] AudioTrack dialogue_britishAnt;
+    [SerializeField] private DialogueTrack dialogue_britishAnt;
 
 
     private MusicTrackName currentTrackName;
@@ -51,6 +31,20 @@ public class AudioManager : MonoBehaviour {
     // Track 3 plays when energy is between 0.5 and 1.0 with greatest volume at energy = 1.0
     [Space(10)]
     [SerializeField] float energyLevel;
+
+    void Awake()
+    {
+        // Make sure there are no duplicates
+        if (Instance != null && Instance != this) {
+            Destroy(this);
+        }
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+
+        SFXBranch = GetComponentInChildren<SFXManager>();
+        MusicBranch = GetComponentInChildren<MusicManager>();
+        // DialogueBranch = GetComponentInChildren<DialogueManager>(); // TODO uncomment when dialoguemanager is figured out
+    }
 
     // Start is called before the first frame update
     void Start() {
@@ -98,96 +92,6 @@ public class AudioManager : MonoBehaviour {
         }
     }
 
-    // ********** ********** ********** ********** ********** //
-    // ******************** Music Interface ******************** //    
-    // ********** ********** ********** ********** ********** //
-
-    public enum MusicTrackName {
-        //                  loopStart       loopEnd
-        JAPAN, //           21.943          197.486
-        SEAMSTRESS //       11.912          83.383    
-    }
-
-    // Fades into the given track over fadeTime seconds
-    public IEnumerator CrossfadeTo(MusicTrackName trackName, float fadeTime) {
-        if (fadeTime <= 0) {
-            PlayMusicTrack(trackName);
-            yield return null;
-        }
-
-        int fadeSteps = 20;
-        float stepTime = fadeTime / fadeSteps;
-        MusicTrack originalTrack = GetMusicTrack(currentTrackName);
-        MusicTrack newTrack = GetMusicTrack(trackName);
-        
-        // Need to be careful since these tracks might already be playing and have their own volume
-        float originalTrackStartVolume = originalTrack.GetTrackVolume();
-        float newTrackStartVolume = newTrack.GetTrackVolume();
-        Debug.Log("Crossfading");
-
-        // The rate to change the tracks' volumes
-        float originalTrackVolumeDelta = -originalTrackStartVolume / fadeSteps;
-        float newTrackVolumeDelta = (1 - newTrackStartVolume) / fadeSteps;
-        Debug.Log("Do: " + originalTrackVolumeDelta + "\tDn" + newTrackVolumeDelta);
-
-        // Fade by adjusting volume over multiple steps
-        newTrack.PlayTrack();  
-        for (int i = 0; i <= fadeSteps; i++) {
-            float originalTrackVolumeAdjustment = originalTrackVolumeDelta * i + originalTrackStartVolume;
-            float newTrackVolumeAdjustment = newTrackVolumeDelta * i + newTrackStartVolume;
-
-
-            originalTrack.SetTrackVolume(originalTrackVolumeAdjustment);
-            newTrack.SetTrackVolume(newTrackVolumeAdjustment);            
-            yield return new WaitForSeconds(stepTime);
-        }
-        originalTrack.StopTrack();
-        currentTrackName = trackName;
-    }
-
-    // Swaps the current track with NO crossfade
-    public void PlayMusicTrack(MusicTrackName trackName) {
-        GetCurrentMusicTrack().StopTrack();
-        currentTrackName = trackName;
-        GetCurrentMusicTrack().PlayTrack();
-    }
-
-    public MusicTrack GetCurrentMusicTrack() {
-        return GetMusicTrack(currentTrackName);
-    }
-
-    public MusicTrack GetMusicTrack(MusicTrackName trackName) {
-        switch (trackName) {
-            case MusicTrackName.JAPAN:              return music_japan;
-            case MusicTrackName.SEAMSTRESS:         return music_seamstress;
-            default:                                return null;
-        }
-    }
-
-    // ********** ********** ********** ********** ********** //
-    // ******************** SFX Interface ******************** //
-    // ********** ********** ********** ********** ********** //
-
-    public enum SFXTrackName {
-        JUMP,
-        LIGHT_ATTACK,
-        FOOTSTEP,
-        RAILGUN_ATTACK
-    }
-
-    public void PlaySFXTrack(SFXTrackName trackName) {
-        GetSFXTrack(trackName).PlayTrack();
-    }
-
-    public AudioTrack GetSFXTrack(SFXTrackName trackName) {
-        switch (trackName) {
-            case SFXTrackName.JUMP:                 return SFX_jump;
-            case SFXTrackName.LIGHT_ATTACK:         return SFX_lightAttack;
-            case SFXTrackName.FOOTSTEP:             return SFX_footsteps;
-            case SFXTrackName.RAILGUN_ATTACK:       return SFX_railgunAttack;
-            default:                                return null;
-        }
-    }
 
     // ********** ********** ********** ********** ********** //
     // ******************** Dialogue Interface ******************** //
@@ -218,3 +122,4 @@ public class AudioManager : MonoBehaviour {
     // Used by tracks outside of audio to set the ~mood~
     public void SetEnergyLevel(float newLevel) { energyLevel = newLevel; }
 }
+
