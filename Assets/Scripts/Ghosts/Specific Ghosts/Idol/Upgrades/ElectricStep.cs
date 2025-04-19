@@ -30,11 +30,11 @@ public class ElectricStep : Skill
 
         // testing code
 
-        int points = 4;
-        for (int i = 0; i < points; i++)
-        {
-            AddPoint();
-        }
+        // int points = 4;
+        // for (int i = 0; i < points; i++)
+        // {
+        //     AddPoint();
+        // }
     }
 
     public override void AddPointTrigger()
@@ -52,9 +52,11 @@ public class ElectricStep : Skill
     void Update()
     {
 
-        // toggle electric field on and off depending on if eva is active and has max stacks
+        // toggle electric field on and off depending on if eva is active and has max stacks, and has positive number of skillpoints
 
-        bool toggle = manager.passive.active && manager.passive.tempoStacks == (int)manager.GetStats().ComputeValue("TEMPO_MAX_STACKS");
+        bool toggle = manager.passive.active &&
+                    manager.passive.tempoStacks == (int)manager.GetStats().ComputeValue("TEMPO_MAX_STACKS") &&
+                    skillPts > 0;
         ToggleField(toggle);
 
         if (fieldActive)
