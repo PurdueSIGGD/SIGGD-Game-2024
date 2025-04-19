@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 3233401432326543385}
   - component: {fileID: 5028833019426444995}
   - component: {fileID: 9025963487758876621}
-  - component: {fileID: 5823053838323002697}
+  - component: {fileID: 219043313411044668}
   - component: {fileID: 1305219588593162149}
   - component: {fileID: 5097139144495799664}
   m_Layer: 17
@@ -289,7 +289,7 @@ MonoBehaviour:
   - {fileID: 3233401432326543385}
   - {fileID: 5028833019426444995}
   - {fileID: 9025963487758876621}
-  - {fileID: 5823053838323002697}
+  - {fileID: 219043313411044668}
   - {fileID: 1305219588593162149}
   - {fileID: 5097139144495799664}
   startAtLevel: 0
@@ -359,7 +359,7 @@ MonoBehaviour:
     actionTypes: 
     extraContext: 
   radius: 2.5
---- !u!114 &5823053838323002697
+--- !u!114 &219043313411044668
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -368,10 +368,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 981645078808632434}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5cded2aefff03514c80651e9f3c8ea75, type: 3}
+  m_Script: {fileID: 11500000, guid: df2c7d72cf329c447afedaa5d3570f12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skillSO: {fileID: 11400000, guid: ea15666da1c03af44acd60ffc6345a04, type: 2}
+  skillSO: {fileID: 11400000, guid: 47d10ae9d4bb8664591d154467935b21, type: 2}
+  values: 000000000a000000140000001e00000028000000
+  manager: {fileID: 0}
+  fieldVisual: {fileID: 1539173856502906608, guid: 677f9ddb74eb33a41ab8c747775a259c,
+    type: 3}
+  damage:
+    damageStrength: 0
+    damageTypes: 00000000
+    actionID: 0
+    actionTypes: 04000000
+    extraContext: 
+  radius: 5
 --- !u!114 &1305219588593162149
 MonoBehaviour:
   m_ObjectHideFlags: 0

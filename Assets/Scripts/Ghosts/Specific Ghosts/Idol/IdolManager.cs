@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class IdolManager : GhostManager, ISelectable
 {
+
     [HideInInspector] public IdolSpecial special;
     [HideInInspector] public IdolPassive passive;
     [SerializeField] public ActionContext onDashContext;
