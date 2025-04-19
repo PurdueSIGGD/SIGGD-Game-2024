@@ -9,7 +9,7 @@ public class GhostManager : MonoBehaviour, ISelectable, IStatList
     [SerializeField] public RuntimeAnimatorController defaultController;
     [SerializeField] public RuntimeAnimatorController ghostController;
     
-    private Animator animator;
+    protected Animator animator;
     protected PartyManager partyManager;
     protected StatManager stats;
 
