@@ -45,7 +45,7 @@ public class GameplayEventHolder : MonoBehaviour
 
     // ON DEATH
     /// <param name="context">Struct containing context for this event.</param>
-    public delegate void DeathEvent(ref DamageContext context);
+    public delegate void DeathEvent(DamageContext context);
     /// <summary>
     /// Invoked when an entity dies.
     /// </summary>
