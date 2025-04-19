@@ -24,7 +24,7 @@ public class IdolClone : MonoBehaviour
         if (duration <= 0)
         {
             expireContext.victim = gameObject;
-            GameplayEventHolder.OnDeath.Invoke(ref expireContext);
+            GameplayEventHolder.OnDeath.Invoke(expireContext);
             Destroy(gameObject);
         }
         if (player.GetComponent<IdolSpecial>())

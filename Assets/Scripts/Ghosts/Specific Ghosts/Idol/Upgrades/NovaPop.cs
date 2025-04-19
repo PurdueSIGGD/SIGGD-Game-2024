@@ -31,7 +31,7 @@ public class NovaPop : Skill
         }
     }
 
-    public void ExplodeOnDeath(ref DamageContext context)
+    public void ExplodeOnDeath(DamageContext context)
     {
         if (cloneRef == null) 
         {
