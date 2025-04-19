@@ -10,6 +10,7 @@ public class GhostManager : MonoBehaviour, ISelectable, IStatList
     [SerializeField] public RuntimeAnimatorController ghostController;
     
     private Animator animator;
+    protected PartyManager partyManager;
     protected StatManager stats;
 
     private float currentBasicCooldown = 0f;
@@ -24,6 +25,7 @@ public class GhostManager : MonoBehaviour, ISelectable, IStatList
     protected virtual void Start()
     {
         animator = PlayerID.instance.GetComponent<Animator>();
+        partyManager = PlayerID.instance.GetComponent<PartyManager>();
         stats = GetComponent<StatManager>();
     }
 

@@ -9,8 +9,13 @@ using UnityEngine.InputSystem;
 public class PartyManager : MonoBehaviour
 {
     public static PartyManager instance;
-
+    
     [SerializeField] int ghostLimit; // maximum number of ghosts player can wield at one time
+    private List<GhostIdentity> ghostsInParty = new List<GhostIdentity>(); // list of each ghost in party
+    private GhostIdentity selectedGhost = null;
+    private bool isSwappingEnabled = true;
+    private float swapInputBuffer = 0f;
+    private int swapInputBufferGhostIndex = 0;
 
     private Dictionary<string, GhostIdentity> ghostsByName = new();
 
@@ -37,6 +42,11 @@ public class PartyManager : MonoBehaviour
         {
             ghostsByName[ghost].SetPartyStatus(true);
         }
+    }
+
+    private void Update()
+    {
+        if (swapInputBuffer > 0f) swapInputBuffer -= Time.deltaTime;
     }
 
     /// <summary>
@@ -72,14 +82,22 @@ public class PartyManager : MonoBehaviour
     /// <summary>
     /// Switches the currently posessing ghost based on hotkey input (1,2,3, etc.)
     /// </summary>
-    /// <param name="inputNum">The index to select from the list(value is either 1(player kit), 2, or 3)</param>
+    /// <param name="inputNum">The index to select from the list(value is either -1(player kit), 0, or 1)</param>
     public void ChangePosessingGhost(int index)
     {
-        // handle bad input
-        if (index >= ghostsInParty.Count)
+        // Don't swap if disabled, start swap input buffer
+        if (!isSwappingEnabled)
         {
+            swapInputBuffer = 0.3f;
+            swapInputBufferGhostIndex = index;
             return;
         }
+
+        // handle bad input
+        if (index >= ghostsInParty.Count) return;
+
+        // Don't swap if ghost is already possessing
+        if (index >= 0 && ghostsInParty[index].Equals(selectedGhost)) return;
 
         // deselect all ghosts in the list
         for (int i = 0; i < ghostsInParty.Count; i++)
@@ -119,5 +137,21 @@ public class PartyManager : MonoBehaviour
     public GhostIdentity GetSelectedGhost()
     {
         return ghostsByName.GetValueOrDefault(selectedGhost);
+    }
+
+    /// <summary>
+    /// Enable or disable the ability to swap the active ghost. If a swap is attempted while disabled, the input is buffered for 0.3 seconds.
+    /// </summary>
+    /// <param name="enabled">If true, ghost swapping will be enabled. If false, ghost swapping will be disabled.</param>
+    public void SetSwappingEnabled(bool enabled)
+    {
+        if ((!isSwappingEnabled && enabled) && swapInputBuffer > 0f)
+        {
+            isSwappingEnabled = true;
+            swapInputBuffer = 0f;
+            ChangePosessingGhost(swapInputBufferGhostIndex);
+            return;
+        }
+        isSwappingEnabled = enabled;
     }
 }
