@@ -52,7 +52,7 @@ public class StatManager : MonoBehaviour, IStatList
         {
             stat.modifier += delta;
             statMap[statName] = stat;
-            //Debug.Log(statName + ": " + stat.modifier);
+            Debug.Log(statName + ": " + stat.modifier);
         }
         else
         {

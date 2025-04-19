@@ -104,10 +104,7 @@ public class IdolPassive : MonoBehaviour
         Debug.Log("TEMPO AWAH DOWN");
     }
 
-    /// <summary>
-    /// Increases the Idol buff count by one
-    /// </summary>
-    public void IdolOnKill(DamageContext context)
+    public void IdolOnKill(ref DamageContext context)
     {
         // not me? DON'T CARE!!!
 

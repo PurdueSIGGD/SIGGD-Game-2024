@@ -115,7 +115,7 @@ public class Health : MonoBehaviour, IDamageable, IStatList
         }
 
         //Trigger Events
-        GameplayEventHolder.OnDeath?.Invoke(context);
+        GameplayEventHolder.OnDeath?.Invoke(ref context);
 
         StartCoroutine(DeathCoroutine(context));
     }

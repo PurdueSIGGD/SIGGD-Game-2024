@@ -56,7 +56,7 @@ public class YokaiTotem : MonoBehaviour
         }
     }
     // remove debuff when dead
-    void TotemDeath(DamageContext context)
+    void TotemDeath(ref DamageContext context)
     {
         GameplayEventHolder.OnDamageFilter.Remove(DamageMultiplier);
     }

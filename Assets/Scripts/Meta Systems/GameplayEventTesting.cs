@@ -65,7 +65,7 @@ public class GameplayEventTesting : MonoBehaviour
 
 
 
-    private void deathDebug(DamageContext context)
+    private void deathDebug(ref DamageContext context)
     {
         if (context.Equals(default(DamageContext)))
         {
