@@ -56,6 +56,11 @@ public class HeavyAttack : MonoBehaviour, IStatList
             if(hit.transform.gameObject.tag == "Enemy")
             {
                 Debug.Log("Heavy Attack Hit: " + hit.transform.gameObject.name);
+
+                foreach(IDamageable damageable in hit.transform.gameObject.GetComponents<IDamageable>()){
+                    damageable.Damage(heavyDamage, gameObject);
+                }
+
                 /*
                 IDamageable enemyhealth = hit.transform.gameObject.GetComponent<IDamageable>();
                 if (enemyhealth != null)
@@ -65,7 +70,7 @@ public class HeavyAttack : MonoBehaviour, IStatList
                 }
                 */
                 heavyDamage.damage = stats.ComputeValue("Heavy Damage");
-                hit.transform.gameObject.GetComponent<Health>().Damage(heavyDamage, gameObject);
+                //hit.transform.gameObject.GetComponent<Health>().Damage(heavyDamage, gameObject);
             }
         }
     }

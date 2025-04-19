@@ -9,6 +9,9 @@ public class IdolClone : MonoBehaviour
 {
     [SerializeField] float duration; // duration clone can last
     [SerializeField] float inactiveModifier;
+
+    [Header("Used by clone to kill self")]
+    [SerializeField] DamageContext expireContext = new DamageContext();
     private GameObject player;
 
     void Update()
@@ -18,9 +21,10 @@ public class IdolClone : MonoBehaviour
 
     void TickTimer()
     {
-        print("Duration: " + duration);
         if (duration <= 0)
         {
+            expireContext.victim = gameObject;
+            GameplayEventHolder.OnDeath.Invoke(expireContext);
             Destroy(gameObject);
         }
         if (player.GetComponent<IdolSpecial>())

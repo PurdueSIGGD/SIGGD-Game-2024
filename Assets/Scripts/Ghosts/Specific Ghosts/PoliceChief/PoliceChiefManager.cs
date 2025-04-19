@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.Timeline.Actions;
 using UnityEngine;
 
 public class PoliceChiefManager : GhostManager, ISelectable
@@ -14,6 +15,8 @@ public class PoliceChiefManager : GhostManager, ISelectable
     [SerializeField] public GameObject specialShot;
     [SerializeField] public GameObject specialTracerVFX;
     [SerializeField] public GameObject specialImpactExplosionVFX;
+    [SerializeField] public ActionContext sidearmActionContext;
+    [SerializeField] public ActionContext policeChiefRailgun;
 
     [HideInInspector] public PoliceChiefBasic basic;
     [HideInInspector] public PoliceChiefSpecial special;

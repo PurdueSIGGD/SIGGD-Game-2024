@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: -7894658169342811075}
   m_Layer: 6
   m_Name: IdolClone
-  m_TagString: Player
+  m_TagString: Idol_Clone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -78,9 +78,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b,
-    type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.4745098}
+  m_Sprite: {fileID: 375534085, guid: 4fc3b5f8863d60845b08275312c356d9, type: 3}
+  m_Color: {r: 0.60050285, g: 0.8876339, b: 0.9292453, a: 0.50980395}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -194,3 +193,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   duration: 0
   inactiveModifier: 0
+  expireContext:
+    damageStrength: 0
+    damageTypes: 03000000
+    actionID: 18
+    actionTypes: 03000000
+    extraContext: 
