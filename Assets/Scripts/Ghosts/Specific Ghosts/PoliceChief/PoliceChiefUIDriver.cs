@@ -47,6 +47,14 @@ public class PoliceChiefUIDriver : GhostUIDriver
 
     private void updateMeter()
     {
-
+        if(GetComponent<PoliceChiefLethalForce>() != null && GetComponent<PoliceChiefLethalForce>().numHits != -1)
+        {
+            Debug.Log("Found lethal wrkd");
+            meterUIManager.setMeterColor(Color.red);
+            meterUIManager.setMeterValue(GetComponent<PoliceChiefLethalForce>().consecutiveHits, GetComponent<PoliceChiefLethalForce>().numHits);
+            meterUIManager.setBackgroundColor(Color.grey);
+            meterUIManager.setSubMeterValue(0f, 0f);
+            meterUIManager.activateWidget();
+        }
     }
 }
