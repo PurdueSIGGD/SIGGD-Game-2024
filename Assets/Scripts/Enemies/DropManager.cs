@@ -7,7 +7,7 @@ public class DropManager : MonoBehaviour
         GameplayEventHolder.OnDeath += DropLoot;
     }
 
-    private void DropLoot(ref DamageContext context)
+    private void DropLoot(DamageContext context)
     {
         GameObject victim = context.victim;
         if (victim == null)

@@ -13,12 +13,11 @@ public class Dash : MonoBehaviour, IStatList
     [SerializeField]
     private StatManager.Stat[] statList;
 
-
     private Camera mainCamera;
     private Rigidbody2D rb;
 
-    [SerializeField] private Vector2 velocity = Vector2.zero;
-    [SerializeField] private bool isDashing = false;
+    private Vector2 velocity = Vector2.zero;
+    private bool isDashing = false;
 
     private StatManager stats;
     private OrionManager orionManager;
@@ -44,9 +43,11 @@ public class Dash : MonoBehaviour, IStatList
         {
             rb.velocity = velocity;
         }
+
+
         if (orionManager != null)
         {
-            if (orionManager.getSpecialCooldown() > 0)
+            if (orionManager.getSpecialCooldown() > 0f || orionManager.isAirbornePostDash)
             {
                 psm.OnCooldown("c_special");
             }
@@ -66,7 +67,12 @@ public class Dash : MonoBehaviour, IStatList
     {
         GetComponent<Move>().PlayerStop();
         Vector3 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-        Vector2 displacement = ((Vector2)mousePos - (Vector2)transform.position).normalized * stats.ComputeValue("Max Dash Distance");
+        Vector2 direction = ((Vector2) mousePos - (Vector2) transform.position).normalized;
+        if (GetComponent<Animator>().GetBool("p_grounded"))
+        {
+            direction = new Vector2(direction.x, Mathf.Max(direction.y, 0f)).normalized;
+        }
+        Vector2 displacement = direction * stats.ComputeValue("Max Dash Distance");
         this.velocity = displacement / stats.ComputeValue("Dash Time");
         StartCoroutine(DashCoroutine());
     }
@@ -76,6 +82,7 @@ public class Dash : MonoBehaviour, IStatList
         GetComponent<Move>().PlayerGo();
         if (GetComponent<Animator>().GetBool("p_grounded")) return;
         GetComponent<Move>().ApplyKnockback(rb.velocity.normalized, rb.velocity.magnitude, true);
+        orionManager.isAirbornePostDash = true;
     }
 
     private IEnumerator DashCoroutine()
