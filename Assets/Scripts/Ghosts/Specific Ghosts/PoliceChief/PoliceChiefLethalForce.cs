@@ -6,8 +6,8 @@ using UnityEngine;
 public class PoliceChiefLethalForce : Skill
 {
     [SerializeField] private int[] pointCounts = { 4, 3, 2, 1 };
-    private int numHits = -1;
-    private int consecutiveHits = 0;
+    public int numHits = -1;
+    public int consecutiveHits = 0;
     private float timer = -1.0f;
 
     private void Start()
@@ -40,7 +40,7 @@ public class PoliceChiefLethalForce : Skill
 
     public void OnDamage(ref DamageContext context)
     {
-        if(context.attacker == PlayerID.instance && context.actionID == ActionID.POLICE_CHIEF_BASIC)
+        if(context.attacker == PlayerID.instance.gameObject && context.actionID == ActionID.POLICE_CHIEF_BASIC)
         {
             if(numHits != -1 && consecutiveHits >= numHits)
             {
