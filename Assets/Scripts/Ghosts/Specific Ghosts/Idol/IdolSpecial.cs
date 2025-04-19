@@ -64,6 +64,7 @@ public class IdolSpecial : MonoBehaviour, ISpecialMove
         }
         else // else create clone and teleport
         {
+            GameplayEventHolder.OnAbilityUsed.Invoke(manager.onDashContext);
             StartCoroutine(DashCoroutine());
         }
     }
