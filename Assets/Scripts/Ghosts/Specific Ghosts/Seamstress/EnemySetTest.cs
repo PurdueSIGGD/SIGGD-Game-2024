@@ -40,7 +40,7 @@ public class EnemySetTest : MonoBehaviour
         }
     }
 
-    private void RemoveDeadEnemies(ref DamageContext context)
+    private void RemoveDeadEnemies(DamageContext context)
     {
         if (context.victim.CompareTag("Enemy"))
         {
