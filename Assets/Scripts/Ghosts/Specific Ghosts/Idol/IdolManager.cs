@@ -6,8 +6,11 @@ using UnityEngine;
 public class IdolManager : GhostManager, ISelectable
 {
 
-    public IdolSpecial special;
-    public IdolPassive passive;
+    [HideInInspector] public IdolSpecial special;
+    [HideInInspector] public IdolPassive passive;
+
+    public bool active;
+
     [SerializeField] public GameObject idolClone;
 
     protected override void Start()
@@ -21,6 +24,8 @@ public class IdolManager : GhostManager, ISelectable
     {
         Debug.Log("EVA SELECTED!");
 
+        active = true;
+
         special = PlayerID.instance.AddComponent<IdolSpecial>();
         special.manager = this;
         special.idolClone = idolClone;
@@ -31,9 +36,10 @@ public class IdolManager : GhostManager, ISelectable
 
     public override void DeSelect(GameObject player)
     {
-        passive.RemoveBuffOnSwap();
+        active = false;
 
         if (PlayerID.instance.GetComponent<IdolSpecial>()) Destroy(PlayerID.instance.GetComponent<IdolSpecial>());
+        passive.RemoveBuffOnSwap();
         base.DeSelect(player);
     }
 }

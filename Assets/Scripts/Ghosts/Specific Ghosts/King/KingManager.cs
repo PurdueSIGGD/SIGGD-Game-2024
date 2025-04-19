@@ -47,14 +47,11 @@ public class KingManager : GhostManager, ISelectable
     public override void Select(GameObject player)
     {
         Debug.Log("KING SELECTED");
-
         //if (PlayerID.instance.GetComponent<HeavyAttack>()) Destroy(PlayerID.instance.GetComponent<HeavyAttack>());
         basic = PlayerID.instance.AddComponent<KingBasic>();
         basic.manager = this;
-
         special = PlayerID.instance.AddComponent<KingSpecial>();
         special.manager = this;
-
         base.Select(player);
     }
 
@@ -62,10 +59,8 @@ public class KingManager : GhostManager, ISelectable
     {
         if (basic) Destroy(basic);
         //if (!PlayerID.instance.GetComponent<HeavyAttack>()) PlayerID.instance.AddComponent<HeavyAttack>();
-
-        special?.endSpecial(true, true);
+        special?.stopSpecial(true, true);
         if (special) Destroy(special);
-
         base.DeSelect(player);
     }
 }

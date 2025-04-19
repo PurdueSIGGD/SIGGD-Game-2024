@@ -188,6 +188,8 @@ MonoBehaviour:
     value: 100
   - name: TEMPO_BUFF_PERCENT_INT
     value: 25
+  - name: TEMPO_BOOST_PERCENT
+    value: 0.15
   - name: TEMPO_MAX_STACKS
     value: 3
   - name: TEMPO_INACTIVE_DURATION_MODIFIER
@@ -196,6 +198,7 @@ MonoBehaviour:
     value: 6
   defaultController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
   ghostController: {fileID: 9100000, guid: 5779acd767093ee419301b684e1317dd, type: 2}
+  active: 0
   idolClone: {fileID: 7482494425360345118, guid: 05024df506a5b824f8658954331c8231,
     type: 3}
 --- !u!114 &-6798671931701359635
@@ -226,9 +229,6 @@ MonoBehaviour:
   tempoStacks: 0
   kill: 0
   uptempo: 0
-  duration: 0
-  tick: 0
-  active: 0
   manager: {fileID: 0}
 --- !u!114 &4337353799593711327
 MonoBehaviour:

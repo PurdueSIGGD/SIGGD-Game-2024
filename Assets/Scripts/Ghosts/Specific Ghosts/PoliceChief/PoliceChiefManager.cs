@@ -6,23 +6,14 @@ using UnityEngine;
 
 public class PoliceChiefManager : GhostManager, ISelectable
 {
-    [SerializeField] public DamageContext basicDamage;
     [SerializeField] public DamageContext specialDamage;
-    [SerializeField] public GameObject basicShot;
-    [SerializeField] public GameObject basicTracerVFX;
-    [SerializeField] public GameObject basicImpactExplosionVFX;
-    [SerializeField] public GameObject specialShot;
-    [SerializeField] public GameObject specialTracerVFX;
-    [SerializeField] public GameObject specialImpactExplosionVFX;
-    [SerializeField] public ActionContext policeChiefRailgun;
+    [SerializeField] public GameObject specialRailgunTracer;
 
-    [HideInInspector] public PoliceChiefBasic basic;
-    [HideInInspector] public PoliceChiefSpecial special;
+
 
     protected override void Start()
     {
         base.Start();
-        basicDamage.damage = stats.ComputeValue("Basic Damage");
         specialDamage.damage = stats.ComputeValue("Special Damage");
     }
 
@@ -35,25 +26,17 @@ public class PoliceChiefManager : GhostManager, ISelectable
     public override void Select(GameObject player)
     {
         Debug.Log("NORTH SELECTED!");
-
-        if (PlayerID.instance.GetComponent<HeavyAttack>()) Destroy(PlayerID.instance.GetComponent<HeavyAttack>());
-        basic = PlayerID.instance.AddComponent<PoliceChiefBasic>();
-        basic.manager = this;
-
-        special = PlayerID.instance.AddComponent<PoliceChiefSpecial>();
-        special.manager = this;
-
+        PlayerID.instance.AddComponent<PoliceChiefSpecial>().manager = this;
+        PlayerID.instance.AddComponent<PoliceChiefBasic>().SetVars(stats, GetComponent<LineRenderer>());
+        Destroy(PlayerID.instance.GetComponent<LightAttack>());
 		base.Select(player);
     }
 
     public override void DeSelect(GameObject player)
     {
-        if (basic) Destroy(basic);
-        if (!PlayerID.instance.GetComponent<HeavyAttack>()) PlayerID.instance.AddComponent<HeavyAttack>();
-
-        if (special) special.endSpecial(false);
-        if (special) Destroy(special);
-
+        if (PlayerID.instance.GetComponent<PoliceChiefSpecial>()) Destroy(PlayerID.instance.GetComponent<PoliceChiefSpecial>());
+        if (PlayerID.instance.GetComponent<PoliceChiefBasic>()) Destroy(PlayerID.instance.GetComponent<PoliceChiefBasic>());
+		if (!PlayerID.instance.GetComponent<LightAttack>()) PlayerID.instance.AddComponent<LightAttack>();
 		base.DeSelect(player);
     }
 

@@ -1,9 +1,8 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class PoliceChiefSpecial : MonoBehaviour
+public class PoliceChiefSpecial : MonoBehaviour, ISpecialMove
 {
     private bool shouldChangeBack = true;
     private PlayerStateMachine playerStateMachine;
@@ -11,11 +10,6 @@ public class PoliceChiefSpecial : MonoBehaviour
     private Camera cam;
 
     [HideInInspector] public PoliceChiefManager manager;
-
-    private bool isCharging = false;
-    private float chargingTime = 0f;
-
-
 
     void Start()
     {
@@ -26,9 +20,6 @@ public class PoliceChiefSpecial : MonoBehaviour
 
     void Update()
     {
-        if (isCharging && chargingTime > 0f) chargingTime -= Time.deltaTime;
-        if (isCharging && chargingTime <= 0f) playerStateMachine.EnableTrigger("OPT");
-
         if (manager != null)
         {
             if (manager.getSpecialCooldown() > 0)
@@ -42,71 +33,87 @@ public class PoliceChiefSpecial : MonoBehaviour
         }
     }
 
+    void CheckPullBack()
+    {
+        if (shouldChangeBack) {
+            camAnim.SetBool("pullBack", false);
+            GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
+        }
+        shouldChangeBack = true;
+    }
 
-
-    // Charge Up
     void StartSpecialChargeUp()
     {
-        chargingTime = manager.GetStats().ComputeValue("Special Charge Up Time");
-        isCharging = true;
         camAnim.SetBool("pullBack", true);
-        GetComponent<Move>().PlayerStop();
+        GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePositionX;
     }
 
     void StopSpecialChargeUp()
     {
-        if (chargingTime > 0f) endSpecial(false);
-        isCharging = false;
-        chargingTime = 0f;
+        CheckPullBack();
     }
 
-
-
-    // Primed
     void StartSpecialPrimed()
     {
-
+        shouldChangeBack = false;
     }
-    
+
     void StopSpecialPrimed()
     {
-        endSpecial(false);
+        CheckPullBack();
     }
 
-
-
-    // Railgun Attack
     void StartSpecialAttack()
     {
-        camAnim.SetBool("pullBack", true);
-        GetComponent<Move>().PlayerStop();
+        StartCoroutine(StartSpecialAttackCoroutine());
+    }
 
-        // Calculate initial shot aiming vector
+    private IEnumerator StartSpecialAttackCoroutine()
+    {
+        shouldChangeBack = false;
+
         Vector2 mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
         Vector2 pos = transform.position;
         Vector2 dir = (mousePos - pos).normalized;
+        //GameObject enemyHit = null;
 
-        // Fire shot
-        GameObject railgunShot = Instantiate(manager.specialShot, Vector3.zero, Quaternion.identity);
-        railgunShot.GetComponent<PoliceChiefRailgunShot>().fireRailgunShot(manager, pos, dir);
-        GameplayEventHolder.OnAbilityUsed?.Invoke(manager.policeChiefRailgun);
+        for (int i = 0; i < manager.GetStats().ComputeValue("Special Ricochet Count") + 1; i++)
+        {
+            if (i > 0) yield return new WaitForSeconds(0.08f);
+            CameraShake.instance.Shake(0.35f, 10f, 0f, 10f, new Vector2(Random.Range(-0.5f, 0.5f), 1f));
+            RaycastHit2D hit = Physics2D.Raycast(pos, dir, manager.GetStats().ComputeValue("Special Travel Distance"), LayerMask.GetMask("Ground"));
+            RaycastHit2D[] enemyHits = Physics2D.RaycastAll(pos, (hit.point - pos), Vector2.Distance(pos, hit.point), LayerMask.GetMask("Enemy"));
+
+            Debug.DrawLine(pos, hit.point, Color.red, 5.0f);
+            GameObject railgunTracer = Instantiate(manager.specialRailgunTracer, Vector3.zero, Quaternion.identity);
+            LineRenderer lineRenderer = railgunTracer.GetComponent<LineRenderer>();
+            lineRenderer.SetPosition(0, pos);
+            lineRenderer.SetPosition(1, hit.point);
+            foreach(RaycastHit2D enemyHit in enemyHits)
+            {
+                enemyHit.transform.gameObject.GetComponent<Health>().Damage(manager.specialDamage, gameObject);
+            }
+
+            float hitAngle = Vector2.Angle((pos - hit.point), hit.normal);
+            Debug.Log("NORTH RAILGUN HIT ANGLE: " + hitAngle);
+            if (hitAngle < manager.GetStats().ComputeValue("Special Ricochet Minimum Normal Angle")) break;
+            Vector2 reflect = Vector2.Reflect(dir, hit.normal);
+            Debug.Log("This is normal" + hit.normal);
+            pos = hit.point + new Vector2(reflect.x * 0.1f, reflect.y * 0.1f);
+            dir = reflect.normalized;
+        }
     }
 
     void StopSpecialAttack()
     {
-        endSpecial(true);
+        playerStateMachine.OnCooldown("c_special");
+        camAnim.SetBool("pullBack", false);
+        GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
+        manager.startSpecialCooldown();
     }
 
-    /// <summary>
-    /// End the special ability if it is active.
-    /// </summary>
-    /// <param name="startCooldown">If true, the special ability's cooldown will begin when the ability ends.</param>
-    public void endSpecial(bool startCooldown)
+    public bool GetBool()
     {
-        camAnim.SetBool("pullBack", false);
-        GetComponent<Move>().PlayerGo();
-        if (!startCooldown) return;
-        playerStateMachine.OnCooldown("c_special");
-        manager.startSpecialCooldown();
+        return true;
     }
 }

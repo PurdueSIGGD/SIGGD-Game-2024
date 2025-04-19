@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,20 +11,9 @@ public class ConversationTemp : ScriptableObject
     {
         public CharacterSO character;
         public string expression;
-        [TextArea(5, 3)]
+        [TextArea (5,3)]
         public string line;
     }
 
     public List<DialogueLine> dialogueLines = new List<DialogueLine>();
-
-
-    void Start()
-    {
-        GameplayEventHolder.OnDamageDealt += Test;
-    }
-
-    public void Test(DamageContext context)
-    {
-        Debug.Log("I got hurt!");
-    }
 }

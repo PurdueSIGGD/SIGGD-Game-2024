@@ -82,29 +82,21 @@ public class KingSpecial : MonoBehaviour, ISpecialMove
 
         // End cast
         yield return new WaitForSeconds(castTime);
-        endSpecial(true, false);
+        stopSpecial(true, false);
 
         // End invincibility
         yield return new WaitForSeconds(Mathf.Max((manager.GetStats().ComputeValue("Special Invincibility Duration") - castTime), 0f));
-        endSpecial(false, true);
+        stopSpecial(false, true);
     }
 
-    /// <summary>
-    /// End the special ability if it is active.
-    /// </summary>
-    /// <param name="stopCasting">If true, the ability's cast will be cancelled.</param>
-    /// <param name="stopInvincibility">If true, the ability's invincibility buff will be cancelled.</param>
-    public void endSpecial(bool stopCasting, bool stopInvincibility)
+    public void stopSpecial(bool stopCasting, bool stopInvincibility)
     {
-        // Stop casting special
         if (isCasting && stopCasting)
         {
             playerStateMachine.EnableTrigger("OPT");
             manager.startSpecialCooldown();
             isCasting = false;
         }
-
-        // Stop special invincibility
         if (isInvincibilityActive && stopInvincibility)
         {
             GameplayEventHolder.OnDamageFilter.Remove(invincibilityFilter);

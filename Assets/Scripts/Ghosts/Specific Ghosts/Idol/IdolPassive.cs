@@ -10,9 +10,6 @@ public class IdolPassive : MonoBehaviour
     [SerializeField] public int tempoStacks = 0; // number of stacks
     [SerializeField] bool kill; // has the player just scored a kill?
     [SerializeField] bool uptempo; // have the stored tempo stacks been activated?
-    [SerializeField] float duration;
-    [SerializeField] float tick;
-    [SerializeField] bool active = false;
     List<string> statNames = new()
         {
             "Max Running Speed",
@@ -29,7 +26,7 @@ public class IdolPassive : MonoBehaviour
 
     void OnEnable()
     {
-        GameplayEventHolder.OnDeath += IdolOnKill;
+        GameplayEventHolder.OnDeath += IncrementTempo;
     }
 
     void Start()
@@ -37,51 +34,20 @@ public class IdolPassive : MonoBehaviour
         playerStats = PlayerID.instance.gameObject.GetComponent<StatManager>(); // yoink
     }
 
-    void Update()
-    {
-        // tempo duration timer
-
-        if (uptempo && duration > 0)
-        {
-            float inactiveModifier = manager.GetStats().ComputeValue("TEMPO_INACTIVE_DURATION_MODIFIER");
-            float maxDuration = manager.GetStats().ComputeValue("TEMPO_BASE_DURATION");
-
-            // decrement duration at a modified rate if Idol is not active
-
-            tick = active ? Time.deltaTime : Time.deltaTime * inactiveModifier;
-            duration -= tick;
-
-            // reset duration if player scored a kill
-
-            if (kill)
-            {
-                duration = maxDuration;
-                kill = false;
-            }
-        }
-        else if (uptempo)
-        {
-            // end tempo if duration ended
-
-            KillTempo();
-        }
-    }
-
     /// <summary>
-    /// Called by IdolManager on swap to Idol, AFTER manager.active is set true
+    /// Called by IdolManager on swap to Idol
     /// </summary>
     public void ApplyBuffOnSwap()
     {
         // just being cautious and double checking if idol is active
         // swapping is so sketch but we ball
 
-        if (active)
+        if (manager.active)
         {
             return;
         }
-        active = true;
+
         UpdateSpeed(tempoStacks);
-        Debug.Log("TEMPO AWAH UP");
 
         // initialize tempo timer if stacks exist and tempo isn't up already
 
@@ -91,56 +57,47 @@ public class IdolPassive : MonoBehaviour
         }
     }
     /// <summary>
-    /// Called by IdolManager on swap away from Idol, BEFORE manager.active is set false
+    /// Called by IdolManager on swap away from Idol
     /// </summary>
     public void RemoveBuffOnSwap()
     {
-        if (!active)
+        if (manager.active)
         {
-            return;
+            UpdateSpeed(-tempoStacks);
         }
-        UpdateSpeed(-tempoStacks);
-        active = false;
-        Debug.Log("TEMPO AWAH DOWN");
     }
 
-    public void IdolOnKill(ref DamageContext context)
+    /// <summary>
+    /// Increases the Idol buff count by one
+    /// </summary>
+    public void IncrementTempo(ref DamageContext context)
     {
+        Debug.Log("Increasing tempo");
+
         // not me? DON'T CARE!!!
 
         if (context.attacker != PlayerID.instance.gameObject)
         {
             return;
         }
-        kill = true;
 
-        IncrementTempo(1);
-    }
+        // increment tempo stacks if it doesn't exceed maximum
 
-    /// <summary>
-    /// Increases the Idol buff count by one
-    /// </summary>
-    public void IncrementTempo(int stacks)
-    {
-        Debug.Log("Increasing tempo");
-
-        int remainingStacks = (int)manager.GetStats().ComputeValue("TEMPO_MAX_STACKS") - tempoStacks;
-
-        // increment tempo stacks by stacks so it doesn't exceed maximum
-
-        stacks = stacks < remainingStacks ? stacks : remainingStacks;
-        tempoStacks += stacks;
-
-        // immediately apply tempo changes if Idol is active (+1 boost)
-
-        if (active)
+        if (tempoStacks < manager.GetStats().ComputeValue("TEMPO_MAX_STACKS"))
         {
-            UpdateSpeed(stacks);
+            tempoStacks++;
+
+            // immediately apply tempo changes if Idol is active (+1 boost)
+
+            if (manager.active)
+            {
+                UpdateSpeed(1);
+            }
         }
 
-        // initialize tempo effect if idol is active, has stacks, and isn't speed boosted yet 
+        // initialize tempo effect if idol is active and tempo is 1 (meaning it just got incremented from 0)
 
-        if (active && tempoStacks > 0 && !uptempo)
+        if (manager.active && (tempoStacks == 1))
         {
             InitializeTempoTimer();
         }
@@ -156,8 +113,12 @@ public class IdolPassive : MonoBehaviour
     private string InitializeTempoTimer()
     {
         Debug.Log("GO GO GO GO GO");
-        duration = manager.GetStats().ComputeValue("TEMPO_BASE_DURATION");
-        uptempo = true;
+
+        StartCoroutine(TempoCoroutine(
+            manager.GetStats().ComputeValue("TEMPO_BASE_DURATION"),
+            manager.GetStats().ComputeValue("TEMPO_BASE_DURATION"),
+            manager.GetStats().ComputeValue("TEMPO_INACTIVE_DURATION_MODIFIER")
+        ));
         return "GRAHHHHHHHHHHHHH I'M FAST AF";
     }
 
@@ -167,14 +128,43 @@ public class IdolPassive : MonoBehaviour
     /// <returns></returns>
     private string KillTempo()
     {
-        if (active)
-        {
-            UpdateSpeed(-tempoStacks);
-        }
+        UpdateSpeed(-tempoStacks);
         tempoStacks = 0;
         uptempo = false;
 
         return "AAAOAOAOAO SH I HIT A BRICK WALL OH GOD IT HURTS";
+    }
+
+    /// <summary>
+    /// All the stuff related to timers that happens when tempo is activated.
+    /// </summary>
+    /// <param name="duration">current duration of tempo</param>
+    /// <param name="maxDuration">maximum duration of tempo</param>
+    /// <param name="inactive_modifier">factor to scale timer speed when idol is inactive</param>
+    /// <returns></returns>
+    IEnumerator TempoCoroutine(float duration, float maxDuration, float inactive_modifier)
+    {
+        uptempo = true;
+        while (duration > 0)
+        {
+            // decrement duration at a modified rate if Idol is not active
+
+            float tick = manager.active ? Time.deltaTime : Time.deltaTime * inactive_modifier;
+            duration -= tick;
+
+            // reset duration if player scored a kill
+
+            if (kill)
+            {
+                duration = maxDuration;
+                kill = false;
+            }
+            yield return null;
+        }
+
+        // *breaks your kneecaps with a baseball bat*
+
+        KillTempo();
     }
 
     /// <summary>

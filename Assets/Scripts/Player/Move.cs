@@ -53,7 +53,7 @@ public class Move : MonoBehaviour, IStatList
 
         if (stopMoving && animator.GetBool("p_grounded"))
         {
-            GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x * stats.ComputeValue("Running Deaccel."), GetComponent<Rigidbody2D>().velocity.y);
+            GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x * 0.9f, GetComponent<Rigidbody2D>().velocity.y);
         }
     }
 
