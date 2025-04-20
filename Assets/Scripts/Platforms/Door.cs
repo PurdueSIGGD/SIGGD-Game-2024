@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 /// <summary>
@@ -21,7 +18,7 @@ public class Door : MonoBehaviour
 
     private GameObject interactMenu;
     private PlayerID player;
-    
+
 
     void Start()
     {
@@ -54,7 +51,7 @@ public class Door : MonoBehaviour
     private void CreateInteractMenu()
     {
         WorldInteract WI = FindAnyObjectByType<WorldInteract>();
-        WorldInteract.InteractOption opt1 = new WorldInteract.InteractOption("Use", CallDoorOpened);//TeleportPlayer);
+        InteractOption opt1 = new InteractOption("Use", CallDoorOpened);//TeleportPlayer);
 
         Vector3 menuPos = this.transform.position + menuOffset;
 

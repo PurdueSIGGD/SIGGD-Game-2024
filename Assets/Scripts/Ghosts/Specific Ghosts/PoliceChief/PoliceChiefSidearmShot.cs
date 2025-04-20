@@ -6,6 +6,7 @@ public class PoliceChiefSidearmShot : MonoBehaviour
 {
     private PoliceChiefManager manager;
     private float travelSpeed = 300f;
+    public static event System.Action enemyWasShot;
 
     // Start is called before the first frame update
     void Start()
@@ -50,6 +51,7 @@ public class PoliceChiefSidearmShot : MonoBehaviour
         if (hit.transform.CompareTag("Enemy"))
         {
             hit.transform.gameObject.GetComponent<Health>().Damage(manager.basicDamage, PlayerID.instance.gameObject);
+            enemyWasShot?.Invoke();
             GameObject enemyExplosion = Instantiate(manager.basicImpactExplosionVFX, hit.point, Quaternion.identity);
             enemyExplosion.GetComponent<RingExplosionHandler>().playRingExplosion(1f, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
             Destroy(this.gameObject);
