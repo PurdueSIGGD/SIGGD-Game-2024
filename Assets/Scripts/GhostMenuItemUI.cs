@@ -37,7 +37,14 @@ public class GhostMenuItemUI : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        partyUI.VisualizeDetails(this, identity);
+        if (partyUI.GetSelectedGhost() == this)
+        {
+            partyUI.VisualizeOrion();
+        }
+        else
+        {
+            partyUI.VisualizeDetails(this, identity);
+        }
     }
 
 }

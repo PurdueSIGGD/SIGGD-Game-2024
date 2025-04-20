@@ -29,6 +29,9 @@ public class PartyManagerUI : MonoBehaviour
     [Header("All Unlocked Ghosts")]
     [SerializeField] GhostMenuItemUI[] ghostUis;
 
+    [Header("Miscellaneous")]
+    [SerializeField] private CharacterSO orionSO;
+
     private GhostMenuItemUI selectedItem = null;
 
     private void Awake()
@@ -56,6 +59,8 @@ public class PartyManagerUI : MonoBehaviour
                 ghostUis[i].gameObject.SetActive(false);
             }
         }
+
+        VisualizeOrion();
     }
 
     public void ClosePartyMenu()
@@ -90,6 +95,23 @@ public class PartyManagerUI : MonoBehaviour
         specialAbilityText.text = character.specialAbilityName;
         specialAbilityDesc.text = character.specialAbilityDescription;
         //ghost.GetComponent<Skill>
+    }
+
+    public void VisualizeOrion()
+    {
+        selectedItem = null;
+        nameText.text = orionSO.name;
+        posterImage.sprite = orionSO.fullImage;
+
+        basicAbilityIcon.sprite = orionSO.basicAbilityIcon;
+        basicAbilityIcon.color = orionSO.primaryColor;
+        basicAbilityText.text = orionSO.basicAbilityName;
+        basicAbilityDesc.text = orionSO.basicAbilityDescription;
+
+        specialAbilityIcon.sprite = orionSO.specialAbilityIcon;
+        specialAbilityIcon.color = orionSO.primaryColor;
+        specialAbilityText.text = orionSO.specialAbilityName;
+        specialAbilityDesc.text = orionSO.specialAbilityDescription;
     }
 
     public GhostMenuItemUI GetSelectedGhost()

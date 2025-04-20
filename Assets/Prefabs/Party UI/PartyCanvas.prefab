@@ -1679,9 +1679,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Hold to increase your field of view and charge up North\u2019s railgun.
-    At full charge, press [Left Click] to fire a powerful shot in your aiming direction
-    that pierces enemies and ricochets off of surfaces.\r\n"
+  m_text: "Defeating an enemy grants a temporary boost to Eva\u2019s movement speed.
+    The speed boost stacks multiple times."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2178,6 +2177,7 @@ GameObject:
   m_Component:
   - component: {fileID: 748950719276833703}
   - component: {fileID: 8955718728121182277}
+  - component: {fileID: 7917601957076633974}
   m_Layer: 5
   m_Name: Slot
   m_TagString: Untagged
@@ -2214,6 +2214,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6265722856145223695}
   m_CullTransparentMesh: 1
+--- !u!114 &7917601957076633974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6265722856145223695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b5423851574d6e42af5ecfbd5e3a1c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  abilityPanel: {fileID: 1542130862456952122}
+  hidePoint: {x: 1400, y: 0, z: 0}
+  moveDuration: 0.3
+  hoverDelay: 0.5
 --- !u!1 &6277830795231974514
 GameObject:
   m_ObjectHideFlags: 0
@@ -2347,6 +2363,7 @@ MonoBehaviour:
   - {fileID: 3363852071005581504}
   - {fileID: 1401417177068633391}
   - {fileID: 8351656846671242654}
+  orionSO: {fileID: 11400000, guid: 5d92207d173587c4886414c08aba2501, type: 2}
 --- !u!1 &6414072531104014395
 GameObject:
   m_ObjectHideFlags: 0
@@ -3429,6 +3446,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7276946021723918348}
   - component: {fileID: 2496139722256218579}
+  - component: {fileID: 9040192299128861500}
   m_Layer: 5
   m_Name: Slot (1)
   m_TagString: Untagged
@@ -3466,6 +3484,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8987360610916818523}
   m_CullTransparentMesh: 1
+--- !u!114 &9040192299128861500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8987360610916818523}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b5423851574d6e42af5ecfbd5e3a1c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  abilityPanel: {fileID: 8491855624978667893}
+  hidePoint: {x: 1400, y: 0, z: 0}
+  moveDuration: 0.3
+  hoverDelay: 0.5
 --- !u!1 &9083608455473341861
 GameObject:
   m_ObjectHideFlags: 0
