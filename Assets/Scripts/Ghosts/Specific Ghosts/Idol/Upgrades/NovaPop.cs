@@ -19,8 +19,6 @@ public class NovaPop : Skill
 
         stat = GetComponent<StatManager>();
         manager = GetComponent<IdolManager>();
-
-        skillPts = 1;
     }
 
     public void ExplodeOnDeath(DamageContext context)
