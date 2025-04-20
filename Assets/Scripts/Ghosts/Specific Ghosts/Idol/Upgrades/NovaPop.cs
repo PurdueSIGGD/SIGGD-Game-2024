@@ -9,34 +9,20 @@ public class NovaPop : Skill
     [SerializeField] private DamageContext stunContext;
     [SerializeField] private float radius;
     private GameObject playerRef;
-    private GameObject cloneRef;
     private StatManager stat;
     private IdolManager manager;
 
     void Start()
     {
         playerRef = PlayerID.instance.gameObject;
-        GameplayEventHolder.OnAbilityUsed += FindCloneRef;
+        GameplayEventHolder.OnDeath += ExplodeOnDeath;
 
         stat = GetComponent<StatManager>();
         manager = GetComponent<IdolManager>();
     }
 
-    public void FindCloneRef(ActionContext context)
-    {
-        if (context.actionID == ActionID.IDOL_SPECIAL)
-        {
-            cloneRef = playerRef.GetComponent<IdolSpecial>().GetClone();
-            GameplayEventHolder.OnDeath += ExplodeOnDeath;
-        }
-    }
-
     public void ExplodeOnDeath(DamageContext context)
     {
-        if (cloneRef == null) 
-        {
-            GameplayEventHolder.OnDeath -= ExplodeOnDeath;
-        }
         if (context.victim.CompareTag("Idol_Clone"))
         {
             GameObject explosion = Instantiate(manager.explosionVFX, context.victim.transform.position, Quaternion.identity);

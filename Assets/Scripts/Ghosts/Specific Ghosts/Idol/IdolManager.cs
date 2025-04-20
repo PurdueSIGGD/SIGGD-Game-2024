@@ -15,6 +15,7 @@ public class IdolManager : GhostManager, ISelectable
 
     public bool active;
     [SerializeField] public GameObject idolClone;
+    public List<GameObject> clones = new List<GameObject>(); // list of all active clones
 
     protected override void Start()
     {
