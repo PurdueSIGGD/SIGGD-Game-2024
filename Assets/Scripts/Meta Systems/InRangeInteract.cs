@@ -62,8 +62,7 @@ public abstract class InRangeInteract : MonoBehaviour
         }
         else if (!PlayerInRange() && interactMenu != null)
         {
-            Destroy(interactMenu);
-            interactMenu = null;
+            CloseMenu();
         }
     }
 
