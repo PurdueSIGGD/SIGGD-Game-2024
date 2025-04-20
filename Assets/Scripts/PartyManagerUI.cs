@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PartyManagerUI : MonoBehaviour
 {
@@ -7,14 +9,29 @@ public class PartyManagerUI : MonoBehaviour
     //[SerializeField] GameObject partyBar;
     //[SerializeField] GameObject bankBar;
 
-    [SerializeField] GameObject[] ghostBankBar;
-    [SerializeField] GameObject[] ghostPartyBar;
+    [Header("Selected Ghost Details")]
+
+    [SerializeField] TextMeshProUGUI nameText;
+    [SerializeField] TextMeshProUGUI lvlText;
+    [SerializeField] TextMeshProUGUI expText;
+    [SerializeField] Image posterImage;
+    [SerializeField] Slider expSlider;
 
     private PartyManager partyManager;
     GhostIdentity[] identities;
 
     public List<GhostMenuItemUI> menuItems = new();
     public GhostMenuItemUI selectedMenuItem;
+
+    private void Awake()
+    {
+        gameObject.SetActive(false);
+    }
+
+    public void OpenPartyMenu()
+    {
+        gameObject.SetActive(true);
+    }
 
     /*void Awake()
     {
@@ -74,4 +91,14 @@ public class PartyManagerUI : MonoBehaviour
         partyManager.RemoveGhostFromParty(selectedMenuItem.identity);
         selectedMenuItem.transform.SetParent(bankBar.transform);
     }*/
+
+    public void ChooseGhost(GhostIdentity ghost)
+    {
+
+    }
+
+    public void AddChosenGhost()
+    {
+
+    }
 }

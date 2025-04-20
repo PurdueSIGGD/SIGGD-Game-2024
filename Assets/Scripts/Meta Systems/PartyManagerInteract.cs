@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class PartyManagerInteract : InRangeInteract
 {
     // ==============================
@@ -30,8 +32,8 @@ public class PartyManagerInteract : InRangeInteract
 
     private void OpenPartyUI()
     {
-        //PartyUI partyUI = FindFirstObjectByType<PartyUI>();
-        //partyUI.OpenUI();
+        PartyManagerUI partyUI = FindAnyObjectByType<PartyManagerUI>(FindObjectsInactive.Include);
+        partyUI.OpenPartyMenu();
     }
 
     // ==============================

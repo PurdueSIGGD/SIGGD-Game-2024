@@ -119,6 +119,12 @@ public class PartyManager : MonoBehaviour
         return selectedGhost;
     }
 
+    public bool IsGhostInParty(GameObject ghost)
+    {
+        GhostIdentity ghostIdentity = ghost.GetComponent<GhostIdentity>();
+        return ghostsInParty.Contains(ghostIdentity);
+    }
+
     /// <summary>
     /// Enable or disable the ability to swap the active ghost. If a swap is attempted while disabled, the input is buffered for 0.3 seconds.
     /// </summary>

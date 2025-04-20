@@ -72,8 +72,9 @@ public class GhostIdentity : MonoBehaviour
             }
         }
     }
-    
-    public void AddTrust(int amount) {
+
+    public void AddTrust(int amount)
+    {
         trust += amount;
         Debug.Log(trust);
     }

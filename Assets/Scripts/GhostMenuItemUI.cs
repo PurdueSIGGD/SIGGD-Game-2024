@@ -1,56 +1,43 @@
 ﻿using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class GhostMenuItemUI : MonoBehaviour
+public class GhostMenuItemUI : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] public TextMeshProUGUI textComponent;
     [SerializeField] public Image imageComponent;
     [SerializeField] public Image borderComponent;
-    [SerializeField] public Button buttonComponent;
+    [SerializeField] public GameObject inPartyIndicator;
 
     public GhostIdentity identity;
-    public PartyManagerUI menu;
+    public PartyManagerUI partyUI;
+    private PartyManager partyManager;
 
     private bool initialized;
 
+    private void Start()
+    {
+        partyManager = FindFirstObjectByType<PartyManager>();
+        partyUI = FindFirstObjectByType<PartyManagerUI>();
+    }
+
     void Update()
     {
-        if (!initialized && identity != null && menu != null)
-        {
-            initialized = true;
-            Init();
-        }
+        inPartyIndicator.SetActive(partyManager.IsGhostInParty(identity.gameObject));
     }
 
-    void Init()
+    public void Visualize(GhostIdentity ghost, bool inParty, bool isSelected)
     {
-        textComponent.SetText(identity.name);
-        buttonComponent.onClick.AddListener(() =>
-        {
-            //menu.Select(this);
-        });
+        CharacterSO info = ghost.GetCharacterInfo();
+        textComponent.text = info.name;
+        imageComponent.sprite = info.characterIcon;
+
     }
 
-    public void SetSelected(bool selected)
+    public void OnPointerClick(PointerEventData eventData)
     {
-        if (selected)
-        {
-            imageComponent.color = Color.green;
-        }
-        else
-        {
-            imageComponent.color = Color.gray;
-        }
+        //skillTreeUI.TryAddPointUI(this.skill);
     }
 
-    public void UISelect()
-    {
-        //menu.Select(this);
-    }
-
-    public void Visualize(GhostIdentity ghost)
-    {
-
-    }
 }
