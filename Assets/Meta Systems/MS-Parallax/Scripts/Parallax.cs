@@ -11,6 +11,8 @@ public class Parallax : MonoBehaviour
 
     private float startX;
     private float startCamX;
+    private float startY;
+    private float startCamY;
     private float width;
     private float camWidth;
 
@@ -30,6 +32,9 @@ public class Parallax : MonoBehaviour
 
         startX = transform.position.x;
         startCamX = cam.transform.position.x;
+
+        startY = transform.position.y;
+        startCamY = cam.transform.position.y;
     }
 
     // Update is called once per frame
@@ -40,7 +45,14 @@ public class Parallax : MonoBehaviour
         // Calculate the new position of the object
         float dist = camX * movementFactor;
         float newX = startX + dist;
-        transform.position = new Vector3(newX, transform.position.y, transform.position.z);
+
+        float camY = cam.transform.position.y - startCamY;
+
+        // Calculate the new position of the object
+        float distY = camY * movementFactor;
+        float newY = startY + distY;
+
+        transform.position = new Vector3(newX, newY, transform.position.z);
 
         if (tiling) {
             // Calculate left, right bounds of camera and object
