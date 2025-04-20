@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -13,6 +14,10 @@ public class PoliceChiefSpecial : MonoBehaviour
     [HideInInspector] public PoliceChiefManager manager;
 
     private bool isCharging = false;
+    [HideInInspector]  public bool hasReserves= false;
+    private bool isCooldown = false;
+    private bool playCooldown = true;
+    private int bypassCheck = 3;
     private float chargingTime = 0f;
 
 
@@ -33,10 +38,12 @@ public class PoliceChiefSpecial : MonoBehaviour
         {
             if (manager.getSpecialCooldown() > 0)
             {
+                isCooldown = true;
                 playerStateMachine.OnCooldown("c_special");
             }
             else
             {
+                isCooldown = false;
                 playerStateMachine.OffCooldown("c_special");
             }
         }
@@ -94,7 +101,18 @@ public class PoliceChiefSpecial : MonoBehaviour
 
     void StopSpecialAttack()
     {
-        endSpecial(true);
+        if (isCooldown)
+        {
+            if (bypassCheck > 0)
+            {
+                playCooldown = false;
+            }
+            else
+            {
+                playCooldown = true;
+            }
+        }
+        endSpecial(isCooldown);
     }
 
     /// <summary>
@@ -105,7 +123,11 @@ public class PoliceChiefSpecial : MonoBehaviour
     {
         camAnim.SetBool("pullBack", false);
         GetComponent<Move>().PlayerGo();
-        if (!startCooldown) return;
+        if (!startCooldown)
+        {
+            Debug.Log("bypass used");
+            return;
+        }
         playerStateMachine.OnCooldown("c_special");
         manager.startSpecialCooldown();
     }
