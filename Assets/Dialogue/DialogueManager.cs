@@ -1,6 +1,7 @@
-using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.InputSystem;
 using Button = UnityEngine.UI.Button;
 
 /// <summary>
@@ -14,7 +15,7 @@ using Button = UnityEngine.UI.Button;
 /// TODO: set character profile image based on who is speaking
 ///  
 /// </summary>
-public class DialogueManager : MonoBehaviour
+public class DialogueManager : MonoBehaviour, IScreenUI
 {
 
     private const string DEFAULT_TEXT = "..."; // Empty text box displays this
@@ -33,19 +34,25 @@ public class DialogueManager : MonoBehaviour
 
     private int currentLine = 0; // which line is currently being read
 
+    private UnityAction actionOnDialogueEnd = null;
+
     /// <summary>
     /// Pass in a ConversationTemp scriptable object to start dialogue.
     /// Sets visibility and starts first line of dialogue
     /// </summary>
-    public void StartDialogue(ConversationTemp conversationToRun) {
+    public void StartDialogue(ConversationTemp conversationToRun)
+    {
 
-        if (!isRunning) {
+        if (!isRunning)
+        {
             conversation = conversationToRun;
             isRunning = true;
             toggleVisibility();
             NextDialogue();
-        }
 
+            // disable player movement
+            PlayerID.instance.GetComponent<PlayerInput>().enabled = false;
+        }
     }
 
     /// <summary>
@@ -76,22 +83,35 @@ public class DialogueManager : MonoBehaviour
     /// <summary>
     /// Called when the last line of dialogue is read.
     /// </summary>
-    void EndDialogue() {
+    void EndDialogue()
+    {
         // Reset for next play
         characterNameText.text = "";
         dialogueText.text = DEFAULT_TEXT;
         isRunning = false;
         toggleVisibility();
         currentLine = 0;
+
+        actionOnDialogueEnd?.Invoke();
+        actionOnDialogueEnd = null;
+
+        // renable player movement
+        PlayerID.instance.GetComponent<PlayerInput>().enabled = true;
     }
 
     /// <summary>
     /// Toggles the visibility of all dialogue components.
     /// Call when isRunning is changed.
     /// </summary>
-    void toggleVisibility() {
+    void toggleVisibility()
+    {
         dialogueBox.SetActive(isRunning);
         nextButton.gameObject.SetActive(isRunning);
+    }
+
+    public void OnNextCloseCall(UnityAction action)
+    {
+        actionOnDialogueEnd = action;
     }
 
     // Start is called before the first frame update

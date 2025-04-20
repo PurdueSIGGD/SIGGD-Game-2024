@@ -1,12 +1,9 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.UIElements;
+using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
-public class SkillTreeUI : MonoBehaviour
+public class SkillTreeUI : MonoBehaviour, IScreenUI
 {
     // -- Serialize Fields --
     [Header("References")]
@@ -18,6 +15,7 @@ public class SkillTreeUI : MonoBehaviour
     private SkillTree skillTree;
     private SkillUI[] skillUis;
     private TierUI[] tierUis;
+    private UnityAction actionOnTreeClose;
 
     // -- Internal Functions --
     private void Start()
@@ -31,7 +29,7 @@ public class SkillTreeUI : MonoBehaviour
     {
         //Visualize(ghost);
     }
-    
+
     // -- External Functions --
     public void Visualize(GameObject ghost)
     {
@@ -48,7 +46,8 @@ public class SkillTreeUI : MonoBehaviour
             {
                 skillUis[i].gameObject.SetActive(true);
                 skillUis[i].Visualize(skills[i], this);
-            } else
+            }
+            else
             {
                 skillUis[i].gameObject.SetActive(false);
             }
@@ -61,11 +60,15 @@ public class SkillTreeUI : MonoBehaviour
             {
                 tierUis[tier].gameObject.SetActive(true);
                 tierUis[tier].Visualize(tier, this);
-            } else
+            }
+            else
             {
                 tierUis[tier].gameObject.SetActive(false);
             }
         }
+
+        // disable player movement
+        PlayerID.instance.GetComponent<PlayerInput>().enabled = false;
     }
 
     public void HideSkillTree()
@@ -73,6 +76,10 @@ public class SkillTreeUI : MonoBehaviour
         this.gameObject.SetActive(false);
         ghost = null;
         skillTree = null;
+        actionOnTreeClose?.Invoke();
+
+        // renable player movement
+        PlayerID.instance.GetComponent<PlayerInput>().enabled = true;
     }
 
     public void ResetTierPointsUI(int tier)
@@ -90,5 +97,10 @@ public class SkillTreeUI : MonoBehaviour
     public SkillTree GetSkillTree()
     {
         return skillTree;
+    }
+
+    public void OnNextCloseCall(UnityAction action)
+    {
+        actionOnTreeClose = action;
     }
 }
