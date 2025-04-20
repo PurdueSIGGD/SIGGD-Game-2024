@@ -24,6 +24,7 @@ public class PoliceChiefSidearmShot : MonoBehaviour
     {
         this.manager = manager;
         StartCoroutine(sidearmShotCoroutine(pos, dir));
+        GameplayEventHolder.OnAbilityUsed?.Invoke(manager.sidearmActionContext);
     }
 
     private IEnumerator sidearmShotCoroutine(Vector2 pos, Vector2 dir)
