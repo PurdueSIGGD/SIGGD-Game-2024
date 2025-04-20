@@ -29,7 +29,7 @@ public class FateboundDebuff : MonoBehaviour
         }
     }
 
-    private void PreserveConnection(ref DamageContext context)
+    private void PreserveConnection(DamageContext context)
     {
         if (context.victim == gameObject)
         {

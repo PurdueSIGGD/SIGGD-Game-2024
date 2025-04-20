@@ -6,13 +6,19 @@ using UnityEngine;
 public class IdolManager : GhostManager, ISelectable
 {
 
-    public IdolSpecial special;
-    public IdolPassive passive;
+    [HideInInspector] public IdolSpecial special;
+    [HideInInspector] public IdolPassive passive;
+    [SerializeField] public ActionContext onDashContext;
+    [SerializeField] public ActionContext onSwapContext;
+
     [SerializeField] public GameObject holojumpTracerVFX;
     [SerializeField] public GameObject holojumpPulseVFX;
     [SerializeField] public GameObject tempoPulseVFX;
+    [SerializeField] public GameObject explosionVFX;
+
+    public bool active;
     [SerializeField] public GameObject idolClone;
-    [HideInInspector] public IdolClone activeClone;
+    public List<GameObject> clones = new List<GameObject>(); // list of all active clones
 
     protected override void Start()
     {

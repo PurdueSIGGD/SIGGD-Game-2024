@@ -1,39 +1,51 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.UIElements;
+using UnityEngine.Events;
 
-public class SkillTreeUI : MonoBehaviour
+public class SkillTreeUI : MonoBehaviour, IScreenUI
 {
-    // -- Serialize Fields --
+    // ==============================
+    //       Serialized Fields
+    // ==============================
+
     [Header("References")]
     [SerializeField] TextMeshProUGUI ghostName;
     [SerializeField] TextMeshProUGUI ghostTitle;
 
-    // -- Private Variables --
+    // ==============================
+    //        Other Variables
+    // ==============================
+
     private GameObject ghost;
     private SkillTree skillTree;
     private SkillUI[] skillUis;
     private TierUI[] tierUis;
+    private UnityAction actionOnTreeClose;
 
-    // -- Internal Functions --
+    // ==============================
+    //        Unity Functions
+    // ==============================
+
     private void Start()
     {
         skillUis = GetComponentsInChildren<SkillUI>();
         tierUis = GetComponentsInChildren<TierUI>();
-        HideSkillTree();
+        CloseSkillTree();
     }
 
-    private void Update()
-    {
-        //Visualize(ghost);
-    }
-    
-    // -- External Functions --
-    public void Visualize(GameObject ghost)
+    // ==============================
+    //       Private Functions
+    // ==============================
+
+
+    // ==============================
+    //        Other Functions
+    // ==============================
+
+    /// <summary>
+    /// Opens and shows the Skill Tree UI for the given ghost game object
+    /// </summary>
+    public void OpenSkillTree(GameObject ghost)
     {
         this.ghost = ghost;
         this.skillTree = ghost.GetComponent<SkillTree>();
@@ -48,7 +60,8 @@ public class SkillTreeUI : MonoBehaviour
             {
                 skillUis[i].gameObject.SetActive(true);
                 skillUis[i].Visualize(skills[i], this);
-            } else
+            }
+            else
             {
                 skillUis[i].gameObject.SetActive(false);
             }
@@ -61,34 +74,61 @@ public class SkillTreeUI : MonoBehaviour
             {
                 tierUis[tier].gameObject.SetActive(true);
                 tierUis[tier].Visualize(tier, this);
-            } else
+            }
+            else
             {
                 tierUis[tier].gameObject.SetActive(false);
             }
         }
+
+        PlayerID.instance.FreezePlayer();
     }
 
-    public void HideSkillTree()
+    /// <summary>
+    /// Closes and hides the Skill Tree UI
+    /// </summary>
+    public void CloseSkillTree()
     {
         this.gameObject.SetActive(false);
         ghost = null;
         skillTree = null;
+        actionOnTreeClose?.Invoke();
+
+        PlayerID.instance.UnfreezePlayer();
     }
 
+    /// <summary>
+    /// Removes (unspecs) points from skills of given tier 
+    /// </summary>
     public void ResetTierPointsUI(int tier)
     {
         skillTree.ResetPoints(tier);
-        Visualize(ghost);
+        OpenSkillTree(ghost);
     }
 
+    /// <summary>
+    /// Attempts to add a skill point to given skill if possible
+    /// Possible only if available point to add
+    /// </summary>
     public void TryAddPointUI(Skill skill)
     {
         skillTree.TryAddPoint(skill);
-        Visualize(ghost);
+        OpenSkillTree(ghost);
     }
 
+    /// <summary>
+    /// Returns reference to skill tree currently displayed in UI
+    /// </summary>
     public SkillTree GetSkillTree()
     {
         return skillTree;
+    }
+
+    /// <summary>
+    /// Calls given action the next time skill tree UI is closed
+    /// </summary>
+    public void OnNextCloseCall(UnityAction action)
+    {
+        actionOnTreeClose = action;
     }
 }
