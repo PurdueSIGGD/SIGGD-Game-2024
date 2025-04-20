@@ -33,6 +33,11 @@ public class PartyManagerUI : MonoBehaviour
         gameObject.SetActive(true);
     }
 
+    public void ClosePartyMenu()
+    {
+        gameObject.SetActive(false);
+    }
+
     /*void Awake()
     {
         partyManager = FindObjectOfType<PartyManager>();
