@@ -142,8 +142,11 @@ public class IdolPassive : MonoBehaviour
         }
 
         // VFX
-        GameObject teleportPulseVfX = Instantiate(manager.tempoPulseVFX, PlayerID.instance.transform.position, Quaternion.identity);
-        teleportPulseVfX.GetComponent<RingExplosionHandler>().playRingExplosion(1.5f, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
+        if (active)
+        {
+            GameObject teleportPulseVfX = Instantiate(manager.tempoPulseVFX, PlayerID.instance.transform.position, Quaternion.identity);
+            teleportPulseVfX.GetComponent<RingExplosionHandler>().playRingExplosion(1.5f, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
+        }
 
         // Ability UI Ping
         GetComponent<IdolUIDriver>().basicAbilityUIManager.pingAbility();
