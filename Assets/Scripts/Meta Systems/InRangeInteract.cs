@@ -76,8 +76,15 @@ public abstract class InRangeInteract : MonoBehaviour
     //        Other Functions
     // ==============================
 
+    /// <summary>
+    /// Get the menu options for this ranged interaction menu
+    /// </summary>
+    /// <returns> Returns array of interaction options </returns>
     protected abstract InteractOption[] GetMenuOptions();
 
+    /// <summary>
+    /// Close the ranged interaction menu UI
+    /// </summary>
     protected void CloseMenu()
     {
         Destroy(interactMenu);

@@ -2,8 +2,26 @@ using UnityEngine;
 
 public class GhostInteract : InRangeInteract
 {
+    // ==============================
+    //       Serialized Fields
+    // ==============================
+
     [SerializeField]
     private ConversationTemp hubConvo;
+
+    // ==============================
+    //        Other Variables
+    // ==============================
+
+
+    // ==============================
+    //        Unity Functions
+    // ==============================
+
+
+    // ==============================
+    //       Private Functions
+    // ==============================
 
     protected override InteractOption[] GetMenuOptions()
     {
@@ -35,6 +53,11 @@ public class GhostInteract : InRangeInteract
     {
         CloseMenu();
         SkillTreeUI skillTreeUI = FindFirstObjectByType<SkillTreeUI>(FindObjectsInactive.Include);
-        skillTreeUI.Visualize(this.gameObject);
+        skillTreeUI.OpenSkillTree(this.gameObject);
     }
+
+    // ==============================
+    //        Other Functions
+    // ==============================
+
 }

@@ -16,6 +16,14 @@ using Button = UnityEngine.UI.Button;
 /// </summary>
 public class DialogueManager : MonoBehaviour, IScreenUI
 {
+    // ==============================
+    //       Serialized Fields
+    // ==============================
+
+
+    // ==============================
+    //        Other Variables
+    // ==============================
 
     private const string DEFAULT_TEXT = "..."; // Empty text box displays this
 
@@ -35,28 +43,37 @@ public class DialogueManager : MonoBehaviour, IScreenUI
 
     private UnityAction actionOnDialogueEnd = null;
 
-    /// <summary>
-    /// Pass in a ConversationTemp scriptable object to start dialogue.
-    /// Sets visibility and starts first line of dialogue
-    /// </summary>
-    public void StartDialogue(ConversationTemp conversationToRun)
+    // ==============================
+    //        Unity Functions
+    // ==============================
+
+    void Start()
     {
 
-        if (!isRunning)
-        {
-            conversation = conversationToRun;
-            isRunning = true;
-            toggleVisibility();
-            NextDialogue();
+        // Set next button to disabled and add action listener
+        nextButton = transform.Find("NextButton").gameObject.GetComponent<Button>();
+        nextButton.onClick.AddListener(NextDialogue);
 
-            PlayerID.instance.FreezePlayer();
-        }
+        // Find dialogue box Game Object and text
+        dialogueBox = this.transform.Find("DialogueBox").gameObject;
+        dialogueText = dialogueBox.transform.Find("DialogueText").gameObject.GetComponent<TMP_Text>();
+        dialogueText.text = DEFAULT_TEXT;
+
+        // Do the same for character name
+        characterNameText = dialogueBox.transform.Find("CharacterNameText").gameObject.GetComponent<TMP_Text>();
+        characterNameText.text = "";
+
+        ToggleVisibility();
     }
+
+    // ==============================
+    //       Private Functions
+    // ==============================
 
     /// <summary>
     /// Called when the start or next button is clicked.
     /// </summary>
-    void NextDialogue()
+    private void NextDialogue()
     {
         // check if we are at end if dialogue
 
@@ -81,13 +98,13 @@ public class DialogueManager : MonoBehaviour, IScreenUI
     /// <summary>
     /// Called when the last line of dialogue is read.
     /// </summary>
-    void EndDialogue()
+    private void EndDialogue()
     {
         // Reset for next play
         characterNameText.text = "";
         dialogueText.text = DEFAULT_TEXT;
         isRunning = false;
-        toggleVisibility();
+        ToggleVisibility();
         currentLine = 0;
 
         actionOnDialogueEnd?.Invoke();
@@ -100,41 +117,41 @@ public class DialogueManager : MonoBehaviour, IScreenUI
     /// Toggles the visibility of all dialogue components.
     /// Call when isRunning is changed.
     /// </summary>
-    void toggleVisibility()
+    private void ToggleVisibility()
     {
         dialogueBox.SetActive(isRunning);
         nextButton.gameObject.SetActive(isRunning);
     }
 
+    // ==============================
+    //        Other Functions
+    // ==============================
+
+    /// <summary>
+    /// Pass in a ConversationTemp scriptable object to start dialogue.
+    /// Sets visibility and starts first line of dialogue
+    /// </summary>
+    public void StartDialogue(ConversationTemp conversationToRun)
+    {
+
+        if (!isRunning)
+        {
+            conversation = conversationToRun;
+            isRunning = true;
+            ToggleVisibility();
+            NextDialogue();
+
+            PlayerID.instance.FreezePlayer();
+        }
+    }
+
+
+    /// <summary>
+    /// Calls given action the next time dialogue manager UI closes (i.e. finishes dialogue)
+    /// </summary>
     public void OnNextCloseCall(UnityAction action)
     {
         actionOnDialogueEnd = action;
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-        // Set next button to disabled and add action listener
-        nextButton = transform.Find("NextButton").gameObject.GetComponent<Button>();
-        nextButton.onClick.AddListener(NextDialogue);
-
-        // Find dialogue box Game Object and text
-        dialogueBox = this.transform.Find("DialogueBox").gameObject;
-        dialogueText = dialogueBox.transform.Find("DialogueText").gameObject.GetComponent<TMP_Text>();
-        dialogueText.text = DEFAULT_TEXT;
-
-        // Do the same for character name
-        characterNameText = dialogueBox.transform.Find("CharacterNameText").gameObject.GetComponent<TMP_Text>();
-        characterNameText.text = "";
-
-        toggleVisibility();
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
     }
 
 }
