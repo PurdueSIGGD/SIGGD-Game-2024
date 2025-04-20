@@ -18,11 +18,11 @@ public class DynamicTrio : Skill
 
         // testing code
 
-        int points = 4;
-        for (int i = 0; i < points; i++)
-        {
-            AddPoint();
-        }
+        // int points = 4;
+        // for (int i = 0; i < points; i++)
+        // {
+        //     AddPoint();
+        // }
     }
     void Update()
     {
