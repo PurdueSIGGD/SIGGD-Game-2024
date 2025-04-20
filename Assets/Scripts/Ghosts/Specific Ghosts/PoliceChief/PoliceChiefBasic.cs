@@ -17,9 +17,10 @@ public class PoliceChiefBasic : MonoBehaviour
     [HideInInspector] public PoliceChiefManager manager;
 
     private bool isCharging = false;
-    private float chargingTime = 0f;
+    public float chargingTime = 0f;
     private bool isPrimed = false;
     private float primedTime = 0f;
+    private float chargetimeChanger;
 
 
 
@@ -46,6 +47,7 @@ public class PoliceChiefBasic : MonoBehaviour
         chargingTime = manager.GetStats().ComputeValue("Basic Charge Up Time");
         isCharging = true;
         GetComponent<Move>().PlayerStop();
+     //   Debug.Log("Chargetime is: "+chargingTime);
     }
 
     public void StopSidearmChargeUp()
