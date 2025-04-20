@@ -15,19 +15,6 @@ public class PartyPedestal : MonoBehaviour, IInteractable
         spriteRenderer.color = INACTIVE_COLOR;
     }
 
-    /*void OnTriggerEnter2D(Collider2D collision)
-    {
-        spriteRenderer.color = ACTIVE_COLOR;
-        interactable = true;
-    }
-
-    void OnTriggerExit2D(Collider2D collision)
-    {
-        spriteRenderer.color = INACTIVE_COLOR;
-        interactable = false;
-        menu.SetActive(false);
-    }*/
-
     public void Interact()
     {
         Debug.Log("Party Pedastool Reacted");

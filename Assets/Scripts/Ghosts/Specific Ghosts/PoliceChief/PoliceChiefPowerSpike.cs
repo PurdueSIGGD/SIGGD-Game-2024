@@ -8,7 +8,7 @@ public class PoliceChiefPowerSpike : Skill
 {
     private float timer = -1.0f;
     private bool critHit = false;
-    public bool ableToCrit = false;
+    private bool ableToCrit = false;
     [SerializeField] private float[] pointCounts = {1.25f, 1.45f, 1.65f, 1.85f};
     private float currentBuff = -1.0f;
     [SerializeField] private float immediateTimeframe = 0.25f;
@@ -28,8 +28,6 @@ public class PoliceChiefPowerSpike : Skill
 
     void Start()
     {
-        AddPoint();
-        AddPoint();
         GameplayEventHolder.OnAbilityUsed += OnAbilityUse;
         GameplayEventHolder.OnDamageFilter.Add(OnDamage);
     }
@@ -78,5 +76,10 @@ public class PoliceChiefPowerSpike : Skill
             critHit = false;
             context.damage *= currentBuff;
         }
+    }
+
+    public bool GetAbleToCrit()
+    {
+        return ableToCrit;
     }
 }

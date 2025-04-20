@@ -72,6 +72,16 @@ public class Dash : MonoBehaviour, IStatList
         {
             direction = new Vector2(direction.x, Mathf.Max(direction.y, 0f)).normalized;
         }
+
+        if (direction.x > 0) // update player facing direction
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
+        else if (direction.x < 0)
+        {
+            transform.rotation = Quaternion.Euler(0, 180, 0);
+        }
+
         Vector2 displacement = direction * stats.ComputeValue("Max Dash Distance");
         this.velocity = displacement / stats.ComputeValue("Dash Time");
         StartCoroutine(DashCoroutine());

@@ -16,8 +16,9 @@ public class IdolSpecial : MonoBehaviour
     private Camera mainCamera;
 
     public GameObject idolClone; // ref to clone prefab
-    private GameObject activeClone; // ref to currently cloneAliveactive clone, if exists
-    bool cloneAlive; // is the clone supposed to be alive right now?
+    private GameObject swapClone; // ref to currently cloneAliveactive clone, if exists
+    public bool spawnSecondClone = false; // used with Dynamic Trio skill
+    bool cloneAlive; // is at least one clone supposed to be alive right now?
 
     [HideInInspector] public IdolManager manager;
 
@@ -25,6 +26,8 @@ public class IdolSpecial : MonoBehaviour
     {
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         psm = GetComponent<PlayerStateMachine>();
+        swapClone = manager.clones.Count > 0 ? manager.clones[0] : null;
+        cloneAlive = swapClone != null;
     }
 
     void Update()
@@ -41,9 +44,9 @@ public class IdolSpecial : MonoBehaviour
             }
         }
 
-        // runs once, at the instant the clone dies
+        // runs once, at the instant the last clone dies
 
-        if ((activeClone == null) && cloneAlive)
+        if (manager.clones.Count == 0 && cloneAlive)
         {
             cloneAlive = false;
             manager.startSpecialCooldown();
@@ -57,7 +60,7 @@ public class IdolSpecial : MonoBehaviour
     /// </summary>
     public void StartHoloJump()
     {
-        if (activeClone) // if there is currently a clone active, switch with it
+        if (swapClone) // if there is currently a clone active, switch with it
         {
             StartCoroutine(SwitchCoroutine());
         }
@@ -96,13 +99,15 @@ public class IdolSpecial : MonoBehaviour
 
         // instantiate clone at position (right before teleporting)
 
-        activeClone = Instantiate(idolClone, transform.position, transform.rotation);
-        activeClone.GetComponent<IdolClone>().Initialize(
+        swapClone = Instantiate(idolClone, transform.position, transform.rotation);
+        swapClone.GetComponent<IdolClone>().Initialize(
             gameObject,
             manager.GetStats().ComputeValue("HOLOJUMP_DURATION_SECONDS"),
-            manager.GetStats().ComputeValue("HOLOJUMP_DURATION_INACTIVE_MODIFIER")
+            manager.GetStats().ComputeValue("HOLOJUMP_DURATION_INACTIVE_MODIFIER"),
+            manager
         );
         cloneAlive = true;
+        manager.clones.Add(swapClone);
 
         // calculate final destination (cannot teleport through "ground" layers)
 
@@ -122,6 +127,20 @@ public class IdolSpecial : MonoBehaviour
 
         transform.position = dest;
 
+        // create duplicate clone if DYNAMIC TRIO skill says so
+
+        if (spawnSecondClone)
+        {
+            GameObject secondClone = Instantiate(idolClone, transform.position, transform.rotation);
+            secondClone.GetComponent<IdolClone>().Initialize(
+                gameObject,
+                manager.GetStats().ComputeValue("HOLOJUMP_DURATION_SECONDS"),
+                manager.GetStats().ComputeValue("HOLOJUMP_DURATION_INACTIVE_MODIFIER"),
+                manager
+            );
+            manager.clones.Add(secondClone);
+        }
+
         // small pause before player can start swapping with clone
 
         HoloJumpImmune(manager.GetStats().ComputeValue("HOLOJUMP_IMMUNE_SECONDS"));
@@ -136,15 +155,19 @@ public class IdolSpecial : MonoBehaviour
     {
         // check if clone still exists
 
-        if (activeClone == null)
+        if (swapClone == null)
         {
-            yield break;
+            if (manager.clones.Count == 0)
+            {
+                yield break;
+            }
+            swapClone = manager.clones[0];
         }
         Debug.Log("Holo Swap!");
 
         // switch position with active clone
 
-        (psm.transform.position, activeClone.transform.position) = (activeClone.transform.position, psm.transform.position);
+        (psm.transform.position, swapClone.transform.position) = (swapClone.transform.position, psm.transform.position);
 
         // small pause before player can swap with clone again
 
@@ -152,15 +175,18 @@ public class IdolSpecial : MonoBehaviour
         yield return new WaitForSeconds(manager.GetStats().ComputeValue("HOLOJUMP_CLONE_SWAP_INTERVAL"));
         psm.EnableTrigger("OPT");
     }
-    
+
     /// <summary>
     /// Returns a ref to the currently active clone, may not exist
     /// </summary>
     public GameObject GetClone()
     {
-        return activeClone;
+        return swapClone;
     }
-
+    public void RemoveCloneFromList(GameObject clone)
+    {
+        manager.clones.Remove(clone);
+    }
     void HoloJumpImmune(float time)
     {
         StartCoroutine(ImmuneTimer(time));
