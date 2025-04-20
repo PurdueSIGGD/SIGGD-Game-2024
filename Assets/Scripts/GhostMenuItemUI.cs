@@ -2,14 +2,15 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GhostMenuItem : MonoBehaviour
+public class GhostMenuItemUI : MonoBehaviour
 {
     [SerializeField] public TextMeshProUGUI textComponent;
     [SerializeField] public Image imageComponent;
+    [SerializeField] public Image borderComponent;
     [SerializeField] public Button buttonComponent;
 
     public GhostIdentity identity;
-    public PartyEditor menu;
+    public PartyManagerUI menu;
 
     private bool initialized;
 
@@ -46,5 +47,10 @@ public class GhostMenuItem : MonoBehaviour
     public void UISelect()
     {
         menu.Select(this);
+    }
+
+    public void Visualize(GhostIdentity ghost)
+    {
+
     }
 }

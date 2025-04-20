@@ -1,19 +1,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PartyEditor : MonoBehaviour
+public class PartyManagerUI : MonoBehaviour
 {
-    [SerializeField] GameObject menuItemPrefab;
-    [SerializeField] GameObject partyBar;
-    [SerializeField] GameObject bankBar;
+    //[SerializeField] GameObject menuItemPrefab;
+    //[SerializeField] GameObject partyBar;
+    //[SerializeField] GameObject bankBar;
 
-    PartyManager partyManager;
+    [SerializeField] GameObject[] ghostBankBar;
+    [SerializeField] GameObject[] ghostPartyBar;
+
+    private PartyManager partyManager;
     GhostIdentity[] identities;
 
-    public List<GhostMenuItem> menuItems = new();
-    public GhostMenuItem selectedMenuItem;
+    public List<GhostMenuItemUI> menuItems = new();
+    public GhostMenuItemUI selectedMenuItem;
 
-    void Awake()
+    /*void Awake()
     {
         partyManager = FindObjectOfType<PartyManager>();
         identities = FindObjectsOfType<GhostIdentity>();
@@ -29,7 +32,7 @@ public class PartyEditor : MonoBehaviour
         foreach (GhostIdentity identity in identities)
         {
             GameObject menuItemObject = Instantiate(menuItemPrefab);
-            GhostMenuItem ghostMenuItem = menuItemObject.GetComponent<GhostMenuItem>();
+            GhostMenuItemUI ghostMenuItem = menuItemObject.GetComponent<GhostMenuItemUI>();
             ghostMenuItem.identity = identity;
             ghostMenuItem.menu = this;
             menuItems.Add(ghostMenuItem);
@@ -45,7 +48,7 @@ public class PartyEditor : MonoBehaviour
         }
     }
 
-    public void Select(GhostMenuItem menuItem)
+    public void Select(GhostMenuItemUI menuItem)
     {
         if (selectedMenuItem != null)
         {
@@ -70,5 +73,5 @@ public class PartyEditor : MonoBehaviour
 
         partyManager.RemoveGhostFromParty(selectedMenuItem.identity);
         selectedMenuItem.transform.SetParent(bankBar.transform);
-    }
+    }*/
 }
