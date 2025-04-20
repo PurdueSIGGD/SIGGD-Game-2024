@@ -98,9 +98,9 @@ public class PartyManager : MonoBehaviour
     /// Removes from player's major ghost list based off reference
     /// </summary>
     /// <param ghostName="ghostIndex"></param>
-    public void RemoveGhostFromParty(GhostIdentity ghost)
+    public bool RemoveGhostFromParty(GhostIdentity ghost)
     {
-        ghostsInParty.Remove(ghost);
+        return ghostsInParty.Remove(ghost);
     }
 
     /// <summary>

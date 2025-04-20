@@ -4,9 +4,8 @@ using UnityEngine.UI;
 
 public class PartyManagerUI : MonoBehaviour
 {
-    //[SerializeField] GameObject menuItemPrefab;
-    //[SerializeField] GameObject partyBar;
-    //[SerializeField] GameObject bankBar;
+    public static readonly string ADD_PARTY_LABEL = "Add to Party";
+    public static readonly string REMOVE_PARTY_LABEL = "Remove from Party";
 
     [Header("Selected Ghost Details")]
 
@@ -31,12 +30,38 @@ public class PartyManagerUI : MonoBehaviour
 
     [Header("Miscellaneous")]
     [SerializeField] private CharacterSO orionSO;
+    [SerializeField] private Button addToPartyBtn;
+    [SerializeField] private Button viewSkillsBtn;
+    [SerializeField] private TextMeshProUGUI addToPartyLabel;
 
     private GhostMenuItemUI selectedItem = null;
 
     private void Awake()
     {
         gameObject.SetActive(false);
+    }
+
+    private void Update()
+    {
+        if (selectedItem == null)
+        {
+            addToPartyBtn.gameObject.SetActive(false);
+            viewSkillsBtn.gameObject.SetActive(false);
+        }
+        else
+        {
+            addToPartyBtn.gameObject.SetActive(true);
+            viewSkillsBtn.gameObject.SetActive(true);
+
+            if (PartyManager.instance.IsGhostInParty(selectedItem.identity))
+            {
+                addToPartyLabel.text = REMOVE_PARTY_LABEL;
+            }
+            else
+            {
+                addToPartyLabel.text = ADD_PARTY_LABEL;
+            }
+        }
     }
 
     public void OpenPartyMenu()
@@ -68,6 +93,18 @@ public class PartyManagerUI : MonoBehaviour
         gameObject.SetActive(false);
     }
 
+    public void SwitchGhostPartyStatus()
+    {
+        if (PartyManager.instance.IsGhostInParty(selectedItem.identity))
+        {
+            PartyManager.instance.RemoveGhostFromParty(selectedItem.identity);
+        }
+        else
+        {
+            PartyManager.instance.TryAddGhostToParty(selectedItem.identity);
+        }
+    }
+
     public void AddGhostToParty(GhostIdentity ghost)
     {
         PartyManager.instance.TryAddGhostToParty(ghost);
@@ -85,6 +122,7 @@ public class PartyManagerUI : MonoBehaviour
         nameText.text = character.name;
         posterImage.sprite = character.fullImage;
 
+        basicAbilityIcon.gameObject.SetActive(true);
         basicAbilityIcon.sprite = character.basicAbilityIcon;
         basicAbilityIcon.color = character.primaryColor;
         basicAbilityText.text = character.basicAbilityName;
@@ -102,6 +140,8 @@ public class PartyManagerUI : MonoBehaviour
         selectedItem = null;
         nameText.text = orionSO.name;
         posterImage.sprite = orionSO.fullImage;
+
+        basicAbilityIcon.gameObject.SetActive(false);
 
         basicAbilityIcon.sprite = orionSO.basicAbilityIcon;
         basicAbilityIcon.color = orionSO.primaryColor;
