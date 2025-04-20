@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MusicManager : MonoBehaviour
 {
-    [SerializeField] private MusicTrack japan;
+    [SerializeField] private LeveledMusicTrack japan;
     [SerializeField] private MusicTrack seamstress;
 
     public enum MusicTrackName {
@@ -16,21 +16,16 @@ public class MusicManager : MonoBehaviour
     private MusicTrackName currentTrackName;
 
     // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
+    void Start() { }
+    
     // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    void Update() { }
 
-    public MusicTrack GetMusicTrack(MusicTrackName trackName) {
+
+    public IMusicTrack GetMusicTrack(MusicTrackName trackName) {
         switch (trackName) {
-            case MusicTrackName.JAPAN:              return japan;
-            case MusicTrackName.SEAMSTRESS:         return seamstress;
+            case MusicTrackName.JAPAN:              return (IMusicTrack) japan;
+            case MusicTrackName.SEAMSTRESS:         return (IMusicTrack) seamstress;
             default:                                return null;
         }
     }
@@ -42,7 +37,7 @@ public class MusicManager : MonoBehaviour
         GetCurrentMusicTrack().PlayTrack();
     }
 
-    public MusicTrack GetCurrentMusicTrack() {
+    public IMusicTrack GetCurrentMusicTrack() {
         return GetMusicTrack(currentTrackName);
     }
 
@@ -64,18 +59,16 @@ public class MusicManager : MonoBehaviour
 
         int fadeSteps = 20;
         float stepTime = fadeTime / fadeSteps;
-        MusicTrack originalTrack = GetMusicTrack(currentTrackName);
-        MusicTrack newTrack = GetMusicTrack(trackName);
+        IMusicTrack originalTrack = GetMusicTrack(currentTrackName);
+        IMusicTrack newTrack = GetMusicTrack(trackName);
         
         // Need to be careful since these tracks might already be playing and have their own volume
         float originalTrackStartVolume = originalTrack.GetTrackVolume();
         float newTrackStartVolume = newTrack.GetTrackVolume();
-        Debug.Log("Crossfading");
 
         // The rate to change the tracks' volumes
         float originalTrackVolumeDelta = -originalTrackStartVolume / fadeSteps;
         float newTrackVolumeDelta = (1 - newTrackStartVolume) / fadeSteps;
-        Debug.Log("Do: " + originalTrackVolumeDelta + "\tDn" + newTrackVolumeDelta);
 
         // Fade by adjusting volume over multiple steps
         newTrack.PlayTrack();  

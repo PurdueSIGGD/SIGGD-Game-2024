@@ -1,28 +1,7 @@
-using System;
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
-// Attached to music which can be looped
-public class MusicTrack : AbstractLoopingTrack, ITrack
-{
-    // The loudest volume which can be reached by the level tracks
-    // The tracks are normalized around this value 
-    protected float maxVolume = 1.0f;
-
-    public void SetTrackVolume(float volume) {
-        maxVolume = volume;
-        tracks[0].volume = maxVolume;
-        tracks[1].volume = maxVolume;
-    }
-
-    public float GetTrackVolume() {
-        if (!isPlaying) {
-            return 0.0f;
-        }
-        return maxVolume;
-    }
-
+public class LoopingSFXTrack : AbstractLoopingTrack, ISFXTrack {
     protected override IEnumerator AutoLoop() {
         float trackPlaytime = loopEnd - tracks[currentTrackOffset].time;
 

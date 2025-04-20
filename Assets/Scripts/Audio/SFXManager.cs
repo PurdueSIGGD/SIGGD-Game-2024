@@ -11,10 +11,10 @@ public class SFXManager : MonoBehaviour
     // Priority SFX: Sounds which are especially important to hear for the player (e.g. damage taken, player's attack)
     // BIGSFX: Sounds which take the centerstage and override ALL other audio sources for impact (e.g. North railgun, T4 Sacrifice skills)
 
-    [SerializeField] private SFXTrack jump;
-    [SerializeField] private SFXTrack lightAttack;
-    [SerializeField] private SFXTrack footsteps;
-    [SerializeField] private SFXTrack railgunAttack;
+    [SerializeField] private OneShotSFXTrack jump;
+    [SerializeField] private OneShotSFXTrack lightAttack;
+    [SerializeField] private OneShotSFXTrack footsteps;
+    [SerializeField] private OneShotSFXTrack railgunAttack;
 
     public enum SFXTrackName {
         JUMP,
@@ -35,7 +35,7 @@ public class SFXManager : MonoBehaviour
         
     }
 
-    public SFXTrack GetSFXTrack(SFXTrackName trackName) {
+    public ISFXTrack GetSFXTrack(SFXTrackName trackName) {
         switch (trackName) {
             case SFXTrackName.JUMP:                 return jump;
             case SFXTrackName.LIGHT_ATTACK:         return lightAttack;

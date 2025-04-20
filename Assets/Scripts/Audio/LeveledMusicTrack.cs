@@ -120,7 +120,7 @@ public class LeveledMusicTrack : MusicTrack {
         float trackPlaytime = loopEnd - tracks[LEVEL_TWO_TRACK_OFFSET + currentTrackOffset].time;
 
         do {
-            float trackMajorityLength = (loopEnd - tracks[LEVEL_TWO_TRACK_OFFSET + currentTrackOffset].time) * 0.98f;
+            float trackMajorityLength = (loopEnd - tracks[LEVEL_TWO_TRACK_OFFSET + currentTrackOffset].time) * TRACK_MAJORITY_RATIO;
             yield return new WaitForSecondsRealtime(trackMajorityLength);
             trackPlaytime = loopEnd - tracks[LEVEL_TWO_TRACK_OFFSET + currentTrackOffset].time;
             yield return new WaitForSecondsRealtime(trackPlaytime);
