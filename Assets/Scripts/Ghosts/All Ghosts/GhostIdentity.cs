@@ -2,15 +2,14 @@ using UnityEngine;
 
 public class GhostIdentity : MonoBehaviour
 {
-
     [SerializeField] private CharacterSO characterInfo;
-
-    private bool inParty = false;
-    private bool isSelected = false;
+    [SerializeField] private bool isUnlocked;
 
     private IParty[] partyScripts;
     private ISelectable[] possessingScripts;
-    private int trust;
+    private SkillTree skillTree;
+    private int trust = 0;
+    private int exp = 0;
 
     void Start()
     {
@@ -27,49 +26,41 @@ public class GhostIdentity : MonoBehaviour
         return characterInfo;
     }
 
-    /// <summary>
-    /// checks if ghost is in the player's party
-    /// </summary>
-    /// <returns>if ghost is in party</returns>
-    public bool IsInParty()
-    {
-        return inParty;
-    }
-
-    public void SetPartyStatus(bool inParty)
+    public void TriggerEnterPartyBehavior()
     {
         foreach (IParty script in partyScripts)
         {
-            if (inParty)
-            {
-                script.EnterParty(PlayerID.instance.gameObject);
-            }
-            else
-            {
-                script.ExitParty(PlayerID.instance.gameObject);
-            }
+            script.EnterParty(PlayerID.instance.gameObject);
         }
-        this.inParty = inParty;
+    }
+
+    public void TriggerExitPartyBehavior()
+    {
+        foreach (IParty script in partyScripts)
+        {
+            script.ExitParty(PlayerID.instance.gameObject);
+        }
     }
 
     public bool IsSelected()
     {
-        return isSelected;
+        return (this == PartyManager.instance.GetSelectedGhost());
     }
 
-    public void SetSelected(bool possessing)
+    public void TriggerSelectedBehavior()
     {
-        this.isSelected = possessing;
-        foreach (ISelectable action in possessingScripts)
+        foreach (ISelectable script in possessingScripts)
         {
-            if (this.isSelected)
-            {
-                action.Select(PlayerID.instance.gameObject);
-            }
-            else
-            {
-                action.DeSelect(PlayerID.instance.gameObject);
-            }
+            script.Select(PlayerID.instance.gameObject);
+        }
+    }
+
+
+    public void TriggerDeSelectedBehavior()
+    {
+        foreach (ISelectable script in possessingScripts)
+        {
+            script.DeSelect(PlayerID.instance.gameObject);
         }
     }
 
@@ -77,5 +68,15 @@ public class GhostIdentity : MonoBehaviour
     {
         trust += amount;
         Debug.Log(trust);
+    }
+
+    public void UnlockGhost()
+    {
+        isUnlocked = true;
+    }
+
+    public bool IsUnlocked()
+    {
+        return isUnlocked;
     }
 }

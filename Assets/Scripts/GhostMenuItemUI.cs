@@ -11,10 +11,8 @@ public class GhostMenuItemUI : MonoBehaviour, IPointerClickHandler
     [SerializeField] public GameObject inPartyIndicator;
 
     public GhostIdentity identity;
-    public PartyManagerUI partyUI;
+    private PartyManagerUI partyUI;
     private PartyManager partyManager;
-
-    private bool initialized;
 
     private void Start()
     {
@@ -24,20 +22,21 @@ public class GhostMenuItemUI : MonoBehaviour, IPointerClickHandler
 
     void Update()
     {
-        inPartyIndicator.SetActive(partyManager.IsGhostInParty(identity.gameObject));
+        inPartyIndicator.SetActive(partyManager.IsGhostInParty(identity));
+        borderComponent.gameObject.SetActive(partyUI.GetSelectedGhost() == this);
     }
 
-    public void Visualize(GhostIdentity ghost, bool inParty, bool isSelected)
+    public void Visualize(GhostIdentity ghost)
     {
+        identity = ghost;
         CharacterSO info = ghost.GetCharacterInfo();
         textComponent.text = info.name;
         imageComponent.sprite = info.characterIcon;
-
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        //skillTreeUI.TryAddPointUI(this.skill);
+        partyUI.VisualizeDetails(this, identity);
     }
 
 }
