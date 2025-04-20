@@ -18,6 +18,14 @@ GameObject:
   - component: {fileID: -6798671931701359635}
   - component: {fileID: 276692746952485737}
   - component: {fileID: 4337353799593711327}
+  - component: {fileID: 9211257940781465955}
+  - component: {fileID: 3272375648746919725}
+  - component: {fileID: 2247047511266038100}
+  - component: {fileID: 5028833019426444995}
+  - component: {fileID: 9025963487758876621}
+  - component: {fileID: 219043313411044668}
+  - component: {fileID: 1305219588593162149}
+  - component: {fileID: 5097139144495799664}
   m_Layer: 17
   m_Name: Eva-Idol
   m_TagString: Ghost
@@ -194,8 +202,23 @@ MonoBehaviour:
     value: 2
   - name: TEMPO_BASE_DURATION
     value: 6
+  - name: Nova Pop Damage
+    value: 20
   defaultController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
   ghostController: {fileID: 9100000, guid: 5779acd767093ee419301b684e1317dd, type: 2}
+  special: {fileID: 0}
+  passive: {fileID: 0}
+  onDashContext:
+    actionID: 8
+    actionTypes: 03000000
+    extraContext: 
+  onSwapContext:
+    actionID: 18
+    actionTypes: 08000000
+    extraContext: 
+  explosionVFX: {fileID: 7966241730260626198, guid: a5295bc6cb8948243b75f99e5a18cc48,
+    type: 3}
+  active: 0
   idolClone: {fileID: 7482494425360345118, guid: 05024df506a5b824f8658954331c8231,
     type: 3}
 --- !u!114 &-6798671931701359635
@@ -242,6 +265,150 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 667327e63fa55ac458e714020f474959, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectedGhostUIManager: {fileID: 0}
+  deselectedGhostUIManager: {fileID: 0}
+  basicAbilityUIManager: {fileID: 0}
+  specialAbilityUIManager: {fileID: 0}
+  skill1UIManager: {fileID: 0}
+  skill2UIManager: {fileID: 0}
+  meterUIManager: {fileID: 0}
+--- !u!114 &9211257940781465955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981645078808632434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6751ace73ed618a489adcadc57478e19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skills:
+  - {fileID: 3272375648746919725}
+  - {fileID: 2247047511266038100}
+  - {fileID: 5028833019426444995}
+  - {fileID: 9025963487758876621}
+  - {fileID: 219043313411044668}
+  - {fileID: 1305219588593162149}
+  - {fileID: 5097139144495799664}
+  startAtLevel: 0
+  level: 0
+--- !u!114 &3272375648746919725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981645078808632434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e5b4c3a8799b56408081c9827378104, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillSO: {fileID: 11400000, guid: ea15666da1c03af44acd60ffc6345a04, type: 2}
+--- !u!114 &2247047511266038100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981645078808632434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f93aeecf509537041b3097b09e2aed63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillSO: {fileID: 11400000, guid: 7fbbc74c58fea6546b74b8d2dfaabbb4, type: 2}
+--- !u!114 &5028833019426444995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981645078808632434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cded2aefff03514c80651e9f3c8ea75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillSO: {fileID: 11400000, guid: ea15666da1c03af44acd60ffc6345a04, type: 2}
+--- !u!114 &9025963487758876621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981645078808632434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d727d33aad9d03f4597ba1dd71addb04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillSO: {fileID: 11400000, guid: ea15666da1c03af44acd60ffc6345a04, type: 2}
+  explosionContext:
+    damageStrength: 0
+    damageTypes: 
+    actionID: 0
+    actionTypes: 
+    extraContext: 
+  stunContext:
+    damageStrength: 0
+    damageTypes: 02000000
+    actionID: 8
+    actionTypes: 
+    extraContext: 
+  radius: 2.5
+--- !u!114 &219043313411044668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981645078808632434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df2c7d72cf329c447afedaa5d3570f12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillSO: {fileID: 11400000, guid: 47d10ae9d4bb8664591d154467935b21, type: 2}
+  values: 000000000a000000140000001e00000028000000
+  manager: {fileID: 0}
+  fieldVisual: {fileID: 1539173856502906608, guid: 677f9ddb74eb33a41ab8c747775a259c,
+    type: 3}
+  damage:
+    damageStrength: 0
+    damageTypes: 00000000
+    actionID: 0
+    actionTypes: 04000000
+    extraContext: 
+  radius: 5
+--- !u!114 &1305219588593162149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981645078808632434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cded2aefff03514c80651e9f3c8ea75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillSO: {fileID: 11400000, guid: ea15666da1c03af44acd60ffc6345a04, type: 2}
+--- !u!114 &5097139144495799664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981645078808632434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cded2aefff03514c80651e9f3c8ea75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillSO: {fileID: 11400000, guid: ea15666da1c03af44acd60ffc6345a04, type: 2}
 --- !u!1 &4936111184687609786
 GameObject:
   m_ObjectHideFlags: 0

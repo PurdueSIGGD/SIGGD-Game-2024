@@ -12,7 +12,7 @@ public class IdolPassive : MonoBehaviour
     [SerializeField] bool uptempo; // have the stored tempo stacks been activated?
     [SerializeField] float duration;
     [SerializeField] float tick;
-    [SerializeField] bool active = false;
+    [SerializeField] public bool active = false;
     List<string> statNames = new()
         {
             "Max Running Speed",
@@ -104,7 +104,10 @@ public class IdolPassive : MonoBehaviour
         Debug.Log("TEMPO AWAH DOWN");
     }
 
-    public void IdolOnKill(ref DamageContext context)
+    /// <summary>
+    /// Increases the Idol buff count by one
+    /// </summary>
+    public void IdolOnKill(DamageContext context)
     {
         // not me? DON'T CARE!!!
 

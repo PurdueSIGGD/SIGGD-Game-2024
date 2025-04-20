@@ -1,3 +1,6 @@
+using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 /// <summary>
@@ -8,12 +11,17 @@ using UnityEngine;
 /// </summary>
 public class Door : MonoBehaviour
 {
+    public delegate void DoorOpened();
+    public static DoorOpened OnDoorOpened;
+
     [SerializeField] private GameObject dest;
-    [SerializeField] private bool active;
+    public static bool active;
     [SerializeField] private Vector3 menuOffset;
+    [SerializeField] private bool specificActive;
 
     private GameObject interactMenu;
     private PlayerID player;
+    
 
     void Start()
     {
@@ -25,7 +33,7 @@ public class Door : MonoBehaviour
         GameObject player = collision.gameObject;
 
         // disable teleport when door not active
-        if (player.CompareTag("Player") && active)
+        if (player.CompareTag("Player") && (active || specificActive))
         {
             CreateInteractMenu();
         }
@@ -38,19 +46,24 @@ public class Door : MonoBehaviour
     }
 
     // Unlock the door to allow entry to the next room
-    public void activateDoor(bool active)
+    public static void activateDoor(bool nactive)
     {
-        this.active = active;
+        active = nactive;
     }
 
     private void CreateInteractMenu()
     {
         WorldInteract WI = FindAnyObjectByType<WorldInteract>();
-        InteractOption opt1 = new InteractOption("Use", TeleportPlayer);
+        WorldInteract.InteractOption opt1 = new WorldInteract.InteractOption("Use", CallDoorOpened);//TeleportPlayer);
 
         Vector3 menuPos = this.transform.position + menuOffset;
 
         interactMenu = WI.CreateInteractMenu(menuPos, opt1);
+    }
+
+    private void CallDoorOpened()
+    {
+        OnDoorOpened();
     }
 
     private void TeleportPlayer()

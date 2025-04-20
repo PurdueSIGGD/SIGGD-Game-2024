@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class PoliceChiefSpecial : MonoBehaviour, ISpecialMove
+public class PoliceChiefSpecial : MonoBehaviour
 {
     private bool shouldChangeBack = true;
     private PlayerStateMachine playerStateMachine;
@@ -89,6 +89,7 @@ public class PoliceChiefSpecial : MonoBehaviour, ISpecialMove
         // Fire shot
         GameObject railgunShot = Instantiate(manager.specialShot, Vector3.zero, Quaternion.identity);
         railgunShot.GetComponent<PoliceChiefRailgunShot>().fireRailgunShot(manager, pos, dir);
+        GameplayEventHolder.OnAbilityUsed?.Invoke(manager.policeChiefRailgun);
     }
 
     void StopSpecialAttack()
@@ -107,10 +108,5 @@ public class PoliceChiefSpecial : MonoBehaviour, ISpecialMove
         if (!startCooldown) return;
         playerStateMachine.OnCooldown("c_special");
         manager.startSpecialCooldown();
-    }
-
-    public bool GetBool()
-    {
-        return true;
     }
 }
