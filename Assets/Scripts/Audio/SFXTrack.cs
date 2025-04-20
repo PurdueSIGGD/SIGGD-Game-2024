@@ -15,8 +15,4 @@ public class SFXTrack : MonoBehaviour, ITrack
     public void PlayTrack() {
         track.PlayOneShot(track.clip, 1.0f);
     }
-
-    public float GetTrackTime() {
-        return track.time;
-    }
 }

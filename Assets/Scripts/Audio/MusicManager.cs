@@ -4,18 +4,16 @@ using UnityEngine;
 
 public class MusicManager : MonoBehaviour
 {
-    // ********** MUSIC **********
-    // Has type MusicTrack with "music_" variable name header
-    // Accessed externally via PlayMusictrack()/GetMusicTrack() with MusicTrackName parameter
-
-    [SerializeField] private MusicTrack music_japan;
-    [SerializeField] private MusicTrack music_seamstress;
+    [SerializeField] private MusicTrack japan;
+    [SerializeField] private MusicTrack seamstress;
 
     public enum MusicTrackName {
         //                  loopStart       loopEnd
         JAPAN, //           21.943          197.486
         SEAMSTRESS //       11.912          83.383    
     }
+
+    private MusicTrackName currentTrackName;
 
     // Start is called before the first frame update
     void Start()
@@ -31,8 +29,8 @@ public class MusicManager : MonoBehaviour
 
     public MusicTrack GetMusicTrack(MusicTrackName trackName) {
         switch (trackName) {
-            case MusicTrackName.JAPAN:              return music_japan;
-            case MusicTrackName.SEAMSTRESS:         return music_seamstress;
+            case MusicTrackName.JAPAN:              return japan;
+            case MusicTrackName.SEAMSTRESS:         return seamstress;
             default:                                return null;
         }
     }
@@ -48,7 +46,11 @@ public class MusicManager : MonoBehaviour
         return GetMusicTrack(currentTrackName);
     }
 
-    
+    public MusicTrackName GetCurrentMusicTrackName() {
+        return currentTrackName;
+    }
+
+
     public void CrossfadeTo(MusicTrackName trackName, float fadeTime) {
         StartCoroutine(Crossfade(trackName, fadeTime));
     }

@@ -9,20 +9,11 @@ public class AudioManager : MonoBehaviour {
     public static AudioManager Instance { get; private set; }
 
     // The AudioManager toolbox
-    public SFXManager SFXBranch { get; private set; }
-    public MusicManager MusicBranch { get; private set; }
-    // public DialogueManager DialogueBranch { get; private set; } // TODO: uncomment when other dialoguemanger is figured out
+    public SFXManager SFXBranch { get; private set; }       // Sound effects such as ghost abilities, enemy sounds, UI sounds, etc.
+    public MusicManager MusicBranch { get; private set; }   // The game's soundtrack such as level tracks, boss music, ghost themes, etc.
+    public VAManager VABranch { get; private set; }         // Any recorded voice such as converstaions, ability voicelines, etc.
 
     private float tempStepCounter = 0.0f;
-
-
-    // ********** DIALOGUE **********
-    // Has type AudioTrack with "dialogue_" variable name header
-    // Accessed externally via PlayDialoguetrack()/GetDialogueTrack() with DialogueTrackName parameter
-    [SerializeField] private DialogueTrack dialogue_britishAnt;
-
-
-    private MusicTrackName currentTrackName;
 
     // Energy level: This variable is set by other scripts to manage the tracks energy levels
     // 0.0 to 1.0, low energy to high energy
@@ -43,13 +34,13 @@ public class AudioManager : MonoBehaviour {
 
         SFXBranch = GetComponentInChildren<SFXManager>();
         MusicBranch = GetComponentInChildren<MusicManager>();
-        // DialogueBranch = GetComponentInChildren<DialogueManager>(); // TODO uncomment when dialoguemanager is figured out
+        VABranch = GetComponentInChildren<VAManager>();
     }
 
     // Start is called before the first frame update
     void Start() {
-        currentTrackName = MusicTrackName.JAPAN;
-        GetCurrentMusicTrack().PlayTrack();
+        Instance.MusicBranch.PlayMusicTrack(MusicManager.MusicTrackName.JAPAN);
+        Instance.MusicBranch.GetCurrentMusicTrack().PlayTrack();
     }
 
     // Update is called once per frame
@@ -58,63 +49,44 @@ public class AudioManager : MonoBehaviour {
         if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)) {
             tempStepCounter += Time.deltaTime;
             if (tempStepCounter > 0.4f) {
-                SFX_footsteps.PlayTrack();
+                Instance.SFXBranch.PlaySFXTrack(SFXManager.SFXTrackName.FOOTSTEP);
                 tempStepCounter = 0.0f;
             }
         }   
 
         if (Input.GetKeyDown(KeyCode.Space)) {
-            SFX_jump.PlayTrack();
+            Instance.SFXBranch.PlaySFXTrack(SFXManager.SFXTrackName.JUMP);
         }
 
         if (Input.GetKeyDown(KeyCode.E)) {
-            SFX_lightAttack.PlayTrack();
+            Instance.SFXBranch.PlaySFXTrack(SFXManager.SFXTrackName.LIGHT_ATTACK);
         }
 
         if (Input.GetKeyDown(KeyCode.B)) {
-            dialogue_britishAnt.PlayTrack();
+            Instance.VABranch.PlayDialogueTrack(VAManager.VATrackName.BRITISH_ANT);
         }
 
         if (Input.GetKeyDown(KeyCode.R)) {
-            SFX_railgunAttack.PlayTrack();
+            Instance.SFXBranch.PlaySFXTrack(SFXManager.SFXTrackName.RAILGUN_ATTACK);
         }
 
         if (Input.GetKeyDown(KeyCode.C)) {
-            MusicTrackName nextTrack = currentTrackName == MusicTrackName.JAPAN ? MusicTrackName.SEAMSTRESS : MusicTrackName.JAPAN;
-            StartCoroutine(CrossfadeTo(nextTrack, 3.0f));
+            int trackNum = 0;
+
+            MusicManager.MusicTrackName nextTrack = 
+                    Instance.MusicBranch.GetCurrentMusicTrackName() == MusicManager.MusicTrackName.JAPAN
+                    ? MusicManager.MusicTrackName.SEAMSTRESS
+                    : MusicManager.MusicTrackName.JAPAN;
+            Instance.MusicBranch.CrossfadeTo(nextTrack, 3.0f);
         }
 
         if (Input.GetKeyDown(KeyCode.O)) {
-            GetCurrentMusicTrack().StopTrack();
+            Instance.MusicBranch.GetCurrentMusicTrack().StopTrack();
         }
         if (Input.GetKeyDown(KeyCode.P)) {
-            GetCurrentMusicTrack().PlayTrack();
+            Instance.MusicBranch.GetCurrentMusicTrack().PlayTrack();
         }
     }
-
-
-    // ********** ********** ********** ********** ********** //
-    // ******************** Dialogue Interface ******************** //
-    // ********** ********** ********** ********** ********** //
-
-    public enum DialogueTrackName {
-        BRITISH_ANT // If this is still here, remove it
-    }
-
-    public void PlayDialogueTrack(DialogueTrackName trackName) {
-        GetDialogueTrack(trackName).PlayTrack();
-    }
-
-    public AudioTrack GetDialogueTrack(DialogueTrackName trackName) {
-        switch (trackName) {
-            case DialogueTrackName.BRITISH_ANT:     return dialogue_britishAnt;
-            default:                                return null;
-        }
-    }
-
-    // ********** ********** ********** ********** ********** //
-    // ******************** Misc Functions ******************** //
-    // ********** ********** ********** ********** ********** //
     
     // Used by MusicTracks to find out which track energy levels to play
     public float GetEnergyLevel() { return energyLevel; }
