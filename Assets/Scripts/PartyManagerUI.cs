@@ -16,6 +16,16 @@ public class PartyManagerUI : MonoBehaviour
     [SerializeField] Image posterImage;
     [SerializeField] Slider expSlider;
 
+    [Header("Ghost Ability - Basic")]
+    [SerializeField] Image basicAbilityIcon;
+    [SerializeField] TextMeshProUGUI basicAbilityText;
+    [SerializeField] TextMeshProUGUI basicAbilityDesc;
+
+    [Header("Ghost Ability - Special")]
+    [SerializeField] Image specialAbilityIcon;
+    [SerializeField] TextMeshProUGUI specialAbilityText;
+    [SerializeField] TextMeshProUGUI specialAbilityDesc;
+
     [Header("All Unlocked Ghosts")]
     [SerializeField] GhostMenuItemUI[] ghostUis;
 
@@ -68,6 +78,17 @@ public class PartyManagerUI : MonoBehaviour
         selectedItem = item;
         CharacterSO character = ghost.GetCharacterInfo();
         nameText.text = character.name;
+        posterImage.sprite = character.fullImage;
+
+        basicAbilityIcon.sprite = character.basicAbilityIcon;
+        basicAbilityIcon.color = character.primaryColor;
+        basicAbilityText.text = character.basicAbilityName;
+        basicAbilityDesc.text = character.basicAbilityDescription;
+
+        specialAbilityIcon.sprite = character.specialAbilityIcon;
+        specialAbilityIcon.color = character.primaryColor;
+        specialAbilityText.text = character.specialAbilityName;
+        specialAbilityDesc.text = character.specialAbilityDescription;
         //ghost.GetComponent<Skill>
     }
 
