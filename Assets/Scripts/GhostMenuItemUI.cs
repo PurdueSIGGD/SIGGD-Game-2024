@@ -28,7 +28,7 @@ public class GhostMenuItemUI : MonoBehaviour
         textComponent.SetText(identity.name);
         buttonComponent.onClick.AddListener(() =>
         {
-            menu.Select(this);
+            //menu.Select(this);
         });
     }
 
@@ -46,7 +46,7 @@ public class GhostMenuItemUI : MonoBehaviour
 
     public void UISelect()
     {
-        menu.Select(this);
+        //menu.Select(this);
     }
 
     public void Visualize(GhostIdentity ghost)
