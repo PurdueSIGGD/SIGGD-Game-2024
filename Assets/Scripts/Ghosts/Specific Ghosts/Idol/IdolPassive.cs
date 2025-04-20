@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 /// <summary>
@@ -8,19 +9,19 @@ using UnityEngine;
 public class IdolPassive : MonoBehaviour
 {
     [SerializeField] public int tempoStacks = 0; // number of stacks
-    [SerializeField] bool kill; // has the player just scored a kill?
-    [SerializeField] bool uptempo; // have the stored tempo stacks been activated?
-    [SerializeField] float duration;
-    [SerializeField] float tick;
-    [SerializeField] bool active = false;
+    [SerializeField] private bool kill; // has the player just scored a kill?
+    [SerializeField] private bool uptempo; // have the stored tempo stacks been activated?
+    [SerializeField] public float duration;
+    [SerializeField] private float tick;
+    [SerializeField] private bool active = false;
     List<string> statNames = new()
         {
             "Max Running Speed",
             "Running Accel.",
-            "Running Deaccel.",
+            //"Running Deaccel.",
             "Max Glide Speed",
             "Glide Accel.",
-            "Glide Deaccel."
+            //"Glide Deaccel."
         };
 
     // Reference to player stats
@@ -40,19 +41,16 @@ public class IdolPassive : MonoBehaviour
     void Update()
     {
         // tempo duration timer
-
         if (uptempo && duration > 0)
         {
             float inactiveModifier = manager.GetStats().ComputeValue("TEMPO_INACTIVE_DURATION_MODIFIER");
             float maxDuration = manager.GetStats().ComputeValue("TEMPO_BASE_DURATION");
 
             // decrement duration at a modified rate if Idol is not active
-
             tick = active ? Time.deltaTime : Time.deltaTime * inactiveModifier;
             duration -= tick;
 
             // reset duration if player scored a kill
-
             if (kill)
             {
                 duration = maxDuration;
@@ -62,7 +60,6 @@ public class IdolPassive : MonoBehaviour
         else if (uptempo)
         {
             // end tempo if duration ended
-
             KillTempo();
         }
     }
@@ -74,7 +71,6 @@ public class IdolPassive : MonoBehaviour
     {
         // just being cautious and double checking if idol is active
         // swapping is so sketch but we ball
-
         if (active)
         {
             return;
@@ -84,11 +80,15 @@ public class IdolPassive : MonoBehaviour
         Debug.Log("TEMPO AWAH UP");
 
         // initialize tempo timer if stacks exist and tempo isn't up already
-
         if (!uptempo && (tempoStacks > 0))
         {
             InitializeTempoTimer();
         }
+
+        if (tempoStacks <= 0) return;
+        // VFX
+        GameObject teleportPulseVfX = Instantiate(manager.tempoPulseVFX, PlayerID.instance.transform.position, Quaternion.identity);
+        teleportPulseVfX.GetComponent<RingExplosionHandler>().playRingExplosion(1.5f, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
     }
     /// <summary>
     /// Called by IdolManager on swap away from Idol, BEFORE manager.active is set false
@@ -114,7 +114,7 @@ public class IdolPassive : MonoBehaviour
         }
         kill = true;
 
-        IncrementTempo(1);
+        IncrementTempo(Mathf.CeilToInt(manager.GetStats().ComputeValue("TEMPO_STACKS_PER_KILL")));
     }
 
     /// <summary>
@@ -127,24 +127,25 @@ public class IdolPassive : MonoBehaviour
         int remainingStacks = (int)manager.GetStats().ComputeValue("TEMPO_MAX_STACKS") - tempoStacks;
 
         // increment tempo stacks by stacks so it doesn't exceed maximum
-
         stacks = stacks < remainingStacks ? stacks : remainingStacks;
         tempoStacks += stacks;
 
-        // immediately apply tempo changes if Idol is active (+1 boost)
-
+        // immediately apply tempo changes if Idol is active
         if (active)
         {
             UpdateSpeed(stacks);
         }
-
         // initialize tempo effect if idol is active, has stacks, and isn't speed boosted yet 
-
-        if (active && tempoStacks > 0 && !uptempo)
+        if (tempoStacks > 0 && !uptempo)
         {
             InitializeTempoTimer();
         }
 
+        // VFX
+        GameObject teleportPulseVfX = Instantiate(manager.tempoPulseVFX, PlayerID.instance.transform.position, Quaternion.identity);
+        teleportPulseVfX.GetComponent<RingExplosionHandler>().playRingExplosion(1.5f, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
+
+        // Ability UI Ping
         GetComponent<IdolUIDriver>().basicAbilityUIManager.pingAbility();
     }
 

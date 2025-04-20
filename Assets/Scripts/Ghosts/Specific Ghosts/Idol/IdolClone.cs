@@ -7,9 +7,10 @@ using UnityEngine;
 /// </summary>
 public class IdolClone : MonoBehaviour
 {
-    [SerializeField] float duration; // duration clone can last
-    [SerializeField] float inactiveModifier;
+    [SerializeField] public float duration; // duration clone can last
+    [SerializeField] private float inactiveModifier;
     private GameObject player;
+    private IdolManager manager;
 
     void Update()
     {
@@ -21,6 +22,7 @@ public class IdolClone : MonoBehaviour
         print("Duration: " + duration);
         if (duration <= 0)
         {
+            manager.startSpecialCooldown();
             Destroy(gameObject);
         }
         if (player.GetComponent<IdolSpecial>())
@@ -38,9 +40,10 @@ public class IdolClone : MonoBehaviour
     /// using
     /// </summary>
     /// <param name="player"> player gameobject </param>
-    public void Initialize(GameObject player, float duration, float inactiveModifier)
+    public void Initialize(GameObject player, IdolManager manager, float duration, float inactiveModifier)
     {
         this.player = player;
+        this.manager = manager;
         this.duration = duration;
         this.inactiveModifier = inactiveModifier;
     }

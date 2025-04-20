@@ -20699,8 +20699,6 @@ MonoBehaviour:
     value: 2
   - name: Post Dash Momentum Fraction
     value: 0.6
-  velocity: {x: 0, y: 0}
-  isDashing: 0
 --- !u!114 &7635436938379705283
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20721,7 +20719,7 @@ MonoBehaviour:
   - name: Running Accel.
     value: 2
   - name: Running Deaccel.
-    value: 0.75
+    value: 0.65
   - name: Airborne Accel.
     value: 1
   - name: Airborne Deaccel.
@@ -20906,6 +20904,8 @@ MonoBehaviour:
   statList: []
   defaultController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
   ghostController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
+  isDashEnabled: 1
+  isAirbornePostDash: 0
 --- !u!114 &6912038939047199345
 MonoBehaviour:
   m_ObjectHideFlags: 0
