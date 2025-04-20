@@ -20,7 +20,6 @@ public class PoliceChiefOvercharged : Skill
 
     private void Start()
     {
-        AddPoint();
         playerStateMachine = PlayerID.instance.gameObject.GetComponent<PlayerStateMachine>();
     }
 

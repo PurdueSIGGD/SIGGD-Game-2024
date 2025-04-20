@@ -28,8 +28,6 @@ public class PoliceChiefPowerSpike : Skill
 
     void Start()
     {
-        AddPoint();
-        AddPoint();
         GameplayEventHolder.OnAbilityUsed += OnAbilityUse;
         GameplayEventHolder.OnDamageFilter.Add(OnDamage);
     }
