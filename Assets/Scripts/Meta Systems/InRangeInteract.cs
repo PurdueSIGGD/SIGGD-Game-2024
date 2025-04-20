@@ -71,6 +71,7 @@ public abstract class InRangeInteract : MonoBehaviour
     {
         Vector3 menuPos = this.transform.position + menuOffset;
         interactMenu = WI.CreateInteractMenu(menuPos, GetMenuOptions());
+        PlayerID.instance.FreezePlayerMouse();
     }
     // ==============================
     //        Other Functions
@@ -82,5 +83,6 @@ public abstract class InRangeInteract : MonoBehaviour
     {
         Destroy(interactMenu);
         interactMenu = null;
+        PlayerID.instance.UnfreezePlayerMouse();
     }
 }

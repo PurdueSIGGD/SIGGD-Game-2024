@@ -1,7 +1,6 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.InputSystem;
 using Button = UnityEngine.UI.Button;
 
 /// <summary>
@@ -50,8 +49,7 @@ public class DialogueManager : MonoBehaviour, IScreenUI
             toggleVisibility();
             NextDialogue();
 
-            // disable player movement
-            PlayerID.instance.GetComponent<PlayerInput>().enabled = false;
+            PlayerID.instance.FreezePlayer();
         }
     }
 
@@ -95,8 +93,7 @@ public class DialogueManager : MonoBehaviour, IScreenUI
         actionOnDialogueEnd?.Invoke();
         actionOnDialogueEnd = null;
 
-        // renable player movement
-        PlayerID.instance.GetComponent<PlayerInput>().enabled = true;
+        PlayerID.instance.UnfreezePlayer();
     }
 
     /// <summary>

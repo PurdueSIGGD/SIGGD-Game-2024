@@ -1,7 +1,6 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.InputSystem;
 
 public class SkillTreeUI : MonoBehaviour, IScreenUI
 {
@@ -67,8 +66,7 @@ public class SkillTreeUI : MonoBehaviour, IScreenUI
             }
         }
 
-        // disable player movement
-        PlayerID.instance.GetComponent<PlayerInput>().enabled = false;
+        PlayerID.instance.FreezePlayer();
     }
 
     public void HideSkillTree()
@@ -78,8 +76,7 @@ public class SkillTreeUI : MonoBehaviour, IScreenUI
         skillTree = null;
         actionOnTreeClose?.Invoke();
 
-        // renable player movement
-        PlayerID.instance.GetComponent<PlayerInput>().enabled = true;
+        PlayerID.instance.UnfreezePlayer();
     }
 
     public void ResetTierPointsUI(int tier)
