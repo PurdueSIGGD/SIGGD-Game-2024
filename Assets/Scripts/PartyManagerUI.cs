@@ -133,11 +133,8 @@ public class PartyManagerUI : MonoBehaviour
         specialAbilityDesc.text = character.specialAbilityDescription;
 
         lvlText.text = ghost.GetComponent<SkillTree>().GetLevel().ToString();
-        Debug.Log($"AAAA: is {ghost == null}");
-        string exp = ghost.GetExp() + " / " + ghost.GetRequiredExp();
-        expText.text = exp;
+        expText.text = ghost.GetExp() + " / " + ghost.GetRequiredExp();
         expSlider.value = ghost.GetExp() / (float)ghost.GetRequiredExp();
-        //ghost.GetComponent<Skill>
     }
 
     public void VisualizeOrion()
@@ -159,6 +156,8 @@ public class PartyManagerUI : MonoBehaviour
         specialAbilityDesc.text = orionSO.specialAbilityDescription;
 
         lvlText.text = "";
+        expText.text = "";
+        expSlider.value = 0;
     }
 
     public GhostMenuItemUI GetSelectedGhost()

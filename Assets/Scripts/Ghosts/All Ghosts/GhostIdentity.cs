@@ -16,6 +16,7 @@ public class GhostIdentity : MonoBehaviour
     {
         partyScripts = this.GetComponents<IParty>();
         possessingScripts = this.GetComponents<ISelectable>();
+        skillTree = GetComponent<SkillTree>();
     }
 
     /// <summary>
