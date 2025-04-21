@@ -19,6 +19,7 @@ public class IdolSpecial : MonoBehaviour
     private GameObject swapClone; // ref to currently cloneAliveactive clone, if exists
     public bool spawnSecondClone = false; // used with Dynamic Trio skill
     public bool cloneAlive; // is at least one clone supposed to be alive right now?
+    private bool isSwitchOnCooldown = false;
 
     [HideInInspector] public IdolManager manager;
 
@@ -34,7 +35,7 @@ public class IdolSpecial : MonoBehaviour
     {
         if (manager != null)
         {
-            if (manager.getSpecialCooldown() > 0)
+            if (manager.getSpecialCooldown() > 0 || isSwitchOnCooldown)
             {
                 psm.OnCooldown("c_special");
             }
@@ -48,7 +49,6 @@ public class IdolSpecial : MonoBehaviour
         if (manager.clones.Count == 0 && cloneAlive)
         {
             cloneAlive = false;
-            manager.startSpecialCooldown();
         }
         
     }
@@ -151,8 +151,9 @@ public class IdolSpecial : MonoBehaviour
 
         // small pause before player can start swapping with clone
         HoloJumpImmune(manager.GetStats().ComputeValue("HOLOJUMP_IMMUNE_SECONDS"));
+        isSwitchOnCooldown = true;
         yield return new WaitForSeconds(manager.GetStats().ComputeValue("HOLOJUMP_CLONE_SWAP_INTERVAL"));
-        psm.EnableTrigger("OPT");
+        isSwitchOnCooldown = false;
     }
 
     /// <summary>
@@ -161,7 +162,6 @@ public class IdolSpecial : MonoBehaviour
     private IEnumerator SwitchCoroutine()
     {
         // check if clone still exists
-
         if (swapClone == null)
         {
             if (manager.clones.Count == 0)
@@ -185,8 +185,9 @@ public class IdolSpecial : MonoBehaviour
 
         // small pause before player can swap with clone again
         HoloJumpImmune(manager.GetStats().ComputeValue("HOLOJUMP_IMMUNE_SECONDS"));
+        isSwitchOnCooldown = true;
         yield return new WaitForSeconds(manager.GetStats().ComputeValue("HOLOJUMP_CLONE_SWAP_INTERVAL"));
-        psm.EnableTrigger("OPT");
+        isSwitchOnCooldown = false;
     }
 
     /// <summary>

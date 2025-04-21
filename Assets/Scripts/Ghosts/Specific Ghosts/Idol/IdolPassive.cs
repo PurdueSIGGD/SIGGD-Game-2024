@@ -167,7 +167,7 @@ public class IdolPassive : MonoBehaviour
         particlesVFX.SetIntensity(tempoStacks, manager.GetStats().ComputeValue("TEMPO_MAX_STACKS"));
 
         // Ability UI Ping
-        GetComponent<IdolUIDriver>().basicAbilityUIManager.pingAbility();
+        if (tempoStacks > 0) GetComponent<IdolUIDriver>().basicAbilityUIManager.pingAbility();
     }
 
     /// <summary>

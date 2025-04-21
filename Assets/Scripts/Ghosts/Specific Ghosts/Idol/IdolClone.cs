@@ -59,7 +59,6 @@ public class IdolClone : MonoBehaviour
         }
         expireContext.victim = gameObject;
         GameplayEventHolder.OnDeath.Invoke(expireContext);
-        //manager.startSpecialCooldown();
         Destroy(gameObject);
     }
 }
