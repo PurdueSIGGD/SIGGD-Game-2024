@@ -75,7 +75,6 @@ public class PartyManagerUI : MonoBehaviour
             GhostIdentity ghost = (i < ghosts.Length) ? ghosts[i] : null;
             if (ghost != null && ghost.IsUnlocked())
             {
-                Debug.Log("AAA: " + ghost.name);
                 ghostUis[i].gameObject.SetActive(true);
                 ghostUis[i].Visualize(ghost);
             }
@@ -132,6 +131,12 @@ public class PartyManagerUI : MonoBehaviour
         specialAbilityIcon.color = character.primaryColor;
         specialAbilityText.text = character.specialAbilityName;
         specialAbilityDesc.text = character.specialAbilityDescription;
+
+        lvlText.text = ghost.GetComponent<SkillTree>().GetLevel().ToString();
+        Debug.Log($"AAAA: is {ghost == null}");
+        string exp = ghost.GetExp() + " / " + ghost.GetRequiredExp();
+        expText.text = exp;
+        expSlider.value = ghost.GetExp() / (float)ghost.GetRequiredExp();
         //ghost.GetComponent<Skill>
     }
 
@@ -152,6 +157,8 @@ public class PartyManagerUI : MonoBehaviour
         specialAbilityIcon.color = orionSO.primaryColor;
         specialAbilityText.text = orionSO.specialAbilityName;
         specialAbilityDesc.text = orionSO.specialAbilityDescription;
+
+        lvlText.text = "";
     }
 
     public GhostMenuItemUI GetSelectedGhost()

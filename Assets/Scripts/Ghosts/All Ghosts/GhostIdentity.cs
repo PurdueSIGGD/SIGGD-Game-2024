@@ -4,12 +4,13 @@ public class GhostIdentity : MonoBehaviour
 {
     [SerializeField] private CharacterSO characterInfo;
     [SerializeField] private bool isUnlocked;
+    [SerializeField] private int exp = 0;
 
     private IParty[] partyScripts;
     private ISelectable[] possessingScripts;
+
     private SkillTree skillTree;
-    private int trust = 0;
-    private int exp = 0;
+
 
     void Start()
     {
@@ -64,10 +65,14 @@ public class GhostIdentity : MonoBehaviour
         }
     }
 
-    public void AddTrust(int amount)
+    public void AddExp(int amount)
     {
-        trust += amount;
-        Debug.Log(trust);
+        exp += amount;
+        while (exp >= GetRequiredExp())
+        {
+            exp = exp - GetRequiredExp();
+            skillTree.LevelUp();
+        }
     }
 
     public void UnlockGhost()
@@ -79,4 +84,15 @@ public class GhostIdentity : MonoBehaviour
     {
         return isUnlocked;
     }
+
+    public int GetExp()
+    {
+        return exp;
+    }
+
+    public int GetRequiredExp()
+    {
+        return (100 * skillTree.GetLevel());
+    }
+
 }

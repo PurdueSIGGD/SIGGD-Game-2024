@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -21,8 +19,7 @@ public class SkillTree : MonoBehaviour
 
     private int[] steps;
     private SkillTier[] skillTiers;
-    [SerializeField] private int level = 0;
-
+    private int level = 0;
 
     private void Awake()
     {
@@ -68,7 +65,7 @@ public class SkillTree : MonoBehaviour
 
     private void Start()
     {
-        for (int i = 0; i < startAtLevel; i++)
+        for (int i = 0; i < startAtLevel - 1; i++)
         {
             LevelUp();
         }
@@ -83,12 +80,6 @@ public class SkillTree : MonoBehaviour
             skillTiers[steps[currStep]].isUnlocked = true;
         }
     }
-
-    public void OnTestA()
-    {
-        LevelUp();
-    }
-
 
     private int GetSkillTierIndex(Skill skill)
     {
@@ -119,8 +110,8 @@ public class SkillTree : MonoBehaviour
                     skillTiers[steps[currStep]].leftSkill.AddPoint();
                 }
             }
+            level++;
         }
-        level++;
     }
 
     public void TryAddPoint(Skill skill)
@@ -131,7 +122,7 @@ public class SkillTree : MonoBehaviour
         {
             skillTiers[tidx].unusedPoints--;
             skill.AddPoint();
-        }        
+        }
     }
 
     public void ResetPoints(int tierIdx)
@@ -159,6 +150,11 @@ public class SkillTree : MonoBehaviour
     public int GetTierPoints(int tierIdx)
     {
         return skillTiers[tierIdx].unusedPoints;
+    }
+
+    public int GetLevel()
+    {
+        return (level + 1);
     }
 }
 
