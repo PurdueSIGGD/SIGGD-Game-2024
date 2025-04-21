@@ -34,8 +34,8 @@ public class IdolManager : GhostManager, ISelectable
         special = PlayerID.instance.AddComponent<IdolSpecial>();
         special.manager = this;
         special.idolClone = idolClone;
-        if (activeClone != null) special.activeClone = activeClone.gameObject;
-        special.cloneAlive = (activeClone != null);
+        //if (activeClone != null) special.activeClone = activeClone.gameObject;
+        //special.cloneAlive = (activeClone != null);
         passive.ApplyBuffOnSwap();
 
         base.Select(player);

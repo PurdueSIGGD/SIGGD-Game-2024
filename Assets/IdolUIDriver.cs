@@ -36,28 +36,47 @@ public class IdolUIDriver : GhostUIDriver
     private void updateSpecialAbility()
     {
         specialAbilityUIManager.setAbilityCooldownTime(manager.getSpecialCooldown(), stats.ComputeValue("Special Cooldown"));
-        if (manager.activeClone != null)
+        if (manager.clones.Count > 0 && manager.clones[0] != null)
         {
-            specialAbilityUIManager.setMeterValue(manager.activeClone.duration, stats.ComputeValue("HOLOJUMP_DURATION_SECONDS"));
+            specialAbilityUIManager.setMeterValue(manager.clones[0].GetComponent<IdolClone>().duration, stats.ComputeValue("HOLOJUMP_DURATION_SECONDS"));
             specialAbilityUIManager.setAbilityHighlighted(true);
-            specialAbilityUIManager.setChargeWidgetActive(true);
-            specialAbilityUIManager.setChargeValue(manager.activeClone.GetComponent<Health>().currentHealth, manager.activeClone.GetComponent<StatManager>().ComputeValue("Max Health"));
         }
         else
         {
             specialAbilityUIManager.setAbilityHighlighted(false);
-            specialAbilityUIManager.setChargeWidgetActive(false);
         }
     }
 
     private void updateSkill1()
     {
-
+        if (manager.clones.Count > 0 && manager.clones[0] != null)
+        {
+            skill1UIManager.setUIActive(true);
+            skill1UIManager.setIcon(manager.GetComponent<GhostIdentity>().GetCharacterInfo().specialAbilityIcon);
+            skill1UIManager.setMeterValue(manager.clones[0].GetComponent<Health>().currentHealth, manager.clones[0].GetComponent<StatManager>().ComputeValue("Max Health"));
+            skill1UIManager.setChargeWidgetActive(true);
+            skill1UIManager.setChargeValue(manager.clones[0].GetComponent<Health>().currentHealth, manager.clones[0].GetComponent<StatManager>().ComputeValue("Max Health"));
+        }
+        else
+        {
+            skill1UIManager.setUIActive(false);
+        }
     }
 
     private void updateSkill2()
     {
-
+        if (manager.clones.Count > 1 && manager.clones[1] != null)
+        {
+            skill2UIManager.setUIActive(true);
+            skill2UIManager.setIcon(manager.GetComponent<GhostIdentity>().GetCharacterInfo().specialAbilityIcon);
+            skill2UIManager.setMeterValue(manager.clones[1].GetComponent<Health>().currentHealth, manager.clones[1].GetComponent<StatManager>().ComputeValue("Max Health"));
+            skill2UIManager.setChargeWidgetActive(true);
+            skill2UIManager.setChargeValue(manager.clones[1].GetComponent<Health>().currentHealth, manager.clones[1].GetComponent<StatManager>().ComputeValue("Max Health"));
+        }
+        else
+        {
+            skill2UIManager.setUIActive(false);
+        }
     }
 
     private void updateMeter()

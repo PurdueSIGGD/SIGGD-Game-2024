@@ -130,10 +130,10 @@ public class IdolSpecial : MonoBehaviour
 
         // Teleport VFX
         GameObject teleportTracerVFX = Instantiate(manager.holojumpTracerVFX, Vector2.zero, Quaternion.identity);
-        teleportTracerVFX.GetComponent<RaycastTracerHandler>().playTracer(activeClone.transform.position, transform.position, true, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
+        teleportTracerVFX.GetComponent<RaycastTracerHandler>().playTracer(swapClone.transform.position, transform.position, true, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
         GameObject teleportPulseVfX = Instantiate(manager.holojumpPulseVFX , transform.position, Quaternion.identity);
         teleportPulseVfX.GetComponent<RingExplosionHandler>().playRingExplosion(1f, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
-        GameObject teleportDecoyPulseVfX = Instantiate(manager.holojumpPulseVFX, activeClone.transform.position, Quaternion.identity);
+        GameObject teleportDecoyPulseVfX = Instantiate(manager.holojumpPulseVFX, swapClone.transform.position, Quaternion.identity);
         teleportDecoyPulseVfX.GetComponent<RingExplosionHandler>().playRingExplosion(1f, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
         
         // create duplicate clone if DYNAMIC TRIO skill says so
@@ -142,9 +142,9 @@ public class IdolSpecial : MonoBehaviour
             GameObject secondClone = Instantiate(idolClone, transform.position, transform.rotation);
             secondClone.GetComponent<IdolClone>().Initialize(
                 gameObject,
+                manager,
                 manager.GetStats().ComputeValue("HOLOJUMP_DURATION_SECONDS"),
-                manager.GetStats().ComputeValue("HOLOJUMP_DURATION_INACTIVE_MODIFIER"),
-                manager
+                manager.GetStats().ComputeValue("HOLOJUMP_DURATION_INACTIVE_MODIFIER")
             );
             manager.clones.Add(secondClone);
         }
@@ -177,12 +177,11 @@ public class IdolSpecial : MonoBehaviour
 
         // Teleport VFX
         GameObject teleportVFX = Instantiate(manager.holojumpTracerVFX, Vector2.zero, Quaternion.identity);
-        teleportVFX.GetComponent<RaycastTracerHandler>().playTracer(activeClone.transform.position, transform.position, true, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
+        teleportVFX.GetComponent<RaycastTracerHandler>().playTracer(swapClone.transform.position, transform.position, true, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
         GameObject teleportPulseVfX = Instantiate(manager.holojumpPulseVFX, transform.position, Quaternion.identity);
         teleportPulseVfX.GetComponent<RingExplosionHandler>().playRingExplosion(1f, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
-        GameObject teleportDecoyPulseVfX = Instantiate(manager.holojumpPulseVFX, activeClone.transform.position, Quaternion.identity);
+        GameObject teleportDecoyPulseVfX = Instantiate(manager.holojumpPulseVFX, swapClone.transform.position, Quaternion.identity);
         teleportDecoyPulseVfX.GetComponent<RingExplosionHandler>().playRingExplosion(1f, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
-
 
         // small pause before player can swap with clone again
         HoloJumpImmune(manager.GetStats().ComputeValue("HOLOJUMP_IMMUNE_SECONDS"));
