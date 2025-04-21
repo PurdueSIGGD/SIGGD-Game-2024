@@ -23,11 +23,11 @@ public class TransparentPlatform : MonoBehaviour
 
     private void Update()
     {
-        if (coroutine == null && fallAction.ReadValue<float>() != 0)
-        {
-            coroutine = DisableCollider();
-            StartCoroutine(coroutine);
-        }
+        //if (coroutine == null && fallAction.ReadValue<float>() != 0)
+        //{
+        //    coroutine = DisableCollider();
+        //    StartCoroutine(coroutine);
+        //}
     }
 
 

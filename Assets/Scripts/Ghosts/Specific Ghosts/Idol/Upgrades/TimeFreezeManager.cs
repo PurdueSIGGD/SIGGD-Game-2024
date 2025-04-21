@@ -71,7 +71,11 @@ public class TimeFreezeManager : MonoBehaviour
         isActive = false;
         foreach (GameObject obj in frozenEntities.Keys)
         {
+            if (obj == null) { continue; } // projectiles we collided into is no longer accessible
             FrozenEntity entity = frozenEntities[obj];
+            entity.rb.bodyType = entity.bodyType;
+            entity.rb.velocity = entity.velocity;
+            // apply stored forces here
 
             if (entity.delayedStun)
             {
@@ -83,10 +87,6 @@ public class TimeFreezeManager : MonoBehaviour
                 killContext.victim = obj;
                 obj.GetComponent<Health>().Kill(killContext);
             }
-
-            entity.rb.bodyType = entity.bodyType;
-            entity.rb.velocity = entity.velocity;
-            // apply stored forces here
         }
         frozenEntities.Clear();
     }
@@ -108,6 +108,7 @@ public class TimeFreezeManager : MonoBehaviour
                 context.damage = health.currentHealth - 0.001f;
                 entity.delayedDeath = true;
                 frozenEntities[context.victim] = entity;
+                Debug.Log(entity.rb);
             }
 
             // pause stun meter build up
