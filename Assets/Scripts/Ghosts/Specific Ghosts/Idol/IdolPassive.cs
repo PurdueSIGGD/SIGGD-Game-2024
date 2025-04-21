@@ -8,6 +8,7 @@ using UnityEngine;
 /// </summary>
 public class IdolPassive : MonoBehaviour
 {
+    [SerializeField] public GameObject tempoParticlesVFX;
     [SerializeField] public int tempoStacks = 0; // number of stacks
     [SerializeField] private bool kill; // has the player just scored a kill?
     [SerializeField] private bool uptempo; // have the stored tempo stacks been activated?
@@ -28,6 +29,8 @@ public class IdolPassive : MonoBehaviour
     private StatManager playerStats;
     [HideInInspector] public IdolManager manager;
 
+    private IdolTempoParticles particlesVFX;
+
     void OnEnable()
     {
         GameplayEventHolder.OnDeath += IdolOnKill;
@@ -36,6 +39,8 @@ public class IdolPassive : MonoBehaviour
     void Start()
     {
         playerStats = PlayerID.instance.gameObject.GetComponent<StatManager>(); // yoink
+        particlesVFX = Instantiate(tempoParticlesVFX, PlayerID.instance.gameObject.transform).GetComponent<IdolTempoParticles>();
+        particlesVFX.gameObject.SetActive(false);
     }
 
     void Update()
@@ -85,10 +90,11 @@ public class IdolPassive : MonoBehaviour
             InitializeTempoTimer();
         }
 
-        if (tempoStacks <= 0) return;
         // VFX
+        if (tempoStacks <= 0) return;
         GameObject teleportPulseVfX = Instantiate(manager.tempoPulseVFX, PlayerID.instance.transform.position, Quaternion.identity);
         teleportPulseVfX.GetComponent<RingExplosionHandler>().playRingExplosion(1.5f, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
+        particlesVFX.gameObject.SetActive(true);
     }
     /// <summary>
     /// Called by IdolManager on swap away from Idol, BEFORE manager.active is set false
@@ -102,6 +108,9 @@ public class IdolPassive : MonoBehaviour
         UpdateSpeed(-tempoStacks);
         active = false;
         Debug.Log("TEMPO AWAH DOWN");
+
+        // VFX
+        particlesVFX.gameObject.SetActive(false);
     }
 
     /// <summary>
@@ -145,11 +154,13 @@ public class IdolPassive : MonoBehaviour
         }
 
         // VFX
-        if (active)
+        if (active && tempoStacks > 0)
         {
             GameObject teleportPulseVfX = Instantiate(manager.tempoPulseVFX, PlayerID.instance.transform.position, Quaternion.identity);
             teleportPulseVfX.GetComponent<RingExplosionHandler>().playRingExplosion(1.5f, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
+            particlesVFX.gameObject.SetActive(true);
         }
+        particlesVFX.SetIntensity(tempoStacks, manager.GetStats().ComputeValue("TEMPO_MAX_STACKS"));
 
         // Ability UI Ping
         GetComponent<IdolUIDriver>().basicAbilityUIManager.pingAbility();
@@ -180,6 +191,10 @@ public class IdolPassive : MonoBehaviour
         }
         tempoStacks = 0;
         uptempo = false;
+
+        // VFX
+        particlesVFX.gameObject.SetActive(false);
+        particlesVFX.SetIntensity(tempoStacks, manager.GetStats().ComputeValue("TEMPO_MAX_STACKS"));
 
         return "AAAOAOAOAO SH I HIT A BRICK WALL OH GOD IT HURTS";
     }
