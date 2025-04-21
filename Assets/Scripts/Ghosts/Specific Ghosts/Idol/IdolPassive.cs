@@ -31,6 +31,10 @@ public class IdolPassive : MonoBehaviour
     {
         GameplayEventHolder.OnDeath += IdolOnKill;
     }
+    void OnDisable()
+    {
+        GameplayEventHolder.OnDeath -= IdolOnKill;
+    }
 
     void Start()
     {
