@@ -37,6 +37,7 @@ public class LightAttack : MonoBehaviour, IStatList
     /// </summary>
     public void StartLightAttack()
     {
+        GetComponent<PlayerStateMachine>().ConsumeLightAttackInput();
         GetComponent<Move>().PlayerStop();
 
         float halfAngle = angle / 2; // angle above and below the centerline of the attack cone

@@ -25,6 +25,12 @@ public class PlayerStateMachine : MonoBehaviour
     InputAction specialInput; // The special key action from the playerInput component
     InputAction attackInput;
 
+    private bool lightAttackQueued = false;
+    private bool lightAttackConsumed = false;
+
+    private bool heavyAttackQueued = false;
+    private bool heavyAttackConsumed = false;
+
     Animator animator; // the animator of the player object
     Rigidbody2D rb; // the rigidbody of the player object
     Camera mainCamera; //the main Camera of the current Scene
@@ -100,7 +106,37 @@ public class PlayerStateMachine : MonoBehaviour
     void UpdateAttack()
     {
         bool i_attack = attackInput.ReadValue<float>() != 0;
-        animator.SetBool("i_attack", i_attack);
+        //Debug.Log("Light Attack Input: " + i_attack + "  |  Queued: " + lightAttackQueued + "  |  Consumed: " + lightAttackConsumed);
+
+        // Handle light attack input buffering 
+        if (i_attack)
+        {
+            lightAttackQueued = !lightAttackConsumed;
+        }
+        else
+        {
+            lightAttackQueued = false;
+            if (lightAttackConsumed) lightAttackConsumed = false;
+        }
+
+        // Handle heavy attack input buffering
+
+
+        //Debug.Log("Light Attack Input: " + i_attack + "  |  Queued: " + lightAttackQueued + "  |  Consumed: " + lightAttackConsumed);
+        animator.SetBool("i_attack", lightAttackQueued);
+        animator.SetBool("i_heavy_attack", heavyAttackQueued);
+    }
+
+    public void ConsumeLightAttackInput()
+    {
+        lightAttackConsumed = true;
+        Debug.Log("Light Attack Consumed: " + lightAttackConsumed);
+    }
+
+    public void ConsumeHeavyAttackInput()
+    {
+        heavyAttackConsumed = true;
+        Debug.Log("Heavy Attack Consumed: " + heavyAttackConsumed);
     }
 
     void UpdateSpecial()

@@ -83,6 +83,23 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!1109 &-8358444319940732087
+AnimatorTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions:
+  - m_ConditionMode: 1
+    m_ConditionEvent: i_attack
+    m_EventTreshold: 0
+  m_DstStateMachine: {fileID: 5473554760692576653}
+  m_DstState: {fileID: 0}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 1
 --- !u!1102 &-8268358248832391523
 AnimatorState:
   serializedVersion: 6
@@ -148,7 +165,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 2
-    m_ConditionEvent: i_attack
+    m_ConditionEvent: i_heavy_attack
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 6349183743618107080}
@@ -267,7 +284,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 2
-    m_ConditionEvent: i_attack
+    m_ConditionEvent: i_heavy_attack
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -8991947605215648038}
@@ -678,6 +695,7 @@ AnimatorStateMachine:
     second:
     - {fileID: 4566734782950742533}
     - {fileID: 6123525284675402096}
+    - {fileID: -8358444319940732087}
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: -440, y: -50, z: 0}
   m_EntryPosition: {x: 300, y: 100, z: 0}
@@ -944,6 +962,12 @@ AnimatorController:
     m_Controller: {fileID: 9100000}
   - m_Name: toIdle
     m_Type: 9
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
+  - m_Name: i_heavy_attack
+    m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
@@ -1272,7 +1296,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: i_attack
+    m_ConditionEvent: i_heavy_attack
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 661862557677111605}
@@ -1359,7 +1383,7 @@ AnimatorTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: i_attack
+    m_ConditionEvent: i_heavy_attack
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -7905319676247584739}
@@ -1489,6 +1513,9 @@ AnimatorTransition:
   m_Conditions:
   - m_ConditionMode: 2
     m_ConditionEvent: i_attack
+    m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: i_heavy_attack
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 6349183743618107080}
