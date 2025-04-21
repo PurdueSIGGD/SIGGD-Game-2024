@@ -11,23 +11,29 @@ public class TimeFreezeManager : MonoBehaviour
     Dictionary<GameObject, FrozenEntity> frozenEntities;
 
     private GameObject playerRef;
+    private DamageContext killContext;
 
     struct FrozenEntity
     {
         public Rigidbody2D rb;
+        public RigidbodyType2D bodyType;
         public Vector2 velocity;
-        public Health health;
-        public StunMeter stun;
+
+        public bool delayedDeath;
+        public bool delayedStun;
 
         public float storedMomentumStrength;
         public Vector2 storedMomentumAngle;
 
-        public FrozenEntity(Rigidbody2D rb, Vector2 velocity, Health health, StunMeter stun)
+        public FrozenEntity(Rigidbody2D rb, RigidbodyType2D bodyType, Vector2 velocity)
         {
             this.rb = rb;
+            this.bodyType = bodyType;
             this.velocity = velocity;
-            this.health = health;
-            this.stun = stun;
+
+            delayedDeath = false;
+            delayedStun = false;
+
             storedMomentumStrength = 0;
             storedMomentumAngle = Vector2.zero;
         }
@@ -35,6 +41,7 @@ public class TimeFreezeManager : MonoBehaviour
 
     public void FreezeTime(float duration)
     {
+        if (isActive) { return; }
         isActive = true;
         // Grab every freezeable entity, and freeze them
         foreach (Rigidbody2D rb in GameObject.FindObjectsOfType<Rigidbody2D>())
@@ -46,12 +53,10 @@ public class TimeFreezeManager : MonoBehaviour
             if (entity.CompareTag("Player")) { continue; }
 
             Vector2 velocity = rb.velocity;
-            Health health = entity.GetComponent<Health>();
-            StunMeter stun = entity.GetComponent<StunMeter>();
+            RigidbodyType2D bodyType = rb.bodyType;
+            frozenEntities.Add(entity, new FrozenEntity(rb, bodyType, velocity));
 
             rb.bodyType = RigidbodyType2D.Static;
-
-            frozenEntities.Add(entity, new FrozenEntity(rb, velocity, health, stun));
 
             if (entity.CompareTag("Enemy"))
             {
@@ -67,18 +72,20 @@ public class TimeFreezeManager : MonoBehaviour
         foreach (GameObject obj in frozenEntities.Keys)
         {
             FrozenEntity entity = frozenEntities[obj];
-            entity.rb.bodyType = RigidbodyType2D.Dynamic;
-            entity.rb.velocity = entity.velocity;
 
-
-            if (entity.health != null && entity.stun != null)
+            if (entity.delayedStun)
             {
-                DamageContext context = new DamageContext();
-                entity.health.currentHealth -= 0.001f;
-                entity.stun.currentStun -= 0.001f;
-                entity.health.Damage(context, playerRef);
-                entity.stun.Damage(context, playerRef);
+                killContext.victim = obj;
+                obj.GetComponent<StunMeter>().Damage(killContext, null);
             }
+            if (entity.delayedDeath)
+            {
+                killContext.victim = obj;
+                obj.GetComponent<Health>().Kill(killContext);
+            }
+
+            entity.rb.bodyType = entity.bodyType;
+            entity.rb.velocity = entity.velocity;
             // apply stored forces here
         }
         frozenEntities.Clear();
@@ -91,14 +98,25 @@ public class TimeFreezeManager : MonoBehaviour
         if (!GetIsActive()) return;
         if (frozenEntities.ContainsKey(context.victim))
         {
-            FrozenEntity victim = frozenEntities[context.victim];
-            context.damage = context.damage >= victim.health.currentHealth ? victim.health.currentHealth - 0.001f : context.damage;
+            FrozenEntity entity = frozenEntities[context.victim];
+            Health health = context.victim.GetComponent<Health>();
+            StunMeter stun = context.victim.GetComponent<StunMeter>();
+
+            // pause death
+            if (context.damage >= health.currentHealth)
+            {
+                context.damage = health.currentHealth - 0.001f;
+                entity.delayedDeath = true;
+                frozenEntities[context.victim] = entity;
+            }
 
             // pause stun meter build up
-            if (victim.stun.currentStun + victim.stun.ComputeStunBuildUp(context.damageStrength) >= victim.stun.maxStun)
+            if (stun.currentStun + stun.ComputeStunBuildUp(context.damageStrength) >= stun.maxStun)
             {
                 context.damageStrength = DamageStrength.MEAGER;
-                victim.stun.currentStun = victim.stun.maxStun - 0.001f;
+                stun.currentStun = stun.maxStun - 0.001f;
+                entity.delayedStun = true;
+                frozenEntities[context.victim] = entity;
             }
         }
     }
@@ -108,5 +126,13 @@ public class TimeFreezeManager : MonoBehaviour
         frozenEntities = new Dictionary<GameObject, FrozenEntity>();
         playerRef = PlayerID.instance.GameObject();
         GameplayEventHolder.OnDamageFilter.Add(PauseDeathFilter);
+        
+        killContext = new DamageContext();
+        killContext.attacker = playerRef;
+        killContext.actionID = ActionID.MISCELLANEOUS;
+        killContext.actionTypes = new List<ActionType>() { ActionType.MISCELLANEOUS };
+        killContext.damageStrength = DamageStrength.LIGHT;
+        killContext.damageTypes = new List<DamageType>() { DamageType.STATUS };
+        killContext.invokingScript = this;
     }
 }
