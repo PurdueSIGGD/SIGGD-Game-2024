@@ -17,6 +17,8 @@ public class HeavyAttack : MonoBehaviour, IStatList
     private Camera mainCamera;
     private float timer;
     private StatManager stats;
+    private bool doingHeavyChargeUp;
+    private bool doingHeavyPrimed;
 
     private void Start()
     {
@@ -27,7 +29,7 @@ public class HeavyAttack : MonoBehaviour, IStatList
 
     private void Update()
     {
-        if(timer > 0)
+        if (timer > 0)
         {
             timer -= Time.deltaTime;
         }
@@ -44,6 +46,39 @@ public class HeavyAttack : MonoBehaviour, IStatList
         {
             indicator.transform.localPosition = new Vector3(offsetX, indicator.transform.localPosition.y, 0);
         }
+
+        Vector3 mouseDiff = transform.position - mousePos;
+
+        if (doingHeavyChargeUp || doingHeavyPrimed) {
+            if (mouseDiff.x < 0) // update player facing direction
+            {
+                transform.rotation = Quaternion.Euler(0, 0, 0);
+            }
+            else if (mouseDiff.x > 0)
+            {
+                transform.rotation = Quaternion.Euler(0, 180, 0);
+            }
+        }
+    }
+
+    public void StartHeavyChargeUp()
+    {
+        doingHeavyChargeUp = true;
+    }
+
+    public void StopHeavyChargeUp()
+    {
+        doingHeavyChargeUp = false;
+    }
+
+    public void StartHeavyPrimed()
+    {
+        doingHeavyPrimed= true;
+    }
+
+    public void StopHeavyPrimed()
+    {
+        doingHeavyPrimed = false;
     }
 
     public void StartHeavyAttack()

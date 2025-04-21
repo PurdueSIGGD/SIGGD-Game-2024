@@ -1,88 +1,63 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Rendering;
 
-public class GhostInteract : MonoBehaviour
+public class GhostInteract : InRangeInteract
 {
-    [SerializeField]
-    private float interactRange;
-
-    [SerializeField]
-    private Vector3 menuOffset;
+    // ==============================
+    //       Serialized Fields
+    // ==============================
 
     [SerializeField]
     private ConversationTemp hubConvo;
 
-    private GameObject interactMenu;
-    private GhostIdentity identity;
+    // ==============================
+    //        Other Variables
+    // ==============================
 
-    void Start()
+
+    // ==============================
+    //        Unity Functions
+    // ==============================
+
+
+    // ==============================
+    //       Private Functions
+    // ==============================
+
+    protected override InteractOption[] GetMenuOptions()
     {
-        identity = GetComponent<GhostIdentity>();
-    }
 
+        InteractOption opt1 = new InteractOption("Talk", StartDialogue);
+        InteractOption opt2 = new InteractOption("Add to Party", AddGhostToParty);
+        InteractOption opt3 = new InteractOption("View Skill Tree", ViewSkillTree);
 
-    public void Update()
-    {
-        if (!identity.IsInParty())
-        {
-            CheckInteractMenu();
-        }
-    }
-
-    private void CheckInteractMenu()
-    {
-        if (PlayerInRange() && interactMenu == null)
-        {
-            CreateInteractMenu();
-        }
-        else if (!PlayerInRange() && interactMenu != null)
-        {
-            Destroy(interactMenu);
-            interactMenu = null;
-        }
-    }
-
-    private bool PlayerInRange()
-    {
-        float dist = Vector3.Distance(PlayerID.instance.transform.position, this.transform.position);
-
-        return (dist < interactRange);
-    }
-
-    private void CreateInteractMenu()
-    {
-        WorldInteract WI = FindAnyObjectByType<WorldInteract>();
-        WorldInteract.InteractOption opt1 = new WorldInteract.InteractOption("Talk", StartDialogue);
-        WorldInteract.InteractOption opt2 = new WorldInteract.InteractOption("Add to Party", AddGhostToParty);
-        WorldInteract.InteractOption opt3 = new WorldInteract.InteractOption("View Skill Tree", ViewSkillTree);
-
-        Vector3 menuPos = this.transform.position + menuOffset;
-
-        interactMenu = WI.CreateInteractMenu(menuPos, opt1, opt2, opt3);
+        InteractOption[] options = { opt1, opt2, opt3 };
+        return options;
     }
 
     private void AddGhostToParty()
     {
-        Destroy(interactMenu);
-        interactMenu = null;
-
+        CloseMenu();
         PartyManager partyManger = PlayerID.instance.GetComponent<PartyManager>();
         partyManger.TryAddGhostToParty(this.GetComponent<GhostIdentity>());
+        this.enabled = false;
     }
 
     private void StartDialogue()
     {
+        CloseMenu();
         DialogueManager dialogueManager = FindAnyObjectByType<DialogueManager>();
         dialogueManager.StartDialogue(hubConvo);
     }
 
     private void ViewSkillTree()
     {
+        CloseMenu();
         SkillTreeUI skillTreeUI = FindFirstObjectByType<SkillTreeUI>(FindObjectsInactive.Include);
-        skillTreeUI.Visualize(this.gameObject);
+        skillTreeUI.OpenSkillTree(this.gameObject);
     }
+
+    // ==============================
+    //        Other Functions
+    // ==============================
+
 }

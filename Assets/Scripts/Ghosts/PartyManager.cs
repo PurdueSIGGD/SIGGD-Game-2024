@@ -65,6 +65,8 @@ public class PartyManager : MonoBehaviour
     /// <param name="inputNum">The index to select from the list(value is either -1(player kit), 0, or 1)</param>
     public void ChangePosessingGhost(int index)
     {
+        GetComponent<Animator>().SetTrigger("toIdle");
+        GetComponent<Move>().PlayerGo();
         // Don't swap if disabled, start swap input buffer
         if (!isSwappingEnabled)
         {

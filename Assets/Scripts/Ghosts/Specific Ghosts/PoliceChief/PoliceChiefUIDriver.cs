@@ -27,7 +27,7 @@ public class PoliceChiefUIDriver : GhostUIDriver
 
     private void updateBasicAbility()
     {
-        basicAbilityUIManager.setAbilityHighlighted(GetComponent<PoliceChiefPowerSpike>().ableToCrit);
+        basicAbilityUIManager.setAbilityHighlighted(GetComponent<PoliceChiefPowerSpike>().GetAbleToCrit());
     }
 
     private void updateSpecialAbility()
@@ -47,10 +47,10 @@ public class PoliceChiefUIDriver : GhostUIDriver
 
     private void updateMeter()
     {
-        if(GetComponent<PoliceChiefLethalForce>() != null && GetComponent<PoliceChiefLethalForce>().numHits != -1)
+        if(GetComponent<PoliceChiefLethalForce>() != null && GetComponent<PoliceChiefLethalForce>().GetTotalHits() != -1)
         {
             meterUIManager.setMeterColor(Color.red);
-            meterUIManager.setMeterValue(GetComponent<PoliceChiefLethalForce>().consecutiveHits, GetComponent<PoliceChiefLethalForce>().numHits);
+            meterUIManager.setMeterValue(GetComponent<PoliceChiefLethalForce>().GetConsecutiveHits(), GetComponent<PoliceChiefLethalForce>().GetTotalHits());
             meterUIManager.setBackgroundColor(Color.grey);
             meterUIManager.setSubMeterValue(0f, 0f);
             meterUIManager.activateWidget();
