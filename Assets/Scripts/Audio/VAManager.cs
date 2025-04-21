@@ -4,32 +4,26 @@ using UnityEngine;
 
 public class VAManager : MonoBehaviour {
 
-    [SerializeField] private VATrack britishAnt;
+    [SerializeField] private SoundBankVATrack britishAnt;
 
     public enum VATrackName {
         BRITISH_ANT // If this is still here, remove it
     }
 
     // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    void Start() { }
 
     // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    void Update() { }
 
-    public VATrack GetDialogueTrack(VATrackName trackName) {
+    public IVATrack GetVATrack(VATrackName trackName) {
         switch (trackName) {
             case VATrackName.BRITISH_ANT:     return britishAnt;
             default:                                return null;
         }
     }
 
-    public void PlayDialogueTrack(VATrackName trackName) {
-        GetDialogueTrack(trackName).PlayTrack();
+    public void PlayVATrack(VATrackName trackName) {
+        GetVATrack(trackName).PlayTrack();
     }
 }

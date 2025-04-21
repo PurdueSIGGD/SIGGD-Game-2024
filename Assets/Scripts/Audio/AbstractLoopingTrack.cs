@@ -4,7 +4,8 @@ using UnityEngine;
 public abstract class AbstractLoopingTrack : MonoBehaviour {
 
     // The two tracks used for smooth looping
-    [SerializeField] protected AudioSource[] tracks;
+    private const int TRACK_COUNT = 2;
+    [SerializeField] protected AudioSource[] tracks = new AudioSource[TRACK_COUNT];
 
     // The index of the current playing track
     protected int currentTrackOffset = 0;
@@ -22,6 +23,12 @@ public abstract class AbstractLoopingTrack : MonoBehaviour {
     // I noticed that waiting for the duration of whole tracks can get off, so waiting in parts is better
     // By waiting for TRACK_MAJORITY_RATIO of the track, we avoid this issue
     protected const float TRACK_MAJORITY_RATIO = 0.98f;
+
+    void Start() {
+        if (tracks.Length != TRACK_COUNT) {
+            Debug.Log("Hi there! You don't have exactly " + TRACK_COUNT + " tracks in your looping sound! Something's going to break :)");
+        }
+    }
 
     public void PlayTrack() {
         if (isPlaying) { return; }

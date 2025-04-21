@@ -1,4 +1,4 @@
 
-public class SoundBankVATrack : AbstractSoundBank, IVATrack {
+public class SoundBankVATrack : AbstractSoundBank<IVATrack>, IVATrack {
     
 }

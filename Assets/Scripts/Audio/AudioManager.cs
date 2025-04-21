@@ -20,7 +20,6 @@ public class AudioManager : MonoBehaviour {
     // Track 1 plays when energy is between 0.0 and 0.5 with greatest volume at energy = 0.0
     // Track 2 always plays and it's volume is greatest when energy = 0.5
     // Track 3 plays when energy is between 0.5 and 1.0 with greatest volume at energy = 1.0
-    [Space(10)]
     [SerializeField] float energyLevel;
 
     void Awake()
@@ -54,16 +53,8 @@ public class AudioManager : MonoBehaviour {
             }
         }   
 
-        if (Input.GetKeyDown(KeyCode.Space)) {
-            Instance.SFXBranch.PlaySFXTrack(SFXManager.SFXTrackName.JUMP);
-        }
-
-        if (Input.GetKeyDown(KeyCode.E)) {
-            Instance.SFXBranch.PlaySFXTrack(SFXManager.SFXTrackName.LIGHT_ATTACK);
-        }
-
         if (Input.GetKeyDown(KeyCode.B)) {
-            Instance.VABranch.PlayDialogueTrack(VAManager.VATrackName.BRITISH_ANT);
+            Instance.VABranch.PlayVATrack(VAManager.VATrackName.BRITISH_ANT);
         }
 
         if (Input.GetKeyDown(KeyCode.R)) {
@@ -71,8 +62,6 @@ public class AudioManager : MonoBehaviour {
         }
 
         if (Input.GetKeyDown(KeyCode.C)) {
-            int trackNum = 0;
-
             MusicManager.MusicTrackName nextTrack = 
                     Instance.MusicBranch.GetCurrentMusicTrackName() == MusicManager.MusicTrackName.JAPAN
                     ? MusicManager.MusicTrackName.SEAMSTRESS

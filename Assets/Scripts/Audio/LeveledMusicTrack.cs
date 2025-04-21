@@ -13,6 +13,8 @@ public class LeveledMusicTrack : MusicTrack {
     // index 3: Level 2, copy 2
     // index 4: Level 3, copy 1
     // index 5: Level 3, copy 2
+    private const int TRACK_COUNT = 6;
+    [SerializeField] new protected AudioSource[] tracks = new AudioSource[TRACK_COUNT];
 
     // Offset shifts between the levels (via the variables below)
     // When 0, plays tracks 0, 2, and 4
@@ -27,6 +29,9 @@ public class LeveledMusicTrack : MusicTrack {
     
     void Start() { 
         // If loopEnd is the same as the end of the track, adjust it
+        if (tracks.Length != TRACK_COUNT) {
+            Debug.Log("Hi there! You don't have exactly " + TRACK_COUNT + " tracks in your looping sound! Something's going to break :)");
+        }
         if (Math.Abs(loopEnd - tracks[0].clip.length) < 0.05f) {
             loopEnd = tracks[0].clip.length;
         }
