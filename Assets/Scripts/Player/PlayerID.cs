@@ -47,7 +47,6 @@ public class PlayerID : MonoBehaviour
     public void FreezePlayer()
     {
         input.enabled = false;
-        Debug.Log("AAA: Freeze");
     }
 
     /// <summary>
@@ -57,7 +56,6 @@ public class PlayerID : MonoBehaviour
     {
         input.actions.FindAction("Attack").Disable();
         input.actions.FindAction("Special").Disable();
-        Debug.Log("AAA: Freeze Mouse");
     }
 
     /// <summary>
@@ -66,7 +64,6 @@ public class PlayerID : MonoBehaviour
     public void UnfreezePlayer()
     {
         input.enabled = true;
-        Debug.Log("AAA: Unfreeze");
     }
 
     /// <summary>
@@ -76,6 +73,5 @@ public class PlayerID : MonoBehaviour
     {
         input.actions.FindAction("Attack").Enable();
         input.actions.FindAction("Special").Enable();
-        Debug.Log("AAA: Unfreeze Mouse");
     }
 }
