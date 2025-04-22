@@ -7,13 +7,14 @@ using UnityEngine;
 /// </summary>
 public class IdolClone : MonoBehaviour
 {
-    IdolManager manager;
-    [SerializeField] float duration; // duration clone can last
-    [SerializeField] float inactiveModifier;
+    private IdolManager manager;
+    [SerializeField] public float duration; // duration clone can last
+    [SerializeField] private float inactiveModifier;
 
     [Header("Used by clone to kill self")]
     [SerializeField] DamageContext expireContext = new DamageContext();
     private GameObject player;
+    //private IdolManager manager;
 
     void Update()
     {
@@ -41,13 +42,15 @@ public class IdolClone : MonoBehaviour
     /// using
     /// </summary>
     /// <param name="player"> player gameobject </param>
-    public void Initialize(GameObject player, float duration, float inactiveModifier, IdolManager manager)
+    public void Initialize(GameObject player, IdolManager manager, float duration, float inactiveModifier)
     {
         this.player = player;
+        this.manager = manager;
         this.duration = duration;
         this.inactiveModifier = inactiveModifier;
         this.manager = manager;
     }
+
     public void DeallocateDecoy()
     {
         if (manager)
