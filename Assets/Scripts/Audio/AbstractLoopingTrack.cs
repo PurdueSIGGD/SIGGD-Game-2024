@@ -2,10 +2,12 @@ using System.Collections;
 using UnityEngine;
 
 public abstract class AbstractLoopingTrack : MonoBehaviour {
-
-    // The two tracks used for smooth looping
+    
     private const int TRACK_COUNT = 2;
-    [SerializeField] protected AudioSource[] tracks = new AudioSource[TRACK_COUNT];
+
+    // The tracks used for smooth looping
+    // Unfortunately I have to name the track variable differently because serialization is my enemy
+    [SerializeField] private AudioSource[] tracksALT;
 
     // The index of the current playing track
     protected int currentTrackOffset = 0;
@@ -25,7 +27,8 @@ public abstract class AbstractLoopingTrack : MonoBehaviour {
     protected const float TRACK_MAJORITY_RATIO = 0.98f;
 
     void Start() {
-        if (tracks.Length != TRACK_COUNT) {
+        tracksALT = new AudioSource[TRACK_COUNT];
+        if (tracksALT.Length != TRACK_COUNT) {
             Debug.Log("Hi there! You don't have exactly " + TRACK_COUNT + " tracks in your looping sound! Something's going to break :)");
         }
     }
@@ -33,7 +36,7 @@ public abstract class AbstractLoopingTrack : MonoBehaviour {
     public void PlayTrack() {
         if (isPlaying) { return; }
         isPlaying = true;
-        tracks[0].Play();
+        tracksALT[0].Play();
         looper = StartCoroutine(AutoLoop());
     }
 

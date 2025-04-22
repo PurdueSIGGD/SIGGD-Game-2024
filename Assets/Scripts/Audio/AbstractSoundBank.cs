@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // A different type of SFX or dialogue file with multiple sound variations
+[System.Serializable]
 public abstract class AbstractSoundBank<T> : MonoBehaviour, ITrack where T : ITrack {
 
-    protected class weightedSoundPair {
+    public class weightedSoundPair {
         public ITrack sound;
         public float weight;
     }
-    [SerializeField] protected List<weightedSoundPair> soundBank = new List<weightedSoundPair>();
+    [SerializeField] private List<weightedSoundPair> soundBankASB = new List<weightedSoundPair>();
     protected List<T> sounds;
     // The probability of choosing a sound in the bank relative to other sounds
     protected List<float> soundWeights;
@@ -23,7 +24,7 @@ public abstract class AbstractSoundBank<T> : MonoBehaviour, ITrack where T : ITr
     private List<float> cumulativeWeights;
 
     void Start() {
-        foreach (var pair in soundBank) {
+        foreach (var pair in soundBankASB) {
             sounds.Add((T)pair.sound);
             soundWeights.Add(pair.weight);
         }
