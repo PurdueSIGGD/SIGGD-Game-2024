@@ -31,7 +31,7 @@ public class HoverMove : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
     {
         showPoint = abilityPanel.anchoredPosition;
         abilityPanel.anchoredPosition = hidePoint;
-        t = 1;
+        t = 0;
     }
 
     void Update()
