@@ -1,10 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Data.SqlTypes;
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
 using TMPro;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class SkillUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
@@ -74,12 +71,13 @@ public class SkillUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
             if (i < skill.GetPoints())
             {
                 skillPoints[i].color = fillPoint;
-            } else
+            }
+            else
             {
                 skillPoints[i].color = emptyPoint;
             }
         }
-        animator.Play("SkillFocused");
+        //animator.Play("SkillFocused");
     }
 
     public void OnPointerClick(PointerEventData eventData)

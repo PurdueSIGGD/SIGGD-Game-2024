@@ -1,4 +1,3 @@
-using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -9,8 +8,8 @@ public class SkillTreeUI : MonoBehaviour, IScreenUI
     // ==============================
 
     [Header("References")]
-    [SerializeField] TextMeshProUGUI ghostName;
-    [SerializeField] TextMeshProUGUI ghostTitle;
+    [SerializeField] SkillUI[] skillUis;
+    [SerializeField] TierUI[] tierUis;
 
     // ==============================
     //        Other Variables
@@ -18,8 +17,6 @@ public class SkillTreeUI : MonoBehaviour, IScreenUI
 
     private GameObject ghost;
     private SkillTree skillTree;
-    private SkillUI[] skillUis;
-    private TierUI[] tierUis;
     private UnityAction actionOnTreeClose;
 
     // ==============================
@@ -28,8 +25,6 @@ public class SkillTreeUI : MonoBehaviour, IScreenUI
 
     private void Start()
     {
-        skillUis = GetComponentsInChildren<SkillUI>();
-        tierUis = GetComponentsInChildren<TierUI>();
         CloseSkillTree();
     }
 
@@ -52,17 +47,21 @@ public class SkillTreeUI : MonoBehaviour, IScreenUI
 
         this.gameObject.SetActive(true);
         Skill[] skills = skillTree.GetAllSkills();
+        Debug.Log($"Skills count: {skills.Length}");
+        Debug.Log($"Skill UIs count: {skillUis.Length}");
 
         // display each skill (if unlocked)
         for (int i = 0; i < skillUis.Length; i++)
         {
             if (skillTree.IsUnlocked(skills[i]))
             {
+                Debug.Log($"{skills[i].GetName()} is unlocked!");
                 skillUis[i].gameObject.SetActive(true);
                 skillUis[i].Visualize(skills[i], this);
             }
             else
             {
+                Debug.Log($"{skills[i].GetName()} is NOT unlocked!");
                 skillUis[i].gameObject.SetActive(false);
             }
         }

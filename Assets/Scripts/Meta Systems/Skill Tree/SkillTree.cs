@@ -35,6 +35,8 @@ public class SkillTree : MonoBehaviour
             skillTiers[i].isUnlocked = false;
         }
 
+        skillTiers[0].isUnlocked = true;
+
         // intiailize steps for leveling up
         List<int> list = new List<int>();
 
@@ -73,12 +75,12 @@ public class SkillTree : MonoBehaviour
 
     private void Update()
     {
-        int currStep = level / LEVELS_PER_STEP;
+        /*int currStep = level / LEVELS_PER_STEP;
         if (currStep < steps.Length)
         {
             // unlock current tier
             skillTiers[steps[currStep]].isUnlocked = true;
-        }
+        }*/
     }
 
     private int GetSkillTierIndex(Skill skill)
@@ -103,6 +105,7 @@ public class SkillTree : MonoBehaviour
             if (currStep != nextStep)
             {
                 skillTiers[steps[currStep]].unusedPoints++;
+                skillTiers[steps[currStep]].isUnlocked = true;
 
                 if (steps[currStep] == TIER_4)
                 {
