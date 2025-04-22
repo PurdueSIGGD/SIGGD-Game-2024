@@ -46,12 +46,12 @@ public class EnemyProjectile : MonoBehaviour, IStatList
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag(target))
+        if (collision.gameObject.CompareTag(target) || collision.gameObject.CompareTag("Idol_Clone"))
         {
             collision.gameObject.GetComponent<Health>().Damage(projectileDamage, gameObject);
         }
 
-        if (collision.gameObject.CompareTag(target) || collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        if (collision.gameObject.CompareTag(target) || collision.gameObject.CompareTag("Idol_Clone") || collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
             Destroy(gameObject);
     }
 

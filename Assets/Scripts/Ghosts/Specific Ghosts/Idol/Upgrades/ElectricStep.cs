@@ -29,12 +29,13 @@ public class ElectricStep : Skill
         fieldVisualInstance.SetActive(false);
 
         // testing code
-
-        // int points = 4;
-        // for (int i = 0; i < points; i++)
-        // {
-        //     AddPoint();
-        // }
+        /*
+        int points = 4;
+        for (int i = 0; i < points; i++)
+        {
+            AddPoint();
+        }
+        */
     }
 
     public override void AddPointTrigger()

@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Android;
 using UnityEngine.InputSystem;
 
 /// <summary>
@@ -23,11 +24,14 @@ public class TransparentPlatform : MonoBehaviour
 
     private void Update()
     {
-        //if (coroutine == null && fallAction.ReadValue<float>() != 0)
-        //{
-        //    coroutine = DisableCollider();
-        //    StartCoroutine(coroutine);
-        //}
+        // TODO: UNCOMMENT THIS!!!!!!!!!!!
+        /*
+        if (coroutine == null && fallAction.ReadValue<float>() != 0)
+        {
+            coroutine = DisableCollider();
+            StartCoroutine(coroutine);
+        }
+        */
     }
 
 
