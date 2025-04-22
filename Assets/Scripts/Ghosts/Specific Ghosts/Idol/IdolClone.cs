@@ -7,6 +7,7 @@ using UnityEngine;
 /// </summary>
 public class IdolClone : MonoBehaviour
 {
+    IdolManager manager;
     [SerializeField] float duration; // duration clone can last
     [SerializeField] float inactiveModifier;
 
@@ -23,9 +24,7 @@ public class IdolClone : MonoBehaviour
     {
         if (duration <= 0)
         {
-            expireContext.victim = gameObject;
-            GameplayEventHolder.OnDeath.Invoke(expireContext);
-            Destroy(gameObject);
+            DeallocateDecoy();
         }
         if (player.GetComponent<IdolSpecial>())
         {
@@ -42,10 +41,21 @@ public class IdolClone : MonoBehaviour
     /// using
     /// </summary>
     /// <param name="player"> player gameobject </param>
-    public void Initialize(GameObject player, float duration, float inactiveModifier)
+    public void Initialize(GameObject player, float duration, float inactiveModifier, IdolManager manager)
     {
         this.player = player;
         this.duration = duration;
         this.inactiveModifier = inactiveModifier;
+        this.manager = manager;
+    }
+    public void DeallocateDecoy()
+    {
+        if (manager)
+        {
+            manager.clones.Remove(gameObject);
+        }
+        expireContext.victim = gameObject;
+        GameplayEventHolder.OnDeath.Invoke(expireContext);
+        Destroy(gameObject);
     }
 }

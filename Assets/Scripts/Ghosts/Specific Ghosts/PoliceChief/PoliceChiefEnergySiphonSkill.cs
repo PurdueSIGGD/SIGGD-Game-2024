@@ -6,15 +6,16 @@ using UnityEngine.UIElements;
 public class PoliceChiefEnergySiphonSkill : Skill
 {
     private StatManager stats;
-    [SerializeField] private PoliceChiefManager policeChiefManager;
+    private PoliceChiefManager policeChiefManager;
+    private float amountCooldownReduction = 0.0f;
+    [SerializeField] float[] pointCooldowns = { 0.0005f, 0.001f, 0.0015f, 0.002f };
     private void Start()
     {
         GameplayEventHolder.OnDamageDealt += OnDmg;
         stats = GetComponent<StatManager>();
+        policeChiefManager = GetComponent<PoliceChiefManager>();
     }
 
-    [SerializeField] float amountCooldownReduction = 0.0f;
-    [SerializeField] float[] pointCooldowns = {0.0005f, 0.001f, 0.0015f, 0.002f};
     public override void AddPointTrigger()
     {
         amountCooldownReduction = pointCooldowns[GetPoints() - 1];
