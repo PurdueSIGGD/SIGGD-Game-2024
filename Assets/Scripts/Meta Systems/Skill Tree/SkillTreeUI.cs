@@ -47,21 +47,17 @@ public class SkillTreeUI : MonoBehaviour, IScreenUI
 
         this.gameObject.SetActive(true);
         Skill[] skills = skillTree.GetAllSkills();
-        Debug.Log($"Skills count: {skills.Length}");
-        Debug.Log($"Skill UIs count: {skillUis.Length}");
 
         // display each skill (if unlocked)
         for (int i = 0; i < skillUis.Length; i++)
         {
             if (skillTree.IsUnlocked(skills[i]))
             {
-                Debug.Log($"{skills[i].GetName()} is unlocked!");
                 skillUis[i].gameObject.SetActive(true);
-                skillUis[i].Visualize(skills[i], this);
+                skillUis[i].Visualize(skillTree, skills[i]);
             }
             else
             {
-                Debug.Log($"{skills[i].GetName()} is NOT unlocked!");
                 skillUis[i].gameObject.SetActive(false);
             }
         }
@@ -72,7 +68,7 @@ public class SkillTreeUI : MonoBehaviour, IScreenUI
             if (skillTree.IsUnlocked(tier))
             {
                 tierUis[tier].gameObject.SetActive(true);
-                tierUis[tier].Visualize(tier, this);
+                tierUis[tier].Visualize(skillTree, tier);
             }
             else
             {
@@ -94,33 +90,6 @@ public class SkillTreeUI : MonoBehaviour, IScreenUI
         actionOnTreeClose?.Invoke();
 
         PlayerID.instance.UnfreezePlayer();
-    }
-
-    /// <summary>
-    /// Removes (unspecs) points from skills of given tier 
-    /// </summary>
-    public void ResetTierPointsUI(int tier)
-    {
-        skillTree.ResetPoints(tier);
-        OpenSkillTree(ghost);
-    }
-
-    /// <summary>
-    /// Attempts to add a skill point to given skill if possible
-    /// Possible only if available point to add
-    /// </summary>
-    public void TryAddPointUI(Skill skill)
-    {
-        skillTree.TryAddPoint(skill);
-        OpenSkillTree(ghost);
-    }
-
-    /// <summary>
-    /// Returns reference to skill tree currently displayed in UI
-    /// </summary>
-    public SkillTree GetSkillTree()
-    {
-        return skillTree;
     }
 
     /// <summary>

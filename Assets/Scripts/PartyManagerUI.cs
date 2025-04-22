@@ -4,8 +4,8 @@ using UnityEngine.UI;
 
 public class PartyManagerUI : MonoBehaviour
 {
-    public static readonly string ADD_PARTY_LABEL = "Add to Party";
-    public static readonly string REMOVE_PARTY_LABEL = "Remove from Party";
+    public static readonly string ADD_PARTY_LABEL = "Add (Party)";
+    public static readonly string REMOVE_PARTY_LABEL = "Remove (Party)";
 
     [Header("Selected Ghost Details")]
 
@@ -17,11 +17,13 @@ public class PartyManagerUI : MonoBehaviour
 
     [Header("Ghost Ability - Basic")]
     [SerializeField] Image basicAbilityIcon;
+    [SerializeField] GameObject basicAbility;
     [SerializeField] TextMeshProUGUI basicAbilityText;
     [SerializeField] TextMeshProUGUI basicAbilityDesc;
 
     [Header("Ghost Ability - Special")]
     [SerializeField] Image specialAbilityIcon;
+    [SerializeField] GameObject specialAbility;
     [SerializeField] TextMeshProUGUI specialAbilityText;
     [SerializeField] TextMeshProUGUI specialAbilityDesc;
 
@@ -117,7 +119,7 @@ public class PartyManagerUI : MonoBehaviour
         nameText.text = character.name;
         posterImage.sprite = character.fullImage;
 
-        basicAbilityIcon.gameObject.SetActive(true);
+        basicAbility.gameObject.SetActive(true);
         basicAbilityIcon.sprite = character.basicAbilityIcon;
         basicAbilityIcon.color = character.primaryColor;
         basicAbilityText.text = character.basicAbilityName;
@@ -139,7 +141,7 @@ public class PartyManagerUI : MonoBehaviour
         nameText.text = orionSO.name;
         posterImage.sprite = orionSO.fullImage;
 
-        basicAbilityIcon.gameObject.SetActive(false);
+        basicAbility.gameObject.SetActive(false);
 
         basicAbilityIcon.sprite = orionSO.basicAbilityIcon;
         basicAbilityIcon.color = orionSO.primaryColor;
