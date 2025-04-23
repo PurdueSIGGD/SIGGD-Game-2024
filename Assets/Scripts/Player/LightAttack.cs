@@ -125,8 +125,6 @@ public class LightAttack : MonoBehaviour, IStatList
         {
             center = new Vector2(0, -1);
         }
-        Debug.Log(m_angle);
-        Debug.Log(center);
         center = center.normalized;
         lastMousePos = center;
 
