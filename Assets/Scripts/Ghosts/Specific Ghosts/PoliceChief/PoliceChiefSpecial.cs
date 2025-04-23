@@ -10,15 +10,10 @@ public class PoliceChiefSpecial : MonoBehaviour
     private PlayerStateMachine playerStateMachine;
     private Animator camAnim;
     private Camera cam;
-
     [HideInInspector] public PoliceChiefManager manager;
-
     private bool isCharging = false;
-    [HideInInspector]  public bool hasReserves= false;
-    private bool isCooldown = false;
-    private bool playCooldown = true;
-    private int bypassCheck = 3;
     private float chargingTime = 0f;
+    [HideInInspector] public bool hasReserves = false;
 
 
 
@@ -38,12 +33,16 @@ public class PoliceChiefSpecial : MonoBehaviour
         {
             if (manager.getSpecialCooldown() > 0)
             {
-                isCooldown = true;
-                playerStateMachine.OnCooldown("c_special");
+                if (!hasReserves) {
+                    playerStateMachine.OnCooldown("c_special");
+                }
+                else
+                {
+                    playerStateMachine.OffCooldown("c_special");
+                }
             }
             else
             {
-                isCooldown = false;
                 playerStateMachine.OffCooldown("c_special");
             }
         }
@@ -83,7 +82,7 @@ public class PoliceChiefSpecial : MonoBehaviour
 
 
     // Railgun Attack
-    void StartSpecialAttack()
+    public void StartSpecialAttack()
     {
         camAnim.SetBool("pullBack", true);
         GetComponent<Move>().PlayerStop();
@@ -101,18 +100,7 @@ public class PoliceChiefSpecial : MonoBehaviour
 
     void StopSpecialAttack()
     {
-        if (isCooldown)
-        {
-            if (bypassCheck > 0)
-            {
-                playCooldown = false;
-            }
-            else
-            {
-                playCooldown = true;
-            }
-        }
-        endSpecial(isCooldown);
+        endSpecial(true);
     }
 
     /// <summary>
@@ -123,11 +111,7 @@ public class PoliceChiefSpecial : MonoBehaviour
     {
         camAnim.SetBool("pullBack", false);
         GetComponent<Move>().PlayerGo();
-        if (!startCooldown)
-        {
-            Debug.Log("bypass used");
-            return;
-        }
+        if (!startCooldown) return;
         playerStateMachine.OnCooldown("c_special");
         manager.startSpecialCooldown();
     }

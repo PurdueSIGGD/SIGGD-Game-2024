@@ -1,14 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
 
 public class LockedAndLoadedSkill : Skill
 {
     int[] reserveCharges = {0, 3, 6, 9, 12};
     private int pointIndex;
     private int reservedCount;
-    private Camera cam;
+    private float reserveCoolDown = 0.75f;
+    private float lastreserveTime = 0.5f;
+    private bool hasReserves;
     private Animator camAnim;
 
     PoliceChiefSpecial policeChiefSpecial;
@@ -32,7 +31,6 @@ public class LockedAndLoadedSkill : Skill
     {
         AddPoint();
         reservedCount = reserveCharges[pointIndex];
-        cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         camAnim = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Animator>();
     }
 
@@ -44,9 +42,36 @@ public class LockedAndLoadedSkill : Skill
             policeChiefSpecial = PlayerID.instance.GetComponent<PoliceChiefSpecial>();
             return;
         }
-        if (reservedCount>0)
+        else
         {
-            policeChiefSpecial.hasReserves = true;
+            if (policeChiefSpecial.manager.getSpecialCooldown() > 0)
+            {
+                if (reservedCount <= 0)
+                {
+                    hasReserves = false;
+                }
+                else
+                {
+                    hasReserves = true;
+                    if (Time.time - lastreserveTime > reserveCoolDown)
+                    {
+                        UseReserves();
+                    }
+                }
+            }
+        }
+        policeChiefSpecial.hasReserves = hasReserves;
+    }
+    void UseReserves()
+    {
+        if (camAnim.GetBool("pullBack") == true)
+        {
+            if (Input.GetMouseButton(0))
+            {
+                policeChiefSpecial.StartSpecialAttack();
+                reservedCount--;
+                lastreserveTime = Time.time;
+            }
         }
     }
 }
