@@ -264,11 +264,13 @@ public class Move : MonoBehaviour, IStatList
     public void PlayerStop()
     {
         stopMoving = true;
+        stopTurning = true;
     }
 
     public void PlayerGo()
     {
         stopMoving = false;
+        stopTurning = false;
     }
 
     public StatManager.Stat[] GetStatList()

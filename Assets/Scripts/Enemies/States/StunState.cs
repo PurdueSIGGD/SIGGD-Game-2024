@@ -14,18 +14,17 @@ public class StunState : IEnemyStates
 
     public void EnterState(EnemyStateManager enemy)
     {
-        Rigidbody rb = enemy.GetComponent<Rigidbody>();
-        Debug.Log(enemy.name + " stunned! stun test");
-        isStunned = true;
-        if (!enemy.isBeingKnockedBack && (enemy.isFlyer || enemy.isGrounded())) rb.velocity = new Vector2(0, rb.velocity.y);
-        this.stunDuration = 0.5f; // default stun duration, used for hit-stuns
+        EnterState(enemy, 0.5f);
     }
 
     public void EnterState(EnemyStateManager enemy, float stunDuration)
     {
+        Rigidbody2D rb = enemy.GetComponent<Rigidbody2D>();
         Debug.Log(enemy.name + " stunned! stun test");
         isStunned = true;
+        if (!enemy.isBeingKnockedBack && (enemy.isFlyer || enemy.isGrounded())) rb.velocity = new Vector2(0, rb.velocity.y);
         this.stunDuration = stunDuration;
+        enemy.animator.speed = 0;
     }
 
     public void UpdateState(EnemyStateManager enemy, float delta)
@@ -34,6 +33,7 @@ public class StunState : IEnemyStates
         if (stunDuration <= 0.0f)
         {
             isStunned = false;
+            enemy.animator.speed = 1;
             enemy.SwitchState(enemy.AggroState);
             Debug.Log(enemy.name + " recovered from stun!");
         }
@@ -41,7 +41,7 @@ public class StunState : IEnemyStates
         {
             Rigidbody2D rb = enemy.GetComponent<Rigidbody2D>();
             if (!enemy.isBeingKnockedBack && (enemy.isFlyer || enemy.isGrounded())) rb.velocity = new Vector2(0, rb.velocity.y);
-            enemy.pool.idle.Play(enemy.animator);
+            //enemy.pool.idle.Play(enemy.animator);
         }
     }
 

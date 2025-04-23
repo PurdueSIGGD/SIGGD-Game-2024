@@ -37,6 +37,21 @@ public class PoliceChiefBasic : MonoBehaviour
 
         if (isPrimed && primedTime > 0f) primedTime -= Time.deltaTime;
         if (isPrimed && primedTime <= 0f) playerStateMachine.EnableTrigger("OPT");
+
+        Vector3 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 mouseDiff = transform.position - mousePos;
+
+        if (isCharging || isPrimed)
+        {
+            if (mouseDiff.x < 0) // update player facing direction
+            {
+                transform.rotation = Quaternion.Euler(0, 0, 0);
+            }
+            else if (mouseDiff.x > 0)
+            {
+                transform.rotation = Quaternion.Euler(0, 180, 0);
+            }
+        }
     }
 
 

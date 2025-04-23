@@ -23,7 +23,7 @@ public class NovaPop : Skill
 
     public void ExplodeOnDeath(DamageContext context)
     {
-        if (context.victim.CompareTag("Idol_Clone"))
+        if (context.victim.CompareTag("Idol_Clone") && skillPts > 0)
         {
             GameObject explosion = Instantiate(manager.explosionVFX, context.victim.transform.position, Quaternion.identity);
             explosion.GetComponent<RingExplosionHandler>().playRingExplosion(radius, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
