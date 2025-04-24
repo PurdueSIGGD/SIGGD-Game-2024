@@ -6,8 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class LevelSwitching : MonoBehaviour
 {
-    [SerializeField] Level[] levels;
-    [SerializeField] SpecificLevelPool[] specificLevels;
+    public static Level[] levels;
+    public static SpecificLevelPool[] specificLevels;
     [SerializeField] int maxLevels;
     [SerializeField] string homeWorld;
 

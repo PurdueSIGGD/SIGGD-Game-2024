@@ -8,6 +8,52 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
+        type: 3}
+      propertyPath: levels.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
+        type: 3}
+      propertyPath: enemies.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
+        type: 3}
+      propertyPath: enemies.Array.data[0].enemy
+      value: 
+      objectReference: {fileID: 8433722653154054174, guid: e7efa1ed21b10204fbbb9248b1925aa4,
+        type: 3}
+    - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
+        type: 3}
+      propertyPath: levels.Array.data[0].chance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
+        type: 3}
+      propertyPath: levels.Array.data[1].chance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
+        type: 3}
+      propertyPath: levels.Array.data[0].sceneName
+      value: Level1Test
+      objectReference: {fileID: 0}
+    - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
+        type: 3}
+      propertyPath: levels.Array.data[1].sceneName
+      value: Level2Test
+      objectReference: {fileID: 0}
+    - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
+        type: 3}
+      propertyPath: enemies.Array.data[0].endChance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
+        type: 3}
+      propertyPath: enemies.Array.data[0].startChance
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7028998140566284846, guid: d14585abf46b0db47a3386cf3b6a395a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -61,7 +107,7 @@ PrefabInstance:
     - target: {fileID: 7586656128560935814, guid: d14585abf46b0db47a3386cf3b6a395a,
         type: 3}
       propertyPath: m_Name
-      value: EraDoors
+      value: CyberpunkEraDoor
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
