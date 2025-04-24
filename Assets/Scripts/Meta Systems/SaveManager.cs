@@ -8,6 +8,8 @@ using UnityEngine;
 [Serializable]
 public class SaveManager : MonoBehaviour
 {
+    private static SaveManager instance = null;
+
     private static string folderPath;
     private static string savePath;
 
@@ -15,6 +17,12 @@ public class SaveManager : MonoBehaviour
 
     public void Awake()
     {
+        if (instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        instance = this;
         DontDestroyOnLoad(gameObject);
 
         folderPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
@@ -29,7 +37,7 @@ public class SaveManager : MonoBehaviour
     public void Save()
     {
         string saveData = JsonUtility.ToJson(data);
-        
+
         if (!Directory.Exists(folderPath))
         {
             Directory.CreateDirectory(folderPath);

@@ -42,7 +42,7 @@ public class PartyManager : MonoBehaviour
     {
         foreach (string ghost in ghostsInParty)
         {
-            ghostsByName[ghost].SetPartyStatus(true);
+            ghostsByName[ghost].TriggerEnterPartyBehavior();
         }
     }
 
