@@ -32,7 +32,7 @@ public class GunWithLegs : EnemyStateManager
     // Instantiate projectile prefab and push self back
     protected void OnShootEvent2()
     {
-        Instantiate(projectile, rangeOrig.position, transform.rotation).GetComponent<EnemyProjectile>().Init(target, 5.0f);
+        Instantiate(projectile, rangeOrig.position, transform.rotation).GetComponent<EnemyProjectile>().Init(target);
 
         rb.AddForce(transform.right * -3, ForceMode2D.Impulse);
     }

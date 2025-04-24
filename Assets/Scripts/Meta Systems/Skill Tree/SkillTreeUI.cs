@@ -1,4 +1,3 @@
-using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -9,8 +8,8 @@ public class SkillTreeUI : MonoBehaviour, IScreenUI
     // ==============================
 
     [Header("References")]
-    [SerializeField] TextMeshProUGUI ghostName;
-    [SerializeField] TextMeshProUGUI ghostTitle;
+    [SerializeField] SkillUI[] skillUis;
+    [SerializeField] TierUI[] tierUis;
 
     // ==============================
     //        Other Variables
@@ -18,8 +17,6 @@ public class SkillTreeUI : MonoBehaviour, IScreenUI
 
     private GameObject ghost;
     private SkillTree skillTree;
-    private SkillUI[] skillUis;
-    private TierUI[] tierUis;
     private UnityAction actionOnTreeClose;
 
     // ==============================
@@ -28,8 +25,6 @@ public class SkillTreeUI : MonoBehaviour, IScreenUI
 
     private void Start()
     {
-        skillUis = GetComponentsInChildren<SkillUI>();
-        tierUis = GetComponentsInChildren<TierUI>();
         CloseSkillTree();
     }
 
@@ -59,7 +54,7 @@ public class SkillTreeUI : MonoBehaviour, IScreenUI
             if (skillTree.IsUnlocked(skills[i]))
             {
                 skillUis[i].gameObject.SetActive(true);
-                skillUis[i].Visualize(skills[i], this);
+                skillUis[i].Visualize(skillTree, skills[i]);
             }
             else
             {
@@ -73,7 +68,7 @@ public class SkillTreeUI : MonoBehaviour, IScreenUI
             if (skillTree.IsUnlocked(tier))
             {
                 tierUis[tier].gameObject.SetActive(true);
-                tierUis[tier].Visualize(tier, this);
+                tierUis[tier].Visualize(skillTree, tier);
             }
             else
             {
@@ -95,33 +90,6 @@ public class SkillTreeUI : MonoBehaviour, IScreenUI
         actionOnTreeClose?.Invoke();
 
         PlayerID.instance.UnfreezePlayer();
-    }
-
-    /// <summary>
-    /// Removes (unspecs) points from skills of given tier 
-    /// </summary>
-    public void ResetTierPointsUI(int tier)
-    {
-        skillTree.ResetPoints(tier);
-        OpenSkillTree(ghost);
-    }
-
-    /// <summary>
-    /// Attempts to add a skill point to given skill if possible
-    /// Possible only if available point to add
-    /// </summary>
-    public void TryAddPointUI(Skill skill)
-    {
-        skillTree.TryAddPoint(skill);
-        OpenSkillTree(ghost);
-    }
-
-    /// <summary>
-    /// Returns reference to skill tree currently displayed in UI
-    /// </summary>
-    public SkillTree GetSkillTree()
-    {
-        return skillTree;
     }
 
     /// <summary>
