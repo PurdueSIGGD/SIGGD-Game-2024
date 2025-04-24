@@ -40,7 +40,8 @@ public class StunState : IEnemyStates
         else
         {
             Rigidbody2D rb = enemy.GetComponent<Rigidbody2D>();
-            if (!enemy.isBeingKnockedBack && (enemy.isFlyer || enemy.isGrounded())) rb.velocity = new Vector2(0, rb.velocity.y);
+            if (!enemy.isBeingKnockedBack && (enemy.isFlyer || enemy.isGrounded()) && 
+                !TimeFreezeManager.GetIsActive()) rb.velocity = new Vector2(0, rb.velocity.y);
             //enemy.pool.idle.Play(enemy.animator);
         }
     }
