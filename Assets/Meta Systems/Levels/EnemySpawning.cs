@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemySpawning : MonoBehaviour
 {
-    [SerializeField] EnemySpawn[] enemies;
+    public static EnemySpawn[] enemies;
     [SerializeField] int startMinEnemiesSpawn;
     [SerializeField] int startMaxEnemiesSpawn;
     [SerializeField] int endMinEnemiesSpawn;
