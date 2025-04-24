@@ -37,6 +37,7 @@ public class PartyManager : MonoBehaviour
         if (ghostsInParty.Count < GHOST_LIMIT && !ghostsInParty.Contains(ghost))
         {
             ghostsInParty.Add(ghost);
+            ghost.TriggerEnterPartyBehavior();
             return true;
         }
         return false;
@@ -102,6 +103,7 @@ public class PartyManager : MonoBehaviour
     /// <param ghostName="ghostIndex"></param>
     public bool RemoveGhostFromParty(GhostIdentity ghost)
     {
+        ghost.TriggerExitPartyBehavior();
         return ghostsInParty.Remove(ghost);
     }
 

@@ -18,6 +18,12 @@ public class GhostUIDriver : MonoBehaviour, ISelectable
     // Start is called before the first frame update
     protected virtual void Start()
     {
+        if (PlayerSelectedGhostUIManager.instance == null)
+        {
+            this.enabled = false;
+            return;
+        }
+
         stats = GetComponent<StatManager>();
         partyManager = PartyManager.instance;
         ghostIdentity = GetComponent<GhostIdentity>();

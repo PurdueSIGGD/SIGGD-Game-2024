@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using EditorUtils;
 using UnityEditor;
 using UnityEngine;
@@ -36,3 +37,4 @@ public class ConvoConverterWizard : ScriptableWizard
     }
 
 }
+#endif
