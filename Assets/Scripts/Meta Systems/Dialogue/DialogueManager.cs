@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 using Button = UnityEngine.UI.Button;
 
 /// <summary>
@@ -28,9 +29,11 @@ public class DialogueManager : MonoBehaviour, IScreenUI
 
     [SerializeField] private TMP_Text dialogueText; // Set this to change dialogue text on screen
 
-    [SerializeField] private TMP_Text characterNameText; // Set this to character name (who is speaking?)
+    [SerializeField] private TMP_Text characterNameText; // Set this to character name (who is speaking)
 
     [SerializeField] private Button nextButton; // When clicked, causes the next line of dialogue to be displayed
+
+    [SerializeField] private Image characterImage; // Set this to character imaeg (who is speaking)
 
     // ==============================
     //        Other Variables
@@ -46,7 +49,7 @@ public class DialogueManager : MonoBehaviour, IScreenUI
 
     private UnityAction actionOnDialogueEnd = null;
 
-    private Dictionary<string, CharacterSO> characterMap;
+    private Dictionary<string, CharacterSO> characterMap = new Dictionary<string, CharacterSO>();
 
     // ==============================
     //        Unity Functions
@@ -77,6 +80,7 @@ public class DialogueManager : MonoBehaviour, IScreenUI
         // Do the same for character name
         //characterNameText = dialogueBox.transform.Find("CharacterNameText").gameObject.GetComponent<TMP_Text>();
         characterNameText.text = "";
+        characterImage.sprite = null;
 
         ToggleVisibility();
     }
@@ -104,6 +108,7 @@ public class DialogueManager : MonoBehaviour, IScreenUI
         // Set name
         string character = conversation.data.lines[currentLine].character;
         characterNameText.text = characterMap[character].displayName;
+        characterImage.sprite = characterMap[character].fullImage;
 
         // TODO: set image
 
