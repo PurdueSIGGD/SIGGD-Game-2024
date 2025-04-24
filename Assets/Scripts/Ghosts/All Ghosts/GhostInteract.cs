@@ -7,7 +7,7 @@ public class GhostInteract : InRangeInteract
     // ==============================
 
     [SerializeField]
-    private ConversationTemp hubConvo;
+    private ConvoSO hubConvo;
 
     // ==============================
     //        Other Variables

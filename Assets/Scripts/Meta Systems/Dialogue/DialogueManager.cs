@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -20,6 +21,9 @@ public class DialogueManager : MonoBehaviour, IScreenUI
     //       Serialized Fields
     // ==============================
 
+    [SerializeField]
+    CharacterSO[] allCharacters;
+
     [SerializeField] private GameObject dialogueBox; // PANEL where the text is displayed
 
     [SerializeField] private TMP_Text dialogueText; // Set this to change dialogue text on screen
@@ -34,7 +38,7 @@ public class DialogueManager : MonoBehaviour, IScreenUI
 
     private const string DEFAULT_TEXT = "..."; // Empty text box displays this
 
-    private ConversationTemp conversation; // Conversation Scriptable Object
+    private ConvoSO conversation; // Conversation Scriptable Object
 
     private bool isRunning = false; // Whether a dialogue is currently being run.
 
@@ -42,9 +46,21 @@ public class DialogueManager : MonoBehaviour, IScreenUI
 
     private UnityAction actionOnDialogueEnd = null;
 
+    private Dictionary<string, CharacterSO> characterMap;
+
     // ==============================
     //        Unity Functions
     // ==============================
+
+    void Awake()
+    {
+        // add all characters to map
+        foreach (CharacterSO character in allCharacters)
+        {
+            characterMap.Add(character.name, character);
+        }
+    }
+
 
     void Start()
     {
@@ -76,17 +92,18 @@ public class DialogueManager : MonoBehaviour, IScreenUI
     {
         // check if we are at end if dialogue
 
-        if (currentLine == conversation.dialogueLines.Count)
+        if (currentLine == conversation.data.lines.Length)
         {
             EndDialogue();
             return;
         }
 
         // Display next line
-        dialogueText.text = conversation.dialogueLines[currentLine].line;
+        dialogueText.text = conversation.data.lines[currentLine].line;
 
         // Set name
-        characterNameText.text = conversation.dialogueLines[currentLine].character.displayName;
+        string character = conversation.data.lines[currentLine].character;
+        characterNameText.text = characterMap[character].displayName;
 
         // TODO: set image
 
@@ -131,7 +148,7 @@ public class DialogueManager : MonoBehaviour, IScreenUI
     /// Pass in a ConversationTemp scriptable object to start dialogue.
     /// Sets visibility and starts first line of dialogue
     /// </summary>
-    public void StartDialogue(ConversationTemp conversationToRun)
+    public void StartDialogue(ConvoSO conversationToRun)
     {
 
         if (!isRunning)
