@@ -8,8 +8,6 @@ public class MusicTrack : AbstractLoopingTrack, IMusicTrack
 {
 
     private const int TRACK_COUNT = 2;
-    //[SerializeField] private AudioSource[] tracksMT = new AudioSource[TRACK_COUNT];
-    
 
     // The loudest volume which can be reached by the level tracks
     // The tracks are normalized around this value 
@@ -26,6 +24,10 @@ public class MusicTrack : AbstractLoopingTrack, IMusicTrack
             return 0.0f;
         }
         return maxVolume;
+    }
+
+    override public void PlayTrack() {
+        base.PlayTrack();
     }
 
     protected override IEnumerator AutoLoop() {

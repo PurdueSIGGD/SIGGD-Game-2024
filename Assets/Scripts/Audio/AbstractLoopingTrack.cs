@@ -27,17 +27,17 @@ public abstract class AbstractLoopingTrack : MonoBehaviour {
     protected const float TRACK_MAJORITY_RATIO = 0.98f;
 
     void Start() {
-        tracks = new AudioSource[TRACK_COUNT];
         if (tracks.Length != TRACK_COUNT) {
             Debug.Log("Hi there! You don't have exactly " + TRACK_COUNT + " tracks in your looping sound! Something's going to break :)");
         }
     }
 
-    public void PlayTrack() {
+    public virtual void PlayTrack() {
         if (isPlaying) { return; }
         isPlaying = true;
         tracks[0].Play();
         looper = StartCoroutine(AutoLoop());
+        Debug.Log("No, I ran");
     }
 
     public void StopTrack() {
