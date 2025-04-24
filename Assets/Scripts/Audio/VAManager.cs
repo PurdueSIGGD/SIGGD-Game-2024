@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class VAManager : MonoBehaviour {
-
-    [SerializeField] private SoundBankVATrack britishAnt;
+    [SerializeField] private SoundBankVATrack evaExersion;
 
     public enum VATrackName {
-        BRITISH_ANT // If this is still here, remove it
+        EVA_EXERSION
     }
 
     // Start is called before the first frame update
@@ -18,7 +17,7 @@ public class VAManager : MonoBehaviour {
 
     public IVATrack GetVATrack(VATrackName trackName) {
         switch (trackName) {
-            case VATrackName.BRITISH_ANT:     return britishAnt;
+            case VATrackName.EVA_EXERSION:    return evaExersion;
             default:                                return null;
         }
     }

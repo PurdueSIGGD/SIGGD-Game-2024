@@ -4,11 +4,11 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 // Attached to music which can be looped
-public class MusicTrack : AbstractLoopingTrack, ITrack
+public class MusicTrack : AbstractLoopingTrack, IMusicTrack
 {
 
     private const int TRACK_COUNT = 2;
-    [SerializeField] private AudioSource[] tracksMT = new AudioSource[TRACK_COUNT];
+    //[SerializeField] private AudioSource[] tracksMT = new AudioSource[TRACK_COUNT];
     
 
     // The loudest volume which can be reached by the level tracks
@@ -17,8 +17,8 @@ public class MusicTrack : AbstractLoopingTrack, ITrack
 
     public void SetTrackVolume(float volume) {
         maxVolume = volume;
-        tracksMT[0].volume = maxVolume;
-        tracksMT[1].volume = maxVolume;
+        tracks[0].volume = maxVolume;
+        tracks[1].volume = maxVolume;
     }
 
     public float GetTrackVolume() {
@@ -29,19 +29,19 @@ public class MusicTrack : AbstractLoopingTrack, ITrack
     }
 
     protected override IEnumerator AutoLoop() {
-        float trackPlaytime = loopEnd - tracksMT[currentTrackOffset].time;
+        float trackPlaytime = loopEnd - tracks[currentTrackOffset].time;
 
         do {
-            float trackMajorityLength = (loopEnd - tracksMT[currentTrackOffset].time) * TRACK_MAJORITY_RATIO;
+            float trackMajorityLength = (loopEnd - tracks[currentTrackOffset].time) * TRACK_MAJORITY_RATIO;
             yield return new WaitForSecondsRealtime(trackMajorityLength);
-            trackPlaytime = loopEnd - tracksMT[currentTrackOffset].time;
+            trackPlaytime = loopEnd - tracks[currentTrackOffset].time;
             yield return new WaitForSecondsRealtime(trackPlaytime);
 
             currentTrackOffset = 1 - currentTrackOffset;
 
             // Play the right tracks based on energy level and set playback to loopStart
-            tracksMT[currentTrackOffset].Play();
-            tracksMT[currentTrackOffset].time = loopStart;
+            tracks[currentTrackOffset].Play();
+            tracks[currentTrackOffset].time = loopStart;
         } while (true);
     }
 }

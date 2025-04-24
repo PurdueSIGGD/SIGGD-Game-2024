@@ -1,19 +1,17 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 // A different type of SFX or dialogue file with multiple sound variations
-[System.Serializable]
-public abstract class AbstractSoundBank<T> : MonoBehaviour, ITrack where T : ITrack {
+[Serializable]
+public abstract class AbstractSoundBank : MonoBehaviour, ITrack {
 
-    public class weightedSoundPair {
-        public ITrack sound;
-        public float weight;
-    }
-    [SerializeField] private List<weightedSoundPair> soundBankASB = new List<weightedSoundPair>();
-    protected List<T> sounds;
+        // We could revert the grouping of the sound bank and go back to having a public sounds and weights without the custom pair class
+        // Or remove the track count variable so you don't have to redefine the track variable (size would be set in inspector :( )
+    [SerializeField] protected List<UnityEngine.Object> sounds;
     // The probability of choosing a sound in the bank relative to other sounds
-    protected List<float> soundWeights;
+    [SerializeField] protected List<float> soundWeights;
 
     // Used to prevent the n most recent sounds from playing again
     [SerializeField] protected int recencyBlacklistSize;
@@ -24,10 +22,6 @@ public abstract class AbstractSoundBank<T> : MonoBehaviour, ITrack where T : ITr
     private List<float> cumulativeWeights;
 
     void Start() {
-        foreach (var pair in soundBankASB) {
-            sounds.Add((T)pair.sound);
-            soundWeights.Add(pair.weight);
-        }
         generateCumulativeWeights();
     }
 
@@ -39,7 +33,7 @@ public abstract class AbstractSoundBank<T> : MonoBehaviour, ITrack where T : ITr
         while (randomNum > cumulativeWeights[soundIndex]) {
             soundIndex++;
         }
-        sounds[soundIndex].PlayTrack();
+        (sounds[soundIndex] as ITrack)?.PlayTrack();
 
         // Update recent sounds list
         recentSounds.Add(soundIndex);

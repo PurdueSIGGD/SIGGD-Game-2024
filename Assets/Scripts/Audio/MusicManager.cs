@@ -32,7 +32,10 @@ public class MusicManager : MonoBehaviour
 
     // Swaps the current track with NO crossfade
     public void PlayMusicTrack(MusicTrackName trackName) {
-        GetCurrentMusicTrack().StopTrack();
+        IMusicTrack cTrack = GetCurrentMusicTrack();
+        if (cTrack != null) {
+            GetCurrentMusicTrack().StopTrack();
+        }
         currentTrackName = trackName;
         GetCurrentMusicTrack().PlayTrack();
     }

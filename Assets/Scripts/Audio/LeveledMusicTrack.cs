@@ -14,7 +14,6 @@ public class LeveledMusicTrack : MusicTrack {
     // index 4: Level 3, copy 1
     // index 5: Level 3, copy 2
     private const int TRACK_COUNT = 6;
-    [SerializeField] private AudioSource[] tracksLMT = new AudioSource[TRACK_COUNT];
 
     // Offset shifts between the levels (via the variables below)
     // When 0, plays tracks 0, 2, and 4
@@ -28,17 +27,16 @@ public class LeveledMusicTrack : MusicTrack {
     private bool isHighEnergy = false;
     
     void Start() {
-        tracksLMT = new AudioSource[TRACK_COUNT];
         // If loopEnd is the same as the end of the track, adjust it
-        if (tracksLMT.Length != TRACK_COUNT) {
+        if (tracks.Length != TRACK_COUNT) {
             Debug.Log("Hi there! You don't have exactly " + TRACK_COUNT + " tracks in your looping sound! Something's going to break :)");
         }
-        if (Math.Abs(loopEnd - tracksLMT[0].clip.length) < 0.05f) {
-            loopEnd = tracksLMT[0].clip.length;
+        if (Math.Abs(loopEnd - tracks[0].clip.length) < 0.05f) {
+            loopEnd = tracks[0].clip.length;
         }
 
         // Set volumes to 0
-        foreach (var track in tracksLMT) {
+        foreach (var track in tracks) {
             track.volume = 0.0f;
         }
         //StartCoroutine(Debug_Track_Status());
@@ -58,15 +56,15 @@ public class LeveledMusicTrack : MusicTrack {
             if (didEnergySwap) {
                 // Flipped from low to high energy
                 if (isHighEnergy) {
-                    tracksLMT[currentTrackOffset + LEVEL_ONE_TRACK_OFFSET].Stop();
-                    tracksLMT[currentTrackOffset + LEVEL_THREE_TRACK_OFFSET].Play();
-                    tracksLMT[currentTrackOffset + LEVEL_THREE_TRACK_OFFSET].time = tracksLMT[currentTrackOffset + LEVEL_TWO_TRACK_OFFSET].time;
+                    tracks[currentTrackOffset + LEVEL_ONE_TRACK_OFFSET].Stop();
+                    tracks[currentTrackOffset + LEVEL_THREE_TRACK_OFFSET].Play();
+                    tracks[currentTrackOffset + LEVEL_THREE_TRACK_OFFSET].time = tracks[currentTrackOffset + LEVEL_TWO_TRACK_OFFSET].time;
 
                 // Flipped from high to low energy
                 } else {
-                    tracksLMT[currentTrackOffset + LEVEL_THREE_TRACK_OFFSET].Stop();
-                    tracksLMT[currentTrackOffset + LEVEL_ONE_TRACK_OFFSET].Play();
-                    tracksLMT[currentTrackOffset + LEVEL_ONE_TRACK_OFFSET].time = tracksLMT[currentTrackOffset + LEVEL_TWO_TRACK_OFFSET].time;
+                    tracks[currentTrackOffset + LEVEL_THREE_TRACK_OFFSET].Stop();
+                    tracks[currentTrackOffset + LEVEL_ONE_TRACK_OFFSET].Play();
+                    tracks[currentTrackOffset + LEVEL_ONE_TRACK_OFFSET].time = tracks[currentTrackOffset + LEVEL_TWO_TRACK_OFFSET].time;
                 }
             }
             AdjustLeveledTrackVolumes();
@@ -77,14 +75,14 @@ public class LeveledMusicTrack : MusicTrack {
         if (isPlaying) { return; }
 
         // Play base level 2 (since it always plays)
-        tracksLMT[currentTrackOffset + LEVEL_TWO_TRACK_OFFSET].Play();
+        tracks[currentTrackOffset + LEVEL_TWO_TRACK_OFFSET].Play();
         // Play level 1 or 3 based on current energy level
         float energyLevel = AudioManager.Instance.GetEnergyLevel();
         if (energyLevel < 0.5) {
-            tracksLMT[currentTrackOffset + LEVEL_ONE_TRACK_OFFSET].Play();
+            tracks[currentTrackOffset + LEVEL_ONE_TRACK_OFFSET].Play();
             isHighEnergy = false;
         } else if (energyLevel > 0.5) {
-            tracksLMT[currentTrackOffset + LEVEL_THREE_TRACK_OFFSET].Play();
+            tracks[currentTrackOffset + LEVEL_THREE_TRACK_OFFSET].Play();
             isHighEnergy = true;
         }
         
@@ -93,7 +91,7 @@ public class LeveledMusicTrack : MusicTrack {
     }
 
     new public void StopTrack() {
-        foreach (var track in tracksLMT) {
+        foreach (var track in tracks) {
             track.Stop();
         }
 
@@ -115,33 +113,33 @@ public class LeveledMusicTrack : MusicTrack {
         float levelTwoTrackVolume = -2 * maxVolume * Math.Abs(am.GetEnergyLevel() - 0.5f) + maxVolume;
         float levelOneOrThreeVolume = maxVolume - levelTwoTrackVolume;
         if (isHighEnergy) {
-            tracksLMT[currentTrackOffset + LEVEL_THREE_TRACK_OFFSET].volume = levelOneOrThreeVolume;
+            tracks[currentTrackOffset + LEVEL_THREE_TRACK_OFFSET].volume = levelOneOrThreeVolume;
         } else {
-            tracksLMT[currentTrackOffset].volume = levelOneOrThreeVolume;
+            tracks[currentTrackOffset].volume = levelOneOrThreeVolume;
         }
-        tracksLMT[currentTrackOffset + LEVEL_TWO_TRACK_OFFSET].volume = levelTwoTrackVolume;
+        tracks[currentTrackOffset + LEVEL_TWO_TRACK_OFFSET].volume = levelTwoTrackVolume;
     }
 
     protected override IEnumerator AutoLoop() {
-        float trackPlaytime = loopEnd - tracksLMT[LEVEL_TWO_TRACK_OFFSET + currentTrackOffset].time;
+        float trackPlaytime = loopEnd - tracks[LEVEL_TWO_TRACK_OFFSET + currentTrackOffset].time;
 
         do {
-            float trackMajorityLength = (loopEnd - tracksLMT[LEVEL_TWO_TRACK_OFFSET + currentTrackOffset].time) * TRACK_MAJORITY_RATIO;
+            float trackMajorityLength = (loopEnd - tracks[LEVEL_TWO_TRACK_OFFSET + currentTrackOffset].time) * TRACK_MAJORITY_RATIO;
             yield return new WaitForSecondsRealtime(trackMajorityLength);
-            trackPlaytime = loopEnd - tracksLMT[LEVEL_TWO_TRACK_OFFSET + currentTrackOffset].time;
+            trackPlaytime = loopEnd - tracks[LEVEL_TWO_TRACK_OFFSET + currentTrackOffset].time;
             yield return new WaitForSecondsRealtime(trackPlaytime);
 
             currentTrackOffset = 1 - currentTrackOffset;
 
             // Play the right tracks based on energy level and set playback to loopStart
-            tracksLMT[LEVEL_TWO_TRACK_OFFSET + currentTrackOffset].Play();
-            tracksLMT[LEVEL_TWO_TRACK_OFFSET + currentTrackOffset].time = loopStart;
+            tracks[LEVEL_TWO_TRACK_OFFSET + currentTrackOffset].Play();
+            tracks[LEVEL_TWO_TRACK_OFFSET + currentTrackOffset].time = loopStart;
             if (isHighEnergy) {
-                tracksLMT[LEVEL_THREE_TRACK_OFFSET + currentTrackOffset].Play();
-                tracksLMT[LEVEL_THREE_TRACK_OFFSET + currentTrackOffset].time = loopStart;
+                tracks[LEVEL_THREE_TRACK_OFFSET + currentTrackOffset].Play();
+                tracks[LEVEL_THREE_TRACK_OFFSET + currentTrackOffset].time = loopStart;
             } else {
-                tracksLMT[currentTrackOffset].Play();
-                tracksLMT[currentTrackOffset].time = loopStart;
+                tracks[currentTrackOffset].Play();
+                tracks[currentTrackOffset].time = loopStart;
             }
         } while (true);
     }
@@ -150,11 +148,11 @@ public class LeveledMusicTrack : MusicTrack {
     private IEnumerator Debug_Track_Status() {
         while (true) {
             String msg = "";
-            for (int i = 0; i < tracksLMT.Length; i++) {
+            for (int i = 0; i < tracks.Length; i++) {
                 msg += "Track " + i + "\tPlaying? [";
-                msg += tracksLMT[i].isPlaying ? "X" : " ";
-                msg += "]\tVolume:" + tracksLMT[i].volume;
-                msg += "\tTime: " + tracksLMT[i].time + "\n";
+                msg += tracks[i].isPlaying ? "X" : " ";
+                msg += "]\tVolume:" + tracks[i].volume;
+                msg += "\tTime: " + tracks[i].time + "\n";
             }
             Debug.Log(msg);
             yield return new WaitForSeconds(1.0f);

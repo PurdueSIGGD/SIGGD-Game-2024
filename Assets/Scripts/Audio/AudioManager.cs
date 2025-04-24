@@ -54,7 +54,7 @@ public class AudioManager : MonoBehaviour {
         }   
 
         if (Input.GetKeyDown(KeyCode.B)) {
-            Instance.VABranch.PlayVATrack(VAManager.VATrackName.BRITISH_ANT);
+            Instance.VABranch.PlayVATrack(VAManager.VATrackName.EVA_EXERSION);
         }
 
         if (Input.GetKeyDown(KeyCode.R)) {

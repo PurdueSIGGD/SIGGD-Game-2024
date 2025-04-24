@@ -7,7 +7,7 @@ public abstract class AbstractLoopingTrack : MonoBehaviour {
 
     // The tracks used for smooth looping
     // Unfortunately I have to name the track variable differently because serialization is my enemy
-    [SerializeField] private AudioSource[] tracksALT;
+    [SerializeField] protected AudioSource[] tracks;
 
     // The index of the current playing track
     protected int currentTrackOffset = 0;
@@ -18,7 +18,7 @@ public abstract class AbstractLoopingTrack : MonoBehaviour {
 
 
     // Keeps track of the couroutine to start/stop the tracks successfully
-    protected Coroutine looper;
+    protected Coroutine looper = null;
 
     protected bool isPlaying = false;
 
@@ -27,8 +27,8 @@ public abstract class AbstractLoopingTrack : MonoBehaviour {
     protected const float TRACK_MAJORITY_RATIO = 0.98f;
 
     void Start() {
-        tracksALT = new AudioSource[TRACK_COUNT];
-        if (tracksALT.Length != TRACK_COUNT) {
+        tracks = new AudioSource[TRACK_COUNT];
+        if (tracks.Length != TRACK_COUNT) {
             Debug.Log("Hi there! You don't have exactly " + TRACK_COUNT + " tracks in your looping sound! Something's going to break :)");
         }
     }
@@ -36,13 +36,15 @@ public abstract class AbstractLoopingTrack : MonoBehaviour {
     public void PlayTrack() {
         if (isPlaying) { return; }
         isPlaying = true;
-        tracksALT[0].Play();
+        tracks[0].Play();
         looper = StartCoroutine(AutoLoop());
     }
 
     public void StopTrack() {
         isPlaying = false;
-        StopCoroutine(looper);
+        if (looper != null) {
+            StopCoroutine(looper);
+        }
     }
 
     // Every class needs to define a way to auto loop
