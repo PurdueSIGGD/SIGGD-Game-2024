@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,9 +10,24 @@ public class CharacterSO : ScriptableObject
 
     public Color primaryColor;
 
+    public Sprite fullImage;
+
+    [Header("Abilities")]
+
     public Sprite basicAbilityIcon;
 
+    public string basicAbilityName;
+
+    [TextArea]
+    public string basicAbilityDescription;
+
     public Sprite specialAbilityIcon;
+
+    public string specialAbilityName;
+
+    [TextArea]
+    public string specialAbilityDescription;
+
 
     [System.Serializable]
     public class ExpressionList

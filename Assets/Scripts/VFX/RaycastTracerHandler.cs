@@ -38,6 +38,16 @@ public class RaycastTracerHandler : MonoBehaviour
         playTracer(startPosition, endPosition, travelSpeed, startColor, endColor);
     }
 
+    public void playTracer(Vector2 startPosition, Vector2 endPosition, bool travelsInstantly, Color startColor, Color endColor)
+    {
+        lineRenderer.enabled = true;
+        lineRenderer.SetPosition(0, startPosition);
+        lineRenderer.SetPosition(1, endPosition);
+        lineRenderer.startColor = startColor;
+        lineRenderer.endColor = endColor;
+        StartCoroutine(fadeOutTracer());
+    }
+
     private IEnumerator extendTracer(Vector2 startPosition, Vector2 endPosition)
     {
         float distance = Vector2.Distance(startPosition, endPosition);

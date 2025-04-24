@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -7,28 +5,33 @@ public class TierUI : MonoBehaviour, IPointerClickHandler
 {
     // -- Private Fields --
     private int tier;
-    private SkillTreeUI skillTreeUI;
+    private SkillTree skillTree;
 
+    private void Update()
+    {
+        if (skillTree != null)
+        {
+            int unusedPoints = skillTree.GetTierPoints(tier);
+
+            int i = 0;
+            foreach (Transform child in transform)
+            {
+                child.gameObject.SetActive(i < unusedPoints);
+                i++;
+            }
+        }
+    }
 
     // -- External Functions --
-    public void Visualize(int tier, SkillTreeUI skillTreeUI)
+    public void Visualize(SkillTree skillTree, int tier)
     {
         this.tier = tier;
-        this.skillTreeUI = skillTreeUI;
-
-        int unusedPoints = skillTreeUI.GetSkillTree().GetTierPoints(tier);
-
-        int i = 0;
-        foreach (Transform child in transform)
-        {
-            child.gameObject.SetActive(i < unusedPoints);
-            i++;
-        }
+        this.skillTree = skillTree;
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        skillTreeUI.ResetTierPointsUI(tier);
+        skillTree.ResetPoints(tier);
     }
 
 }

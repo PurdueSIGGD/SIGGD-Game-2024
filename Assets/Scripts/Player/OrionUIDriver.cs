@@ -49,8 +49,8 @@ public class OrionUIDriver : MonoBehaviour
     private void updateSelected()
     {
         isSelected = (partyManager.GetSelectedGhost() == null);
-        if (partyManager.GetGhostMajorList().Count > 0 && partyManager.GetGhostMajorList()[0].IsSelected()) deselectedGhostUIManager = PlayerGhost1UIManager.instance;
-        if (partyManager.GetGhostMajorList().Count > 1 && partyManager.GetGhostMajorList()[1].IsSelected()) deselectedGhostUIManager = PlayerGhost2UIManager.instance;
+        if (partyManager.GetGhostPartyList().Count > 0 && partyManager.GetGhostPartyList()[0].IsSelected()) deselectedGhostUIManager = PlayerGhost1UIManager.instance;
+        if (partyManager.GetGhostPartyList().Count > 1 && partyManager.GetGhostPartyList()[1].IsSelected()) deselectedGhostUIManager = PlayerGhost2UIManager.instance;
     }
 
     private void updateGhostUI()
