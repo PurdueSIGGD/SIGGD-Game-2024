@@ -29,7 +29,7 @@ public class LeveledMusicTrack : MusicTrack {
     void Start() {
         // If loopEnd is the same as the end of the track, adjust it
         if (tracks.Length != TRACK_COUNT) {
-            Debug.Log("Hi there! You don't have exactly " + TRACK_COUNT + " tracks in your looping sound! Something's going to break :)");
+            Debug.Log("Hi there! You don't have exactly " + TRACK_COUNT + " tracks in your looping sound! Something's going to break :)" + gameObject);
         }
         if (Math.Abs(loopEnd - tracks[0].clip.length) < 0.05f) {
             loopEnd = tracks[0].clip.length;
@@ -39,7 +39,7 @@ public class LeveledMusicTrack : MusicTrack {
         foreach (var track in tracks) {
             track.volume = 0.0f;
         }
-        StartCoroutine(Debug_Track_Status());
+        //StartCoroutine(Debug_Track_Status());
     }
 
     void Update() { 
@@ -71,6 +71,7 @@ public class LeveledMusicTrack : MusicTrack {
     }
 
     override public void PlayTrack() {
+        Debug.Log("I ran");
         if (isPlaying) { return; }
         foreach (var track in tracks) {
             track.time = 0.0f;
@@ -109,7 +110,6 @@ public class LeveledMusicTrack : MusicTrack {
     private void AdjustLeveledTrackVolumes() {
         // Calculates the volume of the level two track, normalizing around the maxVolume value
         float levelTwoTrackVolume = -2 * maxVolume * Math.Abs(AudioManager.Instance.GetEnergyLevel() - 0.5f) + maxVolume;
-        Debug.Log("lvl2 vol = " + levelTwoTrackVolume);
         float levelOneOrThreeVolume = maxVolume - levelTwoTrackVolume;
         if (isHighEnergy) {
             tracks[currentTrackOffset + LEVEL_THREE_TRACK_OFFSET].volume = levelOneOrThreeVolume;

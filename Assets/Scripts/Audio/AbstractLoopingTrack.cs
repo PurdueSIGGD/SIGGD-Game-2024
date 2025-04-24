@@ -28,7 +28,7 @@ public abstract class AbstractLoopingTrack : MonoBehaviour {
 
     void Start() {
         if (tracks.Length != TRACK_COUNT) {
-            Debug.Log("Hi there! You don't have exactly " + TRACK_COUNT + " tracks in your looping sound! Something's going to break :)");
+            Debug.Log("Hi there! You don't have exactly " + TRACK_COUNT + " tracks in your looping sound! Something's going to break :)" + gameObject);
         }
     }
 
@@ -37,7 +37,6 @@ public abstract class AbstractLoopingTrack : MonoBehaviour {
         isPlaying = true;
         tracks[0].Play();
         looper = StartCoroutine(AutoLoop());
-        Debug.Log("No, I ran");
     }
 
     public void StopTrack() {

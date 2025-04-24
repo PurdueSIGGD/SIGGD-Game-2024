@@ -19,7 +19,7 @@ public abstract class AbstractSoundBank : MonoBehaviour, ITrack {
     // The indices of the most recent sounds in the soundbank
     protected List<int> recentSounds = new List<int>();
 
-    private List<float> cumulativeWeights;
+    protected List<float> cumulativeWeights;
 
     void Start() {
         generateCumulativeWeights();
@@ -33,13 +33,16 @@ public abstract class AbstractSoundBank : MonoBehaviour, ITrack {
         while (randomNum > cumulativeWeights[soundIndex]) {
             soundIndex++;
         }
+        Debug.Log("attempt play");
         (sounds[soundIndex] as ITrack)?.PlayTrack();
+        Debug.Log("it worked?");
 
         // Update recent sounds list
         recentSounds.Add(soundIndex);
         if (recentSounds.Count > recencyBlacklistSize) {
             recentSounds.RemoveAt(0);
         }
+        generateCumulativeWeights();
     }
 
     // Here's the gist: Don't increase the cumulative weight on blacklisted tracks and they'll never be selected 
