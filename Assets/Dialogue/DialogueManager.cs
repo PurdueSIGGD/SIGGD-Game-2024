@@ -20,6 +20,13 @@ public class DialogueManager : MonoBehaviour, IScreenUI
     //       Serialized Fields
     // ==============================
 
+    [SerializeField] private GameObject dialogueBox; // PANEL where the text is displayed
+
+    [SerializeField] private TMP_Text dialogueText; // Set this to change dialogue text on screen
+
+    [SerializeField] private TMP_Text characterNameText; // Set this to character name (who is speaking?)
+
+    [SerializeField] private Button nextButton; // When clicked, causes the next line of dialogue to be displayed
 
     // ==============================
     //        Other Variables
@@ -28,14 +35,6 @@ public class DialogueManager : MonoBehaviour, IScreenUI
     private const string DEFAULT_TEXT = "..."; // Empty text box displays this
 
     private ConversationTemp conversation; // Conversation Scriptable Object
-
-    private GameObject dialogueBox; // PANEL where the text is displayed
-
-    private TMP_Text dialogueText; // Set this to change dialogue text on screen
-
-    private TMP_Text characterNameText; // Set this to character name (who is speaking?)
-
-    private Button nextButton; // When clicked, causes the next line of dialogue to be displayed
 
     private bool isRunning = false; // Whether a dialogue is currently being run.
 
@@ -51,16 +50,16 @@ public class DialogueManager : MonoBehaviour, IScreenUI
     {
 
         // Set next button to disabled and add action listener
-        nextButton = transform.Find("NextButton").gameObject.GetComponent<Button>();
+        //nextButton = transform.Find("NextButton").gameObject.GetComponent<Button>();
         nextButton.onClick.AddListener(NextDialogue);
 
         // Find dialogue box Game Object and text
-        dialogueBox = this.transform.Find("DialogueBox").gameObject;
-        dialogueText = dialogueBox.transform.Find("DialogueText").gameObject.GetComponent<TMP_Text>();
+        //dialogueBox = this.transform.Find("DialogueBox").gameObject;
+        //dialogueText = dialogueBox.transform.Find("DialogueText").gameObject.GetComponent<TMP_Text>();
         dialogueText.text = DEFAULT_TEXT;
 
         // Do the same for character name
-        characterNameText = dialogueBox.transform.Find("CharacterNameText").gameObject.GetComponent<TMP_Text>();
+        //characterNameText = dialogueBox.transform.Find("CharacterNameText").gameObject.GetComponent<TMP_Text>();
         characterNameText.text = "";
 
         ToggleVisibility();
@@ -119,8 +118,9 @@ public class DialogueManager : MonoBehaviour, IScreenUI
     /// </summary>
     private void ToggleVisibility()
     {
-        dialogueBox.SetActive(isRunning);
-        nextButton.gameObject.SetActive(isRunning);
+        //dialogueBox.SetActive(isRunning);
+        //nextButton.gameObject.SetActive(isRunning);
+        this.gameObject.SetActive(isRunning);
     }
 
     // ==============================
