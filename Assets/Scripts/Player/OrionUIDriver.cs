@@ -20,6 +20,12 @@ public class OrionUIDriver : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (PlayerSelectedGhostUIManager.instance == null)
+        {
+            this.enabled = false;
+            return;
+        }
+
         stats = GetComponent<StatManager>();
         partyManager = PartyManager.instance;
         manager = GetComponent<OrionManager>();
@@ -78,7 +84,7 @@ public class OrionUIDriver : MonoBehaviour
         skill2UIManager = (isSelected) ? selectedGhostUIManager.skill2UIManager : deselectedGhostUIManager.skill2UIManager;
 
 
-        
+
         // BASIC ABILITY
         basicAbilityUIManager.setUIActive(true);
         basicAbilityUIManager.setIcon(orionCharacterInfo.specialAbilityIcon);
