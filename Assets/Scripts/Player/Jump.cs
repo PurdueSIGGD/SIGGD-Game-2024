@@ -38,17 +38,12 @@ public class Jump : MonoBehaviour, IStatList
         print("JUMPER: " + psm.currentAnimation);
         if (psm.currentAnimation == "player_jump")
         {
-            jumping = true;
             float jumpValue = jumpAction.ReadValue<float>();
             print("JUMPER: " + jumpValue);
-            if (jumpValue == 0)
+            if (jumpValue == 0 && rb.velocity.y > 0)
             {
                 rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.75f);
             }
-        }
-        else if (psm.currentAnimation != "player_jump")
-        {
-            jumping = false;
         }
     }
 
