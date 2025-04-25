@@ -90,8 +90,8 @@ Transform:
   m_GameObject: {fileID: 1398568264850401254}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.5, y: 1.5, z: 1}
+  m_LocalPosition: {x: 1.65, y: 0, z: 0}
+  m_LocalScale: {x: 3, y: 3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6481614880432510513}
@@ -20679,6 +20679,9 @@ MonoBehaviour:
   currentAnimation: 
   lightAttackQueued: 0
   lightAttackConsumed: 0
+  isLightAttack2Ready: 0
+  lightAttack2ReadyTime: 0
+  lightAttack2LingerTime: 1.5
   heavyAttackQueued: 0
   heavyAttackConsumed: 0
 --- !u!114 &2221814288652233453
@@ -20849,7 +20852,7 @@ MonoBehaviour:
   range: 3
   angle: 80
   lightDamage:
-    damageStrength: 0
+    damageStrength: 1
     damageTypes: 00000000
     actionID: 1
     actionTypes: 00000000
@@ -20906,12 +20909,12 @@ MonoBehaviour:
   ghostController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
   heavyIndicator: {fileID: 1398568264850401254}
   heavyDamage:
-    damageStrength: 2
+    damageStrength: 3
     damageTypes: 00000000
     actionID: 2
     actionTypes: 01000000
     extraContext: Player Heavy
-  offsetX: 2
+  offsetX: 1.65
   isDashEnabled: 1
   isAirbornePostDash: 0
 --- !u!114 &6912038939047199345

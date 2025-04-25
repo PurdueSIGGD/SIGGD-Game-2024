@@ -15,7 +15,7 @@ public class HeavyAttack : MonoBehaviour, IStatList
     //[SerializeField] DamageContext heavyDamage;
     //[SerializeField] float offsetX;
     private Camera mainCamera;
-    private float timer;
+    //private float timer;
     private StatManager stats;
     private PlayerStateMachine playerStateMachine;
     private OrionManager manager;
@@ -45,6 +45,7 @@ public class HeavyAttack : MonoBehaviour, IStatList
         if (isPrimed && primedTime > 0f) primedTime -= Time.deltaTime;
         if (isPrimed && primedTime <= 0f) playerStateMachine.EnableTrigger("OPT");
 
+        /*
         if (timer > 0)
         {
             timer -= Time.deltaTime;
@@ -53,7 +54,10 @@ public class HeavyAttack : MonoBehaviour, IStatList
         {
             manager.heavyIndicator.SetActive(false);
         }
+        */
+
         Vector3 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        /*
         if (mousePos.x < transform.position.x)
         {
             manager.heavyIndicator.transform.localPosition = new Vector3(-manager.offsetX, manager.heavyIndicator.transform.localPosition.y, 0);
@@ -62,6 +66,26 @@ public class HeavyAttack : MonoBehaviour, IStatList
         {
             manager.heavyIndicator.transform.localPosition = new Vector3(manager.offsetX, manager.heavyIndicator.transform.localPosition.y, 0);
         }
+
+        int offsetDirection;
+        if (mousePos.x < transform.position.x)
+        {
+            offsetDirection = (transform.rotation.y < 0) ? 1 : -1;
+        }
+        else
+        {
+            offsetDirection = (transform.rotation.y < 0) ? -1 : 1;
+        }
+
+        
+        if (transform.rotation.y < 0)
+        {
+            offsetDirection = -offsetDirection;
+        }
+        
+
+        manager.heavyIndicator.transform.localPosition = new Vector3(offsetDirection * manager.offsetX, manager.heavyIndicator.transform.localPosition.y, 0);
+        */
 
         Vector3 mouseDiff = transform.position - mousePos;
 
@@ -104,18 +128,23 @@ public class HeavyAttack : MonoBehaviour, IStatList
     public void StartHeavyAttack()
     {
         //indicator.SetActive(true);
-        timer = 0.5f;
+        //timer = 0.5f;
         RaycastHit2D[] hits = Physics2D.BoxCastAll(manager.heavyIndicator.transform.position, manager.heavyIndicator.transform.localScale, 0, new Vector2(0, 0));
         foreach(RaycastHit2D hit in hits)
         {
-            if(hit.transform.gameObject.tag == "Enemy")
+            if (hit.transform.gameObject.CompareTag("Enemy"))
             {
                 Debug.Log("Heavy Attack Hit: " + hit.transform.gameObject.name);
 
-                foreach (IDamageable damageable in hit.transform.gameObject.GetComponents<IDamageable>()) {
+                hit.transform.gameObject.GetComponent<Health>().Damage(manager.heavyDamage, gameObject);
+
+                /*
+                foreach (IDamageable damageable in hit.transform.gameObject.GetComponents<IDamageable>())
+                {
                     //heavyDamage.damage = stats.ComputeValue("Heavy Damage");
                     damageable.Damage(manager.heavyDamage, gameObject);
                 }
+                */
 
                 /*
                 IDamageable enemyhealth = hit.transform.gameObject.GetComponent<IDamageable>();
