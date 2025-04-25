@@ -20661,7 +20661,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6da0f2ae8388c2439a26c3c2d51616c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ghostLimit: 2
 --- !u!114 &3265562016652939407
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20678,6 +20677,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   currentAnimation: 
+  lightAttackQueued: 0
+  lightAttackConsumed: 0
+  heavyAttackQueued: 0
+  heavyAttackConsumed: 0
 --- !u!114 &2221814288652233453
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20764,23 +20767,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29af8171297c4c544b544b68d1f7d6dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statList:
-  - name: Heavy Damage
-    value: 80
-  - name: Accel. while Heavy
-    value: 0.5
-  - name: Deaccel. while Heavy
-    value: 0.8
-  - name: Max Speed while Heavy
-    value: 5
-  indicator: {fileID: 1398568264850401254}
-  heavyDamage:
-    damageStrength: 2
-    damageTypes: 00000000
-    actionID: 2
-    actionTypes: 01000000
-    extraContext: Player Heavy
-  offsetX: 2
+  statList: []
+  chargingTime: 0
 --- !u!114 &591852133945516386
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20858,17 +20846,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 066d6eb94556a8d4eb54327276580930, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 1.2
+  range: 3
   angle: 80
   lightDamage:
     damageStrength: 0
-    damageTypes: 
-    actionID: 0
-    actionTypes: 
+    damageTypes: 00000000
+    actionID: 1
+    actionTypes: 00000000
     extraContext: 
   statList:
   - name: Damage
-    value: 10
+    value: 25
   cooldown: 1
   rayCount: 6
   attackMask:
@@ -20901,9 +20889,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78971365cf7065c49b48f09c45aac2dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statList: []
+  statList:
+  - name: Heavy Damage
+    value: 75
+  - name: Accel. while Heavy
+    value: 0.5
+  - name: Deaccel. while Heavy
+    value: 0.8
+  - name: Max Speed while Heavy
+    value: 5
+  - name: Heavy Charge Up Time
+    value: 0.65
+  - name: Heavy Primed Autofire Time
+    value: 1.35
   defaultController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
   ghostController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
+  heavyIndicator: {fileID: 1398568264850401254}
+  heavyDamage:
+    damageStrength: 2
+    damageTypes: 00000000
+    actionID: 2
+    actionTypes: 01000000
+    extraContext: Player Heavy
+  offsetX: 2
   isDashEnabled: 1
   isAirbornePostDash: 0
 --- !u!114 &6912038939047199345

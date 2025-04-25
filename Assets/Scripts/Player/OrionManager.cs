@@ -5,6 +5,10 @@ using static UnityEditor.PlayerSettings;
 
 public class OrionManager : GhostManager
 {
+    [SerializeField] public GameObject heavyIndicator;
+    [SerializeField] public DamageContext heavyDamage;
+    [SerializeField] public float offsetX;
+
     [HideInInspector] public bool isDashEnabled = true;
     [HideInInspector] public bool isAirbornePostDash = false;
 
@@ -12,6 +16,7 @@ public class OrionManager : GhostManager
     protected override void Start()
     {
         base.Start();
+        heavyDamage.damage = stats.ComputeValue("Heavy Damage");
     }
 
     // Update is called once per frame

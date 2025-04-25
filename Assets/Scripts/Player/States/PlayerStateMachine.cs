@@ -25,11 +25,14 @@ public class PlayerStateMachine : MonoBehaviour
     InputAction specialInput; // The special key action from the playerInput component
     InputAction attackInput;
 
-    private bool lightAttackQueued = false;
-    private bool lightAttackConsumed = false;
+    public bool lightAttackQueued = false;
+    public bool lightAttackConsumed = false;
+    public bool isLightAttack2Ready = false;
+    public float lightAttack2ReadyTime = 0f;
+    public float lightAttack2LingerTime = 1.5f;
 
-    private bool heavyAttackQueued = false;
-    private bool heavyAttackConsumed = false;
+    public bool heavyAttackQueued = false;
+    public bool heavyAttackConsumed = false;
 
     Animator animator; // the animator of the player object
     Rigidbody2D rb; // the rigidbody of the player object
@@ -106,7 +109,6 @@ public class PlayerStateMachine : MonoBehaviour
     void UpdateAttack()
     {
         bool i_attack = attackInput.ReadValue<float>() != 0;
-        //Debug.Log("Light Attack Input: " + i_attack + "  |  Queued: " + lightAttackQueued + "  |  Consumed: " + lightAttackConsumed);
 
         // Handle light attack input buffering 
         if (i_attack)
@@ -120,23 +122,45 @@ public class PlayerStateMachine : MonoBehaviour
         }
 
         // Handle heavy attack input buffering
+        if (i_attack)
+        {
+            heavyAttackQueued = lightAttackConsumed;
+        }
+        else
+        {
+            heavyAttackQueued = false;
+        }
 
-
-        //Debug.Log("Light Attack Input: " + i_attack + "  |  Queued: " + lightAttackQueued + "  |  Consumed: " + lightAttackConsumed);
         animator.SetBool("i_attack", lightAttackQueued);
         animator.SetBool("i_heavy_attack", heavyAttackQueued);
+
+        // Update Light Attack 2 Ready
+        if (isLightAttack2Ready && lightAttack2ReadyTime > 0f) lightAttack2ReadyTime -= Time.deltaTime;
+        if (isLightAttack2Ready && lightAttack2ReadyTime <= 0f) isLightAttack2Ready = false;
+        animator.SetBool("light_2_ready", isLightAttack2Ready);
     }
 
     public void ConsumeLightAttackInput()
     {
+        if (lightAttackConsumed) return;
         lightAttackConsumed = true;
-        Debug.Log("Light Attack Consumed: " + lightAttackConsumed);
+
+        if (isLightAttack2Ready)
+        {
+            isLightAttack2Ready = false;
+            lightAttack2ReadyTime = 0f;
+        }
+        else
+        {
+            lightAttack2ReadyTime = lightAttack2LingerTime;
+            isLightAttack2Ready = true;
+        }
+        Debug.Log("Light Attack Input Consumed");
     }
 
     public void ConsumeHeavyAttackInput()
     {
         heavyAttackConsumed = true;
-        Debug.Log("Heavy Attack Consumed: " + heavyAttackConsumed);
     }
 
     void UpdateSpecial()
@@ -171,6 +195,7 @@ public class PlayerStateMachine : MonoBehaviour
     void ReadCurrentAnimatorState()
     {
         AnimatorClipInfo[] animatorClip = animator.GetCurrentAnimatorClipInfo(0);
+        if (animatorClip.Length <= 0) return;
         currentAnimation = animatorClip[0].clip.name;
     }
 

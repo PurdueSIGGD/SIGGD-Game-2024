@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: player_light_side
+  m_Name: player_light_side_2
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -21,25 +21,27 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: -1453985743, guid: 2607aa722e6b4784c9a49ef197ea1f33, type: 3}
-    - time: 0.3
-      value: {fileID: 1993932485, guid: 2607aa722e6b4784c9a49ef197ea1f33, type: 3}
-    - time: 0.31666666
-      value: {fileID: 1971896367, guid: 2607aa722e6b4784c9a49ef197ea1f33, type: 3}
-    - time: 0.33333334
-      value: {fileID: -1293368241, guid: 2607aa722e6b4784c9a49ef197ea1f33, type: 3}
-    - time: 0.48333332
-      value: {fileID: 1323131375, guid: 2607aa722e6b4784c9a49ef197ea1f33, type: 3}
-    - time: 0.65
       value: {fileID: -12619613, guid: 2607aa722e6b4784c9a49ef197ea1f33, type: 3}
-    - time: 1.0833334
+    - time: 0.35
       value: {fileID: 2087380688, guid: 2607aa722e6b4784c9a49ef197ea1f33, type: 3}
-    - time: 1.25
+    - time: 0.51666665
       value: {fileID: -1699421918, guid: 2607aa722e6b4784c9a49ef197ea1f33, type: 3}
+    - time: 0.68333334
+      value: {fileID: 428214234, guid: 2607aa722e6b4784c9a49ef197ea1f33, type: 3}
+    - time: 1.0833334
+      value: {fileID: -1453985743, guid: 2607aa722e6b4784c9a49ef197ea1f33, type: 3}
+    - time: 1.3833333
+      value: {fileID: 1993932485, guid: 2607aa722e6b4784c9a49ef197ea1f33, type: 3}
+    - time: 1.4
+      value: {fileID: 1971896367, guid: 2607aa722e6b4784c9a49ef197ea1f33, type: 3}
     - time: 1.4166666
-      value: {fileID: 428214234, guid: 2607aa722e6b4784c9a49ef197ea1f33, type: 3}
-    - time: 1.8166667
-      value: {fileID: 428214234, guid: 2607aa722e6b4784c9a49ef197ea1f33, type: 3}
+      value: {fileID: -1293368241, guid: 2607aa722e6b4784c9a49ef197ea1f33, type: 3}
+    - time: 1.5666667
+      value: {fileID: 1323131375, guid: 2607aa722e6b4784c9a49ef197ea1f33, type: 3}
+    - time: 1.7333333
+      value: {fileID: -12619613, guid: 2607aa722e6b4784c9a49ef197ea1f33, type: 3}
+    - time: 1.8333334
+      value: {fileID: -12619613, guid: 2607aa722e6b4784c9a49ef197ea1f33, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -62,22 +64,23 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
+    - {fileID: -12619613, guid: 2607aa722e6b4784c9a49ef197ea1f33, type: 3}
+    - {fileID: 2087380688, guid: 2607aa722e6b4784c9a49ef197ea1f33, type: 3}
+    - {fileID: -1699421918, guid: 2607aa722e6b4784c9a49ef197ea1f33, type: 3}
+    - {fileID: 428214234, guid: 2607aa722e6b4784c9a49ef197ea1f33, type: 3}
     - {fileID: -1453985743, guid: 2607aa722e6b4784c9a49ef197ea1f33, type: 3}
     - {fileID: 1993932485, guid: 2607aa722e6b4784c9a49ef197ea1f33, type: 3}
     - {fileID: 1971896367, guid: 2607aa722e6b4784c9a49ef197ea1f33, type: 3}
     - {fileID: -1293368241, guid: 2607aa722e6b4784c9a49ef197ea1f33, type: 3}
     - {fileID: 1323131375, guid: 2607aa722e6b4784c9a49ef197ea1f33, type: 3}
     - {fileID: -12619613, guid: 2607aa722e6b4784c9a49ef197ea1f33, type: 3}
-    - {fileID: 2087380688, guid: 2607aa722e6b4784c9a49ef197ea1f33, type: 3}
-    - {fileID: -1699421918, guid: 2607aa722e6b4784c9a49ef197ea1f33, type: 3}
-    - {fileID: 428214234, guid: 2607aa722e6b4784c9a49ef197ea1f33, type: 3}
-    - {fileID: 428214234, guid: 2607aa722e6b4784c9a49ef197ea1f33, type: 3}
+    - {fileID: -12619613, guid: 2607aa722e6b4784c9a49ef197ea1f33, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 1.8333334
+    m_StopTime: 1.85
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -104,35 +107,35 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.31666666
+  - time: 0.35
     functionName: ExecuteLightAttack
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 1
+  - time: 1.0166667
     functionName: EndLightAttack
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 1.05
+  - time: 1.0833334
     functionName: InitializeLightAttack
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 1.0833334
+  - time: 1.4
     functionName: ExecuteLightAttack
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 1.7666667
+  - time: 1.7833333
     functionName: EndLightAttack
     data: 
     objectReferenceParameter: {fileID: 0}
