@@ -15,12 +15,6 @@ public class SFXManager : MonoBehaviour
     [SerializeField] private LoopingSFXTrack railgunCharge;
     [SerializeField] private OneShotSFXTrack railgunAttack;
 
-    public enum SFXTrackName {
-        FOOTSTEP,
-        RAILGUN_CHARGE,
-        RAILGUN_ATTACK
-    }
-
     // Start is called before the first frame update
     void Start()
     {
@@ -45,4 +39,10 @@ public class SFXManager : MonoBehaviour
     public void PlaySFXTrack(SFXTrackName trackName) {
         GetSFXTrack(trackName).PlayTrack();
     }
+}
+
+public enum SFXTrackName {
+    FOOTSTEP,
+    RAILGUN_CHARGE,
+    RAILGUN_ATTACK
 }

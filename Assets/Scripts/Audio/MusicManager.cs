@@ -7,12 +7,6 @@ public class MusicManager : MonoBehaviour
     [SerializeField] private LeveledMusicTrack japan;
     [SerializeField] private MusicTrack seamstress;
 
-    public enum MusicTrackName {
-        //                  loopStart       loopEnd
-        JAPAN, //           21.943          197.486
-        SEAMSTRESS //       11.912          83.383    
-    }
-
     private MusicTrackName currentTrackName;
 
     // Start is called before the first frame update
@@ -87,4 +81,10 @@ public class MusicManager : MonoBehaviour
         originalTrack.StopTrack();
         currentTrackName = trackName;
     }
+}
+
+public enum MusicTrackName {
+    //                  loopStart       loopEnd
+    JAPAN, //           21.943          197.486
+    SEAMSTRESS //       11.912          83.383    
 }

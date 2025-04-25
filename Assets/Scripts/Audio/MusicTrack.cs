@@ -31,10 +31,9 @@ public class MusicTrack : AbstractLoopingTrack, IMusicTrack
     }
 
     protected override IEnumerator AutoLoop() {
-        float trackPlaytime = loopEnd - tracks[currentTrackOffset].time;
-
         do {
-            float trackMajorityLength = (loopEnd - tracks[currentTrackOffset].time) * TRACK_MAJORITY_RATIO;
+            float trackPlaytime = loopEnd - tracks[currentTrackOffset].time;
+            float trackMajorityLength = trackPlaytime * TRACK_MAJORITY_RATIO;
             yield return new WaitForSecondsRealtime(trackMajorityLength);
             trackPlaytime = loopEnd - tracks[currentTrackOffset].time;
             yield return new WaitForSecondsRealtime(trackPlaytime);

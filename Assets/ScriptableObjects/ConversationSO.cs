@@ -13,7 +13,10 @@ public class ConversationTemp : ScriptableObject
         public string expression;
         [TextArea (5,3)]
         public string line;
+
     }
 
     public List<DialogueLine> dialogueLines = new List<DialogueLine>();
+
+    public ConversationName converstaionName;
 }

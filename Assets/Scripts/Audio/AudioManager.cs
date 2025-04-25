@@ -13,7 +13,9 @@ public class AudioManager : MonoBehaviour {
     public MusicManager MusicBranch { get; private set; }   // The game's soundtrack such as level tracks, boss music, ghost themes, etc.
     public VAManager VABranch { get; private set; }         // Any recorded voice such as converstaions, ability voicelines, etc.
 
+    // Variables used for testing audio features
     private float tempStepCounter = 0.0f;
+    private float tempPitch = 0.0f;
 
     // Energy level: This variable is set by other scripts to manage the tracks energy levels
     // 0.0 to 1.0, low energy to high energy
@@ -38,33 +40,43 @@ public class AudioManager : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
-        Instance.MusicBranch.PlayMusicTrack(MusicManager.MusicTrackName.JAPAN);
+        Instance.MusicBranch.PlayMusicTrack(MusicTrackName.JAPAN);
     }
 
-    // Update is called once per frame
+    // Update is called once per frames
     void Update() {
-        // Temporary audio test code: remove lines below when done
+        // ========= COMMENT THIS OUT BEFORE BUILDING ==============
+        TestAudioFunctions(); // <----------
+    }
+    
+    // Used by MusicTracks to find out which track energy levels to play
+    public float GetEnergyLevel() { return energyLevel; }
+
+    // Used by tracks outside of audio to set the ~mood~
+    public void SetEnergyLevel(float newLevel) { energyLevel = newLevel; }
+
+    private void TestAudioFunctions() {
         if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)) {
             tempStepCounter += Time.deltaTime;
             if (tempStepCounter > 0.4f) {
-                Instance.SFXBranch.PlaySFXTrack(SFXManager.SFXTrackName.FOOTSTEP);
+                Instance.SFXBranch.PlaySFXTrack(SFXTrackName.FOOTSTEP);
                 tempStepCounter = 0.0f;
             }
         }   
 
         if (Input.GetKeyDown(KeyCode.B)) {
-            Instance.VABranch.PlayVATrack(VAManager.VATrackName.EVA_EXERSION);
+            Instance.VABranch.PlayVATrack(VATrackName.EVA_EXERSION);
         }
 
         if (Input.GetKeyDown(KeyCode.R)) {
-            Instance.SFXBranch.PlaySFXTrack(SFXManager.SFXTrackName.RAILGUN_ATTACK);
+            Instance.SFXBranch.PlaySFXTrack(SFXTrackName.RAILGUN_ATTACK);
+        }
+        if (Input.GetKeyDown(KeyCode.T)) {
+            Instance.SFXBranch.PlaySFXTrack(SFXTrackName.RAILGUN_CHARGE);
         }
 
         if (Input.GetKeyDown(KeyCode.C)) {
-            MusicManager.MusicTrackName nextTrack = 
-                    Instance.MusicBranch.GetCurrentMusicTrackName() == MusicManager.MusicTrackName.JAPAN
-                    ? MusicManager.MusicTrackName.SEAMSTRESS
-                    : MusicManager.MusicTrackName.JAPAN;
+            MusicTrackName nextTrack = Instance.MusicBranch.GetCurrentMusicTrackName() == MusicTrackName.JAPAN ? MusicTrackName.SEAMSTRESS : MusicTrackName.JAPAN;
             Instance.MusicBranch.CrossfadeTo(nextTrack, 3.0f);
         }
 
@@ -74,12 +86,14 @@ public class AudioManager : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.P)) {
             Instance.MusicBranch.GetCurrentMusicTrack().PlayTrack();
         }
+        if (Input.GetKeyDown(KeyCode.N)) {
+            tempPitch = Math.Max(0, tempPitch - 1);
+            Instance.SFXBranch.GetSFXTrack(SFXTrackName.RAILGUN_CHARGE).setPitch(tempPitch, 10);          
+        }
+        if (Input.GetKeyDown(KeyCode.M)) {
+            tempPitch = Math.Min(10, tempPitch + 1);
+            Instance.SFXBranch.GetSFXTrack(SFXTrackName.RAILGUN_CHARGE).setPitch(tempPitch, 10);
+        }
     }
-    
-    // Used by MusicTracks to find out which track energy levels to play
-    public float GetEnergyLevel() { return energyLevel; }
-
-    // Used by tracks outside of audio to set the ~mood~
-    public void SetEnergyLevel(float newLevel) { energyLevel = newLevel; }
 }
 

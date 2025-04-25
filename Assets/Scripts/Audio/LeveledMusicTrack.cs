@@ -120,10 +120,9 @@ public class LeveledMusicTrack : MusicTrack {
     }
 
     protected override IEnumerator AutoLoop() {
-        float trackPlaytime = loopEnd - tracks[currentTrackOffset + LEVEL_TWO_TRACK_OFFSET].time;
-
         do {
-            float trackMajorityLength = (loopEnd - tracks[currentTrackOffset + LEVEL_TWO_TRACK_OFFSET].time) * TRACK_MAJORITY_RATIO;
+            float trackPlaytime = loopEnd - tracks[currentTrackOffset + LEVEL_TWO_TRACK_OFFSET].time;
+            float trackMajorityLength = trackPlaytime * TRACK_MAJORITY_RATIO;
             yield return new WaitForSecondsRealtime(trackMajorityLength);
             trackPlaytime = loopEnd - tracks[currentTrackOffset + LEVEL_TWO_TRACK_OFFSET].time;
             yield return new WaitForSecondsRealtime(trackPlaytime);

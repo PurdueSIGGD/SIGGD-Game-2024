@@ -28,6 +28,7 @@ public class DialogueManager : MonoBehaviour
     private const string DEFAULT_TEXT = "..."; // Empty text box displays this
 
     private ConversationTemp conversation; // Conversation Scriptable Object
+    private ConversationName conversationName;
 
     private GameObject dialogueBox; // PANEL where the text is displayed
 
@@ -53,7 +54,7 @@ public class DialogueManager : MonoBehaviour
             toggleVisibility();
             NextDialogue();
         }
-
+        AudioManager.Instance.VABranch.PlayConversationLine(conversationName, 0);
     }
 
     /// <summary>

@@ -33,9 +33,7 @@ public abstract class AbstractSoundBank : MonoBehaviour, ITrack {
         while (randomNum > cumulativeWeights[soundIndex]) {
             soundIndex++;
         }
-        Debug.Log("attempt play");
         (sounds[soundIndex] as ITrack)?.PlayTrack();
-        Debug.Log("it worked?");
 
         // Update recent sounds list
         recentSounds.Add(soundIndex);
