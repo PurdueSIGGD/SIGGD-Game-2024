@@ -20661,6 +20661,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6da0f2ae8388c2439a26c3c2d51616c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ghostLimit: 2
 --- !u!114 &3265562016652939407
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20772,6 +20773,7 @@ MonoBehaviour:
     value: 0.8
   - name: Max Speed while Heavy
     value: 5
+  indicator: {fileID: 1398568264850401254}
   heavyDamage:
     damageStrength: 2
     damageTypes: 00000000
@@ -20856,17 +20858,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 066d6eb94556a8d4eb54327276580930, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 6.65
+  range: 1.2
   angle: 80
   lightDamage:
     damageStrength: 0
-    damageTypes: 00000000
-    actionID: 1
-    actionTypes: 00000000
+    damageTypes: 
+    actionID: 0
+    actionTypes: 
     extraContext: 
   statList:
   - name: Damage
-    value: 50
+    value: 10
   cooldown: 1
   rayCount: 6
   attackMask:
