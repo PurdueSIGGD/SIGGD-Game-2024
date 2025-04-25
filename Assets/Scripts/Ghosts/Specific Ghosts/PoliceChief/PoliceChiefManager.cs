@@ -51,7 +51,10 @@ public class PoliceChiefManager : GhostManager, ISelectable
     public override void DeSelect(GameObject player)
     {
         if (basic) Destroy(basic);
-        if (!PlayerID.instance.GetComponent<HeavyAttack>()) PlayerID.instance.AddComponent<HeavyAttack>();
+        if (!PlayerID.instance.GetComponent<HeavyAttack>())
+        {
+            PlayerID.instance.AddComponent<HeavyAttack>().Init();
+        }
 
         if (special) special.endSpecial(false, false);
         if (special) Destroy(special);

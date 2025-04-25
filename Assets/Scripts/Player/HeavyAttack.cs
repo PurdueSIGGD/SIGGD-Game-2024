@@ -10,7 +10,7 @@ public class HeavyAttack : MonoBehaviour, IStatList
     [SerializeField]
     public StatManager.Stat[] statList;
 
-    [SerializeField] GameObject indicator;
+    //[SerializeField] GameObject indicator;
     //[SerializeField] int dmg;
     [SerializeField] DamageContext heavyDamage;
     [SerializeField] float offsetX;
@@ -22,9 +22,19 @@ public class HeavyAttack : MonoBehaviour, IStatList
 
     private void Start()
     {
-        indicator.SetActive(false);
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         stats = this.GetComponent<StatManager>();
+    }
+
+    public void Init()
+    {
+        mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+        stats = this.GetComponent<StatManager>();
+        heavyDamage.damageStrength = DamageStrength.MODERATE;
+        heavyDamage.damageTypes = new List<DamageType>() { DamageType.MELEE };
+        heavyDamage.actionID = ActionID.PLAYER_HEAVY_ATTACK;
+        heavyDamage.actionTypes = new List<ActionType>() { ActionType.HEAVY_ATTACK };
+        heavyDamage.extraContext = "Player Heavy";
     }
 
     private void Update()
@@ -35,16 +45,16 @@ public class HeavyAttack : MonoBehaviour, IStatList
         }
         else
         {
-            indicator.SetActive(false);
+            //indicator.SetActive(false);
         }
         Vector3 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         if (mousePos.x < transform.position.x)
         {
-            indicator.transform.localPosition = new Vector3(-offsetX, indicator.transform.localPosition.y, 0);
+            //indicator.transform.localPosition = new Vector3(-offsetX, indicator.transform.localPosition.y, 0);
         }
         else
         {
-            indicator.transform.localPosition = new Vector3(offsetX, indicator.transform.localPosition.y, 0);
+            //indicator.transform.localPosition = new Vector3(offsetX, indicator.transform.localPosition.y, 0);
         }
 
         Vector3 mouseDiff = transform.position - mousePos;
@@ -85,27 +95,17 @@ public class HeavyAttack : MonoBehaviour, IStatList
     {
         //indicator.SetActive(true);
         timer = 0.5f;
-        RaycastHit2D[] hits = Physics2D.BoxCastAll(indicator.transform.position, indicator.transform.localScale, 0, new Vector2(0, 0));
+        // TODO adjust the boxcast position
+        // below is literally just the stats of the indicator
+        RaycastHit2D[] hits = Physics2D.BoxCastAll(transform.position, new Vector3(2.5f, 1.5f, 0), 0, new Vector2(1, 0), 5);
         foreach(RaycastHit2D hit in hits)
         {
-            if(hit.transform.gameObject.tag == "Enemy")
+            if(hit.transform.gameObject.CompareTag("Enemy"))
             {
-                Debug.Log("Heavy Attack Hit: " + hit.transform.gameObject.name);
-
-                foreach(IDamageable damageable in hit.transform.gameObject.GetComponents<IDamageable>()){
-                    damageable.Damage(heavyDamage, gameObject);
-                }
-
-                /*
-                IDamageable enemyhealth = hit.transform.gameObject.GetComponent<IDamageable>();
-                if (enemyhealth != null)
-                {
-                    //ehealth.TakeDamage(dmg);
-                    enemyhealth.Damage(heavyDamage, gameObject);
-                }
-                */
                 heavyDamage.damage = stats.ComputeValue("Heavy Damage");
-                //hit.transform.gameObject.GetComponent<Health>().Damage(heavyDamage, gameObject);
+                foreach (IDamageable damageable in hit.transform.gameObject.GetComponents<IDamageable>()){
+                    damageable.Damage(heavyDamage, gameObject);
+                } 
             }
         }
     }
