@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class GhostInteract : InRangeInteract
+public class GhostInteract : InRangeInteract, IParty
 {
     // ==============================
     //       Serialized Fields
@@ -39,7 +39,6 @@ public class GhostInteract : InRangeInteract
         CloseMenu();
         PartyManager partyManger = PlayerID.instance.GetComponent<PartyManager>();
         partyManger.TryAddGhostToParty(this.GetComponent<GhostIdentity>());
-        this.enabled = false;
     }
 
     private void StartDialogue()
@@ -60,4 +59,12 @@ public class GhostInteract : InRangeInteract
     //        Other Functions
     // ==============================
 
+    public void EnterParty(GameObject player)
+    {
+        enabled = false;
+    }
+
+    public void ExitParty(GameObject player)
+    {
+    }
 }
