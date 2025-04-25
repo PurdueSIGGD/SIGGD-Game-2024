@@ -72,6 +72,12 @@ public class EnemyStateManager : MonoBehaviour
     /// <returns> If there is a Player in Enemy line of sight </returns>
     public virtual bool HasLineOfSight(bool tracking)
     {
+        // while the player has the invisible component, enemies shall not see the player
+        if (player.GetComponent<Invisible>() != null)
+        {
+            return false;
+        }
+
         Vector2 dir = transform.TransformDirection(Vector2.right);
         float maxDistance = aggroRange;
 

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 
 /// <summary>
 /// Special action for the idol ghost, teleports the player towards mouse position
@@ -21,6 +22,9 @@ public class IdolSpecial : MonoBehaviour
     bool cloneAlive; // is at least one clone supposed to be alive right now?
 
     [HideInInspector] public IdolManager manager;
+
+    public UnityEvent holoJumpCreatedCloneEvent = new UnityEvent();
+
 
     void Start()
     {
@@ -68,6 +72,7 @@ public class IdolSpecial : MonoBehaviour
         {
             GameplayEventHolder.OnAbilityUsed.Invoke(manager.onDashContext);
             StartCoroutine(DashCoroutine());
+            holoJumpCreatedCloneEvent?.Invoke();
         }
     }
 

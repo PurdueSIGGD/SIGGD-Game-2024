@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class IdolManager : GhostManager, ISelectable
 {
@@ -16,6 +17,8 @@ public class IdolManager : GhostManager, ISelectable
     public bool active;
     [SerializeField] public GameObject idolClone;
     public List<GameObject> clones = new List<GameObject>(); // list of all active clones
+
+    public UnityEvent evaSelectedEvent;
 
     protected override void Start()
     {
@@ -34,6 +37,8 @@ public class IdolManager : GhostManager, ISelectable
         passive.ApplyBuffOnSwap();
 
         base.Select(player);
+
+        evaSelectedEvent?.Invoke();
     }
 
     public override void DeSelect(GameObject player)
