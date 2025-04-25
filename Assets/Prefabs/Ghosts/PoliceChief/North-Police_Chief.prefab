@@ -18,7 +18,8 @@ GameObject:
   - component: {fileID: 7204414934066423109}
   - component: {fileID: 253907817863650806}
   - component: {fileID: 5657480747591684984}
-  - component: {fileID: 216501609006921810}
+  - component: {fileID: 2380614975374285945}
+  - component: {fileID: 6532718052842151599}
   - component: {fileID: 589596433784939328}
   - component: {fileID: 2592299519637331682}
   - component: {fileID: 7569012328589363263}
@@ -153,6 +154,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterInfo: {fileID: 11400000, guid: 82f9561b0030f9b4282a3072b0d5656d, type: 2}
+  isUnlocked: 0
+  exp: 0
 --- !u!114 &584133115329307738
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -192,7 +195,7 @@ MonoBehaviour:
   - name: Basic Primed Autofire Time
     value: 1.3
   - name: Special Cooldown
-    value: 1
+    value: 15
   - name: Special Damage
     value: 80
   - name: Special Travel Distance
@@ -370,15 +373,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skills:
   - {fileID: 7569012328589363263}
-  - {fileID: 4903639399072002432}
+  - {fileID: 2380614975374285945}
   - {fileID: 4769327096740874371}
   - {fileID: 3756874392414048416}
   - {fileID: 572864510421831245}
-  - {fileID: 216501609006921810}
+  - {fileID: 6532718052842151599}
   - {fileID: 589596433784939328}
   startAtLevel: 0
-  level: 0
---- !u!114 &216501609006921810
+--- !u!114 &2380614975374285945
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -387,7 +389,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 981645078808632434}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5cded2aefff03514c80651e9f3c8ea75, type: 3}
+  m_Script: {fileID: 11500000, guid: 6f50b02edec22af4a9cdae068f7f9433, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillSO: {fileID: 11400000, guid: 756d295103b4b3c4d93616011de8e174, type: 2}
+--- !u!114 &6532718052842151599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981645078808632434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c3278b7a4c7bc940a15bc9572b443ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: 3199848284157d44abaab00036650e65, type: 2}
