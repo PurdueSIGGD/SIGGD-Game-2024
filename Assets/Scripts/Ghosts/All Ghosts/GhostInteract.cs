@@ -7,7 +7,7 @@ public class GhostInteract : InRangeInteract
     // ==============================
 
     [SerializeField]
-    private ConversationTemp hubConvo;
+    private ConvoSO hubConvo;
 
     // ==============================
     //        Other Variables
@@ -45,7 +45,7 @@ public class GhostInteract : InRangeInteract
     private void StartDialogue()
     {
         CloseMenu();
-        DialogueManager dialogueManager = FindAnyObjectByType<DialogueManager>();
+        DialogueManager dialogueManager = FindAnyObjectByType<DialogueManager>(FindObjectsInactive.Include);
         dialogueManager.StartDialogue(hubConvo);
     }
 
