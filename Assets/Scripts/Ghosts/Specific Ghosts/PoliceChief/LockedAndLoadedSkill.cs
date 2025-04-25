@@ -29,7 +29,6 @@ public class LockedAndLoadedSkill : Skill
     // Start is called before the first frame update
     void Start()
     {
-        AddPoint();
         reservedCount = reserveCharges[pointIndex];
         camAnim = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Animator>();
     }
@@ -60,7 +59,7 @@ public class LockedAndLoadedSkill : Skill
                 }
             }
         }
-        policeChiefSpecial.hasReserves = hasReserves;
+        policeChiefSpecial.reserves = reservedCount;
     }
     void UseReserves()
     {
@@ -68,7 +67,7 @@ public class LockedAndLoadedSkill : Skill
         {
             if (Input.GetMouseButton(0))
             {
-                policeChiefSpecial.StartSpecialAttack();
+                // policeChiefSpecial.StartSpecialAttack();
                 reservedCount--;
                 lastreserveTime = Time.time;
             }
