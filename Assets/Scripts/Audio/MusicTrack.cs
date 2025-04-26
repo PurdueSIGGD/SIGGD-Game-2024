@@ -6,9 +6,6 @@ using UnityEngine;
 // Attached to music which can be looped
 public class MusicTrack : AbstractLoopingTrack, IMusicTrack
 {
-
-    private const int TRACK_COUNT = 2;
-
     // The loudest volume which can be reached by the level tracks
     // The tracks are normalized around this value 
     protected float maxVolume = 1.0f;
