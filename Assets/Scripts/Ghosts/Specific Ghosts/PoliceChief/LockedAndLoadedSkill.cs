@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class LockedAndLoadedSkill : Skill
 {
-    int[] reserveCharges = {0, 3, 6, 9, 12};
-    private int pointIndex;
-    private int reservedCount;
+    public int[] reserveCharges = {0, 3, 6, 9, 12};
+    public int pointIndex;
+    public int reservedCount;
     private float reserveCoolDown = 0.75f;
     private float lastreserveTime = 0.5f;
     private bool hasReserves;

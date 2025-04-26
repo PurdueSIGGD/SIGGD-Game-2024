@@ -105,19 +105,10 @@ public class PoliceChiefSpecial : MonoBehaviour
 
     void StopSpecialAttack(Animator animator)
     {
-        if (reserves > 0 && animator.GetBool("i_special"))
-        {
-            // if already ticking down cool down, don't restart it
-            if (manager.getSpecialCooldown() > 0)
-            {
-                endSpecial(false, true);
-            }
-            endSpecial(true, true);
-        }
-        else
-        {
-            endSpecial(true, false);
-        }
+        bool startCooldown = !(manager.getSpecialCooldown() > 0); // if cooldown already exists, don't restart it
+        bool loop = (reserves > 0 && animator.GetBool("i_special")); // if has reserve, and still holding down right click
+
+        endSpecial(startCooldown, loop);
     }
 
     /// <summary>
