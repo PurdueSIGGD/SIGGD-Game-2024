@@ -12,11 +12,15 @@ public class IdolManager : GhostManager, ISelectable
     [SerializeField] public ActionContext onDashContext;
     [SerializeField] public ActionContext onSwapContext;
 
+    [SerializeField] public GameObject holojumpTracerVFX;
+    [SerializeField] public GameObject holojumpPulseVFX;
+    [SerializeField] public GameObject tempoPulseVFX;
     [SerializeField] public GameObject explosionVFX;
 
     public bool active;
     [SerializeField] public GameObject idolClone;
-    public List<GameObject> clones = new List<GameObject>(); // list of all active clones
+    public List<GameObject> clones = new List<GameObject>(); // list of all active clones;
+    public bool clonesActive = false;
 
     public UnityEvent evaSelectedEvent;
 
@@ -26,6 +30,21 @@ public class IdolManager : GhostManager, ISelectable
         passive = GetComponent<IdolPassive>();
         passive.manager = this;
     }
+
+    protected override void Update()
+    {
+        base.Update();
+        if (clones.Count > 0 && !clonesActive)
+        {
+            clonesActive = true;
+        }
+        if (clones.Count <= 0 && clonesActive)
+        {
+            clonesActive = false;
+            startSpecialCooldown();
+        }
+    }
+
     // ISelectable interface in use
     public override void Select(GameObject player)
     {

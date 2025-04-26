@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class OrionUIDriver : MonoBehaviour
@@ -22,6 +20,12 @@ public class OrionUIDriver : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (PlayerSelectedGhostUIManager.instance == null)
+        {
+            this.enabled = false;
+            return;
+        }
+
         stats = GetComponent<StatManager>();
         partyManager = PartyManager.instance;
         manager = GetComponent<OrionManager>();
@@ -49,8 +53,8 @@ public class OrionUIDriver : MonoBehaviour
     private void updateSelected()
     {
         isSelected = (partyManager.GetSelectedGhost() == null);
-        if (partyManager.GetGhostMajorList().Count > 0 && partyManager.GetGhostMajorList()[0].IsSelected()) deselectedGhostUIManager = PlayerGhost1UIManager.instance;
-        if (partyManager.GetGhostMajorList().Count > 1 && partyManager.GetGhostMajorList()[1].IsSelected()) deselectedGhostUIManager = PlayerGhost2UIManager.instance;
+        if (partyManager.GetGhostPartyList().Count > 0 && partyManager.GetGhostPartyList()[0].IsSelected()) deselectedGhostUIManager = PlayerGhost1UIManager.instance;
+        if (partyManager.GetGhostPartyList().Count > 1 && partyManager.GetGhostPartyList()[1].IsSelected()) deselectedGhostUIManager = PlayerGhost2UIManager.instance;
     }
 
     private void updateGhostUI()
@@ -80,7 +84,7 @@ public class OrionUIDriver : MonoBehaviour
         skill2UIManager = (isSelected) ? selectedGhostUIManager.skill2UIManager : deselectedGhostUIManager.skill2UIManager;
 
 
-        
+
         // BASIC ABILITY
         basicAbilityUIManager.setUIActive(true);
         basicAbilityUIManager.setIcon(orionCharacterInfo.specialAbilityIcon);

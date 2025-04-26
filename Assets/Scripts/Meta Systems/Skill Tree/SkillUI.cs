@@ -1,12 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Data.SqlTypes;
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
 using TMPro;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
-public class SkillUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+public class SkillUI : MonoBehaviour, IPointerClickHandler
 {
     // -- Serialize Fields --
     [Header("References")]
@@ -22,68 +19,41 @@ public class SkillUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,
 
     // -- Private Variables --
     private Skill skill;
-    private SkillTreeUI skillTreeUI;
-    private int onPanelFrameCount = 0;
-    private bool isHovered;
-    private Animator animator;
-
+    private SkillTree skillTree;
     // -- Internal Functions --
-    private void Start()
-    {
-        animator = GetComponent<Animator>();
-    }
-
     private void Update()
     {
-        if (isHovered)
+        if (skill != null)
         {
-            onPanelFrameCount += 1;
-        }
-
-        if (onPanelFrameCount > 200)
-        {
-            //animator.Play("SkillFocused");
+            for (int i = 0; i < skillPoints.Length; i++)
+            {
+                if (i < skill.GetPoints())
+                {
+                    skillPoints[i].color = fillPoint;
+                }
+                else
+                {
+                    skillPoints[i].color = emptyPoint;
+                }
+            }
         }
     }
 
     // -- External Functions --
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        isHovered = true;
-    }
 
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        isHovered = false;
-        onPanelFrameCount = 0;
-        //animator.Play("SkillUnfocused");
-    }
-
-    public void Visualize(Skill skill, SkillTreeUI skillTreeUI)
+    public void Visualize(SkillTree skillTree, Skill skill)
     {
         this.skill = skill;
-        this.skillTreeUI = skillTreeUI;
+        this.skillTree = skillTree;
 
         title.text = skill.GetName();
         desc.text = skill.GetDescription();
         icon.sprite = skill.GetIcon();
         descVal.text = skill.GetDescriptionValue();
-
-        for (int i = 0; i < skillPoints.Length; i++)
-        {
-            if (i < skill.GetPoints())
-            {
-                skillPoints[i].color = fillPoint;
-            } else
-            {
-                skillPoints[i].color = emptyPoint;
-            }
-        }
-        animator.Play("SkillFocused");
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        skillTreeUI.TryAddPointUI(this.skill);
+        skillTree.TryAddPoint(skill);
     }
 }

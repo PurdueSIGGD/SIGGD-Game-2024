@@ -13,7 +13,7 @@ public class SaveData : ScriptableObject
     public void InitializeSaveData()
     {
         partyMembers = new List<string>();
-        foreach (GhostIdentity ghost in partyManager.GetGhostMajorList())
+        foreach (GhostIdentity ghost in partyManager.GetGhostPartyList())
         {
             partyMembers.Add(ghost.name);
         }
@@ -24,7 +24,7 @@ public class SaveData : ScriptableObject
     /// </summary>
     public void ApplySaveData()
     {
-        partyManager.GetGhostMajorList().Clear();
+        partyManager.GetGhostPartyList().Clear();
         GhostIdentity[] ghosts = FindObjectsOfType<GhostIdentity>();
         foreach (string member in partyMembers)
         {

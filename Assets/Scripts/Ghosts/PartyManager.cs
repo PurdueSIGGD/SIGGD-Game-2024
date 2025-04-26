@@ -7,17 +7,16 @@ using UnityEngine.InputSystem;
 
 public class PartyManager : MonoBehaviour
 {
+    public static readonly int GHOST_LIMIT = 2;
+
     public static PartyManager instance;
-    [SerializeField]
-    private int ghostLimit; // maximum number of ghosts player can wield at one time
 
     private List<GhostIdentity> ghostsInParty = new List<GhostIdentity>(); // list of each ghost in party
     private GhostIdentity selectedGhost = null;
+
     private bool isSwappingEnabled = true;
     private float swapInputBuffer = 0f;
     private int swapInputBufferGhostIndex = 0;
-
-
 
     private void Awake()
     {
@@ -35,10 +34,10 @@ public class PartyManager : MonoBehaviour
     /// <param ghostName="ghost"></param>
     public bool TryAddGhostToParty(GhostIdentity ghost)
     {
-        if (!ghost.IsInParty() && ghostsInParty.Count < ghostLimit)
+        if (ghostsInParty.Count < GHOST_LIMIT && !ghostsInParty.Contains(ghost))
         {
             ghostsInParty.Add(ghost);
-            ghost.SetPartyStatus(true);
+            ghost.TriggerEnterPartyBehavior();
             return true;
         }
         return false;
@@ -50,7 +49,7 @@ public class PartyManager : MonoBehaviour
     /// </summary>
     public void OnHotbar(InputValue value)
     {
-        Debug.Log("HOTBAR: " + (int)value.Get<float>());
+        //Debug.Log("HOTBAR: " + (int)value.Get<float>());
         int keyValue = (int)value.Get<float>();
         if (keyValue != 0)
         {
@@ -84,7 +83,7 @@ public class PartyManager : MonoBehaviour
         // deselect all ghosts in the list
         for (int i = 0; i < ghostsInParty.Count; i++)
         {
-            ghostsInParty[i].SetSelected(false);
+            ghostsInParty[i].TriggerDeSelectedBehavior();
         }
 
         // do not possess if player selected base kit
@@ -94,7 +93,7 @@ public class PartyManager : MonoBehaviour
             return;
         }
 
-        ghostsInParty[index].SetSelected(true);
+        ghostsInParty[index].TriggerSelectedBehavior();
         selectedGhost = ghostsInParty[index];
     }
 
@@ -102,16 +101,17 @@ public class PartyManager : MonoBehaviour
     /// Removes from player's major ghost list based off reference
     /// </summary>
     /// <param ghostName="ghostIndex"></param>
-    public void RemoveGhostFromParty(GhostIdentity ghost)
+    public bool RemoveGhostFromParty(GhostIdentity ghost)
     {
-        ghostsInParty.Remove(ghost);
+        ghost.TriggerExitPartyBehavior();
+        return ghostsInParty.Remove(ghost);
     }
 
     /// <summary>
     /// Allow external scripts to access player's major ghosts
     /// </summary>
     /// <returns></returns>
-    public List<GhostIdentity> GetGhostMajorList()
+    public List<GhostIdentity> GetGhostPartyList()
     {
         return ghostsInParty;
     }
@@ -119,6 +119,11 @@ public class PartyManager : MonoBehaviour
     public GhostIdentity GetSelectedGhost()
     {
         return selectedGhost;
+    }
+
+    public bool IsGhostInParty(GhostIdentity ghost)
+    {
+        return ghostsInParty.Contains(ghost);
     }
 
     /// <summary>

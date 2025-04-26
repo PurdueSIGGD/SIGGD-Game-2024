@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class GhostUIDriver : MonoBehaviour, ISelectable
@@ -21,6 +18,12 @@ public class GhostUIDriver : MonoBehaviour, ISelectable
     // Start is called before the first frame update
     protected virtual void Start()
     {
+        if (PlayerSelectedGhostUIManager.instance == null)
+        {
+            this.enabled = false;
+            return;
+        }
+
         stats = GetComponent<StatManager>();
         partyManager = PartyManager.instance;
         ghostIdentity = GetComponent<GhostIdentity>();
@@ -42,12 +45,12 @@ public class GhostUIDriver : MonoBehaviour, ISelectable
 
     private void updatePartyStatus()
     {
-        if (!isInParty && partyManager.GetGhostMajorList().Contains(ghostIdentity))
+        if (!isInParty && partyManager.IsGhostInParty(ghostIdentity))
         {
             isInParty = true;
             Color ghostColor = ghostIdentity.GetCharacterInfo().primaryColor;
-            if (partyManager.GetGhostMajorList().Count > 0 && partyManager.GetGhostMajorList()[0].Equals(ghostIdentity)) deselectedGhostUIManager = PlayerGhost1UIManager.instance;
-            if (partyManager.GetGhostMajorList().Count > 1 && partyManager.GetGhostMajorList()[1].Equals(ghostIdentity)) deselectedGhostUIManager = PlayerGhost2UIManager.instance;
+            if (partyManager.GetGhostPartyList().Count > 0 && partyManager.GetGhostPartyList()[0].Equals(ghostIdentity)) deselectedGhostUIManager = PlayerGhost1UIManager.instance;
+            if (partyManager.GetGhostPartyList().Count > 1 && partyManager.GetGhostPartyList()[1].Equals(ghostIdentity)) deselectedGhostUIManager = PlayerGhost2UIManager.instance;
             deselectedGhostUIManager.gameObject.SetActive(true);
             deselectedGhostUIManager.setBackgroundColor(ghostColor);
             deselectedGhostUIManager.setIcon(ghostIdentity.GetCharacterInfo().characterIcon);

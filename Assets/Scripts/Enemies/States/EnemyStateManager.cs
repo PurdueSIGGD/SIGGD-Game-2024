@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 using static UnityEngine.EventSystems.EventTrigger;
 
@@ -86,11 +87,11 @@ public class EnemyStateManager : MonoBehaviour
             dir = player.position - transform.position;
             maxDistance = maxDistance * 1.5f;
         }
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, maxDistance, LayerMask.GetMask("Player", "Ground"));
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, maxDistance, LayerMask.GetMask("Player", "Idol_Clone", "Ground"));
         Debug.DrawRay(transform.position, dir);
         if (hit)
         {
-            return hit.collider.gameObject.CompareTag("Player");
+            return (hit.collider.gameObject.CompareTag("Player") || hit.collider.gameObject.CompareTag("Idol_Clone"));
         }
         return false;
     }
@@ -190,13 +191,16 @@ public class EnemyStateManager : MonoBehaviour
         Debug.DrawLine(new Vector2(pos.x + hWidth, pos.y + hHeight), new Vector2(pos.x + hWidth, pos.y - hHeight), Color.white, duration); // draw right line
 #endif
         // Check for player to do damage
-        Collider2D hit = Physics2D.OverlapBox(pos, new Vector2(width, height), 0f, LayerMask.GetMask("Player"));
-        if (hit)
+        Collider2D[] hits = Physics2D.OverlapBoxAll(pos, new Vector2(width, height), 0f, LayerMask.GetMask("Player", "Idol_Clone"));
+        foreach (Collider2D hit in hits)
         {
-            PlayerID.instance.GetComponent<PlayerStateMachine>().SetStun(0.2f);
-            hit.GetComponent<Health>().Damage(damageContext, attacker);
+            if (hit)
+            {
+                if (hit.CompareTag("Player")) PlayerID.instance.GetComponent<PlayerStateMachine>().SetStun(0.2f);
+                hit.GetComponent<Health>().Damage(damageContext, attacker);
+            }
         }
-        return hit;
+        return (hits.Length > 0);
     }
 
     /// <summary>
@@ -225,13 +229,16 @@ public class EnemyStateManager : MonoBehaviour
         }
 #endif
         // Check for player to do damage
-        Collider2D hit = Physics2D.OverlapCircle(pos, radius, LayerMask.GetMask("Player"));
-        if (hit)
+        Collider2D[] hits = Physics2D.OverlapCircleAll(pos, radius, LayerMask.GetMask("Player", "Idol_Clone"));
+        foreach (Collider2D hit in hits)
         {
-            PlayerID.instance.GetComponent<PlayerStateMachine>().SetStun(0.2f);
-            hit.GetComponent<Health>().Damage(damageContext, attacker);
+            if (hit)
+            {
+                if (hit.CompareTag("Player")) PlayerID.instance.GetComponent<PlayerStateMachine>().SetStun(0.2f);
+                hit.GetComponent<Health>().Damage(damageContext, attacker);
+            }
         }
-        return hit;
+        return (hits.Length > 0);
     }
 
     /// <summary>
