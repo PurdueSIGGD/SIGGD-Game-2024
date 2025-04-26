@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -9,11 +10,10 @@ public class PoliceChiefSpecial : MonoBehaviour
     private PlayerStateMachine playerStateMachine;
     private Animator camAnim;
     private Camera cam;
-
     [HideInInspector] public PoliceChiefManager manager;
-
     private bool isCharging = false;
     private float chargingTime = 0f;
+    [HideInInspector] public int reserves = 0;
 
 
 
@@ -31,9 +31,20 @@ public class PoliceChiefSpecial : MonoBehaviour
 
         if (manager != null)
         {
+            if (reserves > 0)
+            {
+                playerStateMachine.OnCooldown("c_reserves");
+            }
+            else
+            {
+                playerStateMachine.OffCooldown("c_reserves");
+            }
             if (manager.getSpecialCooldown() > 0)
             {
-                playerStateMachine.OnCooldown("c_special");
+                if (reserves > 0)
+                {
+                    playerStateMachine.OnCooldown("c_special");
+                }
             }
             else
             {
@@ -55,7 +66,7 @@ public class PoliceChiefSpecial : MonoBehaviour
 
     void StopSpecialChargeUp()
     {
-        if (chargingTime > 0f) endSpecial(false);
+        if (chargingTime > 0f) endSpecial(false, false);
         isCharging = false;
         chargingTime = 0f;
     }
@@ -70,13 +81,13 @@ public class PoliceChiefSpecial : MonoBehaviour
     
     void StopSpecialPrimed()
     {
-        endSpecial(false);
+        endSpecial(false, false);
     }
 
 
 
     // Railgun Attack
-    void StartSpecialAttack()
+    public void StartSpecialAttack()
     {
         camAnim.SetBool("pullBack", true);
         GetComponent<Move>().PlayerStop();
@@ -92,21 +103,30 @@ public class PoliceChiefSpecial : MonoBehaviour
         GameplayEventHolder.OnAbilityUsed?.Invoke(manager.policeChiefRailgun);
     }
 
-    void StopSpecialAttack()
+    void StopSpecialAttack(Animator animator)
     {
-        endSpecial(true);
+        bool startCooldown = !(manager.getSpecialCooldown() > 0); // if cooldown already exists, don't restart it
+        bool loop = (reserves > 0 && animator.GetBool("i_special")); // if has reserve, and still holding down right click
+
+        endSpecial(startCooldown, loop);
     }
 
     /// <summary>
     /// End the special ability if it is active.
     /// </summary>
     /// <param name="startCooldown">If true, the special ability's cooldown will begin when the ability ends.</param>
-    public void endSpecial(bool startCooldown)
+    public void endSpecial(bool startCooldown, bool loop)
     {
-        camAnim.SetBool("pullBack", false);
-        GetComponent<Move>().PlayerGo();
-        if (!startCooldown) return;
-        playerStateMachine.OnCooldown("c_special");
-        manager.startSpecialCooldown();
+        // if preparing another shot using reserve charges, do not reset camera
+        if (!loop)
+        {
+            camAnim.SetBool("pullBack", false);
+            GetComponent<Move>().PlayerGo();
+        }
+        if (startCooldown)
+        {
+            playerStateMachine.OnCooldown("c_special");
+            manager.startSpecialCooldown();
+        }
     }
 }
