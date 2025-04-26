@@ -12,4 +12,8 @@ public class ManageFallState : StateMachineBehaviour
     {
         animator.gameObject.SendMessage("StopFall", null, SendMessageOptions.DontRequireReceiver);
     }
+    public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        animator.gameObject.SendMessage("UpdateFall", null, SendMessageOptions.DontRequireReceiver);
+    }
 }

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2646517134290584728}
   - component: {fileID: 2030212979296746396}
   - component: {fileID: 5699505238202723438}
+  - component: {fileID: 4113511831999245439}
   m_Layer: 22
   m_Name: G.R.E.G Projectile
   m_TagString: Untagged
@@ -47,6 +48,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24a6068743ef1304da96631080e5fc37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  statList:
+  - name: Damage
+    value: 20
   speed: 20
   projectileDamage:
     damageStrength: 1
@@ -71,7 +75,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 2097152
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -180,3 +184,16 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &4113511831999245439
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5156741841575326909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83a0782e8961e074bbf391401404ae17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  statList: []

@@ -14,7 +14,7 @@ public class IdleState : IEnemyStates
     public void EnterState(EnemyStateManager enemy)
     {
         Rigidbody2D rb = enemy.GetComponent<Rigidbody2D>();
-        rb.velocity = new Vector2(0, rb.velocity.y);
+        if (!enemy.isBeingKnockedBack && (enemy.isFlyer || enemy.isGrounded())) rb.velocity = new Vector2(0, rb.velocity.y);
         enemy.pool.idle.Play(enemy.animator); // Play the idle animation
     }
 

@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class CameraShake : MonoBehaviour
 {
+    public static CameraShake instance;
+
     // private System.Collections.Generic.SynchronizedCollection<Vector3>() offsets;
     private ArrayList offsetss;  // stores Vector2s for each shake coroutine
     private ArrayList synchOff;  // the above, but synchronised for thread safety
@@ -23,6 +25,11 @@ public class CameraShake : MonoBehaviour
         }
     }
 
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -58,6 +65,16 @@ public class CameraShake : MonoBehaviour
     /// <param name="directio">Vector2: Direction of oscillation</param>
     public void Shake(float amp, float taper, float delay, float freq, Vector2 directio) {
         StartCoroutine(ShakeCoroutine(amp, taper, delay, freq, directio));
+    }
+
+    /// <summary>
+    /// Shakes the camera at the specified amplitude and direction. Taper, delay, and frequency are set to predefined sexy values.
+    /// </summary>
+    /// <param name="amplitude">Maximum oscillation amplitude</param>
+    /// <param name="direction">Direction of oscillation</param>
+    public void SexyShake(float amplitude, Vector2 direction)
+    {
+        Shake(amplitude, 10f, 0f, 10f, direction);
     }
 
     /// <summary>
