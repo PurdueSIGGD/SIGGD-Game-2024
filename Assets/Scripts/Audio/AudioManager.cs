@@ -40,13 +40,13 @@ public class AudioManager : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start() {
-        Instance.MusicBranch.PlayMusicTrack(MusicTrackName.JAPAN);
+        //Instance.MusicBranch.PlayMusicTrack(MusicTrackName.JAPAN);
     }
 
     // Update is called once per frames
     void Update() {
         // ========= COMMENT THIS OUT BEFORE BUILDING ==============
-        TestAudioFunctions(); // <----------
+        //TestAudioFunctions(); // <----------
     }
     
     // Used by MusicTracks to find out which track energy levels to play

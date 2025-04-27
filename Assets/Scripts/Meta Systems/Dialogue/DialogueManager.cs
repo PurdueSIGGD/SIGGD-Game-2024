@@ -111,7 +111,6 @@ public class DialogueManager : MonoBehaviour, IScreenUI
         characterImage.sprite = characterMap[character].fullImage;
 
         // TODO: set image
-
         currentLine++;
 
     }
