@@ -6,7 +6,7 @@ using UnityEngine;
 public class VAManager : MonoBehaviour {
     // Ability lines, etc.
     [SerializeField] private SoundBankVATrack evaExersion;
-    [SerializeField] private OneShotVATrack britishAnt;
+    //[SerializeField] private OneShotVATrack britishAnt;
 
     // Converstaions
     [SerializeField] private ConversationAudioHolder eva2Orion1;
@@ -34,7 +34,7 @@ public class VAManager : MonoBehaviour {
     public IVATrack GetVATrack(VATrackName trackName) {
         switch(trackName) {
             case VATrackName.EVA_EXERSION:    return evaExersion;
-            case VATrackName.BRITISH_ANT:     return britishAnt;
+            //case VATrackName.BRITISH_ANT:     return britishAnt;
             default:                                return null;
         }
     }
