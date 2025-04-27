@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class MusicManager : MonoBehaviour
 {
-    [SerializeField] private LeveledMusicTrack japan;
-    [SerializeField] private MusicTrack seamstress;
+    //[SerializeField] private LeveledMusicTrack japan;
+    //[SerializeField] private MusicTrack seamstress;
 
     private MusicTrackName currentTrackName;
 
@@ -18,8 +18,8 @@ public class MusicManager : MonoBehaviour
 
     public IMusicTrack GetMusicTrack(MusicTrackName trackName) {
         switch (trackName) {
-            case MusicTrackName.JAPAN:              return (IMusicTrack) japan;
-            case MusicTrackName.SEAMSTRESS:         return (IMusicTrack) seamstress;
+            //case MusicTrackName.JAPAN:              return (IMusicTrack) japan;
+            //case MusicTrackName.SEAMSTRESS:         return (IMusicTrack) seamstress;
             default:                                return null;
         }
     }

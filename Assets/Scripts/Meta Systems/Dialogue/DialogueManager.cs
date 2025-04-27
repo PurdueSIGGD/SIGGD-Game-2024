@@ -110,9 +110,11 @@ public class DialogueManager : MonoBehaviour, IScreenUI
         characterNameText.text = characterMap[character].displayName;
         characterImage.sprite = characterMap[character].fullImage;
 
+        // Play sound
+        AudioManager.Instance.VABranch.PlayConversationLine(conversation.data.convoEnum, currentLine);
+
         // TODO: set image
         currentLine++;
-
     }
 
     /// <summary>
