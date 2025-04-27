@@ -45,11 +45,11 @@ public class VAManager : MonoBehaviour {
         if (willPlayTrack) {
             IVATrack castedTrack = GetVATrack(trackName);
             castedTrack.PlayTrack();
-            if (!castedTrack.overridesVoiceCulling()) {
+            if (!castedTrack.OverridesVoiceCulling()) {
                 float trackLength = 0.0f;
                 if (castedTrack is SoundBankVATrack) {
                     SoundBankVATrack recastedTrack = (SoundBankVATrack) castedTrack;
-                    OneShotVATrack reRecastedTrack = (OneShotVATrack) recastedTrack.getMostRecentTrack();
+                    OneShotVATrack reRecastedTrack = (OneShotVATrack) recastedTrack.GetMostRecentTrack();
                     trackLength = reRecastedTrack.GetTrackLength();
                 }
                 if (castedTrack is OneShotVATrack) {
@@ -72,6 +72,10 @@ public class VAManager : MonoBehaviour {
     // Don't test for voiceline spam - conversation lines MUST play
     public void PlayConversationLine(ConversationName convName, int lineNumber) {
         GetConversation(convName).PlayTrack(lineNumber);
+    }
+
+    public void StopConversationLine(ConversationName convName, int lineNumber) {
+        GetConversation(convName).StopTrack(lineNumber);
     }
 
     public IEnumerator Debug_Culling_Status() {

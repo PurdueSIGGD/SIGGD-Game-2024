@@ -22,7 +22,7 @@ public abstract class AbstractSoundBank : MonoBehaviour, ITrack {
     protected List<float> cumulativeWeights;
 
     void Start() {
-        generateCumulativeWeights();
+        GenerateCumulativeWeights();
     }
 
     public void PlayTrack() {
@@ -40,11 +40,11 @@ public abstract class AbstractSoundBank : MonoBehaviour, ITrack {
         if (recentSounds.Count > recencyBlacklistSize) {
             recentSounds.RemoveAt(0);
         }
-        generateCumulativeWeights();
+        GenerateCumulativeWeights();
     }
 
     // Here's the gist: Don't increase the cumulative weight on blacklisted tracks and they'll never be selected 
-    private void generateCumulativeWeights() {
+    private void GenerateCumulativeWeights() {
         float cumulativeWeight = 0.0f;
         cumulativeWeights = new List<float>();
         for (int i = 0; i < soundWeights.Count; i++) {
@@ -56,7 +56,7 @@ public abstract class AbstractSoundBank : MonoBehaviour, ITrack {
         }
     }
 
-    public IVATrack getMostRecentTrack() {
+    public IVATrack GetMostRecentTrack() {
         return (IVATrack) sounds[recentSounds.Count - 1];
     }
 }

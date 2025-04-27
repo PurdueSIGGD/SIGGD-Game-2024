@@ -97,11 +97,11 @@ public class AudioManager : MonoBehaviour {
         }
         if (Input.GetKeyDown(KeyCode.N)) {
             tempPitch = Math.Max(0, tempPitch - 1);
-            Instance.SFXBranch.GetSFXTrack(SFXTrackName.RAILGUN_CHARGE).setPitch(tempPitch, 10);          
+            Instance.SFXBranch.GetSFXTrack(SFXTrackName.RAILGUN_CHARGE).SetPitch(tempPitch, 10);          
         }
         if (Input.GetKeyDown(KeyCode.M)) {
             tempPitch = Math.Min(10, tempPitch + 1);
-            Instance.SFXBranch.GetSFXTrack(SFXTrackName.RAILGUN_CHARGE).setPitch(tempPitch, 10);
+            Instance.SFXBranch.GetSFXTrack(SFXTrackName.RAILGUN_CHARGE).SetPitch(tempPitch, 10);
         }
     }
 }

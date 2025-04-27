@@ -26,7 +26,9 @@ public abstract class AbstractLoopingTrack : MonoBehaviour {
     protected const float TRACK_MAJORITY_RATIO = 0.98f;
 
     void Start() {
-
+        if (loopEnd == 0) {
+            loopEnd = tracks[0].clip.length;
+        }
     }
 
     public virtual void PlayTrack() {
