@@ -8,9 +8,9 @@ public class SoundBankSFXTrack : AbstractSoundBank, ISFXTrack {
     [SerializeField] private float minPitch;
     [SerializeField] private float maxPitch;
     
-    public void setPitch(float currentValue, float maxValue) {
+    public void SetPitch(float currentValue, float maxValue) {
         foreach (var sound in sounds) {
-            (sound as ISFXTrack)?.setPitch(currentValue, maxValue);
+            (sound as ISFXTrack)?.SetPitch(currentValue, maxValue);
         }
     }
 }

@@ -12,7 +12,7 @@ public class OneShotSFXTrack : MonoBehaviour, ISFXTrack {
         track.PlayOneShot(track.clip, 1.0f);
     }
 
-    public void setPitch(float currentValue, float maxValue) {
+    public void SetPitch(float currentValue, float maxValue) {
         track.pitch = Mathf.Lerp(minPitch, maxPitch, currentValue / maxValue);
     }
 }
