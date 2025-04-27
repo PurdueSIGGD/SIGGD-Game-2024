@@ -111,6 +111,7 @@ public class DialogueManager : MonoBehaviour, IScreenUI
         characterImage.sprite = characterMap[character].fullImage;
 
         // Play sound
+        //AudioManager.Instance.VABranch.Stop
         AudioManager.Instance.VABranch.PlayConversationLine(conversation.data.convoEnum, currentLine);
 
         // TODO: set image
