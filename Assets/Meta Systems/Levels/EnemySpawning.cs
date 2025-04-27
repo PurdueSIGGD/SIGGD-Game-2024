@@ -26,6 +26,7 @@ public class EnemySpawning : MonoBehaviour
     {
         if (currentEnemies.Contains(context.victim))
         {
+            Debug.Log(context.victim.name+" has died");
             currentEnemies.Remove(context.victim);
             if(currentEnemies.Count <= 0)
             {

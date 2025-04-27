@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 /// <summary>
@@ -20,6 +21,8 @@ public class Roomba : EnemyStateManager
     protected override void OnFinishAnimation()
     {
         base.OnFinishAnimation();
+        kaboomDamage.victim = this.gameObject;
+        GameplayEventHolder.OnDeath?.Invoke(kaboomDamage);
         Destroy(gameObject);
     }
 
