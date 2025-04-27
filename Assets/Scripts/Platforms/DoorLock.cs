@@ -11,14 +11,21 @@ public class DoorLock : MonoBehaviour
 
     void Start()
     {
-        
+        DialogueManager.onFinishDialogue += TryUnlock;
+    }
+
+    public void TryUnlock(ConversationName key)
+    {
+        if (key == _lock)
+        {
+            UnlockDoor();
+        }
     }
     
     /// <summary>
     /// Set the correct conversation enum that needs to be finished
     /// to unlock the door
     /// </summary>
-    /// <param name="_lock"></param>
     public void SetLock(ConversationName _lock)
     {
         this._lock = _lock;

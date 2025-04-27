@@ -55,8 +55,8 @@ public class DialogueManager : MonoBehaviour, IScreenUI
     //        Event delegate
     // ==============================
 
-    public delegate void OnFinishDialogue(ConvoSO convo);
-    public OnFinishDialogue onFinishDialogue;
+    public delegate void OnFinishDialogue(ConversationName convo);
+    public static OnFinishDialogue onFinishDialogue;
 
     // ==============================
     //        Unity Functions
