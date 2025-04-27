@@ -51,9 +51,12 @@ public abstract class AbstractSoundBank : MonoBehaviour, ITrack {
             // Only account for sounds which can play
             if (!recentSounds.Contains(i)) {
                 cumulativeWeight += soundWeights[i];
-                
             }
-            cumulativeWeights.Add(cumulativeWeight);
+            cumulativeWeights.Add(cumulativeWeight);    
         }
+    }
+
+    public IVATrack getMostRecentTrack() {
+        return (IVATrack) sounds[recentSounds.Count - 1];
     }
 }
