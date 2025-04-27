@@ -7,17 +7,11 @@ public class Level
 {
 
     [SerializeField] string sceneName;
-    [SerializeField] int sceneNumber;
     [SerializeField] float chance;
 
     public string GetSceneName()
     {
         return sceneName;
-    }
-
-    public int GetSceneNumber()
-    {
-        return sceneNumber;
     }
 
     public float GetSceneChance()

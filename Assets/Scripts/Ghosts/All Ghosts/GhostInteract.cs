@@ -1,13 +1,13 @@
 using UnityEngine;
 
-public class GhostInteract : InRangeInteract
+public class GhostInteract : InRangeInteract, IParty
 {
     // ==============================
     //       Serialized Fields
     // ==============================
 
     [SerializeField]
-    private ConversationTemp hubConvo;
+    private ConvoSO hubConvo;
 
     // ==============================
     //        Other Variables
@@ -39,13 +39,12 @@ public class GhostInteract : InRangeInteract
         CloseMenu();
         PartyManager partyManger = PlayerID.instance.GetComponent<PartyManager>();
         partyManger.TryAddGhostToParty(this.GetComponent<GhostIdentity>());
-        this.enabled = false;
     }
 
     private void StartDialogue()
     {
         CloseMenu();
-        DialogueManager dialogueManager = FindAnyObjectByType<DialogueManager>();
+        DialogueManager dialogueManager = FindAnyObjectByType<DialogueManager>(FindObjectsInactive.Include);
         dialogueManager.StartDialogue(hubConvo);
     }
 
@@ -60,4 +59,12 @@ public class GhostInteract : InRangeInteract
     //        Other Functions
     // ==============================
 
+    public void EnterParty(GameObject player)
+    {
+        enabled = false;
+    }
+
+    public void ExitParty(GameObject player)
+    {
+    }
 }

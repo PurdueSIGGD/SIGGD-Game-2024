@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemySpawning : MonoBehaviour
 {
-    [SerializeField] EnemySpawn[] enemies;
+    public static EnemySpawn[] enemies;
     [SerializeField] int startMinEnemiesSpawn;
     [SerializeField] int startMaxEnemiesSpawn;
     [SerializeField] int endMinEnemiesSpawn;
@@ -26,6 +26,7 @@ public class EnemySpawning : MonoBehaviour
     {
         if (currentEnemies.Contains(context.victim))
         {
+            Debug.Log(context.victim.name+" has died");
             currentEnemies.Remove(context.victim);
             if(currentEnemies.Count <= 0)
             {

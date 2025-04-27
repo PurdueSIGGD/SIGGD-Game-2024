@@ -1,0 +1,76 @@
+using UnityEngine;
+
+public class LockedAndLoadedSkill : Skill
+{
+    [HideInInspector] public int[] reserveCharges = {0, 3, 6, 9, 12};
+    [HideInInspector] public int pointIndex;
+    [HideInInspector] public int reservedCount;
+    private float reserveCoolDown = 0.75f;
+    private float lastreserveTime = 0.5f;
+    private bool hasReserves;
+    private Animator camAnim;
+
+    PoliceChiefSpecial policeChiefSpecial;
+
+    public override void AddPointTrigger()
+    {
+        pointIndex = GetPoints();
+    }
+
+    public override void ClearPointsTrigger()
+    {
+    }
+
+    public override void RemovePointTrigger()
+    {
+        pointIndex = GetPoints();
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        reservedCount = reserveCharges[pointIndex];
+        camAnim = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Animator>();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (policeChiefSpecial == null)
+        {
+            policeChiefSpecial = PlayerID.instance.GetComponent<PoliceChiefSpecial>();
+            return;
+        }
+        else
+        {
+            if (policeChiefSpecial.manager.getSpecialCooldown() > 0)
+            {
+                if (reservedCount <= 0)
+                {
+                    hasReserves = false;
+                }
+                else
+                {
+                    hasReserves = true;
+                    if (Time.time - lastreserveTime > reserveCoolDown)
+                    {
+                        UseReserves();
+                    }
+                }
+            }
+        }
+        policeChiefSpecial.reserves = reservedCount;
+    }
+    void UseReserves()
+    {
+        if (camAnim.GetBool("pullBack") == true)
+        {
+            if (Input.GetMouseButton(0))
+            {
+                // policeChiefSpecial.StartSpecialAttack();
+                reservedCount--;
+                lastreserveTime = Time.time;
+            }
+        }
+    }
+}

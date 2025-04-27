@@ -2,6 +2,7 @@
 /// Attaches to Player
 
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -11,16 +12,38 @@ public class PartyManager : MonoBehaviour
 
     public static PartyManager instance;
 
-    private List<GhostIdentity> ghostsInParty = new List<GhostIdentity>(); // list of each ghost in party
-    private GhostIdentity selectedGhost = null;
+    [SerializeField] int ghostLimit; // maximum number of ghosts player can wield at one time
 
     private bool isSwappingEnabled = true;
     private float swapInputBuffer = 0f;
     private int swapInputBufferGhostIndex = 0;
 
+
+    private Dictionary<string, GhostIdentity> ghostsByName = new();
+
+    // References to fields in SaveData, declared for convenience of a shorter name
+    private List<string> ghostsInParty;
+    private string selectedGhost;
+
     private void Awake()
     {
         instance = this;
+
+        foreach (GhostIdentity ghost in FindObjectsOfType<GhostIdentity>())
+        {
+            ghostsByName.Add(ghost.name, ghost);
+        }
+
+        ghostsInParty = SaveManager.data.ghostsInParty;
+        selectedGhost = SaveManager.data.selectedGhost;
+    }
+
+    private void Start()
+    {
+        foreach (string ghost in ghostsInParty)
+        {
+            ghostsByName[ghost].TriggerEnterPartyBehavior();
+        }
     }
 
     private void Update()
@@ -34,9 +57,10 @@ public class PartyManager : MonoBehaviour
     /// <param ghostName="ghost"></param>
     public bool TryAddGhostToParty(GhostIdentity ghost)
     {
-        if (ghostsInParty.Count < GHOST_LIMIT && !ghostsInParty.Contains(ghost))
+        if (ghostsInParty.Count < GHOST_LIMIT && !ghostsInParty.Contains(ghost.name))
         {
-            ghostsInParty.Add(ghost);
+            ghostsInParty.Add(ghost.name);
+            ghost.TriggerEnterPartyBehavior();
             return true;
         }
         return false;
@@ -82,7 +106,7 @@ public class PartyManager : MonoBehaviour
         // deselect all ghosts in the list
         for (int i = 0; i < ghostsInParty.Count; i++)
         {
-            ghostsInParty[i].TriggerDeSelectedBehavior();
+            ghostsByName[ghostsInParty[i]].TriggerDeSelectedBehavior();
         }
 
         // do not possess if player selected base kit
@@ -92,7 +116,7 @@ public class PartyManager : MonoBehaviour
             return;
         }
 
-        ghostsInParty[index].TriggerSelectedBehavior();
+        ghostsByName[ghostsInParty[index]].TriggerSelectedBehavior();
         selectedGhost = ghostsInParty[index];
     }
 
@@ -102,7 +126,7 @@ public class PartyManager : MonoBehaviour
     /// <param ghostName="ghostIndex"></param>
     public bool RemoveGhostFromParty(GhostIdentity ghost)
     {
-        return ghostsInParty.Remove(ghost);
+        return ghostsInParty.Remove(ghost.name);
     }
 
     /// <summary>
@@ -111,17 +135,17 @@ public class PartyManager : MonoBehaviour
     /// <returns></returns>
     public List<GhostIdentity> GetGhostPartyList()
     {
-        return ghostsInParty;
+        return ghostsInParty.Select(ghostName => ghostsByName[ghostName]).ToList();
     }
 
     public GhostIdentity GetSelectedGhost()
     {
-        return selectedGhost;
+        return ghostsByName.GetValueOrDefault(selectedGhost);
     }
 
     public bool IsGhostInParty(GhostIdentity ghost)
     {
-        return ghostsInParty.Contains(ghost);
+        return ghostsInParty.Contains(ghost.name);
     }
 
     /// <summary>

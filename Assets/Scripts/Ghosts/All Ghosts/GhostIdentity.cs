@@ -12,7 +12,7 @@ public class GhostIdentity : MonoBehaviour
     private SkillTree skillTree;
 
 
-    void Start()
+    void Awake()
     {
         partyScripts = this.GetComponents<IParty>();
         possessingScripts = this.GetComponents<ISelectable>();
