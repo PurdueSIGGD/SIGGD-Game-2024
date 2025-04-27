@@ -10,6 +10,8 @@ public class VAManager : MonoBehaviour {
 
     // Converstaions
     [SerializeField] private ConversationAudioHolder eva2Orion1;
+    [SerializeField] private ConversationAudioHolder death2Orion2;
+    [SerializeField] private ConversationAudioHolder eva2OrionHub1;
 
     // Used to avoid voiceline spam
     private float globalVoicelineChance = 1.0f;
@@ -65,6 +67,8 @@ public class VAManager : MonoBehaviour {
     public ConversationAudioHolder GetConversation(ConversationName conversationName) {
         switch(conversationName) {
             case ConversationName.EVA_ORION_1:      return eva2Orion1; // Test name
+            case ConversationName.Death_Orion_2:    return death2Orion2;
+            case ConversationName.EVA_ORION_HUB_1:  return eva2OrionHub1;
             default:                                return null;  
         }
     }
@@ -96,5 +100,6 @@ public enum VATrackName {
 
 public enum ConversationName {
     EVA_ORION_1,
-    EVA_DEATH_2
+    Death_Orion_2,
+    EVA_ORION_HUB_1
 }

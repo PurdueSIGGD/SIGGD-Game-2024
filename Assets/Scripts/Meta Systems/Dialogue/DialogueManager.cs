@@ -141,7 +141,7 @@ public class DialogueManager : MonoBehaviour, IScreenUI
         actionOnDialogueEnd?.Invoke();
         actionOnDialogueEnd = null;
 
-        onFinishDialogue.Invoke(conversation.data.convoEnum);
+        onFinishDialogue?.Invoke(conversation.data.convoEnum);
 
         PlayerID.instance.UnfreezePlayer();
     }
