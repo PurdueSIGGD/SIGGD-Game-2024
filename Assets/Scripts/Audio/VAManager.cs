@@ -95,5 +95,6 @@ public enum VATrackName {
 }
 
 public enum ConversationName {
-    EVA_ORION_1
+    EVA_ORION_1,
+    EVA_DEATH_2
 }
