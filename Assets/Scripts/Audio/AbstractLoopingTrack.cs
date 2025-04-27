@@ -2,8 +2,7 @@ using System.Collections;
 using UnityEngine;
 
 public abstract class AbstractLoopingTrack : MonoBehaviour {
-    
-    private const int TRACK_COUNT = 2;
+
 
     // The tracks used for smooth looping
     // Unfortunately I have to name the track variable differently because serialization is my enemy
@@ -27,19 +26,23 @@ public abstract class AbstractLoopingTrack : MonoBehaviour {
     protected const float TRACK_MAJORITY_RATIO = 0.98f;
 
     void Start() {
-        if (tracks.Length != TRACK_COUNT) {
-            Debug.Log("Hi there! You don't have exactly " + TRACK_COUNT + " tracks in your looping sound! Something's going to break :)" + gameObject);
-        }
+
     }
 
     public virtual void PlayTrack() {
         if (isPlaying) { return; }
-        isPlaying = true;
         tracks[0].Play();
+        foreach (var track in tracks) {
+            track.time = 0.0f;
+        }
+        isPlaying = true;
         looper = StartCoroutine(AutoLoop());
     }
 
     public void StopTrack() {
+        foreach (var track in tracks) {
+            track.Stop();
+        }
         isPlaying = false;
         if (looper != null) {
             StopCoroutine(looper);
