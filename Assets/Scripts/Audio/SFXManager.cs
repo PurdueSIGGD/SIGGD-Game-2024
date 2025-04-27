@@ -37,7 +37,17 @@ public class SFXManager : MonoBehaviour
     }
 
     public void PlaySFXTrack(SFXTrackName trackName) {
+        
         GetSFXTrack(trackName).PlayTrack();
+    }
+
+    // Looping tracks only!! OneShot and sound banks cannot be stopped
+    public void StopSFXTrack(SFXTrackName trackName) {
+        ISFXTrack track = GetSFXTrack(trackName);
+        if (track is AbstractLoopingTrack) {
+            AbstractLoopingTrack absTrack = (AbstractLoopingTrack) track;
+            absTrack.StopTrack();
+        }
     }
 }
 

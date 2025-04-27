@@ -11,11 +11,12 @@ public class AudioManager : MonoBehaviour {
     // The AudioManager toolbox
     public SFXManager SFXBranch { get; private set; }       // Sound effects such as ghost abilities, enemy sounds, UI sounds, etc.
     public MusicManager MusicBranch { get; private set; }   // The game's soundtrack such as level tracks, boss music, ghost themes, etc.
-    public VAManager VABranch { get; private set; }         // Any recorded voice such as converstaions, ability voicelines, etc.
+    public VAManager VABranch { get; private set; }         // Any recorded voice such as conversations, ability voicelines, etc.
 
     // Variables used for testing audio features
     private float tempStepCounter = 0.0f;
     private float tempPitch = 0.0f;
+    private bool tempCharging = false;
 
     // Energy level: This variable is set by other scripts to manage the tracks energy levels
     // 0.0 to 1.0, low energy to high energy
@@ -41,6 +42,7 @@ public class AudioManager : MonoBehaviour {
     // Start is called before the first frame update
     void Start() {
         //Instance.MusicBranch.PlayMusicTrack(MusicTrackName.JAPAN);
+        //Instance.MusicBranch.PlayMusicTrack(MusicTrackName.CYBERPUNK);
     }
 
     // Update is called once per frames
@@ -72,7 +74,15 @@ public class AudioManager : MonoBehaviour {
             Instance.SFXBranch.PlaySFXTrack(SFXTrackName.RAILGUN_ATTACK);
         }
         if (Input.GetKeyDown(KeyCode.T)) {
-            Instance.SFXBranch.PlaySFXTrack(SFXTrackName.RAILGUN_CHARGE);
+            if (!tempCharging) {
+                Instance.SFXBranch.PlaySFXTrack(SFXTrackName.RAILGUN_CHARGE);
+            } else {
+                Instance.SFXBranch.StopSFXTrack(SFXTrackName.RAILGUN_CHARGE);
+            }
+            tempCharging = !tempCharging;
+        }
+        if (Input.GetKeyDown(KeyCode.Q)) {
+            Instance.VABranch.PlayVATrack(VATrackName.BRITISH_ANT);
         }
 
         if (Input.GetKeyDown(KeyCode.C)) {
