@@ -52,6 +52,13 @@ public class DialogueManager : MonoBehaviour, IScreenUI
     private Dictionary<string, CharacterSO> characterMap = new Dictionary<string, CharacterSO>();
 
     // ==============================
+    //        Event delegate
+    // ==============================
+
+    public delegate void OnFinishDialogue(ConvoSO convo);
+    public OnFinishDialogue onFinishDialogue;
+
+    // ==============================
     //        Unity Functions
     // ==============================
 
@@ -111,7 +118,8 @@ public class DialogueManager : MonoBehaviour, IScreenUI
         characterImage.sprite = characterMap[character].fullImage;
 
         // Play sound
-        //AudioManager.Instance.VABranch.Stop
+        if(currentLine >= 1)
+            AudioManager.Instance.VABranch.StopConversationLine(conversation.data.convoEnum, currentLine - 1);
         AudioManager.Instance.VABranch.PlayConversationLine(conversation.data.convoEnum, currentLine);
 
         // TODO: set image
