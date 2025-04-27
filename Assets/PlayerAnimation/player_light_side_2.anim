@@ -26,21 +26,23 @@ AnimationClip:
       value: {fileID: 2087380688, guid: 2607aa722e6b4784c9a49ef197ea1f33, type: 3}
     - time: 0.51666665
       value: {fileID: -1699421918, guid: 2607aa722e6b4784c9a49ef197ea1f33, type: 3}
-    - time: 0.68333334
+    - time: 0.6333333
       value: {fileID: 428214234, guid: 2607aa722e6b4784c9a49ef197ea1f33, type: 3}
-    - time: 1.0833334
+    - time: 1.15
+      value: {fileID: 428214234, guid: 2607aa722e6b4784c9a49ef197ea1f33, type: 3}
+    - time: 1.3166667
       value: {fileID: -1453985743, guid: 2607aa722e6b4784c9a49ef197ea1f33, type: 3}
-    - time: 1.3833333
+    - time: 1.4833333
       value: {fileID: 1993932485, guid: 2607aa722e6b4784c9a49ef197ea1f33, type: 3}
-    - time: 1.4
+    - time: 1.5
       value: {fileID: 1971896367, guid: 2607aa722e6b4784c9a49ef197ea1f33, type: 3}
-    - time: 1.4166666
+    - time: 1.5166667
       value: {fileID: -1293368241, guid: 2607aa722e6b4784c9a49ef197ea1f33, type: 3}
-    - time: 1.5666667
+    - time: 1.6333333
       value: {fileID: 1323131375, guid: 2607aa722e6b4784c9a49ef197ea1f33, type: 3}
-    - time: 1.7333333
+    - time: 1.8
       value: {fileID: -12619613, guid: 2607aa722e6b4784c9a49ef197ea1f33, type: 3}
-    - time: 1.8333334
+    - time: 2.3
       value: {fileID: -12619613, guid: 2607aa722e6b4784c9a49ef197ea1f33, type: 3}
     attribute: m_Sprite
     path: 
@@ -68,6 +70,7 @@ AnimationClip:
     - {fileID: 2087380688, guid: 2607aa722e6b4784c9a49ef197ea1f33, type: 3}
     - {fileID: -1699421918, guid: 2607aa722e6b4784c9a49ef197ea1f33, type: 3}
     - {fileID: 428214234, guid: 2607aa722e6b4784c9a49ef197ea1f33, type: 3}
+    - {fileID: 428214234, guid: 2607aa722e6b4784c9a49ef197ea1f33, type: 3}
     - {fileID: -1453985743, guid: 2607aa722e6b4784c9a49ef197ea1f33, type: 3}
     - {fileID: 1993932485, guid: 2607aa722e6b4784c9a49ef197ea1f33, type: 3}
     - {fileID: 1971896367, guid: 2607aa722e6b4784c9a49ef197ea1f33, type: 3}
@@ -80,7 +83,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 1.85
+    m_StopTime: 2.3166666
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -114,28 +117,42 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 1.0166667
+  - time: 0.95
+    functionName: EnterLightAttackRecovery
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 1.1
     functionName: EndLightAttack
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 1.0833334
+  - time: 1.15
     functionName: InitializeLightAttack
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 1.4
+  - time: 1.5
     functionName: ExecuteLightAttack
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 1.7833333
+  - time: 1.9
+    functionName: EnterLightAttackRecovery
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 2.25
     functionName: EndLightAttack
     data: 
     objectReferenceParameter: {fileID: 0}

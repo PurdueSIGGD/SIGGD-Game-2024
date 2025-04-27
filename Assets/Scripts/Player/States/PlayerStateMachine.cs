@@ -140,6 +140,20 @@ public class PlayerStateMachine : MonoBehaviour
         animator.SetBool("light_2_ready", isLightAttack2Ready);
     }
 
+    public void SetLightAttack2Ready(bool lightAttack2Ready)
+    {
+        if (lightAttack2Ready)
+        {
+            lightAttack2ReadyTime = lightAttack2LingerTime;
+            isLightAttack2Ready = true;
+        }
+        else
+        {
+            isLightAttack2Ready = false;
+            lightAttack2ReadyTime = 0f;
+        }
+    }
+
     public void ConsumeLightAttackInput()
     {
         if (lightAttackConsumed) return;
@@ -147,15 +161,22 @@ public class PlayerStateMachine : MonoBehaviour
 
         if (isLightAttack2Ready)
         {
-            isLightAttack2Ready = false;
-            lightAttack2ReadyTime = 0f;
+            //isLightAttack2Ready = false;
+            //lightAttack2ReadyTime = 0f;
+            SetLightAttack2Ready(false);
         }
         else
         {
-            lightAttack2ReadyTime = lightAttack2LingerTime;
-            isLightAttack2Ready = true;
+            //lightAttack2ReadyTime = lightAttack2LingerTime;
+            //isLightAttack2Ready = true;
+            SetLightAttack2Ready(true);
         }
         Debug.Log("Light Attack Input Consumed");
+    }
+
+    public void SetLightAttackRecoveryState(bool isRecovering)
+    {
+        animator.SetBool("light_recovering", isRecovering);
     }
 
     public void ConsumeHeavyAttackInput()
