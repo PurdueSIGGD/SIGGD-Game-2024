@@ -15,8 +15,17 @@ public class ShowStopper : Skill
     {
         freezeManager = GetComponent<TimeFreezeManager>();
         expired = false;
-        GameplayEventHolder.OnDamageFilter.Add(ShowStop);
         AddPoint();
+    }
+
+    private void OnEnable()
+    {
+        GameplayEventHolder.OnDamageFilter.Add(ShowStop);
+    }
+
+    private void OnDisable()
+    {
+        GameplayEventHolder.OnDamageFilter.Remove(ShowStop);
     }
 
     void Update()

@@ -6,7 +6,19 @@ public class RunningStart : Skill
 {
     void Start()
     {
-        GameplayEventHolder.OnAbilityUsed += ApplyBuff;
+        
+    }
+
+    private void OnEnable()
+    {
+        if(skillPts > 0)
+            GameplayEventHolder.OnAbilityUsed += ApplyBuff;
+    }
+
+    private void OnDisable()
+    {
+        if (skillPts > 0)
+            GameplayEventHolder.OnAbilityUsed -= ApplyBuff;
     }
 
     private void ApplyBuff(ActionContext context)
