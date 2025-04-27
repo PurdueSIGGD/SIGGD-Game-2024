@@ -23,7 +23,7 @@ public class OneShotVATrack : MonoBehaviour, IVATrack {
         return track.clip.length;
     }
     
-    public bool overridesVoiceCulling() {
+    public bool OverridesVoiceCulling() {
         return voiceCullingOverride;
     }
 }

@@ -7,4 +7,8 @@ public class ConversationAudioHolder : MonoBehaviour {
     public void PlayTrack(int trackId) {
         tracks[trackId].PlayTrack();
     }
+
+    public void StopTrack(int trackId) {
+        tracks[trackId].StopTrack();
+    }
 }
