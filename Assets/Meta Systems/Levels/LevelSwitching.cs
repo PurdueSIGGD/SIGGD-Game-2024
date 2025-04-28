@@ -68,6 +68,7 @@ public class LevelSwitching : MonoBehaviour
         if(levelCount >= maxLevels)
         {
             SceneManager.LoadScene(homeWorld);
+            levelCount = 0;
         }
         else
         {
@@ -82,7 +83,6 @@ public class LevelSwitching : MonoBehaviour
                 //Debug.Log("Fast Scene Loaded: " + scene.isLoaded);
                 //Debug.Log("set active: " + SceneManager.SetActiveScene(scene));
                 SceneManager.SetActiveScene(scene);
-                GetComponent<EnemySpawning>().StartLevel();
                 // SceneManager.LoadScene(nextScene);
             }
             levelCount++;
