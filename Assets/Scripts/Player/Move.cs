@@ -87,7 +87,7 @@ public class Move : MonoBehaviour, IStatList
         {
             newVel.x *= deaccel;
         }
-        else
+        if (input != 0 && animator.GetBool("p_grounded"))
         {
             AudioManager.Instance.SFXBranch.PlaySFXTrack(SFXTrackName.FOOTSTEP);
         }
