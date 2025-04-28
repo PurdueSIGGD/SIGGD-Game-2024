@@ -17,7 +17,7 @@ public class LevelSwitching : MonoBehaviour
 
     public float GetProgress()
     {
-        return (levelCount - 1) / maxLevels;
+        return ((float)levelCount - 1.0f) / (float)maxLevels;
     }
 
     private void Start()
