@@ -67,7 +67,7 @@ public class DialogueManager : MonoBehaviour, IScreenUI
         // add all characters to map
         foreach (CharacterSO character in allCharacters)
         {
-            characterMap.Add(character.name, character);
+            characterMap.Add(character.displayName, character);
         }
     }
 
@@ -116,13 +116,13 @@ public class DialogueManager : MonoBehaviour, IScreenUI
         string character = conversation.data.lines[currentLine].character;
         characterNameText.text = characterMap[character].displayName;
         characterImage.sprite = characterMap[character].fullImage;
+        characterImage.enabled = (characterImage.sprite != null);
 
         // Play sound
         if(currentLine >= 1)
             AudioManager.Instance.VABranch.StopConversationLine(conversation.data.convoEnum, currentLine - 1);
         AudioManager.Instance.VABranch.PlayConversationLine(conversation.data.convoEnum, currentLine);
 
-        // TODO: set image
         currentLine++;
     }
 
