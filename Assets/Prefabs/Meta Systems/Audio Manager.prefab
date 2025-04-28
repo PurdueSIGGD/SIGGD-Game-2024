@@ -10007,6 +10007,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 587792115439483319}
   - {fileID: 5760236010027232068}
   m_Father: {fileID: 3847090705306411342}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -10032,11 +10033,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 587792115439483319}
+  - component: {fileID: 6604561208660633897}
   - component: {fileID: 3342947090804863292}
   - component: {fileID: 6088060823407280387}
   - component: {fileID: 4886690582883978663}
   m_Layer: 0
-  m_Name: Footsteps
+  m_Name: FOOTSTEP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10050,13 +10052,26 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3882322537400314262}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 5760236010027232068}
+  m_Father: {fileID: 5692968559537269341}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6604561208660633897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3882322537400314262}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6345d76d297407a47ac322b810d081ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  footstep: {fileID: 6088060823407280387}
 --- !u!82 &3342947090804863292
 AudioSource:
   m_ObjectHideFlags: 0
@@ -10066,7 +10081,7 @@ AudioSource:
   m_GameObject: {fileID: 3882322537400314262}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: -5650378544059959543, guid: 76ee751ec4eb23948a77f0f45f839102,
+  OutputAudioMixerGroup: {fileID: -7071759584138185028, guid: 76ee751ec4eb23948a77f0f45f839102,
     type: 2}
   m_audioClip: {fileID: 8300000, guid: 3ae081d3b39977549813caff2d231a8f, type: 3}
   m_PlayOnAwake: 0
@@ -10168,7 +10183,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sounds:
   - {fileID: 4886690582883978663}
-  soundWeights: []
+  soundWeights:
+  - 1
   recencyBlacklistSize: 0
   minPitch: 3
   maxPitch: 4
@@ -11631,7 +11647,6 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 587792115439483319}
+  m_Children: []
   m_Father: {fileID: 5692968559537269341}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
