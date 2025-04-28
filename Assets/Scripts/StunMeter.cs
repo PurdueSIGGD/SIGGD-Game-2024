@@ -31,10 +31,10 @@ public class StunMeter : MonoBehaviour, IDamageable, IStatList
         return strength switch
         {
             DamageStrength.MEAGER => 0f,
-            DamageStrength.LIGHT => 10f,
-            DamageStrength.MODERATE => 35f,
-            DamageStrength.HEAVY => 70f,
-            DamageStrength.DEVASTATING => 200f,
+            DamageStrength.LIGHT => 35f,
+            DamageStrength.MODERATE => 70f,
+            DamageStrength.HEAVY => 125f,
+            DamageStrength.DEVASTATING => 250f,
             _ => 0f,
         };
     }
@@ -47,7 +47,7 @@ public class StunMeter : MonoBehaviour, IDamageable, IStatList
         if (currentStun <= 0)
         {
             currentStun = maxStun = stats.ComputeValue("Stun Threshold");
-            esm.Stun(context, 0.5f);
+            esm.Stun(context, 0.4f);
         }
 
         return stun;
