@@ -8,6 +8,7 @@ public class GhostInteract : InRangeInteract, IParty
 
     [SerializeField]
     private ConvoSO hubConvo;
+    [SerializeField] private bool isFirstInteraction;
 
     // ==============================
     //        Other Variables
@@ -25,6 +26,11 @@ public class GhostInteract : InRangeInteract, IParty
 
     protected override InteractOption[] GetMenuOptions()
     {
+        if (isFirstInteraction)
+        {
+            InteractOption opt = new InteractOption("Talk", FirstInteraction);
+            return new InteractOption[] { opt };
+        }
 
         InteractOption opt1 = new InteractOption("Talk", StartDialogue);
         InteractOption opt2 = new InteractOption("Add to Party", AddGhostToParty);
@@ -39,6 +45,14 @@ public class GhostInteract : InRangeInteract, IParty
         CloseMenu();
         PartyManager partyManger = PlayerID.instance.GetComponent<PartyManager>();
         partyManger.TryAddGhostToParty(this.GetComponent<GhostIdentity>());
+    }
+
+    private void FirstInteraction()
+    {
+        CloseMenu();
+        DialogueManager dialogueManager = FindAnyObjectByType<DialogueManager>(FindObjectsInactive.Include);
+        dialogueManager.StartDialogue(hubConvo);
+        dialogueManager.OnNextCloseCall(AddGhostToParty);
     }
 
     private void StartDialogue()

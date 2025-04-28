@@ -52,6 +52,13 @@ public class DialogueManager : MonoBehaviour, IScreenUI
     private Dictionary<string, CharacterSO> characterMap = new Dictionary<string, CharacterSO>();
 
     // ==============================
+    //        Event delegate
+    // ==============================
+
+    public delegate void OnFinishDialogue(ConversationName convo);
+    public static OnFinishDialogue onFinishDialogue;
+
+    // ==============================
     //        Unity Functions
     // ==============================
 
@@ -110,10 +117,13 @@ public class DialogueManager : MonoBehaviour, IScreenUI
         characterNameText.text = characterMap[character].displayName;
         characterImage.sprite = characterMap[character].fullImage;
 
+        // Play sound
+        if(currentLine >= 1)
+            AudioManager.Instance.VABranch.StopConversationLine(conversation.data.convoEnum, currentLine - 1);
+        AudioManager.Instance.VABranch.PlayConversationLine(conversation.data.convoEnum, currentLine);
+
         // TODO: set image
-
         currentLine++;
-
     }
 
     /// <summary>
@@ -130,6 +140,8 @@ public class DialogueManager : MonoBehaviour, IScreenUI
 
         actionOnDialogueEnd?.Invoke();
         actionOnDialogueEnd = null;
+
+        onFinishDialogue?.Invoke(conversation.data.convoEnum);
 
         PlayerID.instance.UnfreezePlayer();
     }

@@ -6,10 +6,12 @@ using UnityEngine;
 public class VAManager : MonoBehaviour {
     // Ability lines, etc.
     [SerializeField] private SoundBankVATrack evaExersion;
-    [SerializeField] private OneShotVATrack britishAnt;
+    //[SerializeField] private OneShotVATrack britishAnt;
 
     // Converstaions
     [SerializeField] private ConversationAudioHolder eva2Orion1;
+    [SerializeField] private ConversationAudioHolder death2Orion2;
+    [SerializeField] private ConversationAudioHolder eva2OrionHub1;
 
     // Used to avoid voiceline spam
     private float globalVoicelineChance = 1.0f;
@@ -34,7 +36,7 @@ public class VAManager : MonoBehaviour {
     public IVATrack GetVATrack(VATrackName trackName) {
         switch(trackName) {
             case VATrackName.EVA_EXERSION:    return evaExersion;
-            case VATrackName.BRITISH_ANT:     return britishAnt;
+            //case VATrackName.BRITISH_ANT:     return britishAnt;
             default:                                return null;
         }
     }
@@ -65,6 +67,8 @@ public class VAManager : MonoBehaviour {
     public ConversationAudioHolder GetConversation(ConversationName conversationName) {
         switch(conversationName) {
             case ConversationName.EVA_ORION_1:      return eva2Orion1; // Test name
+            case ConversationName.Death_Orion_2:    return death2Orion2;
+            case ConversationName.EVA_ORION_HUB_1:  return eva2OrionHub1;
             default:                                return null;  
         }
     }
@@ -95,5 +99,7 @@ public enum VATrackName {
 }
 
 public enum ConversationName {
-    EVA_ORION_1
+    EVA_ORION_1,
+    Death_Orion_2,
+    EVA_ORION_HUB_1
 }

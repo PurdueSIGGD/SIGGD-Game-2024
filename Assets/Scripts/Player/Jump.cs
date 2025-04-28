@@ -35,11 +35,9 @@ public class Jump : MonoBehaviour, IStatList
 
     void FixedUpdate()
     {
-        print("JUMPER: " + psm.currentAnimation);
         if (psm.currentAnimation == "player_jump")
         {
             float jumpValue = jumpAction.ReadValue<float>();
-            print("JUMPER: " + jumpValue);
             if (jumpValue == 0 && rb.velocity.y > 0)
             {
                 rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * stats.ComputeValue("Jump Release Deaccel."));

@@ -15,10 +15,19 @@ public class NovaPop : Skill
     void Start()
     {
         playerRef = PlayerID.instance.gameObject;
-        GameplayEventHolder.OnDeath += ExplodeOnDeath;
 
         stat = GetComponent<StatManager>();
         manager = GetComponent<IdolManager>();
+    }
+
+    private void OnEnable()
+    {
+        GameplayEventHolder.OnDeath += ExplodeOnDeath;
+    }
+
+    private void OnDisable()
+    {
+        GameplayEventHolder.OnDeath -= ExplodeOnDeath;
     }
 
     public void ExplodeOnDeath(DamageContext context)

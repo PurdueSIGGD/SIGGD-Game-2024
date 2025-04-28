@@ -11,9 +11,9 @@ public class SFXManager : MonoBehaviour
     // Priority SFX: Sounds which are especially important to hear for the player (e.g. damage taken, player's attack)
     // BIGSFX: Sounds which take the centerstage and override ALL other audio sources for impact (e.g. North railgun, T4 Sacrifice skills)
 
-    [SerializeField] private SoundBankSFXTrack footstep;
-    [SerializeField] private LoopingSFXTrack railgunCharge;
-    [SerializeField] private OneShotSFXTrack railgunAttack;
+    //[SerializeField] private SoundBankSFXTrack footstep;
+    //[SerializeField] private LoopingSFXTrack railgunCharge;
+    //[SerializeField] private OneShotSFXTrack railgunAttack;
 
     // Start is called before the first frame update
     void Start()
@@ -29,9 +29,9 @@ public class SFXManager : MonoBehaviour
 
     public ISFXTrack GetSFXTrack(SFXTrackName trackName) {
         switch (trackName) {
-            case SFXTrackName.FOOTSTEP:             return footstep;
-            case SFXTrackName.RAILGUN_CHARGE:       return railgunCharge;
-            case SFXTrackName.RAILGUN_ATTACK:       return railgunAttack;
+            //case SFXTrackName.FOOTSTEP:             return footstep;
+            //case SFXTrackName.RAILGUN_CHARGE:       return railgunCharge;
+            //case SFXTrackName.RAILGUN_ATTACK:       return railgunAttack;
             default:                                return null;
         }
     }
