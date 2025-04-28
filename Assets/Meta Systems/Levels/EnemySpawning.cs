@@ -30,7 +30,7 @@ public class EnemySpawning : MonoBehaviour
             currentEnemies.Remove(context.victim);
             if(currentEnemies.Count <= 0)
             {
-                if(waveNumber + 1 < endWaveNum)
+                if(waveNumber + 1 < currentMaxWave)
                 {
                     SpawnEnemies();
                     waveNumber += 1;
@@ -82,8 +82,9 @@ public class EnemySpawning : MonoBehaviour
         Door.activateDoor(false);
         currentEnemies = new List<GameObject>();
         waveNumber = 0;
-        currentMaxWave = Mathf.FloorToInt(Mathf.Lerp(startWaveNum, endWaveNum, GetComponent<LevelSwitching>().GetProgress()));
+        currentMaxWave = Mathf.RoundToInt(Mathf.Lerp((float)startWaveNum, (float)endWaveNum, GetComponent<LevelSwitching>().GetProgress()));
         points = GameObject.FindGameObjectsWithTag("SpawnPoint");
+        Debug.Log("currentMaxWave: " + currentMaxWave);
         Debug.Log("Points Length: " + points.Length);
         SpawnEnemies();
     }
