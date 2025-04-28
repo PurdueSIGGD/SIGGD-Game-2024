@@ -10,46 +10,35 @@ public class HeavyAttack : MonoBehaviour, IStatList
     [SerializeField]
     public StatManager.Stat[] statList;
 
-    [SerializeField] GameObject indicator;
-    //[SerializeField] int dmg;
-    [SerializeField] DamageContext heavyDamage;
-    [SerializeField] float offsetX;
     private Camera mainCamera;
-    private float timer;
     private StatManager stats;
-    private bool doingHeavyChargeUp;
-    private bool doingHeavyPrimed;
+    private PlayerStateMachine playerStateMachine;
+    private OrionManager manager;
+
+    [HideInInspector] private bool isCharging = false;
+    [HideInInspector] public float chargingTime = 0f;
+    [HideInInspector] private bool isPrimed = false;
+    [HideInInspector] private float primedTime = 0f;
 
     private void Start()
     {
-        indicator.SetActive(false);
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         stats = this.GetComponent<StatManager>();
+        playerStateMachine = GetComponent<PlayerStateMachine>();
+        manager = GetComponent<OrionManager>();
     }
 
     private void Update()
     {
-        if (timer > 0)
-        {
-            timer -= Time.deltaTime;
-        }
-        else
-        {
-            indicator.SetActive(false);
-        }
+        if (isCharging && chargingTime > 0f) chargingTime -= Time.deltaTime;
+        if (isCharging && chargingTime <= 0f) playerStateMachine.EnableTrigger("OPT");
+
+        if (isPrimed && primedTime > 0f) primedTime -= Time.deltaTime;
+        if (isPrimed && primedTime <= 0f) playerStateMachine.EnableTrigger("OPT");
+
         Vector3 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-        if (mousePos.x < transform.position.x)
-        {
-            indicator.transform.localPosition = new Vector3(-offsetX, indicator.transform.localPosition.y, 0);
-        }
-        else
-        {
-            indicator.transform.localPosition = new Vector3(offsetX, indicator.transform.localPosition.y, 0);
-        }
-
         Vector3 mouseDiff = transform.position - mousePos;
-
-        if (doingHeavyChargeUp || doingHeavyPrimed) {
+        if (isCharging || isPrimed) {
             if (mouseDiff.x < 0) // update player facing direction
             {
                 transform.rotation = Quaternion.Euler(0, 0, 0);
@@ -63,51 +52,56 @@ public class HeavyAttack : MonoBehaviour, IStatList
 
     public void StartHeavyChargeUp()
     {
-        doingHeavyChargeUp = true;
+        GetComponent<Move>().PlayerStop();
+        chargingTime = manager.GetStats().ComputeValue("Heavy Charge Up Time");
+        isCharging = true;
     }
 
     public void StopHeavyChargeUp()
     {
-        doingHeavyChargeUp = false;
+        GetComponent<Move>().PlayerGo();
+        isCharging = false;
+        chargingTime = 0f;
     }
 
     public void StartHeavyPrimed()
     {
-        doingHeavyPrimed= true;
+        GetComponent<Move>().PlayerStop();
+        primedTime = manager.GetStats().ComputeValue("Heavy Primed Autofire Time");
+        isPrimed = true;
     }
 
     public void StopHeavyPrimed()
     {
-        doingHeavyPrimed = false;
+        GetComponent<Move>().PlayerGo();
+        isPrimed = false;
+        primedTime = 0f;
     }
 
     public void StartHeavyAttack()
     {
-        //indicator.SetActive(true);
-        timer = 0.5f;
-        RaycastHit2D[] hits = Physics2D.BoxCastAll(indicator.transform.position, indicator.transform.localScale, 0, new Vector2(0, 0));
-        foreach(RaycastHit2D hit in hits)
+        GetComponent<Move>().PlayerStop();
+    }
+
+    public void ExecuteHeavyAttack()
+    {
+        GetComponent<PlayerParticles>().PlayHeavyAttackVFX();
+        playerStateMachine.SetLightAttack2Ready(false);
+        CameraShake.instance.Shake(0.2f, 10f, 0, 10, new Vector2(Random.Range(-0.5f, 0.5f), 1f));
+        RaycastHit2D[] hits = Physics2D.BoxCastAll(manager.heavyIndicator.transform.position, manager.heavyIndicator.transform.localScale, 0, new Vector2(0, 0));
+        foreach (RaycastHit2D hit in hits)
         {
-            if(hit.transform.gameObject.tag == "Enemy")
+            if (hit.transform.gameObject.CompareTag("Enemy"))
             {
                 Debug.Log("Heavy Attack Hit: " + hit.transform.gameObject.name);
-
-                foreach(IDamageable damageable in hit.transform.gameObject.GetComponents<IDamageable>()){
-                    damageable.Damage(heavyDamage, gameObject);
-                }
-
-                /*
-                IDamageable enemyhealth = hit.transform.gameObject.GetComponent<IDamageable>();
-                if (enemyhealth != null)
-                {
-                    //ehealth.TakeDamage(dmg);
-                    enemyhealth.Damage(heavyDamage, gameObject);
-                }
-                */
-                heavyDamage.damage = stats.ComputeValue("Heavy Damage");
-                //hit.transform.gameObject.GetComponent<Health>().Damage(heavyDamage, gameObject);
+                hit.transform.gameObject.GetComponent<Health>().Damage(manager.heavyDamage, gameObject);
             }
         }
+    }
+
+    public void StopHeavyAttack()
+    {
+        GetComponent<Move>().PlayerGo();
     }
 
     public StatManager.Stat[] GetStatList()

@@ -23,7 +23,7 @@ public class PartyManager : MonoBehaviour
 
     // References to fields in SaveData, declared for convenience of a shorter name
     private List<string> ghostsInParty;
-    private string selectedGhost;
+    private string selectedGhost = "";
 
     private void Awake()
     {
@@ -112,7 +112,7 @@ public class PartyManager : MonoBehaviour
         // do not possess if player selected base kit
         if (index == -1)
         {
-            selectedGhost = null;
+            selectedGhost = "";
             return;
         }
 

@@ -52,6 +52,7 @@ public class IdolUIDriver : GhostUIDriver
         if (manager.clones.Count > 0 && manager.clones[0] != null)
         {
             skill1UIManager.setUIActive(true);
+            skill1UIManager.setNumberActive(false);
             skill1UIManager.setIcon(manager.GetComponent<GhostIdentity>().GetCharacterInfo().specialAbilityIcon);
             skill1UIManager.setMeterValue(manager.clones[0].GetComponent<Health>().currentHealth, manager.clones[0].GetComponent<StatManager>().ComputeValue("Max Health"));
             skill1UIManager.setChargeWidgetActive(true);
@@ -68,6 +69,7 @@ public class IdolUIDriver : GhostUIDriver
         if (manager.clones.Count > 1 && manager.clones[1] != null)
         {
             skill2UIManager.setUIActive(true);
+            skill2UIManager.setNumberActive(false);
             skill2UIManager.setIcon(manager.GetComponent<GhostIdentity>().GetCharacterInfo().specialAbilityIcon);
             skill2UIManager.setMeterValue(manager.clones[1].GetComponent<Health>().currentHealth, manager.clones[1].GetComponent<StatManager>().ComputeValue("Max Health"));
             skill2UIManager.setChargeWidgetActive(true);
