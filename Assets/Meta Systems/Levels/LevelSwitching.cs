@@ -69,6 +69,7 @@ public class LevelSwitching : MonoBehaviour
         {
             SceneManager.LoadScene(homeWorld);
             levelCount = 0;
+            nextScene = "";
         }
         else
         {
