@@ -214,6 +214,7 @@ GameObject:
   - component: {fileID: 6797484863675802248}
   - component: {fileID: 5636141568663372118}
   - component: {fileID: 7839376920908278547}
+  - component: {fileID: 8681257202382327024}
   m_Layer: 21
   m_Name: G.R.E.G
   m_TagString: Enemy
@@ -521,6 +522,24 @@ MonoBehaviour:
     value: 100
   currentStun: 0
   maxStun: 0
+--- !u!114 &8681257202382327024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8433722653154054174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67f2b5dc03552c4bb7d2e37dbcb7033, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageContext:
+    damageStrength: 4
+    damageTypes: 04000000
+    actionID: 17
+    actionTypes: 08000000
+    extraContext: 
 --- !u!1001 &4415854243174678356
 PrefabInstance:
   m_ObjectHideFlags: 0

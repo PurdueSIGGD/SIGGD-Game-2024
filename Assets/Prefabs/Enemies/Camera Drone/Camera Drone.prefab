@@ -48,6 +48,7 @@ GameObject:
   - component: {fileID: 8856570929518799469}
   - component: {fileID: 1221538207620342913}
   - component: {fileID: 4086416775877823508}
+  - component: {fileID: 5924195418159167760}
   m_Layer: 21
   m_Name: Camera Drone
   m_TagString: Enemy
@@ -208,7 +209,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 5, y: 3}
+    oldSize: {x: 2.5, y: 1.5}
     newSize: {x: 3.125, y: 1.71875}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -315,6 +316,24 @@ MonoBehaviour:
     hitBox: {fileID: 0}
     coolDown: 0
     animationClip: {fileID: 7400000, guid: 468a49c330cf0294486adcfa8c854b6e, type: 2}
+--- !u!114 &5924195418159167760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8652318323731026824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67f2b5dc03552c4bb7d2e37dbcb7033, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageContext:
+    damageStrength: 4
+    damageTypes: 04000000
+    actionID: 17
+    actionTypes: 08000000
+    extraContext: 
 --- !u!1001 &1678905745586553414
 PrefabInstance:
   m_ObjectHideFlags: 0

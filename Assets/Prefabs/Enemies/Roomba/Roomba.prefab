@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 8922106226278131008}
   - component: {fileID: 4678795254975193693}
   - component: {fileID: 947338785010040998}
+  - component: {fileID: 6310614689799863014}
   m_Layer: 21
   m_Name: Roomba
   m_TagString: Enemy
@@ -278,6 +279,24 @@ MonoBehaviour:
   statList:
   - name: Speed
     value: 8
+--- !u!114 &6310614689799863014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1487853512614266132}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67f2b5dc03552c4bb7d2e37dbcb7033, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageContext:
+    damageStrength: 4
+    damageTypes: 04000000
+    actionID: 17
+    actionTypes: 08000000
+    extraContext: 
 --- !u!1 &4301427481350538189
 GameObject:
   m_ObjectHideFlags: 0
