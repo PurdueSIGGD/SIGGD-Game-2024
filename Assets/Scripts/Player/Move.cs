@@ -26,6 +26,8 @@ public class Move : MonoBehaviour, IStatList
 
     private bool stopTurning;
 
+    private AudioManager audioManager;
+
 
     // Start is called before the first frame update
     void Start()
@@ -84,6 +86,10 @@ public class Move : MonoBehaviour, IStatList
         if (input == 0)
         {
             newVel.x *= deaccel;
+        }
+        else
+        {
+            AudioManager.Instance.SFXBranch.PlaySFXTrack(SFXTrackName.FOOTSTEP);
         }
 
         // keep updating y velocity
