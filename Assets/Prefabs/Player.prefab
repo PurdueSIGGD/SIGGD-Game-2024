@@ -35122,6 +35122,7 @@ GameObject:
   - component: {fileID: 8892496296130981277}
   - component: {fileID: 6912038939047199345}
   - component: {fileID: 8099870004011389086}
+  - component: {fileID: 1325501314099060030}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -35659,6 +35660,24 @@ MonoBehaviour:
     actionTypes: 08000000
     extraContext: 
   damage: 20
+--- !u!114 &1325501314099060030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8252758106455385166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4e5155d49d0fb54c926620c3a33d788, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healPerSpirit: 1
+  healContext:
+    healing: 1
+    actionID: 17
+    actionTypes: 08000000
+    extraContext: 
 --- !u!1 &8764437494633651125
 GameObject:
   m_ObjectHideFlags: 0
