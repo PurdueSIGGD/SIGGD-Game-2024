@@ -9,35 +9,38 @@ public class DropManager : MonoBehaviour
 
     private void DropLoot(DamageContext context)
     {
-        GameObject victim = context.victim;
-        if (victim == null)
+        if(context.victim != context.attacker)
         {
-            return;
-        }
-        DropTable table = victim.GetComponent<DropTable>();
-        if (!context.victim.CompareTag("Enemy") || table == null) { return; }
-
-        foreach (DropTable.Drop drop in table.dropTable)
-        {
-            // Decide if each loot will drop
-            float r = UnityEngine.Random.value;
-            if (r > drop.chance)
+            GameObject victim = context.victim;
+            if (victim == null)
             {
-                continue;
+                return;
             }
+            DropTable table = victim.GetComponent<DropTable>();
+            if (!context.victim.CompareTag("Enemy") || table == null) { return; }
 
-            // Decdie how much to drop
-            r = UnityEngine.Random.value;
-            float dropCount = (int)((drop.maxCount - drop.minCount) * r + drop.minCount);
-
-            float xDeviation = -0.0003f;
-            float yDeviation = 0.00003f;
-
-            for (int i = 0; i < dropCount; i++)
+            foreach (DropTable.Drop drop in table.dropTable)
             {
-                Rigidbody2D rb = Instantiate(drop.obj, victim.transform.position, victim.transform.rotation).GetComponent<Rigidbody2D>();
-                rb.AddForce(new Vector2(UnityEngine.Random.value * xDeviation, yDeviation), ForceMode2D.Impulse);
-                xDeviation = -xDeviation;
+                // Decide if each loot will drop
+                float r = UnityEngine.Random.value;
+                if (r > drop.chance)
+                {
+                    continue;
+                }
+
+                // Decdie how much to drop
+                r = UnityEngine.Random.value;
+                float dropCount = (int)((drop.maxCount - drop.minCount) * r + drop.minCount);
+
+                float xDeviation = -0.0003f;
+                float yDeviation = 0.00003f;
+
+                for (int i = 0; i < dropCount; i++)
+                {
+                    Rigidbody2D rb = Instantiate(drop.obj, victim.transform.position, victim.transform.rotation).GetComponent<Rigidbody2D>();
+                    rb.AddForce(new Vector2(UnityEngine.Random.value * xDeviation, yDeviation), ForceMode2D.Impulse);
+                    xDeviation = -xDeviation;
+                }
             }
         }
     }

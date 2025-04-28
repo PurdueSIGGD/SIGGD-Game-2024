@@ -8,8 +8,8 @@ using UnityEngine;
 public class GunWithLegs : EnemyStateManager
 {
     [Header("Kick")]
-    [SerializeField] protected Transform gunKick;
-    [SerializeField] protected DamageContext kickDamage;
+    //[SerializeField] protected Transform gunKick;
+    //[SerializeField] protected DamageContext kickDamage;
 
     [Header("Shoot")]
     [SerializeField] protected Transform gunShoot;
@@ -19,10 +19,10 @@ public class GunWithLegs : EnemyStateManager
     protected Vector3 target; // used to track player location for shooting
 
     // Check for kick collision and do damage
-    protected void OnKickEvent()
-    {
-        GenerateDamageFrame(gunKick.position, gunKick.lossyScale.x, gunKick.lossyScale.y, kickDamage, gameObject);
-    }
+    //protected void OnKickEvent()
+    //{
+    //    GenerateDamageFrame(gunKick.position, gunKick.lossyScale.x, gunKick.lossyScale.y, kickDamage, gameObject);
+    //}
 
     protected void OnShootEvent1()
     {
@@ -41,7 +41,7 @@ public class GunWithLegs : EnemyStateManager
     protected override void OnDrawGizmos()
     {
         base.OnDrawGizmos();
-        Gizmos.DrawWireCube(gunKick.position, gunKick.lossyScale);
+        //Gizmos.DrawWireCube(gunKick.position, gunKick.lossyScale);
         Gizmos.DrawWireCube(gunShoot.position, gunShoot.lossyScale);
         Gizmos.DrawWireSphere(rangeOrig.position, 0.1f);
     }
