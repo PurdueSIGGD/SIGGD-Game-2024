@@ -43,7 +43,7 @@ public class LevelMusicDriver : MonoBehaviour
     void Start()
     {
         audioManager = AudioManager.Instance;
-        playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<Health>();
+        if (GameObject.FindGameObjectWithTag("Player") != null) playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<Health>();
 
         if (audioManager == null) return;
         if (audioManager.MusicBranch.GetCurrentMusicTrackName() == roomMusicTrack)
@@ -81,7 +81,7 @@ public class LevelMusicDriver : MonoBehaviour
         float thisEnergyLevel = baselineEnergy;
 
         // Low player health energy gain
-        thisEnergyLevel += Mathf.Max((healthEnergyThreshold - playerHealth.currentHealth) * energyPerHealthLost, 0f); // Increase intensity as player health decreases
+        if (playerHealth != null) thisEnergyLevel += Mathf.Max((healthEnergyThreshold - playerHealth.currentHealth) * energyPerHealthLost, 0f); // Increase intensity as player health decreases
 
         // Enemy count energy
         thisEnergyLevel += Mathf.Max((enemySpawning.GetCurrentEnemies().Count - enemyCountEnergyThreshold) * energyPerEnemy, 0f);

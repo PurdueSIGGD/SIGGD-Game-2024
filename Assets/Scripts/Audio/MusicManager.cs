@@ -11,6 +11,8 @@ public class MusicManager : MonoBehaviour
     [SerializeField] private MusicTrack hubLevel;
     [SerializeField] private MusicTrack policeChief;
     [SerializeField] private MusicTrack idol;
+    [SerializeField] private MusicTrack title;
+    [SerializeField] private MusicTrack credits;
 
     private MusicTrackName currentTrackName;
 
@@ -22,6 +24,7 @@ public class MusicManager : MonoBehaviour
     // Update is called once per frame
     void Update() 
     {
+        if (GetCurrentMusicTrack() == null) return;
         GetCurrentMusicTrack().SetTrackVolume(0.07f);
     }
 
@@ -35,6 +38,8 @@ public class MusicManager : MonoBehaviour
             case MusicTrackName.HUB:                   return (IMusicTrack) hubLevel;
             case MusicTrackName.POLICE_CHIEF:          return (IMusicTrack) policeChief;
             case MusicTrackName.IDOL:                  return (IMusicTrack) idol;
+            case MusicTrackName.TITLE:                 return (IMusicTrack) title;
+            case MusicTrackName.CREDITS:               return (IMusicTrack) credits;
             default:                                   return null;
         }
     }
@@ -110,4 +115,6 @@ public enum MusicTrackName {
     HUB, //               0.000           191.000
     POLICE_CHIEF, //      0.000           48.000
     IDOL, //              0.000           98.000
+    TITLE,
+    CREDITS,
 }
