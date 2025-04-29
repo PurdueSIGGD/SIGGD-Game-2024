@@ -29,15 +29,20 @@ public class PartyManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
+
+        foreach (GhostIdentity ghost in FindObjectsOfType<GhostIdentity>())
+        {
+            ghostsByName.Add(ghost.name, ghost);
+        }
+
         if (!isStoryRoom)
         {
-            foreach (GhostIdentity ghost in FindObjectsOfType<GhostIdentity>())
-            {
-                ghostsByName.Add(ghost.name, ghost);
-            }
-
             ghostsInParty = SaveManager.data.ghostsInParty;
             selectedGhost = SaveManager.data.selectedGhost;
+        }
+        else
+        {
+            ghostsInParty = new List<string>();
         }
     }
 
