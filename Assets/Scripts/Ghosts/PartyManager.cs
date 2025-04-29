@@ -69,8 +69,16 @@ public class PartyManager : MonoBehaviour
         {
             ghostsInParty.Add(ghost.name);
             ghost.TriggerEnterPartyBehavior();
+
+            Debug.Log("Saving Ghosts");
+            if (isStoryRoom)
+            {
+                SaveManager.data.ghostsInParty = ghostsInParty;
+            }
+
             return true;
         }
+        
         return false;
     }
 
