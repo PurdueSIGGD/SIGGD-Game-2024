@@ -1,7 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class DynamicTrio : Skill
@@ -12,42 +9,37 @@ public class DynamicTrio : Skill
         0, 15, 30, 45, 60
     };
     float transferPercentage = 0;
+    private static int pointIndex;
     void Start()
     {
         manager = gameObject.GetComponent<IdolManager>();
-
-        // testing code
-        /*
-        int points = 4;
-        for (int i = 0; i < points; i++)
-        {
-            AddPoint();
-        }
-        */
     }
     void Update()
     {
-        if (manager.special && manager.special.spawnSecondClone != skillPts > 0)
+        if (manager.special && manager.special.spawnSecondClone != pointIndex > 0)
         {
-            manager.special.spawnSecondClone = skillPts > 0;
+            manager.special.spawnSecondClone = pointIndex > 0;
         }
     }
     public override void AddPointTrigger()
     {
+        pointIndex = GetPoints();
         UpdateSkill();
     }
     public override void RemovePointTrigger()
     {
+        pointIndex = GetPoints();
         UpdateSkill();
     }
     public override void ClearPointsTrigger()
     {
+        pointIndex = GetPoints();
         UpdateSkill();
     }
     public void UpdateSkill()
     {
-        transferPercentage = (float)values[skillPts] / 100;
-        if (skillPts > 0)
+        transferPercentage = (float)values[pointIndex] / 100;
+        if (pointIndex > 0)
         {
             if (GameplayEventHolder.OnDamageFilter.Contains(TransferDamage) == false)
             {

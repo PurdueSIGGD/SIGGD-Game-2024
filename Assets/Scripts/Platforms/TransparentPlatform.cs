@@ -33,7 +33,7 @@ public class TransparentPlatform : MonoBehaviour
     {
         // TODO: UNCOMMENT THIS!!!!!!!!!!!
         
-        if (coroutine == null && fallAction.ReadValue<float>() != 0)
+        if (coroutine == null && fallAction.ReadValue<float>() != 0 && isColliding)
         {
             coroutine = DisableCollider();
             StartCoroutine(coroutine);
@@ -61,7 +61,7 @@ public class TransparentPlatform : MonoBehaviour
         // ignore collision
         Physics2D.IgnoreCollision(playacol.GetComponent<Collider2D>(), GetComponent<CompositeCollider2D>(), true);
 
-        yield return new WaitForSeconds(0.22f);
+        yield return new WaitUntil(checkIfColliding);
 
         // turning back collision
         Physics2D.IgnoreCollision(playacol.GetComponent<Collider2D>(), GetComponent<CompositeCollider2D>(), false);

@@ -4,20 +4,20 @@ using UnityEngine;
 
 public class RunningStart : Skill
 {
+    private static int pointindex;
     void Start()
     {
-        
     }
 
     private void OnEnable()
     {
-        if(skillPts > 0)
+        if(pointindex > 0)
             GameplayEventHolder.OnAbilityUsed += ApplyBuff;
     }
 
     private void OnDisable()
     {
-        if (skillPts > 0)
+        if (pointindex > 0)
             GameplayEventHolder.OnAbilityUsed -= ApplyBuff;
     }
 
@@ -37,13 +37,16 @@ public class RunningStart : Skill
 
     public override void AddPointTrigger()
     {
+        pointindex = GetPoints();
     }
 
     public override void ClearPointsTrigger()
     {
+        pointindex = GetPoints();
     }
 
     public override void RemovePointTrigger()
     {
+        pointindex = GetPoints();
     }
 }

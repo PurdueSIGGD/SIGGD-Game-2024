@@ -10,30 +10,27 @@ public class FeedbackLoop : Skill
         0, 7, 14, 21, 28
     };
     int percentIncrease = 0;
+    private static int pointIndex;
+
     void Start()
     {
         stats = gameObject.GetComponent<StatManager>();
-
-        // testing code
-
-        // int points = 4;
-        // for (int i = 0; i < points; i++)
-        // {
-        //     AddPoint();
-        // }
     }
     public override void AddPointTrigger()
     {
+        pointIndex = GetPoints();
         UpdateSkill();
     }
 
     public override void ClearPointsTrigger()
     {
+        pointIndex = GetPoints();
         UpdateSkill();
     }
 
     public override void RemovePointTrigger()
     {
+        pointIndex = GetPoints();
         UpdateSkill();
     }
     /// <summary>
@@ -42,7 +39,7 @@ public class FeedbackLoop : Skill
     private void UpdateSkill()
     {
         stats.ModifyStat("Special Cooldown", percentIncrease);
-        percentIncrease = values[skillPts];
+        percentIncrease = values[pointIndex];
         stats.ModifyStat("Special Cooldown", -percentIncrease);
     }
 }

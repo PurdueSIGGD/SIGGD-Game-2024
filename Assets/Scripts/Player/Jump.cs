@@ -13,6 +13,7 @@ public class Jump : MonoBehaviour, IStatList
     public InputAction jumpAction;
     public PlayerStateMachine psm;
     bool jumping;
+    private float jumpSFXTime;
 
     void Start()
     {
@@ -37,6 +38,11 @@ public class Jump : MonoBehaviour, IStatList
             if (jumpValue == 0 && rb.velocity.y > 0)
             {
                 rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * stats.ComputeValue("Jump Release Deaccel."));
+            }
+            if (Time.time - jumpSFXTime > 0.25f)
+            {
+                AudioManager.Instance.SFXBranch.PlaySFXTrack(SFXTrackName.JUMP);
+                jumpSFXTime = Time.time;
             }
         }
     }
