@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Android;
 using UnityEngine.InputSystem;
+using UnityEngine.Tilemaps;
 
 /// <summary>
 /// Code for platform that you can jump through and fall through
@@ -13,7 +14,8 @@ public class TransparentPlatform : MonoBehaviour
     private BoxCollider2D collider;
     private IEnumerator coroutine;
     private bool isColliding;
-    private GameObject enemycol;
+    private GameObject playacol;
+    private Rigidbody2D rb;
 
     private void Start()
     {
@@ -22,7 +24,8 @@ public class TransparentPlatform : MonoBehaviour
         collider = GetComponent<BoxCollider2D>();
         coroutine = null;
         isColliding = false;
-        enemycol = GameObject.FindWithTag("Enemy");
+        playacol = GameObject.FindWithTag("Player");
+        rb = PlayerID.instance.GetComponent<Rigidbody2D>();
     }
 
 
@@ -42,15 +45,32 @@ public class TransparentPlatform : MonoBehaviour
     /// <summary>
     /// makes the players collider ignore the platforms collider then stops the code for 1 second in when then it reverts the colliders to normal
     /// </summary>
+    //private IEnumerator DisableCollider()
+    //{
+    //    effector.surfaceArc = 0;
+    //    while (isColliding)
+    //    {
+    //        yield return null;
+    //    }
+    //    effector.surfaceArc = 170;
+    //    coroutine = null;
+    //}
+
     private IEnumerator DisableCollider()
     {
-        effector.surfaceArc = 0;
-        while (isColliding)
-        {
-            yield return null;
-        }
-        effector.surfaceArc = 170;
+        // ignore collision
+        Physics2D.IgnoreCollision(playacol.GetComponent<Collider2D>(), GetComponent<CompositeCollider2D>(), true);
+
+        yield return new WaitForSeconds(0.22f);
+
+        // turning back collision
+        Physics2D.IgnoreCollision(playacol.GetComponent<Collider2D>(), GetComponent<CompositeCollider2D>(), false);
         coroutine = null;
+    }
+
+    private bool checkIfColliding()
+    {
+        return rb.velocity.y > 0;
     }
 
     private void OnCollisionEnter2D(Collision2D other)
