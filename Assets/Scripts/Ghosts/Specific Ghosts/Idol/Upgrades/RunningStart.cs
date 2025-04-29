@@ -5,9 +5,20 @@ using UnityEngine;
 public class RunningStart : Skill
 {
     private static int pointindex;
-    void Start()
+
+    //void Start()
+    //{
+    //    GameplayEventHolder.OnAbilityUsed += ApplyBuff;
+    //}
+
+    private void OnEnable()
     {
         GameplayEventHolder.OnAbilityUsed += ApplyBuff;
+    }
+
+    private void OnDisable()
+    {
+        GameplayEventHolder.OnAbilityUsed -= ApplyBuff;
     }
 
     private void ApplyBuff(ActionContext context)
