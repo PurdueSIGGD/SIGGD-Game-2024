@@ -154,7 +154,7 @@ public class Health : MonoBehaviour, IDamageable, IStatList
 
         gameObject.SetActive(false);
 
-        SceneManager.LoadScene("Eva Fractal Hub");
+        SceneManager.LoadScene("North Fractal Hub");
         Time.timeScale = 1;
     }
 
