@@ -7,8 +7,14 @@ public class MusicManager : MonoBehaviour
     //[SerializeField] private LeveledMusicTrack japan;
     //[SerializeField] private LeveledMusicTrack cyberpunk;
     //[SerializeField] private MusicTrack seamstress;
+    [SerializeField] private LeveledMusicTrack cyberpunkLevel;
 
     private MusicTrackName currentTrackName;
+
+    private void Awake()
+    {
+        currentTrackName = MusicTrackName.NULL;
+    }
 
     // Start is called before the first frame update
     void Start() { }
@@ -22,6 +28,7 @@ public class MusicManager : MonoBehaviour
             // case MusicTrackName.JAPAN:              return (IMusicTrack) japan;
             // case MusicTrackName.CYBERPUNK:          return (IMusicTrack) cyberpunk;
             // case MusicTrackName.SEAMSTRESS:         return (IMusicTrack) seamstress;
+            case MusicTrackName.CYBERPUNK_LEVEL: return (IMusicTrack) cyberpunkLevel;
             default:                                return null;
         }
     }
@@ -86,8 +93,12 @@ public class MusicManager : MonoBehaviour
 }
 
 public enum MusicTrackName {
-    //                  loopStart       loopEnd
-    JAPAN, //           21.943          197.486
-    CYBERPUNK, //       0.000           224.???
-    SEAMSTRESS //       11.912          83.383    
+    ////                  loopStart       loopEnd
+    //JAPAN, //           21.943          197.486
+    //CYBERPUNK, //       0.000           224.???
+    //SEAMSTRESS //       11.912          83.383    
+
+    //                    loopStart       loopEnd
+    NULL, //              lol             lmao
+    CYBERPUNK_LEVEL //    0.000           224.???
 }

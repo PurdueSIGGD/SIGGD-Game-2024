@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemySpawning : MonoBehaviour
 {
+    public static EnemySpawning instance;
     public static EnemySpawn[] enemies;
     [SerializeField] int startMinEnemiesSpawn;
     [SerializeField] int startMaxEnemiesSpawn;
@@ -17,8 +18,14 @@ public class EnemySpawning : MonoBehaviour
     private int currentMaxWave;
     private GameObject[] points;
 
+    private void Awake()
+    {
+        instance = this;
+    }
+
     private void Start()
     {
+        instance = this;
         GameplayEventHolder.OnDeath += OnDeath;
     }
 
@@ -82,6 +89,7 @@ public class EnemySpawning : MonoBehaviour
 
     public void StartLevel()
     {
+        FindObjectOfType<LevelMusicDriver>().enemySpawning = this;
         Door.activateDoor(false);
         currentEnemies = new List<GameObject>();
         waveNumber = 0;
@@ -102,5 +110,10 @@ public class EnemySpawning : MonoBehaviour
             texts[t] = texts[r];
             texts[r] = tmp;
         }
+    }
+
+    public List<GameObject> GetCurrentEnemies()
+    {
+        return currentEnemies;
     }
 }
