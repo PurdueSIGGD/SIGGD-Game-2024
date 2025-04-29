@@ -26,8 +26,7 @@ public class MusicManager : MonoBehaviour
     // Update is called once per frame
     void Update() 
     {
-        if (GetCurrentMusicTrack() == null) return;
-        GetCurrentMusicTrack().SetTrackVolume(0.07f);
+        //GetCurrentMusicTrack().SetTrackVolume(0.07f);
     }
 
 
