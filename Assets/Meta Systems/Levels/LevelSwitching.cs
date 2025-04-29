@@ -57,7 +57,7 @@ public class LevelSwitching : MonoBehaviour
                 }
             }
         }
-        return null;
+        return levelsUsing[0];
     }
 
 
@@ -79,10 +79,14 @@ public class LevelSwitching : MonoBehaviour
             {
                 //Debug.Log("Fast switch");
                 Scene scene = SceneManager.GetSceneByName(nextScene);
-                //Debug.Log("Fast Scene Loaded: " + scene.isLoaded);
-                //Debug.Log("set active: " + SceneManager.SetActiveScene(scene));
-                SceneManager.SetActiveScene(scene);
-                // SceneManager.LoadScene(nextScene);
+                if (!scene.IsValid())
+                {
+                    SceneManager.LoadScene(GetNextLevel().GetSceneName());
+                }
+                else
+                {
+                    SceneManager.SetActiveScene(scene);
+                }
             }
             levelCount++;
             Debug.Log("Next room is #: " + levelCount);
@@ -114,8 +118,9 @@ public class LevelSwitching : MonoBehaviour
 
     public void ResetLevelCount(DamageContext damageContext)
     {
-        if (damageContext.victim == PlayerID.instance)
+        if (damageContext.victim.CompareTag("Player"))
         {
+            //SceneManager.UnloadSceneAsync(nextScene);
             levelCount = 0;
         }
     }
