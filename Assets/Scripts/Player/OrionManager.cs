@@ -26,14 +26,4 @@ public class OrionManager : GhostManager
         }
         isDashEnabled = (!(getSpecialCooldown() > 0f  || isAirbornePostDash));
     }
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
-        {
-            if (collision.transform.position.y < transform.position.y)
-            {
-                AudioManager.Instance.SFXBranch.PlaySFXTrack(SFXTrackName.LANDING);
-            }
-        }
-    }
 }
