@@ -61,7 +61,7 @@ public class Door : MonoBehaviour
     private void CallDoorOpened()
     {
         SendMessage("DoorOpened");
-        OnDoorOpened();
+        OnDoorOpened?.Invoke();
     }
 
     private void TeleportPlayer()
