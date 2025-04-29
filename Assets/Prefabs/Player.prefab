@@ -35352,6 +35352,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ghostLimit: 0
+  isStoryRoom: 0
 --- !u!114 &3265562016652939407
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35439,7 +35440,7 @@ MonoBehaviour:
   - name: Jump Release Deaccel.
     value: 0.91
   jumpAction:
-    m_Name: 
+    m_Name: Jump
     m_Type: 0
     m_ExpectedControlType: 
     m_Id: b63278cc-4950-4cb9-ab1e-364496cbe386
@@ -35515,6 +35516,7 @@ MonoBehaviour:
   statList:
   - name: Max Health
     value: 100
+  deathLevel: 
 --- !u!114 &5130688100074952564
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35673,9 +35675,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4e5155d49d0fb54c926620c3a33d788, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healPerSpirit: 1
+  healPerSpirit: 0.25
   healContext:
-    healing: 1
+    healing: 0.25
     actionID: 17
     actionTypes: 08000000
     extraContext: 

@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
 
     public void OnGame()
     {
-        SceneManager.LoadScene("EventsSandbox");
+        SceneManager.LoadScene("PrePrologue");
 
     }
 
