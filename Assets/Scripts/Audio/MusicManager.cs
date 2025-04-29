@@ -47,6 +47,7 @@ public class MusicManager : MonoBehaviour
         }
         currentTrackName = trackName;
         GetCurrentMusicTrack().PlayTrack();
+        GetCurrentMusicTrack().SetTrackVolume(0.15f);
     }
 
     public IMusicTrack GetCurrentMusicTrack() {
