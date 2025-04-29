@@ -28,7 +28,8 @@ public class EnemySpawning : MonoBehaviour
         {
             Debug.Log(context.victim.name+" has died");
             currentEnemies.Remove(context.victim);
-            if(currentEnemies.Count <= 0)
+            EnemiesLeftUpdater.enemiesLeft = currentEnemies.Count;
+            if (currentEnemies.Count <= 0)
             {
                 if(waveNumber + 1 < currentMaxWave)
                 {
@@ -69,7 +70,8 @@ public class EnemySpawning : MonoBehaviour
     {
         reshufflePoints(ref points);
         int enemiesSpawn = Mathf.FloorToInt(Random.Range(Mathf.Lerp(startMinEnemiesSpawn, endMinEnemiesSpawn, GetComponent<LevelSwitching>().GetProgress()), Mathf.Lerp(startMaxEnemiesSpawn, endMaxEnemiesSpawn, GetComponent<LevelSwitching>().GetProgress())));
-        for(int i = 0; i < Mathf.Min(enemiesSpawn, points.Length); i++)
+        EnemiesLeftUpdater.enemiesLeft = enemiesSpawn;
+        for (int i = 0; i < Mathf.Min(enemiesSpawn, points.Length); i++)
         {
             GameObject newEnemy = Instantiate(GetNextEnemy());
             currentEnemies.Add(newEnemy);

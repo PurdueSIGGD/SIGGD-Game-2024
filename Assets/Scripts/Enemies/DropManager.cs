@@ -9,6 +9,7 @@ public class DropManager : MonoBehaviour
 
     private void DropLoot(DamageContext context)
     {
+        Debug.Log(context.victim.name + " Died");
         if(context.victim != context.attacker)
         {
             GameObject victim = context.victim;
