@@ -60,6 +60,7 @@ public class Door : MonoBehaviour
 
     private void CallDoorOpened()
     {
+        Door.activateDoor(false);
         SendMessage("DoorOpened");
         OnDoorOpened();
     }
