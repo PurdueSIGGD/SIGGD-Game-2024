@@ -8,7 +8,6 @@ public class DoubleTapSkill : Skill
 {
     private float chargeTimeChange;
     private PoliceChiefBasic policeChiefBasic;
-    private PoliceChiefSidearmShot policeChiefSidearmShot;
     private bool reduceReady = false;
     private int pointindex;
     private float[] chargeTimeChanging = {0f,0.25f, 0.45f, 0.65f, 0.85f};

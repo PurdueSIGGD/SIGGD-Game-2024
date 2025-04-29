@@ -5,12 +5,14 @@ using UnityEngine;
 public class PoliceChiefUIDriver : GhostUIDriver
 {
     private PoliceChiefManager manager;
+    private LockedAndLoadedSkill lockedAndLoaded;
 
     // Start is called before the first frame update
     protected override void Start()
     {
         base.Start();
         manager = GetComponent<PoliceChiefManager>();
+        lockedAndLoaded = manager.GetComponent<LockedAndLoadedSkill>();
     }
 
     // Update is called once per frame
@@ -33,6 +35,15 @@ public class PoliceChiefUIDriver : GhostUIDriver
     private void updateSpecialAbility()
     {
         specialAbilityUIManager.setAbilityCooldownTime(manager.getSpecialCooldown(), stats.ComputeValue("Special Cooldown"));
+        if (lockedAndLoaded.reservedCount > 0)
+        {
+            specialAbilityUIManager.setChargeWidgetActive(true);
+            specialAbilityUIManager.setChargeValue(lockedAndLoaded.reservedCount, lockedAndLoaded.reserveCharges[lockedAndLoaded.pointIndex]);
+        }
+        else
+        {
+            specialAbilityUIManager.setChargeWidgetActive(false);
+        }
     }
 
     private void updateSkill1()

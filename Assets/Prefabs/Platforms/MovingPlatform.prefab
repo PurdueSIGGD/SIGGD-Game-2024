@@ -49,12 +49,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c6b6c4298a43b24287a183d9e6c5da0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
-  startingPoint: 0
-  platform: {fileID: 6241623181956425900}
-  points:
-  - {fileID: 9197070141014518190}
-  - {fileID: 4582149321031091714}
+  speed: 50
+  loop: 0
 --- !u!1 &3498558083343806904
 GameObject:
   m_ObjectHideFlags: 0
@@ -350,3 +346,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0244423b43eb763439ee09fa289958a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lastPlatformPosition: {x: 0, y: 0, z: 0}
+  playerpos: {x: 0, y: 0, z: 0}
+  player: {fileID: 0}

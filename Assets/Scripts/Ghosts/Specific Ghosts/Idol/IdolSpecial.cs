@@ -70,7 +70,7 @@ public class IdolSpecial : MonoBehaviour
         }
         else // else create clone and teleport
         {
-            GameplayEventHolder.OnAbilityUsed.Invoke(manager.onDashContext);
+            GameplayEventHolder.OnAbilityUsed?.Invoke(manager.onDashContext);
             StartCoroutine(DashCoroutine());
             holoJumpCreatedCloneEvent?.Invoke();
         }

@@ -94,6 +94,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "ScrollWheel",
+                    "type": "Value",
+                    "id": "1d82bcd1-97dc-4351-90ac-1fa271327d96",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -292,6 +301,28 @@
                     "processors": "Scale(factor=6)",
                     "groups": "",
                     "action": "Hotbar",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "97aaee7b-c3c4-4094-919b-7c4072052187",
+                    "path": "<Mouse>/scroll/up",
+                    "interactions": "",
+                    "processors": "Scale",
+                    "groups": "",
+                    "action": "ScrollWheel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "028e2c6a-a3c4-4156-a682-a11ade17940f",
+                    "path": "<Mouse>/scroll/down",
+                    "interactions": "",
+                    "processors": "Scale(factor=-1)",
+                    "groups": "",
+                    "action": "ScrollWheel",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

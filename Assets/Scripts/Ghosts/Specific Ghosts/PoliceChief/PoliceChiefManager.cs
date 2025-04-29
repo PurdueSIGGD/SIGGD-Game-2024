@@ -53,7 +53,7 @@ public class PoliceChiefManager : GhostManager, ISelectable
         if (basic) Destroy(basic);
         if (!PlayerID.instance.GetComponent<HeavyAttack>()) PlayerID.instance.AddComponent<HeavyAttack>();
 
-        if (special) special.endSpecial(false);
+        if (special) special.endSpecial(false, false);
         if (special) Destroy(special);
 
 		base.DeSelect(player);

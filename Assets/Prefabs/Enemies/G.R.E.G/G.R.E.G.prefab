@@ -26,7 +26,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 17.3, y: 0, z: 0}
-  m_LocalScale: {x: 18.8, y: 5, z: 1}
+  m_LocalScale: {x: 34.86, y: 5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4698209600753623609}
@@ -67,7 +67,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 6}
+  m_AnchoredPosition: {x: 0.5, y: 5.93}
   m_SizeDelta: {x: 4, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &3952086384588726633
@@ -133,37 +133,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!1 &8178697754690691703
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8875514496581505741}
-  m_Layer: 21
-  m_Name: GunKick
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8875514496581505741
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8178697754690691703}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.66, y: 0, z: 0}
-  m_LocalScale: {x: 3.18, y: 3.9, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 4698209600753623609}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8271678365740225504
 GameObject:
   m_ObjectHideFlags: 0
@@ -214,6 +183,7 @@ GameObject:
   - component: {fileID: 6797484863675802248}
   - component: {fileID: 5636141568663372118}
   - component: {fileID: 7839376920908278547}
+  - component: {fileID: 8681257202382327024}
   m_Layer: 21
   m_Name: G.R.E.G
   m_TagString: Enemy
@@ -234,7 +204,6 @@ Transform:
   m_LocalScale: {x: 0.25, y: 0.25, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 8875514496581505741}
   - {fileID: 6754032986899484797}
   - {fileID: 6425544609560146439}
   - {fileID: 1771838689807360353}
@@ -405,13 +374,6 @@ MonoBehaviour:
   aggroRange: 9.92
   isBeingKnockedBack: 0
   grounded: 0
-  gunKick: {fileID: 8875514496581505741}
-  kickDamage:
-    damageStrength: 1
-    damageTypes: 00000000
-    actionID: 17
-    actionTypes: 07000000
-    extraContext: GREG Kick
   gunShoot: {fileID: 6754032986899484797}
   rangeOrig: {fileID: 6425544609560146439}
   projectile: {fileID: 1293525611164901038, guid: e64abde8a304ea641afa693f1da4fc8b,
@@ -444,12 +406,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actions:
-  - name: Kick
-    priority: 7
-    ready: 0
-    hitBox: {fileID: 8875514496581505741}
-    coolDown: 4
-    animationClip: {fileID: 7400000, guid: 8c897a8a0dede6440a96aac7136b23fc, type: 2}
   - name: Shoot
     priority: 3
     ready: 0
@@ -484,7 +440,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Max Health
-    value: 100
+    value: 75
 --- !u!114 &5636141568663372118
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -527,6 +483,24 @@ MonoBehaviour:
     value: 100
   currentStun: 0
   maxStun: 0
+--- !u!114 &8681257202382327024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8433722653154054174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67f2b5dc03552c4bb7d2e37dbcb7033, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageContext:
+    damageStrength: 4
+    damageTypes: 04000000
+    actionID: 17
+    actionTypes: 08000000
+    extraContext: 
 --- !u!1001 &4415854243174678356
 PrefabInstance:
   m_ObjectHideFlags: 0
