@@ -8,6 +8,9 @@ public class MusicManager : MonoBehaviour
     //[SerializeField] private LeveledMusicTrack cyberpunk;
     //[SerializeField] private MusicTrack seamstress;
     [SerializeField] private LeveledMusicTrack cyberpunkLevel;
+    [SerializeField] private MusicTrack hubLevel;
+    [SerializeField] private MusicTrack policeChief;
+    [SerializeField] private MusicTrack idol;
 
     private MusicTrackName currentTrackName;
 
@@ -28,8 +31,11 @@ public class MusicManager : MonoBehaviour
             // case MusicTrackName.JAPAN:              return (IMusicTrack) japan;
             // case MusicTrackName.CYBERPUNK:          return (IMusicTrack) cyberpunk;
             // case MusicTrackName.SEAMSTRESS:         return (IMusicTrack) seamstress;
-            case MusicTrackName.CYBERPUNK_LEVEL: return (IMusicTrack) cyberpunkLevel;
-            default:                                return null;
+            case MusicTrackName.CYBERPUNK_LEVEL:       return (IMusicTrack) cyberpunkLevel;
+            case MusicTrackName.HUB:                   return (IMusicTrack) hubLevel;
+            case MusicTrackName.POLICE_CHIEF:          return (IMusicTrack) policeChief;
+            case MusicTrackName.IDOL:                  return (IMusicTrack) idol;
+            default:                                   return null;
         }
     }
 
@@ -101,5 +107,8 @@ public enum MusicTrackName {
 
     //                    loopStart       loopEnd
     NULL, //              lol             lmao
-    CYBERPUNK_LEVEL //    0.000           224.???
+    CYBERPUNK_LEVEL, //   0.000           224.000
+    HUB, //               0.000           191.000
+    POLICE_CHIEF, //      0.000           48.000
+    IDOL, //              0.000           98.000
 }
