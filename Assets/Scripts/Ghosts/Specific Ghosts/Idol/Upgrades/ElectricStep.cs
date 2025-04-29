@@ -70,6 +70,9 @@ public class ElectricStep : Skill
 
                 print("EFIELD: " + hit.gameObject.name);
                 Health enemyHealth = hit.GetComponent<Health>();
+                dps = values[pointIndex];
+                damageTick = dps * Time.deltaTime;
+                damage.damage = damageTick;
                 enemyHealth.Damage(damage, PlayerID.instance.gameObject);
                 //print("EFIELD HP: " + 1 + " " + enemyHealth.currentHealth);
             }
