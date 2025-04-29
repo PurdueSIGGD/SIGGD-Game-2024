@@ -15,6 +15,11 @@ public class VAManager : MonoBehaviour {
     [SerializeField] private ConversationAudioHolder north2Orion1;
     [SerializeField] private ConversationAudioHolder north2OrionHub1;
 
+    // Gameplay Voice Lines
+    [SerializeField] private SoundBankVATrack orionOnKill;
+    [SerializeField] private SoundBankVATrack northOnKill;
+    [SerializeField] private SoundBankVATrack evaOnKill;
+
     // Used to avoid voiceline spam
     private float globalVoicelineChance = 1.0f;
     private float voicelineCullingTimer = 0.0f;
@@ -38,8 +43,11 @@ public class VAManager : MonoBehaviour {
     public IVATrack GetVATrack(VATrackName trackName) {
         switch(trackName) {
             case VATrackName.EVA_EXERSION:    return evaExersion;
-            //case VATrackName.BRITISH_ANT:     return britishAnt;
-            default:                                return null;
+            //case VATrackName.BRITISH_ANT:   return britishAnt;
+            case VATrackName.ORION_ON_KILL:   return orionOnKill;
+            case VATrackName.NORTH_ON_KILL:   return northOnKill;
+            case VATrackName.EVA_ON_KILL:     return evaOnKill;
+            default:                          return null;
         }
     }
 
@@ -99,7 +107,10 @@ public class VAManager : MonoBehaviour {
 
 public enum VATrackName {
     EVA_EXERSION,
-    BRITISH_ANT
+    BRITISH_ANT,
+    ORION_ON_KILL,
+    NORTH_ON_KILL,
+    EVA_ON_KILL,
 }
 
 public enum ConversationName {

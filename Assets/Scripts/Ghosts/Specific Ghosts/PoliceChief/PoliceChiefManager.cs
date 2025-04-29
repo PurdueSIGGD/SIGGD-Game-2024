@@ -17,6 +17,16 @@ public class PoliceChiefManager : GhostManager, ISelectable
     [HideInInspector] public PoliceChiefBasic basic;
     [HideInInspector] public PoliceChiefSpecial special;
 
+    private void OnEnable()
+    {
+        GameplayEventHolder.OnDeath += PlayOnKillVoiceLine;
+    }
+
+    private void OnDisable()
+    {
+        GameplayEventHolder.OnDeath -= PlayOnKillVoiceLine;
+    }
+
     protected override void Start()
     {
         base.Start();
@@ -53,6 +63,18 @@ public class PoliceChiefManager : GhostManager, ISelectable
         if (special) Destroy(special);
 
 		base.DeSelect(player);
+    }
+
+
+    private void PlayOnKillVoiceLine(DamageContext damage)
+    {
+        if (GetComponent<GhostIdentity>().Equals(partyManager.GetSelectedGhost()) && damage.attacker.CompareTag("Player"))
+        {
+            if (Random.Range(1f, 100f) <= 35f)
+            {
+                AudioManager.Instance.VABranch.PlayVATrack(VATrackName.NORTH_ON_KILL);
+            }
+        }
     }
 
 }

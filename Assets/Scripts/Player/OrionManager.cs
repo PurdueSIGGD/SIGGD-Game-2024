@@ -9,6 +9,18 @@ public class OrionManager : GhostManager
     [HideInInspector] public bool isDashEnabled = true;
     [HideInInspector] public bool isAirbornePostDash = false;
 
+
+
+    private void OnEnable()
+    {
+        GameplayEventHolder.OnDeath += PlayOnKillVoiceLine;
+    }
+
+    private void OnDisable()
+    {
+        GameplayEventHolder.OnDeath -= PlayOnKillVoiceLine;
+    }
+
     // Start is called before the first frame update
     protected override void Start()
     {
@@ -25,5 +37,16 @@ public class OrionManager : GhostManager
             isAirbornePostDash = false;
         }
         isDashEnabled = (!(getSpecialCooldown() > 0f  || isAirbornePostDash));
+    }
+
+    private void PlayOnKillVoiceLine(DamageContext damage)
+    {
+        if (partyManager.GetSelectedGhost() == null && damage.attacker.CompareTag("Player"))
+        {
+            if (Random.Range(1f, 100f) <= 35f)
+            {
+                AudioManager.Instance.VABranch.PlayVATrack(VATrackName.ORION_ON_KILL);
+            }
+        }
     }
 }

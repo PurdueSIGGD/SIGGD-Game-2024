@@ -25,6 +25,16 @@ public class IdolManager : GhostManager, ISelectable
     public UnityEvent evaSelectedEvent;
     public UnityEvent evaDeselectedEvent;
 
+    private void OnEnable()
+    {
+        GameplayEventHolder.OnDeath += PlayOnKillVoiceLine;
+    }
+
+    private void OnDisable()
+    {
+        GameplayEventHolder.OnDeath -= PlayOnKillVoiceLine;
+    }
+
     protected override void Start()
     {
         base.Start();
@@ -68,5 +78,16 @@ public class IdolManager : GhostManager, ISelectable
         if (PlayerID.instance.GetComponent<IdolSpecial>()) Destroy(PlayerID.instance.GetComponent<IdolSpecial>());
         base.DeSelect(player);
         evaDeselectedEvent?.Invoke();
+    }
+
+    private void PlayOnKillVoiceLine(DamageContext damage)
+    {
+        if (GetComponent<GhostIdentity>().Equals(partyManager.GetSelectedGhost()) && damage.attacker.CompareTag("Player"))
+        {
+            if (Random.Range(1f, 100f) <= 35f)
+            {
+                AudioManager.Instance.VABranch.PlayVATrack(VATrackName.EVA_ON_KILL);
+            }
+        }
     }
 }
