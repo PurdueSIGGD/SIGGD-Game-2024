@@ -57,6 +57,7 @@ public class PoliceChiefOvercharged : Skill
         if (bonusDamage != 1.0f && playerStateMachine.currentAnimation.Equals("player_idle"))
         {
             reset = true;
+            timer = -1f;
         }
     }
 

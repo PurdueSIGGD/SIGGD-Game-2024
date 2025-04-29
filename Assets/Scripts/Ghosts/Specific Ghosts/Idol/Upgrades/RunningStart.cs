@@ -5,20 +5,20 @@ using UnityEngine;
 public class RunningStart : Skill
 {
     private static int pointindex;
-    void Start()
-    {
-    }
+
+    //void Start()
+    //{
+    //    GameplayEventHolder.OnAbilityUsed += ApplyBuff;
+    //}
 
     private void OnEnable()
     {
-        if(pointindex > 0)
-            GameplayEventHolder.OnAbilityUsed += ApplyBuff;
+        GameplayEventHolder.OnAbilityUsed += ApplyBuff;
     }
 
     private void OnDisable()
     {
-        if (pointindex > 0)
-            GameplayEventHolder.OnAbilityUsed -= ApplyBuff;
+        GameplayEventHolder.OnAbilityUsed -= ApplyBuff;
     }
 
     private void ApplyBuff(ActionContext context)
@@ -29,7 +29,7 @@ public class RunningStart : Skill
             IdolPassive passive = GetComponent<IdolPassive>();
             if (passive)
             {
-                passive.IncrementTempo(skillPts);
+                passive.IncrementTempo(pointindex);
             }
         }
     }

@@ -8,6 +8,9 @@ public class MusicManager : MonoBehaviour
     //[SerializeField] private LeveledMusicTrack cyberpunk;
     //[SerializeField] private MusicTrack seamstress;
     [SerializeField] private LeveledMusicTrack cyberpunkLevel;
+    [SerializeField] private MusicTrack hubLevel;
+    [SerializeField] private MusicTrack policeChief;
+    [SerializeField] private MusicTrack idol;
 
     private MusicTrackName currentTrackName;
 
@@ -15,12 +18,12 @@ public class MusicManager : MonoBehaviour
     {
         currentTrackName = MusicTrackName.NULL;
     }
-
-    // Start is called before the first frame update
-    void Start() { }
     
     // Update is called once per frame
-    void Update() { }
+    void Update() 
+    {
+        GetCurrentMusicTrack().SetTrackVolume(0.07f);
+    }
 
 
     public IMusicTrack GetMusicTrack(MusicTrackName trackName) {
@@ -28,8 +31,11 @@ public class MusicManager : MonoBehaviour
             // case MusicTrackName.JAPAN:              return (IMusicTrack) japan;
             // case MusicTrackName.CYBERPUNK:          return (IMusicTrack) cyberpunk;
             // case MusicTrackName.SEAMSTRESS:         return (IMusicTrack) seamstress;
-            case MusicTrackName.CYBERPUNK_LEVEL: return (IMusicTrack) cyberpunkLevel;
-            default:                                return null;
+            case MusicTrackName.CYBERPUNK_LEVEL:       return (IMusicTrack) cyberpunkLevel;
+            case MusicTrackName.HUB:                   return (IMusicTrack) hubLevel;
+            case MusicTrackName.POLICE_CHIEF:          return (IMusicTrack) policeChief;
+            case MusicTrackName.IDOL:                  return (IMusicTrack) idol;
+            default:                                   return null;
         }
     }
 
@@ -41,7 +47,6 @@ public class MusicManager : MonoBehaviour
         }
         currentTrackName = trackName;
         GetCurrentMusicTrack().PlayTrack();
-        GetCurrentMusicTrack().SetTrackVolume(0.15f);
     }
 
     public IMusicTrack GetCurrentMusicTrack() {
@@ -75,7 +80,7 @@ public class MusicManager : MonoBehaviour
 
         // The rate to change the tracks' volumes
         float originalTrackVolumeDelta = -originalTrackStartVolume / fadeSteps;
-        float newTrackVolumeDelta = (1 - newTrackStartVolume) / fadeSteps;
+        float newTrackVolumeDelta = (originalTrackStartVolume) / fadeSteps;
 
         // Fade by adjusting volume over multiple steps
         newTrack.PlayTrack();  
@@ -101,5 +106,8 @@ public enum MusicTrackName {
 
     //                    loopStart       loopEnd
     NULL, //              lol             lmao
-    CYBERPUNK_LEVEL //    0.000           224.???
+    CYBERPUNK_LEVEL, //   0.000           224.000
+    HUB, //               0.000           191.000
+    POLICE_CHIEF, //      0.000           48.000
+    IDOL, //              0.000           98.000
 }
