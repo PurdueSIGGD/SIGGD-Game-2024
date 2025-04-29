@@ -85,6 +85,7 @@ public class LevelSwitching : MonoBehaviour
                 // SceneManager.LoadScene(nextScene);
             }
             levelCount++;
+            Debug.Log("Next room is #: " + levelCount);
             /*string sceneName = GetNextLevel().GetSceneName();
             SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
             nextScene = sceneName;*/
