@@ -10,15 +10,19 @@ public class TransparentPlatform : MonoBehaviour
 {
     private InputAction fallAction;
     private PlatformEffector2D effector;
+    private BoxCollider2D collider;
     private IEnumerator coroutine;
     private bool isColliding;
+    private GameObject enemycol;
 
     private void Start()
     {
         fallAction = GetComponent<PlayerInput>().actions.FindAction("Fall");
         effector = GetComponent<PlatformEffector2D>();
+        collider = GetComponent<BoxCollider2D>();
         coroutine = null;
         isColliding = false;
+        enemycol = GameObject.FindWithTag("Enemy");
     }
 
 
@@ -31,7 +35,7 @@ public class TransparentPlatform : MonoBehaviour
             coroutine = DisableCollider();
             StartCoroutine(coroutine);
         }
-        
+        //Physics2D.IgnoreCollision(GetComponent<Collider2D>(), enemycol.GetComponent<Collider2D>(), false);
     }
 
 
