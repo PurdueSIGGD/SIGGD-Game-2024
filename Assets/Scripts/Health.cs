@@ -14,6 +14,7 @@ public class Health : MonoBehaviour, IDamageable, IStatList
     [NonSerialized] public float currentHealth; // Current health of player
     [NonSerialized] public bool isAlive = true; // Checks if player is still alive
     private StatManager stats;
+    [SerializeField] private string deathLevel;
 
     public delegate void DamageFilters(DamageContext context);
 
