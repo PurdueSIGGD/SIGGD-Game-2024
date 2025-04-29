@@ -85,10 +85,12 @@ public class AudioManager : MonoBehaviour {
             Instance.VABranch.PlayVATrack(VATrackName.BRITISH_ANT);
         }
 
+        /*
         if (Input.GetKeyDown(KeyCode.C)) {
             MusicTrackName nextTrack = Instance.MusicBranch.GetCurrentMusicTrackName() == MusicTrackName.JAPAN ? MusicTrackName.SEAMSTRESS : MusicTrackName.JAPAN;
             Instance.MusicBranch.CrossfadeTo(nextTrack, 3.0f);
         }
+        */
 
         if (Input.GetKeyDown(KeyCode.O)) {
             Instance.MusicBranch.GetCurrentMusicTrack().StopTrack();

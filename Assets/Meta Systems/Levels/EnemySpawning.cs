@@ -100,4 +100,9 @@ public class EnemySpawning : MonoBehaviour
             texts[r] = tmp;
         }
     }
+
+    public List<GameObject> GetCurrentEnemies()
+    {
+        return currentEnemies;
+    }
 }
