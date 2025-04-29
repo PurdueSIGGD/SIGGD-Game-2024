@@ -20,6 +20,7 @@ public class ElectricStep : Skill
     float damageTick; // the amount of damage
     [SerializeField] float radius;
     bool fieldActive;
+    private static int pointIndex;
 
     void Start()
     {
@@ -27,27 +28,21 @@ public class ElectricStep : Skill
         fieldVisualInstance = Instantiate(fieldVisual, PlayerID.instance.gameObject.transform);
         fieldVisualInstance.transform.localScale = new Vector3(1, 1, 1) * radius;
         fieldVisualInstance.SetActive(false);
-
-        // testing code
-        /*
-        int points = 4;
-        for (int i = 0; i < points; i++)
-        {
-            AddPoint();
-        }
-        */
     }
 
     public override void AddPointTrigger()
     {
+        pointIndex = GetPoints();
         UpdateSkill();
     }
     public override void ClearPointsTrigger()
     {
+        pointIndex = GetPoints();
         UpdateSkill();
     }
     public override void RemovePointTrigger()
     {
+        pointIndex = GetPoints();
         UpdateSkill();
     }
     void Update()
@@ -57,7 +52,7 @@ public class ElectricStep : Skill
 
         bool toggle = manager.passive.active &&
                     manager.passive.tempoStacks == (int)manager.GetStats().ComputeValue("TEMPO_MAX_STACKS") &&
-                    skillPts > 0;
+                    pointIndex > 0;
         ToggleField(toggle);
 
         if (fieldActive)
@@ -83,7 +78,7 @@ public class ElectricStep : Skill
     }
     private void UpdateSkill()
     {
-        dps = values[skillPts];
+        dps = values[pointIndex];
         damageTick = dps * Time.deltaTime;
         damage.damage = damageTick;
     }

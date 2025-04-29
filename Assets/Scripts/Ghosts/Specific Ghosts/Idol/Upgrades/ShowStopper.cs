@@ -11,6 +11,8 @@ public class ShowStopper : Skill
 
     TimeFreezeManager freezeManager;
 
+    private static int pointIndex;
+
     void Start()
     {
         freezeManager = GetComponent<TimeFreezeManager>();
@@ -27,19 +29,9 @@ public class ShowStopper : Skill
         GameplayEventHolder.OnDamageFilter.Remove(ShowStop);
     }
 
-    //void Update()
-    //{
-    //    // TODO remove
-    //    // cheeky little shortcut
-    //    if (Input.GetKeyDown(KeyCode.V))
-    //    {
-    //        StartCoroutine(Freeze(timeStopDuration));
-    //    }
-    //}
-
     void ShowStop(ref DamageContext context)
     {
-        if (skillPts == 0 || expired) { return; }
+        if (pointIndex == 0 || expired) { return; }
 
         if (context.victim.CompareTag("Player"))
         {
@@ -69,13 +61,16 @@ public class ShowStopper : Skill
 
     public override void AddPointTrigger()
     {
+        pointIndex = GetPoints();
     }
 
     public override void ClearPointsTrigger()
     {
+        pointIndex = GetPoints();
     }
 
     public override void RemovePointTrigger()
     {
+        pointIndex = GetPoints();
     }
 }

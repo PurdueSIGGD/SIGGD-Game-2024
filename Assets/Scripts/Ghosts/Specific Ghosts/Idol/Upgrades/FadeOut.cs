@@ -16,6 +16,7 @@ public class FadeOut : Skill
     IdolSpecial idolSpecial;
 
     [SerializeField] private float invisibilityDuration = 4f;  // designers: this field is serialized, so change it 
+    private static int pointIndex;
 
     // Start is called before the first frame update
     void Start()
@@ -30,7 +31,7 @@ public class FadeOut : Skill
 
     private void EvaSelected()
     {
-        if (skillPts == 0)
+        if (pointIndex == 0)
         {
             return;
         }
@@ -59,7 +60,7 @@ public class FadeOut : Skill
 
     private void BuffLightAttack(ref DamageContext damageContext)
     {
-        float damageMultiplier = 1f + 0.3f * skillPts;
+        float damageMultiplier = 1f + 0.3f * pointIndex;
         damageContext.damage *= damageMultiplier;
         StartCoroutine(RemoveInvisibilityOnTimer(0f)); // we MUST wait 1 frame before removing invis. Here's why: ask Temirlan
         //RemoveInvisibility();
@@ -89,14 +90,14 @@ public class FadeOut : Skill
     // because damage multiplier calculation happens dynamically in BuffLightAttack
     public override void AddPointTrigger()
     {
-        
+        pointIndex = GetPoints();
     }
     public override void RemovePointTrigger()
     {
-        
+        pointIndex = GetPoints();
     }
     public override void ClearPointsTrigger()
     {
-        
+        pointIndex = GetPoints();
     }
 }

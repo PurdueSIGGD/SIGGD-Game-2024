@@ -11,6 +11,7 @@ public class NovaPop : Skill
     private GameObject playerRef;
     private StatManager stat;
     private IdolManager manager;
+    private static int pointIndex;
 
     void Start()
     {
@@ -32,7 +33,7 @@ public class NovaPop : Skill
 
     public void ExplodeOnDeath(DamageContext context)
     {
-        if (context.victim.CompareTag("Idol_Clone") && skillPts > 0)
+        if (context.victim.CompareTag("Idol_Clone") && pointIndex > 0)
         {
             GameObject explosion = Instantiate(manager.explosionVFX, context.victim.transform.position, Quaternion.identity);
             explosion.GetComponent<RingExplosionHandler>().playRingExplosion(radius, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
@@ -44,7 +45,7 @@ public class NovaPop : Skill
                 {
                     explosionContext.damage = stat.ComputeValue("Nova Pop Damage");
                     hit.transform.gameObject.GetComponent<Health>().Damage(explosionContext, playerRef);
-                    hit.GetComponent<EnemyStateManager>().Stun(stunContext, 0.6f * skillPts);
+                    hit.GetComponent<EnemyStateManager>().Stun(stunContext, 0.6f * pointIndex);
                 }
             }
         }
@@ -53,13 +54,16 @@ public class NovaPop : Skill
 
     public override void AddPointTrigger()
     {
+        pointIndex = GetPoints();
     }
 
     public override void ClearPointsTrigger()
     {
+        pointIndex = GetPoints();
     }
 
     public override void RemovePointTrigger()
     {
+        pointIndex = GetPoints();
     }
 }
