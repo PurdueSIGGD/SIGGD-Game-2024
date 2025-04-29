@@ -30,6 +30,11 @@ public class GameManager : MonoBehaviour
 
     }
 
+    public void OnCredit()
+    {
+        SceneManager.LoadScene("Credits");
+    }
+
     public void OnHub()
     {
         SceneManager.LoadScene("HubWorld");
