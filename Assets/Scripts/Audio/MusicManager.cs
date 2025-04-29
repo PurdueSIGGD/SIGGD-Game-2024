@@ -18,12 +18,12 @@ public class MusicManager : MonoBehaviour
     {
         currentTrackName = MusicTrackName.NULL;
     }
-
-    // Start is called before the first frame update
-    void Start() { }
     
     // Update is called once per frame
-    void Update() { }
+    void Update() 
+    {
+        GetCurrentMusicTrack().SetTrackVolume(0.07f);
+    }
 
 
     public IMusicTrack GetMusicTrack(MusicTrackName trackName) {
@@ -47,7 +47,6 @@ public class MusicManager : MonoBehaviour
         }
         currentTrackName = trackName;
         GetCurrentMusicTrack().PlayTrack();
-        GetCurrentMusicTrack().SetTrackVolume(0.15f);
     }
 
     public IMusicTrack GetCurrentMusicTrack() {
@@ -81,7 +80,7 @@ public class MusicManager : MonoBehaviour
 
         // The rate to change the tracks' volumes
         float originalTrackVolumeDelta = -originalTrackStartVolume / fadeSteps;
-        float newTrackVolumeDelta = (1 - newTrackStartVolume) / fadeSteps;
+        float newTrackVolumeDelta = (originalTrackStartVolume) / fadeSteps;
 
         // Fade by adjusting volume over multiple steps
         newTrack.PlayTrack();  
