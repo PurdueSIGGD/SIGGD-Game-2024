@@ -13,7 +13,7 @@ public class DoubleTapSkill : Skill
     private float[] chargeTimeChanging = {0f,0.25f, 0.45f, 0.65f, 0.85f};
     public override void AddPointTrigger()
     {
-        pointindex=GetPoints();
+        //pointindex=GetPoints();
     }
 
     public override void ClearPointsTrigger()
@@ -23,13 +23,14 @@ public class DoubleTapSkill : Skill
 
     public override void RemovePointTrigger()
     {
-        pointindex = GetPoints();
+        //pointindex = GetPoints();
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        AddPoint();
+        pointindex = GetPoints();
+        //AddPoint();
         PoliceChiefSidearmShot.enemyWasShot += changeChargeTime;
         policeChiefBasic = PlayerID.instance.GetComponent<PoliceChiefBasic>();
         chargeTimeChange = 0f;
