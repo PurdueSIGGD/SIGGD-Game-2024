@@ -16,6 +16,8 @@ public class MusicManager : MonoBehaviour
 
     private MusicTrackName currentTrackName;
 
+    //private bool isCrossfading = false;
+
     private void Awake()
     {
         currentTrackName = MusicTrackName.NULL;
