@@ -16,7 +16,7 @@ public class MusicManager : MonoBehaviour
 
     private MusicTrackName currentTrackName;
 
-    //private bool isCrossfading = false;
+    private bool isCrossfading = false;
 
     private void Awake()
     {
@@ -26,7 +26,7 @@ public class MusicManager : MonoBehaviour
     // Update is called once per frame
     void Update() 
     {
-        if (GetCurrentMusicTrack() == null) return;
+        if (GetCurrentMusicTrack() == null || currentTrackName == MusicTrackName.CYBERPUNK_LEVEL) return;
         GetCurrentMusicTrack().SetTrackVolume(0.07f);
     }
 
@@ -76,6 +76,7 @@ public class MusicManager : MonoBehaviour
             yield return null;
         }
 
+        isCrossfading = true;
         int fadeSteps = 20;
         float stepTime = fadeTime / fadeSteps;
         IMusicTrack originalTrack = GetMusicTrack(currentTrackName);
@@ -102,6 +103,7 @@ public class MusicManager : MonoBehaviour
         }
         originalTrack.StopTrack();
         currentTrackName = trackName;
+        isCrossfading = false;
     }
 }
 
