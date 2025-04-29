@@ -50,6 +50,11 @@ public class EnemySpawning : MonoBehaviour
                 }
             }
         }
+
+        if (context.victim.gameObject.CompareTag("Player"))
+        {
+            EnemiesLeftUpdater.enemiesLeft = -1;
+        }
     }
 
     private GameObject GetNextEnemy()
