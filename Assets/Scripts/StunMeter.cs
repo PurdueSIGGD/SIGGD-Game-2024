@@ -14,8 +14,8 @@ public class StunMeter : MonoBehaviour, IDamageable, IStatList
 {
     [SerializeField] public StatManager.Stat[] statList;
 
-    private float currentStun;
-    private float maxStun;
+    public float currentStun;
+    public float maxStun;
     private StatManager stats;
     private EnemyStateManager esm;
 
@@ -26,15 +26,28 @@ public class StunMeter : MonoBehaviour, IDamageable, IStatList
         esm = GetComponent<EnemyStateManager>();
     }
 
+    public float ComputeStunBuildUp(DamageStrength strength)
+    {
+        return strength switch
+        {
+            DamageStrength.MEAGER => 0f,
+            DamageStrength.LIGHT => 35f,
+            DamageStrength.MODERATE => 70f,
+            DamageStrength.HEAVY => 125f,
+            DamageStrength.DEVASTATING => 250f,
+            _ => 0f,
+        };
+    }
+
     public float Damage(DamageContext context, GameObject attacker)
     {
-        float stun = (float)StunLookUpTable.table[context.damageStrength];
+        float stun = ComputeStunBuildUp(context.damageStrength);
         currentStun -= stun;
 
         if (currentStun <= 0)
         {
-            currentStun = maxStun;
-            esm.Stun(context, 0.5f);
+            currentStun = maxStun = stats.ComputeValue("Stun Threshold");
+            esm.Stun(context, 0.4f);
         }
 
         return stun;

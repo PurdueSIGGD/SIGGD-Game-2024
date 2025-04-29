@@ -1,9 +1,9 @@
 using System;
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using static GameplayEventHolder;
 
 [DisallowMultipleComponent]
 public class Health : MonoBehaviour, IDamageable, IStatList
@@ -35,6 +35,9 @@ public class Health : MonoBehaviour, IDamageable, IStatList
         context.damage = Mathf.Clamp(context.damage, 0f, currentHealth);
         context.invokingScript = this;
 
+        // potential alternative implementation of the foreach header:
+        //List<DamageFilterEvent> onDamageFilter = GameplayEventHolder.OnDamageFilter.ToArray(...idk something here);
+        //foreach (GameplayEventHolder.DamageFilterEvent filter in onDamageFilter)
         foreach (GameplayEventHolder.DamageFilterEvent filter in GameplayEventHolder.OnDamageFilter)
         {
             filter(ref context);
@@ -55,10 +58,32 @@ public class Health : MonoBehaviour, IDamageable, IStatList
             Kill(context);
         }
 
+        AggroEnemy(context.victim);
+
         return context.damage;
     }
 
+    /// <summary>
+    /// Damage method that does not invoke any OnDamage events and also not
+    /// processed by any damage filters, useful certain damage like Yume's
+    /// fatebound effect
+    /// </summary>
+    public float NoContextDamage(DamageContext context, GameObject attacker)
+    {
+        context.attacker = attacker;
+        context.damage = Mathf.Clamp(context.damage, 0f, currentHealth);
 
+        currentHealth -= context.damage;
+
+        if (currentHealth <= 0f)
+        {
+            Kill(context);
+        }
+
+        AggroEnemy(context.victim);
+
+        return context.damage;
+    }
 
     public float Heal(HealingContext context, GameObject healer)
     {
@@ -94,7 +119,7 @@ public class Health : MonoBehaviour, IDamageable, IStatList
         }
 
         //Trigger Events
-        GameplayEventHolder.OnDeath?.Invoke(ref context);
+        GameplayEventHolder.OnDeath?.Invoke(context);
 
         StartCoroutine(DeathCoroutine(context));
     }
@@ -109,7 +134,7 @@ public class Health : MonoBehaviour, IDamageable, IStatList
 
         Time.timeScale = 0;
         gameObject.layer = 0; // I really hope this doesn't collide with anything
-        GetComponent<PlayerInput>().enabled = false;
+        if (GetComponent<PlayerInput>() != null) GetComponent<PlayerInput>().enabled = false;
 
         float startTime = Time.unscaledTime;
         float endTime = startTime + 3;
@@ -128,12 +153,24 @@ public class Health : MonoBehaviour, IDamageable, IStatList
 
         gameObject.SetActive(false);
 
-        SceneManager.LoadScene("HubWorld");
+        SceneManager.LoadScene("Eva Fractal Hub");
         Time.timeScale = 1;
     }
 
     public StatManager.Stat[] GetStatList()
     {
         return statList;
+    }
+
+    public void AggroEnemy(GameObject obj)
+    {
+        if (obj.CompareTag("Enemy"))
+        {
+            EnemyStateManager enemy = obj.GetComponent<EnemyStateManager>();
+            if (enemy != null)
+            {
+                enemy.SwitchState(new AggroState());
+            }
+        }
     }
 }

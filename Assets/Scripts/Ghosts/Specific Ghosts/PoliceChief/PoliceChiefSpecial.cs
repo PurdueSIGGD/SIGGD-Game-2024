@@ -1,121 +1,132 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
-public class PoliceChiefSpecial : MonoBehaviour, ISpecialMove, IStatList
+public class PoliceChiefSpecial : MonoBehaviour
 {
-    [SerializeField]
-    private StatManager.Stat[] statList;
-
     private bool shouldChangeBack = true;
-    private float timer;
     private PlayerStateMachine playerStateMachine;
     private Animator camAnim;
     private Camera cam;
-    private GameObject mainCam;
-    private StatManager stats;
+    [HideInInspector] public PoliceChiefManager manager;
+    private bool isCharging = false;
+    private float chargingTime = 0f;
+    [HideInInspector] public int reserves = 0;
+
+
 
     void Start()
     {
         cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         camAnim = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Animator>();
         playerStateMachine = GetComponent<PlayerStateMachine>();
-        stats = GetComponent<StatManager>();
     }
 
     void Update()
     {
-        if (timer > 0)
+        if (isCharging && chargingTime > 0f) chargingTime -= Time.deltaTime;
+        if (isCharging && chargingTime <= 0f) playerStateMachine.EnableTrigger("OPT");
+
+        if (manager != null)
         {
-            timer -= Time.deltaTime;
-            if (timer < 0)
+            if (reserves > 0)
+            {
+                playerStateMachine.OnCooldown("c_reserves");
+            }
+            else
+            {
+                playerStateMachine.OffCooldown("c_reserves");
+            }
+            if (manager.getSpecialCooldown() > 0)
+            {
+                if (reserves > 0)
+                {
+                    playerStateMachine.OnCooldown("c_special");
+                }
+            }
+            else
             {
                 playerStateMachine.OffCooldown("c_special");
             }
         }
     }
 
-    void CheckPullBack()
-    {
-        if (shouldChangeBack) {
-            camAnim.SetBool("pullBack", false);
-            GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
-        }
-        shouldChangeBack = true;
-    }
 
+
+    // Charge Up
     void StartSpecialChargeUp()
     {
+        chargingTime = manager.GetStats().ComputeValue("Special Charge Up Time");
+        isCharging = true;
         camAnim.SetBool("pullBack", true);
-        GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePositionX;
+        GetComponent<Move>().PlayerStop();
     }
 
     void StopSpecialChargeUp()
     {
-        CheckPullBack();
+        if (chargingTime > 0f) endSpecial(false, false);
+        isCharging = false;
+        chargingTime = 0f;
     }
 
+
+
+    // Primed
     void StartSpecialPrimed()
     {
-        shouldChangeBack = false;
-    }
 
+    }
+    
     void StopSpecialPrimed()
     {
-        CheckPullBack();
+        endSpecial(false, false);
     }
 
-    void StartSpecialAttack()
-    {
-        shouldChangeBack = false;
 
+
+    // Railgun Attack
+    public void StartSpecialAttack()
+    {
+        camAnim.SetBool("pullBack", true);
+        GetComponent<Move>().PlayerStop();
+
+        // Calculate initial shot aiming vector
         Vector2 mousePos = cam.ScreenToWorldPoint(Input.mousePosition);
         Vector2 pos = transform.position;
         Vector2 dir = (mousePos - pos).normalized;
-        GameObject enemyHit = null;
 
-        for (int i = 0; i < stats.ComputeValue("Bounces") + 1; i++)
+        // Fire shot
+        GameObject railgunShot = Instantiate(manager.specialShot, Vector3.zero, Quaternion.identity);
+        railgunShot.GetComponent<PoliceChiefRailgunShot>().fireRailgunShot(manager, pos, dir);
+        GameplayEventHolder.OnAbilityUsed?.Invoke(manager.policeChiefRailgun);
+    }
+
+    void StopSpecialAttack(Animator animator)
+    {
+        bool startCooldown = !(manager.getSpecialCooldown() > 0); // if cooldown already exists, don't restart it
+        bool loop = (reserves > 0 && animator.GetBool("i_special")); // if has reserve, and still holding down right click
+
+        endSpecial(startCooldown, loop);
+    }
+
+    /// <summary>
+    /// End the special ability if it is active.
+    /// </summary>
+    /// <param name="startCooldown">If true, the special ability's cooldown will begin when the ability ends.</param>
+    public void endSpecial(bool startCooldown, bool loop)
+    {
+        // if preparing another shot using reserve charges, do not reset camera
+        if (!loop)
         {
-            RaycastHit2D hit = Physics2D.Raycast(pos, dir, stats.ComputeValue("Distance"), LayerMask.GetMask("Ground", "Enemy"));
-
-            Debug.DrawLine(pos, hit.point, Color.red, 5.0f);
-
-            if (hit.transform.gameObject.CompareTag("Enemy"))
-            {
-                enemyHit = hit.transform.gameObject;
-                break;
-            }
-            else
-            {
-                Vector2 reflect = Vector2.Reflect(dir, hit.normal);
-                Debug.Log("This is normal" + hit.normal);
-                pos = hit.point + new Vector2(reflect.x * 0.1f, reflect.y * 0.1f);
-                dir = reflect.normalized;
-                //mousePos = pos + reflect.normalized;
-            }
+            camAnim.SetBool("pullBack", false);
+            GetComponent<Move>().PlayerGo();
         }
-
-        if (enemyHit != null)
+        if (startCooldown)
         {
-            Debug.Log("Hit Something");
+            playerStateMachine.OnCooldown("c_special");
+            manager.startSpecialCooldown();
         }
-    }
-
-    void StopSpecialAttack()
-    {
-        playerStateMachine.OnCooldown("c_special");
-        camAnim.SetBool("pullBack", false);
-        GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
-        timer = 8f;
-    }
-
-    public bool GetBool()
-    {
-        return true;
-    }
-
-    public StatManager.Stat[] GetStatList()
-    {
-        return statList;
     }
 }

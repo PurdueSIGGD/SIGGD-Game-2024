@@ -14,6 +14,20 @@ GameObject:
   - component: {fileID: 7432033330267407823}
   - component: {fileID: 4831227066257484011}
   - component: {fileID: 584133115329307738}
+  - component: {fileID: 773703493236735993}
+  - component: {fileID: -6798671931701359635}
+  - component: {fileID: 276692746952485737}
+  - component: {fileID: 4337353799593711327}
+  - component: {fileID: 9211257940781465955}
+  - component: {fileID: 3272375648746919725}
+  - component: {fileID: 2617003682761076201}
+  - component: {fileID: 2247047511266038100}
+  - component: {fileID: 5028833019426444995}
+  - component: {fileID: 9025963487758876621}
+  - component: {fileID: 219043313411044668}
+  - component: {fileID: 1545715215794891431}
+  - component: {fileID: 1780750385296793499}
+  - component: {fileID: 3943762812193780925}
   m_Layer: 17
   m_Name: Eva-Idol
   m_TagString: Ghost
@@ -31,8 +45,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6631059536473991929}
   - {fileID: 3631785349028548994}
@@ -124,9 +138,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  offset: {x: 0, y: 2}
+  offset: {x: 0, y: 1}
   radius: 1.5
-  timeMultipliers: {x: 0.5, y: 0.5, z: 1}
+  timeMultipliers: {x: 0.125, y: 0.125, z: 0.25}
 --- !u!114 &4831227066257484011
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -139,7 +153,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64193cb6f57202744bf8fb56115e3b2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ghostName: Eva
+  characterInfo: {fileID: 11400000, guid: c8738831fdeb41c428e0746f754eb077, type: 2}
+  isUnlocked: 0
+  exp: 0
 --- !u!114 &584133115329307738
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -155,6 +171,294 @@ MonoBehaviour:
   interactRange: 3
   menuOffset: {x: 0, y: 2, z: 0}
   hubConvo: {fileID: 11400000, guid: a9f9877b4a87fc140986ff519984aca4, type: 2}
+  isFirstInteraction: 0
+--- !u!114 &773703493236735993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981645078808632434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b69cbeba6563d04f9fae6140fd975fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  statList:
+  - name: Basic Cooldown
+    value: 1
+  - name: Special Cooldown
+    value: 1
+  - name: HOLOJUMP_MAX_DISTANCE
+    value: 200
+  - name: HOLOJUMP_CLONE_SWAP_INTERVAL
+    value: 0.5
+  - name: HOLOJUMP_IMMUNE_SECONDS
+    value: 0.1
+  - name: HOLOJUMP_DURATION_SECONDS
+    value: 9
+  - name: HOLOJUMP_DURATION_INACTIVE_MODIFIER
+    value: 1.5
+  - name: TEMPO_BUFF_PERCENT_INT
+    value: 7
+  - name: TEMPO_MAX_STACKS
+    value: 9
+  - name: TEMPO_INACTIVE_DURATION_MODIFIER
+    value: 1.5
+  - name: TEMPO_BASE_DURATION
+    value: 9
+  - name: TEMPO_STACKS_PER_KILL
+    value: 3
+  - name: Nova Pop Damage
+    value: 20
+  defaultController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
+  ghostController: {fileID: 9100000, guid: 5779acd767093ee419301b684e1317dd, type: 2}
+  special: {fileID: 0}
+  passive: {fileID: 0}
+  onDashContext:
+    actionID: 8
+    actionTypes: 03000000
+    extraContext: 
+  onSwapContext:
+    actionID: 18
+    actionTypes: 08000000
+    extraContext: 
+  holojumpTracerVFX: {fileID: 6718616473108262378, guid: 49747f499c76eed439fc1f48aebfd475,
+    type: 3}
+  holojumpPulseVFX: {fileID: 7966241730260626198, guid: a5295bc6cb8948243b75f99e5a18cc48,
+    type: 3}
+  tempoPulseVFX: {fileID: 7966241730260626198, guid: a5295bc6cb8948243b75f99e5a18cc48,
+    type: 3}
+  explosionVFX: {fileID: 7966241730260626198, guid: a5295bc6cb8948243b75f99e5a18cc48,
+    type: 3}
+  active: 0
+  idolClone: {fileID: 7482494425360345118, guid: 05024df506a5b824f8658954331c8231,
+    type: 3}
+  clones: []
+  clonesActive: 0
+  evaSelectedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  evaDeselectedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &-6798671931701359635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981645078808632434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83a0782e8961e074bbf391401404ae17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  statList: []
+--- !u!114 &276692746952485737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981645078808632434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 645bc16239d4c9644939b3c962b821e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tempoParticlesVFX: {fileID: 5732152819335419291, guid: c1f04c8eae0c021429fd47e82b015948,
+    type: 3}
+  tempoStacks: 0
+  kill: 0
+  uptempo: 0
+  duration: 0
+  tick: 0
+  active: 0
+  manager: {fileID: 0}
+--- !u!114 &4337353799593711327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981645078808632434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 667327e63fa55ac458e714020f474959, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectedGhostUIManager: {fileID: 0}
+  deselectedGhostUIManager: {fileID: 0}
+  basicAbilityUIManager: {fileID: 0}
+  specialAbilityUIManager: {fileID: 0}
+  skill1UIManager: {fileID: 0}
+  skill2UIManager: {fileID: 0}
+  meterUIManager: {fileID: 0}
+--- !u!114 &9211257940781465955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981645078808632434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6751ace73ed618a489adcadc57478e19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skills:
+  - {fileID: 3272375648746919725}
+  - {fileID: 2247047511266038100}
+  - {fileID: 2617003682761076201}
+  - {fileID: 9025963487758876621}
+  - {fileID: 219043313411044668}
+  - {fileID: 1545715215794891431}
+  - {fileID: 1780750385296793499}
+  startAtLevel: 0
+--- !u!114 &3272375648746919725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981645078808632434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e5b4c3a8799b56408081c9827378104, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillSO: {fileID: 11400000, guid: ea15666da1c03af44acd60ffc6345a04, type: 2}
+--- !u!114 &2617003682761076201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981645078808632434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9e7c241723d53849a625de1fbcb1715, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillSO: {fileID: 11400000, guid: 741d655c9f17315478dd227c3f3276e0, type: 2}
+  invisibilityDuration: 4
+--- !u!114 &2247047511266038100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981645078808632434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f93aeecf509537041b3097b09e2aed63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillSO: {fileID: 11400000, guid: 7fbbc74c58fea6546b74b8d2dfaabbb4, type: 2}
+--- !u!114 &5028833019426444995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981645078808632434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cded2aefff03514c80651e9f3c8ea75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillSO: {fileID: 11400000, guid: 741d655c9f17315478dd227c3f3276e0, type: 2}
+--- !u!114 &9025963487758876621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981645078808632434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d727d33aad9d03f4597ba1dd71addb04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillSO: {fileID: 11400000, guid: 6cd317815f2422c4c838b49b23db82ea, type: 2}
+  explosionContext:
+    damageStrength: 0
+    damageTypes: 
+    actionID: 0
+    actionTypes: 
+    extraContext: 
+  stunContext:
+    damageStrength: 0
+    damageTypes: 02000000
+    actionID: 8
+    actionTypes: 
+    extraContext: 
+  radius: 2.5
+--- !u!114 &219043313411044668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981645078808632434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df2c7d72cf329c447afedaa5d3570f12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillSO: {fileID: 11400000, guid: 47d10ae9d4bb8664591d154467935b21, type: 2}
+  values: 000000000a000000140000001e00000028000000
+  manager: {fileID: 0}
+  fieldVisual: {fileID: 1539173856502906608, guid: 677f9ddb74eb33a41ab8c747775a259c,
+    type: 3}
+  damage:
+    damageStrength: 0
+    damageTypes: 00000000
+    actionID: 0
+    actionTypes: 04000000
+    extraContext: 
+  radius: 5
+--- !u!114 &1545715215794891431
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981645078808632434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 858165a309c1caa47bf88fdf7cc70177, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillSO: {fileID: 11400000, guid: 83559512b00d5424bb5f00c82f5c9074, type: 2}
+--- !u!114 &1780750385296793499
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981645078808632434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1284087a3af327346bbb1f9466384c78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillSO: {fileID: 11400000, guid: 47064ef7ba27a6448a378006df0569af, type: 2}
+  healthRestored: 30
+  timeStopDuration: 5
+--- !u!114 &3943762812193780925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981645078808632434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94b5828d9949f954d9301d18a500e024, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4936111184687609786
 GameObject:
   m_ObjectHideFlags: 0

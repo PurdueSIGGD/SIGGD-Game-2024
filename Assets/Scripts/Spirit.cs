@@ -34,7 +34,10 @@ public class Spirit : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        transform.position = Vector2.MoveTowards(transform.position, collision.transform.position, collectionSpeed);
+        if(collision.transform.gameObject == PlayerID.instance.gameObject)
+        {
+            transform.position = Vector2.MoveTowards(transform.position, collision.transform.position, collectionSpeed);
+        }
 
     }
 }

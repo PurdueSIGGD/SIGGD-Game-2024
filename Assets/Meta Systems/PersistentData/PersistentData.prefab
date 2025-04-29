@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 2036965267508140759}
   - component: {fileID: 7563648584700727685}
   - component: {fileID: 2063011619854580813}
+  - component: {fileID: 1295864056748667176}
+  - component: {fileID: 2191272423200367326}
   m_Layer: 0
   m_Name: PersistentData
   m_TagString: Untagged
@@ -61,3 +63,35 @@ MonoBehaviour:
   redSpiritsCollected: 0
   yellowSpiritsCollected: 0
   pinkSpiritsCollected: 0
+--- !u!114 &1295864056748667176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5413687969520788832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea7471f0d5653d448bd08ce511af76fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxLevels: 5
+  homeWorld: HubWorld
+--- !u!114 &2191272423200367326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5413687969520788832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d62ae0ca06e1f6042b1e81bae41522e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startMinEnemiesSpawn: 3
+  startMaxEnemiesSpawn: 4
+  endMinEnemiesSpawn: 5
+  endMaxEnemiesSpawn: 6
+  startWaveNum: 1
+  endWaveNum: 3

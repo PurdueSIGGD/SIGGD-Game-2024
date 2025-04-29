@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static GhostBuff;
 
 [DisallowMultipleComponent]
 public class StatManager : MonoBehaviour, IStatList
@@ -13,7 +12,8 @@ public class StatManager : MonoBehaviour, IStatList
     private Dictionary<string, Stat> statMap = new Dictionary<string, Stat>();
 
     [Serializable]
-    public struct Stat {
+    public struct Stat
+    {
         public string name;
         public float value;
         [NonSerialized] public int modifier;
@@ -46,10 +46,13 @@ public class StatManager : MonoBehaviour, IStatList
     /// </summary>
     /// <param name="statName"> name of stat to modify </param>
     /// <param name="delta"> amount to alter stat modifer by </param>
-    public void ModifyStat(string statName, int delta) {
+    public void ModifyStat(string statName, int delta)
+    {
         if (statMap.TryGetValue(statName, out Stat stat))
         {
             stat.modifier += delta;
+            statMap[statName] = stat;
+            //Debug.Log(statName + ": " + stat.modifier);
         }
         else
         {
@@ -62,11 +65,13 @@ public class StatManager : MonoBehaviour, IStatList
     /// </summary>
     /// <param name="statName"> name of stat to compute </param>
     /// <returns></returns>
-    public float ComputeValue(string statName) {
+    public float ComputeValue(string statName)
+    {
         if (statMap.TryGetValue(statName, out Stat stat))
         {
             return stat.value * (stat.modifier / 100f);
-        } else
+        }
+        else
         {
             Debug.LogError(String.Format("'{0}' stat not found", statName));
             return Mathf.NegativeInfinity;

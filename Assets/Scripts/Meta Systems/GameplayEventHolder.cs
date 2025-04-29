@@ -40,11 +40,12 @@ public class GameplayEventHolder : MonoBehaviour
     /// </summary>
     public static List<HealingFilterEvent> OnHealingFilter = new List<HealingFilterEvent>();
 
-
+    public delegate void AbilityUsedEvent(ActionContext context);
+    public static AbilityUsedEvent OnAbilityUsed;
 
     // ON DEATH
     /// <param name="context">Struct containing context for this event.</param>
-    public delegate void DeathEvent(ref DamageContext context);
+    public delegate void DeathEvent(DamageContext context);
     /// <summary>
     /// Invoked when an entity dies.
     /// </summary>

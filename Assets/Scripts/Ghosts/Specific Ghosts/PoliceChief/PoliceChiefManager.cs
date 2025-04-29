@@ -1,50 +1,58 @@
-using System.Collections;
-using System.Collections.Generic;
 using Unity.VisualScripting;
-using UnityEditor;
-using UnityEditor.Animations;
 using UnityEngine;
-using UnityEngine.UIElements;
 
-public class PoliceChiefManager : MonoBehaviour, ISelectable
+public class PoliceChiefManager : GhostManager, ISelectable
 {
-    private Animator animator;
+    [SerializeField] public DamageContext basicDamage;
+    [SerializeField] public DamageContext specialDamage;
+    [SerializeField] public GameObject basicShot;
+    [SerializeField] public GameObject basicTracerVFX;
+    [SerializeField] public GameObject basicImpactExplosionVFX;
+    [SerializeField] public GameObject specialShot;
+    [SerializeField] public GameObject specialTracerVFX;
+    [SerializeField] public GameObject specialImpactExplosionVFX;
+    [SerializeField] public ActionContext sidearmActionContext;
+    [SerializeField] public ActionContext policeChiefRailgun;
 
-    [SerializeField]
-    public RuntimeAnimatorController defaultController;
-    public RuntimeAnimatorController policeChiefController;
-    public StatManager stats;
-    void Start()
+    [HideInInspector] public PoliceChiefBasic basic;
+    [HideInInspector] public PoliceChiefSpecial special;
+
+    protected override void Start()
     {
-        animator = PlayerID.instance.GetComponent<Animator>();
+        base.Start();
+        basicDamage.damage = stats.ComputeValue("Basic Damage");
+        specialDamage.damage = stats.ComputeValue("Special Damage");
+    }
+
+    protected override void Update()
+    {
+        base.Update();
     }
 
     // ISelectable interface in use
-    public void Select(GameObject player)
+    public override void Select(GameObject player)
     {
-        PlayerID.instance.AddComponent<PoliceChiefSpecial>();
-        Destroy(PlayerID.instance.GetComponent<Dash>());
+        Debug.Log("NORTH SELECTED!");
 
-        PlayerID.instance.AddComponent<PoliceChiefBasic>().SetVars(stats, GetComponent<LineRenderer>());
-        Destroy(PlayerID.instance.GetComponent<LightAttack>());
+        if (PlayerID.instance.GetComponent<HeavyAttack>()) Destroy(PlayerID.instance.GetComponent<HeavyAttack>());
+        basic = PlayerID.instance.AddComponent<PoliceChiefBasic>();
+        basic.manager = this;
 
-        // change animation controller
-        animator.runtimeAnimatorController = policeChiefController;
+        special = PlayerID.instance.AddComponent<PoliceChiefSpecial>();
+        special.manager = this;
+
+		base.Select(player);
     }
 
-    public void DeSelect(GameObject player)
+    public override void DeSelect(GameObject player)
     {
-        if (PlayerID.instance.GetComponent<PoliceChiefSpecial>() == true)
-        {
-            Destroy(PlayerID.instance.GetComponent<PoliceChiefSpecial>());
-            Destroy(PlayerID.instance.GetComponent<PoliceChiefBasic>());
-        }
-        if (PlayerID.instance.GetComponent<Dash>() == false)
-        {
-            PlayerID.instance.AddComponent<Dash>();
-            PlayerID.instance.AddComponent<LightAttack>();
-        }
-        //change back to default player controller
-        animator.runtimeAnimatorController = defaultController;
+        if (basic) Destroy(basic);
+        if (!PlayerID.instance.GetComponent<HeavyAttack>()) PlayerID.instance.AddComponent<HeavyAttack>();
+
+        if (special) special.endSpecial(false, false);
+        if (special) Destroy(special);
+
+		base.DeSelect(player);
     }
+
 }

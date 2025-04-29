@@ -1,0 +1,191 @@
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UI;
+using Button = UnityEngine.UI.Button;
+
+/// <summary>
+/// 
+/// Runs conversations.
+/// 
+/// DialogueBox should contain
+/// CharacterNameText
+/// DialogueText
+/// 
+/// TODO: set character profile image based on who is speaking
+///  
+/// </summary>
+public class DialogueManager : MonoBehaviour, IScreenUI
+{
+    // ==============================
+    //       Serialized Fields
+    // ==============================
+
+    [SerializeField]
+    CharacterSO[] allCharacters;
+
+    [SerializeField] private GameObject dialogueBox; // PANEL where the text is displayed
+
+    [SerializeField] private TMP_Text dialogueText; // Set this to change dialogue text on screen
+
+    [SerializeField] private TMP_Text characterNameText; // Set this to character name (who is speaking)
+
+    [SerializeField] private Button nextButton; // When clicked, causes the next line of dialogue to be displayed
+
+    [SerializeField] private Image characterImage; // Set this to character imaeg (who is speaking)
+
+    // ==============================
+    //        Other Variables
+    // ==============================
+
+    private const string DEFAULT_TEXT = "..."; // Empty text box displays this
+
+    private ConvoSO conversation; // Conversation Scriptable Object
+
+    private bool isRunning = false; // Whether a dialogue is currently being run.
+
+    private int currentLine = 0; // which line is currently being read
+
+    private UnityAction actionOnDialogueEnd = null;
+
+    private Dictionary<string, CharacterSO> characterMap = new Dictionary<string, CharacterSO>();
+
+    // ==============================
+    //        Event delegate
+    // ==============================
+
+    public delegate void OnFinishDialogue(ConversationName convo);
+    public static OnFinishDialogue onFinishDialogue;
+
+    // ==============================
+    //        Unity Functions
+    // ==============================
+
+    void Awake()
+    {
+        // add all characters to map
+        foreach (CharacterSO character in allCharacters)
+        {
+            characterMap.Add(character.displayName, character);
+        }
+    }
+
+
+    void Start()
+    {
+
+        // Set next button to disabled and add action listener
+        //nextButton = transform.Find("NextButton").gameObject.GetComponent<Button>();
+        nextButton.onClick.AddListener(NextDialogue);
+
+        // Find dialogue box Game Object and text
+        //dialogueBox = this.transform.Find("DialogueBox").gameObject;
+        //dialogueText = dialogueBox.transform.Find("DialogueText").gameObject.GetComponent<TMP_Text>();
+        dialogueText.text = DEFAULT_TEXT;
+
+        // Do the same for character name
+        //characterNameText = dialogueBox.transform.Find("CharacterNameText").gameObject.GetComponent<TMP_Text>();
+        characterNameText.text = "";
+        characterImage.sprite = null;
+
+        ToggleVisibility();
+    }
+
+    // ==============================
+    //       Private Functions
+    // ==============================
+
+    /// <summary>
+    /// Called when the start or next button is clicked.
+    /// </summary>
+    private void NextDialogue()
+    {
+        // check if we are at end if dialogue
+
+        if (currentLine == conversation.data.lines.Length)
+        {
+            EndDialogue();
+            return;
+        }
+
+        // Display next line
+        dialogueText.text = conversation.data.lines[currentLine].line;
+
+        // Set name
+        string character = conversation.data.lines[currentLine].character;
+        characterNameText.text = characterMap[character].displayName;
+        characterImage.sprite = characterMap[character].fullImage;
+        characterImage.enabled = (characterImage.sprite != null);
+
+        // Play sound
+        if(currentLine >= 1)
+            AudioManager.Instance.VABranch.StopConversationLine(conversation.data.convoEnum, currentLine - 1);
+        AudioManager.Instance.VABranch.PlayConversationLine(conversation.data.convoEnum, currentLine);
+
+        currentLine++;
+    }
+
+    /// <summary>
+    /// Called when the last line of dialogue is read.
+    /// </summary>
+    private void EndDialogue()
+    {
+        // Reset for next play
+        characterNameText.text = "";
+        dialogueText.text = DEFAULT_TEXT;
+        isRunning = false;
+        ToggleVisibility();
+        currentLine = 0;
+
+        actionOnDialogueEnd?.Invoke();
+        actionOnDialogueEnd = null;
+
+        onFinishDialogue?.Invoke(conversation.data.convoEnum);
+
+        PlayerID.instance.UnfreezePlayer();
+    }
+
+    /// <summary>
+    /// Toggles the visibility of all dialogue components.
+    /// Call when isRunning is changed.
+    /// </summary>
+    private void ToggleVisibility()
+    {
+        //dialogueBox.SetActive(isRunning);
+        //nextButton.gameObject.SetActive(isRunning);
+        this.gameObject.SetActive(isRunning);
+    }
+
+    // ==============================
+    //        Other Functions
+    // ==============================
+
+    /// <summary>
+    /// Pass in a ConversationTemp scriptable object to start dialogue.
+    /// Sets visibility and starts first line of dialogue
+    /// </summary>
+    public void StartDialogue(ConvoSO conversationToRun)
+    {
+
+        if (!isRunning)
+        {
+            conversation = conversationToRun;
+            isRunning = true;
+            ToggleVisibility();
+            NextDialogue();
+
+            PlayerID.instance.FreezePlayer();
+        }
+    }
+
+
+    /// <summary>
+    /// Calls given action the next time dialogue manager UI closes (i.e. finishes dialogue)
+    /// </summary>
+    public void OnNextCloseCall(UnityAction action)
+    {
+        actionOnDialogueEnd = action;
+    }
+
+}
