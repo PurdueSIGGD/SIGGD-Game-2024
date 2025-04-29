@@ -134,6 +134,7 @@ public class PartyManager : MonoBehaviour
 
         ghostsByName[ghostsInParty[index]].TriggerSelectedBehavior();
         selectedGhost = ghostsInParty[index];
+        AudioManager.Instance.SFXBranch.PlaySFXTrack(SFXTrackName.GHOST_SWAP);
     }
 
     /// <summary>

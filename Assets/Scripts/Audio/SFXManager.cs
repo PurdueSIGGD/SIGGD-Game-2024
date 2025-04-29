@@ -12,6 +12,17 @@ public class SFXManager : MonoBehaviour
     // BIGSFX: Sounds which take the centerstage and override ALL other audio sources for impact (e.g. North railgun, T4 Sacrifice skills)
 
     [SerializeField] private SoundBankSFXTrack footstep;
+    [SerializeField] private SoundBankSFXTrack dash;
+    [SerializeField] private SoundBankSFXTrack airAttack;
+    [SerializeField] private SoundBankSFXTrack ghostSwap;
+    [SerializeField] private SoundBankSFXTrack heavyAttack;
+    [SerializeField] private SoundBankSFXTrack jump;
+    [SerializeField] private SoundBankSFXTrack landing;
+    [SerializeField] private SoundBankSFXTrack lightAttack;
+    [SerializeField] private LoopingSFXTrack fastFall;
+    [SerializeField] private LoopingSFXTrack glide;
+    [SerializeField] private OneShotSFXTrack heavyAttackPrimed;
+    [SerializeField] private OneShotSFXTrack heavyAttackWindUp;
     //[SerializeField] private LoopingSFXTrack railgunCharge;
     //[SerializeField] private OneShotSFXTrack railgunAttack;
 
@@ -30,6 +41,17 @@ public class SFXManager : MonoBehaviour
     public ISFXTrack GetSFXTrack(SFXTrackName trackName) {
         switch (trackName) {
             case SFXTrackName.FOOTSTEP:             return footstep;
+            case SFXTrackName.DASH: return dash;
+            case SFXTrackName.AIR_ATTACK: return airAttack;
+            case SFXTrackName.GHOST_SWAP: return ghostSwap;
+            case SFXTrackName.HEAVY_ATTACK: return heavyAttack;
+            case SFXTrackName.JUMP: return jump;
+            case SFXTrackName.LANDING: return landing;
+            case SFXTrackName.LIGHT_ATTACK: return lightAttack;
+            case SFXTrackName.FAST_FALL: return fastFall;
+            case SFXTrackName.GLIDE: return glide;
+            case SFXTrackName.HEAVY_ATTACK_PRIMED: return heavyAttackPrimed;
+            case SFXTrackName.HEAVY_ATTACK_WIND_UP: return heavyAttackWindUp;
             //case SFXTrackName.RAILGUN_CHARGE:       return railgunCharge;
             //case SFXTrackName.RAILGUN_ATTACK:       return railgunAttack;
             default:                                return null;
@@ -54,5 +76,16 @@ public class SFXManager : MonoBehaviour
 public enum SFXTrackName {
     FOOTSTEP,
     RAILGUN_CHARGE,
-    RAILGUN_ATTACK
+    RAILGUN_ATTACK,
+    DASH,
+    AIR_ATTACK,
+    GHOST_SWAP,
+    HEAVY_ATTACK,
+    JUMP,
+    LANDING,
+    LIGHT_ATTACK,
+    FAST_FALL,
+    GLIDE,
+    HEAVY_ATTACK_PRIMED,
+    HEAVY_ATTACK_WIND_UP
 }
