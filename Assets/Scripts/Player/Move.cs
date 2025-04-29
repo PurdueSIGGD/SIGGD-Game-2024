@@ -27,6 +27,7 @@ public class Move : MonoBehaviour, IStatList
     private bool stopTurning;
 
     private float footstepTime;
+    private float landSFXtime;
 
     // Start is called before the first frame update
     void Start()
@@ -161,6 +162,14 @@ public class Move : MonoBehaviour, IStatList
         accel = stats.ComputeValue("Running Accel.");
         maxSpeed = stats.ComputeValue("Max Running Speed");
         deaccel = stats.ComputeValue("Running Deaccel.");
+        if (animator.GetBool("p_grounded"))
+        {
+            if(Time.time - landSFXtime > 0.25)
+            {
+                AudioManager.Instance.SFXBranch.PlaySFXTrack(SFXTrackName.LANDING);
+                landSFXtime = Time.time;
+            }
+        }
     }
 
     public void StartFastFall()
