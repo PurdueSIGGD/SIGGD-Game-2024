@@ -1814,6 +1814,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ccb72ed2488d5248bb83c949d39b834, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dealDmg: 0
+  damageContext:
+    damageStrength: 0
+    damageTypes: 
+    actionID: 0
+    actionTypes: 
+    extraContext: 
+  damage: 0
 --- !u!1 &407600788
 GameObject:
   m_ObjectHideFlags: 0
@@ -1880,6 +1888,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2518153858615184674, guid: dc37ada359206f040b1417c5d790c31f,
+        type: 3}
+      propertyPath: isStoryRoom
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4910711782724507570, guid: dc37ada359206f040b1417c5d790c31f,
         type: 3}
@@ -2452,6 +2465,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 94c09f8885b1d0147a3eea8f2eb27376,
         type: 2}
+    - target: {fileID: 584133115329307738, guid: 3d4ea118b0555b54a9d9c729919ffebf,
+        type: 3}
+      propertyPath: isFirstInteraction
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 981645078808632434, guid: 3d4ea118b0555b54a9d9c729919ffebf,
         type: 3}
       propertyPath: m_Name

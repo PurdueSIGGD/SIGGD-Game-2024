@@ -13,6 +13,7 @@ public class PartyManager : MonoBehaviour
     public static PartyManager instance;
 
     [SerializeField] int ghostLimit; // maximum number of ghosts player can wield at one time
+    [SerializeField] private bool isStoryRoom;
 
     private bool isSwappingEnabled = true;
     private float swapInputBuffer = 0f;
@@ -28,14 +29,16 @@ public class PartyManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
-
-        foreach (GhostIdentity ghost in FindObjectsOfType<GhostIdentity>())
+        if (!isStoryRoom)
         {
-            ghostsByName.Add(ghost.name, ghost);
-        }
+            foreach (GhostIdentity ghost in FindObjectsOfType<GhostIdentity>())
+            {
+                ghostsByName.Add(ghost.name, ghost);
+            }
 
-        ghostsInParty = SaveManager.data.ghostsInParty;
-        selectedGhost = SaveManager.data.selectedGhost;
+            ghostsInParty = SaveManager.data.ghostsInParty;
+            selectedGhost = SaveManager.data.selectedGhost;
+        }
     }
 
     private void Start()
