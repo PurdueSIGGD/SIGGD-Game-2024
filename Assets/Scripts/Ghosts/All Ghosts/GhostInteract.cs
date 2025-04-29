@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using UnityEngine;
 
 public class GhostInteract : InRangeInteract, IParty
@@ -9,6 +10,7 @@ public class GhostInteract : InRangeInteract, IParty
     [SerializeField]
     private ConvoSO hubConvo;
     [SerializeField] private bool isFirstInteraction;
+    [SerializeField] private bool isNPC;
 
     // ==============================
     //        Other Variables
@@ -32,11 +34,19 @@ public class GhostInteract : InRangeInteract, IParty
             return new InteractOption[] { opt };
         }
 
-        InteractOption opt1 = new InteractOption("Talk", StartDialogue);
-        InteractOption opt2 = new InteractOption("Add to Party", AddGhostToParty);
-        InteractOption opt3 = new InteractOption("View Skill Tree", ViewSkillTree);
+        InteractOption[] options;
 
-        InteractOption[] options = { opt1, opt2, opt3 };
+        InteractOption opt1 = new InteractOption("Talk", StartDialogue);
+        if (isNPC)
+        {
+            InteractOption opt2 = new InteractOption("Add to Party", AddGhostToParty);
+            InteractOption opt3 = new InteractOption("View Skill Tree", ViewSkillTree);
+            options = new InteractOption[]{ opt1, opt2, opt3 };
+        }
+        else{
+            options = new InteractOption[] { opt1 };
+        }
+        
         return options;
     }
 

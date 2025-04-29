@@ -70,13 +70,14 @@ public class EnemySpawning : MonoBehaviour
     {
         reshufflePoints(ref points);
         int enemiesSpawn = Mathf.FloorToInt(Random.Range(Mathf.Lerp(startMinEnemiesSpawn, endMinEnemiesSpawn, GetComponent<LevelSwitching>().GetProgress()), Mathf.Lerp(startMaxEnemiesSpawn, endMaxEnemiesSpawn, GetComponent<LevelSwitching>().GetProgress())));
-        EnemiesLeftUpdater.enemiesLeft = enemiesSpawn;
+        //EnemiesLeftUpdater.enemiesLeft = enemiesSpawn;
         for (int i = 0; i < Mathf.Min(enemiesSpawn, points.Length); i++)
         {
             GameObject newEnemy = Instantiate(GetNextEnemy());
             currentEnemies.Add(newEnemy);
             newEnemy.transform.position = points[i].transform.position;
         }
+        EnemiesLeftUpdater.enemiesLeft = currentEnemies.Count;
     }
 
     public void StartLevel()
