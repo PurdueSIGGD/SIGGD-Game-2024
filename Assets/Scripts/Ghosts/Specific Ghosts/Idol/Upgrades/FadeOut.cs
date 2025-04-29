@@ -30,13 +30,20 @@ public class FadeOut : Skill
 
     private void EvaSelected()
     {
+        if (skillPts == 0)
+        {
+            return;
+        }
         idolSpecial = idolManager.special;
         idolSpecial.holoJumpCreatedCloneEvent.AddListener(HoloJumpCreatedClone);
     }
 
     private void EvaDeselected()
     {
-        Destroy(player.GetComponent<Invisible>());
+        if (player.GetComponent<Invisible>() != null)
+        {
+            Destroy(player.GetComponent<Invisible>());
+        }
     }
 
     private void HoloJumpCreatedClone()
@@ -52,7 +59,7 @@ public class FadeOut : Skill
 
     private void BuffLightAttack(ref DamageContext damageContext)
     {
-        float damageMultiplier = 1f + 0.3f * (skillPts + 1);
+        float damageMultiplier = 1f + 0.3f * skillPts;
         damageContext.damage *= damageMultiplier;
         StartCoroutine(RemoveInvisibilityOnTimer(0f)); // we MUST wait 1 frame before removing invis. Here's why: ask Temirlan
         //RemoveInvisibility();

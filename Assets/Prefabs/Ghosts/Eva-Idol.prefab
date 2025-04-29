@@ -20,13 +20,12 @@ GameObject:
   - component: {fileID: 4337353799593711327}
   - component: {fileID: 9211257940781465955}
   - component: {fileID: 3272375648746919725}
+  - component: {fileID: 2617003682761076201}
   - component: {fileID: 2247047511266038100}
   - component: {fileID: 5028833019426444995}
   - component: {fileID: 9025963487758876621}
   - component: {fileID: 219043313411044668}
   - component: {fileID: 1545715215794891431}
-  - component: {fileID: 5097139144495799664}
-  - component: {fileID: 2617003682761076201}
   - component: {fileID: 1780750385296793499}
   - component: {fileID: 3943762812193780925}
   m_Layer: 17
@@ -155,6 +154,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterInfo: {fileID: 11400000, guid: c8738831fdeb41c428e0746f754eb077, type: 2}
+  isUnlocked: 0
+  exp: 0
 --- !u!114 &584133115329307738
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -170,6 +171,7 @@ MonoBehaviour:
   interactRange: 3
   menuOffset: {x: 0, y: 2, z: 0}
   hubConvo: {fileID: 11400000, guid: a9f9877b4a87fc140986ff519984aca4, type: 2}
+  isFirstInteraction: 0
 --- !u!114 &773703493236735993
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -227,14 +229,19 @@ MonoBehaviour:
     type: 3}
   tempoPulseVFX: {fileID: 7966241730260626198, guid: a5295bc6cb8948243b75f99e5a18cc48,
     type: 3}
-  tempoParticlesVFX: {fileID: 5732152819335419291, guid: c1f04c8eae0c021429fd47e82b015948,
-    type: 3}
   explosionVFX: {fileID: 7966241730260626198, guid: a5295bc6cb8948243b75f99e5a18cc48,
     type: 3}
   active: 0
   idolClone: {fileID: 7482494425360345118, guid: 05024df506a5b824f8658954331c8231,
     type: 3}
   clones: []
+  clonesActive: 0
+  evaSelectedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  evaDeselectedEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &-6798671931701359635
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -303,13 +310,12 @@ MonoBehaviour:
   skills:
   - {fileID: 3272375648746919725}
   - {fileID: 2247047511266038100}
-  - {fileID: 5028833019426444995}
+  - {fileID: 2617003682761076201}
   - {fileID: 9025963487758876621}
   - {fileID: 219043313411044668}
   - {fileID: 1545715215794891431}
   - {fileID: 1780750385296793499}
   startAtLevel: 0
-  level: 0
 --- !u!114 &3272375648746919725
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -323,6 +329,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: ea15666da1c03af44acd60ffc6345a04, type: 2}
+--- !u!114 &2617003682761076201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981645078808632434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9e7c241723d53849a625de1fbcb1715, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillSO: {fileID: 11400000, guid: 741d655c9f17315478dd227c3f3276e0, type: 2}
+  invisibilityDuration: 4
 --- !u!114 &2247047511266038100
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -439,20 +459,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94b5828d9949f954d9301d18a500e024, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skillSO: {fileID: 11400000, guid: ea15666da1c03af44acd60ffc6345a04, type: 2}
---- !u!114 &2617003682761076201
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 981645078808632434}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9e7c241723d53849a625de1fbcb1715, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  skillSO: {fileID: 11400000, guid: 741d655c9f17315478dd227c3f3276e0, type: 2}
 --- !u!1 &4936111184687609786
 GameObject:
   m_ObjectHideFlags: 0
