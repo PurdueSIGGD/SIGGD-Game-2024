@@ -3,7 +3,7 @@ using UnityEngine;
 public class LockedAndLoadedSkill : Skill
 {
     [HideInInspector] public int[] reserveCharges = {0, 3, 6, 9, 12};
-    [HideInInspector] public int pointIndex;
+    [HideInInspector] static public int pointIndex;
     [HideInInspector] public int reservedCount;
     private float reserveCoolDown = 0.75f;
     private float lastreserveTime = 0.5f;
@@ -29,6 +29,7 @@ public class LockedAndLoadedSkill : Skill
     // Start is called before the first frame update
     void Start()
     {
+        //pointIndex = GetPoints();
         reservedCount = reserveCharges[pointIndex];
         camAnim = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Animator>();
     }

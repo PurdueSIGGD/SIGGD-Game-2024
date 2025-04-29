@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
 
 public class PoliceChiefOvercharged : Skill
@@ -12,7 +9,7 @@ public class PoliceChiefOvercharged : Skill
     [SerializeField] float damageToEnemy;
     [SerializeField] float damageToPlayer;
     [SerializeField] GameObject circleVFX;
-    private float bonusDamage = 1.0f;
+    private static float bonusDamage = 1.0f;
     private StatManager statManager;
     private PlayerStateMachine playerStateMachine;
     private float timer = -1.0f;
@@ -21,6 +18,13 @@ public class PoliceChiefOvercharged : Skill
     private void Start()
     {
         playerStateMachine = PlayerID.instance.gameObject.GetComponent<PlayerStateMachine>();
+        /*if (GetPoints() > 0)
+        {
+            bonusDamage = pointCounts[GetPoints() - 1];
+        }
+        else{
+            bonusDamage = 1.0f;
+        }*/
     }
 
     private void Update()

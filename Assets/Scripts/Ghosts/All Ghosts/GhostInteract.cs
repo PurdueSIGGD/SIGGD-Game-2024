@@ -37,7 +37,7 @@ public class GhostInteract : InRangeInteract, IParty
         InteractOption[] options;
 
         InteractOption opt1 = new InteractOption("Talk", StartDialogue);
-        if (isNPC)
+        if (!isNPC)
         {
             InteractOption opt2 = new InteractOption("Add to Party", AddGhostToParty);
             InteractOption opt3 = new InteractOption("View Skill Tree", ViewSkillTree);

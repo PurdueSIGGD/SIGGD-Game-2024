@@ -38,7 +38,7 @@ public class PoliceChiefUIDriver : GhostUIDriver
         if (lockedAndLoaded.reservedCount > 0)
         {
             specialAbilityUIManager.setChargeWidgetActive(true);
-            specialAbilityUIManager.setChargeValue(lockedAndLoaded.reservedCount, lockedAndLoaded.reserveCharges[lockedAndLoaded.pointIndex]);
+            specialAbilityUIManager.setChargeValue(lockedAndLoaded.reservedCount, lockedAndLoaded.reserveCharges[LockedAndLoadedSkill.pointIndex]);
         }
         else
         {
@@ -56,8 +56,7 @@ public class PoliceChiefUIDriver : GhostUIDriver
 
     }
 
-    private void updateMeter()
-    {
+    private void updateMeter() { 
         if(GetComponent<PoliceChiefLethalForce>() != null && GetComponent<PoliceChiefLethalForce>().GetTotalHits() != -1)
         {
             meterUIManager.setMeterColor(Color.red);
