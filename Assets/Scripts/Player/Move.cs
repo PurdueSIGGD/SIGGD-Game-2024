@@ -26,6 +26,7 @@ public class Move : MonoBehaviour, IStatList
 
     private bool stopTurning;
 
+    private float footstepTime;
 
     // Start is called before the first frame update
     void Start()
@@ -41,6 +42,7 @@ public class Move : MonoBehaviour, IStatList
 
         overflowSpeed = maxSpeed;
         overflowDeaccel = 0.96f;
+        footstepTime = Time.time;
     }
 
     // Update is called once per frame
@@ -84,6 +86,13 @@ public class Move : MonoBehaviour, IStatList
         if (input == 0)
         {
             newVel.x *= deaccel;
+        }
+        if (input!=0 && animator.GetBool("p_grounded"))
+        {
+            if (Time.time - footstepTime > 0.25f) {
+                AudioManager.Instance.SFXBranch.PlaySFXTrack(SFXTrackName.FOOTSTEP);
+                footstepTime = Time.time;
+            }
         }
 
         // keep updating y velocity

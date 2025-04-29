@@ -15,7 +15,6 @@ public class ShowStopper : Skill
     {
         freezeManager = GetComponent<TimeFreezeManager>();
         expired = false;
-        AddPoint();
     }
 
     private void OnEnable()
@@ -28,15 +27,15 @@ public class ShowStopper : Skill
         GameplayEventHolder.OnDamageFilter.Remove(ShowStop);
     }
 
-    void Update()
-    {
-        // TODO remove
-        // cheeky little shortcut
-        if (Input.GetKeyDown(KeyCode.V))
-        {
-            StartCoroutine(Freeze(timeStopDuration));
-        }
-    }
+    //void Update()
+    //{
+    //    // TODO remove
+    //    // cheeky little shortcut
+    //    if (Input.GetKeyDown(KeyCode.V))
+    //    {
+    //        StartCoroutine(Freeze(timeStopDuration));
+    //    }
+    //}
 
     void ShowStop(ref DamageContext context)
     {

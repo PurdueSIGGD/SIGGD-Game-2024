@@ -1,7 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 
 public class AudioManager : MonoBehaviour {
@@ -57,53 +54,53 @@ public class AudioManager : MonoBehaviour {
     // Used by tracks outside of audio to set the ~mood~
     public void SetEnergyLevel(float newLevel) { energyLevel = newLevel; }
 
-    private void TestAudioFunctions() {
-        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)) {
-            tempStepCounter += Time.deltaTime;
-            if (tempStepCounter > 0.4f) {
-                Instance.SFXBranch.PlaySFXTrack(SFXTrackName.FOOTSTEP);
-                tempStepCounter = 0.0f;
-            }
-        }   
+    //private void TestAudioFunctions() {
+    //    if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)) {
+    //        tempStepCounter += Time.deltaTime;
+    //        if (tempStepCounter > 0.4f) {
+    //            Instance.SFXBranch.PlaySFXTrack(SFXTrackName.FOOTSTEP);
+    //            tempStepCounter = 0.0f;
+    //        }
+    //    }   
 
-        if (Input.GetKeyDown(KeyCode.B)) {
-            Instance.VABranch.PlayVATrack(VATrackName.EVA_EXERSION);
-        }
+    //    if (Input.GetKeyDown(KeyCode.B)) {
+    //        Instance.VABranch.PlayVATrack(VATrackName.EVA_EXERSION);
+    //    }
 
-        if (Input.GetKeyDown(KeyCode.R)) {
-            Instance.SFXBranch.PlaySFXTrack(SFXTrackName.RAILGUN_ATTACK);
-        }
-        if (Input.GetKeyDown(KeyCode.T)) {
-            if (!tempCharging) {
-                Instance.SFXBranch.PlaySFXTrack(SFXTrackName.RAILGUN_CHARGE);
-            } else {
-                Instance.SFXBranch.StopSFXTrack(SFXTrackName.RAILGUN_CHARGE);
-            }
-            tempCharging = !tempCharging;
-        }
-        if (Input.GetKeyDown(KeyCode.Q)) {
-            Instance.VABranch.PlayVATrack(VATrackName.BRITISH_ANT);
-        }
+    //    if (Input.GetKeyDown(KeyCode.R)) {
+    //        Instance.SFXBranch.PlaySFXTrack(SFXTrackName.RAILGUN_ATTACK);
+    //    }
+    //    if (Input.GetKeyDown(KeyCode.T)) {
+    //        if (!tempCharging) {
+    //            Instance.SFXBranch.PlaySFXTrack(SFXTrackName.RAILGUN_CHARGE);
+    //        } else {
+    //            Instance.SFXBranch.StopSFXTrack(SFXTrackName.RAILGUN_CHARGE);
+    //        }
+    //        tempCharging = !tempCharging;
+    //    }
+    //    if (Input.GetKeyDown(KeyCode.Q)) {
+    //        Instance.VABranch.PlayVATrack(VATrackName.BRITISH_ANT);
+    //    }
 
-        if (Input.GetKeyDown(KeyCode.C)) {
-            MusicTrackName nextTrack = Instance.MusicBranch.GetCurrentMusicTrackName() == MusicTrackName.JAPAN ? MusicTrackName.SEAMSTRESS : MusicTrackName.JAPAN;
-            Instance.MusicBranch.CrossfadeTo(nextTrack, 3.0f);
-        }
+    //    if (Input.GetKeyDown(KeyCode.C)) {
+    //        MusicTrackName nextTrack = Instance.MusicBranch.GetCurrentMusicTrackName() == MusicTrackName.JAPAN ? MusicTrackName.SEAMSTRESS : MusicTrackName.JAPAN;
+    //        Instance.MusicBranch.CrossfadeTo(nextTrack, 3.0f);
+    //    }
 
-        if (Input.GetKeyDown(KeyCode.O)) {
-            Instance.MusicBranch.GetCurrentMusicTrack().StopTrack();
-        }
-        if (Input.GetKeyDown(KeyCode.P)) {
-            Instance.MusicBranch.GetCurrentMusicTrack().PlayTrack();
-        }
-        if (Input.GetKeyDown(KeyCode.N)) {
-            tempPitch = Math.Max(0, tempPitch - 1);
-            Instance.SFXBranch.GetSFXTrack(SFXTrackName.RAILGUN_CHARGE).SetPitch(tempPitch, 10);          
-        }
-        if (Input.GetKeyDown(KeyCode.M)) {
-            tempPitch = Math.Min(10, tempPitch + 1);
-            Instance.SFXBranch.GetSFXTrack(SFXTrackName.RAILGUN_CHARGE).SetPitch(tempPitch, 10);
-        }
-    }
+    //    if (Input.GetKeyDown(KeyCode.O)) {
+    //        Instance.MusicBranch.GetCurrentMusicTrack().StopTrack();
+    //    }
+    //    if (Input.GetKeyDown(KeyCode.P)) {
+    //        Instance.MusicBranch.GetCurrentMusicTrack().PlayTrack();
+    //    }
+    //    if (Input.GetKeyDown(KeyCode.N)) {
+    //        tempPitch = Math.Max(0, tempPitch - 1);
+    //        Instance.SFXBranch.GetSFXTrack(SFXTrackName.RAILGUN_CHARGE).SetPitch(tempPitch, 10);          
+    //    }
+    //    if (Input.GetKeyDown(KeyCode.M)) {
+    //        tempPitch = Math.Min(10, tempPitch + 1);
+    //        Instance.SFXBranch.GetSFXTrack(SFXTrackName.RAILGUN_CHARGE).SetPitch(tempPitch, 10);
+    //    }
+    //}
 }
 
