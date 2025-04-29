@@ -10,7 +10,7 @@ public class PoliceChiefPowerSpike : Skill
     private bool critHit = false;
     private bool ableToCrit = false;
     [SerializeField] private float[] pointCounts = {1.25f, 1.45f, 1.65f, 1.85f};
-    private float currentBuff = -1.0f;
+    private static float currentBuff = -1.0f;
     [SerializeField] private float immediateTimeframe = 0.25f;
     private bool reset = true;
     public override void AddPointTrigger()
@@ -28,8 +28,19 @@ public class PoliceChiefPowerSpike : Skill
 
     void Start()
     {
+        
+    }
+
+    private void OnEnable()
+    {
         GameplayEventHolder.OnAbilityUsed += OnAbilityUse;
         GameplayEventHolder.OnDamageFilter.Add(OnDamage);
+    }
+
+    void OnDisable()
+    {
+        GameplayEventHolder.OnAbilityUsed -= OnAbilityUse;
+        GameplayEventHolder.OnDamageFilter.Remove(OnDamage);
     }
 
     void Update()

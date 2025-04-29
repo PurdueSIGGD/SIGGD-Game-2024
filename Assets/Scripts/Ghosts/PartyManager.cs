@@ -29,15 +29,20 @@ public class PartyManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
+
+        foreach (GhostIdentity ghost in FindObjectsOfType<GhostIdentity>())
+        {
+            ghostsByName.Add(ghost.name, ghost);
+        }
+
         if (!isStoryRoom)
         {
-            foreach (GhostIdentity ghost in FindObjectsOfType<GhostIdentity>())
-            {
-                ghostsByName.Add(ghost.name, ghost);
-            }
-
             ghostsInParty = SaveManager.data.ghostsInParty;
             selectedGhost = SaveManager.data.selectedGhost;
+        }
+        else
+        {
+            ghostsInParty = new List<string>();
         }
     }
 
@@ -64,8 +69,16 @@ public class PartyManager : MonoBehaviour
         {
             ghostsInParty.Add(ghost.name);
             ghost.TriggerEnterPartyBehavior();
+
+            Debug.Log("Saving Ghosts");
+            if (isStoryRoom)
+            {
+                SaveManager.data.ghostsInParty = ghostsInParty;
+            }
+
             return true;
         }
+        
         return false;
     }
 
@@ -121,6 +134,7 @@ public class PartyManager : MonoBehaviour
 
         ghostsByName[ghostsInParty[index]].TriggerSelectedBehavior();
         selectedGhost = ghostsInParty[index];
+        AudioManager.Instance.SFXBranch.PlaySFXTrack(SFXTrackName.GHOST_SWAP);
     }
 
     /// <summary>
