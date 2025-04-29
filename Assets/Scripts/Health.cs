@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using static GameplayEventHolder;
 
 [DisallowMultipleComponent]
 public class Health : MonoBehaviour, IDamageable, IStatList
@@ -34,6 +35,9 @@ public class Health : MonoBehaviour, IDamageable, IStatList
         context.damage = Mathf.Clamp(context.damage, 0f, currentHealth);
         context.invokingScript = this;
 
+        // potential alternative implementation of the foreach header:
+        //List<DamageFilterEvent> onDamageFilter = GameplayEventHolder.OnDamageFilter.ToArray(...idk something here);
+        //foreach (GameplayEventHolder.DamageFilterEvent filter in onDamageFilter)
         foreach (GameplayEventHolder.DamageFilterEvent filter in GameplayEventHolder.OnDamageFilter)
         {
             filter(ref context);
