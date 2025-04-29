@@ -82,17 +82,21 @@ public class PrePrologueSceneManager : MonoBehaviour
             needFadeOut = true;
         }
 
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    startTime = Time.time;
+        //}
+
+        //if (Input.GetKey(KeyCode.Space))
+        //{
+        //    if (startTime + holdTime <= Time.time)
+        //    {
+        //        needFadeOut = true;
+        //    }
+        //}
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            startTime = Time.time;
-        }
-
-        if (Input.GetKey(KeyCode.Space))
-        {
-            if (startTime + holdTime <= Time.time)
-            {
-                needFadeOut = true;
-            }
+            needFadeOut = true;
         }
     }
 }
