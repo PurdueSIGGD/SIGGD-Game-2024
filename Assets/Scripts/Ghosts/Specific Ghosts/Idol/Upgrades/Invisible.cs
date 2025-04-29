@@ -14,19 +14,25 @@ public class Invisible : MonoBehaviour
     private void Start()
     {
         playerSpriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        Material playerMaterial = playerSpriteRenderer.material;
+        Color playerColor = playerMaterial.GetColor("_BaseColor");
+        
+        playerColor.a = invisibilityAlpha;
 
-        Color playerColor = playerSpriteRenderer.color;
-        playerColor.a = 0.0f;
+        playerMaterial.SetColor("_BaseColor", playerColor);
 
-        playerSpriteRenderer.color = playerColor;
-
-        Debug.Log("turn on invisibility");
+        //Debug.Log("turn on invisibility");
     }
 
     private void OnDestroy()
     {
-        playerSpriteRenderer.color = Color.white;
+        Material playerMaterial = playerSpriteRenderer.material;
+        Color playerColor = playerMaterial.GetColor("_BaseColor");
 
-        Debug.Log("turn off invisibility");
+        playerColor.a = 1f;
+
+        playerMaterial.SetColor("_BaseColor", playerColor);
+
+        //Debug.Log("turn off invisibility");
     }
 }

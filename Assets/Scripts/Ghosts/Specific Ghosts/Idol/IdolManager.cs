@@ -23,6 +23,7 @@ public class IdolManager : GhostManager, ISelectable
     public bool clonesActive = false;
 
     public UnityEvent evaSelectedEvent;
+    public UnityEvent evaDeselectedEvent;
 
     protected override void Start()
     {
@@ -66,5 +67,6 @@ public class IdolManager : GhostManager, ISelectable
 
         if (PlayerID.instance.GetComponent<IdolSpecial>()) Destroy(PlayerID.instance.GetComponent<IdolSpecial>());
         base.DeSelect(player);
+        evaDeselectedEvent?.Invoke();
     }
 }
