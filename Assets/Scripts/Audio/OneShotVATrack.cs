@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class OneShotVATrack : MonoBehaviour, IVATrack {
     
-    [SerializeField] private AudioSource track;
+    [SerializeField] public AudioSource track;
 
     // Whether this track can be culled by the VAManager
     [SerializeField] private bool voiceCullingOverride;
