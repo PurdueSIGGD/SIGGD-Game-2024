@@ -15,6 +15,7 @@ public class AudioWizard : ScriptableWizard
     [SerializeField] string sourcePath = "";
     [SerializeField] List<AudioClip> clips;
 
+    private AudioLookUpTable lookUpTable;
     private AudioMixer audioMixer;
 
     // used for updating wizard ui
@@ -56,7 +57,7 @@ public class AudioWizard : ScriptableWizard
     [MenuItem("SIGGD/Create New Audio")]
     static void CreateWizard()
     {
-        DisplayWizard<AudioWizard>("Add new Audio");
+        DisplayWizard<AudioWizard>("Add new Audio", "Create", "Refresh");
     }
 
     private void OnWizardCreate()
@@ -66,6 +67,7 @@ public class AudioWizard : ScriptableWizard
 
         // load the AudioManager prefab
         GameObject audioManager = PrefabUtility.LoadPrefabContents("Assets/Prefabs/Meta Systems/Audio Manager.prefab");
+        lookUpTable = audioManager.GetComponent<AudioLookUpTable>();
 
         Transform parent = FindParent(audioManager);
         GameObject audioComp = new(audioName);
@@ -89,7 +91,8 @@ public class AudioWizard : ScriptableWizard
                 break;
             case AudioType.Conversation:
                 CreateConversation(audioComp);
-                break;
+                if (ReloadKeys(audioManager)) break;
+                else return;
             default:
                 Debug.LogWarning("code fell through while creating audio holder, aborting save");
                 return;
@@ -97,6 +100,14 @@ public class AudioWizard : ScriptableWizard
 
 
         // save the AudioManager prefab
+        EditorUtility.SetDirty(audioManager);
+        PrefabUtility.SaveAsPrefabAsset(audioManager, "Assets/Prefabs/Meta Systems/Audio Manager.prefab");
+    }
+
+    private void OnWizardOtherButton()
+    {
+        GameObject audioManager = PrefabUtility.LoadPrefabContents("Assets/Prefabs/Meta Systems/Audio Manager.prefab");
+        ReloadKeys(audioManager);
         PrefabUtility.SaveAsPrefabAsset(audioManager, "Assets/Prefabs/Meta Systems/Audio Manager.prefab");
     }
 
@@ -288,6 +299,22 @@ public class AudioWizard : ScriptableWizard
                 Debug.LogWarning("Cannot find selected mixer");
                 return "";
         }
+    }
+
+    private bool ReloadKeys(GameObject audioManager)
+    {
+        lookUpTable = audioManager.GetComponent<AudioLookUpTable>();
+        lookUpTable.conversationList = new();
+
+        foreach (Transform child in audioManager.GetComponentsInChildren<Transform>())
+        {
+            if (child.GetComponent<ConversationAudioHolder>())
+            {
+                Conversation conversation = new Conversation(child.name, child.GetComponent<ConversationAudioHolder>());
+                lookUpTable.conversationList.Add(conversation);
+            }
+        }
+        return true;
     }
 }
 

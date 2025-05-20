@@ -120,8 +120,8 @@ public class DialogueManager : MonoBehaviour, IScreenUI
 
         // Play sound
         if(currentLine >= 1)
-            AudioManager.Instance.VABranch.StopConversationLine(conversation.data.convoEnum, currentLine - 1);
-        AudioManager.Instance.VABranch.PlayConversationLine(conversation.data.convoEnum, currentLine);
+            AudioManager.Instance.VABranch.StopConversationLine(conversation.data.convoName, currentLine - 1);
+        AudioManager.Instance.VABranch.PlayConversationLine(conversation.data.convoName, currentLine);
 
         currentLine++;
     }
