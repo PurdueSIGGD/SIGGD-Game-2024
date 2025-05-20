@@ -55,7 +55,7 @@ public class DialogueManager : MonoBehaviour, IScreenUI
     //        Event delegate
     // ==============================
 
-    public delegate void OnFinishDialogue(ConversationName convo);
+    public delegate void OnFinishDialogue(string convo);
     public static OnFinishDialogue onFinishDialogue;
 
     // ==============================
@@ -141,7 +141,7 @@ public class DialogueManager : MonoBehaviour, IScreenUI
         actionOnDialogueEnd?.Invoke();
         actionOnDialogueEnd = null;
 
-        onFinishDialogue?.Invoke(conversation.data.convoEnum);
+        onFinishDialogue?.Invoke(conversation.data.convoName);
 
         PlayerID.instance.UnfreezePlayer();
     }
