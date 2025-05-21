@@ -41,7 +41,7 @@ public class FastFall : MonoBehaviour
     public void StopFastFall()
     {
         isFastFalling = false;
-        AudioManager.Instance.SFXBranch.StopSFXTrack(SFXTrackName.FAST_FALL);
+        AudioManager.Instance.SFXBranch.StopSFXTrack("FastFall");
     }
 
     void OnCollisionEnter2D(Collision2D collision)
