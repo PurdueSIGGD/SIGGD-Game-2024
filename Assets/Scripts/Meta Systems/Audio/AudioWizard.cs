@@ -88,7 +88,8 @@ public class AudioWizard : ScriptableWizard
                 break;
             case AudioType.SFX:
                 CreateSFX(audioComp);
-                break;
+                if (ReloadKeys(audioManager)) break;
+                else return;
             case AudioType.Conversation:
                 CreateConversation(audioComp);
                 if (ReloadKeys(audioManager)) break;
@@ -304,14 +305,43 @@ public class AudioWizard : ScriptableWizard
     private bool ReloadKeys(GameObject audioManager)
     {
         lookUpTable = audioManager.GetComponent<AudioLookUpTable>();
-        lookUpTable.conversationList = new();
+        lookUpTable.SFXTracks = new();
+        lookUpTable.SFXLoops = new();
+        lookUpTable.SFXBanks = new();
+        lookUpTable.conversationTracks = new();
 
         foreach (Transform child in audioManager.GetComponentsInChildren<Transform>())
-        {
-            if (child.GetComponent<ConversationAudioHolder>())
+        {   
+            OneShotSFXTrack oneShotSFXTrack = child.GetComponent<OneShotSFXTrack>();
+            LoopingSFXTrack loopingSFXTrack = child.GetComponent<LoopingSFXTrack>();
+            SoundBankSFXTrack soundBankSFXTrack = child.GetComponent<SoundBankSFXTrack>();
+
+            if (soundBankSFXTrack)
             {
-                Conversation conversation = new Conversation(child.name, child.GetComponent<ConversationAudioHolder>());
-                lookUpTable.conversationList.Add(conversation);
+                SFXBank sfxBank = new(child.name, soundBankSFXTrack);
+                lookUpTable.SFXBanks.Add(sfxBank);
+                continue;
+            }
+            if (oneShotSFXTrack)
+            {
+                SFXTrack sfxTrack = new(child.name, oneShotSFXTrack); 
+                lookUpTable.SFXTracks.Add(sfxTrack);
+                continue;
+            }
+            if (loopingSFXTrack)
+            {
+                SFXLoop sfxLoop = new(child.name, loopingSFXTrack);
+                lookUpTable.SFXLoops.Add(sfxLoop);
+                continue;
+            }
+
+
+
+            ConversationAudioHolder conversationAudioHolder = child.GetComponent<ConversationAudioHolder>();
+            if (conversationAudioHolder)
+            {
+                ConversationTrack conversation = new(child.name, child.GetComponent<ConversationAudioHolder>());
+                lookUpTable.conversationTracks.Add(conversation);
             }
         }
         return true;

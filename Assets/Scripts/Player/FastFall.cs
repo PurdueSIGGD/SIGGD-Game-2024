@@ -35,7 +35,7 @@ public class FastFall : MonoBehaviour
     public void StartFastFall()
     {
         isFastFalling = true;
-        AudioManager.Instance.SFXBranch.PlaySFXTrack(SFXTrackName.FAST_FALL);
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("FastFall");
     }
 
     public void StopFastFall()

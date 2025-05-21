@@ -9892,11 +9892,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lookUpTable: {fileID: 7883951502137393257}
-  eva2Orion1: {fileID: 2599742976931126350}
-  death2Orion2: {fileID: 4047390108322547473}
-  eva2OrionHub1: {fileID: 2033978768470925098}
-  north2Orion1: {fileID: 2491338656022288705}
-  north2OrionHub1: {fileID: 734199484998740888}
 --- !u!1 &3468854963824701980
 GameObject:
   m_ObjectHideFlags: 0
@@ -9943,6 +9938,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6345d76d297407a47ac322b810d081ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lookUpTable: {fileID: 7883951502137393257}
   footstep: {fileID: 854879533602100025}
   dash: {fileID: 5382500320272727107}
   airAttack: {fileID: 8276017719542432290}
@@ -12942,7 +12938,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba78bdbbdd5a692428dbaedfcd14ff34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  conversationList:
+  SFXBanks:
+  - name: Footstep
+    soundBank: {fileID: 854879533602100025}
+  - name: AirAttack
+    soundBank: {fileID: 8276017719542432290}
+  - name: Dash
+    soundBank: {fileID: 5382500320272727107}
+  - name: GhostSwap
+    soundBank: {fileID: 5229668487908721314}
+  - name: HeavyAttack
+    soundBank: {fileID: 1962524821551494629}
+  - name: Jump
+    soundBank: {fileID: 3323940896842697801}
+  - name: Landing
+    soundBank: {fileID: 1925118355968337344}
+  - name: LightAttack
+    soundBank: {fileID: 5877034307495768691}
+  SFXLoops:
+  - name: FastFall
+    soundHolder: {fileID: 9103896876244744564}
+  - name: Glide
+    soundHolder: {fileID: 2037123357368900629}
+  SFXTracks:
+  - name: HeavyAttackPrimed
+  - name: HeavyAttackWindUp
+  conversationTracks:
   - name: Idol - First Encounter (Phase 1 & 2)
     audioHolder: {fileID: 2599742976931126350}
   - name: Idol - Hub World First Arrival

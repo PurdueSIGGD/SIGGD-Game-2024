@@ -125,7 +125,7 @@ public class LightAttack : MonoBehaviour, IStatList
             CastDamageRay(orig, deltaAngle * i, center);
             CastDamageRay(orig, deltaAngle * -i, center);
         }
-        AudioManager.Instance.SFXBranch.PlaySFXTrack(SFXTrackName.LIGHT_ATTACK);
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("LightAttack");
         hits.Clear(); // re-enable damage to all hit enemy
     }
 
@@ -145,7 +145,7 @@ public class LightAttack : MonoBehaviour, IStatList
             CastDamageRay(orig, deltaAngle * i, center);
             CastDamageRay(orig, deltaAngle * -i, center);
         }
-        AudioManager.Instance.SFXBranch.PlaySFXTrack(SFXTrackName.LIGHT_ATTACK);
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("LightAttack");
         hits.Clear(); // re-enable damage to all hit enemy
     }
 
@@ -258,7 +258,7 @@ public class LightAttack : MonoBehaviour, IStatList
             CastDamageRay(orig, deltaAngle * i, lastMousePos);
             CastDamageRay(orig, deltaAngle * -i, lastMousePos);
         }
-        AudioManager.Instance.SFXBranch.PlaySFXTrack(SFXTrackName.AIR_ATTACK);
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("AirAttack");
         hits.Clear(); // re-enable damage to all hit enemy
     }
 
@@ -282,7 +282,7 @@ public class LightAttack : MonoBehaviour, IStatList
             CastDamageRay(orig, deltaAngle * i, lastMousePos);
             CastDamageRay(orig, deltaAngle * -i, lastMousePos);
         }
-        AudioManager.Instance.SFXBranch.PlaySFXTrack(SFXTrackName.AIR_ATTACK);
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("AirAttack");
         hits.Clear(); // re-enable damage to all hit enemy
     }
 

@@ -41,7 +41,7 @@ public class Jump : MonoBehaviour, IStatList
             }
             if (Time.time - jumpSFXTime > 0.25f)
             {
-                AudioManager.Instance.SFXBranch.PlaySFXTrack(SFXTrackName.JUMP);
+                AudioManager.Instance.SFXBranch.PlaySFXTrack("Jump");
                 jumpSFXTime = Time.time;
             }
         }

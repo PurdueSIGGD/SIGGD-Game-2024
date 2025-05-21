@@ -11,6 +11,8 @@ public class SFXManager : MonoBehaviour
     // Priority SFX: Sounds which are especially important to hear for the player (e.g. damage taken, player's attack)
     // BIGSFX: Sounds which take the centerstage and override ALL other audio sources for impact (e.g. North railgun, T4 Sacrifice skills)
 
+    [SerializeField] private AudioLookUpTable lookUpTable;
+
     [SerializeField] private SoundBankSFXTrack footstep;
     [SerializeField] private SoundBankSFXTrack dash;
     [SerializeField] private SoundBankSFXTrack airAttack;
@@ -23,20 +25,6 @@ public class SFXManager : MonoBehaviour
     [SerializeField] private LoopingSFXTrack glide;
     [SerializeField] private OneShotSFXTrack heavyAttackPrimed;
     [SerializeField] private OneShotSFXTrack heavyAttackWindUp;
-    //[SerializeField] private LoopingSFXTrack railgunCharge;
-    //[SerializeField] private OneShotSFXTrack railgunAttack;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public ISFXTrack GetSFXTrack(SFXTrackName trackName) {
         switch (trackName) {
@@ -58,9 +46,8 @@ public class SFXManager : MonoBehaviour
         }
     }
 
-    public void PlaySFXTrack(SFXTrackName trackName) {
-        
-        GetSFXTrack(trackName).PlayTrack();
+    public void PlaySFXTrack(string trackName) {
+        lookUpTable.sfxTable[trackName].PlayTrack();
     }
 
     // Looping tracks only!! OneShot and sound banks cannot be stopped
