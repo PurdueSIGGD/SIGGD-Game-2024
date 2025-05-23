@@ -21,7 +21,8 @@ public class CameraDrone : EnemyStateManager
     protected void OnCallAlarm()
     {
         Vector3 dest = transform.position; // + new Vector3(transform.right.x * transform.lossyScale.x, -transform.lossyScale.y, 0);
-        Instantiate(enemyToSummon, dest, transform.rotation);
+        GameObject nenemy = Instantiate(enemyToSummon, dest, transform.rotation);
+        Destroy(nenemy.GetComponent<DropTable>());
     }
 
     protected override void OnDrawGizmos()
