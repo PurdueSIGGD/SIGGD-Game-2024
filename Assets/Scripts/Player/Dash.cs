@@ -65,7 +65,6 @@ public class Dash : MonoBehaviour, IStatList
     //</summary>
     public void StartDash()
     {
-        AudioManager.Instance.VABranch.PlayVATrack("Orion Dash");
         GetComponent<Move>().PlayerStop();
         Vector3 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         Vector2 direction = ((Vector2) mousePos - (Vector2) transform.position).normalized;
@@ -105,6 +104,7 @@ public class Dash : MonoBehaviour, IStatList
         orionManager.setSpecialCooldown(stats.ComputeValue("Dash Cooldown"));
         yield return new WaitForSeconds(0.05f);
         AudioManager.Instance.SFXBranch.PlaySFXTrack("Dash");
+        AudioManager.Instance.VABranch.PlayVATrack("Orion Dash");
 
         rb.velocity *= stats.ComputeValue("Post Dash Momentum Fraction");
         psm.EnableTrigger("OPT");

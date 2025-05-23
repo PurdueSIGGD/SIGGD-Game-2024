@@ -337,6 +337,8 @@ public class AudioWizard : ScriptableWizard
         lookUpTable.SFXLoops = new();
         lookUpTable.SFXBanks = new();
         lookUpTable.conversationTracks = new();
+        lookUpTable.VABanks = new();
+        lookUpTable.VATracks = new();
 
         foreach (Transform child in audioManager.GetComponentsInChildren<Transform>())
         {   
