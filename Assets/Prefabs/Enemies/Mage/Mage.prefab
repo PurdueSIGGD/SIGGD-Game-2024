@@ -17,9 +17,9 @@ GameObject:
   - component: {fileID: 4299196913714008640}
   - component: {fileID: 4693801382311939199}
   - component: {fileID: 7990850349161753078}
-  m_Layer: 0
+  m_Layer: 21
   m_Name: Mage
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -34,7 +34,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1.15, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5273232732876312737}
@@ -105,10 +105,10 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 5
-  m_LinearDrag: 0
+  m_Mass: 1
+  m_LinearDrag: 1
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 4
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -119,7 +119,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &-7854829235183403746
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -135,7 +135,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 2097216
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -201,17 +201,20 @@ MonoBehaviour:
   stats: {fileID: 0}
   pool: {fileID: 0}
   animator: {fileID: 0}
+  isFlyer: 0
   aggroRange: 10
+  isBeingKnockedBack: 0
+  grounded: 0
   lightningDamage:
     damageStrength: 1
     damageTypes: 02000000
     actionID: 17
-    actionTypes: 02000000
+    actionTypes: 07000000
     extraContext: 
-  lightningRadius: 3
+  lightningRadius: 5
   lightningRange: 12
   lightningChargeDuration: 1
-  cooldown: 2
+  cooldown: 6
   lightningPrefab: {fileID: 3530741045561927567, guid: 3fbf525f0e6c1a04e8dc4d84879763fc,
     type: 3}
 --- !u!114 &4299196913714008640
@@ -271,6 +274,8 @@ MonoBehaviour:
   statList:
   - name: Damage
     value: 10
+  - name: Speed
+    value: 0
 --- !u!1 &2990550269158129846
 GameObject:
   m_ObjectHideFlags: 0
@@ -407,6 +412,16 @@ PrefabInstance:
     - target: {fileID: 2728778880471080501, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2792638077557101623, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2792638077557101623, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,
+        type: 3}
+      propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3487495804464263818, guid: 57736c042d8d73b4abf9d13b8d2a3ad3,

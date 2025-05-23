@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2749698603520350017
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6689413071192679921}
+  m_Layer: 3
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6689413071192679921
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2749698603520350017}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2829017987449916020}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8156881770841578314
 GameObject:
   m_ObjectHideFlags: 0
@@ -37,7 +68,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 6689413071192679921}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!156049354 &358091148472642718
@@ -65,7 +97,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 0
-      m_TileSpriteIndex: 0
+      m_TileSpriteIndex: 1
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -75,7 +107,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 0
-      m_TileSpriteIndex: 1
+      m_TileSpriteIndex: 3
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -85,7 +117,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 0
-      m_TileSpriteIndex: 1
+      m_TileSpriteIndex: 3
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -106,12 +138,14 @@ Tilemap:
   - m_RefCount: 4
     m_Data: {fileID: 11400000, guid: 996c311528ef9dd4ba2b8fd30096d52d, type: 2}
   m_TileSpriteArray:
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   - m_RefCount: 1
-    m_Data: {fileID: 1674662441, guid: 517ddb00fc83bbb47b6010428cb46976, type: 3}
+    m_Data: {fileID: 1747908417, guid: 7fcc527954da40a45af9113267122b32, type: 3}
+  - m_RefCount: 1
+    m_Data: {fileID: -851018759, guid: 7fcc527954da40a45af9113267122b32, type: 3}
   - m_RefCount: 2
-    m_Data: {fileID: 814620477, guid: 517ddb00fc83bbb47b6010428cb46976, type: 3}
-  - m_RefCount: 1
-    m_Data: {fileID: 109285819, guid: 517ddb00fc83bbb47b6010428cb46976, type: 3}
+    m_Data: {fileID: 1869151626, guid: 7fcc527954da40a45af9113267122b32, type: 3}
   m_TileMatrixArray:
   - m_RefCount: 4
     m_Data:
@@ -200,7 +234,7 @@ TilemapRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
-  m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
+  m_ChunkCullingBounds: {x: 0.00012212992, y: 0, z: 0}
   m_MaxChunkCount: 16
   m_MaxFrameAge: 16
   m_SortOrder: 0
@@ -219,7 +253,7 @@ TilemapCollider2D:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 2097152
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -309,20 +343,50 @@ CompositeCollider2D:
   m_ColliderPaths:
   - m_Collider: {fileID: 3299084108281395470}
     m_ColliderPaths:
-    - - X: 20000000
-        Y: 0
-      - X: -20000000
-        Y: 0
-      - X: -20000000
-        Y: -10000000
-      - X: 20000000
-        Y: -10000000
+    - - X: -18553114
+        Y: -8260073
+      - X: -17234432
+        Y: -6648351
+      - X: -15622711
+        Y: -5915751
+      - X: -13791208
+        Y: -5256410
+      - X: -9981685
+        Y: -4743590
+      - X: 9986570
+        Y: -4743590
+      - X: 14601954
+        Y: -5549450
+      - X: 18558000
+        Y: -8333333
+      - X: 18631258
+        Y: -10018315
+      - X: 20023200
+        Y: -10018315
+      - X: 20023200
+        Y: 18315
+      - X: -20018316
+        Y: 18315
+      - X: -20018316
+        Y: -10018315
+      - X: -18626374
+        Y: -10018315
   m_CompositePaths:
     m_Paths:
-    - - {x: 1.9999708, y: -1}
-      - {x: 1.9999708, y: 0}
-      - {x: -2, y: -0.000029300001}
-      - {x: -1.9999708, y: -1}
+    - - {x: -1.8626652, y: -1.0018315}
+      - {x: -1.855306, y: -0.8260005}
+      - {x: -1.7234378, y: -0.66483253}
+      - {x: -1.5622692, y: -0.5915742}
+      - {x: -1.379119, y: -0.5256409}
+      - {x: -0.9981668, y: -0.474359}
+      - {x: 0.9986581, y: -0.4743593}
+      - {x: 1.4602001, y: -0.5549484}
+      - {x: 1.8558004, y: -0.8333462}
+      - {x: 1.8631536, y: -1.0018315}
+      - {x: 2.00232, y: -1.0018022}
+      - {x: 2.0022907, y: 0.0018315}
+      - {x: -2.0018315, y: 0.0018022}
+      - {x: -2.0018024, y: -1.0018315}
   m_VertexDistance: 0.0005
   m_OffsetDistance: 0.00005
   m_UseDelaunayMesh: 0

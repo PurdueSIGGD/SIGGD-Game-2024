@@ -9,6 +9,8 @@ public class PlayerParticles : MonoBehaviour
     [SerializeField] ParticleSystem heavyCharging;
     [SerializeField] ParticleSystem heavyPrimed;
     [SerializeField] ParticleSystem heavyAttack;
+    [SerializeField] ParticleSystem lightAttack;
+    [SerializeField] ParticleSystem upLightAttack;
 
     void Start()
     {
@@ -33,13 +35,32 @@ public class PlayerParticles : MonoBehaviour
     public void StopHeavyPrimed()
     {
         heavyPrimed.Stop();
+    }
+
+    public void PlayHeavyAttackVFX()
+    {
         StartCoroutine(HeavyAttackCoroutine());
     }
 
     private IEnumerator HeavyAttackCoroutine()
     {
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.12f);
         heavyAttack.Play();
-        shake.Shake(0.2f, 10f, 0, 10, new Vector2(Random.Range(-0.5f, 0.5f), 1f));
+    }
+
+    public void PlayLightAttackVFX(bool isUp)
+    {
+        StartCoroutine(LightAttackCoroutine(isUp));
+    }
+
+    private IEnumerator LightAttackCoroutine(bool isUp)
+    {
+        yield return new WaitForSeconds(0.05f);
+        if (isUp)
+        {
+            upLightAttack.Play();
+            yield break;
+        }
+        lightAttack.Play();
     }
 }

@@ -12,5 +12,9 @@ public class ManageRunState : StateMachineBehaviour
     {
         animator.gameObject.SendMessage("StopRun", null, SendMessageOptions.DontRequireReceiver);
     }
+    public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        animator.gameObject.SendMessage("UpdateRun", null, SendMessageOptions.DontRequireReceiver);
+    }
 
 }

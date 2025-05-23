@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 /// <summary>
@@ -7,89 +8,217 @@ using UnityEngine;
 /// </summary>
 public class IdolPassive : MonoBehaviour
 {
-    [SerializeField] public int tempoStack = 0; // Buff count, maxes at 3 stacks
-    [SerializeField] public int runSpeedMod = 20; // Run speed modifier for each buff stack, in percentage
-    [SerializeField] public int glideSpeedMod = 8; // Glide speed modifier for each buff stack, in percentage
-    [SerializeField] public float tempoDuration = 8.0f; // Duration before 1 stack of tempo expires
+    [SerializeField] public GameObject tempoParticlesVFX;
+    [SerializeField] public int tempoStacks = 0; // number of stacks
+    [SerializeField] private bool kill; // has the player just scored a kill?
+    [SerializeField] private bool uptempo; // have the stored tempo stacks been activated?
+    [SerializeField] public float duration;
+    [SerializeField] private float tick;
+    [SerializeField] public bool active = false;
+    List<string> statNames = new()
+        {
+            "Max Running Speed",
+            "Running Accel.",
+            //"Running Deaccel.",
+            "Max Glide Speed",
+            "Glide Accel.",
+            //"Glide Deaccel."
+        };
 
     // Reference to player stats
-    private StatManager stats;
+    private StatManager playerStats;
+    [HideInInspector] public IdolManager manager;
+
+    private IdolTempoParticles particlesVFX;
 
     void OnEnable()
     {
-        GameplayEventHolder.OnDeath += IncrementTempo;
+        GameplayEventHolder.OnDeath += IdolOnKill;
+    }
+    void OnDisable()
+    {
+        GameplayEventHolder.OnDeath -= IdolOnKill;
     }
 
     void Start()
     {
-        stats = GetComponent<StatManager>();
+        playerStats = PlayerID.instance.gameObject.GetComponent<StatManager>(); // yoink
+        particlesVFX = Instantiate(tempoParticlesVFX, PlayerID.instance.gameObject.transform).GetComponent<IdolTempoParticles>();
+        particlesVFX.gameObject.SetActive(false);
+    }
+
+    void Update()
+    {
+        // tempo duration timer
+        if (uptempo && duration > 0)
+        {
+            float inactiveModifier = manager.GetStats().ComputeValue("TEMPO_INACTIVE_DURATION_MODIFIER");
+            float maxDuration = manager.GetStats().ComputeValue("TEMPO_BASE_DURATION");
+
+            // decrement duration at a modified rate if Idol is not active
+            tick = active ? Time.deltaTime : Time.deltaTime * inactiveModifier;
+            duration -= tick;
+
+            // reset duration if player scored a kill
+            if (kill)
+            {
+                duration = maxDuration;
+                kill = false;
+            }
+        }
+        else if (uptempo)
+        {
+            // end tempo if duration ended
+            KillTempo();
+        }
+    }
+
+    /// <summary>
+    /// Called by IdolManager on swap to Idol, AFTER manager.active is set true
+    /// </summary>
+    public void ApplyBuffOnSwap()
+    {
+        // just being cautious and double checking if idol is active
+        // swapping is so sketch but we ball
+        if (active)
+        {
+            return;
+        }
+        active = true;
+        UpdateSpeed(tempoStacks);
+        Debug.Log("TEMPO AWAH UP");
+
+        // initialize tempo timer if stacks exist and tempo isn't up already
+        if (!uptempo && (tempoStacks > 0))
+        {
+            InitializeTempoTimer();
+        }
+
+        // VFX
+        if (tempoStacks <= 0) return;
+        GameObject teleportPulseVfX = Instantiate(manager.tempoPulseVFX, PlayerID.instance.transform.position, Quaternion.identity);
+        teleportPulseVfX.GetComponent<RingExplosionHandler>().playRingExplosion(1.5f, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
+        particlesVFX.gameObject.SetActive(true);
+    }
+    /// <summary>
+    /// Called by IdolManager on swap away from Idol, BEFORE manager.active is set false
+    /// </summary>
+    public void RemoveBuffOnSwap()
+    {
+        if (!active)
+        {
+            return;
+        }
+        UpdateSpeed(-tempoStacks);
+        active = false;
+        Debug.Log("TEMPO AWAH DOWN");
+
+        // VFX
+        particlesVFX.gameObject.SetActive(false);
     }
 
     /// <summary>
     /// Increases the Idol buff count by one
     /// </summary>
-    public void IncrementTempo(ref DamageContext context)
+    public void IdolOnKill(DamageContext context)
+    {
+        // not me? DON'T CARE!!!
+
+        if (context.attacker != PlayerID.instance.gameObject)
+        {
+            return;
+        }
+        kill = true;
+
+        IncrementTempo(Mathf.CeilToInt(manager.GetStats().ComputeValue("TEMPO_STACKS_PER_KILL")));
+    }
+
+    /// <summary>
+    /// Increases the Idol buff count by one
+    /// </summary>
+    public void IncrementTempo(int stacks)
     {
         Debug.Log("Increasing tempo");
-        if (context.attacker == gameObject)
+
+        int remainingStacks = (int)manager.GetStats().ComputeValue("TEMPO_MAX_STACKS") - tempoStacks;
+
+        // increment tempo stacks by stacks so it doesn't exceed maximum
+        stacks = stacks < remainingStacks ? stacks : remainingStacks;
+        tempoStacks += stacks;
+
+        // immediately apply tempo changes if Idol is active
+        if (active)
         {
-            StartCoroutine(TempoCoroutine());
+            UpdateSpeed(stacks);
         }
+        // initialize tempo effect if idol is active, has stacks, and isn't speed boosted yet 
+        if (tempoStacks > 0 && !uptempo)
+        {
+            InitializeTempoTimer();
+        }
+
+        // VFX
+        if (active && tempoStacks > 0)
+        {
+            GameObject teleportPulseVfX = Instantiate(manager.tempoPulseVFX, PlayerID.instance.transform.position, Quaternion.identity);
+            teleportPulseVfX.GetComponent<RingExplosionHandler>().playRingExplosion(1.5f, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
+            particlesVFX.gameObject.SetActive(true);
+        }
+        particlesVFX.SetIntensity(tempoStacks, manager.GetStats().ComputeValue("TEMPO_MAX_STACKS"));
+
+        // Ability UI Ping
+        if (tempoStacks > 0) GetComponent<IdolUIDriver>().basicAbilityUIManager.pingAbility();
     }
 
     /// <summary>
-    /// Increases the Idol buff count (max 3)
+    /// On your marks... get set... GOOOO!!!
+    /// Initializes the tempo timer to accurately track tempo duration until it ends.
     /// </summary>
-    /// <param name="count">number of buff stacks to add</param>
-    public void IncrementTempo(int count)
+    /// <returns></returns>
+    private string InitializeTempoTimer()
     {
-        for (int i = 0; i < count; i++)
-        {
-            StartCoroutine(TempoCoroutine());
-        }
+        Debug.Log("GO GO GO GO GO");
+        duration = manager.GetStats().ComputeValue("TEMPO_BASE_DURATION");
+        uptempo = true;
+        return "GRAHHHHHHHHHHHHH I'M FAST AF";
     }
 
     /// <summary>
-    /// Remove all buff stacks.
-    /// Please use when switching ghost
+    /// Remove all effects of tempo stacks and resets tempo stack counter.
     /// </summary>
-    public void ResetTempo()
+    /// <returns></returns>
+    private string KillTempo()
     {
-        StopAllCoroutines();
-        tempoStack = 0;
+        if (active)
+        {
+            UpdateSpeed(-tempoStacks);
+        }
+        tempoStacks = 0;
+        uptempo = false;
+
+        // VFX
+        particlesVFX.gameObject.SetActive(false);
+        particlesVFX.SetIntensity(tempoStacks, manager.GetStats().ComputeValue("TEMPO_MAX_STACKS"));
+
+        return "AAAOAOAOAO SH I HIT A BRICK WALL OH GOD IT HURTS";
     }
 
     /// <summary>
     /// Modify player speed stats by changes in player stack count
     /// </summary>
     /// <param name="deltaStack"></param>
-    private void UpdateSpeed(int deltaStack)
+    private void UpdateSpeed(int delta)
     {
-        stats.ModifyStat("Max Running Speed", runSpeedMod * deltaStack);
-        stats.ModifyStat("Running Accel.", runSpeedMod * deltaStack);
-        stats.ModifyStat("Running Deaccel.", runSpeedMod * deltaStack);
+        // apply changes to each speed stat
 
-        stats.ModifyStat("Max Glide Speed", glideSpeedMod * deltaStack);
-        stats.ModifyStat("Glide Accel.", glideSpeedMod * deltaStack);
-        stats.ModifyStat("Glide Deaccel.", glideSpeedMod * deltaStack);
-    }
-
-    /// <summary>
-    /// Gain 1 stack of tempo
-    /// </summary>
-    /// <returns></returns>
-    private IEnumerator TempoCoroutine()
-    {
-        if (tempoStack == 3)
+        int mod = (int)manager.GetStats().ComputeValue("TEMPO_BUFF_PERCENT_INT");
+        foreach (string statName in statNames)
         {
-            yield break;
-        }
-        tempoStack++;
-        UpdateSpeed(1);
+            // flip scaling direction for deacceleration stats
 
-        yield return new WaitForSeconds(tempoDuration);
-        tempoStack--;
-        Debug.Log("Tempo expired");
-        UpdateSpeed(-1);
+            delta = statName.Contains("Deaccel") ? delta * -1 : delta;
+            playerStats.ModifyStat(statName, mod * delta);
+        }
+        Debug.Log("RUN STAT: " + playerStats.ComputeValue("Max Running Speed"));
     }
 }

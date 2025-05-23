@@ -1,18 +1,44 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 public class PlagueDoctorSpecial : MonoBehaviour
 {
+    [HideInInspector] public SilasManager manager;
+    private PlayerStateMachine psm;
+    private Camera mainCamera;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        mainCamera = Camera.main;
+        psm = PlayerID.instance.GetComponent<PlayerStateMachine>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        if (manager != null)
+        {
+            if (manager.getSpecialCooldown() > 0)
+            {
+                psm.OnCooldown("c_special");
+            }
+            else
+            {
+                psm.OffCooldown("c_special");
+            }
+        }
+    }
+
+    public void StartDash()
+    {
+        manager.startSpecialCooldown();
+        GameObject bottle = Instantiate(manager.blightPotion, transform.position, transform.rotation);
+        Vector2 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 playerPos = PlayerID.instance.transform.position;
+        bottle.GetComponent<Rigidbody2D>().velocity = (mousePos - playerPos).normalized * manager.initialSpeed;
+        PlayerStateMachine psm = GetComponent<PlayerStateMachine>();
+        psm.EnableTrigger("OPT");
     }
 }
