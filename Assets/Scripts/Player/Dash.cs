@@ -65,6 +65,7 @@ public class Dash : MonoBehaviour, IStatList
     //</summary>
     public void StartDash()
     {
+        AudioManager.Instance.VABranch.PlayVATrack("Orion Dash");
         GetComponent<Move>().PlayerStop();
         Vector3 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         Vector2 direction = ((Vector2) mousePos - (Vector2) transform.position).normalized;

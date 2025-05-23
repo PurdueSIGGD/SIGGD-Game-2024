@@ -190,22 +190,45 @@ public class AudioWizard : ScriptableWizard
 
     private void CreateVA(GameObject audioComp)
     {
-        SoundBankVATrack soundBankVATrack = audioComp.AddComponent<SoundBankVATrack>();
-        soundBankVATrack.sounds = new List<UnityEngine.Object>();
-        soundBankVATrack.soundWeights = new List<float>();
-
-        foreach (AudioClip clip in clips)
+        switch (trackType)
         {
-            AudioSource source = audioComp.AddComponent<AudioSource>();
-            source.clip = clip;
-            source.outputAudioMixerGroup = audioMixer.FindMatchingGroups(GetSelectedMixer())[0];
-            source.playOnAwake = false;
+            case TrackType.SoundBank:
+                {
+                    SoundBankVATrack soundBankVATrack = audioComp.AddComponent<SoundBankVATrack>();
+                    soundBankVATrack.sounds = new List<UnityEngine.Object>();
+                    soundBankVATrack.soundWeights = new List<float>();
 
-            OneShotVATrack oneShotVATrack = audioComp.AddComponent<OneShotVATrack>();
-            oneShotVATrack.track = source;
+                    foreach (AudioClip clip in clips)
+                    {
+                        AudioSource source = audioComp.AddComponent<AudioSource>();
+                        source.clip = clip;
+                        source.outputAudioMixerGroup = audioMixer.FindMatchingGroups(GetSelectedMixer())[0];
+                        source.playOnAwake = false;
 
-            soundBankVATrack.sounds.Add(oneShotVATrack);
-            soundBankVATrack.soundWeights.Add(1);
+                        OneShotVATrack oneShotVATrack = audioComp.AddComponent<OneShotVATrack>();
+                        oneShotVATrack.track = source;
+
+                        soundBankVATrack.sounds.Add(oneShotVATrack);
+                        soundBankVATrack.soundWeights.Add(1);
+                    }
+                    break;
+                }
+            case TrackType.OneShot:
+                {
+                    AudioSource source = audioComp.AddComponent<AudioSource>();
+                    source.clip = clips[0];
+                    source.outputAudioMixerGroup = audioMixer.FindMatchingGroups(GetSelectedMixer())[0];
+                    source.playOnAwake = false;
+
+                    OneShotVATrack oneShotVATrack = audioComp.AddComponent<OneShotVATrack>();
+                    oneShotVATrack.track = source;
+                    break;
+                }
+            default:
+                {
+                    Debug.LogWarning("Unable to create Voice Line, only supports creating Track Type: One Shot and Soundbank");
+                    break;
+                }
         }
 
     }
@@ -260,6 +283,11 @@ public class AudioWizard : ScriptableWizard
                         soundBankSFXTrack.sounds.Add(oneShotSFXTrack);
                         soundBankSFXTrack.soundWeights.Add(1);
                     }
+                    break;
+                }
+            default:
+                {
+                    Debug.LogWarning("Unable to create SFX, only supports creating Track Type: One Shot, Looping, and Soundbank");
                     break;
                 }
         }
@@ -335,13 +363,28 @@ public class AudioWizard : ScriptableWizard
                 continue;
             }
 
-
-
             ConversationAudioHolder conversationAudioHolder = child.GetComponent<ConversationAudioHolder>();
             if (conversationAudioHolder)
             {
-                ConversationTrack conversation = new(child.name, child.GetComponent<ConversationAudioHolder>());
+                ConversationTrack conversation = new(child.name, conversationAudioHolder);
                 lookUpTable.conversationTracks.Add(conversation);
+                continue;
+            }
+
+            SoundBankVATrack soundBankVATrack = child.GetComponent<SoundBankVATrack>();
+            OneShotVATrack oneShotVATrack = child.GetComponent<OneShotVATrack>();
+
+            if (soundBankVATrack)
+            {
+                VABank bank = new(child.name, soundBankVATrack);
+                lookUpTable.VABanks.Add(bank);
+                continue;
+            }
+            if (oneShotVATrack)
+            {
+                VATrack track = new(child.name, oneShotVATrack);
+                lookUpTable.VATracks.Add(track);
+                continue;
             }
         }
         return true;

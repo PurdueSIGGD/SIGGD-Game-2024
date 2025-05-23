@@ -26,17 +26,11 @@ public class VAManager : MonoBehaviour {
         }
     }
 
-    // TODO remove placeholder
-    private IVATrack GetVATrack(string trackName)
-    {
-        return null;
-    }
-
     public void PlayVATrack(string trackName) {
         float temp = UnityEngine.Random.Range(0, 1.0f);
         bool willPlayTrack = globalVoicelineChance > temp;
         if (willPlayTrack) {
-            IVATrack castedTrack = GetVATrack(trackName);
+            IVATrack castedTrack = lookUpTable.vaTable[trackName];
             castedTrack.PlayTrack();
             if (!castedTrack.OverridesVoiceCulling()) {
                 float trackLength = 0.0f;

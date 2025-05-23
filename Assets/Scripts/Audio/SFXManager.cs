@@ -26,20 +26,3 @@ public class SFXManager : MonoBehaviour
         }
     }
 }
-
-//public enum SFXTrackName {
-//    FOOTSTEP,
-//    RAILGUN_CHARGE,
-//    RAILGUN_ATTACK,
-//    DASH,
-//    AIR_ATTACK,
-//    GHOST_SWAP,
-//    HEAVY_ATTACK,
-//    JUMP,
-//    LANDING,
-//    LIGHT_ATTACK,
-//    FAST_FALL,
-//    GLIDE,
-//    HEAVY_ATTACK_PRIMED,
-//    HEAVY_ATTACK_WIND_UP
-//}
