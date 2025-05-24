@@ -257,7 +257,6 @@ public class Move : MonoBehaviour, IStatList
             accel = stats.ComputeValue("Running Accel.");
             maxSpeed = stats.ComputeValue("Max Running Speed");
             deaccel = stats.ComputeValue("Running Deaccel.");
-            Debug.Log("Stop Heavy ChargeUp");
         }
     }
 
@@ -276,7 +275,6 @@ public class Move : MonoBehaviour, IStatList
         accel = 0;
         maxSpeed = 0;
         deaccel = stats.ComputeValue("Running Deaccel.");
-        Debug.Log("Back to normal");
     }
 
     public void PlayerStop()

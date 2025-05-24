@@ -57,6 +57,7 @@ public class IdolClone : MonoBehaviour
         {
             manager.clones.Remove(gameObject);
         }
+        expireContext.attacker = gameObject;
         expireContext.victim = gameObject;
         GameplayEventHolder.OnDeath.Invoke(expireContext);
         Destroy(gameObject);

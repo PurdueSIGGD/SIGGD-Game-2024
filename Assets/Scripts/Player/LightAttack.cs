@@ -68,7 +68,7 @@ public class LightAttack : MonoBehaviour, IStatList
     /// </summary>
     public void StartLightAttack()
     {
-        Debug.Log("Start Light Attack");
+        AudioManager.Instance.VABranch.PlayVATrack(PartyManager.instance.selectedGhost + " Light Attack");
         GetComponent<Move>().PlayerStop();
     }
 
@@ -76,7 +76,7 @@ public class LightAttack : MonoBehaviour, IStatList
 
     public void InitializeLightAttack()
     {
-        Debug.Log("Initialize Light Attack");
+        
         playerStateMachine.SetLightAttackRecoveryState(false);
         playerStateMachine.ConsumeLightAttackInput();
 
@@ -174,6 +174,8 @@ public class LightAttack : MonoBehaviour, IStatList
 
     public void StartSkyLightAttack()
     {
+        AudioManager.Instance.VABranch.PlayVATrack(PartyManager.instance.selectedGhost + " Light Attack");
+
         bool isSkyDash = animator.GetBool("air_light_ready");
         animator.SetBool("air_light_ready", false);
         isUpSkyAttack = false;

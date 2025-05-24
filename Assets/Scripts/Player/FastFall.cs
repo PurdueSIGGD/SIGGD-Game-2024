@@ -41,6 +41,7 @@ public class FastFall : MonoBehaviour
     public void StopFastFall()
     {
         isFastFalling = false;
+        AudioManager.Instance.VABranch.PlayVATrack(PartyManager.instance.selectedGhost + " Long Fall");
         AudioManager.Instance.SFXBranch.StopSFXTrack("FastFall");
     }
 

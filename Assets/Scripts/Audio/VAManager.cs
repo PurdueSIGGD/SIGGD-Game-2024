@@ -55,7 +55,7 @@ public class VAManager : MonoBehaviour {
     }
 
     public void StopConversationLine(string convName, int lineNumber) {
-        lookUpTable.conversationTable[convName].PlayTrack(lineNumber);
+        lookUpTable.conversationTable[convName].StopTrack(lineNumber);
     }
 
     public IEnumerator Debug_Culling_Status() {

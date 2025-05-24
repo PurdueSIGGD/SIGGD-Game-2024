@@ -14,7 +14,7 @@ public abstract class AbstractSoundBank : MonoBehaviour, ITrack {
     public List<float> soundWeights;
 
     // Used to prevent the n most recent sounds from playing again
-    [SerializeField] protected int recencyBlacklistSize;
+    public int recencyBlacklistSize;
 
     // The indices of the most recent sounds in the soundbank
     protected List<int> recentSounds = new List<int>();

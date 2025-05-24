@@ -99,6 +99,7 @@ public class HeavyAttack : MonoBehaviour, IStatList
                 hit.transform.gameObject.GetComponent<Health>().Damage(manager.heavyDamage, gameObject);
             }
         }
+        AudioManager.Instance.VABranch.PlayVATrack(PartyManager.instance.selectedGhost + " Heavy Attack");
         AudioManager.Instance.SFXBranch.PlaySFXTrack("HeavyAttack");
     }
 

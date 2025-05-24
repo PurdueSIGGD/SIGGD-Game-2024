@@ -14,6 +14,7 @@ public class AudioWizard : ScriptableWizard
     [SerializeField] Mixer mixerType;
     [SerializeField] string sourcePath = "";
     [SerializeField] List<AudioClip> clips;
+    [SerializeField] bool enableVoiceCulling;
 
     private AudioLookUpTable lookUpTable;
     private AudioMixer audioMixer;
@@ -31,9 +32,9 @@ public class AudioWizard : ScriptableWizard
 
     enum TrackType
     {
+        SoundBank,
         OneShot,
         Looping,
-        SoundBank,
         Leveled
     }
 
@@ -197,6 +198,7 @@ public class AudioWizard : ScriptableWizard
                     SoundBankVATrack soundBankVATrack = audioComp.AddComponent<SoundBankVATrack>();
                     soundBankVATrack.sounds = new List<UnityEngine.Object>();
                     soundBankVATrack.soundWeights = new List<float>();
+                    soundBankVATrack.recencyBlacklistSize = 1;
 
                     foreach (AudioClip clip in clips)
                     {
@@ -207,6 +209,7 @@ public class AudioWizard : ScriptableWizard
 
                         OneShotVATrack oneShotVATrack = audioComp.AddComponent<OneShotVATrack>();
                         oneShotVATrack.track = source;
+                        oneShotVATrack.voiceCullingOverride = enableVoiceCulling;
 
                         soundBankVATrack.sounds.Add(oneShotVATrack);
                         soundBankVATrack.soundWeights.Add(1);
@@ -222,6 +225,7 @@ public class AudioWizard : ScriptableWizard
 
                     OneShotVATrack oneShotVATrack = audioComp.AddComponent<OneShotVATrack>();
                     oneShotVATrack.track = source;
+                    oneShotVATrack.voiceCullingOverride = enableVoiceCulling;
                     break;
                 }
             default:
