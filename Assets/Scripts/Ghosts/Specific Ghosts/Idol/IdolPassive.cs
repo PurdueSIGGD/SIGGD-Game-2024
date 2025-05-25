@@ -33,6 +33,8 @@ public class IdolPassive : MonoBehaviour
 
     // list of avaliable audio banks to play on max tempo
     public List<string> avaliableHoloJumpVA = new List<string>() { "Eva-Idol Max Tempo" };
+    // list of avaliable audio banks to play on loosing clone
+    public List<string> avaliableCloneLostVA = new() { "Eva-Idol Holo Jump Lost Clone" };
 
     void OnEnable()
     {

@@ -72,7 +72,9 @@ public class IdolClone : MonoBehaviour
     {
         if (context.victim == gameObject)
         {
-            AudioManager.Instance.VABranch.PlayVATrack("Eva-Idol Holo Jump Lost Clone");
+            // play audio, if has upgrade, choose from 1 random voice bank to play
+            string chosenBank = manager.passive.avaliableCloneLostVA[Random.Range(0, manager.passive.avaliableCloneLostVA.Count)];
+            AudioManager.Instance.VABranch.PlayVATrack(chosenBank);
         }
     }
 }
