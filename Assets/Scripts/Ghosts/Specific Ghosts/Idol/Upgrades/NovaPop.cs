@@ -24,7 +24,17 @@ public class NovaPop : Skill
         manager.evaDeselectedEvent.AddListener(EvaDeselected);
     }
 
-    public void ExplodeOnDeath(DamageContext context)
+    private void OnEnable()
+    {
+        GameplayEventHolder.OnDeath += ExplodeOnDeath;
+    }
+
+    private void OnDisable()
+    {
+        GameplayEventHolder.OnDeath -= ExplodeOnDeath;
+    }
+
+        public void ExplodeOnDeath(DamageContext context)
     {
         if (context.victim.CompareTag("Idol_Clone") && pointIndex > 0)
         {
@@ -62,13 +72,11 @@ public class NovaPop : Skill
 
     private void EvaSelected()
     {
-        GameplayEventHolder.OnDeath += ExplodeOnDeath;
         manager.passive.avaliableCloneLostVA.Add("Eva-Idol Nova Pop");
     }
 
     private void EvaDeselected()
     {
-        GameplayEventHolder.OnDeath -= ExplodeOnDeath;
         manager.passive.avaliableCloneLostVA.Remove("Eva-Idol Nova Pop");
     }
 }
