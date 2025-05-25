@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.EditorTools;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,6 +26,8 @@ public class ElectricStep : Skill
     void Start()
     {
         manager = gameObject.GetComponent<IdolManager>();
+        manager.evaSelectedEvent.AddListener(EvaSelected);
+
         fieldVisualInstance = Instantiate(fieldVisual, PlayerID.instance.gameObject.transform);
         fieldVisualInstance.transform.localScale = new Vector3(1, 1, 1) * radius;
         fieldVisualInstance.SetActive(false);
@@ -103,5 +106,14 @@ public class ElectricStep : Skill
     public void SetRadius(float radius)
     {
         this.radius = radius;
+    }
+
+    private void EvaSelected()
+    {
+        if (pointIndex == 0)
+        {
+            return;
+        }
+        manager.passive.avaliableHoloJumpVA.Add("Eva-Idol Electric Step");
     }
 }

@@ -31,6 +31,9 @@ public class IdolPassive : MonoBehaviour
 
     private IdolTempoParticles particlesVFX;
 
+    // list of avaliable audio banks to play on max tempo
+    public List<string> avaliableHoloJumpVA = new List<string>() { "Eva-Idol Max Tempo" };
+
     void OnEnable()
     {
         GameplayEventHolder.OnDeath += IdolOnKill;
@@ -141,6 +144,20 @@ public class IdolPassive : MonoBehaviour
         Debug.Log("Increasing tempo");
 
         int remainingStacks = (int)manager.GetStats().ComputeValue("TEMPO_MAX_STACKS") - tempoStacks;
+
+        // if at max tempo, play max tempo audio
+        if (remainingStacks <= 0)
+        {
+            // play audio, if has upgrade, choose from 1 random voice bank to play
+            string chosenBank = avaliableHoloJumpVA[Random.Range(0, avaliableHoloJumpVA.Count)];
+            AudioManager.Instance.VABranch.PlayVATrack(chosenBank);
+        }
+        
+        // if does not currently have any tempo, play on activate audio
+        if (tempoStacks <= 0)
+        {
+            AudioManager.Instance.VABranch.PlayVATrack("Eva-Idol Activate Tempo");
+        }
 
         // increment tempo stacks by stacks so it doesn't exceed maximum
         stacks = stacks < remainingStacks ? stacks : remainingStacks;

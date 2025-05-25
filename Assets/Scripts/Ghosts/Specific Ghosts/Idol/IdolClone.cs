@@ -14,7 +14,11 @@ public class IdolClone : MonoBehaviour
     [Header("Used by clone to kill self")]
     [SerializeField] DamageContext expireContext = new DamageContext();
     private GameObject player;
-    //private IdolManager manager;
+
+    void Start()
+    {
+        GameplayEventHolder.OnDeath += PlayDeathVa;
+    }
 
     void Update()
     {
@@ -60,6 +64,15 @@ public class IdolClone : MonoBehaviour
         expireContext.attacker = gameObject;
         expireContext.victim = gameObject;
         GameplayEventHolder.OnDeath.Invoke(expireContext);
+        GameplayEventHolder.OnDeath -= PlayDeathVa;
         Destroy(gameObject);
+    }
+
+    private void PlayDeathVa(DamageContext context)
+    {
+        if (context.victim == gameObject)
+        {
+            AudioManager.Instance.VABranch.PlayVATrack("Eva-Idol Holo Jump Lost Clone");
+        }
     }
 }
