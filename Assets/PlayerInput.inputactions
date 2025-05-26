@@ -42,6 +42,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "HeavyAttack",
+                    "type": "Button",
+                    "id": "db905fbc-1e78-4646-b382-30dd9cd49773",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Special",
                     "type": "Button",
                     "id": "94edfd67-b90d-4196-b871-54401e29f825",
@@ -219,7 +228,7 @@
                 {
                     "name": "",
                     "id": "51f1fa2b-cec3-40b0-89ce-c380138d0f17",
-                    "path": "<Mouse>/rightButton",
+                    "path": "<Keyboard>/leftShift",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -323,6 +332,17 @@
                     "processors": "Scale(factor=-1)",
                     "groups": "",
                     "action": "ScrollWheel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b41e0cbb-3122-41e9-b1cd-eb5ebf6dcf9c",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "HeavyAttack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

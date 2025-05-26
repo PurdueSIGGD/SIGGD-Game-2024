@@ -83,6 +83,7 @@ public class HeavyAttack : MonoBehaviour, IStatList
     public void StartHeavyAttack()
     {
         GetComponent<Move>().PlayerStop();
+        playerStateMachine.ConsumeHeavyAttackInput();
     }
 
     public void ExecuteHeavyAttack()

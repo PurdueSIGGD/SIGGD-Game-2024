@@ -78,7 +78,8 @@ public class LightAttack : MonoBehaviour, IStatList
     {
         Debug.Log("Initialize Light Attack");
         playerStateMachine.SetLightAttackRecoveryState(false);
-        playerStateMachine.ConsumeLightAttackInput();
+        //playerStateMachine.ConsumeLightAttackInput();
+        playerStateMachine.SetLightAttack2Ready(!playerStateMachine.isLightAttack2Ready);
 
         float halfAngle = angle / 2; // angle above and below the centerline of the attack cone
         deltaAngle = halfAngle / rayCount * 2; // change in degree between each ray
