@@ -28,7 +28,7 @@ public class PartyManager : MonoBehaviour
 
     // References to fields in SaveData, declared for convenience of a shorter name
     private List<string> ghostsInParty;
-    private string selectedGhost = "";
+    private string selectedGhost = "Orion";
     private int selectedGhostIndex = -1;
 
     private void Awake()
@@ -48,6 +48,7 @@ public class PartyManager : MonoBehaviour
         else
         {
             ghostsInParty = new List<string>();
+            selectedGhost = "Orion";
         }
     }
 
@@ -164,14 +165,16 @@ public class PartyManager : MonoBehaviour
         // do not possess if player selected base kit
         if (index == -1)
         {
-            selectedGhost = "";
-            AudioManager.Instance.SFXBranch.PlaySFXTrack(SFXTrackName.GHOST_SWAP);
+            AudioManager.Instance.VABranch.PlayVATrack("Orion On Swap");
+            AudioManager.Instance.SFXBranch.PlaySFXTrack("GhostSwap");
+            selectedGhost = "Orion";
             return;
         }
 
         ghostsByName[ghostsInParty[index]].TriggerSelectedBehavior();
         selectedGhost = ghostsInParty[index];
-        AudioManager.Instance.SFXBranch.PlaySFXTrack(SFXTrackName.GHOST_SWAP);
+        AudioManager.Instance.VABranch.PlayVATrack(selectedGhost + " On Swap");
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("GhostSwap");
     }
 
     /// <summary>

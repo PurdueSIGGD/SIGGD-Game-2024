@@ -5,5 +5,5 @@ using System.Collections.Generic;
 public class SaveData
 {
     public List<string> ghostsInParty = new();
-    public string selectedGhost = "";
+    public string selectedGhost = "Orion";
 }

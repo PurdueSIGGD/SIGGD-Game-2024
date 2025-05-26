@@ -6,7 +6,7 @@ public abstract class AbstractLoopingTrack : MonoBehaviour {
 
     // The tracks used for smooth looping
     // Unfortunately I have to name the track variable differently because serialization is my enemy
-    [SerializeField] protected AudioSource[] tracks;
+    [SerializeField] public AudioSource[] tracks;
 
     // The index of the current playing track
     protected int currentTrackOffset = 0;

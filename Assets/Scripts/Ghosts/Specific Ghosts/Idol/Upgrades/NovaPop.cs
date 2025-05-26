@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
+using UnityEditor.EditorTools;
 using UnityEngine;
 
 public class NovaPop : Skill
@@ -19,6 +20,8 @@ public class NovaPop : Skill
 
         stat = GetComponent<StatManager>();
         manager = GetComponent<IdolManager>();
+        manager.evaSelectedEvent.AddListener(EvaSelected);
+        manager.evaDeselectedEvent.AddListener(EvaDeselected);
     }
 
     private void OnEnable()
@@ -31,7 +34,7 @@ public class NovaPop : Skill
         GameplayEventHolder.OnDeath -= ExplodeOnDeath;
     }
 
-    public void ExplodeOnDeath(DamageContext context)
+        public void ExplodeOnDeath(DamageContext context)
     {
         if (context.victim.CompareTag("Idol_Clone") && pointIndex > 0)
         {
@@ -65,5 +68,15 @@ public class NovaPop : Skill
     public override void RemovePointTrigger()
     {
         pointIndex = GetPoints();
+    }
+
+    private void EvaSelected()
+    {
+        manager.passive.avaliableCloneLostVA.Add("Eva-Idol Nova Pop");
+    }
+
+    private void EvaDeselected()
+    {
+        manager.passive.avaliableCloneLostVA.Remove("Eva-Idol Nova Pop");
     }
 }

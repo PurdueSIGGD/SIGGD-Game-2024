@@ -28,6 +28,7 @@ public class Jump : MonoBehaviour, IStatList
         rb.gravityScale = 4;
         rb.velocity = new Vector2(rb.velocity.x, 0);
         rb.AddForce(new Vector2(0, 1) * stats.ComputeValue("Jump Force"), ForceMode2D.Impulse);
+        AudioManager.Instance.VABranch.PlayVATrack(PartyManager.instance.selectedGhost + " Jump");
     }
 
     void FixedUpdate()
@@ -41,7 +42,7 @@ public class Jump : MonoBehaviour, IStatList
             }
             if (Time.time - jumpSFXTime > 0.25f)
             {
-                AudioManager.Instance.SFXBranch.PlaySFXTrack(SFXTrackName.JUMP);
+                AudioManager.Instance.SFXBranch.PlaySFXTrack("Jump");
                 jumpSFXTime = Time.time;
             }
         }
