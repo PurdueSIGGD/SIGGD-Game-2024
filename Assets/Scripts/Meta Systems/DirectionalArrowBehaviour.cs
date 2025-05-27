@@ -12,6 +12,8 @@ public class DirectionalArrowBehaviour : MonoBehaviour
     [SerializeField] bool blinking;
     [SerializeField] float blinkingOffset;
     [SerializeField] Color color;
+    [SerializeField] bool hideOnScreen; // toggling true will ensure the arrow disappears once the entity
+                                        // it is pointing to is on screen
 
     private float blinkingTimer = 0.0f;
     
@@ -41,6 +43,7 @@ public class DirectionalArrowBehaviour : MonoBehaviour
 
         if (Mathf.Abs(transform.position.x - mainCameraPos.x) > screenWidth || Mathf.Abs(transform.position.y - mainCameraPos.y) > screenHeight)
         {
+            circle.SetActive(true);
             
             Vector2 a1 = transform.position;
             Vector2 a2 = mainCameraPos;
@@ -66,8 +69,15 @@ public class DirectionalArrowBehaviour : MonoBehaviour
         }
         else
         {
-            circle.transform.position = transform.position + offset;
-            circle.transform.rotation = Quaternion.Euler(0, 0, 180);
+            if (hideOnScreen)
+            {
+                circle.SetActive(false);
+            }
+            else
+            {
+                circle.transform.position = transform.position + offset;
+                circle.transform.rotation = Quaternion.Euler(0, 0, 180);
+            }
         }
     }
 
