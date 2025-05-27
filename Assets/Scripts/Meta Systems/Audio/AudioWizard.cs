@@ -82,17 +82,31 @@ public class AudioWizard : ScriptableWizard
 
         // ok disclaimers aside, I'm gonna start writing this monstrosity now god help me
 
+        // iterate each child object, if name already eixsts, add to the existing
+        // child object instead of creating a new one
+        bool addToExisting = false;
+        foreach (Transform child in audioManager.GetComponentsInChildren<Transform>())
+        {
+            if (child.name.Equals(audioName))
+            {
+                addToExisting = true;
+                break;
+            }
+        }
+
+
         switch (audioType)
         {
             case AudioType.VA:
-                CreateVA(audioComp);
-                break;
+                CreateVA(audioComp, addToExisting);
+                if (ReloadKeys(audioManager)) break;
+                else return;
             case AudioType.SFX:
-                CreateSFX(audioComp);
+                CreateSFX(audioComp, addToExisting);
                 if (ReloadKeys(audioManager)) break;
                 else return;
             case AudioType.Conversation:
-                CreateConversation(audioComp);
+                CreateConversation(audioComp, addToExisting);
                 if (ReloadKeys(audioManager)) break;
                 else return;
             default:
@@ -189,16 +203,21 @@ public class AudioWizard : ScriptableWizard
         }
     }
 
-    private void CreateVA(GameObject audioComp)
+    private void CreateVA(GameObject audioComp, bool addToExisting)
     {
         switch (trackType)
         {
             case TrackType.SoundBank:
                 {
-                    SoundBankVATrack soundBankVATrack = audioComp.AddComponent<SoundBankVATrack>();
-                    soundBankVATrack.sounds = new List<UnityEngine.Object>();
-                    soundBankVATrack.soundWeights = new List<float>();
-                    soundBankVATrack.recencyBlacklistSize = 1;
+                    SoundBankVATrack soundBankVATrack;
+                    if (addToExisting) soundBankVATrack = audioComp.GetComponent<SoundBankVATrack>();
+                    else
+                    {
+                        soundBankVATrack = audioComp.AddComponent<SoundBankVATrack>();
+                        soundBankVATrack.sounds = new List<UnityEngine.Object>();
+                        soundBankVATrack.soundWeights = new List<float>();
+                        soundBankVATrack.recencyBlacklistSize = 1;
+                    }
 
                     foreach (AudioClip clip in clips)
                     {
@@ -218,12 +237,16 @@ public class AudioWizard : ScriptableWizard
                 }
             case TrackType.OneShot:
                 {
-                    AudioSource source = audioComp.AddComponent<AudioSource>();
+                    AudioSource source;
+                    if (addToExisting) source = audioComp.GetComponent<AudioSource>();
+                    else source = audioComp.AddComponent<AudioSource>();
                     source.clip = clips[0];
                     source.outputAudioMixerGroup = audioMixer.FindMatchingGroups(GetSelectedMixer())[0];
                     source.playOnAwake = false;
 
-                    OneShotVATrack oneShotVATrack = audioComp.AddComponent<OneShotVATrack>();
+                    OneShotVATrack oneShotVATrack;
+                    if (addToExisting) oneShotVATrack = audioComp.GetComponent<OneShotVATrack>();
+                    else oneShotVATrack = audioComp.AddComponent<OneShotVATrack>();
                     oneShotVATrack.track = source;
                     oneShotVATrack.voiceCullingOverride = enableVoiceCulling;
                     break;
@@ -237,18 +260,22 @@ public class AudioWizard : ScriptableWizard
 
     }
 
-    private void CreateSFX(GameObject audioComp)
+    private void CreateSFX(GameObject audioComp, bool addToExisting)
     {
         switch (trackType)
         {
             case TrackType.OneShot: 
                 {
-                    AudioSource source = audioComp.AddComponent<AudioSource>();
+                    AudioSource source;
+                    if (addToExisting) source = audioComp.GetComponent<AudioSource>();
+                    else source = audioComp.AddComponent<AudioSource>();
                     source.clip = clips[0];
                     source.outputAudioMixerGroup = audioMixer.FindMatchingGroups(GetSelectedMixer())[0];
                     source.playOnAwake = false;
 
-                    OneShotSFXTrack oneShotSFXTrack = audioComp.AddComponent<OneShotSFXTrack>();
+                    OneShotSFXTrack oneShotSFXTrack;
+                    if (addToExisting) oneShotSFXTrack = audioComp.GetComponent<OneShotSFXTrack>();
+                    else oneShotSFXTrack = audioComp.AddComponent<OneShotSFXTrack>();
                     oneShotSFXTrack.track = source;
                     break;
                 }
@@ -256,13 +283,15 @@ public class AudioWizard : ScriptableWizard
                 {
                     AudioSource source1;
                     AudioSource source2;
-
-                    source1 = source2 = audioComp.AddComponent<AudioSource>();
+                    if (addToExisting) source1 = source2 = audioComp.GetComponent<AudioSource>();
+                    else source1 = source2 = audioComp.AddComponent<AudioSource>();
                     source1.clip = source2.clip = clips[0];
                     source1.outputAudioMixerGroup = source2.outputAudioMixerGroup = audioMixer.FindMatchingGroups(GetSelectedMixer())[0];
                     source1.playOnAwake = source2.playOnAwake = false;
 
-                    LoopingSFXTrack loopingSFXTrack = audioComp.AddComponent<LoopingSFXTrack>();
+                    LoopingSFXTrack loopingSFXTrack;
+                    if (addToExisting) loopingSFXTrack = audioComp.GetComponent<LoopingSFXTrack>();
+                    else loopingSFXTrack = audioComp.AddComponent<LoopingSFXTrack>();
                     loopingSFXTrack.tracks = new AudioSource[2];
                     loopingSFXTrack.tracks[0] = source1;
                     loopingSFXTrack.tracks[1] = source2;
@@ -270,9 +299,14 @@ public class AudioWizard : ScriptableWizard
                 }
             case TrackType.SoundBank:
                 {
-                    SoundBankSFXTrack soundBankSFXTrack = audioComp.AddComponent<SoundBankSFXTrack>();
-                    soundBankSFXTrack.sounds = new List<UnityEngine.Object>();
-                    soundBankSFXTrack.soundWeights = new List<float>();
+                    SoundBankSFXTrack soundBankSFXTrack;
+                    if (addToExisting) soundBankSFXTrack = audioComp.GetComponent<SoundBankSFXTrack>();
+                    else 
+                    {
+                        soundBankSFXTrack = audioComp.AddComponent<SoundBankSFXTrack>();
+                        soundBankSFXTrack.sounds = new List<UnityEngine.Object>();
+                        soundBankSFXTrack.soundWeights = new List<float>();
+                    }
 
                     foreach (AudioClip clip in clips)
                     {
@@ -297,10 +331,15 @@ public class AudioWizard : ScriptableWizard
         }
     }
 
-    private void CreateConversation(GameObject audioComp)
+    private void CreateConversation(GameObject audioComp, bool addToExisting)
     {
-        ConversationAudioHolder conversationAudioHolder = audioComp.AddComponent<ConversationAudioHolder>();
-        conversationAudioHolder.tracks = new List<OneShotVATrack>();
+        ConversationAudioHolder conversationAudioHolder;
+        if (addToExisting) conversationAudioHolder = audioComp.GetComponent<ConversationAudioHolder>();
+        else
+        {
+            conversationAudioHolder = audioComp.AddComponent<ConversationAudioHolder>();
+            conversationAudioHolder.tracks = new List<OneShotVATrack>();
+        }
 
         foreach (AudioClip clip in clips)
         {
