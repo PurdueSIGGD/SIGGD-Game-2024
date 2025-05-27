@@ -1,22 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
-using UnityEngine.Experimental.GlobalIllumination;
 
 /// <summary>
 /// Thsi is the script that manages the "Wrath" value and activates the Samurai Heavy Attack Dash
 /// </summary>
-public class WrathHeavyAttack : MonoBehaviour, IStatList
+public class WrathHeavyAttack : MonoBehaviour
 {
-    [SerializeField]
-    private StatManager.Stat[] statList;
-
-    [SerializeField] private DamageContext dashDamageContext;
-    [SerializeField] private LayerMask attackMask;
+    public SamuraiManager manager;
 
     private float wrathPercent = 0.0f;
-    private StatManager stats;
     private Camera mainCamera;
 
     private float decayTimer = 0.0f;
@@ -24,14 +15,12 @@ public class WrathHeavyAttack : MonoBehaviour, IStatList
     private bool decaying = false;
     private float timer = 0.0f;
     private bool startTimer = false;
-    private float dashSpeed = 0.0f;
     private bool resetDecay = false;
 
     // Start is called before the first frame update
     void Start()
     {
         GameplayEventHolder.OnDamageDealt += OnDamage;
-        stats = PlayerID.instance.GetComponent<StatManager>();
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
     }
 
@@ -47,19 +36,16 @@ public class WrathHeavyAttack : MonoBehaviour, IStatList
                 decaying = true;
             }
         }
-
-        if (decaying && wrathPercent >= stats.ComputeValue("Wrath Decay Rate") * Time.deltaTime)
+        float decayRate = manager.GetStats().ComputeValue("Wrath Decay Rate");
+        if (decaying && wrathPercent >=  decayRate * Time.deltaTime)
         {
-            wrathPercent -= stats.ComputeValue("Wrath Decay Rate") * Time.deltaTime;
-            Debug.Log("currentWrathPercentage: " + wrathPercent);
+            wrathPercent -= decayRate * Time.deltaTime;
         }
         else if (decaying)
         {
             wrathPercent = 0.0f;
             decaying = false;
         }
-
-        Debug.Log("Time delta: " + Time.deltaTime);
 
         if (startTimer)
         {
@@ -75,16 +61,18 @@ public class WrathHeavyAttack : MonoBehaviour, IStatList
     //The function gets called (via event) whenever something gets damaged in the scene
     public void OnDamage(DamageContext context)
     {
+        float wrathGained = manager.GetStats().ComputeValue("Wrath Gained");
+
         if (context.attacker == gameObject && context.actionTypes[0] == ActionType.LIGHT_ATTACK)
         {
-            wrathPercent = Mathf.Min(wrathPercent + stats.ComputeValue("Wrath Gained"), 1);
-            decayTimer = stats.ComputeValue("Wrath Decay Buffer");
+            wrathPercent = Mathf.Min(wrathPercent + wrathGained, 1);
+            decayTimer = manager.GetStats().ComputeValue("Wrath Decay Buffer");
             startingToDecay = true;
             decaying = false;
         }
         else if (context.victim == gameObject)
         {
-            wrathPercent = Mathf.Max(wrathPercent - stats.ComputeValue("Wrath Gained"), 0);
+            wrathPercent = Mathf.Max(wrathPercent - wrathGained, 0);
         }
     }
 
@@ -109,15 +97,15 @@ public class WrathHeavyAttack : MonoBehaviour, IStatList
             dir = new Vector2(1, 0);
         }
 
-        float dist = Mathf.Lerp(stats.ComputeValue("Base Dash Distance"), stats.ComputeValue("Max Dash Distance"), wrathPercent);
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, dist, attackMask);
+        float dist = Mathf.Lerp(manager.GetStats().ComputeValue("Base Dash Distance"), manager.GetStats().ComputeValue("Max Dash Distance"), wrathPercent);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, dist, LayerMask.GetMask("Enemy", "Ground"));
         if (hit)
         {
             dist = Mathf.Abs(transform.position.x - hit.point.x);
         }
-        PlayerID.instance.GetComponent<Rigidbody2D>().velocity = stats.ComputeValue("Dash Speed") * dir;
+        PlayerID.instance.GetComponent<Rigidbody2D>().velocity = manager.GetStats().ComputeValue("Dash Speed") * dir;
         PlayerID.instance.GetComponent<Move>().PlayerStop();
-        timer = dist / stats.ComputeValue("Dash Speed");
+        timer = dist / manager.GetStats().ComputeValue("Dash Speed");
         startTimer = true;
     }
 
@@ -126,13 +114,14 @@ public class WrathHeavyAttack : MonoBehaviour, IStatList
     {
         PlayerID.instance.GetComponent<Animator>().SetBool("finishWrath", false);
 
-        Collider2D[] hit = Physics2D.OverlapBoxAll(transform.position, new Vector2(2, 1), 0, attackMask);
+        Collider2D[] hit = Physics2D.OverlapBoxAll(transform.position, new Vector2(2, 1), 0, LayerMask.GetMask("Enemy", "Ground"));
         foreach (Collider2D h in hit)
         {
-            dashDamageContext.damage = Mathf.Lerp(stats.ComputeValue("Base Dash Damage"), stats.ComputeValue("Max Dash Damage"), wrathPercent);
+            DamageContext context = manager.heavyDamageContext;
+            context.damage = Mathf.Lerp(manager.GetStats().ComputeValue("Base Dash Damage"), manager.GetStats().ComputeValue("Max Dash Damage"), wrathPercent);
             foreach (IDamageable damageable in h.gameObject.GetComponents<IDamageable>())
             {
-                damageable.Damage(dashDamageContext, gameObject);
+                damageable.Damage(context, gameObject);
             }
         }
         Empty();
@@ -154,11 +143,5 @@ public class WrathHeavyAttack : MonoBehaviour, IStatList
     public void Empty()
     {
         wrathPercent = 0.0f;
-    }
-
-    //Needed for implementing IStatList
-    public StatManager.Stat[] GetStatList()
-    {
-        return statList;
     }
 }
