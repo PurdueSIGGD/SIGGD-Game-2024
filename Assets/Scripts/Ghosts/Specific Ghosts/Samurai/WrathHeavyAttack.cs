@@ -7,7 +7,7 @@ public class WrathHeavyAttack : MonoBehaviour
 {
     public SamuraiManager manager;
 
-    private float wrathPercent = 0.0f;
+    [SerializeField] private float wrathPercent = 0.0f;
     private Camera mainCamera;
 
     private float decayTimer = 0.0f;
@@ -61,10 +61,9 @@ public class WrathHeavyAttack : MonoBehaviour
     //The function gets called (via event) whenever something gets damaged in the scene
     public void OnDamage(DamageContext context)
     {
-        float wrathGained = manager.GetStats().ComputeValue("Wrath Gained");
-
         if (context.attacker == gameObject && context.actionTypes[0] == ActionType.LIGHT_ATTACK)
         {
+            float wrathGained = manager.GetStats().ComputeValue("Wrath Percent Gain Per Damage Dealt");
             wrathPercent = Mathf.Min(wrathPercent + wrathGained, 1);
             decayTimer = manager.GetStats().ComputeValue("Wrath Decay Buffer");
             startingToDecay = true;
@@ -72,7 +71,8 @@ public class WrathHeavyAttack : MonoBehaviour
         }
         else if (context.victim == gameObject)
         {
-            wrathPercent = Mathf.Max(wrathPercent - wrathGained, 0);
+            float wrathLost = manager.GetStats().ComputeValue("Wrath Percent Loss Per Damage Taken");
+            wrathPercent = Mathf.Max(wrathPercent - wrathLost, 0);
         }
     }
 
@@ -97,15 +97,15 @@ public class WrathHeavyAttack : MonoBehaviour
             dir = new Vector2(1, 0);
         }
 
-        float dist = Mathf.Lerp(manager.GetStats().ComputeValue("Base Dash Distance"), manager.GetStats().ComputeValue("Max Dash Distance"), wrathPercent);
+        float dist = Mathf.Lerp(manager.GetStats().ComputeValue("Heavy Attack Minimum Travel Distance"), manager.GetStats().ComputeValue("Heavy Attack Maximum Travel Distance "), wrathPercent);
         RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, dist, LayerMask.GetMask("Enemy", "Ground"));
         if (hit)
         {
             dist = Mathf.Abs(transform.position.x - hit.point.x);
         }
-        PlayerID.instance.GetComponent<Rigidbody2D>().velocity = manager.GetStats().ComputeValue("Dash Speed") * dir;
+        PlayerID.instance.GetComponent<Rigidbody2D>().velocity = manager.GetStats().ComputeValue("Heavy Attack Travel Speed") * dir;
         PlayerID.instance.GetComponent<Move>().PlayerStop();
-        timer = dist / manager.GetStats().ComputeValue("Dash Speed");
+        timer = dist / manager.GetStats().ComputeValue("Heavy Attack Travel Speed");
         startTimer = true;
     }
 
@@ -114,17 +114,20 @@ public class WrathHeavyAttack : MonoBehaviour
     {
         PlayerID.instance.GetComponent<Animator>().SetBool("finishWrath", false);
 
-        Collider2D[] hit = Physics2D.OverlapBoxAll(transform.position, new Vector2(2, 1), 0, LayerMask.GetMask("Enemy", "Ground"));
+        Collider2D[] hit = Physics2D.OverlapBoxAll(transform.position, new Vector2(2, 1), 0, LayerMask.GetMask("Enemy"));
         foreach (Collider2D h in hit)
         {
-            DamageContext context = manager.heavyDamageContext;
-            context.damage = Mathf.Lerp(manager.GetStats().ComputeValue("Base Dash Damage"), manager.GetStats().ComputeValue("Max Dash Damage"), wrathPercent);
-            foreach (IDamageable damageable in h.gameObject.GetComponents<IDamageable>())
+            Health health = h.GetComponent<Health>();
+            if (health)
             {
-                damageable.Damage(context, gameObject);
+                DamageContext context = manager.heavyDamageContext;
+                context.damage = Mathf.Lerp(manager.GetStats().ComputeValue("Heavy Attack Minimum Damage"),
+                                            manager.GetStats().ComputeValue("Heavy Attack Maximum Damage"),
+                                            wrathPercent);
+                health.Damage(context, gameObject);
             }
         }
-        Empty();
+        ResetWrath();
     }
 
     //this function get called (via message form animator) when you exit the 2nd Heavy Attack state
@@ -140,7 +143,7 @@ public class WrathHeavyAttack : MonoBehaviour
     }
 
     //Used to empty the remaining wrath percentage
-    public void Empty()
+    public void ResetWrath()
     {
         wrathPercent = 0.0f;
     }
