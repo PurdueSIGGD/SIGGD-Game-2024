@@ -8,7 +8,7 @@ using UnityEngine.Audio;
 
 public class AudioWizard : ScriptableWizard
 {
-    [SerializeField] string audioName;
+    [SerializeField] string audioName = "";
     [SerializeField] AudioType audioType;
     [SerializeField] TrackType trackType;
     [SerializeField] Mixer mixerType;
@@ -22,6 +22,7 @@ public class AudioWizard : ScriptableWizard
     // used for updating wizard ui
     private AudioType oldAudioType = AudioType.VA;
     private string oldPath = "";
+    private string oldName = "";
 
     enum AudioType
     {
@@ -134,6 +135,28 @@ public class AudioWizard : ScriptableWizard
 
     private void OnWizardUpdate()
     {
+        // if the audio name has changed, check if an audio comp already exist with that name
+        if (!audioName.Equals(oldName) || audioType != oldAudioType)
+        {
+            oldName = audioName;
+
+            bool found = false;
+
+            GameObject audioManager = PrefabUtility.LoadPrefabContents("Assets/Prefabs/Meta Systems/Audio Manager.prefab");
+            Transform parent = FindParent(audioManager);
+            foreach (Transform child in parent.GetComponentsInChildren<Transform>())
+            {
+                if (child.name.Equals(audioName))
+                {
+                    found = true;
+                    helpString = "An Audio Comp already exists under the given name and type, " +
+                        "pressing \"Create\" will override/add to the existing Audio Comp";
+                    break;
+                }
+            }
+            if (!found) helpString = "";
+        }
+
         // if the audio type has changed, make corresponding changes to default set up
         if (audioType != oldAudioType)
         {
