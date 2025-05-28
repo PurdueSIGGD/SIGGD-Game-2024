@@ -70,9 +70,26 @@ public class AudioWizard : ScriptableWizard
         GameObject audioManager = PrefabUtility.LoadPrefabContents("Assets/Prefabs/Meta Systems/Audio Manager.prefab");
         lookUpTable = audioManager.GetComponent<AudioLookUpTable>();
 
+
+        // iterate each child object, if name already eixsts, add to the existing
+        // child object instead of creating a new one
         Transform parent = FindParent(audioManager);
-        GameObject audioComp = new(audioName);
-        audioComp.transform.parent = parent;
+        GameObject audioComp = new();
+        bool addToExisting = false;
+        foreach (Transform child in parent.GetComponentsInChildren<Transform>())
+        {
+            if (child.name.Equals(audioName))
+            {
+                addToExisting = true;
+                audioComp = child.gameObject;
+                break;
+            }
+        }
+        if (!addToExisting)
+        {
+            audioComp = new(audioName);
+            audioComp.transform.parent = parent;
+        }
 
         // ok below should be some brilliant code that just generically fill up the audio component
         // BUT each audio and track type is like created so diffferently
@@ -81,18 +98,6 @@ public class AudioWizard : ScriptableWizard
         // and feel u can fix it, by all means give it a try, thanks xoxo
 
         // ok disclaimers aside, I'm gonna start writing this monstrosity now god help me
-
-        // iterate each child object, if name already eixsts, add to the existing
-        // child object instead of creating a new one
-        bool addToExisting = false;
-        foreach (Transform child in audioManager.GetComponentsInChildren<Transform>())
-        {
-            if (child.name.Equals(audioName))
-            {
-                addToExisting = true;
-                break;
-            }
-        }
 
 
         switch (audioType)
@@ -130,7 +135,7 @@ public class AudioWizard : ScriptableWizard
     private void OnWizardUpdate()
     {
         // if the audio type has changed, make corresponding changes to default set up
-        if (oldAudioType != audioType)
+        if (audioType != oldAudioType)
         {
             oldAudioType = audioType;
             if (audioType == AudioType.VA)
