@@ -30,7 +30,6 @@ public class SamuraiManager : GhostManager, ISelectable
         basic.manager = this;
 
         special = PlayerID.instance.AddComponent<SamuraiRetribution>();
-        //special.manager = this;
 
         base.Select(player);
     }

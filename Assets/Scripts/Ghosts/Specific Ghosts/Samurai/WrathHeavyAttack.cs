@@ -147,4 +147,9 @@ public class WrathHeavyAttack : MonoBehaviour
     {
         wrathPercent = 0.0f;
     }
+
+    public float GetWrathPercent()
+    {
+        return this.wrathPercent;
+    }
 }
