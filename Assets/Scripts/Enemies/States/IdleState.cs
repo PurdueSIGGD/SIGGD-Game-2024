@@ -14,6 +14,8 @@ using static UnityEngine.RuleTile.TilingRuleOutput;
 public class IdleState : IEnemyStates
 {
 
+    // TODO: Make enemeies return to origin when they lose sight of the player
+
     private const string IDLE_SPEED = "Idle Speed"; // Speed of enemy
     private const string PAUSE_TIME_MIN = "Pause Timer Duration Min"; // How much time to pass in between patrols (MIN)
     private const string PAUSE_TIME_MAX = "Pause Timer Duration Max"; // How much time to pass in between patrols (MAX)
