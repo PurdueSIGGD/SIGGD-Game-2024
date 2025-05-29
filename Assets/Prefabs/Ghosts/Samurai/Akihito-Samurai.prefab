@@ -186,9 +186,9 @@ GameObject:
   - component: {fileID: 7405602128645533076}
   - component: {fileID: 5431763233484459156}
   - component: {fileID: 2232021720850374686}
-  - component: {fileID: 6261064983069100489}
   - component: {fileID: 1605223674799290055}
   - component: {fileID: 9130847622867021415}
+  - component: {fileID: 4603953604982319825}
   m_Layer: 17
   m_Name: Akihito-Samurai
   m_TagString: Ghost
@@ -361,27 +361,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Heavy Attack Minimum Damage
-    value: 0
+    value: 50
   - name: 'Heavy Attack Maximum Damage '
-    value: 0
+    value: 150
   - name: Heavy Attack Minimum Travel Distance
-    value: 0
+    value: 5
   - name: Heavy Attack Maximum Travel Distance
-    value: 0
+    value: 10
   - name: Heavy Attack On-hit Final Travel Distance
-    value: 0
+    value: 2
   - name: Heavy Attack Travel Speed
-    value: 0
+    value: 5
   - name: Heavy Attack Cooldown Time
-    value: 0
+    value: 2
   - name: Wrath Percent Gain Per Damage Dealt
-    value: 0
+    value: 1
   - name: Wrath Percent Loss Per Damage Taken
-    value: 0
+    value: 0.7
   - name: Wrath Decay Buffer Time
-    value: 0
+    value: 3
   - name: Wrath Decay Rate
-    value: 0
+    value: 5
+  - name: Melee Parry Base Damage
+    value: 20
+  - name: Melee Parry Bonus Damage per Incoming Attack Damage
+    value: 0.7
+  - name: Melee Parry Stun Time
+    value: 1.2
+  - name: Success Cooldown Time
+    value: 0.8
+  - name: Failure Cooldown Time
+    value: 2
   defaultController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
   ghostController: {fileID: 9100000, guid: feb1e21d0fed66a4bbb1129caec7c995, type: 2}
   heavyDamageContext:
@@ -392,25 +402,6 @@ MonoBehaviour:
     extraContext: 
   basic: {fileID: 0}
   special: {fileID: 0}
---- !u!114 &6261064983069100489
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5573439592539216564}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 667327e63fa55ac458e714020f474959, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  selectedGhostUIManager: {fileID: 0}
-  deselectedGhostUIManager: {fileID: 0}
-  basicAbilityUIManager: {fileID: 0}
-  specialAbilityUIManager: {fileID: 0}
-  skill1UIManager: {fileID: 0}
-  skill2UIManager: {fileID: 0}
-  meterUIManager: {fileID: 0}
 --- !u!114 &1605223674799290055
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -445,6 +436,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: 741d655c9f17315478dd227c3f3276e0, type: 2}
+--- !u!114 &4603953604982319825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5573439592539216564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1389fcbff79e43842ba1395a0e3c6246, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectedGhostUIManager: {fileID: 0}
+  deselectedGhostUIManager: {fileID: 0}
+  basicAbilityUIManager: {fileID: 0}
+  specialAbilityUIManager: {fileID: 0}
+  skill1UIManager: {fileID: 0}
+  skill2UIManager: {fileID: 0}
+  meterUIManager: {fileID: 0}
 --- !u!1 &8364400161319552803
 GameObject:
   m_ObjectHideFlags: 0

@@ -21,9 +21,7 @@ public class SamuraiUIDriver : GhostUIDriver
         if (!isInParty) return;
         updateBasicAbility();
         updateSpecialAbility();
-        updateSkill1();
-        updateSkill2();
-        if (ghostIdentity.IsSelected()) updateMeter();
+
     }
 
     private void updateBasicAbility()
@@ -34,26 +32,7 @@ public class SamuraiUIDriver : GhostUIDriver
 
     private void updateSpecialAbility()
     {
-        specialAbilityUIManager.setAbilityCooldownTime(manager.getSpecialCooldown(), stats.ComputeValue("Special Cooldown"));
-        if (lockedAndLoaded.reservedCount > 0)
-        {
-            specialAbilityUIManager.setChargeWidgetActive(true);
-            specialAbilityUIManager.setChargeValue(lockedAndLoaded.reservedCount, lockedAndLoaded.reserveCharges[LockedAndLoadedSkill.pointIndex]);
-        }
-        else
-        {
-            specialAbilityUIManager.setChargeWidgetActive(false);
-        }
-    }
-
-    private void updateSkill1()
-    {
-
-    }
-
-    private void updateSkill2()
-    {
-
+        specialAbilityUIManager.setAbilityCooldownTime(manager.getSpecialCooldown(), stats.ComputeValue("Success Cooldown Time"));
     }
 
     private void updateMeter()
