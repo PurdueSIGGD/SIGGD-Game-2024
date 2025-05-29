@@ -14,7 +14,7 @@ using static UnityEngine.RuleTile.TilingRuleOutput;
 public class IdleState : IEnemyStates
 {
 
-    private const string SPEED = "Speed"; // Speed of enemy
+    private const string IDLE_SPEED = "Idle Speed"; // Speed of enemy
     private const string PAUSE_TIME_MIN = "Pause Timer Duration Min"; // How much time to pass in between patrols (MIN)
     private const string PAUSE_TIME_MAX = "Pause Timer Duration Max"; // How much time to pass in between patrols (MAX)
     private const string TARGET_RANGE_MIN = "Target Range Min"; // Target point can be at most this far from pivot point
@@ -51,7 +51,7 @@ public class IdleState : IEnemyStates
 
     {
         float distanceFromPivot = Random.Range(enemy.stats.ComputeValue(TARGET_RANGE_MIN), enemy.stats.ComputeValue(TARGET_RANGE_MAX));
-
+        
         if (currTarget.x > pivotPoint.x)
         {
             currTarget = new Vector2(pivotPoint.x - distanceFromPivot, pivotPoint.y);
@@ -93,7 +93,7 @@ public class IdleState : IEnemyStates
         {
             // Speed
 
-            float patrolSpeed = enemy.stats.ComputeValue(SPEED);
+            float patrolSpeed = enemy.stats.ComputeValue(IDLE_SPEED);
             Rigidbody2D rb = enemy.GetComponent<Rigidbody2D>();
 
             if (enemy.transform.position.x - currTarget.x < 0)
@@ -110,7 +110,7 @@ public class IdleState : IEnemyStates
             // If we are close enough to endpoint or we hit a wall, start timer and set idle animation
 
             RaycastHit2D hitWall = Physics2D.Raycast(enemy.transform.position, 
-                                                     new Vector2(Mathf.Sign(currTarget.x - enemy.transform.position.x), 0),
+                                                     rb.velocity,
                                                      1f, 
                                                      LayerMask.GetMask("Ground"));
 
