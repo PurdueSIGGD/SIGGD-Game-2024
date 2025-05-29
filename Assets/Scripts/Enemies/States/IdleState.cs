@@ -4,6 +4,7 @@ using System.Security.Cryptography;
 using System.Threading;
 using System.Xml.Serialization;
 using Unity.VisualScripting;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using static UnityEngine.RuleTile.TilingRuleOutput;
 
@@ -12,25 +13,21 @@ using static UnityEngine.RuleTile.TilingRuleOutput;
 /// </summary>
 public class IdleState : IEnemyStates
 {
-    // TODO merge in patrol behavior in IdleState
 
-    // TODO implement Enemy returning to origin after loosing aggro
-
-    private Vector2 currTarget; // Current Patrol endpoint
-    public float pauseTimerDurationMin = 1f; // How much time to pass in between patrols (MIN)
-    public float pauseTimerDurationMax = 4f; // How much time to pass in between patrols (MAX)
-    public float targetRangeLeft = 5f; // Target point can be at most this far left from spawn
-    public float targetRangeRight = 10f; // Target point can be at most this far right from spawn
-    public float minSpeedPercent = 0.8f; // Min percent of speed that enemy can patrol 
-
-
+    private const string SPEED = "Speed"; // Speed of enemy
+    private const string PAUSE_TIME_MIN = "Pause Timer Duration Min"; // How much time to pass in between patrols (MIN)
+    private const string PAUSE_TIME_MAX = "Pause Timer Duration Max"; // How much time to pass in between patrols (MAX)
+    private const string TARGET_RANGE_MIN = "Target Range Min"; // Target point can be at most this far from pivot point
+    private const string TARGET_RANGE_MAX = "Target Range Max"; // Target point is at least this far from pivot
+    
+    private const float PATROL_TARGET_RADIUS = 0.1f; // How close enemy needs to be from the target point to stop/margin of error
+    
     private float patrolPauseTimer = 0f; // Used for when enemy pauses near patrol endpoint
-    public float patrolTargetRadius = 0.1f; // How close enemy needs to be from the target point to stop
-
-    private Vector2 spawnPoint; // The initial point of the enemy
+    private Vector2 currTarget; // Current Patrol endpoint
+    private Vector2 pivotPoint; // The initial point of the enemy
 
     /// <summary>
-    /// 
+    /// Enter state, start animation and set first patrol target
     /// </summary>
     /// <param name="enemy"></param>
     public void EnterState(EnemyStateManager enemy)
@@ -39,28 +36,33 @@ public class IdleState : IEnemyStates
         if (!enemy.isBeingKnockedBack && (enemy.isFlyer || enemy.isGrounded())) rb.velocity = new Vector2(0, rb.velocity.y);
         enemy.pool.move.Play(enemy.animator); // Play the move animation
 
-        spawnPoint = new Vector2(enemy.transform.position.x, enemy.transform.position.y);
+        // Save initial point when entering the state
+
+        pivotPoint = new Vector2(enemy.transform.position.x, enemy.transform.position.y);
         SetPatrolTarget(enemy);
 
     }
 
     /// <summary>
-    /// 
+    /// Chooses the next point to walk to
     /// </summary>
     /// <param name="enemy"></param>
     private void SetPatrolTarget(EnemyStateManager enemy)
+
     {
-        if (currTarget.x > spawnPoint.x)
+        float distanceFromPivot = Random.Range(enemy.stats.ComputeValue(TARGET_RANGE_MIN), enemy.stats.ComputeValue(TARGET_RANGE_MAX));
+
+        if (currTarget.x > pivotPoint.x)
         {
-            currTarget = new Vector2(spawnPoint.x - Random.Range(0, targetRangeLeft), spawnPoint.y);
+            currTarget = new Vector2(pivotPoint.x - distanceFromPivot, pivotPoint.y);
         }
         else {
-            currTarget = new Vector2(spawnPoint.x + Random.Range(0, targetRangeRight), spawnPoint.y);
+            currTarget = new Vector2(pivotPoint.x + distanceFromPivot, pivotPoint.y);
         }
     }
 
     /// <summary>
-    /// 
+    /// Controls patrolling behavior, timer, and animation
     /// </summary>
     /// <param name="enemy"></param>
     private void Patrol(EnemyStateManager enemy)
@@ -91,7 +93,7 @@ public class IdleState : IEnemyStates
         {
             // Speed
 
-            float patrolSpeed = enemy.stats.ComputeValue("Speed") * Random.Range(minSpeedPercent, 1);
+            float patrolSpeed = enemy.stats.ComputeValue(SPEED);
             Rigidbody2D rb = enemy.GetComponent<Rigidbody2D>();
 
             if (enemy.transform.position.x - currTarget.x < 0)
@@ -105,11 +107,16 @@ public class IdleState : IEnemyStates
                 rb.velocity = new Vector2(-patrolSpeed, rb.velocity.y);
             }
 
-            // If we are close enough to endpoint, start timer and set idle animation
+            // If we are close enough to endpoint or we hit a wall, start timer and set idle animation
 
-            if (Mathf.Abs(enemy.transform.position.x - currTarget.x) <= patrolTargetRadius)
+            RaycastHit2D hitWall = Physics2D.Raycast(enemy.transform.position, 
+                                                     new Vector2(Mathf.Sign(currTarget.x - enemy.transform.position.x), 0),
+                                                     1f, 
+                                                     LayerMask.GetMask("Ground"));
+
+            if ((Mathf.Abs(enemy.transform.position.x - currTarget.x) <= PATROL_TARGET_RADIUS) || hitWall)
             {
-                patrolPauseTimer = Random.Range(pauseTimerDurationMin, pauseTimerDurationMax);
+                patrolPauseTimer = Random.Range(enemy.stats.ComputeValue(PAUSE_TIME_MIN), enemy.stats.ComputeValue(PAUSE_TIME_MAX));
                 enemy.pool.idle.Play(enemy.animator); // Play the idle animation
                 rb.velocity = new Vector2(0, rb.velocity.y);
             }
@@ -119,7 +126,7 @@ public class IdleState : IEnemyStates
     }
 
     /// <summary>
-    /// 
+    /// Conditions to change state or keep patrolling
     /// </summary>
     /// <param name="enemy"></param>
     public void UpdateState(EnemyStateManager enemy)
