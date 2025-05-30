@@ -17,11 +17,18 @@ public class WrathHeavyAttack : MonoBehaviour
     private bool startTimer = false;
     private bool resetDecay = false;
 
+    private PlayerStateMachine psm;
+    private bool isCharging = false;
+    [HideInInspector] public float chargingTime = 0f;
+    private bool isPrimed = false;
+    private float primedTime = 0f;
+
     // Start is called before the first frame update
     void Start()
     {
         GameplayEventHolder.OnDamageDealt += OnDamage;
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+        psm = GetComponent<PlayerStateMachine>();
     }
 
     // Update is called once per frame
@@ -52,8 +59,28 @@ public class WrathHeavyAttack : MonoBehaviour
             timer -= Time.deltaTime;
             if (timer <= 0.0f)
             {
-                PlayerID.instance.GetComponent<Animator>().SetBool("finishWrath", true);
+                psm.EnableTrigger("finishWrath");
                 startTimer = false;
+            }
+        }
+
+        if (isCharging && chargingTime > 0f) chargingTime -= Time.deltaTime;
+        if (isCharging && chargingTime <= 0f) psm.EnableTrigger("OPT");
+
+        if (isPrimed && primedTime > 0f) primedTime -= Time.deltaTime;
+        if (isPrimed && primedTime <= 0f) psm.EnableTrigger("OPT");
+
+        Vector3 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 mouseDiff = transform.position - mousePos;
+        if (isCharging || isPrimed)
+        {
+            if (mouseDiff.x < 0) // update player facing direction
+            {
+                transform.rotation = Quaternion.Euler(0, 0, 0);
+            }
+            else if (mouseDiff.x > 0)
+            {
+                transform.rotation = Quaternion.Euler(0, 180, 0);
             }
         }
     }
@@ -79,8 +106,33 @@ public class WrathHeavyAttack : MonoBehaviour
     //this functionn get called (via message from animator) when you enter the Heavy Charge up state
     public void StartHeavyChargeUp()
     {
+        PlayerID.instance.GetComponent<Move>().PlayerStop();
+        chargingTime = manager.GetStats().ComputeValue("Heavy Charge Up Time");
+        isCharging = true;
+        AudioManager.Instance.SFXBranch.PlaySFXTrack(SFXTrackName.HEAVY_ATTACK_WIND_UP);
         decaying = false;
         resetDecay = true;
+    }
+    public void StopHeavyChargeUp()
+    {
+        PlayerID.instance.GetComponent<Move>().PlayerGo();
+        isCharging = false;
+        chargingTime = 0f;
+    }
+
+    public void StartHeavyPrimed()
+    {
+        GetComponent<Move>().PlayerStop();
+        primedTime = manager.GetStats().ComputeValue("Heavy Primed Autofire Time");
+        isPrimed = true;
+        AudioManager.Instance.SFXBranch.PlaySFXTrack(SFXTrackName.HEAVY_ATTACK_PRIMED);
+    }
+
+    public void StopHeavyPrimed()
+    {
+        GetComponent<Move>().PlayerGo();
+        isPrimed = false;
+        primedTime = 0f;
     }
 
     //this function get called (via message form animator) when you enter the Heavy Attack state
@@ -97,7 +149,7 @@ public class WrathHeavyAttack : MonoBehaviour
             dir = new Vector2(1, 0);
         }
 
-        float dist = Mathf.Lerp(manager.GetStats().ComputeValue("Heavy Attack Minimum Travel Distance"), manager.GetStats().ComputeValue("Heavy Attack Maximum Travel Distance "), wrathPercent);
+        float dist = Mathf.Lerp(manager.GetStats().ComputeValue("Heavy Attack Minimum Travel Distance"), manager.GetStats().ComputeValue("Heavy Attack Maximum Travel Distance"), wrathPercent);
         RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, dist, LayerMask.GetMask("Enemy", "Ground"));
         if (hit)
         {
@@ -112,8 +164,6 @@ public class WrathHeavyAttack : MonoBehaviour
     //this function get called (via message form animator) when you exit the Heavy Attack state
     public void StopHeavyAttack()
     {
-        PlayerID.instance.GetComponent<Animator>().SetBool("finishWrath", false);
-
         Collider2D[] hit = Physics2D.OverlapBoxAll(transform.position, new Vector2(2, 1), 0, LayerMask.GetMask("Enemy"));
         foreach (Collider2D h in hit)
         {
