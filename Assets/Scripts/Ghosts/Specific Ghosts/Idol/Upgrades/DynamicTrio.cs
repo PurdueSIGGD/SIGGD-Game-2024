@@ -13,6 +13,7 @@ public class DynamicTrio : Skill
     void Start()
     {
         manager = gameObject.GetComponent<IdolManager>();
+        manager.evaSelectedEvent.AddListener(EvaSelected);
     }
     void Update()
     {
@@ -78,5 +79,14 @@ public class DynamicTrio : Skill
 
         context.victim = PlayerID.instance.gameObject;
         context.damage = originalDamage * (1 - transferPercentage);
+    }
+
+    private void EvaSelected()
+    {
+        if (pointIndex == 0)
+        {
+            return;
+        }
+        manager.special.avaliableHoloJumpVA.Add("Eva-Idol Dynamic Trio");
     }
 }

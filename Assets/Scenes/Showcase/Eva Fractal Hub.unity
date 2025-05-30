@@ -1633,29 +1633,6 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
         type: 3}
-      propertyPath: enemies.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
-        type: 3}
-      propertyPath: enemies.Array.data[1].enemy
-      value: 
-      objectReference: {fileID: 1487853512614266132, guid: 73f93381fbec0764a90fbc89c20293ff,
-        type: 3}
-    - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
-        type: 3}
-      propertyPath: enemies.Array.data[2].enemy
-      value: 
-      objectReference: {fileID: 1393067818931581941, guid: 040374e0994a9d3488cf595921dd96e5,
-        type: 3}
-    - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
-        type: 3}
-      propertyPath: enemies.Array.data[3].enemy
-      value: 
-      objectReference: {fileID: 8652318323731026824, guid: b5d7b25097e81c641a939214d938169d,
-        type: 3}
-    - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
-        type: 3}
       propertyPath: enemies.Array.data[4].enemy
       value: 
       objectReference: {fileID: 2119936537419083514, guid: 0fedb38f283d38a4faca7620ea8ae537,
@@ -1680,21 +1657,6 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
         type: 3}
-      propertyPath: enemies.Array.data[1].endChance
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
-        type: 3}
-      propertyPath: enemies.Array.data[2].endChance
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
-        type: 3}
-      propertyPath: enemies.Array.data[3].endChance
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
-        type: 3}
       propertyPath: enemies.Array.data[4].endChance
       value: 1
       objectReference: {fileID: 0}
@@ -1711,21 +1673,6 @@ PrefabInstance:
     - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
         type: 3}
       propertyPath: enemies.Array.data[7].endChance
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
-        type: 3}
-      propertyPath: enemies.Array.data[1].startChance
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
-        type: 3}
-      propertyPath: enemies.Array.data[2].startChance
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
-        type: 3}
-      propertyPath: enemies.Array.data[3].startChance
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
@@ -1830,7 +1777,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6db28eeb50057a44abe376ac14ac48d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _lock: 1
+  _lock: Idol - Hub World First Arrival
 --- !u!1 &307987439 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 981645078808632434, guid: fdd8ae73b7b34f74fb40fe805250a3aa,
@@ -2377,6 +2324,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1295864056748667176, guid: 0c4504c44e0804246b232122549aca6a,
+        type: 3}
+      propertyPath: homeWorld
+      value: Eva Fractal Hub
+      objectReference: {fileID: 0}
     - target: {fileID: 2036965267508140759, guid: 0c4504c44e0804246b232122549aca6a,
         type: 3}
       propertyPath: m_LocalPosition.x

@@ -7,14 +7,14 @@ using UnityEngine;
 [Serializable]
 public abstract class AbstractSoundBank : MonoBehaviour, ITrack {
 
-        // We could revert the grouping of the sound bank and go back to having a public sounds and weights without the custom pair class
-        // Or remove the track count variable so you don't have to redefine the track variable (size would be set in inspector :( )
-    [SerializeField] protected List<UnityEngine.Object> sounds;
+    // We could revert the grouping of the sound bank and go back to having a public sounds and weights without the custom pair class
+    // Or remove the track count variable so you don't have to redefine the track variable (size would be set in inspector :( )
+    public List<UnityEngine.Object> sounds;
     // The probability of choosing a sound in the bank relative to other sounds
-    [SerializeField] protected List<float> soundWeights;
+    public List<float> soundWeights;
 
     // Used to prevent the n most recent sounds from playing again
-    [SerializeField] protected int recencyBlacklistSize;
+    public int recencyBlacklistSize;
 
     // The indices of the most recent sounds in the soundbank
     protected List<int> recentSounds = new List<int>();
