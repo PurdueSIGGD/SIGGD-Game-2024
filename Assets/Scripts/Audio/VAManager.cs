@@ -1,19 +1,10 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class VAManager : MonoBehaviour {
-    // Ability lines, etc.
-    [SerializeField] private SoundBankVATrack evaExersion;
-    //[SerializeField] private OneShotVATrack britishAnt;
 
-    // Converstaions
-    [SerializeField] private ConversationAudioHolder eva2Orion1;
-    [SerializeField] private ConversationAudioHolder death2Orion2;
-    [SerializeField] private ConversationAudioHolder eva2OrionHub1;
-    [SerializeField] private ConversationAudioHolder north2Orion1;
-    [SerializeField] private ConversationAudioHolder north2OrionHub1;
+    [SerializeField] private AudioLookUpTable lookUpTable;
 
     // Used to avoid voiceline spam
     private float globalVoicelineChance = 1.0f;
@@ -35,19 +26,11 @@ public class VAManager : MonoBehaviour {
         }
     }
 
-    public IVATrack GetVATrack(VATrackName trackName) {
-        switch(trackName) {
-            case VATrackName.EVA_EXERSION:    return evaExersion;
-            //case VATrackName.BRITISH_ANT:     return britishAnt;
-            default:                                return null;
-        }
-    }
-
-    public void PlayVATrack(VATrackName trackName) {
+    public void PlayVATrack(string trackName) {
         float temp = UnityEngine.Random.Range(0, 1.0f);
         bool willPlayTrack = globalVoicelineChance > temp;
         if (willPlayTrack) {
-            IVATrack castedTrack = GetVATrack(trackName);
+            IVATrack castedTrack = lookUpTable.vaTable[trackName];
             castedTrack.PlayTrack();
             if (!castedTrack.OverridesVoiceCulling()) {
                 float trackLength = 0.0f;
@@ -66,24 +49,13 @@ public class VAManager : MonoBehaviour {
         }
     }
 
-    public ConversationAudioHolder GetConversation(ConversationName conversationName) {
-        switch(conversationName) {
-            case ConversationName.EVA_ORION_1:      return eva2Orion1; // Test name
-            case ConversationName.Death_Orion_2:    return death2Orion2;
-            case ConversationName.EVA_ORION_HUB_1:  return eva2OrionHub1;
-            case ConversationName.NORTH_ORION_1:    return north2Orion1;
-            case ConversationName.NORTH_ORION_HUB_1:return north2OrionHub1;
-            default:                                return null;  
-        }
-    }
-
     // Don't test for voiceline spam - conversation lines MUST play
-    public void PlayConversationLine(ConversationName convName, int lineNumber) {
-        GetConversation(convName).PlayTrack(lineNumber);
+    public void PlayConversationLine(string convName, int lineNumber) {
+        lookUpTable.conversationTable[convName].PlayTrack(lineNumber);
     }
 
-    public void StopConversationLine(ConversationName convName, int lineNumber) {
-        GetConversation(convName).StopTrack(lineNumber);
+    public void StopConversationLine(string convName, int lineNumber) {
+        lookUpTable.conversationTable[convName].StopTrack(lineNumber);
     }
 
     public IEnumerator Debug_Culling_Status() {
@@ -95,17 +67,4 @@ public class VAManager : MonoBehaviour {
             yield return new WaitForSeconds(1.0f);
         }
     }
-}
-
-public enum VATrackName {
-    EVA_EXERSION,
-    BRITISH_ANT
-}
-
-public enum ConversationName {
-    EVA_ORION_1,
-    Death_Orion_2,
-    EVA_ORION_HUB_1,
-    NORTH_ORION_1,
-    NORTH_ORION_HUB_1,
 }

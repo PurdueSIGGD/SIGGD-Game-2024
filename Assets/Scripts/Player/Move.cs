@@ -91,7 +91,7 @@ public class Move : MonoBehaviour, IStatList
         if (input!=0 && animator.GetBool("p_grounded"))
         {
             if (Time.time - footstepTime > 0.25f) {
-                AudioManager.Instance.SFXBranch.PlaySFXTrack(SFXTrackName.FOOTSTEP);
+                AudioManager.Instance.SFXBranch.PlaySFXTrack("Footstep");
                 footstepTime = Time.time;
             }
         }
@@ -166,7 +166,7 @@ public class Move : MonoBehaviour, IStatList
         {
             if(Time.time - landSFXtime > 0.25)
             {
-                AudioManager.Instance.SFXBranch.PlaySFXTrack(SFXTrackName.LANDING);
+                AudioManager.Instance.SFXBranch.PlaySFXTrack("Landing");
                 landSFXtime = Time.time;
             }
         }
@@ -257,7 +257,6 @@ public class Move : MonoBehaviour, IStatList
             accel = stats.ComputeValue("Running Accel.");
             maxSpeed = stats.ComputeValue("Max Running Speed");
             deaccel = stats.ComputeValue("Running Deaccel.");
-            Debug.Log("Stop Heavy ChargeUp");
         }
     }
 
@@ -276,7 +275,6 @@ public class Move : MonoBehaviour, IStatList
         accel = 0;
         maxSpeed = 0;
         deaccel = stats.ComputeValue("Running Deaccel.");
-        Debug.Log("Back to normal");
     }
 
     public void PlayerStop()

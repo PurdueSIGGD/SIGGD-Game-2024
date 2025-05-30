@@ -14,7 +14,16 @@ public class IdolClone : MonoBehaviour
     [Header("Used by clone to kill self")]
     [SerializeField] DamageContext expireContext = new DamageContext();
     private GameObject player;
-    //private IdolManager manager;
+
+    void OnEnable()
+    {
+        GameplayEventHolder.OnDeath += PlayDeathVa;
+    }
+
+    private void OnDisable()
+    {
+        GameplayEventHolder.OnDeath -= PlayDeathVa;
+    }
 
     void Update()
     {
@@ -57,8 +66,20 @@ public class IdolClone : MonoBehaviour
         {
             manager.clones.Remove(gameObject);
         }
+        expireContext.attacker = gameObject;
         expireContext.victim = gameObject;
         GameplayEventHolder.OnDeath.Invoke(expireContext);
+        GameplayEventHolder.OnDeath -= PlayDeathVa;
         Destroy(gameObject);
+    }
+
+    private void PlayDeathVa(DamageContext context)
+    {
+        if (context.victim == gameObject)
+        {
+            // play audio, if has upgrade, choose from 1 random voice bank to play
+            string chosenBank = manager.passive.avaliableCloneLostVA[Random.Range(0, manager.passive.avaliableCloneLostVA.Count)];
+            AudioManager.Instance.VABranch.PlayVATrack(chosenBank);
+        }
     }
 }
