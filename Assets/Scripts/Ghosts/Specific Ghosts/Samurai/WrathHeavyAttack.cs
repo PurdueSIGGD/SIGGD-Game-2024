@@ -13,8 +13,6 @@ public class WrathHeavyAttack : MonoBehaviour
     private float decayTimer = 0.0f;
     private bool startingToDecay = false;
     private bool decaying = false;
-    private float timer = 0.0f;
-    private bool startTimer = false;
     private bool resetDecay = false;
 
     private PlayerStateMachine psm;
@@ -25,6 +23,10 @@ public class WrathHeavyAttack : MonoBehaviour
 
     private Rigidbody2D rb;
     private Vector2 desiredDashVelocity;
+    private float desiredDashDist;
+    private Vector2 desiredDashDest;
+    private bool isDashing;
+    private Vector2 startingDashLocation;
 
     // Start is called before the first frame update
     void Start()
@@ -63,15 +65,14 @@ public class WrathHeavyAttack : MonoBehaviour
             decaying = false;
         }
 
-        if (startTimer)
+        if (isDashing)
         {
             rb.velocity = desiredDashVelocity;
-            timer -= Time.deltaTime;
-            if (timer <= 0.0f)
+            if (Mathf.Sign(transform.position.x - desiredDashDest.x) == Mathf.Sign(desiredDashVelocity.x))
             {
                 psm.EnableTrigger("finishWrath");
                 StopSamuraiHeavyAttack();
-                startTimer = false;
+                isDashing = false;
             }
         }
 
@@ -166,17 +167,19 @@ public class WrathHeavyAttack : MonoBehaviour
             dir = new Vector2(1, 0);
         }
 
-        float dist = Mathf.Lerp(manager.GetStats().ComputeValue("Heavy Attack Minimum Travel Distance"), manager.GetStats().ComputeValue("Heavy Attack Maximum Travel Distance"), wrathPercent);
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, dist, LayerMask.GetMask("Enemy", "Ground"));
+        startingDashLocation = transform.position;
+        desiredDashDist = Mathf.Lerp(manager.GetStats().ComputeValue("Heavy Attack Minimum Travel Distance"), manager.GetStats().ComputeValue("Heavy Attack Maximum Travel Distance"), wrathPercent);
+        desiredDashDest = new(transform.position.x + desiredDashDist * dir.x, transform.position.y);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, desiredDashDist, LayerMask.GetMask("Enemy", "Ground"));
         if (hit)
         {
-            dist = Mathf.Abs(transform.position.x - hit.point.x);
+            desiredDashDist = Mathf.Abs(transform.position.x - hit.point.x);
+            desiredDashDest = hit.point;
         }
         desiredDashVelocity = manager.GetStats().ComputeValue("Heavy Attack Travel Speed") * dir;
         rb.isKinematic = true;
         PlayerID.instance.GetComponent<Move>().PlayerStop();
-        timer = dist / manager.GetStats().ComputeValue("Heavy Attack Travel Speed");
-        startTimer = true;
+        isDashing = true;
     }
 
     //this function get called (via message form animator) when you exit the Heavy Attack state
@@ -207,10 +210,7 @@ public class WrathHeavyAttack : MonoBehaviour
     private void StopSamuraiHeavyAttack()
     {
         rb.isKinematic = false;
-        if (rb.velocity.x > 0.1f)
-        {
-            rb.velocity = new Vector2(0, rb.velocity.y);
-        }
+        rb.velocity = new Vector2(0, rb.velocity.y);
     }
 
     //Used to empty the remaining wrath percentage
