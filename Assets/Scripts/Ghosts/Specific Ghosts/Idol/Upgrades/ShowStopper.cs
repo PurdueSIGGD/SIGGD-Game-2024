@@ -38,6 +38,9 @@ public class ShowStopper : Skill
             Health health = context.victim.GetComponent<Health>();
             if (context.damage >= health.currentHealth)
             {
+                // play audio
+                AudioManager.Instance.VABranch.PlayVATrack("Eva-Idol Show Stopper Before");
+
                 context.damage = 0f;
                 health.currentHealth = healthRestored;
                 expired = true;
@@ -57,6 +60,8 @@ public class ShowStopper : Skill
         freezeManager.FreezeTime(duration);
         yield return new WaitForSeconds(duration);
         freezeManager.UnFreezeTime();
+
+        AudioManager.Instance.VABranch.PlayVATrack("Eva-Idol Show Stopper After");
     }
 
     public override void AddPointTrigger()

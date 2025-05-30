@@ -103,7 +103,8 @@ public class Dash : MonoBehaviour, IStatList
         yield return new WaitForSeconds(stats.ComputeValue("Dash Time") - 0.05f);
         orionManager.setSpecialCooldown(stats.ComputeValue("Dash Cooldown"));
         yield return new WaitForSeconds(0.05f);
-        AudioManager.Instance.SFXBranch.PlaySFXTrack(SFXTrackName.DASH);
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("Dash");
+        AudioManager.Instance.VABranch.PlayVATrack("Orion Dash");
 
         rb.velocity *= stats.ComputeValue("Post Dash Momentum Fraction");
         psm.EnableTrigger("OPT");

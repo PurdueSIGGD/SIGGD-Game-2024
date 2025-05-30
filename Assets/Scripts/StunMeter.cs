@@ -10,7 +10,7 @@ using UnityEngine;
 /// Stun meter for enemies. When stun meter has been depleted, the enemy will
 /// be flinched/stunned for a breif duration.
 /// </summary>
-public class StunMeter : MonoBehaviour, IDamageable, IStatList
+public class StunMeter : MonoBehaviour, IStatList
 {
     [SerializeField] public StatManager.Stat[] statList;
 
@@ -18,6 +18,16 @@ public class StunMeter : MonoBehaviour, IDamageable, IStatList
     public float maxStun;
     private StatManager stats;
     private EnemyStateManager esm;
+
+    void OnEnable()
+    {
+        GameplayEventHolder.OnDamageDealt += Damage;
+    }
+
+    void OnDisable()
+    {
+        GameplayEventHolder.OnDamageDealt -= Damage;
+    }
 
     void Start()
     {
@@ -39,18 +49,17 @@ public class StunMeter : MonoBehaviour, IDamageable, IStatList
         };
     }
 
-    public float Damage(DamageContext context, GameObject attacker)
+    public void Damage(DamageContext context)
     {
+        if (context.victim != gameObject) return;
         float stun = ComputeStunBuildUp(context.damageStrength);
         currentStun -= stun;
 
         if (currentStun <= 0)
         {
             currentStun = maxStun = stats.ComputeValue("Stun Threshold");
-            esm.Stun(context, 0.4f);
+            esm.Stun(context, 0.6f);
         }
-
-        return stun;
     }
 
     public float Heal(HealingContext context, GameObject healer)

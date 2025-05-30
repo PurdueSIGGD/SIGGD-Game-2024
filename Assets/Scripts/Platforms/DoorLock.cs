@@ -7,14 +7,14 @@ using UnityEngine;
 /// </summary>
 public class DoorLock : MonoBehaviour
 {
-    [SerializeField] private ConversationName _lock;
+    [SerializeField] private string _lock;
 
     void Start()
     {
         DialogueManager.onFinishDialogue += TryUnlock;
     }
 
-    public void TryUnlock(ConversationName key)
+    public void TryUnlock(string key)
     {
         if (key == _lock)
         {
@@ -26,7 +26,7 @@ public class DoorLock : MonoBehaviour
     /// Set the correct conversation enum that needs to be finished
     /// to unlock the door
     /// </summary>
-    public void SetLock(ConversationName _lock)
+    public void SetLock(string _lock)
     {
         this._lock = _lock;
     }
