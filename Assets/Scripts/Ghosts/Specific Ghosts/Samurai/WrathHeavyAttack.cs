@@ -31,6 +31,11 @@ public class WrathHeavyAttack : MonoBehaviour
         psm = GetComponent<PlayerStateMachine>();
     }
 
+    void OnDisable()
+    {
+        GameplayEventHolder.OnDamageDealt -= OnDamage;
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -136,8 +141,14 @@ public class WrathHeavyAttack : MonoBehaviour
     }
 
     //this function get called (via message form animator) when you enter the Heavy Attack state
-    public void StartHeavyAttack()
+    public void StartHeavyAttack() { }
+
+    public void ExecuteHeavyAttack()
     {
+        GetComponent<PlayerParticles>().PlayHeavyAttackVFX();
+        psm.SetLightAttack2Ready(false);
+        AudioManager.Instance.SFXBranch.PlaySFXTrack(SFXTrackName.HEAVY_ATTACK);
+
         Vector2 dir = Vector2.zero;
         Vector3 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         if (mousePos.x < PlayerID.instance.transform.position.x)
