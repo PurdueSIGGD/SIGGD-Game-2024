@@ -55,7 +55,7 @@ public class DialogueManager : MonoBehaviour, IScreenUI
     //        Event delegate
     // ==============================
 
-    public delegate void OnFinishDialogue(ConversationName convo);
+    public delegate void OnFinishDialogue(string convo);
     public static OnFinishDialogue onFinishDialogue;
 
     // ==============================
@@ -120,8 +120,8 @@ public class DialogueManager : MonoBehaviour, IScreenUI
 
         // Play sound
         if(currentLine >= 1)
-            AudioManager.Instance.VABranch.StopConversationLine(conversation.data.convoEnum, currentLine - 1);
-        AudioManager.Instance.VABranch.PlayConversationLine(conversation.data.convoEnum, currentLine);
+            AudioManager.Instance.VABranch.StopConversationLine(conversation.data.convoName, currentLine - 1);
+        AudioManager.Instance.VABranch.PlayConversationLine(conversation.data.convoName, currentLine);
 
         currentLine++;
     }
@@ -141,7 +141,7 @@ public class DialogueManager : MonoBehaviour, IScreenUI
         actionOnDialogueEnd?.Invoke();
         actionOnDialogueEnd = null;
 
-        onFinishDialogue?.Invoke(conversation.data.convoEnum);
+        onFinishDialogue?.Invoke(conversation.data.convoName);
 
         PlayerID.instance.UnfreezePlayer();
     }

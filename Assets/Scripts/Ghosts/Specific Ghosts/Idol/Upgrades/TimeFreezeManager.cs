@@ -80,7 +80,7 @@ public class TimeFreezeManager : MonoBehaviour
             if (entity.delayedStun)
             {
                 killContext.victim = obj;
-                obj.GetComponent<StunMeter>().Damage(killContext, null);
+                obj.GetComponent<StunMeter>().Damage(killContext);
             }
             if (entity.delayedDeath)
             {

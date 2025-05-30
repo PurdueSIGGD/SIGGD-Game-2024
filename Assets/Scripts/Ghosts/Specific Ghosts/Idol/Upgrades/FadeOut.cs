@@ -36,6 +36,7 @@ public class FadeOut : Skill
             return;
         }
         idolSpecial = idolManager.special;
+        idolSpecial.avaliableHoloJumpVA.Add("Eva-Idol Fade Out Activate");
         idolSpecial.holoJumpCreatedCloneEvent.AddListener(HoloJumpCreatedClone);
     }
 
@@ -60,10 +61,16 @@ public class FadeOut : Skill
 
     private void BuffLightAttack(ref DamageContext damageContext)
     {
-        float damageMultiplier = 1f + 0.3f * pointIndex;
-        damageContext.damage *= damageMultiplier;
-        StartCoroutine(RemoveInvisibilityOnTimer(0f)); // we MUST wait 1 frame before removing invis. Here's why: ask Temirlan
-        //RemoveInvisibility();
+        if (damageContext.attacker.CompareTag("Player"))
+        {
+            // play audio
+            AudioManager.Instance.VABranch.PlayVATrack("Eva-Idol Fade Out Hit");
+
+            // buff damage
+            float damageMultiplier = 1f + 0.3f * pointIndex;
+            damageContext.damage *= damageMultiplier;
+            StartCoroutine(RemoveInvisibilityOnTimer(0f)); // we MUST wait 1 frame before removing invis. Here's why: ask Temirlan
+        }
     }
 
     private IEnumerator RemoveInvisibilityOnTimer(float duration)

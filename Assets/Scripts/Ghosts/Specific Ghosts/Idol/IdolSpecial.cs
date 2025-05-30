@@ -26,6 +26,9 @@ public class IdolSpecial : MonoBehaviour
 
     public UnityEvent holoJumpCreatedCloneEvent = new UnityEvent();
 
+    // list of avaliable audio banks to play on holo jumping
+    public List<string> avaliableHoloJumpVA = new List<string>() { "Eva-Idol Holo Jump Activate" };
+
 
     void Start()
     {
@@ -81,15 +84,12 @@ public class IdolSpecial : MonoBehaviour
     /// </summary>
     private IEnumerator DashCoroutine()
     {
-        Debug.Log("Holo Dash!");
         Vector3 dest;
 
         // calculate desired teleport position based on mouse location
         Vector2 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         Vector2 pos = transform.position;
         Vector2 rawDir = mousePos - pos;
-
-        Debug.Log("mouse:" + mousePos + ", pos:" + pos);
 
         // Check mouse position for valid teleport position
         dest = mousePos;
@@ -102,8 +102,6 @@ public class IdolSpecial : MonoBehaviour
             {
                 cappedDir = cappedDir.normalized * manager.GetStats().ComputeValue("HOLOJUMP_MAX_DISTANCE");
             }
-
-            Debug.Log("mouse - cappeddir:" + cappedDir);
 
             // calculate final destination (cannot teleport through "ground" layers)
             RaycastHit2D hit = Physics2D.Raycast(transform.position, cappedDir.normalized, cappedDir.magnitude, LayerMask.GetMask("Ground"));
@@ -154,6 +152,10 @@ public class IdolSpecial : MonoBehaviour
             manager.clones.Add(secondClone);
         }
 
+        // play audio, if has upgrade, choose from 1 random voice bank to play
+        string chosenBank = avaliableHoloJumpVA[Random.Range(0, avaliableHoloJumpVA.Count)];
+        AudioManager.Instance.VABranch.PlayVATrack(chosenBank);
+
         // small pause before player can start swapping with clone
         HoloJumpImmune(manager.GetStats().ComputeValue("HOLOJUMP_IMMUNE_SECONDS"));
         isSwitchOnCooldown = true;
@@ -175,7 +177,9 @@ public class IdolSpecial : MonoBehaviour
             }
             swapClone = manager.clones[0];
         }
-        Debug.Log("Holo Swap!");
+
+        //play audio
+        AudioManager.Instance.VABranch.PlayVATrack("Eva-Idol Holo Jump Switch");
 
         // switch position with active clone
         (psm.transform.position, swapClone.transform.position) = (swapClone.transform.position, psm.transform.position);
