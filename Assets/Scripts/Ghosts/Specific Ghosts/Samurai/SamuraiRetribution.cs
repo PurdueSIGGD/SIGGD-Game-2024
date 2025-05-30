@@ -5,11 +5,13 @@ using UnityEngine;
 
 public class SamuraiRetribution : MonoBehaviour
 {
+    private PlayerStateMachine psm;
     private bool parrying;
     private Camera mainCamera;
 
     void Start()
     {
+        psm = GetComponent<PlayerStateMachine>();
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
     }
 
@@ -21,7 +23,7 @@ public class SamuraiRetribution : MonoBehaviour
         }
     }
 
-    public void StartDash()
+    public void StartParry()
     {
         Debug.Log("StartParrying");
 
@@ -47,19 +49,30 @@ public class SamuraiRetribution : MonoBehaviour
         Debug.DrawLine(transform.position + dir * 2 + new Vector3(0, -1.5f, 0), transform.position + dir * 2 + new Vector3(0, 1.5f, 0), Color.blue, Time.deltaTime);
         Debug.DrawLine(transform.position + new Vector3(0, -1.5f, 0), transform.position + new Vector3(0, 1.5f, 0), Color.blue, Time.deltaTime);
 
+        bool parrySuccess = false;
+
         foreach (Collider2D coll2d in coll)
         {
             if (!coll2d.gameObject.CompareTag("Enemy"))
             {
-                coll2d.gameObject.GetComponent<EnemyProjectile>().target = "Enemy";
-                coll2d.gameObject.GetComponent<EnemyProjectile>().SwitchDirections();
+                EnemyProjectile projectile = coll2d.gameObject.GetComponent<EnemyProjectile>();
+                if (projectile && !projectile.parried)
+                {
+                    projectile.target = "Enemy";
+                    projectile.SwitchDirections();
+                    projectile.SetParried(true);
+                    parrySuccess = true;
+                }
             }
         }
+
+        if (parrySuccess) psm.EnableTrigger("finishParry");
     }
 
-    public void StopDash()
+    public void StopParry()
     {
-        Debug.Log("Stop Parrying");
+        Debug.Log("Stop Parrying"); 
+        parrying = false;
         GameplayEventHolder.OnDamageFilter.Remove(ParryingFilter);
     }
 
@@ -72,6 +85,10 @@ public class SamuraiRetribution : MonoBehaviour
             newContext.victim = context.attacker;
             context.attacker.GetComponent<Health>().Damage(newContext, gameObject);
             context.damage = 0;
+
+
+            // once a parry is successful, exit parry anim
+            psm.EnableTrigger("finishParry");
         }
     }
 }

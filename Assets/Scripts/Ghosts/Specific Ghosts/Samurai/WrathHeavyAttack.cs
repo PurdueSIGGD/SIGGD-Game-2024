@@ -19,9 +19,12 @@ public class WrathHeavyAttack : MonoBehaviour
 
     private PlayerStateMachine psm;
     private bool isCharging = false;
-    [HideInInspector] public float chargingTime = 0f;
+    private float chargingTime = 0f;
     private bool isPrimed = false;
     private float primedTime = 0f;
+
+    private Rigidbody2D rb;
+    private Vector2 desiredDashVelocity;
 
     // Start is called before the first frame update
     void Start()
@@ -29,6 +32,7 @@ public class WrathHeavyAttack : MonoBehaviour
         GameplayEventHolder.OnDamageDealt += OnDamage;
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         psm = GetComponent<PlayerStateMachine>();
+        rb = PlayerID.instance.GetComponent<Rigidbody2D>();
     }
 
     void OnDisable()
@@ -61,10 +65,13 @@ public class WrathHeavyAttack : MonoBehaviour
 
         if (startTimer)
         {
+            rb.velocity = desiredDashVelocity;
             timer -= Time.deltaTime;
             if (timer <= 0.0f)
             {
+                Debug.Log("Stopped at " + timer + " time on x unit " + transform.position.x);
                 psm.EnableTrigger("finishWrath");
+                StopSamuraiHeavyAttack();
                 startTimer = false;
             }
         }
@@ -166,15 +173,18 @@ public class WrathHeavyAttack : MonoBehaviour
         {
             dist = Mathf.Abs(transform.position.x - hit.point.x);
         }
-        PlayerID.instance.GetComponent<Rigidbody2D>().velocity = manager.GetStats().ComputeValue("Heavy Attack Travel Speed") * dir;
+        desiredDashVelocity = manager.GetStats().ComputeValue("Heavy Attack Travel Speed") * dir;
+        rb.isKinematic = true;
         PlayerID.instance.GetComponent<Move>().PlayerStop();
         timer = dist / manager.GetStats().ComputeValue("Heavy Attack Travel Speed");
+        Debug.Log("Travling " + dist + " units with " + wrathPercent + " percent wrath using " + timer + " seconds starting at " + transform.position.x);
         startTimer = true;
     }
 
     //this function get called (via message form animator) when you exit the Heavy Attack state
-    public void StopHeavyAttack()
+    public void StopHeavyAttack() 
     {
+        PlayerID.instance.GetComponent<Move>().PlayerGo();
         Collider2D[] hit = Physics2D.OverlapBoxAll(transform.position, new Vector2(2, 1), 0, LayerMask.GetMask("Enemy"));
         foreach (Collider2D h in hit)
         {
@@ -189,18 +199,22 @@ public class WrathHeavyAttack : MonoBehaviour
             }
         }
         ResetWrath();
-    }
-
-    //this function get called (via message form animator) when you exit the 2nd Heavy Attack state
-    public void StopSamuraiHeavyAttack()
-    {
-        PlayerID.instance.GetComponent<Move>().PlayerGo();
-        PlayerID.instance.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
         if (resetDecay)
         {
             decaying = true;
             resetDecay = false;
         }
+    }
+
+    private void StopSamuraiHeavyAttack()
+    {
+        rb.isKinematic = false;
+        if (rb.velocity.x > 0.1f)
+        {
+            Debug.Log("reducing velocity to " + new Vector2(0, rb.velocity.y));
+            rb.velocity = new Vector2(0, rb.velocity.y);
+        }
+        Debug.Log("pausing velocity at " + transform.position.x);
     }
 
     //Used to empty the remaining wrath percentage
@@ -211,6 +225,6 @@ public class WrathHeavyAttack : MonoBehaviour
 
     public float GetWrathPercent()
     {
-        return this.wrathPercent;
+        return wrathPercent;
     }
 }
