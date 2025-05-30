@@ -69,7 +69,6 @@ public class WrathHeavyAttack : MonoBehaviour
             timer -= Time.deltaTime;
             if (timer <= 0.0f)
             {
-                Debug.Log("Stopped at " + timer + " time on x unit " + transform.position.x);
                 psm.EnableTrigger("finishWrath");
                 StopSamuraiHeavyAttack();
                 startTimer = false;
@@ -102,7 +101,7 @@ public class WrathHeavyAttack : MonoBehaviour
     {
         if (context.attacker == gameObject && context.actionTypes[0] == ActionType.LIGHT_ATTACK)
         {
-            float wrathGained = manager.GetStats().ComputeValue("Wrath Percent Gain Per Damage Dealt");
+            float wrathGained = manager.GetStats().ComputeValue("Wrath Percent Gain Per Damage Dealt") * context.damage / 100;
             wrathPercent = Mathf.Min(wrathPercent + wrathGained, 1);
             decayTimer = manager.GetStats().ComputeValue("Wrath Decay Buffer");
             startingToDecay = true;
@@ -110,7 +109,7 @@ public class WrathHeavyAttack : MonoBehaviour
         }
         else if (context.victim == gameObject)
         {
-            float wrathLost = manager.GetStats().ComputeValue("Wrath Percent Loss Per Damage Taken");
+            float wrathLost = manager.GetStats().ComputeValue("Wrath Percent Loss Per Damage Taken") * context.damage / 100;
             wrathPercent = Mathf.Max(wrathPercent - wrathLost, 0);
         }
     }
@@ -177,7 +176,6 @@ public class WrathHeavyAttack : MonoBehaviour
         rb.isKinematic = true;
         PlayerID.instance.GetComponent<Move>().PlayerStop();
         timer = dist / manager.GetStats().ComputeValue("Heavy Attack Travel Speed");
-        Debug.Log("Travling " + dist + " units with " + wrathPercent + " percent wrath using " + timer + " seconds starting at " + transform.position.x);
         startTimer = true;
     }
 
@@ -211,10 +209,8 @@ public class WrathHeavyAttack : MonoBehaviour
         rb.isKinematic = false;
         if (rb.velocity.x > 0.1f)
         {
-            Debug.Log("reducing velocity to " + new Vector2(0, rb.velocity.y));
             rb.velocity = new Vector2(0, rb.velocity.y);
         }
-        Debug.Log("pausing velocity at " + transform.position.x);
     }
 
     //Used to empty the remaining wrath percentage

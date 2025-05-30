@@ -7,6 +7,7 @@ public class SamuraiManager : GhostManager, ISelectable
 {
     [SerializeField] public DamageContext heavyDamageContext;
 
+    [HideInInspector] public bool selected;
     [HideInInspector] public WrathHeavyAttack basic; // the heavy attack ability
     [HideInInspector] public SamuraiRetribution special; // the special ability
 
@@ -24,7 +25,7 @@ public class SamuraiManager : GhostManager, ISelectable
     public override void Select(GameObject player)
     {
         Debug.Log("Akihito SELECTED!");
-
+        selected = true;
         if (PlayerID.instance.GetComponent<HeavyAttack>()) Destroy(PlayerID.instance.GetComponent<HeavyAttack>());
         basic = PlayerID.instance.AddComponent<WrathHeavyAttack>();
         basic.manager = this;
@@ -36,6 +37,7 @@ public class SamuraiManager : GhostManager, ISelectable
 
     public override void DeSelect(GameObject player)
     {
+        selected = false;
         if (basic) Destroy(basic);
         if (!PlayerID.instance.GetComponent<HeavyAttack>()) PlayerID.instance.AddComponent<HeavyAttack>();
 

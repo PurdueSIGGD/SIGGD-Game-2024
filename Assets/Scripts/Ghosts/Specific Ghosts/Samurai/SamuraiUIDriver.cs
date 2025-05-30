@@ -5,7 +5,6 @@ using UnityEngine;
 public class SamuraiUIDriver : GhostUIDriver
 {
     private SamuraiManager manager;
-    private LockedAndLoadedSkill lockedAndLoaded;
 
     // Start is called before the first frame update
     protected override void Start()
@@ -19,7 +18,7 @@ public class SamuraiUIDriver : GhostUIDriver
     {
         base.Update();
         if (!isInParty) return;
-        updateBasicAbility();
+        if (manager.selected) updateBasicAbility();
         updateSpecialAbility();
 
     }
