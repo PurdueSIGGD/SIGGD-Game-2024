@@ -53,6 +53,7 @@ public class HeavyAttack : MonoBehaviour, IStatList
     public void StartHeavyChargeUp()
     {
         GetComponent<Move>().PlayerStop();
+        playerStateMachine.SetLightAttack2Ready(true);
         chargingTime = manager.GetStats().ComputeValue("Heavy Charge Up Time");
         isCharging = true;
         AudioManager.Instance.SFXBranch.PlaySFXTrack("HeavyAttackWindUp");
