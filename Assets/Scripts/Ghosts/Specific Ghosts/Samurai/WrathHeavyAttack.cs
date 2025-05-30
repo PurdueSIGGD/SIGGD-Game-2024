@@ -120,7 +120,7 @@ public class WrathHeavyAttack : MonoBehaviour
         PlayerID.instance.GetComponent<Move>().PlayerStop();
         chargingTime = manager.GetStats().ComputeValue("Heavy Charge Up Time");
         isCharging = true;
-        AudioManager.Instance.SFXBranch.PlaySFXTrack(SFXTrackName.HEAVY_ATTACK_WIND_UP);
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("HeavyAttackWindUp");
         decaying = false;
         resetDecay = true;
     }
@@ -136,7 +136,7 @@ public class WrathHeavyAttack : MonoBehaviour
         GetComponent<Move>().PlayerStop();
         primedTime = manager.GetStats().ComputeValue("Heavy Primed Autofire Time");
         isPrimed = true;
-        AudioManager.Instance.SFXBranch.PlaySFXTrack(SFXTrackName.HEAVY_ATTACK_PRIMED);
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("HeavyAttackPrimed");
     }
 
     public void StopHeavyPrimed()
@@ -153,7 +153,7 @@ public class WrathHeavyAttack : MonoBehaviour
     {
         GetComponent<PlayerParticles>().PlayHeavyAttackVFX();
         psm.SetLightAttack2Ready(false);
-        AudioManager.Instance.SFXBranch.PlaySFXTrack(SFXTrackName.HEAVY_ATTACK);
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("HeavyAttack");
 
         Vector2 dir = Vector2.zero;
         Vector3 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
