@@ -5,10 +5,40 @@ using UnityEngine;
 
 /// <summary>
 /// Enemy behavior when aggroing on player
+/// If aggroed enemy is within distance of an idle enemy, the other enemy will also be aggroed
 /// </summary>
 public class AggroState : IEnemyStates
 {
     private Rigidbody2D rb;
+    
+    private const string AGGRO_RADIUS = "Enemy Group Aggro Radius"; // Max distance for enemy group aggro
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private void HandleGroupAggro(EnemyStateManager enemy)
+    {
+        
+        float aggroRadius = enemy.stats.ComputeValue(AGGRO_RADIUS);
+
+        // TODO: get enemies array.
+
+        foreach (EnemyStateManager e in enemies)
+        {
+            if (e.Equals(enemy)) { continue; }
+
+            // Calculate distance to other enemy
+
+            float d = Vector2.Distance(enemy.transform.position, e.transform.position);
+
+            if (d <= aggroRadius)
+            {
+                e.SwitchState(enemy.AggroState);
+            }
+
+
+        }
+    }
 
     public void EnterState(EnemyStateManager enemy)
     {
@@ -28,6 +58,12 @@ public class AggroState : IEnemyStates
         {
             enemy.SwitchState(enemy.MoveState);
             return;
+        }
+        else
+        {
+            // Handle enemy group aggro
+
+            HandleGroupAggro(enemy);
         }
         Action nextAction = enemy.pool.NextAction(); // If an action is ready, play it in BusyState
         if (nextAction != null)
