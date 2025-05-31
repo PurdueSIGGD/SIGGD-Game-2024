@@ -27,11 +27,32 @@ public class PoliceChiefSidearmShot : MonoBehaviour
         GameplayEventHolder.OnAbilityUsed?.Invoke(manager.sidearmActionContext);
     }
 
+    private RaycastHit2D rayCastDetection(Vector2 pos, Vector2 dir)
+    {
+        RaycastHit2D hit = Physics2D.Raycast(pos, dir, manager.GetStats().ComputeValue("Basic Travel Distance"), LayerMask.GetMask("Ground", "Enemy"));
+        if (!hit)
+        {
+            return hit;
+        }
+        if (hit.transform.CompareTag("Transparent"))
+        {
+            Debug.Log("hit: " + hit.point.ToString());
+            float pointAngle = Vector2.Angle(pos, hit.point);
+            Vector2 Pointadd =  new Vector2(Mathf.Cos(pointAngle), Mathf.Sin(pointAngle));
+            hit = rayCastDetection(hit.point + Pointadd, dir);
+
+        }
+        return hit;
+    }
+
     private IEnumerator sidearmShotCoroutine(Vector2 pos, Vector2 dir)
     {
         // Calculate shot vector
-        RaycastHit2D hit = Physics2D.Raycast(pos, dir, manager.GetStats().ComputeValue("Basic Travel Distance"), LayerMask.GetMask("Ground", "Enemy"));
+        RaycastHit2D hit = rayCastDetection(pos, dir);
+
         Vector2 hitPoint = (hit) ? hit.point : pos + (dir * manager.GetStats().ComputeValue("Basic Travel Distance"));
+
+
 
         // VFX
         Debug.DrawLine(pos, hitPoint, Color.red, 5.0f);
