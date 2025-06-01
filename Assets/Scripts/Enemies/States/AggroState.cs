@@ -12,28 +12,41 @@ public class AggroState : IEnemyStates
     private Rigidbody2D rb;
     
     private const string AGGRO_RADIUS = "Enemy Group Aggro Radius"; // Max distance for enemy group aggro
+    private const float DEFAULT_AGGRO_RADIUS = 10.0f; // If the radius is invalid, set a default value
 
     /// <summary>
-    /// 
+    /// Checks other nearby enemies and changes their state to AggroState if not already aggroed
     /// </summary>
-    private void HandleGroupAggro(EnemyStateManager enemy)
+    private void EnemyGroupAggro(EnemyStateManager enemy)
     {
         
         float aggroRadius = enemy.stats.ComputeValue(AGGRO_RADIUS);
-
-        // TODO: get enemies array.
-
-        foreach (EnemyStateManager e in enemies)
+        if (aggroRadius < 0)
         {
-            if (e.Equals(enemy)) { continue; }
+            aggroRadius = DEFAULT_AGGRO_RADIUS;
+        }
+
+        // Find enemies by tag
+
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
+        foreach (GameObject e in enemies)
+        {
+            EnemyStateManager otherEnemy = e.GetComponent<EnemyStateManager>();
+
+            // If enemy is self or already aggroed
+
+            if (otherEnemy.Equals(enemy)) { continue; }
+
+            if (otherEnemy.GetCurrentState().Equals(otherEnemy.AggroState)) { continue; }
 
             // Calculate distance to other enemy
 
-            float d = Vector2.Distance(enemy.transform.position, e.transform.position);
+            float d = Vector2.Distance(otherEnemy.transform.position, enemy.transform.position);
 
             if (d <= aggroRadius)
             {
-                e.SwitchState(enemy.AggroState);
+                otherEnemy.SwitchState(otherEnemy.AggroState);
             }
 
 
@@ -45,6 +58,10 @@ public class AggroState : IEnemyStates
         rb = enemy.GetComponent<Rigidbody2D>();
         if (!enemy.isBeingKnockedBack && (enemy.isFlyer || enemy.isGrounded())) rb.velocity = new Vector2(0, rb.velocity.y); // Make sure Enemy stops moving
         enemy.pool.idle.Play(enemy.animator); // Play the idle animation when in between attacks
+
+        // Handle enemy group aggro
+
+        EnemyGroupAggro(enemy);
     }
 
     public void UpdateState(EnemyStateManager enemy)
@@ -63,8 +80,9 @@ public class AggroState : IEnemyStates
         {
             // Handle enemy group aggro
 
-            HandleGroupAggro(enemy);
+            EnemyGroupAggro(enemy);
         }
+
         Action nextAction = enemy.pool.NextAction(); // If an action is ready, play it in BusyState
         if (nextAction != null)
         {
