@@ -13,6 +13,5 @@ public class ConvoData
     }
 
     public string convoName;
-    public ConversationName convoEnum;
     public Line[] lines;
 }

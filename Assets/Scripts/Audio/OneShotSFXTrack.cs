@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class OneShotSFXTrack : MonoBehaviour, ISFXTrack {
     
-    [SerializeField] private AudioSource track;
+    [SerializeField] public AudioSource track;
 
     // The predetermined pitch values which define the working pitch range of the sound effect
-    [SerializeField] private float minPitch;
-    [SerializeField] private float maxPitch;
+    public float minPitch = 1;
+    public float maxPitch = 1;
 
     public void PlayTrack() {
         track.PlayOneShot(track.clip, 1.0f);

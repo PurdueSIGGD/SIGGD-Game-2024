@@ -55,7 +55,7 @@ public class HeavyAttack : MonoBehaviour, IStatList
         GetComponent<Move>().PlayerStop();
         chargingTime = manager.GetStats().ComputeValue("Heavy Charge Up Time");
         isCharging = true;
-        AudioManager.Instance.SFXBranch.PlaySFXTrack(SFXTrackName.HEAVY_ATTACK_WIND_UP);
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("HeavyAttackWindUp");
     }
 
     public void StopHeavyChargeUp()
@@ -70,7 +70,7 @@ public class HeavyAttack : MonoBehaviour, IStatList
         GetComponent<Move>().PlayerStop();
         primedTime = manager.GetStats().ComputeValue("Heavy Primed Autofire Time");
         isPrimed = true;
-        AudioManager.Instance.SFXBranch.PlaySFXTrack(SFXTrackName.HEAVY_ATTACK_PRIMED);
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("HeavyAttackPrimed");
     }
 
     public void StopHeavyPrimed()
@@ -83,6 +83,7 @@ public class HeavyAttack : MonoBehaviour, IStatList
     public void StartHeavyAttack()
     {
         GetComponent<Move>().PlayerStop();
+        playerStateMachine.ConsumeHeavyAttackInput();
     }
 
     public void ExecuteHeavyAttack()
@@ -99,7 +100,8 @@ public class HeavyAttack : MonoBehaviour, IStatList
                 hit.transform.gameObject.GetComponent<Health>().Damage(manager.heavyDamage, gameObject);
             }
         }
-        AudioManager.Instance.SFXBranch.PlaySFXTrack(SFXTrackName.HEAVY_ATTACK);
+        AudioManager.Instance.VABranch.PlayVATrack(PartyManager.instance.selectedGhost + " Heavy Attack");
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("HeavyAttack");
     }
 
     public void StopHeavyAttack()

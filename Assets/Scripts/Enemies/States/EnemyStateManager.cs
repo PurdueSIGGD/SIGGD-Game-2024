@@ -67,6 +67,15 @@ public class EnemyStateManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Gets the current active Enemy State
+    /// </summary>
+    /// <returns>The current active Enemy State</returns>
+    public IEnemyStates GetCurrentState()
+    {
+        return curState;
+    }
+
+    /// <summary>
     /// Ray cast for Player in aggroRange
     /// </summary>
     /// <param name="tracking"> If true, will actively track player for extended range </param>
