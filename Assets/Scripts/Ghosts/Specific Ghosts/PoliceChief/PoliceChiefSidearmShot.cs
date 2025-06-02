@@ -37,7 +37,8 @@ public class PoliceChiefSidearmShot : MonoBehaviour
         if (hit.transform.CompareTag("Transparent"))
         {
             Debug.Log("hit: " + hit.point.ToString());
-            float pointAngle = Vector2.SignedAngle(pos, hit.point);
+            //float pointAngle = Vector2.SignedAngle(pos, hit.point);
+            float pointAngle = Mathf.Atan2(pos.y - hit.point.y, pos.x - hit.point.x);
             float distTraveled = Vector2.Distance(pos, hit.point);
             Vector2 Pointadd =  new Vector2(Mathf.Cos(pointAngle), Mathf.Sin(pointAngle));
             hit = rayCastDetection(hit.point + Pointadd, dir, distToTravel - distTraveled);
