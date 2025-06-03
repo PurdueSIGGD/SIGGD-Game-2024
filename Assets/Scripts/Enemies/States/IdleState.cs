@@ -116,7 +116,7 @@ public class IdleState : IEnemyStates
                                                      1f, 
                                                      LayerMask.GetMask("Ground"));
 
-            if ((Mathf.Abs(enemy.transform.position.x - currTarget.x) <= PATROL_TARGET_RADIUS) || hitWall || (!enemy.isGrounded() && !enemy.isFlyer))
+            if ((Mathf.Abs(enemy.transform.position.x - currTarget.x) <= PATROL_TARGET_RADIUS) || hitWall || (!enemy.isFlyer && !enemy.isGrounded()))
             {
                 patrolPauseTimer = Random.Range(enemy.stats.ComputeValue(PAUSE_TIME_MIN), enemy.stats.ComputeValue(PAUSE_TIME_MAX));
                 enemy.pool.idle.Play(enemy.animator); // Play the idle animation
