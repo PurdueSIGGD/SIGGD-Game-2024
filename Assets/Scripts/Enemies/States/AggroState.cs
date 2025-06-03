@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting.FullSerializer;
@@ -12,7 +13,7 @@ public class AggroState : IEnemyStates
     private Rigidbody2D rb;
     
     private const string AGGRO_RADIUS = "Enemy Group Aggro Radius"; // Max distance for enemy group aggro
-    private const float DEFAULT_AGGRO_RADIUS = 10.0f; // If the radius is invalid, set a default value
+    private const float DEFAULT_AGGRO_RADIUS = 3.0f; // If the radius is invalid, set a default value
 
     /// <summary>
     /// Checks other nearby enemies and changes their state to AggroState if not already aggroed
@@ -26,15 +27,16 @@ public class AggroState : IEnemyStates
             aggroRadius = DEFAULT_AGGRO_RADIUS;
         }
 
-        // Find enemies by tag
+        // Find enemies
 
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        List<GameObject> enemies = EnemySpawning.instance.GetCurrentEnemies();
+        Debug.Log(enemies.Count);
 
         foreach (GameObject e in enemies)
         {
-            EnemyStateManager otherEnemy = e.GetComponent<EnemyStateManager>();
+            EnemyStateManager otherEnemy = e.GetComponent<EnemySpawn>().GetEnemy().GetComponent<EnemyStateManager>();
 
-            // If enemy is self or already aggroed
+            // If enemy is self or already aggroed, continue
 
             if (otherEnemy.Equals(enemy)) { continue; }
 
@@ -47,6 +49,7 @@ public class AggroState : IEnemyStates
             if (d <= aggroRadius)
             {
                 otherEnemy.SwitchState(otherEnemy.AggroState);
+                Debug.Log("aggrooooed");
             }
 
 
