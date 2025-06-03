@@ -38,6 +38,13 @@ public class PoliceChiefRailgunShot : MonoBehaviour
 
             // Calculate shot vector
             RaycastHit2D hit = Physics2D.Raycast(pos, dir, remainingDistance, LayerMask.GetMask("Ground"));
+            
+            // added logic to shoot through Transparent Platforms
+            while (hit && hit.transform.CompareTag("Transparent") && remainingDistance >= 0)
+            {
+                hit = Physics2D.Raycast(hit.point + dir.normalized, dir, remainingDistance - 1, LayerMask.GetMask("Ground"));
+            }
+
             Vector2 hitPoint = (hit) ? hit.point : pos + (dir * remainingDistance);
             RaycastHit2D[] enemyHits = Physics2D.RaycastAll(pos, (hitPoint - pos), Vector2.Distance(pos, hitPoint), LayerMask.GetMask("Enemy"));
             remainingDistance -= Vector2.Distance(pos, hitPoint);
