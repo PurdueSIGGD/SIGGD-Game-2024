@@ -5,8 +5,11 @@ public class OneShotVATrack : MonoBehaviour, IVATrack {
     
     public AudioSource track;
 
-    // Whether this track can be culled by the VAManager
+    [Header("Whether this track can be culled by the VAManager")]
     public bool voiceCullingOverride;
+
+    [Header("Whether this track will play outside of combat")]
+    public bool playsOutsideCombat;
 
     public void PlayTrack() {
         track.time = 0.0f;
@@ -25,5 +28,10 @@ public class OneShotVATrack : MonoBehaviour, IVATrack {
     
     public bool OverridesVoiceCulling() {
         return voiceCullingOverride;
+    }
+
+    public bool PlaysOutsideOfCombat()
+    {
+        return playsOutsideCombat;
     }
 }
