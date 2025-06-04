@@ -1,3 +1,5 @@
+//#define DEBUG_LOG
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -25,22 +27,27 @@ public class AggroState : IEnemyStates
         if (aggroRadius < 0)
         {
             aggroRadius = DEFAULT_AGGRO_RADIUS;
+
+#if DEBUG_LOG
+            Debug.Log("Using default enemy group aggro radius of " + DEFAULT_AGGRO_RADIUS);
+#endif
         }
 
         // Find enemies
 
-        List<GameObject> enemies = EnemySpawning.instance.GetCurrentEnemies();
-        Debug.Log(enemies.Count);
+        List<GameObject> enemies = PersistentData.Instance.GetComponent<EnemySpawning>().GetCurrentEnemies();
 
         foreach (GameObject e in enemies)
         {
-            EnemyStateManager otherEnemy = e.GetComponent<EnemySpawn>().GetEnemy().GetComponent<EnemyStateManager>();
+            EnemyStateManager otherEnemy = e.GetComponent<EnemyStateManager>();
 
             // If enemy is self or already aggroed, continue
 
             if (otherEnemy.Equals(enemy)) { continue; }
 
-            if (otherEnemy.GetCurrentState().Equals(otherEnemy.AggroState)) { continue; }
+            if (otherEnemy.GetCurrentState().Equals(otherEnemy.AggroState)) {
+                continue;
+            }
 
             // Calculate distance to other enemy
 
@@ -49,7 +56,9 @@ public class AggroState : IEnemyStates
             if (d <= aggroRadius)
             {
                 otherEnemy.SwitchState(otherEnemy.AggroState);
-                Debug.Log("aggrooooed");
+#if DEBUG_LOG
+                Debug.Log("Enemy " + otherEnemy.name + " was aggroed by " + enemy.name);
+#endif
             }
 
 
