@@ -14,7 +14,9 @@ public class AudioWizard : ScriptableWizard
     [SerializeField] Mixer mixerType;
     [SerializeField] string sourcePath = "";
     [SerializeField] List<AudioClip> clips;
+    [Header("Voice Line Specific Settings")]
     [SerializeField] bool enableVoiceCulling;
+    [SerializeField] bool playOutsideCombat;
 
     private AudioLookUpTable lookUpTable;
     private AudioMixer audioMixer;
@@ -210,6 +212,7 @@ public class AudioWizard : ScriptableWizard
                         OneShotVATrack oneShotVATrack = audioComp.AddComponent<OneShotVATrack>();
                         oneShotVATrack.track = source;
                         oneShotVATrack.voiceCullingOverride = enableVoiceCulling;
+                        oneShotVATrack.playsOutsideCombat = playOutsideCombat;
 
                         soundBankVATrack.sounds.Add(oneShotVATrack);
                         soundBankVATrack.soundWeights.Add(1);
@@ -226,6 +229,7 @@ public class AudioWizard : ScriptableWizard
                     OneShotVATrack oneShotVATrack = audioComp.AddComponent<OneShotVATrack>();
                     oneShotVATrack.track = source;
                     oneShotVATrack.voiceCullingOverride = enableVoiceCulling;
+                    oneShotVATrack.playsOutsideCombat = playOutsideCombat;
                     break;
                 }
             default:

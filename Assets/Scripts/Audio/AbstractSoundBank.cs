@@ -30,7 +30,7 @@ public abstract class AbstractSoundBank : MonoBehaviour, ITrack {
 
         // Find a sound to play
         int soundIndex = 0;
-        while (randomNum > cumulativeWeights[soundIndex]) {
+        while (soundIndex < cumulativeWeights.Count - 1 && randomNum > cumulativeWeights[soundIndex]) {
             soundIndex++;
         }
         (sounds[soundIndex] as ITrack)?.PlayTrack();
