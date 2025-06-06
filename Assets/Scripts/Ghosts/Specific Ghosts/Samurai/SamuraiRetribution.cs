@@ -5,34 +5,20 @@ using UnityEngine;
 
 public class SamuraiRetribution : MonoBehaviour
 {
-    private PlayerStateMachine psm;
     private bool parrying;
     private Camera mainCamera;
 
-    void Start()
+    public void Start()
     {
-        psm = GetComponent<PlayerStateMachine>();
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
     }
 
-    void Update()
-    {
-        if (parrying)
-        {
-            ParryingProjectiles();
-        }
-    }
-
-    public void StartParry()
+    public void StartDash()
     {
         Debug.Log("StartParrying");
 
-        parrying = true;
         GameplayEventHolder.OnDamageFilter.Add(ParryingFilter);
-    }
 
-    private void ParryingProjectiles()
-    {
         Vector3 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         Vector3 dir = Vector3.zero;
         if (mousePos.x < transform.position.x)
@@ -46,33 +32,22 @@ public class SamuraiRetribution : MonoBehaviour
 
         Collider2D[] coll = Physics2D.OverlapBoxAll(dir + transform.position, new Vector2(2, 3), 0, LayerMask.GetMask("Projectiles", "Enemy"));
 
-        Debug.DrawLine(transform.position + dir * 2 + new Vector3(0, -1.5f, 0), transform.position + dir * 2 + new Vector3(0, 1.5f, 0), Color.blue, Time.deltaTime);
-        Debug.DrawLine(transform.position + new Vector3(0, -1.5f, 0), transform.position + new Vector3(0, 1.5f, 0), Color.blue, Time.deltaTime);
-
-        bool parrySuccess = false;
+        Debug.DrawLine(transform.position + dir*2 + new Vector3(0, -1.5f, 0), transform.position + dir*2 + new Vector3(0, 1.5f, 0), Color.blue, 1.0f);
+        Debug.DrawLine(transform.position+ new Vector3(0, -1.5f, 0), transform.position+ new Vector3(0, 1.5f, 0), Color.blue, 1.0f);
 
         foreach (Collider2D coll2d in coll)
         {
             if (!coll2d.gameObject.CompareTag("Enemy"))
             {
-                EnemyProjectile projectile = coll2d.gameObject.GetComponent<EnemyProjectile>();
-                if (projectile && !projectile.parried)
-                {
-                    projectile.target = "Enemy";
-                    projectile.SwitchDirections();
-                    projectile.SetParried(true);
-                    parrySuccess = true;
-                }
+                coll2d.gameObject.GetComponent<EnemyProjectile>().target = "Enemy";
+                coll2d.gameObject.GetComponent<EnemyProjectile>().SwitchDirections();
             }
         }
-
-        if (parrySuccess) psm.EnableTrigger("finishParry");
     }
 
-    public void StopParry()
+    public void StopDash()
     {
-        Debug.Log("Stop Parrying"); 
-        parrying = false;
+        Debug.Log("Stop Parrying");
         GameplayEventHolder.OnDamageFilter.Remove(ParryingFilter);
     }
 
@@ -85,10 +60,6 @@ public class SamuraiRetribution : MonoBehaviour
             newContext.victim = context.attacker;
             context.attacker.GetComponent<Health>().Damage(newContext, gameObject);
             context.damage = 0;
-
-
-            // once a parry is successful, exit parry anim
-            psm.EnableTrigger("finishParry");
         }
     }
 }
