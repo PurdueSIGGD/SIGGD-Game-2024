@@ -13,10 +13,17 @@ public class EnemySpawning : MonoBehaviour
     [SerializeField] int startWaveNum;
     [SerializeField] int endWaveNum;
 
+    [Header("Enemy directional indicator")]
+    [SerializeField] int showEnemyThreshold;
+    [SerializeField] GameObject enemyIndicator;
+    [SerializeField] private GameObject doorIndicator;
+
     private List<GameObject> currentEnemies = new List<GameObject>();
     private int waveNumber;
     private int currentMaxWave;
     private GameObject[] points;
+    
+    private bool showRemainingEnemy;
 
     private void Awake()
     {
@@ -46,6 +53,10 @@ public class EnemySpawning : MonoBehaviour
                 else
                 {
                     Door.activateDoor(true);
+                    foreach (Door door in GameObject.FindObjectsOfType<Door>()) 
+                    {
+                        Instantiate(doorIndicator, door.transform.position, Quaternion.identity);
+                    }
                     //Active Door
                 }
             }
@@ -55,6 +66,8 @@ public class EnemySpawning : MonoBehaviour
         {
             EnemiesLeftUpdater.enemiesLeft = -1;
         }
+
+        ShowIndicators();
     }
 
     private GameObject GetNextEnemy()
@@ -90,6 +103,23 @@ public class EnemySpawning : MonoBehaviour
             newEnemy.transform.position = points[i].transform.position;
         }
         EnemiesLeftUpdater.enemiesLeft = currentEnemies.Count;
+        showRemainingEnemy = false;
+        ShowIndicators();
+    }
+
+    private void ShowIndicators()
+    {
+        if (EnemiesLeftUpdater.enemiesLeft > 0 &&
+            EnemiesLeftUpdater.enemiesLeft < showEnemyThreshold &&
+            !showRemainingEnemy)
+        {
+            foreach (GameObject enemy in currentEnemies)
+            {
+                if (enemy.GetComponentInChildren<DirectionalArrowBehaviour>()) return;
+                Instantiate(enemyIndicator, enemy.transform);
+            }
+            showRemainingEnemy = true;
+        }
     }
 
     public void StartLevel()
