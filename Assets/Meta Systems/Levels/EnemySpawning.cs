@@ -15,7 +15,8 @@ public class EnemySpawning : MonoBehaviour
 
     [Header("Enemy directional indicator")]
     [SerializeField] int showEnemyThreshold;
-    [SerializeField] GameObject arrow;
+    [SerializeField] GameObject enemyIndicator;
+    [SerializeField] private GameObject doorIndicator;
 
     private List<GameObject> currentEnemies = new List<GameObject>();
     private int waveNumber;
@@ -52,6 +53,10 @@ public class EnemySpawning : MonoBehaviour
                 else
                 {
                     Door.activateDoor(true);
+                    foreach (Door door in GameObject.FindObjectsOfType<Door>()) 
+                    {
+                        Instantiate(doorIndicator, door.transform.position, Quaternion.identity);
+                    }
                     //Active Door
                 }
             }
@@ -111,7 +116,7 @@ public class EnemySpawning : MonoBehaviour
             foreach (GameObject enemy in currentEnemies)
             {
                 if (enemy.GetComponentInChildren<DirectionalArrowBehaviour>()) return;
-                Instantiate(arrow, enemy.transform);
+                Instantiate(enemyIndicator, enemy.transform);
             }
             showRemainingEnemy = true;
         }
