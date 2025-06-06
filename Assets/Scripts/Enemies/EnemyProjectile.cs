@@ -76,7 +76,7 @@ public class EnemyProjectile : MonoBehaviour, IStatList
     // Destroys the projectile if it goes out of range.
     protected void CheckOutOfBounds()
     {
-        if ((transform.position.x - bounds.x <= 0) == (dir.x <= 0) ||
+        if ((transform.position.x - bounds.x <= 0) == (dir.x <= 0) &&
             (transform.position.y - bounds.y <= 0) == (dir.y <= 0))
         {
             Destroy(gameObject);
