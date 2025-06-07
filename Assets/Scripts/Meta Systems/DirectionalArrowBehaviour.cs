@@ -12,6 +12,7 @@ public class DirectionalArrowBehaviour : MonoBehaviour
     [SerializeField] bool blinking;
     [SerializeField] float blinkingOffset;
     [SerializeField] Color color;
+    [SerializeField] bool lockRotation;
     [SerializeField] bool hideOnScreen; // toggling true will ensure the arrow disappears once the entity
                                         // it is pointing to is on screen
 
@@ -65,7 +66,10 @@ public class DirectionalArrowBehaviour : MonoBehaviour
 
             float angle = Mathf.Atan2((a1 - a2).y, (a1 - a2).x);
 
-            circle.transform.rotation = Quaternion.Euler(0, 0, angle * 180/Mathf.PI);
+            if (!lockRotation)
+            {
+                circle.transform.rotation = Quaternion.Euler(0, 0, angle * 180 / Mathf.PI);
+            }
         }
         else
         {
@@ -76,7 +80,10 @@ public class DirectionalArrowBehaviour : MonoBehaviour
             else
             {
                 circle.transform.position = transform.position + offset;
-                circle.transform.rotation = Quaternion.Euler(0, 0, 180);
+                if (!lockRotation)
+                {
+                    circle.transform.rotation = Quaternion.Euler(0, 0, 180);
+                }
             }
         }
     }
