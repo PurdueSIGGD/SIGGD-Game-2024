@@ -22,7 +22,7 @@ public class ActionPool : MonoBehaviour
     {
         foreach (Action a in actions)
         {
-            a.ready = true; // default each action is ready on start, subject to change
+            //a.ready = true; // default each action is ready on start, subject to change
             if (a.priority == 0)
             {
                 Debug.LogWarning(a.name + " should have a non-zero priority."); 

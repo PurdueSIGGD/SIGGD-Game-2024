@@ -28,7 +28,7 @@ RectTransform:
   m_GameObject: {fileID: 1959292374042289379}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2.5, y: 5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 214202614416721733}
@@ -36,8 +36,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 396.82254, y: 188.49948}
-  m_SizeDelta: {x: 804.5, y: 380}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 4, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &70486453877837006
 Canvas:
@@ -148,11 +148,11 @@ GameObject:
   - component: {fileID: 1603849808541719507}
   - component: {fileID: 8856570929518799469}
   - component: {fileID: 1221538207620342913}
-  - component: {fileID: 4086416775877823508}
   - component: {fileID: 5924195418159167760}
   - component: {fileID: 3348080620902511625}
   - component: {fileID: 4700818244904872880}
   - component: {fileID: 3397753109862796679}
+  - component: {fileID: 2640131324163235134}
   m_Layer: 21
   m_Name: Surevy Drone
   m_TagString: Enemy
@@ -240,7 +240,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: f4b5d8d1e806b7841a0c7f8107297230, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 32f168588fef0dd4c899c015df5e6e2d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
   m_FlipY: 0
@@ -378,39 +378,6 @@ MonoBehaviour:
   - name: Max Health
     value: 10
   deathLevel: 
---- !u!114 &4086416775877823508
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8652318323731026824}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 20d794b3ea5a6da42ac5b8feade20f68, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  actions:
-  - name: Call Alarm
-    priority: 1
-    ready: 0
-    hitBox: {fileID: 7775618551989780944}
-    coolDown: 5
-    animationClip: {fileID: 7400000, guid: 6be99b37274953c40b797d9e1744a2a7, type: 2}
-  move:
-    name: Move
-    priority: 0
-    ready: 0
-    hitBox: {fileID: 0}
-    coolDown: 0
-    animationClip: {fileID: 7400000, guid: 4739459637a37884c8ebb6a3ce1e90ce, type: 2}
-  idle:
-    name: 
-    priority: 0
-    ready: 0
-    hitBox: {fileID: 0}
-    coolDown: 0
-    animationClip: {fileID: 7400000, guid: 468a49c330cf0294486adcfa8c854b6e, type: 2}
 --- !u!114 &5924195418159167760
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -476,7 +443,6 @@ MonoBehaviour:
   alarmTrigger: {fileID: 7775618551989780944}
   enemyToSummon: {fileID: 1393067818931581941, guid: 040374e0994a9d3488cf595921dd96e5,
     type: 3}
-  detectionRadius: 1
 --- !u!114 &3397753109862796679
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -494,6 +460,39 @@ MonoBehaviour:
     value: 100
   currentStun: 0
   maxStun: 0
+--- !u!114 &2640131324163235134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8652318323731026824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 872d96247465fd541bea93e36537b26f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actions:
+  - name: Call Alarm
+    priority: 1
+    ready: 1
+    hitBox: {fileID: 7775618551989780944}
+    coolDown: 4
+    animationClip: {fileID: 7400000, guid: 6be99b37274953c40b797d9e1744a2a7, type: 2}
+  move:
+    name: 
+    priority: 0
+    ready: 1
+    hitBox: {fileID: 0}
+    coolDown: 0
+    animationClip: {fileID: 7400000, guid: 4739459637a37884c8ebb6a3ce1e90ce, type: 2}
+  idle:
+    name: 
+    priority: 0
+    ready: 1
+    hitBox: {fileID: 0}
+    coolDown: 0
+    animationClip: {fileID: 7400000, guid: 468a49c330cf0294486adcfa8c854b6e, type: 2}
 --- !u!1001 &1498013908851705233
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -590,12 +589,12 @@ PrefabInstance:
     - target: {fileID: 1599626218514645716, guid: f82d61c6f20788c41b3b1bf12452e612,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -396.8
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1599626218514645716, guid: f82d61c6f20788c41b3b1bf12452e612,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 2.3399963
+      value: 0.87
       objectReference: {fileID: 0}
     - target: {fileID: 1599626218514645716, guid: f82d61c6f20788c41b3b1bf12452e612,
         type: 3}

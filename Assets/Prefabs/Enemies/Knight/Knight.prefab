@@ -201,7 +201,7 @@ MonoBehaviour:
   actions:
   - name: Sword Attack
     priority: 1
-    ready: 0
+    ready: 1
     hitBox: {fileID: 7053703775646020486}
     coolDown: 4
     animationClip: {fileID: 7400000, guid: a2483e2a32b39f240947157efb27424b, type: 2}
@@ -234,6 +234,7 @@ MonoBehaviour:
   statList:
   - name: Max Health
     value: 100
+  deathLevel: 
 --- !u!114 &8198236020869808662
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -264,7 +265,10 @@ MonoBehaviour:
   stats: {fileID: 0}
   pool: {fileID: 0}
   animator: {fileID: 0}
+  isFlyer: 0
   aggroRange: 6.27
+  isBeingKnockedBack: 0
+  grounded: 0
   swordTrigger: {fileID: 7053703775646020486}
   swordDamage:
     damageStrength: 0
