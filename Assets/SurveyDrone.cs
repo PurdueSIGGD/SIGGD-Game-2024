@@ -1,19 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
-public class CameraDrone : EnemyStateManager
+public class SurveyDrone : EnemyStateManager
 {
     [Header("Call Reinforcement")]
     [SerializeField] protected Transform alarmTrigger;
     [SerializeField] protected GameObject enemyToSummon;
-    [SerializeField] float detectionRadius = 1;
+    private float detectionRadius;
 
     void Start()
     {
-        MoveState = new CameraDroneMoveState();
         detectionRadius = stats.ComputeValue("DETECTION_RADIUS");
-        print("START AH: " + detectionRadius);
     }
     /// <summary>
     /// Summons an enemy
