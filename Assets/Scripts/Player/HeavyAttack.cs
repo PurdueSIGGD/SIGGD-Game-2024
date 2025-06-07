@@ -52,7 +52,7 @@ public class HeavyAttack : MonoBehaviour, IStatList
 
     public void StartHeavyChargeUp()
     {
-        GetComponent<Move>().PlayerStop();
+        //GetComponent<Move>().PlayerStop();
         playerStateMachine.SetLightAttack2Ready(true);
         chargingTime = manager.GetStats().ComputeValue("Heavy Charge Up Time");
         isCharging = true;
@@ -61,14 +61,14 @@ public class HeavyAttack : MonoBehaviour, IStatList
 
     public void StopHeavyChargeUp()
     {
-        GetComponent<Move>().PlayerGo();
+        //GetComponent<Move>().PlayerGo();
         isCharging = false;
         chargingTime = 0f;
     }
 
     public void StartHeavyPrimed()
     {
-        GetComponent<Move>().PlayerStop();
+        //GetComponent<Move>().PlayerStop();
         primedTime = manager.GetStats().ComputeValue("Heavy Primed Autofire Time");
         isPrimed = true;
         AudioManager.Instance.SFXBranch.PlaySFXTrack("HeavyAttackPrimed");
@@ -76,20 +76,24 @@ public class HeavyAttack : MonoBehaviour, IStatList
 
     public void StopHeavyPrimed()
     {
-        GetComponent<Move>().PlayerGo();
+        //GetComponent<Move>().PlayerGo();
         isPrimed = false;
         primedTime = 0f;
     }
 
     public void StartHeavyAttack()
     {
-        GetComponent<Move>().PlayerStop();
+        //GetComponent<Move>().PlayerGo();
         playerStateMachine.ConsumeHeavyAttackInput();
+        AudioManager.Instance.VABranch.PlayVATrack(PartyManager.instance.selectedGhost + " Heavy Attack");
     }
 
     public void ExecuteHeavyAttack()
     {
-        GetComponent<PlayerParticles>().PlayHeavyAttackVFX();
+        //GetComponent<PlayerParticles>().PlayHeavyAttackVFX()
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("HeavyAttack");
+        Vector3 vfxPosition = gameObject.transform.position + new Vector3(2f * Mathf.Sign(gameObject.transform.rotation.y), 0.45f, 0f);
+        VFXManager.Instance.PlayVFX(VFX.PLAYER_HEAVY_ATTACK, vfxPosition, gameObject.transform.rotation);
         playerStateMachine.SetLightAttack2Ready(false);
         CameraShake.instance.Shake(0.2f, 10f, 0, 10, new Vector2(Random.Range(-0.5f, 0.5f), 1f));
         RaycastHit2D[] hits = Physics2D.BoxCastAll(manager.heavyIndicator.transform.position, manager.heavyIndicator.transform.localScale, 0, new Vector2(0, 0));
@@ -99,15 +103,19 @@ public class HeavyAttack : MonoBehaviour, IStatList
             {
                 Debug.Log("Heavy Attack Hit: " + hit.transform.gameObject.name);
                 hit.transform.gameObject.GetComponent<Health>().Damage(manager.heavyDamage, gameObject);
+                if (hit.transform.gameObject.GetComponent<EnemyStateManager>() != null)
+                {
+                    hit.transform.gameObject.GetComponent<EnemyStateManager>().ApplyKnockback(Vector3.up, 6f, 0.3f);
+                    hit.transform.gameObject.GetComponent<EnemyStateManager>().ApplyKnockback(hit.transform.position - gameObject.transform.position, 5f, 0.3f);
+                }
             }
         }
-        AudioManager.Instance.VABranch.PlayVATrack(PartyManager.instance.selectedGhost + " Heavy Attack");
-        AudioManager.Instance.SFXBranch.PlaySFXTrack("HeavyAttack");
+        //AudioManager.Instance.VABranch.PlayVATrack(PartyManager.instance.selectedGhost + " Heavy Attack");
     }
 
     public void StopHeavyAttack()
     {
-        GetComponent<Move>().PlayerGo();
+        //GetComponent<Move>().PlayerGo();
     }
 
     public StatManager.Stat[] GetStatList()

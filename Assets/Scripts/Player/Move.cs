@@ -22,7 +22,8 @@ public class Move : MonoBehaviour, IStatList
     private float maxSpeed;
 
     private float overflowSpeed;
-    private float overflowDeaccel;
+    private float overflowGroundDeaccel;
+    private float overflowAirDeaccel;
 
     private bool stopTurning;
 
@@ -42,13 +43,15 @@ public class Move : MonoBehaviour, IStatList
         deaccel = stats.ComputeValue("Running Deaccel.");
 
         overflowSpeed = maxSpeed;
-        overflowDeaccel = 0.96f;
+        overflowGroundDeaccel = 0.8f;
+        overflowAirDeaccel = 0.96f;
         footstepTime = Time.time;
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
+        Debug.Log("ACCEL: " + accel + "  |  MAX SPEED:" + maxSpeed +  "  |  DEACCEL: " + deaccel);
         if (!stopMoving)
         {
             Movement();
@@ -75,7 +78,7 @@ public class Move : MonoBehaviour, IStatList
         if (overflowSpeed > maxSpeed)
         {
             newVel.x = Mathf.Clamp(newVel.x, -1 * overflowSpeed, overflowSpeed);
-            overflowSpeed = Mathf.Clamp(Mathf.Abs(rb.velocity.x), maxSpeed, overflowSpeed * overflowDeaccel);
+            overflowSpeed = Mathf.Clamp(Mathf.Abs(rb.velocity.x), maxSpeed, overflowSpeed * ((animator.GetBool("p_grounded")) ? overflowGroundDeaccel : overflowAirDeaccel));
         }
         else
         {
@@ -88,9 +91,9 @@ public class Move : MonoBehaviour, IStatList
         {
             newVel.x *= deaccel;
         }
-        if (input!=0 && animator.GetBool("p_grounded"))
+        if (input!=0 && animator.GetBool("p_grounded") && maxSpeed > 0f)
         {
-            if (Time.time - footstepTime > 0.25f) {
+            if (Time.time - footstepTime > (0.25f * (10 / maxSpeed))) {
                 AudioManager.Instance.SFXBranch.PlaySFXTrack("Footstep");
                 footstepTime = Time.time;
             }
@@ -168,6 +171,7 @@ public class Move : MonoBehaviour, IStatList
             {
                 AudioManager.Instance.SFXBranch.PlaySFXTrack("Landing");
                 landSFXtime = Time.time;
+                footstepTime = Time.time;
             }
         }
     }
@@ -229,6 +233,9 @@ public class Move : MonoBehaviour, IStatList
     public void StartLightAttack()
     {
         stopTurning = true;
+        accel = stats.ComputeValue("Accel. while Heavy");
+        maxSpeed = stats.ComputeValue("Max Speed while Heavy");
+        deaccel = stats.ComputeValue("Deaccel. while Heavy");
     }
 
     public void StopLightAttack()
@@ -236,6 +243,9 @@ public class Move : MonoBehaviour, IStatList
         if (!charging)
         {
             stopTurning = false;
+            accel = stats.ComputeValue("Running Accel.");
+            maxSpeed = stats.ComputeValue("Max Running Speed");
+            deaccel = stats.ComputeValue("Running Deaccel.");
         }
     }
 
@@ -266,14 +276,36 @@ public class Move : MonoBehaviour, IStatList
         charging = false;
         accel = 0;
         maxSpeed = 0;
+        //maxSpeed = stats.ComputeValue("Max Speed while Heavy");
         deaccel = stats.ComputeValue("Deaccel. while Heavy");
     }
 
     public void StopHeavyPrimed()
     {
         stopTurning = false;
-        accel = 0;
-        maxSpeed = 0;
+        //accel = 0;
+        //maxSpeed = 0;
+        //deaccel = stats.ComputeValue("Deaccel. while Heavy");
+        accel = stats.ComputeValue("Running Accel.");
+        maxSpeed = stats.ComputeValue("Max Running Speed");
+        deaccel = stats.ComputeValue("Running Deaccel.");
+    }
+
+    public void StartHeavyAttack()
+    {
+        stopTurning = true;
+        accel = stats.ComputeValue("Accel. while Heavy");
+        maxSpeed = stats.ComputeValue("Max Speed while Heavy");
+        deaccel = stats.ComputeValue("Deaccel. while Heavy");
+    }
+
+    public void StopHeavyAttack()
+    {
+        stopTurning = false;
+        //accel = 0;
+        //maxSpeed = 0;
+        accel = stats.ComputeValue("Running Accel.");
+        maxSpeed = stats.ComputeValue("Max Running Speed");
         deaccel = stats.ComputeValue("Running Deaccel.");
     }
 
