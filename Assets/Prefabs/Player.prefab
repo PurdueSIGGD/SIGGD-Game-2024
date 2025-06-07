@@ -90,8 +90,8 @@ Transform:
   m_GameObject: {fileID: 1398568264850401254}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.65, y: 0, z: 0}
-  m_LocalScale: {x: 4, y: 3, z: 1}
+  m_LocalPosition: {x: 1.5, y: 0, z: 0}
+  m_LocalScale: {x: 5, y: 3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6481614880432510513}
@@ -35190,7 +35190,7 @@ Transform:
   m_GameObject: {fileID: 8252758106455385166}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.33, y: 1.65, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -35665,11 +35665,11 @@ MonoBehaviour:
   - name: Deaccel. while Heavy
     value: 0.7
   - name: Max Speed while Heavy
-    value: 5
+    value: 4
   - name: Heavy Charge Up Time
-    value: 0.3
+    value: 0.5
   - name: Heavy Primed Autofire Time
-    value: 0.65
+    value: 1.5
   defaultController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
   ghostController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
   heavyIndicator: {fileID: 1398568264850401254}
@@ -35679,7 +35679,7 @@ MonoBehaviour:
     actionID: 2
     actionTypes: 01000000
     extraContext: Player Heavy
-  offsetX: 1.65
+  offsetX: 1.5
   isDashEnabled: 1
   isAirbornePostDash: 0
 --- !u!114 &6912038939047199345

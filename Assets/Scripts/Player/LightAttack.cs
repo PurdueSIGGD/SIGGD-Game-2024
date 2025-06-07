@@ -260,7 +260,7 @@ public class LightAttack : MonoBehaviour, IStatList
         //GetComponent<PlayerParticles>().PlayLightAttackVFX(false);
         AudioManager.Instance.SFXBranch.PlaySFXTrack("AirAttack");
         Vector3 vfxPosition = gameObject.transform.position + new Vector3(1f * Mathf.Sign(gameObject.transform.rotation.y), 0f, 0f);
-        VFXManager.Instance.PlayVFX(VFX.PLAYER_LIGHT_ATTACK_2, vfxPosition, gameObject.transform.rotation);
+        VFXManager.Instance.PlayVFX(VFX.PLAYER_LIGHT_ATTACK_1, vfxPosition, gameObject.transform.rotation);
         CameraShake.instance.Shake(0.02f, 10f, 0, 10, new Vector2(Random.Range(-0.5f, 0.5f), 1f));
 
         float halfAngle = angle / 2; // angle above and below the centerline of the attack cone

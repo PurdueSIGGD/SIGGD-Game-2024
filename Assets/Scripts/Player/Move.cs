@@ -51,7 +51,7 @@ public class Move : MonoBehaviour, IStatList
     // Update is called once per frame
     void FixedUpdate()
     {
-        Debug.Log("ACCEL: " + accel + "  |  MAX SPEED:" + maxSpeed +  "  |  DEACCEL: " + deaccel);
+        //Debug.Log("ACCEL: " + accel + "  |  MAX SPEED:" + maxSpeed +  "  |  DEACCEL: " + deaccel);
         if (!stopMoving)
         {
             Movement();
@@ -252,8 +252,8 @@ public class Move : MonoBehaviour, IStatList
     public void StartHeavyChargeUp()
     {
         charging = true;
-        accel = 0;
-        maxSpeed = 0;
+        accel = 0.5f;
+        maxSpeed = 2f;
         //maxSpeed = stats.ComputeValue("Max Speed while Heavy");
         deaccel = stats.ComputeValue("Deaccel. while Heavy");
     }
@@ -274,8 +274,8 @@ public class Move : MonoBehaviour, IStatList
     {
         Debug.Log("Primed");
         charging = false;
-        accel = 0;
-        maxSpeed = 0;
+        accel = 0.5f;
+        maxSpeed = 2f;
         //maxSpeed = stats.ComputeValue("Max Speed while Heavy");
         deaccel = stats.ComputeValue("Deaccel. while Heavy");
     }
@@ -296,6 +296,14 @@ public class Move : MonoBehaviour, IStatList
         stopTurning = true;
         accel = stats.ComputeValue("Accel. while Heavy");
         maxSpeed = stats.ComputeValue("Max Speed while Heavy");
+        deaccel = stats.ComputeValue("Deaccel. while Heavy");
+    }
+
+    public void EnterHeavyAttackRecovery()
+    {
+        accel = 0.5f;
+        maxSpeed = 1f;
+        //maxSpeed = stats.ComputeValue("Max Speed while Heavy");
         deaccel = stats.ComputeValue("Deaccel. while Heavy");
     }
 
