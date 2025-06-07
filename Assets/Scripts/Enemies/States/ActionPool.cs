@@ -30,6 +30,19 @@ public class ActionPool : MonoBehaviour
         }
     }
 
+    public bool SetActionReady(string name)
+    {
+        foreach (Action a in actions)
+        {
+            if (a.name.Equals(name))
+            {
+                a.ready = true;
+                return true;
+            }
+        }
+        return false;
+    }
+
     /// <summary>
     /// Choose an action randomly out of all the currently available actions
     /// </summary>

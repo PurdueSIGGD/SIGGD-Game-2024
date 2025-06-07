@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 public class SurveyDrone : EnemyStateManager
@@ -8,12 +5,54 @@ public class SurveyDrone : EnemyStateManager
     [Header("Call Reinforcement")]
     [SerializeField] protected Transform alarmTrigger;
     [SerializeField] protected GameObject enemyToSummon;
+
+    private GameObject[] spawnPoints; // all avaliable spawn points
     private float detectionRadius;
 
     void Start()
     {
+        spawnPoints = PersistentData.Instance.GetComponent<EnemySpawning>().GetSpawnPoints();
         detectionRadius = stats.ComputeValue("DETECTION_RADIUS");
     }
+
+    protected void ApproachSpawnPoint()
+    {
+        Vector2 closestPoint = new();
+        float closestDistance = float.MaxValue;
+
+        // find the closest spawn point
+        foreach (GameObject spawnPoint in spawnPoints)
+        {
+            // ray cast to see if each point is reachable
+            Vector2 targetLoc = spawnPoint.transform.position;
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, (targetLoc - (Vector2)transform.position), LayerMask.GetMask("Ground"));
+            if (!hit)
+            {
+                float dist = (targetLoc - (Vector2)transform.position).magnitude;
+                if (dist < closestDistance)
+                {
+                    closestPoint = targetLoc;
+                    closestDistance = dist;
+                }
+            }
+        }
+
+        // if no a single spawn point is reachable
+        // fugg it, I'm laying my egg right here
+        // <insert code to enable OnCallAlarm>
+
+        // if a viable point is found, start moving towards it
+        Vector2 dir = (closestPoint - (Vector2)transform.position).normalized;
+        rb.velocity = stats.ComputeValue("Speed") * dir;
+        if ((closestPoint - (Vector2)transform.position).magnitude <= 0.1f)
+        {
+            rb.velocity = Vector2.zero;
+            pool.SetActionReady("Call Alarm");
+            SwitchState(AggroState);
+        }
+    }
+
+
     /// <summary>
     /// Summons an enemy
     /// </summary>

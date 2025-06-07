@@ -154,7 +154,7 @@ GameObject:
   - component: {fileID: 3397753109862796679}
   - component: {fileID: 2640131324163235134}
   m_Layer: 21
-  m_Name: Surevy Drone
+  m_Name: Survey Drone
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -362,6 +362,8 @@ MonoBehaviour:
     value: 10
   - name: Enemy Group Aggro Radius
     value: 10
+  - name: Speed
+    value: 5
 --- !u!114 &1221538207620342913
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -473,11 +475,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actions:
-  - name: Call Alarm
+  - name: Move to Spawn Point
     priority: 1
     ready: 1
     hitBox: {fileID: 7775618551989780944}
-    coolDown: 4
+    coolDown: 1
+    animationClip: {fileID: 7400000, guid: 6b68d26f5a238b64ebe47ec9e04e22b5, type: 2}
+  - name: Call Alarm
+    priority: 100
+    ready: 0
+    hitBox: {fileID: 7775618551989780944}
+    coolDown: 7
     animationClip: {fileID: 7400000, guid: 6be99b37274953c40b797d9e1744a2a7, type: 2}
   move:
     name: 

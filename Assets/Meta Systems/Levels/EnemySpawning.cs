@@ -147,6 +147,11 @@ public class EnemySpawning : MonoBehaviour
         }
     }
 
+    public GameObject[] GetSpawnPoints()
+    {
+        return points;
+    }
+
     public List<GameObject> GetCurrentEnemies()
     {
         return currentEnemies;
