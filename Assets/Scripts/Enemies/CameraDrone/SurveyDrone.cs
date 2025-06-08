@@ -50,12 +50,10 @@ public class SurveyDrone : EnemyStateManager
             }
         }
 
-        // if no a single spawn point is reachable
-        // fugg it, I'm laying my egg right here
-        // <insert code to enable OnCallAlarm>
-
-        // if a viable point is found, start moving towards it
-        if ((closestPoint - (Vector2)transform.position).magnitude <= 0.5f)
+        // if reached spawn point, start spawning
+        // if not a single spawn point is reachable, fugg it, I'm laying my egg right here
+        if (closestDistance == float.MaxValue ||
+           closestDistance <= 0.5f)
         {
             rb.velocity = Vector2.zero;
             closestDistance = float.MaxValue;
