@@ -103,22 +103,29 @@ public class EnemySpawning : MonoBehaviour
             newEnemy.transform.position = points[i].transform.position;
         }
         EnemiesLeftUpdater.enemiesLeft = currentEnemies.Count;
-        showRemainingEnemy = false;
         ShowIndicators();
     }
 
     private void ShowIndicators()
     {
         if (EnemiesLeftUpdater.enemiesLeft > 0 &&
-            EnemiesLeftUpdater.enemiesLeft < showEnemyThreshold &&
-            !showRemainingEnemy)
+            EnemiesLeftUpdater.enemiesLeft < showEnemyThreshold)
         {
             foreach (GameObject enemy in currentEnemies)
             {
-                if (enemy.GetComponentInChildren<DirectionalArrowBehaviour>()) return;
+                if (enemy.GetComponentInChildren<DirectionalArrowBehaviour>()) continue;
                 Instantiate(enemyIndicator, enemy.transform);
             }
             showRemainingEnemy = true;
+        }
+        else if (showRemainingEnemy)
+        {
+            foreach (GameObject enemy in currentEnemies)
+            {
+                GameObject excessIndicator = enemy.GetComponentInChildren<DirectionalArrowBehaviour>().gameObject;
+                if (excessIndicator) Destroy(excessIndicator);
+            }
+            showRemainingEnemy = false;
         }
     }
 
@@ -155,6 +162,8 @@ public class EnemySpawning : MonoBehaviour
     public void RegisterNewEnemy(GameObject enemy)
     {
         currentEnemies.Add(enemy);
+        EnemiesLeftUpdater.enemiesLeft++;
+        ShowIndicators();
     }
 
     public List<GameObject> GetCurrentEnemies()

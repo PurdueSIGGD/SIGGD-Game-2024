@@ -56,7 +56,7 @@ public class AggroState : IEnemyStates
             if (d <= aggroRadius)
             {
                 otherEnemy.SwitchState(otherEnemy.AggroState);
-#if DEBUG
+#if DEBUG_LOG
                 Debug.Log("Enemy " + otherEnemy.name + " was aggroed by " + enemy.name);
 #endif
             }
