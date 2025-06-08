@@ -171,7 +171,7 @@ public class Health : MonoBehaviour, IDamageable, IStatList
             EnemyStateManager enemy = obj.GetComponent<EnemyStateManager>();
             if (enemy != null && (enemy.GetCurrentState().GetType().Equals(typeof(IdleState)) || enemy.GetCurrentState().GetType().Equals(typeof(MoveState))))
             {
-                enemy.SwitchState(new AggroState());
+                enemy.SwitchState(enemy.AggroState);
             }
         }
     }

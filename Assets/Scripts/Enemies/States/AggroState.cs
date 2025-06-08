@@ -50,10 +50,14 @@ public class AggroState : IEnemyStates
             }
 
             // Calculate distance to other enemy
-
             float d = Vector2.Distance(otherEnemy.transform.position, enemy.transform.position);
 
-            if (d <= aggroRadius)
+            // Check if enemy has line of sight to the attacked enemy
+            RaycastHit2D hit = Physics2D.Raycast(enemy.transform.position, 
+                                                (otherEnemy.transform.position - enemy.transform.position), d,
+                                                 LayerMask.GetMask("Ground"));
+
+            if (d <= aggroRadius && !hit)
             {
                 otherEnemy.SwitchState(otherEnemy.AggroState);
 #if DEBUG_LOG

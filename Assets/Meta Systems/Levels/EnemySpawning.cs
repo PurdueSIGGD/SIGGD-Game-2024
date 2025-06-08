@@ -137,8 +137,6 @@ public class EnemySpawning : MonoBehaviour
         waveNumber = 0;
         currentMaxWave = Mathf.RoundToInt(Mathf.Lerp((float)startWaveNum, (float)endWaveNum, GetComponent<LevelSwitching>().GetProgress()));
         points = GameObject.FindGameObjectsWithTag("SpawnPoint");
-        Debug.Log("currentMaxWave: " + currentMaxWave);
-        Debug.Log("Points Length: " + points.Length);
         SpawnEnemies();
     }
 
