@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SurveyDrone : EnemyStateManager
@@ -10,19 +11,16 @@ public class SurveyDrone : EnemyStateManager
     private float detectionRadius;
     private Vector2 closestPoint;
     private float closestDistance = float.MaxValue;
+    private float spawningTimer = 0;
 
-    private float spawningTimer;
+    private EnemySpawning enemySpawning;
 
     protected override void Awake()
     {
         IdleState = new SurveyDroneIdleState();
-        spawnPoints = PersistentData.Instance.GetComponent<EnemySpawning>().GetSpawnPoints();
+        enemySpawning = PersistentData.Instance.GetComponent<EnemySpawning>();
+        spawnPoints = enemySpawning.GetSpawnPoints();
         base.Awake();
-    }
-
-    void Start()
-    {
-        spawningTimer = stats.ComputeValue("Spawn Interval");
     }
 
     protected override void FixedUpdate()
@@ -82,6 +80,7 @@ public class SurveyDrone : EnemyStateManager
             spawningTimer = stats.ComputeValue("Spawn Interval");
             Vector3 dest = transform.position; // + new Vector3(transform.right.x * transform.lossyScale.x, -transform.lossyScale.y, 0);
             GameObject nenemy = Instantiate(enemyToSummon, dest, transform.rotation);
+            enemySpawning.RegisterNewEnemy(nenemy);
             Destroy(nenemy.GetComponent<DropTable>());
         }
 

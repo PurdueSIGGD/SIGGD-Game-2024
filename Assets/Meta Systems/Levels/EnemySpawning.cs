@@ -152,6 +152,11 @@ public class EnemySpawning : MonoBehaviour
         return points;
     }
 
+    public void RegisterNewEnemy(GameObject enemy)
+    {
+        currentEnemies.Add(enemy);
+    }
+
     public List<GameObject> GetCurrentEnemies()
     {
         return currentEnemies;
