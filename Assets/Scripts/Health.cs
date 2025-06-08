@@ -42,7 +42,7 @@ public class Health : MonoBehaviour, IDamageable, IStatList
         foreach (GameplayEventHolder.DamageFilterEvent filter in GameplayEventHolder.OnDamageFilter)
         {
             filter(ref context);
-            Debug.Log("After Filter: " + context.damage);
+            Debug.Log("After Filter " + filter + ": " + context.damage);
         }
 
         Debug.Log("Damaged: " + context.damage);

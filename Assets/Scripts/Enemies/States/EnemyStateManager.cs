@@ -35,8 +35,11 @@ public class EnemyStateManager : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         pool = GetComponent<ActionPool>();
         pool.enemy = this;
-        isBeingKnockedBack = false;
-        
+        isBeingKnockedBack = false;        
+    }
+
+    protected virtual void Start()
+    {
         SwitchState(IdleState);
     }
 

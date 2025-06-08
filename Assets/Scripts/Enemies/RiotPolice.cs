@@ -13,8 +13,9 @@ public class RiotPolice : EnemyStateManager
     [SerializeField] protected DamageContext batonDamage;
     [SerializeField] GameObject batonVisual;
 
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         batonDamage.damage = stats.ComputeValue("Damage");
     }
 

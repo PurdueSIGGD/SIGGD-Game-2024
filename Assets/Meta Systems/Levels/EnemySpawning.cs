@@ -122,8 +122,8 @@ public class EnemySpawning : MonoBehaviour
         {
             foreach (GameObject enemy in currentEnemies)
             {
-                GameObject excessIndicator = enemy.GetComponentInChildren<DirectionalArrowBehaviour>().gameObject;
-                if (excessIndicator) Destroy(excessIndicator);
+                DirectionalArrowBehaviour excessIndicator = enemy.GetComponentInChildren<DirectionalArrowBehaviour>();
+                if (excessIndicator && excessIndicator.gameObject != null) Destroy(excessIndicator.gameObject);
             }
             showRemainingEnemy = false;
         }

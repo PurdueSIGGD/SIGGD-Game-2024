@@ -9,8 +9,9 @@ public class CameraDrone : EnemyStateManager
     [SerializeField] protected GameObject enemyToSummon;
     [SerializeField] float detectionRadius = 1;
 
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         MoveState = new CameraDroneMoveState();
         detectionRadius = stats.ComputeValue("DETECTION_RADIUS");
         print("START AH: " + detectionRadius);
