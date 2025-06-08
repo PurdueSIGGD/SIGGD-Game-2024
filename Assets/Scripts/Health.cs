@@ -155,6 +155,7 @@ public class Health : MonoBehaviour, IDamageable, IStatList
         gameObject.SetActive(false);
 
         SceneManager.LoadScene("Eva Fractal Hub");
+        currentHealth = stats.ComputeValue("Max Health");
         Time.timeScale = 1;
     }
 
