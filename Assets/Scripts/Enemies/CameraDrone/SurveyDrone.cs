@@ -89,44 +89,45 @@ public class SurveyDrone : EnemyStateManager
         base.OnDrawGizmos();
         Gizmos.DrawWireCube(alarmTrigger.position, alarmTrigger.lossyScale);
     }
-    //public override bool HasLineOfSight(bool tracking)
-    //{
-    //    bool hit_player = false;
 
-    //    Vector2 dir = transform.TransformDirection(Vector2.right);
-    //    float maxDistance = detectionRadius;
+    public override bool HasLineOfSight(bool tracking)
+    {
+        bool hit_player = false;
+
+        Vector2 dir = transform.TransformDirection(Vector2.right);
+        float maxDistance = stats.ComputeValue("DETECTION_RADIUS");
 
 
-    //    // track player if player is being tracked
-    //    if (tracking)
-    //    {
-    //        maxDistance = maxDistance * 1.2f;
-    //        float maxTrackDistance = maxDistance * 2;
+        // track player if player is being tracked
+        if (tracking)
+        {
+            maxDistance = maxDistance * 1.2f;
+            float maxTrackDistance = maxDistance * 2;
 
-    //        dir = player.position - transform.position;
+            dir = player.position - transform.position;
 
-    //        RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, maxTrackDistance, LayerMask.GetMask("Player", "Ground"));
-    //        //Debug.DrawRay(transform.position, dir);
-    //        if (hit && hit.collider.gameObject.CompareTag("Player"))
-    //        {
-    //            hit_player = true;
-    //        }
-    //    }
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, maxTrackDistance, LayerMask.GetMask("Player", "Ground"));
+            //Debug.DrawRay(transform.position, dir);
+            if (hit && hit.collider.gameObject.CompareTag("Player"))
+            {
+                hit_player = true;
+            }
+        }
 
-    //    // if not tracking player
-    //    // casts numRays rays in a circle to seek player
-    //    int numRays = 16;
-    //    for (float deg = 0; deg < (360 * Mathf.Deg2Rad); deg += 360 / numRays * Mathf.Deg2Rad)
-    //    {
-    //        // calculate unit vector direction based on angle
-    //        dir = new Vector2(Mathf.Cos(deg), Mathf.Sin(deg));
-    //        RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, maxDistance, LayerMask.GetMask("Player", "Ground"));
-    //        Debug.DrawRay(transform.position, dir * maxDistance);
-    //        if (hit && hit.collider.gameObject.CompareTag("Player"))
-    //        {
-    //            hit_player = true;
-    //        }
-    //    }
-    //    return hit_player;
-    //}
+        // if not tracking player
+        // casts numRays rays in a circle to seek player
+        int numRays = 16;
+        for (float deg = 0; deg < (360 * Mathf.Deg2Rad); deg += 360 / numRays * Mathf.Deg2Rad)
+        {
+            // calculate unit vector direction based on angle
+            dir = new Vector2(Mathf.Cos(deg), Mathf.Sin(deg));
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, maxDistance, LayerMask.GetMask("Player", "Ground"));
+            Debug.DrawRay(transform.position, dir * maxDistance);
+            if (hit && hit.collider.gameObject.CompareTag("Player"))
+            {
+                hit_player = true;
+            }
+        }
+        return hit_player;
+    }
 }

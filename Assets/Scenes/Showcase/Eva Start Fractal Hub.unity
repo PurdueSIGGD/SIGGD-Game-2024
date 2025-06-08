@@ -1561,18 +1561,29 @@ PrefabInstance:
     - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
         type: 3}
       propertyPath: levels.Array.size
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
-        type: 3}
-      propertyPath: specificLevels.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
         type: 3}
+      propertyPath: enemies.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
+        type: 3}
+      propertyPath: specificLevels.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
+        type: 3}
+      propertyPath: enemies.Array.data[3].enemy
+      value: 
+      objectReference: {fileID: 8652318323731026824, guid: e394c39f0e71d7f4fa475f7f14decda6,
+        type: 3}
+    - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
+        type: 3}
       propertyPath: enemies.Array.data[4].enemy
       value: 
-      objectReference: {fileID: 2119936537419083514, guid: 0fedb38f283d38a4faca7620ea8ae537,
+      objectReference: {fileID: 8652318323731026824, guid: b5d7b25097e81c641a939214d938169d,
         type: 3}
     - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
         type: 3}
@@ -1669,6 +1680,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
         type: 3}
+      propertyPath: levels.Array.data[0].sceneName
+      value: Cyberpunk_Rafters
+      objectReference: {fileID: 0}
+    - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
+        type: 3}
+      propertyPath: levels.Array.data[1].sceneName
+      value: Cyberpunk_Arena
+      objectReference: {fileID: 0}
+    - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
+        type: 3}
+      propertyPath: levels.Array.data[2].sceneName
+      value: Cyberpunk_Cavern
+      objectReference: {fileID: 0}
+    - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
+        type: 3}
       propertyPath: levels.Array.data[5].sceneName
       value: CyberpunkRoom1
       objectReference: {fileID: 0}
@@ -1694,8 +1720,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
         type: 3}
+      propertyPath: enemies.Array.data[0].endChance
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
+        type: 3}
+      propertyPath: enemies.Array.data[3].endChance
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
+        type: 3}
       propertyPath: enemies.Array.data[4].endChance
-      value: 1
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
         type: 3}
@@ -1764,8 +1800,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
         type: 3}
-      propertyPath: enemies.Array.data[4].startChance
+      propertyPath: enemies.Array.data[0].startChance
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
+        type: 3}
+      propertyPath: enemies.Array.data[1].startChance
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
+        type: 3}
+      propertyPath: enemies.Array.data[2].startChance
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
+        type: 3}
+      propertyPath: enemies.Array.data[3].startChance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
+        type: 3}
+      propertyPath: enemies.Array.data[4].startChance
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
         type: 3}
@@ -1994,7 +2050,7 @@ PrefabInstance:
     - target: {fileID: 6481614880432510513, guid: dc37ada359206f040b1417c5d790c31f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -8.57
+      value: 190.5
       objectReference: {fileID: 0}
     - target: {fileID: 6481614880432510513, guid: dc37ada359206f040b1417c5d790c31f,
         type: 3}
@@ -2638,7 +2694,7 @@ PrefabInstance:
     - target: {fileID: 1295864056748667176, guid: 0c4504c44e0804246b232122549aca6a,
         type: 3}
       propertyPath: homeWorld
-      value: Eva Fractal Hub
+      value: Eva Start Fractal Hub
       objectReference: {fileID: 0}
     - target: {fileID: 2036965267508140759, guid: 0c4504c44e0804246b232122549aca6a,
         type: 3}
@@ -2689,6 +2745,31 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2191272423200367326, guid: 0c4504c44e0804246b232122549aca6a,
+        type: 3}
+      propertyPath: endWaveNum
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2191272423200367326, guid: 0c4504c44e0804246b232122549aca6a,
+        type: 3}
+      propertyPath: startWaveNum
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2191272423200367326, guid: 0c4504c44e0804246b232122549aca6a,
+        type: 3}
+      propertyPath: showEnemyThreshold
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2191272423200367326, guid: 0c4504c44e0804246b232122549aca6a,
+        type: 3}
+      propertyPath: startMaxEnemiesSpawn
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2191272423200367326, guid: 0c4504c44e0804246b232122549aca6a,
+        type: 3}
+      propertyPath: startMinEnemiesSpawn
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5413687969520788832, guid: 0c4504c44e0804246b232122549aca6a,
         type: 3}
@@ -33803,7 +33884,7 @@ PrefabInstance:
     - target: {fileID: 2905334097505762094, guid: fd518db5063097f408986d06c55a4f3a,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -549.9976
+      value: -549.99756
       objectReference: {fileID: 0}
     - target: {fileID: 2905334097505762094, guid: fd518db5063097f408986d06c55a4f3a,
         type: 3}
