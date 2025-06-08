@@ -12,6 +12,7 @@ using UnityEngine.InputSystem;
 /// </summary>
 public class ActionPool : MonoBehaviour
 {
+    public EnemyStateManager enemy;
     [SerializeField] protected List<Action> actions;
     public Action move;
     public Action idle;
@@ -30,13 +31,13 @@ public class ActionPool : MonoBehaviour
         }
     }
 
-    public bool SetActionReady(string name)
+    public bool SetActionReady(string name, bool ready)
     {
         foreach (Action a in actions)
         {
             if (a.name.Equals(name))
             {
-                a.ready = true;
+                a.ready = ready;
                 return true;
             }
         }
@@ -96,5 +97,17 @@ public class ActionPool : MonoBehaviour
             }
         }
         return availableActions;
+    }
+
+    public void DoCoolDown(Action a)
+    {
+        StartCoroutine(CooldownCoroutine(a));
+    }
+
+    private IEnumerator CooldownCoroutine(Action a)
+    {
+        a.ready = false;
+        yield return new WaitForSeconds(a.GetCoolDown());
+        a.ready = true;
     }
 }

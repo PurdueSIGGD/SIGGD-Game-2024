@@ -34,12 +34,13 @@ public class EnemyStateManager : MonoBehaviour
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         pool = GetComponent<ActionPool>();
+        pool.enemy = this;
         isBeingKnockedBack = false;
         
         SwitchState(IdleState);
     }
 
-    protected void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         if (StunState.isStunned)
         {

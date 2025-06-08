@@ -69,7 +69,7 @@ public class AggroState : IEnemyStates
     {
         rb = enemy.GetComponent<Rigidbody2D>();
         if (!enemy.isBeingKnockedBack && (enemy.isFlyer || enemy.isGrounded())) rb.velocity = new Vector2(0, rb.velocity.y); // Make sure Enemy stops moving
-        enemy.pool.idle.Play(enemy.animator); // Play the idle animation when in between attacks
+        enemy.pool.idle.Play(enemy); // Play the idle animation when in between attacks
 
         // Handle enemy group aggro
 
@@ -98,7 +98,7 @@ public class AggroState : IEnemyStates
         Action nextAction = enemy.pool.NextAction(); // If an action is ready, play it in BusyState
         if (nextAction != null)
         {
-            nextAction.Play(enemy.animator);
+            nextAction.Play(enemy);
             enemy.SwitchState(enemy.BusyState);
         }
     }
