@@ -27,40 +27,14 @@ public class PoliceChiefSidearmShot : MonoBehaviour
         GameplayEventHolder.OnAbilityUsed?.Invoke(manager.sidearmActionContext);
     }
 
-    private RaycastHit2D rayCastDetection(Vector2 pos, Vector2 dir, float distToTravel)
-    {
-        if (distToTravel <= 0)
-        {
-            return new RaycastHit2D();
-        }
-        RaycastHit2D hit = Physics2D.Raycast(pos, dir, distToTravel, LayerMask.GetMask("Ground", "Enemy"));
-        if (!hit)
-        {
-            Debug.DrawLine(pos, pos + dir * distToTravel, Random.ColorHSV(), 5f);
-            return hit;
-        }
-        Debug.DrawLine(pos, hit.point, Random.ColorHSV(), 5f);
-        if (hit.transform.CompareTag("Transparent"))
-        {
-            float pointAngle = Mathf.Atan2(hit.point.y - pos.y, hit.point.x - pos.x);
-            float distTraveled = Vector2.Distance(pos, hit.point);
-            Vector2 Pointadd =  new Vector2(Mathf.Cos(pointAngle), Mathf.Sin(pointAngle));
-            hit = rayCastDetection(hit.point + Pointadd, dir, distToTravel - distTraveled);
-        }
-        return hit;
-    }
-
     private IEnumerator sidearmShotCoroutine(Vector2 pos, Vector2 dir)
     {
         // Calculate shot vector
-        RaycastHit2D hit = rayCastDetection(pos, dir, manager.GetStats().ComputeValue("Basic Travel Distance"));
-
+        RaycastHit2D hit = Physics2D.Raycast(pos, dir, manager.GetStats().ComputeValue("Basic Travel Distance"), LayerMask.GetMask("Ground", "Enemy"));
         Vector2 hitPoint = (hit) ? hit.point : pos + (dir * manager.GetStats().ComputeValue("Basic Travel Distance"));
 
-
-
         // VFX
-        //Debug.DrawLine(pos, hitPoint, Color.red, 5.0f);
+        Debug.DrawLine(pos, hitPoint, Color.red, 5.0f);
         CameraShake.instance.Shake(0.25f, 10f, 0f, 10f, new Vector2(Random.Range(-0.5f, 0.5f), 1f));
         GameObject railgunTracer = Instantiate(manager.basicTracerVFX, Vector3.zero, Quaternion.identity);
         railgunTracer.GetComponent<RaycastTracerHandler>().playTracer(pos, hitPoint, travelSpeed, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
