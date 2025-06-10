@@ -161,4 +161,13 @@ public class WrathHeavyAttack : MonoBehaviour, IStatList
     {
         return statList;
     }
+
+    /// <summary>
+    ///  Gets current wrath percent
+    /// </summary>
+    /// <returns>Wrath Percent</returns>
+    public float getWrathPercent()
+    {
+        return wrathPercent;
+    }
 }
