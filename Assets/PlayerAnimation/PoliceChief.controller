@@ -263,34 +263,6 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1101 &-7119665703801436664
-AnimatorStateTransition:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_Conditions:
-  - m_ConditionMode: 1
-    m_ConditionEvent: i_heavy_attack
-    m_EventTreshold: 0
-  - m_ConditionMode: 1
-    m_ConditionEvent: ATK
-    m_EventTreshold: 0
-  m_DstStateMachine: {fileID: 0}
-  m_DstState: {fileID: -4754883599069489086}
-  m_Solo: 0
-  m_Mute: 0
-  m_IsExit: 0
-  serializedVersion: 3
-  m_TransitionDuration: 0.25
-  m_TransitionOffset: 0
-  m_ExitTime: 0.75
-  m_HasExitTime: 0
-  m_HasFixedDuration: 1
-  m_InterruptionSource: 0
-  m_OrderedInterruption: 1
-  m_CanTransitionToSelf: 1
 --- !u!114 &-6233182144608491894
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -707,6 +679,23 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!1109 &-2659673363607223109
+AnimatorTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions:
+  - m_ConditionMode: 1
+    m_ConditionEvent: i_heavy_attack
+    m_EventTreshold: 0
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: -4754883599069489086}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 1
 --- !u!1109 &-2610629680198993430
 AnimatorTransition:
   m_ObjectHideFlags: 1
@@ -820,17 +809,17 @@ AnimatorStateMachine:
   m_ChildStateMachines:
   - serializedVersion: 1
     m_StateMachine: {fileID: 8886827414469395744}
-    m_Position: {x: -650, y: 10, z: 0}
+    m_Position: {x: -390, y: -70, z: 0}
   m_AnyStateTransitions:
   - {fileID: -1150667547452622489}
   - {fileID: 1706416134460276779}
   - {fileID: 4822911791344146126}
   - {fileID: 1321684111384114879}
-  - {fileID: -7119665703801436664}
   m_EntryTransitions: []
   m_StateMachineTransitions:
   - first: {fileID: 8886827414469395744}
     second:
+    - {fileID: -2659673363607223109}
     - {fileID: 643534176397537245}
     - {fileID: -1500330095779451851}
   m_StateMachineBehaviours: []
