@@ -22,8 +22,7 @@ public class Move : MonoBehaviour, IStatList
     private float maxSpeed;
 
     private float overflowSpeed;
-    private float overflowGroundDeaccel;
-    private float overflowAirDeaccel;
+    private float overflowDeaccel;
 
     private bool stopTurning;
 
@@ -43,15 +42,13 @@ public class Move : MonoBehaviour, IStatList
         deaccel = stats.ComputeValue("Running Deaccel.");
 
         overflowSpeed = maxSpeed;
-        overflowGroundDeaccel = 0.8f;
-        overflowAirDeaccel = 0.96f;
+        overflowDeaccel = 0.96f;
         footstepTime = Time.time;
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        //Debug.Log("ACCEL: " + accel + "  |  MAX SPEED:" + maxSpeed +  "  |  DEACCEL: " + deaccel);
         if (!stopMoving)
         {
             Movement();
@@ -78,7 +75,7 @@ public class Move : MonoBehaviour, IStatList
         if (overflowSpeed > maxSpeed)
         {
             newVel.x = Mathf.Clamp(newVel.x, -1 * overflowSpeed, overflowSpeed);
-            overflowSpeed = Mathf.Clamp(Mathf.Abs(rb.velocity.x), maxSpeed, overflowSpeed * ((animator.GetBool("p_grounded")) ? overflowGroundDeaccel : overflowAirDeaccel));
+            overflowSpeed = Mathf.Clamp(Mathf.Abs(rb.velocity.x), maxSpeed, overflowSpeed * overflowDeaccel);
         }
         else
         {
@@ -91,9 +88,9 @@ public class Move : MonoBehaviour, IStatList
         {
             newVel.x *= deaccel;
         }
-        if (input!=0 && animator.GetBool("p_grounded") && maxSpeed > 0f)
+        if (input!=0 && animator.GetBool("p_grounded"))
         {
-            if (Time.time - footstepTime > (0.25f * (10 / maxSpeed))) {
+            if (Time.time - footstepTime > 0.25f) {
                 AudioManager.Instance.SFXBranch.PlaySFXTrack("Footstep");
                 footstepTime = Time.time;
             }
@@ -171,7 +168,6 @@ public class Move : MonoBehaviour, IStatList
             {
                 AudioManager.Instance.SFXBranch.PlaySFXTrack("Landing");
                 landSFXtime = Time.time;
-                footstepTime = Time.time;
             }
         }
     }
@@ -233,9 +229,6 @@ public class Move : MonoBehaviour, IStatList
     public void StartLightAttack()
     {
         stopTurning = true;
-        accel = stats.ComputeValue("Accel. while Heavy");
-        maxSpeed = stats.ComputeValue("Max Speed while Heavy");
-        deaccel = stats.ComputeValue("Deaccel. while Heavy");
     }
 
     public void StopLightAttack()
@@ -243,17 +236,14 @@ public class Move : MonoBehaviour, IStatList
         if (!charging)
         {
             stopTurning = false;
-            accel = stats.ComputeValue("Running Accel.");
-            maxSpeed = stats.ComputeValue("Max Running Speed");
-            deaccel = stats.ComputeValue("Running Deaccel.");
         }
     }
 
     public void StartHeavyChargeUp()
     {
         charging = true;
-        accel = 0.5f;
-        maxSpeed = 2f;
+        accel = 0;
+        maxSpeed = 0;
         //maxSpeed = stats.ComputeValue("Max Speed while Heavy");
         deaccel = stats.ComputeValue("Deaccel. while Heavy");
     }
@@ -274,46 +264,16 @@ public class Move : MonoBehaviour, IStatList
     {
         Debug.Log("Primed");
         charging = false;
-        accel = 0.5f;
-        maxSpeed = 2f;
-        //maxSpeed = stats.ComputeValue("Max Speed while Heavy");
+        accel = 0;
+        maxSpeed = 0;
         deaccel = stats.ComputeValue("Deaccel. while Heavy");
     }
 
     public void StopHeavyPrimed()
     {
         stopTurning = false;
-        //accel = 0;
-        //maxSpeed = 0;
-        //deaccel = stats.ComputeValue("Deaccel. while Heavy");
-        accel = stats.ComputeValue("Running Accel.");
-        maxSpeed = stats.ComputeValue("Max Running Speed");
-        deaccel = stats.ComputeValue("Running Deaccel.");
-    }
-
-    public void StartHeavyAttack()
-    {
-        stopTurning = true;
-        accel = stats.ComputeValue("Accel. while Heavy");
-        maxSpeed = stats.ComputeValue("Max Speed while Heavy");
-        deaccel = stats.ComputeValue("Deaccel. while Heavy");
-    }
-
-    public void EnterHeavyAttackRecovery()
-    {
-        accel = 0.5f;
-        maxSpeed = 1f;
-        //maxSpeed = stats.ComputeValue("Max Speed while Heavy");
-        deaccel = stats.ComputeValue("Deaccel. while Heavy");
-    }
-
-    public void StopHeavyAttack()
-    {
-        stopTurning = false;
-        //accel = 0;
-        //maxSpeed = 0;
-        accel = stats.ComputeValue("Running Accel.");
-        maxSpeed = stats.ComputeValue("Max Running Speed");
+        accel = 0;
+        maxSpeed = 0;
         deaccel = stats.ComputeValue("Running Deaccel.");
     }
 
