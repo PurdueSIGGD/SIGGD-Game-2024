@@ -145,11 +145,6 @@ public class IdleState : IEnemyStates
                     StopPatrol(enemy);
                     return;
                 }
-            if ((Mathf.Abs(enemy.transform.position.x - currTarget.x) <= PATROL_TARGET_RADIUS) || hitWall || (!enemy.isGrounded() && !enemy.isFlyer))
-            {
-                patrolPauseTimer = Random.Range(enemy.stats.ComputeValue(PAUSE_TIME_MIN), enemy.stats.ComputeValue(PAUSE_TIME_MAX));
-                enemy.pool.idle.Play(enemy.animator); // Play the idle animation
-                rb.velocity = new Vector2(0, rb.velocity.y);
             }
         }
 
