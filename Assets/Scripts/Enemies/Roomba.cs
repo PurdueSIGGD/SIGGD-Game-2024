@@ -17,8 +17,9 @@ public class Roomba : EnemyStateManager
     SpriteRenderer spriteRenderer;
     bool toggleRed = true;
 
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         kaboomDamage.damage = damage;
         spriteRenderer = GetComponent<SpriteRenderer>();
     }

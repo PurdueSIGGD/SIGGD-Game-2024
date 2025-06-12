@@ -69,7 +69,7 @@ public class VAManager : MonoBehaviour {
             String msg = "";
             msg += "globalVoicelineChance: " + globalVoicelineChance + "\n";
             msg += "voicelineCullingTimer: " + voicelineCullingTimer;
-            Debug.Log(msg);
+            //Debug.Log(msg);
             yield return new WaitForSeconds(1.0f);
         }
     }

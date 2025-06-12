@@ -8,9 +8,9 @@ using UnityEngine;
 public class PoisonDebuff : MonoBehaviour
 {
 
-    Health playerHealth;
+    Health health;
     [SerializeField] DamageContext damageContext;
-    [SerializeField] int damage;
+    [SerializeField] float damage;
     [SerializeField] float time; // time before debuff ends
     [SerializeField] float interval; // seconds per tick
     float timer = 0;
@@ -19,7 +19,7 @@ public class PoisonDebuff : MonoBehaviour
     void Start()
     {
         StartCoroutine(ByeByeCoroutine(time));
-        playerHealth = gameObject.GetComponentInParent<Health>();
+        health = gameObject.GetComponentInParent<Health>();
         timer = interval;
         damageContext.damage = damage;
     }
@@ -32,16 +32,26 @@ public class PoisonDebuff : MonoBehaviour
             timer -= Time.deltaTime;
             return;
         }
-        playerHealth = gameObject.GetComponentInParent<Health>();
-        if (playerHealth != null)
+        health = gameObject.GetComponentInParent<Health>();
+        if (health != null)
         {
-            playerHealth.Damage(damageContext, gameObject);
+            Debug.Log("bleed test: damaging");
+            health.Damage(damageContext, gameObject);
         }
         timer = interval;
     }
     IEnumerator ByeByeCoroutine(float time)
     {
+        Debug.Log("bleed test: count down started, ending in: " + time);
         yield return new WaitForSeconds(time);
         Destroy(gameObject);
+    }
+
+    public void Init(DamageContext context, float damage, float time, float interval)
+    {
+        damageContext = context;
+        this.damage = damage;
+        this.time = time;
+        this.interval = interval;
     }
 }
