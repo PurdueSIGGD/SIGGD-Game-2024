@@ -28,7 +28,7 @@ RectTransform:
   m_GameObject: {fileID: 1959292374042289379}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 214202614416721733}
@@ -36,8 +36,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 396.82254, y: 188.49948}
-  m_SizeDelta: {x: 804.5, y: 380}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 4, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &70486453877837006
 Canvas:
@@ -127,8 +127,8 @@ Transform:
   m_GameObject: {fileID: 3111961148223216294}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -2, z: 0}
-  m_LocalScale: {x: 12, y: 7, z: 1}
+  m_LocalPosition: {x: 0, y: -3, z: 0}
+  m_LocalScale: {x: 80, y: 30, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7107735299581363218}
@@ -146,15 +146,15 @@ GameObject:
   - component: {fileID: 7641910748012329919}
   - component: {fileID: 1467948147633493128}
   - component: {fileID: 1603849808541719507}
-  - component: {fileID: 3602954514945515610}
   - component: {fileID: 8856570929518799469}
   - component: {fileID: 1221538207620342913}
-  - component: {fileID: 4086416775877823508}
   - component: {fileID: 5924195418159167760}
   - component: {fileID: 3348080620902511625}
+  - component: {fileID: 4700818244904872880}
   - component: {fileID: 3397753109862796679}
+  - component: {fileID: 2640131324163235134}
   m_Layer: 21
-  m_Name: Camera Drone
+  m_Name: Survey Drone
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -170,8 +170,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 5.427471, y: 1.5005159, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
-  m_ConstrainProportionsScale: 1
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7775618551989780944}
   - {fileID: 3644038881375788147}
@@ -188,7 +188,7 @@ Animator:
   m_GameObject: {fileID: 8652318323731026824}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 716066f74138c3b4583b7939204bca1c, type: 2}
+  m_Controller: {fileID: 9100000, guid: 5eb06b52445ca9e46b90fc4f62ed92dd, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -323,29 +323,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.375, y: 1.25}
   m_EdgeRadius: 0
---- !u!114 &3602954514945515610
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8652318323731026824}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 20782b93b693591488b8c308e283c380, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stats: {fileID: 0}
-  pool: {fileID: 0}
-  animator: {fileID: 6400381198355053387}
-  isFlyer: 1
-  aggroRange: 16.76
-  isBeingKnockedBack: 0
-  grounded: 0
-  alarmTrigger: {fileID: 7775618551989780944}
-  enemyToSummon: {fileID: 1487853512614266132, guid: 73f93381fbec0764a90fbc89c20293ff,
-    type: 3}
-  detectionRadius: 15
 --- !u!114 &8856570929518799469
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -385,6 +362,10 @@ MonoBehaviour:
     value: 10
   - name: Enemy Group Aggro Radius
     value: 10
+  - name: Speed
+    value: 5
+  - name: Spawn Interval
+    value: 3.5
 --- !u!114 &1221538207620342913
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -399,42 +380,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Max Health
-    value: 25
+    value: 10
   deathLevel: 
---- !u!114 &4086416775877823508
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8652318323731026824}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 20d794b3ea5a6da42ac5b8feade20f68, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemy: {fileID: 0}
-  actions:
-  - name: Call Alarm
-    priority: 1
-    ready: 1
-    hitBox: {fileID: 7775618551989780944}
-    coolDown: 5
-    animationClip: {fileID: 7400000, guid: 6be99b37274953c40b797d9e1744a2a7, type: 2}
-  move:
-    name: Move
-    priority: 0
-    ready: 0
-    hitBox: {fileID: 0}
-    coolDown: 0
-    animationClip: {fileID: 7400000, guid: 4739459637a37884c8ebb6a3ce1e90ce, type: 2}
-  idle:
-    name: 
-    priority: 0
-    ready: 0
-    hitBox: {fileID: 0}
-    coolDown: 0
-    animationClip: {fileID: 7400000, guid: 468a49c330cf0294486adcfa8c854b6e, type: 2}
 --- !u!114 &5924195418159167760
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -478,6 +425,28 @@ MonoBehaviour:
     chance: 1
     minCount: 0
     maxCount: 2
+--- !u!114 &4700818244904872880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8652318323731026824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74494cff64d5dcd4692fe98e8ed90d9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stats: {fileID: 0}
+  pool: {fileID: 0}
+  animator: {fileID: 0}
+  isFlyer: 1
+  aggroRange: 15
+  isBeingKnockedBack: 0
+  grounded: 0
+  alarmTrigger: {fileID: 7775618551989780944}
+  enemyToSummon: {fileID: 1393067818931581941, guid: 040374e0994a9d3488cf595921dd96e5,
+    type: 3}
 --- !u!114 &3397753109862796679
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -495,6 +464,40 @@ MonoBehaviour:
     value: 100
   currentStun: 0
   maxStun: 0
+--- !u!114 &2640131324163235134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8652318323731026824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 872d96247465fd541bea93e36537b26f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemy: {fileID: 0}
+  actions:
+  - name: Move to Spawn Point
+    priority: 0.1
+    ready: 1
+    hitBox: {fileID: 7775618551989780944}
+    coolDown: 1
+    animationClip: {fileID: 7400000, guid: 6b68d26f5a238b64ebe47ec9e04e22b5, type: 2}
+  move:
+    name: 
+    priority: 0
+    ready: 1
+    hitBox: {fileID: 0}
+    coolDown: 0
+    animationClip: {fileID: 7400000, guid: 4739459637a37884c8ebb6a3ce1e90ce, type: 2}
+  idle:
+    name: 
+    priority: 0
+    ready: 1
+    hitBox: {fileID: 0}
+    coolDown: 0
+    animationClip: {fileID: 7400000, guid: 468a49c330cf0294486adcfa8c854b6e, type: 2}
 --- !u!1001 &1498013908851705233
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -591,12 +594,12 @@ PrefabInstance:
     - target: {fileID: 1599626218514645716, guid: f82d61c6f20788c41b3b1bf12452e612,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -396.8
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1599626218514645716, guid: f82d61c6f20788c41b3b1bf12452e612,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 2.3399963
+      value: 1.11
       objectReference: {fileID: 0}
     - target: {fileID: 1599626218514645716, guid: f82d61c6f20788c41b3b1bf12452e612,
         type: 3}

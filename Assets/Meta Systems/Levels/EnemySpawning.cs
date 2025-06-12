@@ -103,22 +103,29 @@ public class EnemySpawning : MonoBehaviour
             newEnemy.transform.position = points[i].transform.position;
         }
         EnemiesLeftUpdater.enemiesLeft = currentEnemies.Count;
-        showRemainingEnemy = false;
         ShowIndicators();
     }
 
     private void ShowIndicators()
     {
         if (EnemiesLeftUpdater.enemiesLeft > 0 &&
-            EnemiesLeftUpdater.enemiesLeft < showEnemyThreshold &&
-            !showRemainingEnemy)
+            EnemiesLeftUpdater.enemiesLeft < showEnemyThreshold)
         {
             foreach (GameObject enemy in currentEnemies)
             {
-                if (enemy.GetComponentInChildren<DirectionalArrowBehaviour>()) return;
+                if (enemy.GetComponentInChildren<DirectionalArrowBehaviour>()) continue;
                 Instantiate(enemyIndicator, enemy.transform);
             }
             showRemainingEnemy = true;
+        }
+        else if (showRemainingEnemy)
+        {
+            foreach (GameObject enemy in currentEnemies)
+            {
+                DirectionalArrowBehaviour excessIndicator = enemy.GetComponentInChildren<DirectionalArrowBehaviour>();
+                if (excessIndicator && excessIndicator.gameObject != null) Destroy(excessIndicator.gameObject);
+            }
+            showRemainingEnemy = false;
         }
     }
 
@@ -130,8 +137,6 @@ public class EnemySpawning : MonoBehaviour
         waveNumber = 0;
         currentMaxWave = Mathf.RoundToInt(Mathf.Lerp((float)startWaveNum, (float)endWaveNum, GetComponent<LevelSwitching>().GetProgress()));
         points = GameObject.FindGameObjectsWithTag("SpawnPoint");
-        Debug.Log("currentMaxWave: " + currentMaxWave);
-        Debug.Log("Points Length: " + points.Length);
         SpawnEnemies();
     }
 
@@ -145,6 +150,18 @@ public class EnemySpawning : MonoBehaviour
             texts[t] = texts[r];
             texts[r] = tmp;
         }
+    }
+
+    public GameObject[] GetSpawnPoints()
+    {
+        return points;
+    }
+
+    public void RegisterNewEnemy(GameObject enemy)
+    {
+        currentEnemies.Add(enemy);
+        EnemiesLeftUpdater.enemiesLeft++;
+        ShowIndicators();
     }
 
     public List<GameObject> GetCurrentEnemies()

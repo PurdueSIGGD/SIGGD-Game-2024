@@ -32,11 +32,11 @@ public class IdleState : IEnemyStates
     /// Enter state, start animation and set first patrol target
     /// </summary>
     /// <param name="enemy"></param>
-    public void EnterState(EnemyStateManager enemy)
+    public virtual void EnterState(EnemyStateManager enemy)
     {
         Rigidbody2D rb = enemy.GetComponent<Rigidbody2D>();
         if (!enemy.isBeingKnockedBack && (enemy.isFlyer || enemy.isGrounded())) rb.velocity = new Vector2(0, rb.velocity.y);
-        enemy.pool.move.Play(enemy.animator); // Play the move animation
+        enemy.pool.move.Play(enemy); // Play the move animation
 
         // Save initial point when entering the state
 
@@ -49,7 +49,7 @@ public class IdleState : IEnemyStates
     /// Chooses the next point to walk to
     /// </summary>
     /// <param name="enemy"></param>
-    private void SetPatrolTarget(EnemyStateManager enemy)
+    protected void SetPatrolTarget(EnemyStateManager enemy)
 
     {
         float distanceFromPivot = Random.Range(enemy.stats.ComputeValue(TARGET_RANGE_MIN), enemy.stats.ComputeValue(TARGET_RANGE_MAX));
@@ -67,7 +67,7 @@ public class IdleState : IEnemyStates
     /// Controls patrolling behavior, timer, and animation
     /// </summary>
     /// <param name="enemy"></param>
-    private void Patrol(EnemyStateManager enemy)
+    protected void Patrol(EnemyStateManager enemy)
     {
 
         if (patrolPauseTimer > 0.0f)
@@ -86,7 +86,7 @@ public class IdleState : IEnemyStates
 
                 // Play the move animation
 
-                enemy.pool.move.Play(enemy.animator); // Play the move animation
+                enemy.pool.move.Play(enemy); // Play the move animation
 
             }
 
@@ -154,11 +154,11 @@ public class IdleState : IEnemyStates
     /// Run this code when the enemy stops at the patrol target
     /// </summary>
     /// <param name="enemy"></param>
-    void StopPatrol(EnemyStateManager enemy)
+    protected void StopPatrol(EnemyStateManager enemy)
     {
         patrolPauseTimer = Random.Range(enemy.stats.ComputeValue(PAUSE_TIME_MIN), enemy.stats.ComputeValue(PAUSE_TIME_MAX));
 
-        enemy.pool.idle.Play(enemy.animator); // Play the idle animation
+        enemy.pool.idle.Play(enemy); // Play the idle animation
 
         Rigidbody2D rb = enemy.GetComponent<Rigidbody2D>();
         rb.velocity = new Vector2(0, rb.velocity.y);
@@ -170,7 +170,7 @@ public class IdleState : IEnemyStates
     /// <param name="enemy"></param>
     public void UpdateState(EnemyStateManager enemy)
     {
-        if (enemy.pool.HasActionsReady()) // If has player in attack range, enter AggroState
+        if (enemy.pool.HasActionsReady() && enemy.HasLineOfSight(false)) // If has player in attack range, enter AggroState
         {
             enemy.SwitchState(enemy.AggroState);
             patrolPauseTimer = 0;

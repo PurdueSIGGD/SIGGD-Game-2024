@@ -45,15 +45,19 @@ public class AggroState : IEnemyStates
 
             if (otherEnemy.Equals(enemy)) { continue; }
 
-            if (otherEnemy.GetCurrentState().Equals(otherEnemy.AggroState)) {
+            if (!otherEnemy.GetCurrentState().Equals(otherEnemy.IdleState)) {
                 continue;
             }
 
             // Calculate distance to other enemy
-
             float d = Vector2.Distance(otherEnemy.transform.position, enemy.transform.position);
 
-            if (d <= aggroRadius)
+            // Check if enemy has line of sight to the attacked enemy
+            RaycastHit2D hit = Physics2D.Raycast(enemy.transform.position, 
+                                                (otherEnemy.transform.position - enemy.transform.position), d,
+                                                 LayerMask.GetMask("Ground"));
+
+            if (d <= aggroRadius && !hit)
             {
                 otherEnemy.SwitchState(otherEnemy.AggroState);
 #if DEBUG_LOG
@@ -69,7 +73,7 @@ public class AggroState : IEnemyStates
     {
         rb = enemy.GetComponent<Rigidbody2D>();
         if (!enemy.isBeingKnockedBack && (enemy.isFlyer || enemy.isGrounded())) rb.velocity = new Vector2(0, rb.velocity.y); // Make sure Enemy stops moving
-        enemy.pool.idle.Play(enemy.animator); // Play the idle animation when in between attacks
+        enemy.pool.idle.Play(enemy); // Play the idle animation when in between attacks
 
         // Handle enemy group aggro
 
@@ -98,7 +102,7 @@ public class AggroState : IEnemyStates
         Action nextAction = enemy.pool.NextAction(); // If an action is ready, play it in BusyState
         if (nextAction != null)
         {
-            nextAction.Play(enemy.animator);
+            nextAction.Play(enemy);
             enemy.SwitchState(enemy.BusyState);
         }
     }

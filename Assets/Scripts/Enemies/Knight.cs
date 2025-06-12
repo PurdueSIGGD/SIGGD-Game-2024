@@ -8,8 +8,9 @@ public class Knight : EnemyStateManager
     [SerializeField] protected Transform swordTrigger;
     [SerializeField] protected DamageContext swordDamage;
 
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         swordDamage.damage = 20.0f;
     }
 
