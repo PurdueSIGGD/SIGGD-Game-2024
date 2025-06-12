@@ -1,4 +1,4 @@
-#define DEBUG_LOG
+//#define DEBUG_LOG
 
 using System.Collections;
 using System.Collections.Generic;
@@ -42,7 +42,7 @@ public class RelentlessFury : Skill
     private float CalculateDamageMultiplier()
     {
         float multiplier = 1.0f;
-        float wrathPercent = samuraiManager.basic.GetWrathPercent();
+        float wrathPercent = samuraiManager.basic.GetWrathPercent() * 100;
 
         if (pointIndex == 0 || wrathPercent <= 0)
         {
