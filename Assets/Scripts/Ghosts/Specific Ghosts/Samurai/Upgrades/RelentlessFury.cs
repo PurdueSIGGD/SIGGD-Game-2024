@@ -1,5 +1,6 @@
 //#define DEBUG_LOG
 
+using Microsoft.Win32.SafeHandles;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -42,7 +43,7 @@ public class RelentlessFury : Skill
     private float CalculateDamageMultiplier()
     {
         float multiplier = 1.0f;
-        float wrathPercent = samuraiManager.basic.GetWrathPercent() * 100;
+        float wrathPercent = samuraiManager.basic.GetWrathPercent();
 
         if (pointIndex == 0 || wrathPercent <= 0)
         {
@@ -53,7 +54,7 @@ public class RelentlessFury : Skill
 
         float multiplierAdd = 0.15f + (pointIndex - 1) * 0.1f;
 #if DEBUG_LOG
-        Debug.Log("Multiplier per Wrath percent: " + multiplierAdd);
+        Debug.Log("Multiplier per Wrath percent: " + multiplierAdd +"%");
 #endif
 
         // Multiply by wrath percent
