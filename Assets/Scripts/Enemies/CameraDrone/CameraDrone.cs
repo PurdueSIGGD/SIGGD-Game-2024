@@ -9,8 +9,9 @@ public class CameraDrone : EnemyStateManager
     [SerializeField] protected GameObject enemyToSummon;
     [SerializeField] float detectionRadius = 1;
 
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         MoveState = new CameraDroneMoveState();
         detectionRadius = stats.ComputeValue("DETECTION_RADIUS");
         print("START AH: " + detectionRadius);
@@ -21,7 +22,8 @@ public class CameraDrone : EnemyStateManager
     protected void OnCallAlarm()
     {
         Vector3 dest = transform.position; // + new Vector3(transform.right.x * transform.lossyScale.x, -transform.lossyScale.y, 0);
-        Instantiate(enemyToSummon, dest, transform.rotation);
+        GameObject nenemy = Instantiate(enemyToSummon, dest, transform.rotation);
+        Destroy(nenemy.GetComponent<DropTable>());
     }
 
     protected override void OnDrawGizmos()
@@ -34,7 +36,6 @@ public class CameraDrone : EnemyStateManager
         bool hit_player = false;
 
         Vector2 dir = transform.TransformDirection(Vector2.right);
-        print("AHHHHH: " + detectionRadius);
         float maxDistance = detectionRadius;
 
 
@@ -54,7 +55,6 @@ public class CameraDrone : EnemyStateManager
             }
         }
 
-        print("AHHHHH: " + maxDistance);
         // if not tracking player
         // casts numRays rays in a circle to seek player
         int numRays = 16;

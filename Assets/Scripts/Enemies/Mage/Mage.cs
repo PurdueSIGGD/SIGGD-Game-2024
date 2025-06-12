@@ -32,8 +32,9 @@ public class Mage : EnemyStateManager
 
 
 
-    protected void Start()
+    protected override void Start()
     {
+        base.Start();
         statManager = GetComponent<StatManager>();
         lightningDamage.damage = statManager.ComputeValue("Damage");
         // Subscribing to the detector's events

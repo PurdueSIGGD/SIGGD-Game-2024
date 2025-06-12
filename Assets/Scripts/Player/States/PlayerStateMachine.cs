@@ -23,7 +23,8 @@ public class PlayerStateMachine : MonoBehaviour
     InputAction jumpInput; // The jump action from the playerInput component
     InputAction fallInput; // The fall actions frmo playerINput component
     InputAction specialInput; // The special key action from the playerInput component
-    InputAction attackInput;
+    InputAction attackInput; // The attack key action from the PlayerInput component
+    InputAction heavyAttackInput; // The heavy attack key action from the PlayerInput component
 
     public bool lightAttackQueued = false;
     public bool lightAttackConsumed = false;
@@ -46,6 +47,7 @@ public class PlayerStateMachine : MonoBehaviour
         jumpInput = input.actions.FindAction("Jump");
         fallInput = input.actions.FindAction("Fall");
         attackInput = input.actions.FindAction("Attack");
+        heavyAttackInput = input.actions.FindAction("HeavyAttack");
         specialInput = input.actions.FindAction("Special");
 
         animator = GetComponent<Animator>();
@@ -109,6 +111,7 @@ public class PlayerStateMachine : MonoBehaviour
     void UpdateAttack()
     {
         bool i_attack = attackInput.ReadValue<float>() != 0;
+        bool i_heavy_attack = heavyAttackInput.ReadValue<float>() != 0;
 
         // Handle light attack input buffering 
         if (i_attack)
@@ -121,6 +124,7 @@ public class PlayerStateMachine : MonoBehaviour
             if (lightAttackConsumed) lightAttackConsumed = false;
         }
 
+        /*
         // Handle heavy attack input buffering
         if (i_attack)
         {
@@ -129,6 +133,17 @@ public class PlayerStateMachine : MonoBehaviour
         else
         {
             heavyAttackQueued = false;
+        }
+        */
+
+        if (i_heavy_attack)
+        {
+            heavyAttackQueued = !heavyAttackConsumed;
+        }
+        else
+        {
+            heavyAttackQueued = false;
+            if (heavyAttackConsumed) heavyAttackConsumed = false;
         }
 
         animator.SetBool("i_attack", lightAttackQueued);
@@ -159,6 +174,7 @@ public class PlayerStateMachine : MonoBehaviour
         if (lightAttackConsumed) return;
         lightAttackConsumed = true;
 
+        /*
         if (isLightAttack2Ready)
         {
             //isLightAttack2Ready = false;
@@ -171,6 +187,8 @@ public class PlayerStateMachine : MonoBehaviour
             //isLightAttack2Ready = true;
             SetLightAttack2Ready(true);
         }
+        */
+        SetLightAttack2Ready(!isLightAttack2Ready);
         Debug.Log("Light Attack Input Consumed");
     }
 
@@ -181,7 +199,9 @@ public class PlayerStateMachine : MonoBehaviour
 
     public void ConsumeHeavyAttackInput()
     {
+        if (heavyAttackConsumed) return;
         heavyAttackConsumed = true;
+        Debug.Log("Heavy Attack Input Consumed");
     }
 
     void UpdateSpecial()
@@ -251,11 +271,13 @@ public class PlayerStateMachine : MonoBehaviour
         jumpInput.Disable();
         specialInput.Disable();
         attackInput.Disable();
+        heavyAttackInput.Disable();
         yield return new WaitForSeconds(duration);
         animator.speed = 1;
         moveInput.Enable();
         jumpInput.Enable();
         specialInput.Enable();
         attackInput.Enable();
+        heavyAttackInput.Enable();
     }
 }

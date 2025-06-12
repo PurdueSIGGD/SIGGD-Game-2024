@@ -90,8 +90,8 @@ Transform:
   m_GameObject: {fileID: 1398568264850401254}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.65, y: 0, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 1}
+  m_LocalPosition: {x: 1.5, y: 0, z: 0}
+  m_LocalScale: {x: 5, y: 3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6481614880432510513}
@@ -10109,6 +10109,56 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!1 &3749238224863162977
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1491888151332225453}
+  - component: {fileID: 219486061075428498}
+  m_Layer: 6
+  m_Name: VFX Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1491888151332225453
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3749238224863162977}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6481614880432510513}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &219486061075428498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3749238224863162977}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58f889470b4ec8448b4298084d1bc4a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerLightAttack1: {fileID: 7966241730260626198, guid: 37284dde1f859994c9b3145b040c0913,
+    type: 3}
+  playerLightAttack2: {fileID: 7966241730260626198, guid: 7d08388adefabb54faa37a410277c815,
+    type: 3}
+  playerHeavyAttack: {fileID: 7966241730260626198, guid: f2c5fe203366aed4ea61a122c7c2664b,
+    type: 3}
 --- !u!1 &4039933941367986174
 GameObject:
   m_ObjectHideFlags: 0
@@ -35140,7 +35190,7 @@ Transform:
   m_GameObject: {fileID: 8252758106455385166}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.33, y: 1.65, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -35148,6 +35198,7 @@ Transform:
   - {fileID: 6337371637573212274}
   - {fileID: 8936365801310724329}
   - {fileID: 3568753109793820066}
+  - {fileID: 1491888151332225453}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5199045754590476303
@@ -35191,7 +35242,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 375534085, guid: 4fc3b5f8863d60845b08275312c356d9, type: 3}
+  m_Sprite: {fileID: 564845355, guid: 6f9f9d283ccee2f4aa33dfe159144650, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -35296,7 +35347,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 3.5310345, y: 2.7}
+    oldSize: {x: 4.7999997, y: 4.7999997}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -35353,6 +35404,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ghostLimit: 0
   isStoryRoom: 0
+  selectedGhost: Orion
 --- !u!114 &3265562016652939407
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35554,7 +35606,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 066d6eb94556a8d4eb54327276580930, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 3
+  range: 2.5
   angle: 80
   lightDamage:
     damageStrength: 1
@@ -35564,7 +35616,7 @@ MonoBehaviour:
     extraContext: 
   statList:
   - name: Damage
-    value: 25
+    value: 20
   - name: Air Attack Dash Speed
     value: 25
   - name: Post Side Air Attack Dash Momentum Fraction
@@ -35607,17 +35659,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Heavy Damage
-    value: 75
+    value: 60
   - name: Accel. while Heavy
     value: 0.5
   - name: Deaccel. while Heavy
-    value: 0.8
+    value: 0.7
   - name: Max Speed while Heavy
-    value: 5
+    value: 4
   - name: Heavy Charge Up Time
-    value: 0.25
+    value: 0.5
   - name: Heavy Primed Autofire Time
-    value: 0.1
+    value: 1.5
   defaultController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
   ghostController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
   heavyIndicator: {fileID: 1398568264850401254}
@@ -35627,7 +35679,7 @@ MonoBehaviour:
     actionID: 2
     actionTypes: 01000000
     extraContext: Player Heavy
-  offsetX: 1.65
+  offsetX: 1.5
   isDashEnabled: 1
   isAirbornePostDash: 0
 --- !u!114 &6912038939047199345

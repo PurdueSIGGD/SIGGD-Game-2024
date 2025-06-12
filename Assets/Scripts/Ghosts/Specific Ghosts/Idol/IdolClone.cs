@@ -15,9 +15,14 @@ public class IdolClone : MonoBehaviour
     [SerializeField] DamageContext expireContext = new DamageContext();
     private GameObject player;
 
-    void Start()
+    void OnEnable()
     {
         GameplayEventHolder.OnDeath += PlayDeathVa;
+    }
+
+    private void OnDisable()
+    {
+        GameplayEventHolder.OnDeath -= PlayDeathVa;
     }
 
     void Update()

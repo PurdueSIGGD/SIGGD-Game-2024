@@ -27,6 +27,12 @@ public class VAManager : MonoBehaviour {
     }
 
     public void PlayVATrack(string trackName) {
+        if (!lookUpTable.vaTable.ContainsKey(trackName))
+        {
+            Debug.LogWarning("Cannot find VA track recorded under name: " + trackName);
+            return;
+        }
+
         float temp = UnityEngine.Random.Range(0, 1.0f);
         bool willPlayTrack = globalVoicelineChance > temp;
         if (willPlayTrack) {
@@ -63,7 +69,7 @@ public class VAManager : MonoBehaviour {
             String msg = "";
             msg += "globalVoicelineChance: " + globalVoicelineChance + "\n";
             msg += "voicelineCullingTimer: " + voicelineCullingTimer;
-            Debug.Log(msg);
+            //Debug.Log(msg);
             yield return new WaitForSeconds(1.0f);
         }
     }

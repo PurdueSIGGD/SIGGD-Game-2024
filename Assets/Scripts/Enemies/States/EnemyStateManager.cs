@@ -34,12 +34,16 @@ public class EnemyStateManager : MonoBehaviour
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         pool = GetComponent<ActionPool>();
-        isBeingKnockedBack = false;
-        
+        pool.enemy = this;
+        isBeingKnockedBack = false;        
+    }
+
+    protected virtual void Start()
+    {
         SwitchState(IdleState);
     }
 
-    protected void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         if (StunState.isStunned)
         {
@@ -64,6 +68,15 @@ public class EnemyStateManager : MonoBehaviour
         state.EnterState(this);
 
         //Debug.Log("switched state to " + state.GetType());
+    }
+
+    /// <summary>
+    /// Gets the current active Enemy State
+    /// </summary>
+    /// <returns>The current active Enemy State</returns>
+    public IEnemyStates GetCurrentState()
+    {
+        return curState;
     }
 
     /// <summary>

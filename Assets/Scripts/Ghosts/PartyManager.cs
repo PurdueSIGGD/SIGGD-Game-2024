@@ -1,8 +1,10 @@
 /// Party management script that tracks every active major ghost
 /// Attaches to Player
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -16,6 +18,8 @@ public class PartyManager : MonoBehaviour
     [SerializeField] private bool isStoryRoom;
 
     private bool isSwappingEnabled = true;
+    private bool isSwapping = false;
+    private float swapRecoveryTimer = 0f;
     private float swapInputBuffer = 0f;
     private int swapInputBufferGhostIndex = 0;
 
@@ -25,6 +29,7 @@ public class PartyManager : MonoBehaviour
     // References to fields in SaveData, declared for convenience of a shorter name
     private List<string> ghostsInParty;
     public string selectedGhost = "Orion";
+    private int selectedGhostIndex = -1;
 
     private void Awake()
     {
@@ -58,6 +63,8 @@ public class PartyManager : MonoBehaviour
     private void Update()
     {
         if (swapInputBuffer > 0f) swapInputBuffer -= Time.deltaTime;
+        if (swapRecoveryTimer > 0f && isSwapping) swapRecoveryTimer -= Time.deltaTime;
+        if (swapRecoveryTimer <= 0f && isSwapping) isSwapping = false;
     }
 
     /// <summary>
@@ -90,12 +97,34 @@ public class PartyManager : MonoBehaviour
     public void OnHotbar(InputValue value)
     {
         //Debug.Log("HOTBAR: " + (int)value.Get<float>());
-        int keyValue = (int)value.Get<float>();
+        int keyValue = (int) value.Get<float>();
         if (keyValue != 0)
         {
             // hotkey #2 is 0th ghost index in list
             ChangePosessingGhost(keyValue - 2);
         }
+    }
+
+    public void OnScrollWheel(InputValue value)
+    {
+        Debug.Log("SCROLL WHEEL INPUT: " + value.Get<float>());
+        int scrollWheelValue = (int) value.Get<float>();
+        int newIndex = selectedGhostIndex;
+        if (scrollWheelValue == 0)
+        {
+            return;
+        }
+        else if (scrollWheelValue < 0)
+        {
+            newIndex = selectedGhostIndex - 1;
+            if (newIndex < -1) newIndex = ghostsInParty.Count - 1;
+        }
+        else if (scrollWheelValue > 0)
+        {
+            newIndex = selectedGhostIndex + 1;
+            if (newIndex > ghostsInParty.Count - 1) newIndex = -1;
+        }
+        ChangePosessingGhost(newIndex);
     }
 
     /// <summary>
@@ -104,7 +133,9 @@ public class PartyManager : MonoBehaviour
     /// <param name="inputNum">The index to select from the list(value is either -1(player kit), 0, or 1)</param>
     public void ChangePosessingGhost(int index)
     {
-        GetComponent<Animator>().SetTrigger("toIdle");
+        if (isSwapping) return;
+
+        //GetComponent<Animator>().SetTrigger("toIdle");
         GetComponent<Move>().PlayerGo();
         // Don't swap if disabled, start swap input buffer
         if (!isSwappingEnabled)
@@ -114,22 +145,28 @@ public class PartyManager : MonoBehaviour
             return;
         }
 
+        swapRecoveryTimer = 0.3f;
+        isSwapping = true;
+
         // handle bad input
         if (index >= ghostsInParty.Count) return;
 
         // Don't swap if ghost is already possessing
-        if (index >= 0 && ghostsInParty[index].Equals(selectedGhost)) return;
+        if (selectedGhostIndex == index) return;
+        //if (index == -1 && selectedGhostIndex == -1) return;
 
         // deselect all ghosts in the list
         for (int i = 0; i < ghostsInParty.Count; i++)
         {
             ghostsByName[ghostsInParty[i]].TriggerDeSelectedBehavior();
         }
+        selectedGhostIndex = index;
 
         // do not possess if player selected base kit
         if (index == -1)
         {
             AudioManager.Instance.VABranch.PlayVATrack("Orion On Swap");
+            AudioManager.Instance.SFXBranch.PlaySFXTrack("GhostSwap");
             selectedGhost = "Orion";
             return;
         }

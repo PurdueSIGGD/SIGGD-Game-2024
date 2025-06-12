@@ -163,16 +163,16 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
+  m_LinearDrag: 1
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 4
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 2097216
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -264,7 +264,7 @@ MonoBehaviour:
   actions:
   - name: Baton Swing
     priority: 1
-    ready: 0
+    ready: 1
     hitBox: {fileID: 3561678645181035360}
     coolDown: 2
     animationClip: {fileID: 7400000, guid: f612aa8e9cc4b4a488df5b9e1c8237d2, type: 2}
@@ -299,6 +299,18 @@ MonoBehaviour:
     value: 5
   - name: Damage
     value: 7.5
+  - name: Idle Speed
+    value: 3.5
+  - name: Pause Timer Duration Min
+    value: 1
+  - name: Pause Timer Duration Max
+    value: 4
+  - name: Target Range Min
+    value: 5
+  - name: Target Range Max
+    value: 30
+  - name: Enemy Group Aggro Radius
+    value: 10
 --- !u!114 &2121035421530653855
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -314,6 +326,7 @@ MonoBehaviour:
   statList:
   - name: Max Health
     value: 100
+  deathLevel: 
 --- !u!114 &6177127837925238846
 MonoBehaviour:
   m_ObjectHideFlags: 0

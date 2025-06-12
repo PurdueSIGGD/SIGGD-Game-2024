@@ -14,7 +14,7 @@ public class MoveState : IEnemyStates
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
         rb = enemy.GetComponent<Rigidbody2D>();
-        enemy.pool.move.Play(enemy.animator); // Play the moving animation on entering state
+        enemy.pool.move.Play(enemy); // Play the moving animation on entering state
     }
 
     public void UpdateState(EnemyStateManager enemy)

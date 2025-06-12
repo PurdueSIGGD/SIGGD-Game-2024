@@ -242,7 +242,7 @@ Rigidbody2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 2097216
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -336,7 +336,7 @@ MonoBehaviour:
   actions:
   - name: Kaboom
     priority: 1
-    ready: 0
+    ready: 1
     hitBox: {fileID: 2932781976428712665}
     coolDown: 0
     animationClip: {fileID: 7400000, guid: 92ad5adfcb80c584282d7d47fcaf3fdd, type: 2}
@@ -369,6 +369,7 @@ MonoBehaviour:
   statList:
   - name: Max Health
     value: 10
+  deathLevel: 
 --- !u!114 &947338785010040998
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -384,6 +385,18 @@ MonoBehaviour:
   statList:
   - name: Speed
     value: 8
+  - name: Idle Speed
+    value: 6
+  - name: Pause Timer Duration Min
+    value: 1
+  - name: Pause Timer Duration Max
+    value: 3
+  - name: Target Range Min
+    value: 2
+  - name: Target Range Max
+    value: 8
+  - name: Enemy Group Aggro Radius
+    value: 10
 --- !u!114 &6310614689799863014
 MonoBehaviour:
   m_ObjectHideFlags: 0

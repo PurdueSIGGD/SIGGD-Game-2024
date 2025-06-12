@@ -440,6 +440,7 @@ MonoBehaviour:
   statList:
   - name: Max Health
     value: 75
+  deathLevel: 
 --- !u!95 &8340500370151633248
 Animator:
   serializedVersion: 5
@@ -476,7 +477,7 @@ MonoBehaviour:
   actions:
   - name: Dive
     priority: 5
-    ready: 0
+    ready: 1
     hitBox: {fileID: 219341358132932125}
     coolDown: 6
     animationClip: {fileID: 7400000, guid: f6b75464b2c0acc41a2a4f3e9c171ed4, type: 2}

@@ -42,7 +42,7 @@ public class Health : MonoBehaviour, IDamageable, IStatList
         foreach (GameplayEventHolder.DamageFilterEvent filter in GameplayEventHolder.OnDamageFilter)
         {
             filter(ref context);
-            Debug.Log("After Filter: " + context.damage);
+            Debug.Log("After Filter " + filter + ": " + context.damage);
         }
 
         Debug.Log("Damaged: " + context.damage);
@@ -154,7 +154,8 @@ public class Health : MonoBehaviour, IDamageable, IStatList
 
         gameObject.SetActive(false);
 
-        SceneManager.LoadScene("North Fractal Hub");
+        SceneManager.LoadScene("Eva Fractal Hub");
+        currentHealth = stats.ComputeValue("Max Health");
         Time.timeScale = 1;
     }
 
@@ -168,9 +169,9 @@ public class Health : MonoBehaviour, IDamageable, IStatList
         if (obj.CompareTag("Enemy"))
         {
             EnemyStateManager enemy = obj.GetComponent<EnemyStateManager>();
-            if (enemy != null)
+            if (enemy != null && (enemy.GetCurrentState().GetType().Equals(typeof(IdleState)) || enemy.GetCurrentState().GetType().Equals(typeof(MoveState))))
             {
-                enemy.SwitchState(new AggroState());
+                enemy.SwitchState(enemy.AggroState);
             }
         }
     }

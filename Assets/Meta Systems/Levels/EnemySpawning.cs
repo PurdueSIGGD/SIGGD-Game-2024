@@ -13,10 +13,17 @@ public class EnemySpawning : MonoBehaviour
     [SerializeField] int startWaveNum;
     [SerializeField] int endWaveNum;
 
+    [Header("Enemy directional indicator")]
+    [SerializeField] int showEnemyThreshold;
+    [SerializeField] GameObject enemyIndicator;
+    [SerializeField] private GameObject doorIndicator;
+
     private List<GameObject> currentEnemies = new List<GameObject>();
     private int waveNumber;
     private int currentMaxWave;
     private GameObject[] points;
+    
+    private bool showRemainingEnemy;
 
     private void Awake()
     {
@@ -46,6 +53,10 @@ public class EnemySpawning : MonoBehaviour
                 else
                 {
                     Door.activateDoor(true);
+                    foreach (Door door in GameObject.FindObjectsOfType<Door>()) 
+                    {
+                        Instantiate(doorIndicator, door.transform.position, Quaternion.identity);
+                    }
                     //Active Door
                 }
             }
@@ -55,6 +66,8 @@ public class EnemySpawning : MonoBehaviour
         {
             EnemiesLeftUpdater.enemiesLeft = -1;
         }
+
+        ShowIndicators();
     }
 
     private GameObject GetNextEnemy()
@@ -90,6 +103,30 @@ public class EnemySpawning : MonoBehaviour
             newEnemy.transform.position = points[i].transform.position;
         }
         EnemiesLeftUpdater.enemiesLeft = currentEnemies.Count;
+        ShowIndicators();
+    }
+
+    private void ShowIndicators()
+    {
+        if (EnemiesLeftUpdater.enemiesLeft > 0 &&
+            EnemiesLeftUpdater.enemiesLeft < showEnemyThreshold)
+        {
+            foreach (GameObject enemy in currentEnemies)
+            {
+                if (enemy.GetComponentInChildren<DirectionalArrowBehaviour>()) continue;
+                Instantiate(enemyIndicator, enemy.transform);
+            }
+            showRemainingEnemy = true;
+        }
+        else if (showRemainingEnemy)
+        {
+            foreach (GameObject enemy in currentEnemies)
+            {
+                DirectionalArrowBehaviour excessIndicator = enemy.GetComponentInChildren<DirectionalArrowBehaviour>();
+                if (excessIndicator && excessIndicator.gameObject != null) Destroy(excessIndicator.gameObject);
+            }
+            showRemainingEnemy = false;
+        }
     }
 
     public void StartLevel()
@@ -100,8 +137,6 @@ public class EnemySpawning : MonoBehaviour
         waveNumber = 0;
         currentMaxWave = Mathf.RoundToInt(Mathf.Lerp((float)startWaveNum, (float)endWaveNum, GetComponent<LevelSwitching>().GetProgress()));
         points = GameObject.FindGameObjectsWithTag("SpawnPoint");
-        Debug.Log("currentMaxWave: " + currentMaxWave);
-        Debug.Log("Points Length: " + points.Length);
         SpawnEnemies();
     }
 
@@ -115,6 +150,18 @@ public class EnemySpawning : MonoBehaviour
             texts[t] = texts[r];
             texts[r] = tmp;
         }
+    }
+
+    public GameObject[] GetSpawnPoints()
+    {
+        return points;
+    }
+
+    public void RegisterNewEnemy(GameObject enemy)
+    {
+        currentEnemies.Add(enemy);
+        EnemiesLeftUpdater.enemiesLeft++;
+        ShowIndicators();
     }
 
     public List<GameObject> GetCurrentEnemies()
