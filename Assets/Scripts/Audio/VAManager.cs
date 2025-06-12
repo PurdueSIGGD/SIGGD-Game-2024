@@ -27,6 +27,12 @@ public class VAManager : MonoBehaviour {
     }
 
     public void PlayVATrack(string trackName) {
+        if (!lookUpTable.vaTable.ContainsKey(trackName))
+        {
+            Debug.LogWarning("Cannot find VA track recorded under name: " + trackName);
+            return;
+        }
+
         float temp = UnityEngine.Random.Range(0, 1.0f);
         bool willPlayTrack = globalVoicelineChance > temp;
         if (willPlayTrack) {

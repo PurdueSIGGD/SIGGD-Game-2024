@@ -118,6 +118,7 @@ public class IdleState : IEnemyStates
             }
 
             // Check for wall hit
+            // If we are close enough to endpoint or we hit a wall, start timer and set idle animation
 
             RaycastHit2D hitWall = Physics2D.Raycast(enemy.transform.position, 
                                                      rb.velocity,
