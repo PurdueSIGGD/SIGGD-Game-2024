@@ -18,7 +18,10 @@ public class Vengeance : Skill {
 
     private void ApplyBonusWrath(DamageContext context)
     {
-        if (pointIndex > 0 && context.actionID == )
+        if (pointIndex > 0 && context.actionID == ActionID.SAMURAI_SPECIAL)
+        {
+            Debug.Log("we emust do something here idk");
+        }
     }
     public override void AddPointTrigger()
     {
