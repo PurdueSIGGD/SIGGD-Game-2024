@@ -224,12 +224,4 @@ public class WrathHeavyAttack : MonoBehaviour
         return wrathPercent;
     }
 
-    /// <summary>
-    ///  Gets current wrath percent
-    /// </summary>
-    /// <returns>Wrath Percent</returns>
-    public float getWrathPercent()
-    {
-        return wrathPercent;
-    }
 }

@@ -36,7 +36,7 @@ public class SamuraiUIDriver : GhostUIDriver
 
     private void updateMeter()
     {
-        if (GetComponent<PoliceChiefLethalForce>() != null && GetComponent<PoliceChiefLethalForce>().GetTotalHits() != -1)
+        if (GetComponent<WrathHeavyAttack>() != null && GetComponent<WrathHeavyAttack>().GetWrathPercent() != -1)
         {
             meterUIManager.setMeterColor(Color.red);
             meterUIManager.setMeterValue(GetComponent<PoliceChiefLethalForce>().GetConsecutiveHits(), GetComponent<PoliceChiefLethalForce>().GetTotalHits());

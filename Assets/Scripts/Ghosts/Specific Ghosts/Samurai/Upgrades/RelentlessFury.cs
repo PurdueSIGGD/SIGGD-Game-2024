@@ -8,15 +8,20 @@ using UnityEngine;
 /// </summary>
 public class RelentlessFury : Skill
 {
-    [HideInInspector] public WrathHeavyAttack passive;
-    [HideInInspector] public GameObject player;
+    private WrathHeavyAttack basic;
+    private static int pointIndex;
 
-    //private static int pointIndex;
-
-    private void Start()
+    private void OnEnable()
     {
-        player = GameObject.Find("Player");
-        passive = PlayerID.instance.GetComponent<WrathHeavyAttack>();
+        SamuraiManager samuraiManager = gameObject.GetComponent<SamuraiManager>();
+        basic = samuraiManager.basic;
+
+        GameplayEventHolder.OnDamageDealt += BuffLightAttack;
+    }
+
+    private void OnDisable()
+    {
+        GameplayEventHolder.OnDamageDealt -= BuffLightAttack;
     }
 
 
@@ -28,12 +33,11 @@ public class RelentlessFury : Skill
     private float CalculateDamageMultiplier()
     {
         float multiplier = 1.0f;
-        int points = GetPoints();
 
         // Skill points
 
-        if (points > 0) {
-            multiplier = 1f + 0.15f + (GetPoints() - 1) * 0.1f;
+        if (pointIndex > 0) {
+            multiplier = 1f + 0.15f + (pointIndex - 1) * 0.1f;
         }
         else
         {
@@ -42,31 +46,35 @@ public class RelentlessFury : Skill
 
         // Multiply by wrath percent
 
-        multiplier *= passive.getWrathPercent();
+        multiplier *= basic.GetWrathPercent();
         
         return multiplier;
     }
 
-    private void BuffLightAttack(ref DamageContext damageContext)
+    private void BuffLightAttack(DamageContext damageContext)
     {
-        if (GetPoints() > 0 && damageContext.attacker.CompareTag("Player"))
+        if (pointIndex > 0 && damageContext.attacker.CompareTag("Player"))
         {
             // buff damage
 
             damageContext.damage *= CalculateDamageMultiplier();
+            Debug.Log(damageContext.damage + " H UZZAH " + pointIndex);
         }
     }
 
     public override void AddPointTrigger()
     {
+        pointIndex = GetPoints();
     }
 
     public override void ClearPointsTrigger()
     {
+        pointIndex = GetPoints();
     }
 
     public override void RemovePointTrigger()
     {
+        pointIndex = GetPoints();
     }
 
 }
