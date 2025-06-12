@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class SamuraiRetribution : MonoBehaviour
 {
+    [HideInInspector] public SamuraiManager manager;
     private PlayerStateMachine psm;
     private bool parrying;
     private Camera mainCamera;
@@ -61,6 +59,7 @@ public class SamuraiRetribution : MonoBehaviour
                     projectile.target = "Enemy";
                     projectile.SwitchDirections();
                     projectile.SetParried(true);
+                    projectile.projectileDamage.actionID = ActionID.SAMURAI_SPECIAL;
                     parrySuccess = true;
                 }
             }
@@ -83,6 +82,10 @@ public class SamuraiRetribution : MonoBehaviour
             DamageContext newContext = context;
             newContext.attacker = gameObject;
             newContext.victim = context.attacker;
+            newContext.actionID = ActionID.SAMURAI_SPECIAL;
+            newContext.damage = context.damage * 
+                                manager.GetStats().ComputeValue("Melee Parry Bonus Damage per Incoming Attack Damage") +
+                                manager.GetStats().ComputeValue("Melee Parry Base Damage");
             context.attacker.GetComponent<Health>().Damage(newContext, gameObject);
             context.damage = 0;
 
