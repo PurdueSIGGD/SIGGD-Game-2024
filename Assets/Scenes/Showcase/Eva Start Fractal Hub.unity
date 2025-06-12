@@ -2715,6 +2715,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0c4504c44e0804246b232122549aca6a, type: 3}
+--- !u!114 &1146833613 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4409066771978337079, guid: 5710fded880e06247a23667bd6f26d56,
+    type: 3}
+  m_PrefabInstance: {fileID: 1205041386}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3e62df8e631c604aa49d032ccf05a10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1205041386
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2723,6 +2735,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1605223674799290055, guid: 5710fded880e06247a23667bd6f26d56,
+        type: 3}
+      propertyPath: skills.Array.data[1]
+      value: 
+      objectReference: {fileID: 1146833613}
     - target: {fileID: 2431325827136455936, guid: 5710fded880e06247a23667bd6f26d56,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2773,6 +2790,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4409066771978337079, guid: 5710fded880e06247a23667bd6f26d56,
+        type: 3}
+      propertyPath: skillSO
+      value: 
+      objectReference: {fileID: 11400000, guid: a29b754973a32ff41904e737b4a972ef,
+        type: 2}
     - target: {fileID: 5573439592539216564, guid: 5710fded880e06247a23667bd6f26d56,
         type: 3}
       propertyPath: m_Name

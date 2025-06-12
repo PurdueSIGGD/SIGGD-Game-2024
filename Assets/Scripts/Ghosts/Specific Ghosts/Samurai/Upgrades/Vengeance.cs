@@ -1,14 +1,22 @@
+//#define DEBUG_LOG
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Vengeance : Skill {
 
+
     private static int pointIndex = 0;
+
+    private SamuraiManager samuraiManager;
 
     private void OnEnable()
     {
         GameplayEventHolder.OnDamageDealt += ApplyBonusWrath;
+
+        samuraiManager = gameObject.GetComponent<SamuraiManager>();
+
     }
 
     private void OnDisable()
@@ -20,7 +28,18 @@ public class Vengeance : Skill {
     {
         if (pointIndex > 0 && context.actionID == ActionID.SAMURAI_SPECIAL)
         {
-            Debug.Log("we emust do something here idk");
+            // Grant bonus wrath
+
+            float bonusWrath = pointIndex * 0.2f;
+            float prevWrath = samuraiManager.basic.GetWrathPercent();
+            float newWrath = Mathf.Min(1.0f, bonusWrath + prevWrath);
+
+            samuraiManager.basic.SetWrathPercent(newWrath);
+
+#if DEBUG_LOG
+            Debug.Log("Old Wrath: " + prevWrath + " New Wrath: " + newWrath + " Skill Pts: " + pointIndex);
+#endif
+
         }
     }
     public override void AddPointTrigger()
