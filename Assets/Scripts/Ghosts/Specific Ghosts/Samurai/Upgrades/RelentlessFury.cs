@@ -1,3 +1,5 @@
+#define DEBUG_LOG
+
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -8,20 +10,27 @@ using UnityEngine;
 /// </summary>
 public class RelentlessFury : Skill
 {
-    private WrathHeavyAttack basic;
+    private SamuraiManager samuraiManager;
     private static int pointIndex;
+
 
     private void OnEnable()
     {
-        SamuraiManager samuraiManager = gameObject.GetComponent<SamuraiManager>();
-        basic = samuraiManager.basic;
+        samuraiManager = gameObject.GetComponent<SamuraiManager>();
 
         GameplayEventHolder.OnDamageDealt += BuffLightAttack;
+#if DEBUG_LOG
+        Debug.Log("Relentless Fury enabled");
+#endif
+
     }
 
     private void OnDisable()
     {
         GameplayEventHolder.OnDamageDealt -= BuffLightAttack;
+#if DEBUG_LOG
+        Debug.Log("Relentless Fury disabled");
+#endif
     }
 
 
@@ -33,32 +42,45 @@ public class RelentlessFury : Skill
     private float CalculateDamageMultiplier()
     {
         float multiplier = 1.0f;
+        float wrathPercent = samuraiManager.basic.GetWrathPercent();
 
-        // Skill points
-
-        if (pointIndex > 0) {
-            multiplier = 1f + 0.15f + (pointIndex - 1) * 0.1f;
-        }
-        else
+        if (pointIndex == 0 || wrathPercent <= 0)
         {
             return multiplier;
         }
 
+        // Skill points
+
+        float multiplierAdd = 0.15f + (pointIndex - 1) * 0.1f;
+#if DEBUG_LOG
+        Debug.Log("Multiplier per Wrath percent: " + multiplierAdd);
+#endif
+
         // Multiply by wrath percent
 
-        multiplier *= basic.GetWrathPercent();
+        multiplier += wrathPercent * multiplierAdd;
         
         return multiplier;
     }
 
+    /// <summary>
+    /// Buffs damage for light attacks according to Wrath Percent.
+    /// </summary>
+    /// <param name="damageContext"></param>
     private void BuffLightAttack(DamageContext damageContext)
     {
-        if (pointIndex > 0 && damageContext.attacker.CompareTag("Player"))
+        if (samuraiManager.selected && pointIndex > 0 &&
+            samuraiManager.basic.GetWrathPercent() >= 0 &&
+            damageContext.actionID == ActionID.PLAYER_LIGHT_ATTACK)
         {
             // buff damage
-
+#if DEBUG_LOG
+            Debug.Log("Skill points: " + pointIndex + "\nWrath %: " + samuraiManager.basic.GetWrathPercent());
+#endif
             damageContext.damage *= CalculateDamageMultiplier();
-            Debug.Log(damageContext.damage + " H UZZAH " + pointIndex);
+#if DEBUG_LOG
+            Debug.Log("Damage: " + damageContext.damage);
+#endif
         }
     }
 
@@ -70,11 +92,13 @@ public class RelentlessFury : Skill
     public override void ClearPointsTrigger()
     {
         pointIndex = GetPoints();
+
     }
 
     public override void RemovePointTrigger()
     {
         pointIndex = GetPoints();
+
     }
 
 }
