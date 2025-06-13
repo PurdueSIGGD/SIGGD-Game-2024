@@ -224,4 +224,8 @@ public class WrathHeavyAttack : MonoBehaviour
         return wrathPercent;
     }
 
+    public void SetWrathPercent(float newWrathPercent)
+    {
+        wrathPercent = newWrathPercent;
+    }
 }
