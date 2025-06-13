@@ -70,6 +70,12 @@ public class LightAttack : MonoBehaviour, IStatList
     {
         AudioManager.Instance.VABranch.PlayVATrack(PartyManager.instance.selectedGhost + " Light Attack");
         GetComponent<Move>().PlayerStop();
+        Vector2 mouseDiff = (mainCamera.ScreenToWorldPoint(Input.mousePosition) - transform.position); // center ray
+        float m_angle = Mathf.Atan2(mouseDiff.x, mouseDiff.y) + Mathf.PI;
+        if (m_angle > 3 * Mathf.PI / 4 && m_angle < 5 * Mathf.PI / 4)
+        {
+            GetComponent<Move>().ApplyKnockback(rb.velocity.normalized, 6f, true);
+        }
     }
 
 
@@ -119,15 +125,18 @@ public class LightAttack : MonoBehaviour, IStatList
 #if DEBUG
         Debug.DrawLine(orig, center * range + orig, Color.red, 0.25f);
 #endif
-        GetComponent<PlayerParticles>().PlayLightAttackVFX(false);
+        //GetComponent<PlayerParticles>().PlayLightAttackVFX(false);
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("LightAttack");
+        Vector3 vfxPosition = gameObject.transform.position + new Vector3(1f * Mathf.Sign(gameObject.transform.rotation.y), 0f, 0f);
+        VFXManager.Instance.PlayVFX(((playerStateMachine.isLightAttack2Ready) ? VFX.PLAYER_LIGHT_ATTACK_1 : VFX.PLAYER_LIGHT_ATTACK_2), vfxPosition, gameObject.transform.rotation);
         CameraShake.instance.Shake(0.02f, 10f, 0, 10, new Vector2(Random.Range(-0.5f, 0.5f), 1f));
         for (int i = 1; i <= rayCount / 2; i++)
         {
             CastDamageRay(orig, deltaAngle * i, center);
             CastDamageRay(orig, deltaAngle * -i, center);
         }
-        AudioManager.Instance.SFXBranch.PlaySFXTrack("LightAttack");
         hits.Clear(); // re-enable damage to all hit enemy
+        GetComponent<Move>().PlayerGo();
     }
 
 
@@ -137,7 +146,11 @@ public class LightAttack : MonoBehaviour, IStatList
 #if DEBUG
         Debug.DrawLine(orig, center * range + orig, Color.red, 0.25f);
 #endif
-        GetComponent<PlayerParticles>().PlayLightAttackVFX(true);
+        //GetComponent<PlayerParticles>().PlayLightAttackVFX(true);
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("LightAttack");
+        Vector3 vfxPosition = gameObject.transform.position + new Vector3(0f, 1.5f, 0f);
+        Quaternion vfxRotation = new Quaternion(gameObject.transform.rotation.x, gameObject.transform.rotation.y, gameObject.transform.rotation.z, gameObject.transform.rotation.w);
+        VFXManager.Instance.PlayVFX(VFX.PLAYER_LIGHT_ATTACK_1, vfxPosition, vfxRotation);
         playerStateMachine.SetLightAttack2Ready(true);
 
         CameraShake.instance.Shake(0.02f, 10f, 0, 10, new Vector2(Random.Range(-0.5f, 0.5f), 1f));
@@ -146,7 +159,6 @@ public class LightAttack : MonoBehaviour, IStatList
             CastDamageRay(orig, deltaAngle * i, center);
             CastDamageRay(orig, deltaAngle * -i, center);
         }
-        AudioManager.Instance.SFXBranch.PlaySFXTrack("LightAttack");
         hits.Clear(); // re-enable damage to all hit enemy
     }
 
@@ -245,7 +257,10 @@ public class LightAttack : MonoBehaviour, IStatList
 
     public void ExecuteSkyLightAttack()
     {
-        GetComponent<PlayerParticles>().PlayLightAttackVFX(false);
+        //GetComponent<PlayerParticles>().PlayLightAttackVFX(false);
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("AirAttack");
+        Vector3 vfxPosition = gameObject.transform.position + new Vector3(1f * Mathf.Sign(gameObject.transform.rotation.y), 0f, 0f);
+        VFXManager.Instance.PlayVFX(VFX.PLAYER_LIGHT_ATTACK_1, vfxPosition, gameObject.transform.rotation);
         CameraShake.instance.Shake(0.02f, 10f, 0, 10, new Vector2(Random.Range(-0.5f, 0.5f), 1f));
 
         float halfAngle = angle / 2; // angle above and below the centerline of the attack cone
@@ -261,7 +276,6 @@ public class LightAttack : MonoBehaviour, IStatList
             CastDamageRay(orig, deltaAngle * i, lastMousePos);
             CastDamageRay(orig, deltaAngle * -i, lastMousePos);
         }
-        AudioManager.Instance.SFXBranch.PlaySFXTrack("AirAttack");
         hits.Clear(); // re-enable damage to all hit enemy
     }
 
@@ -269,7 +283,11 @@ public class LightAttack : MonoBehaviour, IStatList
 
     public void ExecuteUpSkyLightAttack()
     {
-        GetComponent<PlayerParticles>().PlayLightAttackVFX(true);
+        //GetComponent<PlayerParticles>().PlayLightAttackVFX(true);
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("AirAttack");
+        Vector3 vfxPosition = gameObject.transform.position + new Vector3(0f, 1.5f, 0f);
+        Quaternion vfxRotation = new Quaternion(gameObject.transform.rotation.x, gameObject.transform.rotation.y, gameObject.transform.rotation.z, gameObject.transform.rotation.w);
+        VFXManager.Instance.PlayVFX(VFX.PLAYER_LIGHT_ATTACK_1, vfxPosition, vfxRotation);
         CameraShake.instance.Shake(0.02f, 10f, 0, 10, new Vector2(Random.Range(-0.5f, 0.5f), 1f));
 
         float halfAngle = angle / 2; // angle above and below the centerline of the attack cone
@@ -285,7 +303,6 @@ public class LightAttack : MonoBehaviour, IStatList
             CastDamageRay(orig, deltaAngle * i, lastMousePos);
             CastDamageRay(orig, deltaAngle * -i, lastMousePos);
         }
-        AudioManager.Instance.SFXBranch.PlaySFXTrack("AirAttack");
         hits.Clear(); // re-enable damage to all hit enemy
     }
 
@@ -340,6 +357,11 @@ public class LightAttack : MonoBehaviour, IStatList
                 return;
             }
 
+            if (h.collider.gameObject.GetComponent<EnemyStateManager>() != null)
+            {
+                h.collider.gameObject.GetComponent<EnemyStateManager>().ApplyKnockback(Vector3.up, 4f, 0.3f);
+                h.collider.gameObject.GetComponent<EnemyStateManager>().ApplyKnockback(centerRay, 4f, 0.3f);
+            }
             foreach (IDamageable damageable in h.collider.gameObject.GetComponents<IDamageable>())
             {
                 damageable.Damage(lightDamage, gameObject);

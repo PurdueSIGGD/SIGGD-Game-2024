@@ -403,6 +403,8 @@ MonoBehaviour:
     value: 3
   - name: Target Range Max
     value: 10
+  - name: Enemy Group Aggro Radius
+    value: 10
 --- !u!114 &310345646144262094
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -418,7 +420,7 @@ MonoBehaviour:
   actions:
   - name: Shoot
     priority: 3
-    ready: 0
+    ready: 1
     hitBox: {fileID: 6754032986899484797}
     coolDown: 2
     animationClip: {fileID: 7400000, guid: e06dacd5cab3a6349968796d2cef56de, type: 2}

@@ -170,8 +170,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 5.427471, y: 1.5005159, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 7775618551989780944}
   - {fileID: 3644038881375788147}
@@ -383,6 +383,8 @@ MonoBehaviour:
     value: 10
   - name: Target Range Max
     value: 10
+  - name: Enemy Group Aggro Radius
+    value: 10
 --- !u!114 &1221538207620342913
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -397,7 +399,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Max Health
-    value: 10
+    value: 25
   deathLevel: 
 --- !u!114 &4086416775877823508
 MonoBehaviour:
@@ -411,10 +413,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20d794b3ea5a6da42ac5b8feade20f68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemy: {fileID: 0}
   actions:
   - name: Call Alarm
     priority: 1
-    ready: 0
+    ready: 1
     hitBox: {fileID: 7775618551989780944}
     coolDown: 5
     animationClip: {fileID: 7400000, guid: 6be99b37274953c40b797d9e1744a2a7, type: 2}

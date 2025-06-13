@@ -336,7 +336,7 @@ MonoBehaviour:
   actions:
   - name: Kaboom
     priority: 1
-    ready: 0
+    ready: 1
     hitBox: {fileID: 2932781976428712665}
     coolDown: 0
     animationClip: {fileID: 7400000, guid: 92ad5adfcb80c584282d7d47fcaf3fdd, type: 2}
@@ -395,6 +395,8 @@ MonoBehaviour:
     value: 2
   - name: Target Range Max
     value: 8
+  - name: Enemy Group Aggro Radius
+    value: 10
 --- !u!114 &6310614689799863014
 MonoBehaviour:
   m_ObjectHideFlags: 0
