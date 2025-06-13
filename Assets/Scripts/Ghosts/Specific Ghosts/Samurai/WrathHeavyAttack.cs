@@ -223,4 +223,5 @@ public class WrathHeavyAttack : MonoBehaviour
     {
         return wrathPercent;
     }
+
 }
