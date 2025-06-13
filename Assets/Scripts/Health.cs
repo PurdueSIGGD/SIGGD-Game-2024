@@ -132,31 +132,8 @@ public class Health : MonoBehaviour, IDamageable, IStatList
             Destroy(gameObject);
             yield break;
         }
-
-        Time.timeScale = 0;
-        gameObject.layer = 0; // I really hope this doesn't collide with anything
-        if (GetComponent<PlayerInput>() != null) GetComponent<PlayerInput>().enabled = false;
-
-        float startTime = Time.unscaledTime;
-        float endTime = startTime + 3;
-
-        Vector3 originalScale = transform.localScale;
-
-        while (Time.unscaledTime < endTime)
-        {
-            float timePercentage = (Time.unscaledTime - startTime) / (endTime - startTime);
-
-            transform.Rotate(0, 0, Time.unscaledDeltaTime * 360);
-            transform.localScale = originalScale * (1 - timePercentage);
-
-            yield return null;
-        }
-
-        gameObject.SetActive(false);
-
-        SceneManager.LoadScene("Eva Fractal Hub");
-        currentHealth = stats.ComputeValue("Max Health");
-        Time.timeScale = 1;
+        PlayerDeathManager playerDeath = gameObject.GetComponent<PlayerDeathManager>();
+        playerDeath.PlayDeathAnim();
     }
 
     public StatManager.Stat[] GetStatList()
