@@ -12,8 +12,12 @@ public class OneShotVATrack : MonoBehaviour, IVATrack {
     public bool playsOutsideCombat;
 
     public void PlayTrack() {
-        track.time = 0.0f;
-        track.PlayOneShot(track.clip, 1.0f);
+        if (!playsOutsideCombat && AudioManager.Instance.GetEnergyLevel() < 0.5f) return;
+        else
+        {
+            track.time = 0.0f;
+            track.PlayOneShot(track.clip, 1.0f);
+        }
     }
 
     public void StopTrack() {

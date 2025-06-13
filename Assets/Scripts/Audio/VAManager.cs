@@ -16,6 +16,7 @@ public class VAManager : MonoBehaviour {
 
     // Start is called before the first frame update    
     void Start() {
+        audioManager = AudioManager.Instance;
         StartCoroutine(Debug_Culling_Status());
     }
 
@@ -39,7 +40,6 @@ public class VAManager : MonoBehaviour {
         bool willPlayTrack = globalVoicelineChance > temp;
         if (willPlayTrack) {
             IVATrack castedTrack = lookUpTable.vaTable[trackName];
-            if (!castedTrack.PlaysOutsideOfCombat() && audioManager.GetEnergyLevel() < 0.5f) return;
             castedTrack.PlayTrack();
             if (!castedTrack.OverridesVoiceCulling()) {
                 float trackLength = 0.0f;

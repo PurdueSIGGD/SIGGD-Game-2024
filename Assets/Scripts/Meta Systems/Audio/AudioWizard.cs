@@ -8,12 +8,13 @@ using UnityEngine.Audio;
 
 public class AudioWizard : ScriptableWizard
 {
-    [SerializeField] string audioName;
+    [SerializeField] string audioName = "";
     [SerializeField] AudioType audioType;
     [SerializeField] TrackType trackType;
     [SerializeField] Mixer mixerType;
     [SerializeField] string sourcePath = "";
     [SerializeField] List<AudioClip> clips;
+
     [Header("Voice Line Specific Settings")]
     [SerializeField] bool enableVoiceCulling;
     [SerializeField] bool playOutsideCombat;
@@ -24,6 +25,7 @@ public class AudioWizard : ScriptableWizard
     // used for updating wizard ui
     private AudioType oldAudioType = AudioType.VA;
     private string oldPath = "";
+    private string oldName = "";
 
     enum AudioType
     {
@@ -72,9 +74,26 @@ public class AudioWizard : ScriptableWizard
         GameObject audioManager = PrefabUtility.LoadPrefabContents("Assets/Prefabs/Meta Systems/Audio Manager.prefab");
         lookUpTable = audioManager.GetComponent<AudioLookUpTable>();
 
+
+        // iterate each child object, if name already eixsts, add to the existing
+        // child object instead of creating a new one
         Transform parent = FindParent(audioManager);
-        GameObject audioComp = new(audioName);
-        audioComp.transform.parent = parent;
+        GameObject audioComp = new();
+        bool addToExisting = false;
+        foreach (Transform child in parent.GetComponentsInChildren<Transform>())
+        {
+            if (child.name.Equals(audioName))
+            {
+                addToExisting = true;
+                audioComp = child.gameObject;
+                break;
+            }
+        }
+        if (!addToExisting)
+        {
+            audioComp = new(audioName);
+            audioComp.transform.parent = parent;
+        }
 
         // ok below should be some brilliant code that just generically fill up the audio component
         // BUT each audio and track type is like created so diffferently
@@ -84,17 +103,19 @@ public class AudioWizard : ScriptableWizard
 
         // ok disclaimers aside, I'm gonna start writing this monstrosity now god help me
 
+
         switch (audioType)
         {
             case AudioType.VA:
-                CreateVA(audioComp);
-                break;
+                CreateVA(audioComp, addToExisting);
+                if (ReloadKeys(audioManager)) break;
+                else return;
             case AudioType.SFX:
-                CreateSFX(audioComp);
+                CreateSFX(audioComp, addToExisting);
                 if (ReloadKeys(audioManager)) break;
                 else return;
             case AudioType.Conversation:
-                CreateConversation(audioComp);
+                CreateConversation(audioComp, addToExisting);
                 if (ReloadKeys(audioManager)) break;
                 else return;
             default:
@@ -117,8 +138,30 @@ public class AudioWizard : ScriptableWizard
 
     private void OnWizardUpdate()
     {
+        // if the audio name has changed, check if an audio comp already exist with that name
+        if (!audioName.Equals(oldName) || audioType != oldAudioType)
+        {
+            oldName = audioName;
+
+            bool found = false;
+
+            GameObject audioManager = PrefabUtility.LoadPrefabContents("Assets/Prefabs/Meta Systems/Audio Manager.prefab");
+            Transform parent = FindParent(audioManager);
+            foreach (Transform child in parent.GetComponentsInChildren<Transform>())
+            {
+                if (child.name.Equals(audioName))
+                {
+                    found = true;
+                    helpString = "An Audio Comp already exists under the given name and type, " +
+                        "pressing \"Create\" will override/add to the existing Audio Comp";
+                    break;
+                }
+            }
+            if (!found) helpString = "";
+        }
+
         // if the audio type has changed, make corresponding changes to default set up
-        if (oldAudioType != audioType)
+        if (audioType != oldAudioType)
         {
             oldAudioType = audioType;
             if (audioType == AudioType.VA)
@@ -191,16 +234,23 @@ public class AudioWizard : ScriptableWizard
         }
     }
 
-    private void CreateVA(GameObject audioComp)
+    private void CreateVA(GameObject audioComp, bool addToExisting)
     {
         switch (trackType)
         {
             case TrackType.SoundBank:
                 {
-                    SoundBankVATrack soundBankVATrack = audioComp.AddComponent<SoundBankVATrack>();
-                    soundBankVATrack.sounds = new List<UnityEngine.Object>();
-                    soundBankVATrack.soundWeights = new List<float>();
-                    soundBankVATrack.recencyBlacklistSize = 1;
+                    SoundBankVATrack soundBankVATrack;
+                    if (addToExisting) soundBankVATrack = audioComp.GetComponent<SoundBankVATrack>();
+                    else
+                    {
+                        soundBankVATrack = audioComp.AddComponent<SoundBankVATrack>();
+                        soundBankVATrack.sounds = new List<UnityEngine.Object>();
+                        soundBankVATrack.soundWeights = new List<float>();
+                        soundBankVATrack.outOfCombatSounds = new List<UnityEngine.Object>();
+                        soundBankVATrack.outOfCombatSoundWeights = new List<float>();
+                        soundBankVATrack.recencyBlacklistSize = 1;
+                    }
 
                     foreach (AudioClip clip in clips)
                     {
@@ -216,17 +266,26 @@ public class AudioWizard : ScriptableWizard
 
                         soundBankVATrack.sounds.Add(oneShotVATrack);
                         soundBankVATrack.soundWeights.Add(1);
+                        if (playOutsideCombat)
+                        {
+                            soundBankVATrack.outOfCombatSounds.Add(oneShotVATrack);
+                            soundBankVATrack.outOfCombatSoundWeights.Add(1);
+                        }
                     }
                     break;
                 }
             case TrackType.OneShot:
                 {
-                    AudioSource source = audioComp.AddComponent<AudioSource>();
+                    AudioSource source;
+                    if (addToExisting) source = audioComp.GetComponent<AudioSource>();
+                    else source = audioComp.AddComponent<AudioSource>();
                     source.clip = clips[0];
                     source.outputAudioMixerGroup = audioMixer.FindMatchingGroups(GetSelectedMixer())[0];
                     source.playOnAwake = false;
 
-                    OneShotVATrack oneShotVATrack = audioComp.AddComponent<OneShotVATrack>();
+                    OneShotVATrack oneShotVATrack;
+                    if (addToExisting) oneShotVATrack = audioComp.GetComponent<OneShotVATrack>();
+                    else oneShotVATrack = audioComp.AddComponent<OneShotVATrack>();
                     oneShotVATrack.track = source;
                     oneShotVATrack.voiceCullingOverride = enableVoiceCulling;
                     oneShotVATrack.playsOutsideCombat = playOutsideCombat;
@@ -241,18 +300,22 @@ public class AudioWizard : ScriptableWizard
 
     }
 
-    private void CreateSFX(GameObject audioComp)
+    private void CreateSFX(GameObject audioComp, bool addToExisting)
     {
         switch (trackType)
         {
-            case TrackType.OneShot: 
+            case TrackType.OneShot:
                 {
-                    AudioSource source = audioComp.AddComponent<AudioSource>();
+                    AudioSource source;
+                    if (addToExisting) source = audioComp.GetComponent<AudioSource>();
+                    else source = audioComp.AddComponent<AudioSource>();
                     source.clip = clips[0];
                     source.outputAudioMixerGroup = audioMixer.FindMatchingGroups(GetSelectedMixer())[0];
                     source.playOnAwake = false;
 
-                    OneShotSFXTrack oneShotSFXTrack = audioComp.AddComponent<OneShotSFXTrack>();
+                    OneShotSFXTrack oneShotSFXTrack;
+                    if (addToExisting) oneShotSFXTrack = audioComp.GetComponent<OneShotSFXTrack>();
+                    else oneShotSFXTrack = audioComp.AddComponent<OneShotSFXTrack>();
                     oneShotSFXTrack.track = source;
                     break;
                 }
@@ -260,13 +323,15 @@ public class AudioWizard : ScriptableWizard
                 {
                     AudioSource source1;
                     AudioSource source2;
-
-                    source1 = source2 = audioComp.AddComponent<AudioSource>();
+                    if (addToExisting) source1 = source2 = audioComp.GetComponent<AudioSource>();
+                    else source1 = source2 = audioComp.AddComponent<AudioSource>();
                     source1.clip = source2.clip = clips[0];
                     source1.outputAudioMixerGroup = source2.outputAudioMixerGroup = audioMixer.FindMatchingGroups(GetSelectedMixer())[0];
                     source1.playOnAwake = source2.playOnAwake = false;
 
-                    LoopingSFXTrack loopingSFXTrack = audioComp.AddComponent<LoopingSFXTrack>();
+                    LoopingSFXTrack loopingSFXTrack;
+                    if (addToExisting) loopingSFXTrack = audioComp.GetComponent<LoopingSFXTrack>();
+                    else loopingSFXTrack = audioComp.AddComponent<LoopingSFXTrack>();
                     loopingSFXTrack.tracks = new AudioSource[2];
                     loopingSFXTrack.tracks[0] = source1;
                     loopingSFXTrack.tracks[1] = source2;
@@ -274,9 +339,14 @@ public class AudioWizard : ScriptableWizard
                 }
             case TrackType.SoundBank:
                 {
-                    SoundBankSFXTrack soundBankSFXTrack = audioComp.AddComponent<SoundBankSFXTrack>();
-                    soundBankSFXTrack.sounds = new List<UnityEngine.Object>();
-                    soundBankSFXTrack.soundWeights = new List<float>();
+                    SoundBankSFXTrack soundBankSFXTrack;
+                    if (addToExisting) soundBankSFXTrack = audioComp.GetComponent<SoundBankSFXTrack>();
+                    else
+                    {
+                        soundBankSFXTrack = audioComp.AddComponent<SoundBankSFXTrack>();
+                        soundBankSFXTrack.sounds = new List<UnityEngine.Object>();
+                        soundBankSFXTrack.soundWeights = new List<float>();
+                    }
 
                     foreach (AudioClip clip in clips)
                     {
@@ -301,10 +371,15 @@ public class AudioWizard : ScriptableWizard
         }
     }
 
-    private void CreateConversation(GameObject audioComp)
+    private void CreateConversation(GameObject audioComp, bool addToExisting)
     {
-        ConversationAudioHolder conversationAudioHolder = audioComp.AddComponent<ConversationAudioHolder>();
-        conversationAudioHolder.tracks = new List<OneShotVATrack>();
+        ConversationAudioHolder conversationAudioHolder;
+        if (addToExisting) conversationAudioHolder = audioComp.GetComponent<ConversationAudioHolder>();
+        else
+        {
+            conversationAudioHolder = audioComp.AddComponent<ConversationAudioHolder>();
+            conversationAudioHolder.tracks = new List<OneShotVATrack>();
+        }
 
         foreach (AudioClip clip in clips)
         {
@@ -349,7 +424,7 @@ public class AudioWizard : ScriptableWizard
         lookUpTable.VATracks = new();
 
         foreach (Transform child in audioManager.GetComponentsInChildren<Transform>())
-        {   
+        {
             OneShotSFXTrack oneShotSFXTrack = child.GetComponent<OneShotSFXTrack>();
             LoopingSFXTrack loopingSFXTrack = child.GetComponent<LoopingSFXTrack>();
             SoundBankSFXTrack soundBankSFXTrack = child.GetComponent<SoundBankSFXTrack>();
@@ -362,7 +437,7 @@ public class AudioWizard : ScriptableWizard
             }
             if (oneShotSFXTrack)
             {
-                SFXTrack sfxTrack = new(child.name, oneShotSFXTrack); 
+                SFXTrack sfxTrack = new(child.name, oneShotSFXTrack);
                 lookUpTable.SFXTracks.Add(sfxTrack);
                 continue;
             }
