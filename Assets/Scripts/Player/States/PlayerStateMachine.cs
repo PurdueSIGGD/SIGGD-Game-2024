@@ -124,18 +124,7 @@ public class PlayerStateMachine : MonoBehaviour
             if (lightAttackConsumed) lightAttackConsumed = false;
         }
 
-        /*
         // Handle heavy attack input buffering
-        if (i_attack)
-        {
-            heavyAttackQueued = lightAttackConsumed;
-        }
-        else
-        {
-            heavyAttackQueued = false;
-        }
-        */
-
         if (i_heavy_attack)
         {
             heavyAttackQueued = !heavyAttackConsumed;
@@ -173,23 +162,7 @@ public class PlayerStateMachine : MonoBehaviour
     {
         if (lightAttackConsumed) return;
         lightAttackConsumed = true;
-
-        /*
-        if (isLightAttack2Ready)
-        {
-            //isLightAttack2Ready = false;
-            //lightAttack2ReadyTime = 0f;
-            SetLightAttack2Ready(false);
-        }
-        else
-        {
-            //lightAttack2ReadyTime = lightAttack2LingerTime;
-            //isLightAttack2Ready = true;
-            SetLightAttack2Ready(true);
-        }
-        */
         SetLightAttack2Ready(!isLightAttack2Ready);
-        Debug.Log("Light Attack Input Consumed");
     }
 
     public void SetLightAttackRecoveryState(bool isRecovering)
@@ -201,7 +174,6 @@ public class PlayerStateMachine : MonoBehaviour
     {
         if (heavyAttackConsumed) return;
         heavyAttackConsumed = true;
-        Debug.Log("Heavy Attack Input Consumed");
     }
 
     void UpdateSpecial()

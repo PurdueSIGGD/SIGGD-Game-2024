@@ -52,49 +52,43 @@ public class HeavyAttack : MonoBehaviour, IStatList
 
     public void StartHeavyChargeUp()
     {
-        //GetComponent<Move>().PlayerStop();
         playerStateMachine.SetLightAttack2Ready(true);
         chargingTime = manager.GetStats().ComputeValue("Heavy Charge Up Time");
         isCharging = true;
         AudioManager.Instance.SFXBranch.PlaySFXTrack("HeavyAttackWindUp");
-        manager.heavyDamage.damage = 40f;
+        manager.heavyDamage.damage = manager.GetStats().ComputeValue("Heavy Damage");
         manager.heavyDamage.damageStrength = DamageStrength.MODERATE;
     }
 
     public void StopHeavyChargeUp()
     {
-        //GetComponent<Move>().PlayerGo();
         isCharging = false;
         chargingTime = 0f;
     }
 
     public void StartHeavyPrimed()
     {
-        //GetComponent<Move>().PlayerStop();
         primedTime = manager.GetStats().ComputeValue("Heavy Primed Autofire Time");
         isPrimed = true;
         AudioManager.Instance.SFXBranch.PlaySFXTrack("HeavyAttackPrimed");
-        manager.heavyDamage.damage = 80f;
+        manager.heavyDamage.damage = manager.GetStats().ComputeValue("Super Heavy Damage");
         manager.heavyDamage.damageStrength = DamageStrength.HEAVY;
     }
 
     public void StopHeavyPrimed()
     {
-        //GetComponent<Move>().PlayerGo();
         isPrimed = false;
         primedTime = 0f;
     }
 
     public void StartHeavyAttack()
     {
-        //GetComponent<Move>().PlayerGo();
         playerStateMachine.ConsumeHeavyAttackInput();
         AudioManager.Instance.VABranch.PlayVATrack(PartyManager.instance.selectedGhost + " Heavy Attack");
     }
 
     public void ExecuteHeavyAttack()
     {
-        //GetComponent<PlayerParticles>().PlayHeavyAttackVFX()
         AudioManager.Instance.SFXBranch.PlaySFXTrack("HeavyAttack");
         Vector3 vfxPosition = gameObject.transform.position + new Vector3(2f * Mathf.Sign(gameObject.transform.rotation.y), 0.45f, 0f);
         VFXManager.Instance.PlayVFX(VFX.PLAYER_HEAVY_ATTACK, vfxPosition, gameObject.transform.rotation);
@@ -114,12 +108,11 @@ public class HeavyAttack : MonoBehaviour, IStatList
                 }
             }
         }
-        //AudioManager.Instance.VABranch.PlayVATrack(PartyManager.instance.selectedGhost + " Heavy Attack");
     }
 
     public void StopHeavyAttack()
     {
-        //GetComponent<Move>().PlayerGo();
+
     }
 
     public StatManager.Stat[] GetStatList()

@@ -30,6 +30,10 @@ public class PoliceChiefUIDriver : GhostUIDriver
     private void updateBasicAbility()
     {
         basicAbilityUIManager.setAbilityHighlighted(GetComponent<PoliceChiefPowerSpike>().GetAbleToCrit());
+        basicAbilityUIManager.setAbilityEnabled(manager.basicAmmo > 0);
+        basicAbilityUIManager.setMeterValue(manager.basicAmmo, stats.ComputeValue("Basic Starting Ammo"));
+        basicAbilityUIManager.setChargeWidgetActive(true);
+        basicAbilityUIManager.setChargeValue(manager.basicAmmo, stats.ComputeValue("Basic Starting Ammo"));
     }
 
     private void updateSpecialAbility()
@@ -56,14 +60,32 @@ public class PoliceChiefUIDriver : GhostUIDriver
 
     }
 
-    private void updateMeter() { 
-        if(GetComponent<PoliceChiefLethalForce>() != null && GetComponent<PoliceChiefLethalForce>().GetTotalHits() != -1)
+    private void updateMeter() {
+        if (GetComponent<PoliceChiefLethalForce>() != null && GetComponent<PoliceChiefLethalForce>().GetTotalHits() != -1)
         {
-            meterUIManager.setMeterColor(Color.red);
-            meterUIManager.setMeterValue(GetComponent<PoliceChiefLethalForce>().GetConsecutiveHits(), GetComponent<PoliceChiefLethalForce>().GetTotalHits());
-            meterUIManager.setBackgroundColor(Color.grey);
-            meterUIManager.setSubMeterValue(0f, 0f);
-            meterUIManager.activateWidget();
+            //meterUIManager.setMeterColor(Color.red);
+            //meterUIManager.setMeterValue(GetComponent<PoliceChiefLethalForce>().GetConsecutiveHits(), GetComponent<PoliceChiefLethalForce>().GetTotalHits());
+            //meterUIManager.setBackgroundColor(Color.grey);
+            meterUIManager.setSubMeterValue(GetComponent<PoliceChiefLethalForce>().GetConsecutiveHits(), GetComponent<PoliceChiefLethalForce>().GetTotalHits());
+            //meterUIManager.activateWidget();
         }
+        else
+        {
+            //meterUIManager.setSubMeterColor(ghostIdentity.GetCharacterInfo().primaryColor);
+            meterUIManager.setSubMeterValue(0f, 0f);
+        }
+
+        //Meter
+        meterUIManager.setMeterValue(manager.basicAmmo, stats.ComputeValue("Basic Starting Ammo"));
+        meterUIManager.setMeterColor(ghostIdentity.GetCharacterInfo().primaryColor);
+
+        //Widget active
+        if (manager.basic == null) return;
+        if (manager.basicAmmo < stats.ComputeValue("Basic Starting Ammo"))
+        {
+            meterUIManager.activateWidget();
+            return;
+        }
+        meterUIManager.deactivateWidget(0.3f);
     }
 }
