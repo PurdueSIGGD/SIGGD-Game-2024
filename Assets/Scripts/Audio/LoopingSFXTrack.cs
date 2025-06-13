@@ -8,6 +8,9 @@ public class LoopingSFXTrack : AbstractLoopingTrack, ISFXTrack {
     [SerializeField] private float minPitch;
     [SerializeField] private float maxPitch;
 
+    [Header("Whether this track will play outside of combat")]
+    public bool playsOutsideCombat;
+
     // Pitch modifies length, so the true length is kept track of here
     private float pitchAdjustedTrackLength;
 
@@ -27,4 +30,9 @@ public class LoopingSFXTrack : AbstractLoopingTrack, ISFXTrack {
 
     // Looping is actually handled by unity's looping feature
     protected override IEnumerator AutoLoop() { yield return null; }
+
+    public bool PlaysOutsideOfCombat()
+    {
+        return playsOutsideCombat;
+    }
 }
