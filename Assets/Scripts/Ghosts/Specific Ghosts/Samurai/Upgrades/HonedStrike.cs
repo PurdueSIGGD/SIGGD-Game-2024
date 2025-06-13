@@ -5,6 +5,7 @@ using UnityEngine;
 public class HonedStrike : Skill
 {
     private SamuraiManager manager;
+    private bool buffApplied;
     private static int pointIndex;
 
     void Start()
@@ -15,22 +16,37 @@ public class HonedStrike : Skill
     private void OnEnable()
     {
         GameplayEventHolder.OnAbilityUsed += BuffDashSpeed;
+        GameplayEventHolder.OnAbilityUsed += RemoveDashBuff;
     }
 
     private void OnDisable()
     {
         GameplayEventHolder.OnAbilityUsed -= BuffDashSpeed;
+        GameplayEventHolder.OnAbilityUsed -= RemoveDashBuff;
     }
 
     private void BuffDashSpeed(ActionContext context)
     {
-        if (pointIndex > 0 && context.actionID == ActionID.SAMURAI_SPECIAL && context.extraContext.Equals("Parry Success"))
+        if (pointIndex > 0 && context.actionID == ActionID.SAMURAI_SPECIAL && 
+            !buffApplied && context.extraContext.Equals("Parry Success"))
         {
-            int modifier = 100 + 20 * pointIndex;
+            manager.GetStats().ModifyStat("Heavy Attack Minimum Travel Distance", 20 * pointIndex);
+            manager.GetStats().ModifyStat("Heavy Attack Maximum Travel Distance", 20 * pointIndex);
+            manager.GetStats().ModifyStat("Heavy Attack Travel Speed", 20 * pointIndex);
 
-            manager.GetStats().SetStat("Heavy Attack Minimum Travel Distance", modifier);
-            manager.GetStats().SetStat("Heavy Attack Maximum Travel Distance", modifier);
-            manager.GetStats().SetStat("Heavy Attack Travel Speed", modifier);
+            buffApplied = true;
+        }
+    }
+
+    private void RemoveDashBuff(ActionContext context)
+    {
+        if (pointIndex > 0 && buffApplied && context.actionID == ActionID.SAMURAI_BASIC)
+        {
+            manager.GetStats().ModifyStat("Heavy Attack Minimum Travel Distance", -20 * pointIndex);
+            manager.GetStats().ModifyStat("Heavy Attack Maximum Travel Distance", -20 * pointIndex);
+            manager.GetStats().ModifyStat("Heavy Attack Travel Speed", -20 * pointIndex);
+
+            buffApplied = false;
         }
     }
 

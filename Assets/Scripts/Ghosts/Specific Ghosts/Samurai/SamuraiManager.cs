@@ -6,6 +6,7 @@ using UnityEngine;
 public class SamuraiManager : GhostManager, ISelectable
 {
     public DamageContext heavyDamageContext;
+    public ActionContext onDashContext;
     public ActionContext onParryContext;
 
     [HideInInspector] public bool selected;

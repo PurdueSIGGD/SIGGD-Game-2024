@@ -180,6 +180,8 @@ public class WrathHeavyAttack : MonoBehaviour
         rb.isKinematic = true;
         PlayerID.instance.GetComponent<Move>().PlayerStop();
         isDashing = true;
+
+        GameplayEventHolder.OnAbilityUsed?.Invoke(manager.onDashContext);
     }
 
     //this function get called (via message form animator) when you exit the Heavy Attack state
