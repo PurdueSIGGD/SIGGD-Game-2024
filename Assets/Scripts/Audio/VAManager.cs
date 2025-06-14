@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class VAManager : MonoBehaviour {
 
+    [SerializeField] private AudioManager audioManager;
     [SerializeField] private AudioLookUpTable lookUpTable;
 
     // Used to avoid voiceline spam
@@ -15,11 +16,13 @@ public class VAManager : MonoBehaviour {
 
     // Start is called before the first frame update    
     void Start() {
+        audioManager = AudioManager.Instance;
         StartCoroutine(Debug_Culling_Status());
     }
 
     // Update is called once per frame
     void Update() {
+        Debug.Log(transform.parent.GetComponent<AudioManager>().GetEnergyLevel());
         voicelineCullingTimer = Math.Max(0.0f, voicelineCullingTimer - Time.deltaTime);
         if (voicelineCullingTimer == 0.0f) {
             globalVoicelineChance = Math.Min(1.0f, globalVoicelineChance += VOICE_LINE_CHANCE_GAIN_PER_SECOND * Time.deltaTime);
