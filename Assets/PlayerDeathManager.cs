@@ -15,6 +15,9 @@ public class PlayerDeathManager : MonoBehaviour
     Animator camAnim;
     Animator playerAnim;
 
+    [SerializeField] float timescale;
+    [SerializeField] float realtimeDuration;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,9 +33,9 @@ public class PlayerDeathManager : MonoBehaviour
     public void PlayDeathAnim()
     {
         // toggle camera zoom in animation 
+        Time.timeScale = timescale;
         playerAnim.SetBool("died", true);
         camAnim.SetBool("isDead", true);
-        Time.timeScale = 0.25f;
         // idk what changing the layer does
         gameObject.layer = 0; // I really hope this doesn't collide with anything
         if (GetComponent<PlayerInput>() != null)
@@ -42,7 +45,7 @@ public class PlayerDeathManager : MonoBehaviour
         }
 
         float startTime = Time.unscaledTime;
-        float endTime = startTime + 3;
+        float endTime = startTime + realtimeDuration;
         Vector3 originalScale = transform.localScale;
 
         StartCoroutine(DeathAnimCoroutine(startTime, endTime, originalScale));
@@ -55,7 +58,7 @@ public class PlayerDeathManager : MonoBehaviour
             float timePercentage = (Time.unscaledTime - startTime) / (endTime - startTime);
 
             //transform.Rotate(0, 0, Time.unscaledDeltaTime * 360);
-            transform.localScale = originalScale * (1 - timePercentage);
+            //transform.localScale = originalScale * (1 - timePercentage);
 
             yield return null;
         }
@@ -66,17 +69,18 @@ public class PlayerDeathManager : MonoBehaviour
     {
         // check if currently selected ghost has sacrifice available
         GhostIdentity curGhost = party.GetSelectedGhost();
-        GhostManager curGhostManager = curGhost.gameObject.GetComponent<GhostManager>();
-        if (curGhostManager.GetSacrificeReady())
+        GhostManager curGhostManager = curGhost != null ? curGhost.gameObject.GetComponent<GhostManager>() : null;
+        if (curGhostManager && curGhostManager.GetSacrificeReady())
         {
             // activate sacrifice stuff and exit function
+            UseSacrifice(curGhostManager);
             return;
         }
         // check down the list of ghosts if their sacrifice is available
         List<GhostIdentity> ghostList = party.GetGhostPartyList();
         foreach (GhostIdentity ghost in ghostList)
         {
-            if (ghost.name.Equals(curGhost.name))
+            if (curGhost && ghost.name.Equals(curGhost.name))
             {
                 // skip this ghost if it is the current ghost (already checked)
                 continue;
@@ -85,6 +89,7 @@ public class PlayerDeathManager : MonoBehaviour
             if (ghostManager.GetSacrificeReady())
             {
                 // activate sacrifice stuff and exit function
+                UseSacrifice(ghostManager);
                 return;
             }
         }
@@ -95,5 +100,13 @@ public class PlayerDeathManager : MonoBehaviour
         SceneManager.LoadScene("Eva Fractal Hub");
         camAnim.SetBool("isDead", false);
         Time.timeScale = 1;
+    }
+    /// <summary>
+    /// Handles how the sacrifice ability activation call is communicated to the relevant ghost manager.
+    /// </summary>
+    /// <param name="ghost"></param>
+    public void UseSacrifice(GhostManager ghost)
+    {
+        return;
     }
 }
