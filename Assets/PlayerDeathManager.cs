@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,6 +18,12 @@ public class PlayerDeathManager : MonoBehaviour
 
     [SerializeField] float timescale;
     [SerializeField] float realtimeDuration;
+    [SerializeField]
+    string respawnScene = "Eva Fractal Hub";
+
+    float endTime;
+    bool animRunning;
+
 
     // Start is called before the first frame update
     void Start()
@@ -32,7 +39,7 @@ public class PlayerDeathManager : MonoBehaviour
     /// </summary>
     public void PlayDeathAnim()
     {
-        // toggle camera zoom in animation 
+        // toggle camera zoom in animation
         Time.timeScale = timescale;
         playerAnim.SetBool("died", true);
         camAnim.SetBool("isDead", true);
@@ -43,30 +50,26 @@ public class PlayerDeathManager : MonoBehaviour
             // disable player input
             GetComponent<PlayerInput>().enabled = false;
         }
-
-        float startTime = Time.unscaledTime;
-        float endTime = startTime + realtimeDuration;
-        Vector3 originalScale = transform.localScale;
-
-        StartCoroutine(DeathAnimCoroutine(startTime, endTime, originalScale));
+        endTime = Time.unscaledTime + realtimeDuration;
+        animRunning = true;
     }
-    IEnumerator DeathAnimCoroutine(float startTime, float endTime, Vector3 originalScale)
+    public void Update()
     {
-        // perform loop
-        while (Time.unscaledTime < endTime)
+        if (animRunning)
         {
-            float timePercentage = (Time.unscaledTime - startTime) / (endTime - startTime);
-
-            //transform.Rotate(0, 0, Time.unscaledDeltaTime * 360);
-            //transform.localScale = originalScale * (1 - timePercentage);
-
-            yield return null;
+            // perform loop
+            if (Time.unscaledTime >= endTime)
+            {
+                // call end of death anim to check for available sacrifices
+                animRunning = false;
+                EndOfDeathAnim();
+            }
         }
-        // call end of death anim to check for available sacrifices
-        EndOfDeathAnim();
     }
     public void EndOfDeathAnim()
     {
+        bool didSacrifice = false;
+
         // check if currently selected ghost has sacrifice available
         GhostIdentity curGhost = party.GetSelectedGhost();
         GhostManager curGhostManager = curGhost != null ? curGhost.gameObject.GetComponent<GhostManager>() : null;
@@ -74,12 +77,16 @@ public class PlayerDeathManager : MonoBehaviour
         {
             // activate sacrifice stuff and exit function
             UseSacrifice(curGhostManager);
-            return;
+            didSacrifice = true;
         }
         // check down the list of ghosts if their sacrifice is available
         List<GhostIdentity> ghostList = party.GetGhostPartyList();
         foreach (GhostIdentity ghost in ghostList)
         {
+            if (didSacrifice)
+            {
+                break;
+            }
             if (curGhost && ghost.name.Equals(curGhost.name))
             {
                 // skip this ghost if it is the current ghost (already checked)
@@ -90,16 +97,21 @@ public class PlayerDeathManager : MonoBehaviour
             {
                 // activate sacrifice stuff and exit function
                 UseSacrifice(ghostManager);
-                return;
+                didSacrifice = true;
             }
         }
+        camAnim.SetBool("isDead", false);
+        Time.timeScale = 1;
 
         // if every single ghost in the party doesn't have sacrifice, 
         // reset to hub world and reset everything else we changed in this script
-        gameObject.SetActive(false);
-        SceneManager.LoadScene("Eva Fractal Hub");
-        camAnim.SetBool("isDead", false);
-        Time.timeScale = 1;
+        if (!didSacrifice)
+        {
+            // make the player die for real if no sacrifices occured here
+            gameObject.SetActive(false);
+            SceneManager.LoadScene(respawnScene);
+        }
+
     }
     /// <summary>
     /// Handles how the sacrifice ability activation call is communicated to the relevant ghost manager.
@@ -107,7 +119,9 @@ public class PlayerDeathManager : MonoBehaviour
     /// <param name="ghost"></param>
     public void UseSacrifice(GhostManager ghost)
     {
-        Time.timeScale = 1;
+        // playerAnim.SetBool("died", false);
+        // camAnim.SetBool("isDead", false);
+        // Time.timeScale = 1;
         print("AND THEY SACRIFICE... THE GHOOOST!!!");
         //
         // TODO: IMPLEMENT SACRIFICE CALL THROUGH GHOST MANAGER HERE!!!
