@@ -61,6 +61,7 @@ public class SamuraiRetribution : MonoBehaviour
                     projectile.SetParried(true);
                     projectile.projectileDamage.actionID = ActionID.SAMURAI_SPECIAL;
                     parrySuccess = true;
+                    NotifyParrySuccess();
                 }
             }
         }
@@ -89,9 +90,17 @@ public class SamuraiRetribution : MonoBehaviour
             context.attacker.GetComponent<Health>().Damage(newContext, gameObject);
             context.damage = 0;
 
+            NotifyParrySuccess();
 
             // once a parry is successful, exit parry anim
             psm.EnableTrigger("finishParry");
         }
+    }
+
+    private void NotifyParrySuccess()
+    {
+        ActionContext newContext = manager.onParryContext;
+        newContext.extraContext = "Parry Success";
+        GameplayEventHolder.OnAbilityUsed?.Invoke(newContext);
     }
 }
