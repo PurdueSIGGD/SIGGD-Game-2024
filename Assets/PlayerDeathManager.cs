@@ -107,6 +107,11 @@ public class PlayerDeathManager : MonoBehaviour
     /// <param name="ghost"></param>
     public void UseSacrifice(GhostManager ghost)
     {
+        Time.timeScale = 1;
+        print("AND THEY SACRIFICE... THE GHOOOST!!!");
+        //
+        // TODO: IMPLEMENT SACRIFICE CALL THROUGH GHOST MANAGER HERE!!!
+        //
         return;
     }
 }
