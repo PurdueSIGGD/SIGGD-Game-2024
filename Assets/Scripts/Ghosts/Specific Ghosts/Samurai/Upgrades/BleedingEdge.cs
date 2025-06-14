@@ -23,7 +23,6 @@ public class BleedingEdge : Skill
     {
         if (pointIndex > 0 && context.actionID == ActionID.SAMURAI_SPECIAL)
         {
-            Debug.Log("bleed test: applied dot");
             // creating a damage context to be used by the DOT
             DamageContext newContext = new DamageContext();
             newContext.attacker = context.attacker;

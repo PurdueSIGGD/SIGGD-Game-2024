@@ -35,14 +35,12 @@ public class PoisonDebuff : MonoBehaviour
         health = gameObject.GetComponentInParent<Health>();
         if (health != null)
         {
-            Debug.Log("bleed test: damaging");
             health.Damage(damageContext, gameObject);
         }
         timer = interval;
     }
     IEnumerator ByeByeCoroutine(float time)
     {
-        Debug.Log("bleed test: count down started, ending in: " + time);
         yield return new WaitForSeconds(time);
         Destroy(gameObject);
     }

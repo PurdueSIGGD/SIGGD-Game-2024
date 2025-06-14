@@ -52,11 +52,11 @@ public class PlayerHealth : Health
     {
         if (MortallyWounded)
         {
-            context.healing = Mathf.Clamp(context.healing, 0, thresholdTwo - currentHealth);
+            context.healing = Mathf.Clamp(context.healing, 0, thresholdTwo * maxHealth - currentHealth);
         }
         else if (Wounded)
         {
-            context.healing = Mathf.Clamp(context.healing, 0, thresholdOne - currentHealth);
+            context.healing = Mathf.Clamp(context.healing, 0, thresholdOne * maxHealth - currentHealth);
         }
         return base.Heal(context, healer);
     }
