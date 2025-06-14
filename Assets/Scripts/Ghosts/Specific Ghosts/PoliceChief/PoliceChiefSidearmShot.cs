@@ -40,6 +40,7 @@ public class PoliceChiefSidearmShot : MonoBehaviour
             return hit;
         }
         Debug.DrawLine(pos, hit.point, Random.ColorHSV(), 5f);
+        /*
         if (hit.transform.CompareTag("Transparent"))
         {
             float pointAngle = Mathf.Atan2(hit.point.y - pos.y, hit.point.x - pos.x);
@@ -47,6 +48,7 @@ public class PoliceChiefSidearmShot : MonoBehaviour
             Vector2 Pointadd =  new Vector2(Mathf.Cos(pointAngle), Mathf.Sin(pointAngle));
             hit = rayCastDetection(hit.point + Pointadd, dir, distToTravel - distTraveled);
         }
+        */
         return hit;
     }
 

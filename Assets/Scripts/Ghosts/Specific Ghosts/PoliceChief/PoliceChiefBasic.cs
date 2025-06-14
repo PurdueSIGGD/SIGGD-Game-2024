@@ -23,7 +23,19 @@ public class PoliceChiefBasic : MonoBehaviour
     private float primedTime = 0f;
     private float chargetimeChanger;
 
+    private int ammoToConsume = 1;
 
+
+
+    private void OnEnable()
+    {
+        GameplayEventHolder.OnDeath += RefundAmmoOnKill;
+    }
+
+    private void OnDisable()
+    {
+        GameplayEventHolder.OnDeath -= RefundAmmoOnKill;
+    }
 
     void Start()
     {
@@ -111,7 +123,8 @@ public class PoliceChiefBasic : MonoBehaviour
         // Fire shot
         GameObject sidearmShot = Instantiate(manager.basicShot, Vector3.zero, Quaternion.identity);
         sidearmShot.GetComponent<PoliceChiefSidearmShot>().fireSidearmShot(manager, pos, dir);
-        manager.basicAmmo -= 1;
+        //manager.basicAmmo -= ammoToConsume;
+        manager.basicAmmo = Mathf.Max(manager.basicAmmo - ammoToConsume, 0);
         animator.SetBool("has_ammo", (manager.basicAmmo > 0));
     }
 
@@ -119,6 +132,13 @@ public class PoliceChiefBasic : MonoBehaviour
     {
         SetSidearmDamage(1);
         GetComponent<Move>().PlayerGo();
+    }
+
+    private void RefundAmmoOnKill(DamageContext context)
+    {
+        if (context.attacker != PlayerID.instance.gameObject) return;
+        manager.basicAmmo = Mathf.RoundToInt(manager.GetStats().ComputeValue("Basic Starting Ammo"));
+        animator.SetBool("has_ammo", (manager.basicAmmo > 0));
     }
 
     /// <summary>
@@ -132,14 +152,17 @@ public class PoliceChiefBasic : MonoBehaviour
             case 1:
                 manager.basicDamage.damage = manager.GetStats().ComputeValue("Basic Damage");
                 manager.basicDamage.damageStrength = DamageStrength.MINOR;
+                //ammoToConsume = 1;
                 break;
             case 2:
                 manager.basicDamage.damage = manager.GetStats().ComputeValue("Basic Heavy Damage");
-                manager.basicDamage.damageStrength = DamageStrength.LIGHT;
+                manager.basicDamage.damageStrength = DamageStrength.MINOR;
+                //ammoToConsume = 2;
                 break;
             case 3:
                 manager.basicDamage.damage = manager.GetStats().ComputeValue("Basic Super Heavy Damage");
-                manager.basicDamage.damageStrength = DamageStrength.MODERATE;
+                manager.basicDamage.damageStrength = DamageStrength.LIGHT;
+                //ammoToConsume = 3;
                 break;
             default:
                 manager.basicDamage.damage = manager.GetStats().ComputeValue("Basic Damage");

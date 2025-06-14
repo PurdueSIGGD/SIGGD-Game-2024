@@ -189,15 +189,15 @@ MonoBehaviour:
   - name: Basic Cooldown
     value: 1
   - name: Special Cooldown
-    value: 8
+    value: 6
   - name: HOLOJUMP_MAX_DISTANCE
     value: 200
   - name: HOLOJUMP_CLONE_SWAP_INTERVAL
     value: 0.5
   - name: HOLOJUMP_IMMUNE_SECONDS
-    value: 0.1
+    value: 0.2
   - name: HOLOJUMP_DURATION_SECONDS
-    value: 9
+    value: 12
   - name: HOLOJUMP_DURATION_INACTIVE_MODIFIER
     value: 1.5
   - name: TEMPO_BUFF_PERCENT_INT
@@ -277,6 +277,10 @@ MonoBehaviour:
   tick: 0
   active: 0
   manager: {fileID: 0}
+  avaliableHoloJumpVA:
+  - Eva-Idol Max Tempo
+  avaliableCloneLostVA:
+  - Eva-Idol Holo Jump Lost Clone
 --- !u!114 &4337353799593711327
 MonoBehaviour:
   m_ObjectHideFlags: 0
