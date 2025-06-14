@@ -8,7 +8,7 @@ public class GhostManager : MonoBehaviour, ISelectable, IStatList
     [SerializeField] public StatManager.Stat[] statList;
     [SerializeField] public RuntimeAnimatorController defaultController;
     [SerializeField] public RuntimeAnimatorController ghostController;
-    
+
     protected Animator animator;
     protected PartyManager partyManager;
     protected StatManager stats;
@@ -20,6 +20,7 @@ public class GhostManager : MonoBehaviour, ISelectable, IStatList
     private bool specialReady = true;
 
 
+    private bool sacrificeReady = false;
 
     // Start is called before the first frame update
     protected virtual void Start()
@@ -102,6 +103,15 @@ public class GhostManager : MonoBehaviour, ISelectable, IStatList
     public float getBasicCooldown()
     {
         return currentBasicCooldown;
+    }
+
+    public void SetSacrificeReady(bool sacrificeReady)
+    {
+        this.sacrificeReady = sacrificeReady;
+    }
+    public bool GetSacrificeReady()
+    {
+        return sacrificeReady;
     }
 
 
