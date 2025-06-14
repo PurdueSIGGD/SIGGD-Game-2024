@@ -277,7 +277,7 @@ GameObject:
   - component: {fileID: 4948673646360677175}
   - component: {fileID: 3432727028805303405}
   - component: {fileID: 3968104243975458799}
-  - component: {fileID: 4543535706341404098}
+  - component: {fileID: 7591434726526564384}
   m_Layer: 17
   m_Name: Akihito-Samurai
   m_TagString: Ghost
@@ -493,14 +493,6 @@ MonoBehaviour:
     actionID: 9
     actionTypes: 01000000
     extraContext: 
-  onDashContext:
-    actionID: 9
-    actionTypes: 04000000
-    extraContext: 
-  onParryContext:
-    actionID: 10
-    actionTypes: 04000000
-    extraContext: 
   selected: 0
   basic: {fileID: 0}
   special: {fileID: 0}
@@ -519,8 +511,8 @@ MonoBehaviour:
   skills:
   - {fileID: 4948673646360677175}
   - {fileID: 3968104243975458799}
-  - {fileID: 4543535706341404098}
   - {fileID: 832341494916618284}
+  - {fileID: 7591434726526564384}
   - {fileID: 3432727028805303405}
   - {fileID: 832341494916618284}
   - {fileID: 832341494916618284}
@@ -600,7 +592,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: a29b754973a32ff41904e737b4a972ef, type: 2}
---- !u!114 &4543535706341404098
+--- !u!114 &7591434726526564384
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -609,7 +601,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 8575993293382114818}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04fec7996db133c43bda28662724d8b7, type: 3}
+  m_Script: {fileID: 11500000, guid: b1d1f0fbb9a190349bf24a1b9b16d53f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skillSO: {fileID: 11400000, guid: 8736a069d6eedc74095796536e89c777, type: 2}
+  skillSO: {fileID: 11400000, guid: 7cd5dead9e8bb3243b0a4af930796f17, type: 2}
+  healContext:
+    healing: 0
+    actionID: 17
+    actionTypes: 08000000
+    extraContext: 
+  healRate: 0.05
