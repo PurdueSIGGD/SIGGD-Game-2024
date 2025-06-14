@@ -13,19 +13,16 @@ public class Health : MonoBehaviour, IDamageable, IStatList
 
     [NonSerialized] public float currentHealth; // Current health of player
     [NonSerialized] public bool isAlive = true; // Checks if player is still alive
-    private StatManager stats;
+    protected StatManager stats;
     [SerializeField] private string deathLevel;
 
     public delegate void DamageFilters(DamageContext context);
 
-
-    // Start is called before the first frame update
     void Start()
     {
         stats = GetComponent<StatManager>();
         currentHealth = stats.ComputeValue("Max Health");
     }
-
 
     public float Damage(DamageContext context, GameObject attacker)
     {
@@ -86,7 +83,7 @@ public class Health : MonoBehaviour, IDamageable, IStatList
         return context.damage;
     }
 
-    public float Heal(HealingContext context, GameObject healer)
+    public virtual float Heal(HealingContext context, GameObject healer)
     {
         // Configure healing context
         float missingHealth = stats.ComputeValue("Max Health") - currentHealth;
@@ -174,5 +171,9 @@ public class Health : MonoBehaviour, IDamageable, IStatList
                 enemy.SwitchState(enemy.AggroState);
             }
         }
+    }
+    public StatManager GetStats()
+    {
+        return stats;
     }
 }
