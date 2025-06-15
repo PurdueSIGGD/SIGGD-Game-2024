@@ -279,6 +279,7 @@ GameObject:
   - component: {fileID: 3968104243975458799}
   - component: {fileID: 7591434726526564384}
   - component: {fileID: 6412266853432260435}
+  - component: {fileID: 1809617064450391629}
   m_Layer: 17
   m_Name: Akihito-Samurai
   m_TagString: Ghost
@@ -495,12 +496,12 @@ MonoBehaviour:
     actionTypes: 01000000
     extraContext: 
   onDashContext:
-    actionID: 0
-    actionTypes: 
+    actionID: 9
+    actionTypes: 02000000
     extraContext: 
   onParryContext:
-    actionID: 0
-    actionTypes: 
+    actionID: 10
+    actionTypes: 03000000
     extraContext: 
   selected: 0
   basic: {fileID: 0}
@@ -523,7 +524,7 @@ MonoBehaviour:
   - {fileID: 6412266853432260435}
   - {fileID: 7591434726526564384}
   - {fileID: 3432727028805303405}
-  - {fileID: 832341494916618284}
+  - {fileID: 1809617064450391629}
   - {fileID: 832341494916618284}
   startAtLevel: 20
 --- !u!114 &832341494916618284
@@ -633,3 +634,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: 8736a069d6eedc74095796536e89c777, type: 2}
+--- !u!114 &1809617064450391629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8575993293382114818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c15d3e2dd2fd024f8848d17f817d89d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillSO: {fileID: 11400000, guid: 0179f79cebe153a448ea40fb58ee955a, type: 2}
+  boostDuration: 5
