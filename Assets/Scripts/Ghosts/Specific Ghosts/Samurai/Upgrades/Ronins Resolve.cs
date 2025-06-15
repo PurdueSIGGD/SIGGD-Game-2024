@@ -2,6 +2,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using UnityEngine;
 
 /// <summary>
@@ -10,14 +11,14 @@ using UnityEngine;
 /// </summary>
 public class RoninsResolve : Skill
 {
-    private const string RESISTANCE_STAT = "Damage Resistance Percent Int"; // Resistance is percent as an int
-    private const string SPEED_STAT = "Max Running Speed";
+    private const string RUNNING_SPEED_STAT = "Max Running Speed";
+    private const string MOVE_SPEED_STAT = "Move Speed";
 
     private static int pointIndex = 0;
 
     private SamuraiManager manager;
     private StatManager playerStats;
-    private int addedSpeed = 0;
+    private PlayerHealth playerHealth;
 
     [SerializeField] private float boostDuration = 5.0f; // boost duration in seconds
     private float boostTimer = 0.0f; // timer for boost
@@ -26,6 +27,7 @@ public class RoninsResolve : Skill
     {
         GameplayEventHolder.OnAbilityUsed += HandleBoost;
         playerStats = PlayerID.instance.gameObject.GetComponent<StatManager>();
+        playerHealth = PlayerHealth.instance;
         manager = gameObject.GetComponent<SamuraiManager>();
     }
 
@@ -43,6 +45,7 @@ public class RoninsResolve : Skill
             if (!manager.selected)
             {
                 RemoveBoosts();
+                return;
             }
 
             // Update timer
@@ -58,12 +61,12 @@ public class RoninsResolve : Skill
     }
 
     /// <summary>
-    /// Calculate boost percent based on skill points
+    /// Calculate boost percent (as integer) based on skill points
     /// </summary>
     /// <returns></returns>
-    private float CalculatePercent()
+    private int CalculatePercentInt()
     {
-        return pointIndex * 0.15f;
+        return pointIndex * 15;
     }
 
     /// <summary>
@@ -99,22 +102,23 @@ public class RoninsResolve : Skill
     /// </summary>
     public void AddBoosts()
     {
-        float percent = CalculatePercent();
+        int percentInt = CalculatePercentInt();
         boostTimer = boostDuration;
 
         // Speed
 
-        addedSpeed = (int)(10 * percent * playerStats.ComputeValue(SPEED_STAT)); // FIXME
-        playerStats.ModifyStat(SPEED_STAT, addedSpeed);
+        playerStats.ModifyStat(RUNNING_SPEED_STAT, percentInt);
+        playerStats.ModifyStat(MOVE_SPEED_STAT, percentInt);
 
         // Resistance
 
-        playerStats.ModifyStat(RESISTANCE_STAT, (int)(percent * 100));
+        playerHealth.ModifyDamageResistance(percentInt / 100.0f);
 
 #if DEBUG_LOG
-        Debug.Log("Ronin's Resolve: Boost added! " + percent * 100 + "%");
-        Debug.Log("Speed is now " + playerStats.ComputeValue(SPEED_STAT) +
-                  ", Resistance is now " + playerStats.ComputeValue(RESISTANCE_STAT) + "%");
+        Debug.Log("Ronin's Resolve: Boost added! " + percentInt + "%");
+        Debug.Log("Running Speed is now " + playerStats.ComputeValue(RUNNING_SPEED_STAT) +
+                  ", Move Speed is now " + playerStats.ComputeValue(MOVE_SPEED_STAT) +
+                  ", Resistance is now " + playerHealth.GetDamageResistance() * 100 + "%");
 #endif
     }
 
@@ -123,21 +127,23 @@ public class RoninsResolve : Skill
     /// </summary>
     public void RemoveBoosts()
     {
+        int percentInt = CalculatePercentInt();
         boostTimer = 0.0f;
 
         // Speed
 
-        playerStats.ModifyStat(SPEED_STAT, -addedSpeed);
-        addedSpeed = 0;
+        playerStats.ModifyStat(RUNNING_SPEED_STAT, -percentInt);
+        playerStats.ModifyStat(MOVE_SPEED_STAT, -percentInt);
 
         // Resistance
 
-        playerStats.ModifyStat(RESISTANCE_STAT, -1 * (int)(CalculatePercent() * 100));
+        playerHealth.ModifyDamageResistance(-percentInt / 100.0f);
 
 #if DEBUG_LOG
         Debug.Log("Ronin's Resolve: Boost removed!");
-        Debug.Log("Speed is now " + playerStats.ComputeValue(SPEED_STAT) +
-                  ", Resistance is now " + playerStats.ComputeValue(RESISTANCE_STAT) + "%");
+        Debug.Log("Running Speed is now " + playerStats.ComputeValue(RUNNING_SPEED_STAT) +
+                  ", Move Speed is now " + playerStats.ComputeValue(MOVE_SPEED_STAT) +
+                  ", Resistance is now " + playerHealth.GetDamageResistance() * 100 + "%");
 #endif
     }
 

@@ -13,10 +13,13 @@ public class Health : MonoBehaviour, IDamageable, IStatList
 
     [NonSerialized] public float currentHealth; // Current health of player
     [NonSerialized] public bool isAlive = true; // Checks if player is still alive
+    [NonSerialized] private float damageResistance = 0.0f; // 0 to 1, Multiply damage by (1 - resistance) 
+
     protected StatManager stats;
     [SerializeField] private string deathLevel;
 
     public delegate void DamageFilters(DamageContext context);
+
 
     void Start()
     {
@@ -42,12 +45,10 @@ public class Health : MonoBehaviour, IDamageable, IStatList
             Debug.Log("After Filter " + filter + ": " + context.damage);
         }
 
-        if (context.victim.Equals("Player"))
-        {
-            context.damage *= 1.0f - stats.ComputeValue("Damage Resistance Percent Int") * 0.01f;
-            Debug.Log("IT WORKED " + (1.0f - stats.ComputeValue("Damage Resistance Percent Int") * 0.01f));
-        }
-
+        
+        // Resistance
+        context.damage *= 1.0f - damageResistance;
+        
         Debug.Log("Damaged: " + context.damage);
 
         // Reduce current health
@@ -77,11 +78,8 @@ public class Health : MonoBehaviour, IDamageable, IStatList
         context.attacker = attacker;
         context.damage = Mathf.Clamp(context.damage, 0f, currentHealth);
 
-        if (context.victim.Equals("Player"))
-        {
-            context.damage *= 1.0f - stats.ComputeValue("Damage Resistance Percent Int") * 0.01f;
-        }
-
+        // Resistance
+        context.damage *= 1.0f - damageResistance;
 
         currentHealth -= context.damage;
 
@@ -161,6 +159,22 @@ public class Health : MonoBehaviour, IDamageable, IStatList
             }
         }
     }
+
+    public float GetDamageResistance()
+    {
+        return damageResistance;
+    }
+
+    public void SetDamageResistance(float damageResistance)
+    {
+        this.damageResistance = Mathf.Clamp(damageResistance, 0.0f, 1.0f);
+    }
+
+    public void ModifyDamageResistance(float delta)
+    {
+        damageResistance = Mathf.Clamp(damageResistance + delta, 0.0f, 1.0f);
+    }
+
     public StatManager GetStats()
     {
         return stats;
