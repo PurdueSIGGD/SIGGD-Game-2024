@@ -42,6 +42,12 @@ public class Health : MonoBehaviour, IDamageable, IStatList
             Debug.Log("After Filter " + filter + ": " + context.damage);
         }
 
+        if (context.victim.Equals("Player"))
+        {
+            context.damage *= 1.0f - stats.ComputeValue("Damage Resistance Percent Int") * 0.01f;
+            Debug.Log("IT WORKED " + (1.0f - stats.ComputeValue("Damage Resistance Percent Int") * 0.01f));
+        }
+
         Debug.Log("Damaged: " + context.damage);
 
         // Reduce current health
@@ -70,6 +76,12 @@ public class Health : MonoBehaviour, IDamageable, IStatList
     {
         context.attacker = attacker;
         context.damage = Mathf.Clamp(context.damage, 0f, currentHealth);
+
+        if (context.victim.Equals("Player"))
+        {
+            context.damage *= 1.0f - stats.ComputeValue("Damage Resistance Percent Int") * 0.01f;
+        }
+
 
         currentHealth -= context.damage;
 
