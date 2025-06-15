@@ -22,14 +22,10 @@ public class RoninsResolve : Skill
     [SerializeField] private float boostDuration = 5.0f; // boost duration in seconds
     private float boostTimer = 0.0f; // timer for boost
 
-    void Start()
-    {
-        playerStats = PlayerID.instance.gameObject.GetComponent<StatManager>();
-    }
-
     private void OnEnable()
     {
         GameplayEventHolder.OnAbilityUsed += HandleBoost;
+        playerStats = PlayerID.instance.gameObject.GetComponent<StatManager>();
         manager = gameObject.GetComponent<SamuraiManager>();
     }
 
@@ -136,7 +132,7 @@ public class RoninsResolve : Skill
 
         // Resistance
 
-        playerStats.ModifyStat(RESISTANCE_STAT, -(int)(CalculatePercent() * 100));
+        playerStats.ModifyStat(RESISTANCE_STAT, -1 * (int)(CalculatePercent() * 100));
 
 #if DEBUG_LOG
         Debug.Log("Ronin's Resolve: Boost removed!");
