@@ -27,7 +27,6 @@ public class HonedStrike : Skill
 
     private void BuffDashSpeed(ActionContext context)
     {
-        Debug.Log("hey " + context.actionID);
         if (pointIndex > 0 && context.actionID == ActionID.SAMURAI_SPECIAL && 
             !buffApplied && context.extraContext.Equals("Parry Success"))
         {
