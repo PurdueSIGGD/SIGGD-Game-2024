@@ -206,6 +206,14 @@ public class WrathHeavyAttack : MonoBehaviour
     public void StopHeavyAttack() 
     {
         PlayerID.instance.GetComponent<Move>().PlayerGo();
+
+    }
+
+    private void StopSamuraiHeavyAttack()
+    {
+        rb.isKinematic = false;
+        rb.velocity = new Vector2(0, rb.velocity.y);
+
         Collider2D[] hit = Physics2D.OverlapBoxAll(transform.position, new Vector2(2.5f, 1), 0, LayerMask.GetMask("Enemy"));
         foreach (Collider2D h in hit)
         {
@@ -226,12 +234,6 @@ public class WrathHeavyAttack : MonoBehaviour
             decaying = true;
             resetDecay = false;
         }
-    }
-
-    private void StopSamuraiHeavyAttack()
-    {
-        rb.isKinematic = false;
-        rb.velocity = new Vector2(0, rb.velocity.y);
     }
 
     //Used to empty the remaining wrath percentage
