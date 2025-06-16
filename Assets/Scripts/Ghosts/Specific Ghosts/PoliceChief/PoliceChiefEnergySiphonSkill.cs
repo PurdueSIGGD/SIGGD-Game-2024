@@ -50,9 +50,9 @@ public class PoliceChiefEnergySiphonSkill : Skill
 
     void OnDmg(DamageContext context)
     {
-        if (context.attacker == PlayerID.instance)
+        if (context.attacker == PlayerID.instance.gameObject && context.actionID == ActionID.POLICE_CHIEF_BASIC)
         {
-            policeChiefManager.setSpecialCooldown(Mathf.Max(0, policeChiefManager.getSpecialCooldown() - stats.ComputeValue("Special Cooldown") * amountCooldownReduction * context.damage));
+            policeChiefManager.setSpecialCooldown(Mathf.Max(0, policeChiefManager.getSpecialCooldown() - (stats.ComputeValue("Special Cooldown") * amountCooldownReduction * context.damage)));
         }
     }
 }
