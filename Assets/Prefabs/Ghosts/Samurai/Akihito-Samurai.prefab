@@ -454,54 +454,54 @@ MonoBehaviour:
   - name: Heavy Charge Up Time
     value: 0.5
   - name: Heavy Primed Autofire Time
-    value: 2
+    value: 1.5
   - name: Heavy Attack Minimum Damage
-    value: 25
+    value: 40
   - name: Heavy Attack Maximum Damage
-    value: 155
+    value: 140
   - name: Primed Attack Minimum Damage
-    value: 25
+    value: 80
   - name: Primed Attack Maximum Damage
-    value: 50
+    value: 180
   - name: Heavy Attack Minimum Travel Distance
-    value: 5
+    value: 3
   - name: Heavy Attack Maximum Travel Distance
-    value: 15
+    value: 10
   - name: Heavy Attack On-hit Final Travel Distance
-    value: 2
+    value: 1
   - name: Heavy Attack Travel Speed
     value: 50
   - name: Heavy Attack Cooldown Time
-    value: 2
-  - name: Wrath Percent Gain Per Damage Dealt
     value: 1
+  - name: Wrath Percent Gain Per Damage Dealt
+    value: 0.8
   - name: Wrath Percent Loss Per Damage Taken
-    value: 0.7
+    value: 2
   - name: Wrath Decay Buffer
     value: 3
   - name: Wrath Decay Rate
-    value: 5
+    value: 0.125
   - name: Melee Parry Base Damage
-    value: 20
+    value: 10
   - name: Melee Parry Bonus Damage per Incoming Attack Damage
-    value: 0.7
+    value: 2
   - name: Melee Parry Stun Time
-    value: 1.2
+    value: 1
   - name: Parry Success Special Cooldown
-    value: 0.8
+    value: 0
   - name: Special Cooldown
-    value: 2.4
+    value: 1
   defaultController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
   ghostController: {fileID: 9100000, guid: f32f8db40ef7cc14b84350e7507f9eb9, type: 2}
   heavyDamageContext:
     damageStrength: 3
     damageTypes: 00000000
     actionID: 9
-    actionTypes: 01000000
+    actionTypes: 0100000002000000
     extraContext: 
   onDashContext:
     actionID: 9
-    actionTypes: 02000000
+    actionTypes: 0200000001000000
     extraContext: 
   onParryContext:
     actionID: 10

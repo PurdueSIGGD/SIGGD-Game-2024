@@ -203,13 +203,13 @@ MonoBehaviour:
   - name: TEMPO_BUFF_PERCENT_INT
     value: 7
   - name: TEMPO_MAX_STACKS
-    value: 9
+    value: 10
   - name: TEMPO_INACTIVE_DURATION_MODIFIER
     value: 1.5
   - name: TEMPO_BASE_DURATION
     value: 9
   - name: TEMPO_STACKS_PER_KILL
-    value: 3
+    value: 2
   - name: Nova Pop Damage
     value: 20
   defaultController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
@@ -399,7 +399,7 @@ MonoBehaviour:
     actionID: 8
     actionTypes: 
     extraContext: 
-  radius: 2.5
+  radius: 4
 --- !u!114 &219043313411044668
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -413,7 +413,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: 47d10ae9d4bb8664591d154467935b21, type: 2}
-  values: 000000000a000000140000001e00000028000000
+  values: 00000000070000000e000000150000001c000000
   manager: {fileID: 0}
   fieldVisual: {fileID: 1539173856502906608, guid: 677f9ddb74eb33a41ab8c747775a259c,
     type: 3}
@@ -450,7 +450,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: 47064ef7ba27a6448a378006df0569af, type: 2}
-  healthRestored: 30
+  healthRestored: 35
   timeStopDuration: 5
 --- !u!114 &3943762812193780925
 MonoBehaviour:
