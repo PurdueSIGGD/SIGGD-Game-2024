@@ -180,11 +180,19 @@ public class WrathHeavyAttack : MonoBehaviour
                                      manager.GetStats().ComputeValue("Heavy Attack Maximum Travel Distance"), 
                                      wrathPercent);
         desiredDashDest = new(transform.position.x + desiredDashDist * dir.x, transform.position.y);
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, desiredDashDist, LayerMask.GetMask("Enemy", "Ground"));
-        if (hit)
+        RaycastHit2D enemyHit = Physics2D.Raycast(transform.position, dir, desiredDashDist, LayerMask.GetMask("Enemy"));
+        if (enemyHit)
         {
-            desiredDashDist = Mathf.Abs(transform.position.x - hit.point.x);
-            desiredDashDest = hit.point;
+            float displacement = transform.position.x - enemyHit.point.x;
+            float onHitDist = manager.GetStats().ComputeValue("Heavy Attack On-hit Final Travel Distance");
+            desiredDashDist = Mathf.Abs(displacement) + onHitDist;
+            desiredDashDest = enemyHit.point + new Vector2(onHitDist * Mathf.Sign(displacement) * -1, 0);
+        }
+        RaycastHit2D groundHit = Physics2D.Raycast(transform.position, dir, desiredDashDist, LayerMask.GetMask("Ground"));
+        if (groundHit)
+        {
+            desiredDashDist = Mathf.Abs(transform.position.x - groundHit.point.x);
+            desiredDashDest = groundHit.point;
         }
         desiredDashVelocity = manager.GetStats().ComputeValue("Heavy Attack Travel Speed") * dir;
         rb.isKinematic = true;
@@ -198,7 +206,7 @@ public class WrathHeavyAttack : MonoBehaviour
     public void StopHeavyAttack() 
     {
         PlayerID.instance.GetComponent<Move>().PlayerGo();
-        Collider2D[] hit = Physics2D.OverlapBoxAll(transform.position, new Vector2(2, 1), 0, LayerMask.GetMask("Enemy"));
+        Collider2D[] hit = Physics2D.OverlapBoxAll(transform.position, new Vector2(2.5f, 1), 0, LayerMask.GetMask("Enemy"));
         foreach (Collider2D h in hit)
         {
             Health health = h.GetComponent<Health>();

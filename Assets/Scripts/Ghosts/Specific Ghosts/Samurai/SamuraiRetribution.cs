@@ -5,6 +5,7 @@ public class SamuraiRetribution : MonoBehaviour
     [HideInInspector] public SamuraiManager manager;
     private PlayerStateMachine psm;
     private bool parrying;
+    private bool parrySuccess;
     private Camera mainCamera;
 
     void Start()
@@ -19,12 +20,21 @@ public class SamuraiRetribution : MonoBehaviour
         {
             ParryingProjectiles();
         }
+        if (manager != null)
+        {
+            if (manager.getSpecialCooldown() > 0)
+            {
+                psm.OnCooldown("c_special");
+            }
+            else
+            {
+                psm.OffCooldown("c_special");
+            }
+        }
     }
 
     public void StartParry()
     {
-        Debug.Log("StartParrying");
-
         parrying = true;
         GameplayEventHolder.OnDamageFilter.Add(ParryingFilter);
     }
@@ -44,10 +54,8 @@ public class SamuraiRetribution : MonoBehaviour
 
         Collider2D[] coll = Physics2D.OverlapBoxAll(dir + transform.position, new Vector2(2, 3), 0, LayerMask.GetMask("Projectiles", "Enemy"));
 
-        Debug.DrawLine(transform.position + dir * 2 + new Vector3(0, -1.5f, 0), transform.position + dir * 2 + new Vector3(0, 1.5f, 0), Color.blue, Time.deltaTime);
-        Debug.DrawLine(transform.position + new Vector3(0, -1.5f, 0), transform.position + new Vector3(0, 1.5f, 0), Color.blue, Time.deltaTime);
-
-        bool parrySuccess = false;
+        //Debug.DrawLine(transform.position + dir * 2 + new Vector3(0, -1.5f, 0), transform.position + dir * 2 + new Vector3(0, 1.5f, 0), Color.blue, Time.deltaTime);
+        //Debug.DrawLine(transform.position + new Vector3(0, -1.5f, 0), transform.position + new Vector3(0, 1.5f, 0), Color.blue, Time.deltaTime);
 
         foreach (Collider2D coll2d in coll)
         {
@@ -60,19 +68,26 @@ public class SamuraiRetribution : MonoBehaviour
                     projectile.SwitchDirections();
                     projectile.SetParried(true);
                     projectile.projectileDamage.actionID = ActionID.SAMURAI_SPECIAL;
-                    parrySuccess = true;
                     NotifyParrySuccess();
                 }
             }
         }
 
-        if (parrySuccess) psm.EnableTrigger("finishParry");
+        if (parrySuccess)
+        {
+            psm.EnableTrigger("finishParry");
+        }
     }
 
     public void StopParry()
     {
-        Debug.Log("Stop Parrying"); 
+        manager.startSpecialCooldown();
+        if (parrySuccess)
+        {
+            manager.setSpecialCooldown(manager.GetStats().ComputeValue("Parry Success Special Cooldown"));
+        }
         parrying = false;
+        parrySuccess = false;
         GameplayEventHolder.OnDamageFilter.Remove(ParryingFilter);
     }
 
@@ -101,6 +116,7 @@ public class SamuraiRetribution : MonoBehaviour
     {
         ActionContext newContext = manager.onParryContext;
         newContext.extraContext = "Parry Success";
+        parrySuccess = true;
         GameplayEventHolder.OnAbilityUsed?.Invoke(newContext);
     }
 }
