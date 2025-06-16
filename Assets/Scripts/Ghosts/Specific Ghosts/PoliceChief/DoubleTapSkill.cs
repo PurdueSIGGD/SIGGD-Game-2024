@@ -44,8 +44,8 @@ public class DoubleTapSkill : Skill
     {
         //pointindex = GetPoints();
         //AddPoint();
-        manager = GetComponent<PoliceChiefManager>();
-        baseDamage = manager.GetStats().ComputeValue("Basic Super Heavy Damage");
+        //manager = GetComponent<PoliceChiefManager>();
+        //baseDamage = manager.GetStats().ComputeValue("Basic Super Heavy Damage");
         //PoliceChiefSidearmShot.enemyWasShot += changeChargeTime;
         //chargeTimeChange = 0f;
     }
