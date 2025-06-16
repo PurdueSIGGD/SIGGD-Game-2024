@@ -45,7 +45,7 @@ public class WrathHeavyAttack : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (startingToDecay)
         {
@@ -69,12 +69,15 @@ public class WrathHeavyAttack : MonoBehaviour
 
         if (isDashing)
         {
-            rb.velocity = desiredDashVelocity;
             if (Mathf.Sign(transform.position.x - desiredDashDest.x) == Mathf.Sign(desiredDashVelocity.x))
             {
                 psm.EnableTrigger("finishWrath");
                 StopSamuraiHeavyAttack();
                 isDashing = false;
+            }
+            else
+            {
+                rb.velocity = desiredDashVelocity;
             }
         }
 
@@ -192,7 +195,7 @@ public class WrathHeavyAttack : MonoBehaviour
         if (groundHit)
         {
             desiredDashDist = Mathf.Abs(transform.position.x - groundHit.point.x);
-            desiredDashDest = groundHit.point;
+            desiredDashDest = groundHit.point + new Vector2(1.5f * Mathf.Sign(transform.position.x - groundHit.point.x), 0);
         }
         desiredDashVelocity = manager.GetStats().ComputeValue("Heavy Attack Travel Speed") * dir;
         rb.isKinematic = true;
@@ -206,15 +209,7 @@ public class WrathHeavyAttack : MonoBehaviour
     public void StopHeavyAttack() 
     {
         PlayerID.instance.GetComponent<Move>().PlayerGo();
-
-    }
-
-    private void StopSamuraiHeavyAttack()
-    {
-        rb.isKinematic = false;
-        rb.velocity = new Vector2(0, rb.velocity.y);
-
-        Collider2D[] hit = Physics2D.OverlapBoxAll(transform.position, new Vector2(2.5f, 1), 0, LayerMask.GetMask("Enemy"));
+        Collider2D[] hit = Physics2D.OverlapBoxAll(transform.position, new Vector2(5, 1), 0, LayerMask.GetMask("Enemy"));
         foreach (Collider2D h in hit)
         {
             Health health = h.GetComponent<Health>();
@@ -236,6 +231,14 @@ public class WrathHeavyAttack : MonoBehaviour
         }
     }
 
+    private void StopSamuraiHeavyAttack()
+    {
+        rb.isKinematic = false;
+        rb.velocity = new Vector2(0, rb.velocity.y);
+
+
+    }
+
     //Used to empty the remaining wrath percentage
     public void ResetWrath()
     {
@@ -251,4 +254,9 @@ public class WrathHeavyAttack : MonoBehaviour
     {
         wrathPercent = newWrathPercent;
     }
+
+    //private void OnDrawGizmos()
+    //{
+    //    Gizmos.DrawCube(transform.position, new Vector3(2.5f, 1, 0));
+    //}
 }
