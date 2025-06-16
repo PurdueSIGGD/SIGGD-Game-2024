@@ -21,6 +21,8 @@ public class WrathHeavyAttack : MonoBehaviour
     private bool isPrimed = false;
     private float primedTime = 0f;
 
+    private float primedHeavyDamage;
+
     private Rigidbody2D rb;
     private Vector2 desiredDashVelocity;
     private float desiredDashDist;
@@ -78,7 +80,6 @@ public class WrathHeavyAttack : MonoBehaviour
 
         if (isCharging && chargingTime > 0f) chargingTime -= Time.deltaTime;
         if (isCharging && chargingTime <= 0f) psm.EnableTrigger("OPT");
-
         if (isPrimed && primedTime > 0f) primedTime -= Time.deltaTime;
         if (isPrimed && primedTime <= 0f) psm.EnableTrigger("OPT");
 
@@ -124,6 +125,7 @@ public class WrathHeavyAttack : MonoBehaviour
         AudioManager.Instance.SFXBranch.PlaySFXTrack("HeavyAttackWindUp");
         decaying = false;
         resetDecay = true;
+        primedHeavyDamage = 0;
     }
     public void StopHeavyChargeUp()
     {
@@ -138,6 +140,10 @@ public class WrathHeavyAttack : MonoBehaviour
         primedTime = manager.GetStats().ComputeValue("Heavy Primed Autofire Time");
         isPrimed = true;
         AudioManager.Instance.SFXBranch.PlaySFXTrack("HeavyAttackPrimed");
+
+        primedHeavyDamage = Mathf.Lerp(manager.GetStats().ComputeValue("Primed Attack Minimum Damage"), 
+                                       manager.GetStats().ComputeValue("Primed Attack Maximum Damage"), 
+                                       wrathPercent);
     }
 
     public void StopHeavyPrimed()
@@ -160,15 +166,19 @@ public class WrathHeavyAttack : MonoBehaviour
         Vector3 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         if (mousePos.x < PlayerID.instance.transform.position.x)
         {
+            transform.rotation = Quaternion.Euler(0, 180, 0);
             dir = new Vector2(-1, 0);
         }
         else
         {
+            transform.rotation = Quaternion.Euler(0, 0, 0);
             dir = new Vector2(1, 0);
         }
 
         startingDashLocation = transform.position;
-        desiredDashDist = Mathf.Lerp(manager.GetStats().ComputeValue("Heavy Attack Minimum Travel Distance"), manager.GetStats().ComputeValue("Heavy Attack Maximum Travel Distance"), wrathPercent);
+        desiredDashDist = Mathf.Lerp(manager.GetStats().ComputeValue("Heavy Attack Minimum Travel Distance"), 
+                                     manager.GetStats().ComputeValue("Heavy Attack Maximum Travel Distance"), 
+                                     wrathPercent);
         desiredDashDest = new(transform.position.x + desiredDashDist * dir.x, transform.position.y);
         RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, desiredDashDist, LayerMask.GetMask("Enemy", "Ground"));
         if (hit)
@@ -198,6 +208,7 @@ public class WrathHeavyAttack : MonoBehaviour
                 context.damage = Mathf.Lerp(manager.GetStats().ComputeValue("Heavy Attack Minimum Damage"),
                                             manager.GetStats().ComputeValue("Heavy Attack Maximum Damage"),
                                             wrathPercent);
+                context.damage += primedHeavyDamage;
                 health.Damage(context, gameObject);
             }
         }

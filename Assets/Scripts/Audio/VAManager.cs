@@ -22,7 +22,6 @@ public class VAManager : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        Debug.Log(transform.parent.GetComponent<AudioManager>().GetEnergyLevel());
         voicelineCullingTimer = Math.Max(0.0f, voicelineCullingTimer - Time.deltaTime);
         if (voicelineCullingTimer == 0.0f) {
             globalVoicelineChance = Math.Min(1.0f, globalVoicelineChance += VOICE_LINE_CHANCE_GAIN_PER_SECOND * Time.deltaTime);
