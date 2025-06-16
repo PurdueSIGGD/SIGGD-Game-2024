@@ -83,7 +83,7 @@ public class HeavyAttack : MonoBehaviour, IStatList
 
     public void StartHeavyAttack()
     {
-        playerStateMachine.ConsumeHeavyAttackInput();
+        //playerStateMachine.ConsumeHeavyAttackInput();
         AudioManager.Instance.VABranch.PlayVATrack(PartyManager.instance.selectedGhost + " Heavy Attack");
     }
 

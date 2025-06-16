@@ -40,15 +40,6 @@ public class PoliceChiefSidearmShot : MonoBehaviour
             return hit;
         }
         Debug.DrawLine(pos, hit.point, Random.ColorHSV(), 5f);
-        /*
-        if (hit.transform.CompareTag("Transparent"))
-        {
-            float pointAngle = Mathf.Atan2(hit.point.y - pos.y, hit.point.x - pos.x);
-            float distTraveled = Vector2.Distance(pos, hit.point);
-            Vector2 Pointadd =  new Vector2(Mathf.Cos(pointAngle), Mathf.Sin(pointAngle));
-            hit = rayCastDetection(hit.point + Pointadd, dir, distToTravel - distTraveled);
-        }
-        */
         return hit;
     }
 
@@ -69,8 +60,12 @@ public class PoliceChiefSidearmShot : MonoBehaviour
 
         // Wait for travel speed
         yield return new WaitForSeconds(Vector2.Distance(pos, hitPoint) / travelSpeed);
+
+        // No Hit Ammo Pickup
         if (!hit)
         {
+            GameObject airAmmoPickup = Instantiate(manager.basicAmmoPickup, hitPoint, Quaternion.identity);
+            airAmmoPickup.GetComponent<PoliceChiefAmmoPickup>().InitializeAmmoPickup(manager, dir * 5f);
             Destroy(this.gameObject);
             yield break;
         }
@@ -86,7 +81,10 @@ public class PoliceChiefSidearmShot : MonoBehaviour
             yield break;
         }
 
-        // Surface impact VFX
+        // Surface impact Ammo Pickup & VFX
+        Vector2 reflect = Vector2.Reflect(dir, hit.normal);
+        GameObject surfaceAmmoPickup = Instantiate(manager.basicAmmoPickup, hit.point + new Vector2(reflect.x * 0.1f, reflect.y * 0.1f), Quaternion.identity);
+        surfaceAmmoPickup.GetComponent<PoliceChiefAmmoPickup>().InitializeAmmoPickup(manager, reflect * 10f);
         GameObject surfaceExplosion = Instantiate(manager.basicImpactExplosionVFX, hit.point, Quaternion.identity);
         surfaceExplosion.GetComponent<RingExplosionHandler>().playRingExplosion(0.5f, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
         Destroy(this.gameObject);

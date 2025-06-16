@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 4769327096740874371}
   - component: {fileID: 3756874392414048416}
   - component: {fileID: 572864510421831245}
+  - component: {fileID: 2084270038230117945}
   m_Layer: 17
   m_Name: North-Police_Chief
   m_TagString: Ghost
@@ -187,21 +188,21 @@ MonoBehaviour:
   - name: Basic Cooldown
     value: 1
   - name: Basic Damage
-    value: 17
-  - name: Basic Heavy Damage
-    value: 17
-  - name: Basic Super Heavy Damage
-    value: 34
-  - name: Basic Travel Distance
     value: 20
+  - name: Basic Heavy Damage
+    value: 20
+  - name: Basic Super Heavy Damage
+    value: 40
+  - name: Basic Travel Distance
+    value: 17
   - name: Basic Charge Up Time
     value: 0.5
   - name: Basic Primed Autofire Time
     value: 1.5
   - name: Basic Starting Ammo
-    value: 6
+    value: 3
   - name: Special Cooldown
-    value: 12
+    value: 15
   - name: Special Damage
     value: 100
   - name: Special Travel Distance
@@ -226,6 +227,8 @@ MonoBehaviour:
     actionID: 6
     actionTypes: 03000000
     extraContext: 
+  basicAmmoPickup: {fileID: 2971365794380548036, guid: 129594c2a2d871549883d8535e9655ee,
+    type: 3}
   basicShot: {fileID: 6659373191663231290, guid: af6d9e3fef051da4c8265b8d37aa480b,
     type: 3}
   basicTracerVFX: {fileID: 6718616473108262378, guid: 49747f499c76eed439fc1f48aebfd475,
@@ -296,6 +299,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: 756d295103b4b3c4d93616011de8e174, type: 2}
+  secondaryShotDamage: 08000000100000001800000020000000
 --- !u!114 &6532718052842151599
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -357,10 +361,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: b89279340f3214445bdd49edb54b2342, type: 2}
   pointCooldowns:
-  - 0.0005
   - 0.001
-  - 0.0015
   - 0.002
+  - 0.003
+  - 0.004
 --- !u!114 &4769327096740874371
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -412,20 +416,32 @@ MonoBehaviour:
   - 1.8
   - 2.2
   - 2.6
-  explosionRadius: 50
+  explosionRadius: 10
   attackmask:
     serializedVersion: 2
     m_Bits: 2097152
   explosionContext:
-    damageStrength: 3
+    damageStrength: 4
     damageTypes: 02000000
     actionID: 6
-    actionTypes: 04000000
+    actionTypes: 0400000003000000
     extraContext: 
   damageToEnemy: 100
   damageToPlayer: 20
   circleVFX: {fileID: 7966241730260626198, guid: a5295bc6cb8948243b75f99e5a18cc48,
     type: 3}
+--- !u!114 &2084270038230117945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981645078808632434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec3eda79782f2b74f9818f600c432dd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4441818572976834460
 GameObject:
   m_ObjectHideFlags: 0

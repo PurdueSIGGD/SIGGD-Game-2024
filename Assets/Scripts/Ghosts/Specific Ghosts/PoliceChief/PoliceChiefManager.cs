@@ -5,6 +5,7 @@ public class PoliceChiefManager : GhostManager, ISelectable
 {
     [SerializeField] public DamageContext basicDamage;
     [SerializeField] public DamageContext specialDamage;
+    [SerializeField] public GameObject basicAmmoPickup;
     [SerializeField] public GameObject basicShot;
     [SerializeField] public GameObject basicTracerVFX;
     [SerializeField] public GameObject basicImpactExplosionVFX;
