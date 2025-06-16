@@ -13,10 +13,13 @@ public class Health : MonoBehaviour, IDamageable, IStatList
 
     [NonSerialized] public float currentHealth; // Current health of player
     [NonSerialized] public bool isAlive = true; // Checks if player is still alive
+    [NonSerialized] private float damageResistance = 0.0f; // 0 to 1, Multiply damage by (1 - resistance) 
+
     protected StatManager stats;
     [SerializeField] private string deathLevel;
 
     public delegate void DamageFilters(DamageContext context);
+
 
     void Start()
     {
@@ -42,6 +45,10 @@ public class Health : MonoBehaviour, IDamageable, IStatList
             Debug.Log("After Filter " + filter + ": " + context.damage);
         }
 
+        
+        // Resistance
+        context.damage *= 1.0f - damageResistance;
+        
         Debug.Log("Damaged: " + context.damage);
 
         // Reduce current health
@@ -70,6 +77,9 @@ public class Health : MonoBehaviour, IDamageable, IStatList
     {
         context.attacker = attacker;
         context.damage = Mathf.Clamp(context.damage, 0f, currentHealth);
+
+        // Resistance
+        context.damage *= 1.0f - damageResistance;
 
         currentHealth -= context.damage;
 
@@ -149,6 +159,22 @@ public class Health : MonoBehaviour, IDamageable, IStatList
             }
         }
     }
+
+    public float GetDamageResistance()
+    {
+        return damageResistance;
+    }
+
+    public void SetDamageResistance(float damageResistance)
+    {
+        this.damageResistance = Mathf.Clamp(damageResistance, 0.0f, 1.0f);
+    }
+
+    public void ModifyDamageResistance(float delta)
+    {
+        damageResistance = Mathf.Clamp(damageResistance + delta, 0.0f, 1.0f);
+    }
+
     public StatManager GetStats()
     {
         return stats;
