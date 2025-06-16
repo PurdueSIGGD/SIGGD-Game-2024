@@ -144,8 +144,8 @@ public class WrathHeavyAttack : MonoBehaviour
         isPrimed = true;
         AudioManager.Instance.SFXBranch.PlaySFXTrack("HeavyAttackPrimed");
 
-        primedHeavyDamage = Mathf.Lerp(manager.GetStats().ComputeValue("Primed Attack Minimum Damage"), 
-                                       manager.GetStats().ComputeValue("Primed Attack Maximum Damage"), 
+        primedHeavyDamage = Mathf.Lerp(manager.GetStats().ComputeValue("Primed Attack Extra Minimum Damage"), 
+                                       manager.GetStats().ComputeValue("Primed Attack Extra Maximum Damage"), 
                                        wrathPercent);
     }
 
