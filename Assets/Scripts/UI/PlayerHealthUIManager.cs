@@ -8,29 +8,45 @@ public class PlayerHealthUIManager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI healthText;
     [SerializeField] private Slider healthSlider;
+    [SerializeField] private Image healthBar;
 
-    private Health health;
+    private PlayerHealth health;
     private StatManager stats;
 
-    // Start is called before the first frame update
+    private float thresholdOne;
+    private float thresholdTwo;
+
     void Start()
     {
-        health = PlayerID.instance.GetComponent<Health>();
-        stats = PlayerID.instance.GetComponent<StatManager>();
+        health = PlayerID.instance.GetComponent<PlayerHealth>();
+        stats = health.GetStats();
 
         healthSlider.maxValue = stats.ComputeValue("Max Health");
         healthSlider.value = healthSlider.maxValue;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        updateHealthWidget();
+        UpdateHealthWidget();
     }
 
-    private void updateHealthWidget()
+    private void UpdateHealthWidget()
     {
         healthText.text = Mathf.CeilToInt(health.currentHealth) + " | " + Mathf.CeilToInt(stats.ComputeValue("Max Health"));
         healthSlider.value = health.currentHealth;
+        healthSlider.maxValue = stats.ComputeValue("Max Health");
+
+        if (health.Wounded)
+        {
+            healthBar.color = Color.yellow;
+        }
+        else if (health.MortallyWounded)
+        {
+            healthBar.color = Color.red;
+        }
+        else
+        {
+            healthBar.color = new Color(220, 255, 255);
+        }
     }
 }

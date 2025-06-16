@@ -1,50 +1,63 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerHealth : MonoBehaviour, IDamageable
+public class PlayerHealth : Health
 {
-    // Start is called before the first frame update
-    // Integrate Script into main player script when main player script exists 
+    public static PlayerHealth instance;
 
-    public int health; // Health of player
-    public bool isAlive = true; // Checks if player is still alive, if not Player lose (?)
-    private StatManager stats;
+    public bool Wounded { get; private set; }
+    public bool MortallyWounded { get; private set; }
 
-    public void Start() {
-        stats = GetComponent<StatManager>();
-        health = (int) stats.ComputeValue("Max Health");
-    }   
+    private float thresholdOne;
+    private float thresholdTwo;
+    private float maxHealth;
+    private float healthProportion;
 
-    public void TakeDamage(float damage)
+    void Awake()
     {
+        stats = GetComponent<StatManager>();
+        instance = this;
+    }
 
-        health -= (int)damage;
-        print("Player health ; " + health);
-        if (health <= 0)
+    void Start()
+    {
+        currentHealth = stats.ComputeValue("Max Health");
+    }
+
+    void Update()
+    {
+        maxHealth = stats.ComputeValue("Max Health");
+        thresholdOne = stats.ComputeValue("Wounded Threshold");
+        thresholdTwo = stats.ComputeValue("Mortal Wound Threshold");
+
+        healthProportion = currentHealth / maxHealth;
+
+        if (healthProportion <= thresholdTwo)
         {
-            Kill();
+            Wounded = false;
+            MortallyWounded = true;
+        }
+        else if (healthProportion <= thresholdOne)
+        {
+            Wounded = true;
+            MortallyWounded = false;
+        }
+        else
+        {
+            Wounded = false;
+            MortallyWounded = false;
         }
     }
 
-    /// <summary>
-    /// Immediately kills the player.
-    /// </summary>
-    public void Kill()
+    public override float Heal(HealingContext context, GameObject healer)
     {
-        Destroy(this.gameObject);
+        if (MortallyWounded)
+        {
+            context.healing = Mathf.Clamp(context.healing, 0, thresholdTwo * maxHealth - currentHealth);
+        }
+        else if (Wounded)
+        {
+            context.healing = Mathf.Clamp(context.healing, 0, thresholdOne * maxHealth - currentHealth);
+        }
+        return base.Heal(context, healer);
     }
-
-
-    public float Damage(DamageContext context, GameObject attacker)
-    {
-        return 0f;
-    }
-
-    public float Heal(HealingContext context, GameObject healer)
-    {
-        return 0f;
-    }
-
 }

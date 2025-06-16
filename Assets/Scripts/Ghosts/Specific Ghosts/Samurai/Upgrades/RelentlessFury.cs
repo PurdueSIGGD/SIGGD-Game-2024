@@ -19,7 +19,7 @@ public class RelentlessFury : Skill
     {
         samuraiManager = gameObject.GetComponent<SamuraiManager>();
 
-        GameplayEventHolder.OnDamageDealt += BuffLightAttack;
+        GameplayEventHolder.OnDamageFilter.Add(BuffLightAttack);
 #if DEBUG_LOG
         Debug.Log("Relentless Fury enabled");
 #endif
@@ -28,7 +28,7 @@ public class RelentlessFury : Skill
 
     private void OnDisable()
     {
-        GameplayEventHolder.OnDamageDealt -= BuffLightAttack;
+        GameplayEventHolder.OnDamageFilter.Add(BuffLightAttack);
 #if DEBUG_LOG
         Debug.Log("Relentless Fury disabled");
 #endif
@@ -68,7 +68,7 @@ public class RelentlessFury : Skill
     /// Buffs damage for light attacks according to Wrath Percent.
     /// </summary>
     /// <param name="damageContext"></param>
-    private void BuffLightAttack(DamageContext damageContext)
+    private void BuffLightAttack(ref DamageContext damageContext)
     {
         if (samuraiManager.selected && pointIndex > 0 &&
             samuraiManager.basic.GetWrathPercent() >= 0 &&

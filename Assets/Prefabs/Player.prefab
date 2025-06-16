@@ -35165,7 +35165,6 @@ GameObject:
   - component: {fileID: 8547351280330222855}
   - component: {fileID: 591852133945516386}
   - component: {fileID: 2579748896217751675}
-  - component: {fileID: 5792560551522244267}
   - component: {fileID: 5130688100074952564}
   - component: {fileID: 584762093013841786}
   - component: {fileID: 8185085331476045831}
@@ -35174,6 +35173,8 @@ GameObject:
   - component: {fileID: 8099870004011389086}
   - component: {fileID: 1325501314099060030}
   - component: {fileID: 7301745340384326151}
+  - component: {fileID: 5933473747196306455}
+  - component: {fileID: 8596380051338084535}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -35553,22 +35554,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactRadius: 5
---- !u!114 &5792560551522244267
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8252758106455385166}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a13ad00583bca6b4fa6de9939a968201, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  statList:
-  - name: Max Health
-    value: 100
-  deathLevel: 
 --- !u!114 &5130688100074952564
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35747,6 +35732,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaa34baad0a3b6048927eb1a7368f600, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5933473747196306455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8252758106455385166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc353fcbdb963e84d880d2d6cb407830, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  statList:
+  - name: Max Health
+    value: 100
+  - name: Wounded Threshold
+    value: 0.65
+  - name: Mortal Wound Threshold
+    value: 0.35
+  deathLevel: 
+--- !u!114 &8596380051338084535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8252758106455385166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adabfe4036ea5c2479b3217078b6c826, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timescale: 0.25
+  realtimeDuration: 4
+  respawnScene: Eva Start Fractal Hub
 --- !u!1 &8764437494633651125
 GameObject:
   m_ObjectHideFlags: 0

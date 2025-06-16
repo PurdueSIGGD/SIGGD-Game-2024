@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class VAManager : MonoBehaviour {
 
+    [SerializeField] private AudioManager audioManager;
     [SerializeField] private AudioLookUpTable lookUpTable;
 
     // Used to avoid voiceline spam
@@ -15,6 +16,7 @@ public class VAManager : MonoBehaviour {
 
     // Start is called before the first frame update    
     void Start() {
+        audioManager = AudioManager.Instance;
         StartCoroutine(Debug_Culling_Status());
     }
 

@@ -21,6 +21,8 @@ public class WrathHeavyAttack : MonoBehaviour
     private bool isPrimed = false;
     private float primedTime = 0f;
 
+    private float primedHeavyDamage;
+
     private Rigidbody2D rb;
     private Vector2 desiredDashVelocity;
     private float desiredDashDist;
@@ -43,7 +45,7 @@ public class WrathHeavyAttack : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (startingToDecay)
         {
@@ -67,18 +69,20 @@ public class WrathHeavyAttack : MonoBehaviour
 
         if (isDashing)
         {
-            rb.velocity = desiredDashVelocity;
             if (Mathf.Sign(transform.position.x - desiredDashDest.x) == Mathf.Sign(desiredDashVelocity.x))
             {
                 psm.EnableTrigger("finishWrath");
                 StopSamuraiHeavyAttack();
                 isDashing = false;
             }
+            else
+            {
+                rb.velocity = desiredDashVelocity;
+            }
         }
 
         if (isCharging && chargingTime > 0f) chargingTime -= Time.deltaTime;
         if (isCharging && chargingTime <= 0f) psm.EnableTrigger("OPT");
-
         if (isPrimed && primedTime > 0f) primedTime -= Time.deltaTime;
         if (isPrimed && primedTime <= 0f) psm.EnableTrigger("OPT");
 
@@ -124,6 +128,7 @@ public class WrathHeavyAttack : MonoBehaviour
         AudioManager.Instance.SFXBranch.PlaySFXTrack("HeavyAttackWindUp");
         decaying = false;
         resetDecay = true;
+        primedHeavyDamage = 0;
     }
     public void StopHeavyChargeUp()
     {
@@ -138,6 +143,10 @@ public class WrathHeavyAttack : MonoBehaviour
         primedTime = manager.GetStats().ComputeValue("Heavy Primed Autofire Time");
         isPrimed = true;
         AudioManager.Instance.SFXBranch.PlaySFXTrack("HeavyAttackPrimed");
+
+        primedHeavyDamage = Mathf.Lerp(manager.GetStats().ComputeValue("Primed Attack Minimum Damage"), 
+                                       manager.GetStats().ComputeValue("Primed Attack Maximum Damage"), 
+                                       wrathPercent);
     }
 
     public void StopHeavyPrimed()
@@ -160,33 +169,47 @@ public class WrathHeavyAttack : MonoBehaviour
         Vector3 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         if (mousePos.x < PlayerID.instance.transform.position.x)
         {
+            transform.rotation = Quaternion.Euler(0, 180, 0);
             dir = new Vector2(-1, 0);
         }
         else
         {
+            transform.rotation = Quaternion.Euler(0, 0, 0);
             dir = new Vector2(1, 0);
         }
 
         startingDashLocation = transform.position;
-        desiredDashDist = Mathf.Lerp(manager.GetStats().ComputeValue("Heavy Attack Minimum Travel Distance"), manager.GetStats().ComputeValue("Heavy Attack Maximum Travel Distance"), wrathPercent);
+        desiredDashDist = Mathf.Lerp(manager.GetStats().ComputeValue("Heavy Attack Minimum Travel Distance"), 
+                                     manager.GetStats().ComputeValue("Heavy Attack Maximum Travel Distance"), 
+                                     wrathPercent);
         desiredDashDest = new(transform.position.x + desiredDashDist * dir.x, transform.position.y);
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, desiredDashDist, LayerMask.GetMask("Enemy", "Ground"));
-        if (hit)
+        RaycastHit2D enemyHit = Physics2D.Raycast(transform.position, dir, desiredDashDist, LayerMask.GetMask("Enemy"));
+        if (enemyHit)
         {
-            desiredDashDist = Mathf.Abs(transform.position.x - hit.point.x);
-            desiredDashDest = hit.point;
+            float displacement = transform.position.x - enemyHit.point.x;
+            float onHitDist = manager.GetStats().ComputeValue("Heavy Attack On-hit Final Travel Distance");
+            desiredDashDist = Mathf.Abs(displacement) + onHitDist;
+            desiredDashDest = enemyHit.point + new Vector2(onHitDist * Mathf.Sign(displacement) * -1, 0);
+        }
+        RaycastHit2D groundHit = Physics2D.Raycast(transform.position, dir, desiredDashDist, LayerMask.GetMask("Ground"));
+        if (groundHit)
+        {
+            desiredDashDist = Mathf.Abs(transform.position.x - groundHit.point.x);
+            desiredDashDest = groundHit.point + new Vector2(1.5f * Mathf.Sign(transform.position.x - groundHit.point.x), 0);
         }
         desiredDashVelocity = manager.GetStats().ComputeValue("Heavy Attack Travel Speed") * dir;
         rb.isKinematic = true;
         PlayerID.instance.GetComponent<Move>().PlayerStop();
         isDashing = true;
+
+        GameplayEventHolder.OnAbilityUsed?.Invoke(manager.onDashContext);
     }
 
     //this function get called (via message form animator) when you exit the Heavy Attack state
     public void StopHeavyAttack() 
     {
         PlayerID.instance.GetComponent<Move>().PlayerGo();
-        Collider2D[] hit = Physics2D.OverlapBoxAll(transform.position, new Vector2(2, 1), 0, LayerMask.GetMask("Enemy"));
+        Collider2D[] hit = Physics2D.OverlapBoxAll(transform.position, new Vector2(5, 1), 0, LayerMask.GetMask("Enemy"));
         foreach (Collider2D h in hit)
         {
             Health health = h.GetComponent<Health>();
@@ -196,6 +219,7 @@ public class WrathHeavyAttack : MonoBehaviour
                 context.damage = Mathf.Lerp(manager.GetStats().ComputeValue("Heavy Attack Minimum Damage"),
                                             manager.GetStats().ComputeValue("Heavy Attack Maximum Damage"),
                                             wrathPercent);
+                context.damage += primedHeavyDamage;
                 health.Damage(context, gameObject);
             }
         }
@@ -211,6 +235,8 @@ public class WrathHeavyAttack : MonoBehaviour
     {
         rb.isKinematic = false;
         rb.velocity = new Vector2(0, rb.velocity.y);
+
+
     }
 
     //Used to empty the remaining wrath percentage
@@ -228,4 +254,9 @@ public class WrathHeavyAttack : MonoBehaviour
     {
         wrathPercent = newWrathPercent;
     }
+
+    //private void OnDrawGizmos()
+    //{
+    //    Gizmos.DrawCube(transform.position, new Vector3(2.5f, 1, 0));
+    //}
 }
