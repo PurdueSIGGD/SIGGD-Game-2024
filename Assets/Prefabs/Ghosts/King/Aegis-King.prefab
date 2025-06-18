@@ -187,6 +187,8 @@ GameObject:
   - component: {fileID: 4974482219362555187}
   - component: {fileID: 4931953015635928933}
   - component: {fileID: 9082866802667580707}
+  - component: {fileID: 9034026866145772273}
+  - component: {fileID: 1138551263187270770}
   m_Layer: 17
   m_Name: Aegis-King
   m_TagString: Ghost
@@ -313,6 +315,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterInfo: {fileID: 11400000, guid: afc32a1fb5d06164f8dbead7e65c3837, type: 2}
+  isUnlocked: 1
+  exp: 0
 --- !u!114 &425421172213063471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -328,6 +332,8 @@ MonoBehaviour:
   interactRange: 3
   menuOffset: {x: 0, y: 2, z: 0}
   hubConvo: {fileID: 11400000, guid: d4d980ef81b3c2e4dbaebb3b83bf48d2, type: 2}
+  isFirstInteraction: 0
+  isNPC: 0
 --- !u!114 &4974482219362555187
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -422,6 +428,47 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0491ede5a5a517e4492772aaa8567495, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectedGhostUIManager: {fileID: 0}
+  deselectedGhostUIManager: {fileID: 0}
+  basicAbilityUIManager: {fileID: 0}
+  specialAbilityUIManager: {fileID: 0}
+  skill1UIManager: {fileID: 0}
+  skill2UIManager: {fileID: 0}
+  meterUIManager: {fileID: 0}
+--- !u!114 &9034026866145772273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4105203604402636954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6751ace73ed618a489adcadc57478e19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skills:
+  - {fileID: 1138551263187270770}
+  - {fileID: 1138551263187270770}
+  - {fileID: 1138551263187270770}
+  - {fileID: 1138551263187270770}
+  - {fileID: 1138551263187270770}
+  - {fileID: 1138551263187270770}
+  - {fileID: 1138551263187270770}
+  startAtLevel: 10
+--- !u!114 &1138551263187270770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4105203604402636954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cded2aefff03514c80651e9f3c8ea75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillSO: {fileID: 0}
 --- !u!1 &4168595070812540214
 GameObject:
   m_ObjectHideFlags: 0
