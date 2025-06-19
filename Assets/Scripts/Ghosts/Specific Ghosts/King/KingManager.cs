@@ -17,6 +17,8 @@ public class KingManager : GhostManager, ISelectable
     [HideInInspector] public KingBasic basic;
     [HideInInspector] public KingSpecial special;
 
+    private PlayerStateMachine psm;
+
     // Start is called before the first frame update
     protected override void Start()
     {
@@ -25,6 +27,8 @@ public class KingManager : GhostManager, ISelectable
         specialDamage.damage = stats.ComputeValue("Special Damage");
         currentShieldHealth = stats.ComputeValue("Shield Max Health");
         endShieldHealth = 0f;
+
+        psm = PlayerID.instance.GetComponent<PlayerStateMachine>();
     }
 
     // Update is called once per frame
@@ -38,8 +42,13 @@ public class KingManager : GhostManager, ISelectable
 
     private void rechargeShieldHealth()
     {
-        if ((basic != null && basic.isShielding) || currentShieldHealth >= stats.ComputeValue("Shield Max Health")) return;
+        if ((basic != null && basic.isShielding) || currentShieldHealth >= stats.ComputeValue("Shield Max Health"))
+        {
+            psm.OffCooldown("c_basic");
+            return;
+        }
         currentShieldHealth = Mathf.Clamp((currentShieldHealth + (stats.ComputeValue("Shield Health Regeneration Rate") * Time.deltaTime)), 0f, stats.ComputeValue("Shield Max Health"));
+        psm.OnCooldown("c_basic");
     }
 
 
@@ -48,7 +57,7 @@ public class KingManager : GhostManager, ISelectable
     {
         Debug.Log("KING SELECTED");
 
-        //if (PlayerID.instance.GetComponent<HeavyAttack>()) Destroy(PlayerID.instance.GetComponent<HeavyAttack>());
+        if (PlayerID.instance.GetComponent<HeavyAttack>()) Destroy(PlayerID.instance.GetComponent<HeavyAttack>());
         basic = PlayerID.instance.AddComponent<KingBasic>();
         basic.manager = this;
 
@@ -61,7 +70,7 @@ public class KingManager : GhostManager, ISelectable
     public override void DeSelect(GameObject player)
     {
         if (basic) Destroy(basic);
-        //if (!PlayerID.instance.GetComponent<HeavyAttack>()) PlayerID.instance.AddComponent<HeavyAttack>();
+        if (!PlayerID.instance.GetComponent<HeavyAttack>()) PlayerID.instance.AddComponent<HeavyAttack>();
 
         special?.endSpecial(true, true);
         if (special) Destroy(special);

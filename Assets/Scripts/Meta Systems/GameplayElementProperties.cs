@@ -56,6 +56,7 @@ public enum DamageStrength
     MODERATE,
     HEAVY,
     DEVASTATING,
+    MINOR,
 }
 
 public enum DamageType

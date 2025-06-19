@@ -6,6 +6,9 @@ using UnityEngine;
 // Attached to music which can be looped
 public class MusicTrack : AbstractLoopingTrack, IMusicTrack
 {
+    [Header("Whether this track will play outside of combat")]
+    public bool playsOutsideCombat;
+
     // The loudest volume which can be reached by the level tracks
     // The tracks are normalized around this value 
     protected float maxVolume = 1.0f;
@@ -41,5 +44,10 @@ public class MusicTrack : AbstractLoopingTrack, IMusicTrack
             tracks[currentTrackOffset].Play();
             tracks[currentTrackOffset].time = loopStart;
         } while (true);
+    }
+
+    public bool PlaysOutsideOfCombat()
+    {
+        return playsOutsideCombat;
     }
 }

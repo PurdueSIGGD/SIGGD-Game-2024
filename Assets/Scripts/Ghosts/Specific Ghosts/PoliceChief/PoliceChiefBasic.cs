@@ -12,6 +12,7 @@ using UnityEngine;
 public class PoliceChiefBasic : MonoBehaviour
 {
     private PlayerStateMachine playerStateMachine;
+    private Animator animator;
     private Camera mainCamera;
 
     [HideInInspector] public PoliceChiefManager manager;
@@ -28,6 +29,8 @@ public class PoliceChiefBasic : MonoBehaviour
     {
         playerStateMachine = GetComponent<PlayerStateMachine>();
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+        animator = GetComponent<Animator>();
+        animator.SetBool("has_ammo", (manager.basicAmmo > 0));
     }
 
     private void Update()
@@ -61,8 +64,9 @@ public class PoliceChiefBasic : MonoBehaviour
     {
         chargingTime = manager.GetStats().ComputeValue("Basic Charge Up Time");
         isCharging = true;
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("HeavyAttackWindUp");
+        SetSidearmDamage(2);
         GetComponent<Move>().PlayerStop();
-     //   Debug.Log("Chargetime is: "+chargingTime);
     }
 
     public void StopSidearmChargeUp()
@@ -79,6 +83,8 @@ public class PoliceChiefBasic : MonoBehaviour
     {
         primedTime = manager.GetStats().ComputeValue("Basic Primed Autofire Time");
         isPrimed = true;
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("HeavyAttackPrimed");
+        SetSidearmDamage(3);
         GetComponent<Move>().PlayerStop();
     }
 
@@ -94,6 +100,7 @@ public class PoliceChiefBasic : MonoBehaviour
     // Sidearm Attack
     public void FireSidearm()
     {
+        if (manager.basicAmmo <= 1) playerStateMachine.ConsumeHeavyAttackInput();
         GetComponent<Move>().PlayerStop();
 
         // Calculate shot aiming vector
@@ -104,10 +111,51 @@ public class PoliceChiefBasic : MonoBehaviour
         // Fire shot
         GameObject sidearmShot = Instantiate(manager.basicShot, Vector3.zero, Quaternion.identity);
         sidearmShot.GetComponent<PoliceChiefSidearmShot>().fireSidearmShot(manager, pos, dir);
+        ConsumeAmmo(1);
     }
 
     public void StopSidearm()
     {
+        SetSidearmDamage(1);
         GetComponent<Move>().PlayerGo();
+    }
+
+    public void AddAmmo(int ammo)
+    {
+        manager.basicAmmo = Mathf.Max(manager.basicAmmo + ammo, 0);
+        animator.SetBool("has_ammo", (manager.basicAmmo > 0));
+    }
+
+    public void ConsumeAmmo(int ammo)
+    {
+        manager.basicAmmo = Mathf.Max(manager.basicAmmo - ammo, 0);
+        animator.SetBool("has_ammo", (manager.basicAmmo > 0));
+    }
+
+    /// <summary>
+    /// Modifies the Police Chief's Basic Ability damage context based on the given attack type.
+    /// </summary>
+    /// <param name="attackType">1 = Light Attack, 2 = Heavy Attack, 3 = Super Heavy Attack</param>
+    private void SetSidearmDamage(int attackType)
+    {
+        switch (attackType)
+        {
+            case 1:
+                manager.basicDamage.damage = manager.GetStats().ComputeValue("Basic Damage");
+                manager.basicDamage.damageStrength = DamageStrength.MINOR;
+                break;
+            case 2:
+                manager.basicDamage.damage = manager.GetStats().ComputeValue("Basic Heavy Damage");
+                manager.basicDamage.damageStrength = DamageStrength.MINOR;
+                break;
+            case 3:
+                manager.basicDamage.damage = manager.GetStats().ComputeValue("Basic Super Heavy Damage");
+                manager.basicDamage.damageStrength = DamageStrength.LIGHT;
+                break;
+            default:
+                manager.basicDamage.damage = manager.GetStats().ComputeValue("Basic Damage");
+                manager.basicDamage.damageStrength = DamageStrength.MINOR;
+                break;
+        }
     }
 }

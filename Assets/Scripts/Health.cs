@@ -13,19 +13,19 @@ public class Health : MonoBehaviour, IDamageable, IStatList
 
     [NonSerialized] public float currentHealth; // Current health of player
     [NonSerialized] public bool isAlive = true; // Checks if player is still alive
-    private StatManager stats;
+    [NonSerialized] private float damageResistance = 0.0f; // 0 to 1, Multiply damage by (1 - resistance) 
+
+    protected StatManager stats;
     [SerializeField] private string deathLevel;
 
     public delegate void DamageFilters(DamageContext context);
 
 
-    // Start is called before the first frame update
     void Start()
     {
         stats = GetComponent<StatManager>();
         currentHealth = stats.ComputeValue("Max Health");
     }
-
 
     public float Damage(DamageContext context, GameObject attacker)
     {
@@ -45,6 +45,10 @@ public class Health : MonoBehaviour, IDamageable, IStatList
             Debug.Log("After Filter " + filter + ": " + context.damage);
         }
 
+        
+        // Resistance
+        context.damage *= 1.0f - damageResistance;
+        
         Debug.Log("Damaged: " + context.damage);
 
         // Reduce current health
@@ -74,6 +78,9 @@ public class Health : MonoBehaviour, IDamageable, IStatList
         context.attacker = attacker;
         context.damage = Mathf.Clamp(context.damage, 0f, currentHealth);
 
+        // Resistance
+        context.damage *= 1.0f - damageResistance;
+
         currentHealth -= context.damage;
 
         if (currentHealth <= 0f)
@@ -86,7 +93,7 @@ public class Health : MonoBehaviour, IDamageable, IStatList
         return context.damage;
     }
 
-    public float Heal(HealingContext context, GameObject healer)
+    public virtual float Heal(HealingContext context, GameObject healer)
     {
         // Configure healing context
         float missingHealth = stats.ComputeValue("Max Health") - currentHealth;
@@ -132,31 +139,8 @@ public class Health : MonoBehaviour, IDamageable, IStatList
             Destroy(gameObject);
             yield break;
         }
-
-        Time.timeScale = 0;
-        gameObject.layer = 0; // I really hope this doesn't collide with anything
-        if (GetComponent<PlayerInput>() != null) GetComponent<PlayerInput>().enabled = false;
-
-        float startTime = Time.unscaledTime;
-        float endTime = startTime + 3;
-
-        Vector3 originalScale = transform.localScale;
-
-        while (Time.unscaledTime < endTime)
-        {
-            float timePercentage = (Time.unscaledTime - startTime) / (endTime - startTime);
-
-            transform.Rotate(0, 0, Time.unscaledDeltaTime * 360);
-            transform.localScale = originalScale * (1 - timePercentage);
-
-            yield return null;
-        }
-
-        gameObject.SetActive(false);
-
-        SceneManager.LoadScene("Eva Fractal Hub");
-        currentHealth = stats.ComputeValue("Max Health");
-        Time.timeScale = 1;
+        PlayerDeathManager playerDeath = gameObject.GetComponent<PlayerDeathManager>();
+        playerDeath.PlayDeathAnim();
     }
 
     public StatManager.Stat[] GetStatList()
@@ -174,5 +158,25 @@ public class Health : MonoBehaviour, IDamageable, IStatList
                 enemy.SwitchState(enemy.AggroState);
             }
         }
+    }
+
+    public float GetDamageResistance()
+    {
+        return damageResistance;
+    }
+
+    public void SetDamageResistance(float damageResistance)
+    {
+        this.damageResistance = Mathf.Clamp(damageResistance, 0.0f, 1.0f);
+    }
+
+    public void ModifyDamageResistance(float delta)
+    {
+        damageResistance = Mathf.Clamp(damageResistance + delta, 0.0f, 1.0f);
+    }
+
+    public StatManager GetStats()
+    {
+        return stats;
     }
 }

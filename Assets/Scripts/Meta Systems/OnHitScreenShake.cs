@@ -7,6 +7,7 @@ public class OnHitScreenShake : MonoBehaviour
     [SerializeField] private float customAmplitude = 1f;
     [SerializeField] private float playerScreenShakeMultiplier = 1f;
     [SerializeField] private float meagerAmplitude = 0.04f;
+    [SerializeField] private float minorAmplitude = 0.06f;
     [SerializeField] private float lightAmplitude = 0.1f;
     [SerializeField] private float moderateAmplitude = 0.2f;
     [SerializeField] private float heavyAmplitude = 0.4f;
@@ -45,6 +46,9 @@ public class OnHitScreenShake : MonoBehaviour
         {
             case DamageStrength.MEAGER:
                 amplitude = meagerAmplitude;
+                break;
+            case DamageStrength.MINOR:
+                amplitude = minorAmplitude;
                 break;
             case DamageStrength.LIGHT:
                 amplitude = lightAmplitude;

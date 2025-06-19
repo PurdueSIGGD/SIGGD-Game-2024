@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlayerParticles : MonoBehaviour
 {
-    private CameraShake shake;
 
     [SerializeField] ParticleSystem heavyCharging;
     [SerializeField] ParticleSystem heavyPrimed;
@@ -14,9 +13,12 @@ public class PlayerParticles : MonoBehaviour
 
     void Start()
     {
-        shake = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraShake>();
+
     }
 
+
+
+    // Heavy Attack
     public void StartHeavyChargeUp()
     {
         heavyCharging.Play();
@@ -48,6 +50,9 @@ public class PlayerParticles : MonoBehaviour
         heavyAttack.Play();
     }
 
+
+
+    // Light Attack
     public void PlayLightAttackVFX(bool isUp)
     {
         StartCoroutine(LightAttackCoroutine(isUp));
@@ -62,5 +67,51 @@ public class PlayerParticles : MonoBehaviour
             yield break;
         }
         lightAttack.Play();
+    }
+
+
+
+    // Police Chief Heavy Attack
+    public void StartSidearmChargeUp()
+    {
+        heavyCharging.Play();
+    }
+
+    public void StopSidearmChargeUp()
+    {
+        heavyCharging.Stop();
+    }
+
+    public void StartSidearmPrimed()
+    {
+        heavyPrimed.Play();
+    }
+
+    public void StopSidearmPrimed()
+    {
+        heavyPrimed.Stop();
+    }
+
+
+
+    // Police Chief Special Ability
+    public void StartSpecialChargeUp()
+    {
+        heavyCharging.Play();
+    }
+
+    public void StopSpecialChargeUp()
+    {
+        heavyCharging.Stop();
+    }
+
+    public void StartSpecialPrimed()
+    {
+        heavyPrimed.Play();
+    }
+
+    public void StopSpecialPrimed()
+    {
+        heavyPrimed.Stop();
     }
 }

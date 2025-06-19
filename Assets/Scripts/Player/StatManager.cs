@@ -61,6 +61,24 @@ public class StatManager : MonoBehaviour, IStatList
     }
 
     /// <summary>
+    /// Set the modifier of the stat, affecting its current value
+    /// </summary>
+    /// <param name="statName"> name of stat to modify </param>
+    /// <param name="modifier"> amount to alter stat modifer by </param>
+    public void SetStat(string statName, int modifier)
+    {
+        if (statMap.TryGetValue(statName, out Stat stat))
+        {
+            stat.modifier = modifier;
+            statMap[statName] = stat;
+        }
+        else
+        {
+            Debug.LogError(String.Format("'{0}' stat not found", statName));
+        }
+    }
+
+    /// <summary>
     /// Returns current computed value of a stat
     /// </summary>
     /// <param name="statName"> name of stat to compute </param>

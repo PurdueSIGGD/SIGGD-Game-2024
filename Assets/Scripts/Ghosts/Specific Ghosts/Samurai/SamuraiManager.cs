@@ -5,7 +5,9 @@ using UnityEngine;
 
 public class SamuraiManager : GhostManager, ISelectable
 {
-    [SerializeField] public DamageContext heavyDamageContext;
+    public DamageContext heavyDamageContext;
+    public ActionContext onDashContext;
+    public ActionContext onParryContext;
 
     [HideInInspector] public bool selected;
     [HideInInspector] public WrathHeavyAttack basic; // the heavy attack ability
