@@ -219,7 +219,7 @@ public class PartyManager : MonoBehaviour
 
     public bool IsGhostInParty(GhostIdentity ghost)
     {
-        return ghostsInParty.Contains(ghost.name);
+        return ghostsInParty.Contains(ghost.name.Replace("(Clone)", ""));
     }
 
     /// <summary>
