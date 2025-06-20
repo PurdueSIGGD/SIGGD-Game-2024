@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class SeamstressManager : GhostManager
 {
+    private YumeSpecial special;
+
+
     [Header("Projectile")]
     public GameObject projectile;
     public float maxRicochet;
@@ -47,36 +50,21 @@ public class SeamstressManager : GhostManager
     protected override void Update()
     {
         base.Update();
-        if (head.enemy != null) // if linked list isn't empty
-        {
-            durationCounter -= Time.deltaTime;
-            if (durationCounter < 0)
-            {
-                ClearList();
-            }
-
-            // draw a line of connection between each enemy
-            ptr = head;
-            int i = 0;
-            while (ptr.enemy != null)
-            {
-                lineRenderer.SetPosition(i, ptr.enemy.transform.position);
-                i++;
-                ptr = ptr.chainedTo;
-            }
-        }
+        UpdateLinkedEnemies();
     }
 
     public override void Select(GameObject player)
     {
         base.Select(player);
-        YumeSpecial special = PlayerID.instance.AddComponent<YumeSpecial>();
+        special = PlayerID.instance.AddComponent<YumeSpecial>();
         special.manager = this;
     }
 
     public override void DeSelect(GameObject player)
     {
         if (PlayerID.instance.GetComponent<YumeSpecial>()) Destroy(PlayerID.instance.GetComponent<YumeSpecial>());
+
+        base.DeSelect(player);
     }
 
     public void ResetDuration()
@@ -145,6 +133,7 @@ public class SeamstressManager : GhostManager
                 DamageContext sharedDmg = new DamageContext();
                 sharedDmg.damage = context.damage * sharedDmgScaling;
                 sharedDmg.damageStrength = context.damageStrength;
+                sharedDmg.victim = ptr.enemy;
 
                 ptr.enemy.GetComponent<Health>().NoContextDamage(sharedDmg, PlayerID.instance.gameObject);
             }
@@ -203,5 +192,27 @@ public class SeamstressManager : GhostManager
         }
         ptr = head = tail = new ChainedEnemy();
         lineRenderer.positionCount = 0;
+    }
+
+    private void UpdateLinkedEnemies()
+    {
+        if (head.enemy != null) // if linked list isn't empty
+        {
+            durationCounter -= Time.deltaTime;
+            if (durationCounter < 0)
+            {
+                ClearList();
+            }
+
+            // draw a line of connection between each enemy
+            ptr = head;
+            int i = 0;
+            while (ptr.enemy != null)
+            {
+                lineRenderer.SetPosition(i, ptr.enemy.transform.position);
+                i++;
+                ptr = ptr.chainedTo;
+            }
+        }
     }
 }

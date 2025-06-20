@@ -83,12 +83,12 @@ public class Health : MonoBehaviour, IDamageable, IStatList
 
         currentHealth -= context.damage;
 
+        AggroEnemy(context.victim);
+
         if (currentHealth <= 0f)
         {
             Kill(context);
         }
-
-        AggroEnemy(context.victim);
 
         return context.damage;
     }

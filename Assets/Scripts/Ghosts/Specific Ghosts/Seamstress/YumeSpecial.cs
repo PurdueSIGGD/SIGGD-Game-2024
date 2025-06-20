@@ -5,8 +5,9 @@ using UnityEngine;
 
 public class YumeSpecial : MonoBehaviour
 {
-    PlayerStateMachine psm;
     public SeamstressManager manager;
+    PlayerStateMachine psm;
+    EnemySpawning enemySpawning;
 
     class ChainedEnemy
     {
@@ -19,6 +20,7 @@ public class YumeSpecial : MonoBehaviour
     void Start()
     {
         psm = GetComponent<PlayerStateMachine>();
+        enemySpawning = PersistentData.Instance.GetComponent<EnemySpawning>();
     }
 
     void Update()
@@ -36,14 +38,12 @@ public class YumeSpecial : MonoBehaviour
         }
     }
 
-    public void StartFateBind()
+    public void StartDash()
     {
         // whenever ability fires, grab a copy of all enemies at play in a queue
-        for (int i = 0; i < EnemySetTest.enemies.Count; i++)
+        foreach (GameObject enemy in enemySpawning.GetCurrentEnemies())
         {
-            GameObject enemy = EnemySetTest.enemies.Dequeue();
             manager.linkableEnemies.Enqueue(enemy);
-            EnemySetTest.enemies.Enqueue(enemy);
         }
         // now this.enemies should be populated with every enemy at play
         manager.ResetDuration();
