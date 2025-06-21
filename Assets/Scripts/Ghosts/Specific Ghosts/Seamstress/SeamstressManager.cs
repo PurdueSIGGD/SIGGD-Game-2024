@@ -1,4 +1,4 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -19,6 +19,7 @@ public class SeamstressManager : GhostManager
     private float ricochetCounter;
 
     [Header("Fatebound Effect")]
+    [SerializeField] private DamageContext sharedDmg;
     [SerializeField] private float sharedDmgScaling;
 
     public Queue<GameObject> linkableEnemies;
@@ -98,7 +99,7 @@ public class SeamstressManager : GhostManager
         {
             GameObject enemy = linkableEnemies.Dequeue();
 
-            if (enemy.GetInstanceID() == cur.GetInstanceID()) // if checking the currently linked enemy, pass
+            if (enemy == null || enemy.GetInstanceID() == cur.GetInstanceID()) // if checking the currently linked enemy, pass
             {
                 i--;
                 continue; // do not add the removed enemy back to the list, the enemy is already linked
@@ -130,7 +131,9 @@ public class SeamstressManager : GhostManager
         {
             if (ptr.enemy.GetInstanceID() != enemyID)
             {
-                DamageContext sharedDmg = new DamageContext();
+                // when damaging an enemy through fatebound effect, only damage, 
+                // damagestrength, and the victim will be set according to the origional damage
+                // action type and damage type will be preset in the editor
                 sharedDmg.damage = context.damage * sharedDmgScaling;
                 sharedDmg.damageStrength = context.damageStrength;
                 sharedDmg.victim = ptr.enemy;
@@ -149,13 +152,13 @@ public class SeamstressManager : GhostManager
     {
         ptr = head;
 
-        if (ptr.enemy.GetInstanceID() == enemyID)
+        if (ptr.enemy != null && ptr.enemy.GetInstanceID() == enemyID)
         {
             head = head.chainedTo;
             return;
         }
 
-        while(ptr.enemy != null)
+        while (ptr.enemy != null)
         {
             if (ptr.chainedTo.enemy.GetInstanceID() == enemyID)
             {
@@ -196,6 +199,7 @@ public class SeamstressManager : GhostManager
 
     private void UpdateLinkedEnemies()
     {
+        int i = 0; // used to keep track of each point used in line-render
         if (head.enemy != null) // if linked list isn't empty
         {
             durationCounter -= Time.deltaTime;
@@ -206,7 +210,7 @@ public class SeamstressManager : GhostManager
 
             // draw a line of connection between each enemy
             ptr = head;
-            int i = 0;
+
             while (ptr.enemy != null)
             {
                 lineRenderer.SetPosition(i, ptr.enemy.transform.position);
@@ -214,5 +218,6 @@ public class SeamstressManager : GhostManager
                 ptr = ptr.chainedTo;
             }
         }
+        lineRenderer.positionCount = i; // clear any extra points left behind when an enemy dies
     }
 }

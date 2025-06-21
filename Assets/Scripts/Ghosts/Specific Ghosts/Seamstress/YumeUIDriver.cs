@@ -11,4 +11,16 @@ public class YumeUIDriver : GhostUIDriver
         base.Start();
         manager = GetComponent<SeamstressManager>();
     }
+
+    protected override void Update()
+    {
+        base.Update();
+        if (!isInParty) return;
+        updateSpecialAbility();
+    }
+
+    private void updateSpecialAbility()
+    {
+        specialAbilityUIManager.setAbilityCooldownTime(manager.getSpecialCooldown(), stats.ComputeValue("Special Cooldown"));
+    }
 }

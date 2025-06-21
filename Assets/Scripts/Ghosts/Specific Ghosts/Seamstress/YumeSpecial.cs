@@ -47,6 +47,7 @@ public class YumeSpecial : MonoBehaviour
         }
         // now this.enemies should be populated with every enemy at play
         manager.ResetDuration();
+        manager.startSpecialCooldown();
         StartCoroutine(FireProjectile(transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition)));
     }
 

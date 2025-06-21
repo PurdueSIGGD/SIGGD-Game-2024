@@ -177,7 +177,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Special Cooldown
-    value: 5
+    value: 8
   - name: Basic Cooldown
     value: 5
 --- !u!114 &504260248778479986
@@ -200,7 +200,13 @@ MonoBehaviour:
   maxRicochet: 4
   flightSpeed: 5
   chainRange: 10
-  chainedDuration: 10
+  chainedDuration: 5
+  sharedDmg:
+    damageStrength: 0
+    damageTypes: 03000000
+    actionID: 12
+    actionTypes: 03000000
+    extraContext: 
   sharedDmgScaling: 0.6
 --- !u!120 &6265072175092927981
 LineRenderer:
