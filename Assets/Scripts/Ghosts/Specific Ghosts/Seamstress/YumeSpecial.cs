@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class YumeSpecial : MonoBehaviour
@@ -53,7 +51,6 @@ public class YumeSpecial : MonoBehaviour
 
     private IEnumerator FireProjectile(Vector2 orig, Vector2 dest)
     {
-        orig = orig + (dest - orig).normalized * 2;
         YumeProjectile yumeProjectile = Instantiate(manager.projectile, orig, transform.rotation).GetComponent<YumeProjectile>();
         yumeProjectile.Initialize(dest, manager.flightSpeed, manager.chainRange, manager);
 
@@ -64,10 +61,9 @@ public class YumeSpecial : MonoBehaviour
         if (hitTarget != null)
         {
             // then add the hit enemy to linked list
+            manager.AddEnemy(hitTarget);
             FateboundDebuff debuff =  hitTarget.AddComponent<FateboundDebuff>();
             debuff.manager = manager;
-
-            manager.AddEnemy(hitTarget);
 
             // find next target position and fire
             Transform targetPos = manager.FindNextTarget(hitTarget);
