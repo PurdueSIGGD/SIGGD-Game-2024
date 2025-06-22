@@ -5,41 +5,71 @@ using UnityEngine;
 public class FeedbackLoop : Skill
 {
     StatManager stats;
-    List<int> values = new List<int>
+    IdolManager manager;
+    [SerializeField] List<float> values = new List<float>
     {
         0, 7, 14, 21, 28
     };
-    int percentIncrease = 0;
     private static int pointIndex;
+
+    private float accumulatedCooldownReduction;
 
     void Start()
     {
         stats = gameObject.GetComponent<StatManager>();
+        manager = gameObject.GetComponent<IdolManager>();
+        accumulatedCooldownReduction = 0f;
     }
+
+    private void Update()
+    {
+        if (accumulatedCooldownReduction > 0f && manager.getSpecialCooldown() > 0f)
+        {
+            manager.setSpecialCooldown(manager.getSpecialCooldown() - accumulatedCooldownReduction);
+            accumulatedCooldownReduction = 0f;
+        }
+    }
+
     public override void AddPointTrigger()
     {
         pointIndex = GetPoints();
-        UpdateSkill();
+        //UpdateSkill();
     }
 
     public override void ClearPointsTrigger()
     {
         pointIndex = GetPoints();
-        UpdateSkill();
+        //UpdateSkill();
     }
 
     public override void RemovePointTrigger()
     {
         pointIndex = GetPoints();
-        UpdateSkill();
+        //UpdateSkill();
     }
     /// <summary>
     /// Removes the old modifier and applies the new modifier.
     /// </summary>
     private void UpdateSkill()
     {
+        /*
         stats.ModifyStat("Special Cooldown", percentIncrease);
         percentIncrease = values[pointIndex];
         stats.ModifyStat("Special Cooldown", -percentIncrease);
+        */
+    }
+
+    public void reduceCooldown(bool guaranteeReduction)
+    {
+        if (pointIndex <= 0) return;
+        float cooldownReduction = stats.ComputeValue("Special Cooldown") * (values[pointIndex] / 100f);
+        if (manager.getSpecialCooldown() > 0)
+        {
+            manager.setSpecialCooldown(manager.getSpecialCooldown() - cooldownReduction);
+        }
+        else if (manager.clonesActive || guaranteeReduction)
+        {
+            accumulatedCooldownReduction += cooldownReduction;
+        }
     }
 }

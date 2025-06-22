@@ -48,10 +48,12 @@ public class EnemyStateManager : MonoBehaviour
         if (StunState.isStunned)
         {
             StunState.UpdateState(this, Time.deltaTime);
+            if (isFlyer) rb.gravityScale = 4f;
         }
         else
         {
             curState.UpdateState(this);
+            if (isFlyer) rb.gravityScale = 0f;
         }
 		
         UpdateKnockbackTime();

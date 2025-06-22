@@ -15,7 +15,12 @@ public class FadeOut : Skill
     GameObject player;
     IdolSpecial idolSpecial;
 
-    [SerializeField] private float invisibilityDuration = 4f;  // designers: this field is serialized, so change it 
+    [SerializeField] private float invisibilityDuration = 4f;  // designers: this field is serialized, so change it
+    [SerializeField]
+    private List<float> values = new List<float>
+    {
+        0, 30, 60, 90, 120
+    };
     private static int pointIndex;
 
     // Start is called before the first frame update
@@ -26,6 +31,11 @@ public class FadeOut : Skill
 
         idolManager.evaSelectedEvent.AddListener(EvaSelected);
         idolManager.evaDeselectedEvent.AddListener(EvaDeselected);
+    }
+
+    private void OnDestroy()
+    {
+        GameplayEventHolder.OnDamageFilter.Remove(BuffLightAttack);
     }
 
 
@@ -42,10 +52,13 @@ public class FadeOut : Skill
 
     private void EvaDeselected()
     {
+        /*
         if (player.GetComponent<Invisible>() != null)
         {
             Destroy(player.GetComponent<Invisible>());
         }
+        */
+        RemoveInvisibility();
     }
 
     private void HoloJumpCreatedClone()
@@ -61,13 +74,15 @@ public class FadeOut : Skill
 
     private void BuffLightAttack(ref DamageContext damageContext)
     {
-        if (damageContext.attacker.CompareTag("Player"))
+        if (damageContext.attacker.CompareTag("Player") &&
+            (damageContext.actionTypes.Contains(ActionType.LIGHT_ATTACK) ||
+             damageContext.actionTypes.Contains(ActionType.HEAVY_ATTACK)))
         {
             // play audio
             AudioManager.Instance.VABranch.PlayVATrack("Eva-Idol Fade Out Hit");
 
             // buff damage
-            float damageMultiplier = 1f + 0.3f * pointIndex;
+            float damageMultiplier = 1f + (values[pointIndex] / 100f);
             damageContext.damage *= damageMultiplier;
             StartCoroutine(RemoveInvisibilityOnTimer(0f)); // we MUST wait 1 frame before removing invis. Here's why: ask Temirlan
         }
@@ -75,6 +90,7 @@ public class FadeOut : Skill
 
     private IEnumerator RemoveInvisibilityOnTimer(float duration)
     {
+        yield return new WaitForSeconds(0.1f);
         yield return new WaitForSeconds(duration);
         RemoveInvisibility();
     }

@@ -39,10 +39,12 @@ public class IdolPassive : MonoBehaviour
     void OnEnable()
     {
         GameplayEventHolder.OnDeath += IdolOnKill;
+        GameplayEventHolder.OnDamageDealt += IdolOnDamageDealt;
     }
     void OnDisable()
     {
         GameplayEventHolder.OnDeath -= IdolOnKill;
+        GameplayEventHolder.OnDamageDealt -= IdolOnDamageDealt;
     }
 
     void Start()
@@ -138,6 +140,15 @@ public class IdolPassive : MonoBehaviour
         IncrementTempo(Mathf.CeilToInt(manager.GetStats().ComputeValue("TEMPO_STACKS_PER_KILL")));
     }
 
+    public void IdolOnDamageDealt(DamageContext context)
+    {
+        if (context.attacker != PlayerID.instance.gameObject || context.damageTypes.Contains(DamageType.STATUS)) return;
+        if (uptempo && duration > 0)
+        {
+            duration += manager.GetStats().ComputeValue("TEMPO_DAMAGE_DURATION_GAIN");
+        }
+    }
+
     /// <summary>
     /// Increases the Idol buff count by one
     /// </summary>
@@ -145,7 +156,7 @@ public class IdolPassive : MonoBehaviour
     {
         Debug.Log("Increasing tempo");
 
-        int remainingStacks = (int)manager.GetStats().ComputeValue("TEMPO_MAX_STACKS") - tempoStacks;
+        int remainingStacks = (int) manager.GetStats().ComputeValue("TEMPO_MAX_STACKS") - tempoStacks;
 
         // if at max tempo, play max tempo audio
         if (remainingStacks <= 0)
@@ -164,6 +175,9 @@ public class IdolPassive : MonoBehaviour
         // increment tempo stacks by stacks so it doesn't exceed maximum
         stacks = stacks < remainingStacks ? stacks : remainingStacks;
         tempoStacks += stacks;
+
+        // Feedback Loop reduce Special cooldown
+        GetComponent<FeedbackLoop>().reduceCooldown(false);
 
         // immediately apply tempo changes if Idol is active
         if (active)
