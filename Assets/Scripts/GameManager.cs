@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    private bool GUIshutdown;
     private void Awake()
     {
         DontDestroyOnLoad(this.gameObject);
@@ -26,13 +27,25 @@ public class GameManager : MonoBehaviour
 
     public void OnGame()
     {
-        SceneManager.LoadScene("PrePrologue");
+        // Prevent player from spamming button while sfx is playing
+        if (GUIshutdown == false)
+        {
+            GUIshutdown = true;
+            // Pause for SFX before transition
+            Invoke("PrePrologue", 3);
+        }
 
     }
 
     public void OnCredit()
     {
-        SceneManager.LoadScene("Credits");
+        // Prevent player from spamming button while sfx is playing
+        if (GUIshutdown == false)
+        {
+            GUIshutdown = true;
+            // Pause for SFX before transition
+            Invoke("Credits", 3);
+        }
     }
 
     public void OnHub()
@@ -44,5 +57,17 @@ public class GameManager : MonoBehaviour
     public void OnQuit()
     {
         Application.Quit();
+    }
+
+
+    void PrePrologue()
+    {
+        GUIshutdown = false;
+        SceneManager.LoadScene("PrePrologue");
+    }
+    void Credits()
+    {
+        GUIshutdown = false;
+        SceneManager.LoadScene("Credits");
     }
 }
