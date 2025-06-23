@@ -209,8 +209,11 @@ public class EnemyStateManager : MonoBehaviour
         {
             if (hit)
             {
-                if (hit.CompareTag("Player")) PlayerID.instance.GetComponent<PlayerStateMachine>().SetStun(0.2f);
-                hit.GetComponent<Health>().Damage(damageContext, attacker);
+                float dmgDealt = hit.GetComponent<Health>().Damage(damageContext, attacker);
+                if (hit.CompareTag("Player") && dmgDealt > 0)
+                {
+                    PlayerID.instance.GetComponent<PlayerStateMachine>().SetStun(0.2f);
+                }
             }
         }
         return (hits.Length > 0);
@@ -247,8 +250,11 @@ public class EnemyStateManager : MonoBehaviour
         {
             if (hit)
             {
-                if (hit.CompareTag("Player")) PlayerID.instance.GetComponent<PlayerStateMachine>().SetStun(0.2f);
-                hit.GetComponent<Health>().Damage(damageContext, attacker);
+                float dmgDealt = hit.GetComponent<Health>().Damage(damageContext, attacker);
+                if (hit.CompareTag("Player") && dmgDealt > 0)
+                {
+                    PlayerID.instance.GetComponent<PlayerStateMachine>().SetStun(0.2f);
+                }
             }
         }
         return (hits.Length > 0);
