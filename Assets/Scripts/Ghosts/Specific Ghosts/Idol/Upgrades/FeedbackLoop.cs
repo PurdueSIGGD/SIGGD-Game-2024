@@ -33,30 +33,16 @@ public class FeedbackLoop : Skill
     public override void AddPointTrigger()
     {
         pointIndex = GetPoints();
-        //UpdateSkill();
     }
 
     public override void ClearPointsTrigger()
     {
         pointIndex = GetPoints();
-        //UpdateSkill();
     }
 
     public override void RemovePointTrigger()
     {
         pointIndex = GetPoints();
-        //UpdateSkill();
-    }
-    /// <summary>
-    /// Removes the old modifier and applies the new modifier.
-    /// </summary>
-    private void UpdateSkill()
-    {
-        /*
-        stats.ModifyStat("Special Cooldown", percentIncrease);
-        percentIncrease = values[pointIndex];
-        stats.ModifyStat("Special Cooldown", -percentIncrease);
-        */
     }
 
     public void reduceCooldown(bool guaranteeReduction)

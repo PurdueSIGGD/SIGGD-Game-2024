@@ -103,6 +103,7 @@ public class EnemyHealth : MonoBehaviour
 
         healthMeterSlider.maxValue = maxHealth;
         healthMeterSlider.value = health.currentHealth;
+        if (stun == null || enemyStateManager == null) return;
         stunMeterSlider.maxValue = stat.ComputeValue("Stun Threshold");
         stunMeterSlider.value = stat.ComputeValue("Stun Threshold") - stun.currentStun;
         stunMeterSlider.value = (enemyStateManager.StunState.isStunned) ? stunMeterSlider.maxValue : stunMeterSlider.value;

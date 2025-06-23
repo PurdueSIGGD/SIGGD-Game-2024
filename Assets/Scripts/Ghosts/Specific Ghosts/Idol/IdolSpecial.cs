@@ -35,7 +35,7 @@ public class IdolSpecial : MonoBehaviour
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         psm = GetComponent<PlayerStateMachine>();
         swapClone = manager.clones.Count > 0 ? manager.clones[0] : null;
-        cloneAlive = swapClone != null;
+        cloneAlive = (swapClone != null);
     }
 
     void Update()
@@ -57,7 +57,9 @@ public class IdolSpecial : MonoBehaviour
         {
             cloneAlive = false;
         }
-        
+
+        // Update swap target in case of many clones
+        swapClone = manager.clones.Count > 0 ? manager.clones[0] : null;
     }
 
     /// <summary>
@@ -124,7 +126,6 @@ public class IdolSpecial : MonoBehaviour
             manager.GetStats().ComputeValue("HOLOJUMP_DURATION_SECONDS"),
             manager.GetStats().ComputeValue("HOLOJUMP_DURATION_INACTIVE_MODIFIER")
         );
-        //manager.activeClone = activeClone.GetComponent<IdolClone>();
         cloneAlive = true;
         manager.clones.Add(swapClone);
 
@@ -147,8 +148,10 @@ public class IdolSpecial : MonoBehaviour
                 gameObject,
                 manager,
                 manager.GetStats().ComputeValue("HOLOJUMP_DURATION_SECONDS"),
-                manager.GetStats().ComputeValue("HOLOJUMP_DURATION_INACTIVE_MODIFIER")
+                manager.GetStats().ComputeValue("HOLOJUMP_DURATION_INACTIVE_MODIFIER"),
+                15f
             );
+            //if (secondClone.GetComponent<StatManager>() != null) Debug.Log("CLONE HEALTH: " + secondClone.GetComponent<StatManager>().ComputeValue("Max Health"));
             manager.clones.Add(secondClone);
         }
 

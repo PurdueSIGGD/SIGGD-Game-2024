@@ -11,6 +11,7 @@ public class ElectricStep : Skill
     {
         0, 10, 20, 30, 40
     };
+    [SerializeField] private float damageTickSpeed;
     [HideInInspector] public IdolManager manager;
     [SerializeField] GameObject fieldVisual;
     GameObject fieldVisualInstance;
@@ -21,6 +22,8 @@ public class ElectricStep : Skill
     [SerializeField] float radius;
     bool fieldActive;
     private static int pointIndex;
+
+    private float currentTickTime = 0f;
 
     void Start()
     {
@@ -37,56 +40,59 @@ public class ElectricStep : Skill
         pointIndex = GetPoints();
         UpdateSkill();
     }
+
     public override void ClearPointsTrigger()
     {
         pointIndex = GetPoints();
         UpdateSkill();
     }
+
     public override void RemovePointTrigger()
     {
         pointIndex = GetPoints();
         UpdateSkill();
     }
+
     void Update()
     {
-
         // toggle electric field on and off depending on if eva is active and has max stacks, and has positive number of skillpoints
-
         bool toggle = manager.passive.active &&
-                    manager.passive.tempoStacks == (int)manager.GetStats().ComputeValue("TEMPO_MAX_STACKS") &&
+                    manager.passive.tempoStacks == (int) manager.GetStats().ComputeValue("TEMPO_MAX_STACKS") &&
                     pointIndex > 0;
         ToggleField(toggle);
 
         if (fieldActive)
         {
-
-            // search all enemies hit by electricity in the radius
-
-            Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, radius, LayerMask.GetMask("Enemy"));
-            int count = 0;
-            foreach (Collider2D hit in hitColliders)
+            currentTickTime += Time.deltaTime;
+            if (currentTickTime >= damageTickSpeed)
             {
-                count++;
+                currentTickTime = 0f;
 
-                // apply damage tick every frame to every enemy in the circle radius
+                // search all enemies hit by electricity in the radius
+                Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, radius, LayerMask.GetMask("Enemy"));
+                int count = 0;
+                foreach (Collider2D hit in hitColliders)
+                {
+                    count++;
 
-                print("EFIELD: " + hit.gameObject.name);
-                Health enemyHealth = hit.GetComponent<Health>();
-                dps = values[pointIndex];
-                damageTick = dps * Time.deltaTime;
-                damage.damage = damageTick;
-                enemyHealth.Damage(damage, PlayerID.instance.gameObject);
-                //print("EFIELD HP: " + 1 + " " + enemyHealth.currentHealth);
+                    // apply damage tick every frame to every enemy in the circle radius
+                    Health enemyHealth = hit.GetComponent<Health>();
+                    dps = values[pointIndex];
+                    damageTick = dps * damageTickSpeed;
+                    damage.damage = damageTick;
+                    enemyHealth.Damage(damage, PlayerID.instance.gameObject);
+                }
             }
-            print("EFIELD COUNT: " + count);
         }
     }
+
     private void UpdateSkill()
     {
         dps = values[pointIndex];
         damageTick = dps * Time.deltaTime;
         damage.damage = damageTick;
     }
+
     public void ToggleField(bool fieldActive)
     {
         this.fieldActive = fieldActive;
@@ -102,6 +108,7 @@ public class ElectricStep : Skill
             fieldVisualInstance.SetActive(false);
         }
     }
+
     public void SetRadius(float radius)
     {
         this.radius = radius;

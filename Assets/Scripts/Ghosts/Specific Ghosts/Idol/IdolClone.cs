@@ -17,12 +17,12 @@ public class IdolClone : MonoBehaviour
 
     void OnEnable()
     {
-        GameplayEventHolder.OnDeath += PlayDeathVa;
+        GameplayEventHolder.OnDeath += CloneDeath;
     }
 
     private void OnDisable()
     {
-        GameplayEventHolder.OnDeath -= PlayDeathVa;
+        GameplayEventHolder.OnDeath -= CloneDeath;
     }
 
     void Update()
@@ -60,6 +60,29 @@ public class IdolClone : MonoBehaviour
         this.manager = manager;
     }
 
+    /// <summary>
+    /// Pass reference of player to clone, so to check which ghost player is
+    /// using
+    /// </summary>
+    /// <param name="player"> player gameobject </param>
+    public void Initialize(GameObject player, IdolManager manager, float duration, float inactiveModifier, float maxHealth)
+    {
+        this.player = player;
+        this.manager = manager;
+        this.duration = duration;
+        this.inactiveModifier = inactiveModifier;
+        this.manager = manager;
+        StartCoroutine(ChangeHealth(maxHealth));
+    }
+
+    private IEnumerator ChangeHealth(float maxHealth)
+    {
+        yield return new WaitForSeconds(0.1f);
+        float initialMaxHealth = GetComponent<StatManager>().ComputeValue("Max Health");
+        GetComponent<StatManager>().ModifyStat("Max Health", -((int) ((maxHealth / initialMaxHealth) * 100f)));
+        GetComponent<Health>().currentHealth = maxHealth;
+    }
+
     public void DeallocateDecoy()
     {
         if (manager)
@@ -69,17 +92,21 @@ public class IdolClone : MonoBehaviour
         expireContext.attacker = gameObject;
         expireContext.victim = gameObject;
         GameplayEventHolder.OnDeath.Invoke(expireContext);
-        GameplayEventHolder.OnDeath -= PlayDeathVa;
+        GameplayEventHolder.OnDeath -= CloneDeath;
         Destroy(gameObject);
     }
 
-    private void PlayDeathVa(DamageContext context)
+    private void CloneDeath(DamageContext context)
     {
-        if (context.victim == gameObject)
+        if (context.victim != gameObject) return;
+
+        if (manager)
         {
-            // play audio, if has upgrade, choose from 1 random voice bank to play
-            string chosenBank = manager.passive.avaliableCloneLostVA[Random.Range(0, manager.passive.avaliableCloneLostVA.Count)];
-            AudioManager.Instance.VABranch.PlayVATrack(chosenBank);
+            manager.clones.Remove(gameObject);
         }
+
+        // play audio, if has upgrade, choose from 1 random voice bank to play
+        string chosenBank = manager.passive.avaliableCloneLostVA[Random.Range(0, manager.passive.avaliableCloneLostVA.Count)];
+        AudioManager.Instance.VABranch.PlayVATrack(chosenBank);
     }
 }
