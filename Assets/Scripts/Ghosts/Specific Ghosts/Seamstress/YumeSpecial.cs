@@ -52,7 +52,7 @@ public class YumeSpecial : MonoBehaviour
     private IEnumerator FireProjectile(Vector2 orig, Vector2 dest)
     {
         YumeProjectile yumeProjectile = Instantiate(manager.projectile, orig, transform.rotation).GetComponent<YumeProjectile>();
-        yumeProjectile.Initialize(dest, manager.flightSpeed, manager.chainRange, manager);
+        yumeProjectile.Initialize(dest, manager.GetStats().ComputeValue("Projectile Flight Speed"), manager.GetStats().ComputeValue("Projectile Enemy Chain Range"), manager);
 
         yield return new WaitUntil(yumeProjectile.HasExpired); // wait until the projectile has hit or is destroyed
 

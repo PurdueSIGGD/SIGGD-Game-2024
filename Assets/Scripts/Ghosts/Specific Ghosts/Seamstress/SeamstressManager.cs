@@ -10,10 +10,6 @@ public class SeamstressManager : GhostManager
 
     [Header("Projectile")]
     public GameObject projectile;
-    public float maxRicochet;
-    public float flightSpeed;
-    public float chainRange;
-    public float chainedDuration;
 
     private float durationCounter;
     private float ricochetCounter;
@@ -45,7 +41,7 @@ public class SeamstressManager : GhostManager
         linkableEnemies = new Queue<GameObject>();
         lineRenderer = GetComponent<LineRenderer>();
 
-        durationCounter = chainedDuration;
+        durationCounter = GetStats().ComputeValue("Fatebound Duration");
     }
 
     protected override void Update()
@@ -70,7 +66,7 @@ public class SeamstressManager : GhostManager
 
     public void ResetDuration()
     {
-        durationCounter = chainedDuration;
+        durationCounter = GetStats().ComputeValue("Fatebound Duration");
     }
 
     public void AddEnemy(GameObject hitTarget)
@@ -94,7 +90,7 @@ public class SeamstressManager : GhostManager
     public Transform FindNextTarget(GameObject cur)
     {
         Transform targetLoc = null;
-        float minDist = chainRange;
+        float minDist = GetStats().ComputeValue("Projectile Enemy Chain Range");
         for (int i = 0; i < linkableEnemies.Count; i++)
         {
             GameObject enemy = linkableEnemies.Dequeue();
@@ -175,7 +171,7 @@ public class SeamstressManager : GhostManager
     public bool IncrementRicochet()
     {
         ricochetCounter++;
-        return ricochetCounter == maxRicochet;
+        return ricochetCounter == GetStats().ComputeValue("Projectile Ricochet Count");
     }
 
     public void ResetRicochet()
