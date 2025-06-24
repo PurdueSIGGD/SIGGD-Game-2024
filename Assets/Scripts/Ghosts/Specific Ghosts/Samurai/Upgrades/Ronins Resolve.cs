@@ -14,7 +14,7 @@ public class RoninsResolve : Skill
     private const string RUNNING_SPEED_STAT = "Max Running Speed";
     private const string MOVE_SPEED_STAT = "Move Speed";
 
-    private int pointIndex = 0;
+    private static int pointIndex = 0;
 
     private SamuraiManager manager;
     private StatManager playerStats;

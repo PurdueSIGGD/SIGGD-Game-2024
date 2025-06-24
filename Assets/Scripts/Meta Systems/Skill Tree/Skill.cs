@@ -7,51 +7,22 @@ public abstract class Skill : MonoBehaviour
 {
     [SerializeField]
     protected SkillSO skillSO;
-    [SerializeField]
-    protected int skillIndex;
-    protected string identityName;
-    protected GhostIdentity identity;
 
-    private void Awake()
-    {
-        identityName = name;
-        /*Skill[] skills = GetComponent<SkillTree>().GetAllSkills();
-        for(int i = 0; i <skills.Length; i++)
-        {
-            if (skills[i] == this)
-            {
-                skillIndex = i;
-            }
-        }
-        */
-
-        if (!SaveManager.data.ghostSkillPts.ContainsKey(identityName))
-        {
-            SaveManager.data.ghostSkillPts.Add(identityName, new int[7]);
-        }
-
-        for (int i = 0; i < SaveManager.data.ghostSkillPts[identityName][skillIndex]; i++)
-        {
-            AddPointTrigger();
-            Debug.Log("Added Point to " + GetName());
-        }
-    }
+    protected int skillPts = 0;
 
     public void AddPoint()
     {
-        Debug.Log(GetName() + " has increased 1 point");
-        SaveManager.data.ghostSkillPts[identityName][skillIndex]++;
+        skillPts++;
         AddPointTrigger();
     }
     public void RemovePoint()
     {
-        SaveManager.data.ghostSkillPts[identityName][skillIndex]--;
+        skillPts--;
         RemovePointTrigger();
     }
     public void ClearPoints()
     {
-        Debug.Log("Clear ALl points");
-        SaveManager.data.ghostSkillPts[identityName][skillIndex] = 0;
+        skillPts = 0;
         ClearPointsTrigger();
     }
 
@@ -61,7 +32,7 @@ public abstract class Skill : MonoBehaviour
 
     public int GetPoints()
     {
-        return SaveManager.data.ghostSkillPts[identityName][skillIndex];
+        return skillPts;
     }
 
     public string GetName()

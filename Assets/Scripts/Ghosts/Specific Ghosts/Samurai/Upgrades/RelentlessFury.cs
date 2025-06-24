@@ -12,7 +12,7 @@ using UnityEngine;
 public class RelentlessFury : Skill
 {
     private SamuraiManager samuraiManager;
-    private int pointIndex;
+    private static int pointIndex;
 
 
     private void OnEnable()
@@ -70,7 +70,7 @@ public class RelentlessFury : Skill
     /// <param name="damageContext"></param>
     private void BuffLightAttack(ref DamageContext damageContext)
     {
-        /*if (samuraiManager.selected && pointIndex > 0 &&
+        if (samuraiManager.selected && pointIndex > 0 &&
             samuraiManager.basic.GetWrathPercent() >= 0 &&
             damageContext.actionID == ActionID.PLAYER_LIGHT_ATTACK)
         {
@@ -82,7 +82,7 @@ public class RelentlessFury : Skill
 #if DEBUG_LOG
             Debug.Log("Damage: " + damageContext.damage);
 #endif
-        }*/
+        }
     }
 
     public override void AddPointTrigger()

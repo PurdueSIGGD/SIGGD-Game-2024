@@ -6,7 +6,7 @@ public class HonedStrike : Skill
 {
     private SamuraiManager manager;
     private bool buffApplied;
-    private int pointIndex;
+    private static int pointIndex;
 
     void Start()
     {

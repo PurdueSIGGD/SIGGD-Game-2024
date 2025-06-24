@@ -7,7 +7,7 @@ public class BleedingEdge : Skill
     [SerializeField] GameObject poisonDebuff;
     [SerializeField] float duration;
     [SerializeField] float interval;
-    private int pointIndex;
+    private static int pointIndex;
 
     private void OnEnable()
     {

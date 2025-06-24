@@ -9,7 +9,7 @@ public class DoubleTapSkill : Skill
     private float chargeTimeChange;
     private PoliceChiefManager manager;
     private bool reduceReady = false;
-    private int pointindex;
+    private static int pointindex;
     [SerializeField] private int[] secondaryShotDamage = {8, 16, 24, 32};
     private float baseDamage;
     public override void AddPointTrigger()

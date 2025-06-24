@@ -16,7 +16,6 @@ public class PartyManager : MonoBehaviour
 
     [SerializeField] int ghostLimit; // maximum number of ghosts player can wield at one time
     [SerializeField] private bool isStoryRoom;
-    [SerializeField] GameObject[] allGhosts;
 
     private bool isSwappingEnabled = true;
     private bool isSwapping = false;
@@ -25,8 +24,7 @@ public class PartyManager : MonoBehaviour
     private int swapInputBufferGhostIndex = 0;
 
 
-    private Dictionary<string, GameObject> ghostsByName = new();
-    private Dictionary<string, GhostIdentity> identitiesByName = new();
+    private Dictionary<string, GhostIdentity> ghostsByName = new();
 
     // References to fields in SaveData, declared for convenience of a shorter name
     private List<string> ghostsInParty;
@@ -37,16 +35,9 @@ public class PartyManager : MonoBehaviour
     {
         instance = this;
 
-        /*foreach (GhostIdentity ghost in FindObjectsOfType<GhostIdentity>())
+        foreach (GhostIdentity ghost in FindObjectsOfType<GhostIdentity>())
         {
             ghostsByName.Add(ghost.name, ghost);
-        }*/
-
-        foreach (GameObject ghost in allGhosts)
-        {
-            GhostIdentity g = ghost.GetComponent<GhostIdentity>();
-            ghostsByName.Add(g.name, ghost);
-            identitiesByName.Add(g.name, g);
         }
 
         if (!isStoryRoom)
@@ -65,11 +56,7 @@ public class PartyManager : MonoBehaviour
     {
         foreach (string ghost in ghostsInParty)
         {
-            Debug.Log("Creating " + ghost);
-            GhostIdentity identity = Instantiate(ghostsByName[ghost], Vector3.zero, new Quaternion()).GetComponent<GhostIdentity>();
-            identity.TriggerEnterPartyBehavior();
-            ghostsByName[ghost] = identity.gameObject;
-            identitiesByName[ghost] = identity;
+            ghostsByName[ghost].TriggerEnterPartyBehavior();
         }
     }
 
@@ -89,8 +76,6 @@ public class PartyManager : MonoBehaviour
         if (ghostsInParty.Count < GHOST_LIMIT && !ghostsInParty.Contains(ghost.name))
         {
             ghostsInParty.Add(ghost.name);
-            identitiesByName[ghost.name] = ghost;
-            ghostsByName[ghost.name] = ghost.gameObject;
             ghost.TriggerEnterPartyBehavior();
 
             Debug.Log("Saving Ghosts");
@@ -173,7 +158,7 @@ public class PartyManager : MonoBehaviour
         // deselect all ghosts in the list
         for (int i = 0; i < ghostsInParty.Count; i++)
         {
-            ghostsByName[ghostsInParty[i]].GetComponent<GhostIdentity>().TriggerDeSelectedBehavior();
+            ghostsByName[ghostsInParty[i]].TriggerDeSelectedBehavior();
         }
         selectedGhostIndex = index;
 
@@ -186,12 +171,10 @@ public class PartyManager : MonoBehaviour
             return;
         }
 
-        ghostsByName[ghostsInParty[index]].GetComponent<GhostIdentity>().TriggerSelectedBehavior();
+        ghostsByName[ghostsInParty[index]].TriggerSelectedBehavior();
         selectedGhost = ghostsInParty[index];
         AudioManager.Instance.VABranch.PlayVATrack(selectedGhost + " On Swap");
         AudioManager.Instance.SFXBranch.PlaySFXTrack("GhostSwap");
-
-        //SaveManager.data.selectedGhost = selectedGhost;
     }
 
     /// <summary>
@@ -209,17 +192,17 @@ public class PartyManager : MonoBehaviour
     /// <returns></returns>
     public List<GhostIdentity> GetGhostPartyList()
     {
-        return ghostsInParty.Select(ghostName => identitiesByName[ghostName]).ToList();
+        return ghostsInParty.Select(ghostName => ghostsByName[ghostName]).ToList();
     }
 
     public GhostIdentity GetSelectedGhost()
     {
-        return identitiesByName.GetValueOrDefault(selectedGhost);
+        return ghostsByName.GetValueOrDefault(selectedGhost);
     }
 
     public bool IsGhostInParty(GhostIdentity ghost)
     {
-        return ghostsInParty.Contains(ghost.name.Replace("(Clone)", ""));
+        return ghostsInParty.Contains(ghost.name);
     }
 
     /// <summary>
