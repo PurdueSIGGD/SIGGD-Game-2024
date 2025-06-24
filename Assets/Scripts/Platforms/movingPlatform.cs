@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
 
 /// <summary>
 /// Code for moving platform moving at constant speed sequentially across multiple points
@@ -13,18 +12,25 @@ public class MovingPlatform : MonoBehaviour
     [SerializeField] float speed;
     [SerializeField] bool loop;
 
+    private Rigidbody2D rb;
+    bool isTouchingPlayer;
+    GameObject playerRef;
+
     //an array of vectors of where the platform needs to move
     private Vector2[] points;
     private int index;
 
-    private Rigidbody2D playerRB = null;
-    private bool isTouchingPlayer = false;
     private int increment;
+
+    private Vector3 lastLoc; // location of the platform of the last frame
 
     // Start is called before the first frame update
     void Start()
     {
         increment = 1;
+        rb = GetComponent<Rigidbody2D>();
+        isTouchingPlayer = false;
+        playerRef = PlayerID.instance.gameObject;
 
         // get list of points via children game object positions
         if (transform.childCount == 0)
@@ -48,7 +54,7 @@ public class MovingPlatform : MonoBehaviour
 
         //basically sets the position of the platform to position of points using starting point
         index = 0;
-        this.transform.position = points[index];
+        lastLoc = transform.position = points[index];
     }
 
     void FixedUpdate()
@@ -81,20 +87,32 @@ public class MovingPlatform : MonoBehaviour
         //following format (position of platform, position of which it needs to move towards, speed)
         //delta time = smooth movement no matter how many fps
 
-        Vector3 newPos = Vector3.MoveTowards(transform.position, points[index], Time.deltaTime * speed);
+        //Vector3 newPos = Vector2.MoveTowards(transform.position, points[index], Time.deltaTime * speed);
+        //if (isTouchingPlayer)
+        //{
+        //    PlayerID.instance.transform.position += newPos - transform.position;
+        //}
+        //transform.position = Vector2.MoveTowards(transform.position, points[index], Time.deltaTime * speed);
+        
+        Vector3 delta = transform.position - lastLoc;
+        lastLoc = transform.position;
+
         if (isTouchingPlayer)
         {
-            PlayerID.instance.transform.position += newPos - transform.position;
+            playerRef.transform.position += delta;  
         }
-        transform.position = Vector2.MoveTowards(transform.position, points[index], Time.deltaTime * speed);
+
+        rb.velocity = speed * Time.deltaTime * (points[index] - (Vector2)transform.position).normalized;
+
+        
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Player")) 
+        if (collision.gameObject.CompareTag("Player"))
         {
             isTouchingPlayer = true;
-        }
+        } 
     }
 
     private void OnCollisionExit2D(Collision2D collision)

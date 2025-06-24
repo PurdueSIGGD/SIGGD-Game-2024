@@ -23,10 +23,10 @@ public class Action
     /// </summary>
     /// <param name="animator"> The Enemy's animator component </param>
     /// <param name="fadeDuration"> Optional transition duration for the animation </param>
-    public void Play(Animator animator, float fadeDuration = 0.2f)
+    public void Play(EnemyStateManager enemy, float fadeDuration = 0.2f)
     {
-        animator.CrossFade(animationClip.name, fadeDuration);
-        DoCoolDown();
+        enemy.animator.CrossFade(animationClip.name, fadeDuration);
+        enemy.pool.DoCoolDown(this);
     }
 
     /// <summary>
@@ -43,13 +43,8 @@ public class Action
         return this.priority;
     }
 
-    /// <summary>
-    /// Make this action go into cooldown
-    /// </summary>
-    private async Task DoCoolDown()
+    public float GetCoolDown()
     {
-        ready = false;
-        await Task.Delay((int)(coolDown * 1000));
-        ready = true;
+        return coolDown;
     }
 }

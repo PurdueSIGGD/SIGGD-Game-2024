@@ -1,8 +1,6 @@
-using System;
-using System.Net.Mime;
-using Unity.VisualScripting;
-using UnityEditor.Build;
+using System.Linq;
 using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
 
 /// <summary>
 /// General Enemy AI to govern enemy behavior
@@ -19,10 +17,15 @@ public class EnemyStateManager : MonoBehaviour
     [HideInInspector] public ActionPool pool; // A pool of attacks to randomly choose from
     [HideInInspector] public Animator animator;
 
+    [SerializeField] public bool isFlyer;
     [SerializeField] protected float aggroRange; // Range for detecting players 
     protected IEnemyStates curState; // Enemy's current State, defaults to idle
     protected Transform player;
     protected Rigidbody2D rb;
+
+    public bool isBeingKnockedBack;
+    protected float currentKnockbackDurationTime;
+    [SerializeField] protected bool grounded;
 
     protected virtual void Awake()
     {
@@ -31,10 +34,16 @@ public class EnemyStateManager : MonoBehaviour
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         pool = GetComponent<ActionPool>();
+        pool.enemy = this;
+        isBeingKnockedBack = false;        
+    }
+
+    protected virtual void Start()
+    {
         SwitchState(IdleState);
     }
 
-    protected void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         if (StunState.isStunned)
         {
@@ -44,6 +53,9 @@ public class EnemyStateManager : MonoBehaviour
         {
             curState.UpdateState(this);
         }
+		
+        UpdateKnockbackTime();
+        isGrounded();
     }
 
     /// <summary>
@@ -54,6 +66,17 @@ public class EnemyStateManager : MonoBehaviour
     {
         curState = state;
         state.EnterState(this);
+
+        //Debug.Log("switched state to " + state.GetType());
+    }
+
+    /// <summary>
+    /// Gets the current active Enemy State
+    /// </summary>
+    /// <returns>The current active Enemy State</returns>
+    public IEnemyStates GetCurrentState()
+    {
+        return curState;
     }
 
     /// <summary>
@@ -63,6 +86,12 @@ public class EnemyStateManager : MonoBehaviour
     /// <returns> If there is a Player in Enemy line of sight </returns>
     public virtual bool HasLineOfSight(bool tracking)
     {
+        // while the player has the invisible component, enemies shall not see the player
+        if (player.GetComponent<Invisible>() != null)
+        {
+            return false;
+        }
+
         Vector2 dir = transform.TransformDirection(Vector2.right);
         float maxDistance = aggroRange;
 
@@ -71,11 +100,11 @@ public class EnemyStateManager : MonoBehaviour
             dir = player.position - transform.position;
             maxDistance = maxDistance * 1.5f;
         }
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, maxDistance, LayerMask.GetMask("Player", "Ground"));
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, maxDistance, LayerMask.GetMask("Player", "Idol_Clone", "Ground"));
         Debug.DrawRay(transform.position, dir);
         if (hit)
         {
-            return hit.collider.gameObject.CompareTag("Player");
+            return (hit.collider.gameObject.CompareTag("Player") || hit.collider.gameObject.CompareTag("Idol_Clone"));
         }
         return false;
     }
@@ -95,6 +124,52 @@ public class EnemyStateManager : MonoBehaviour
         {
             StunState.EnterState(this, duration);
         }
+    }
+
+    /// <summary>
+    /// Knockback the enemy.
+    /// </summary>
+    /// <param name="direction">The direction of the knockback</param>
+    /// <param name="knockbackStrength">The strength of the knockback</param>
+    /// <param name="knockbackDuration">The movement lockout duration of the knockback</param>
+    public void ApplyKnockback(Vector2 direction, float knockbackStrength, float movementLockoutDuration)
+    {
+        rb.AddForce(direction.normalized * knockbackStrength, ForceMode2D.Impulse);
+        if (isBeingKnockedBack && movementLockoutDuration <= currentKnockbackDurationTime) return;
+        isBeingKnockedBack = true;
+        currentKnockbackDurationTime = movementLockoutDuration;
+    }
+
+    /// <summary>
+    /// Knockback the enemy.
+    /// </summary>
+    /// <param name="direction">The direction of the knockback</param>
+    /// <param name="knockbackStrength">The strength of the knockback</param>
+    public void ApplyKnockback(Vector2 direction, float knockbackStrength)
+    {
+        ApplyKnockback(direction, knockbackStrength, 0.5f);
+    }
+
+    private void UpdateKnockbackTime()
+    {
+        if (!isBeingKnockedBack) return;
+        Debug.DrawRay(gameObject.transform.position, gameObject.transform.position + Vector3.up, Color.green);
+        currentKnockbackDurationTime -= Time.fixedDeltaTime;
+        if (currentKnockbackDurationTime <= 0f)
+        {
+            isBeingKnockedBack = false;
+            currentKnockbackDurationTime = 0f;
+        }
+    }
+
+    /// <summary>
+    /// Returns true if the enemy is on the ground.
+    /// </summary>
+    /// <returns>Returns true if the enemy is on the ground.</returns>
+    public bool isGrounded()
+    {
+        Debug.DrawRay(transform.position, Vector2.down, Color.blue);
+        return grounded = Physics2D.Raycast(transform.position, Vector2.down, 1f, LayerMask.GetMask("Ground"));
     }
 
     /// <summary>
@@ -129,13 +204,19 @@ public class EnemyStateManager : MonoBehaviour
         Debug.DrawLine(new Vector2(pos.x + hWidth, pos.y + hHeight), new Vector2(pos.x + hWidth, pos.y - hHeight), Color.white, duration); // draw right line
 #endif
         // Check for player to do damage
-        Collider2D hit = Physics2D.OverlapBox(pos, new Vector2(width, height), 0f, LayerMask.GetMask("Player"));
-        if (hit)
+        Collider2D[] hits = Physics2D.OverlapBoxAll(pos, new Vector2(width, height), 0f, LayerMask.GetMask("Player", "Idol_Clone"));
+        foreach (Collider2D hit in hits)
         {
-            PlayerID.instance.GetComponent<PlayerStateMachine>().SetStun(0.2f);
-            hit.GetComponent<Health>().Damage(damageContext, attacker);
+            if (hit)
+            {
+                float dmgDealt = hit.GetComponent<Health>().Damage(damageContext, attacker);
+                if (hit.CompareTag("Player") && dmgDealt > 0)
+                {
+                    PlayerID.instance.GetComponent<PlayerStateMachine>().SetStun(0.2f);
+                }
+            }
         }
-        return hit;
+        return (hits.Length > 0);
     }
 
     /// <summary>
@@ -164,13 +245,19 @@ public class EnemyStateManager : MonoBehaviour
         }
 #endif
         // Check for player to do damage
-        Collider2D hit = Physics2D.OverlapCircle(pos, radius, LayerMask.GetMask("Player"));
-        if (hit)
+        Collider2D[] hits = Physics2D.OverlapCircleAll(pos, radius, LayerMask.GetMask("Player", "Idol_Clone"));
+        foreach (Collider2D hit in hits)
         {
-            PlayerID.instance.GetComponent<PlayerStateMachine>().SetStun(0.2f);
-            hit.GetComponent<Health>().Damage(damageContext, attacker);
+            if (hit)
+            {
+                float dmgDealt = hit.GetComponent<Health>().Damage(damageContext, attacker);
+                if (hit.CompareTag("Player") && dmgDealt > 0)
+                {
+                    PlayerID.instance.GetComponent<PlayerStateMachine>().SetStun(0.2f);
+                }
+            }
         }
-        return hit;
+        return (hits.Length > 0);
     }
 
     /// <summary>

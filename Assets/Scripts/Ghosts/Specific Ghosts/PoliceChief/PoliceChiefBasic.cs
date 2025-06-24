@@ -11,95 +11,151 @@ using UnityEngine;
 /// </summary>
 public class PoliceChiefBasic : MonoBehaviour
 {
-    PlayerStateMachine psm;
-    DamageContext damage;
-    float range;
-    float cooldownTime;
-    float width;
-    Camera mainCamera;
-    LineRenderer tracer; // visual purposes only
+    private PlayerStateMachine playerStateMachine;
+    private Animator animator;
+    private Camera mainCamera;
+
+    [HideInInspector] public PoliceChiefManager manager;
+
+    private bool isCharging = false;
+    public float chargingTime = 0f;
+    private bool isPrimed = false;
+    private float primedTime = 0f;
+    private float chargetimeChanger;
+
+
+
     void Start()
     {
-        ResetSidearm();
-        psm = PlayerID.instance.GetComponent<PlayerStateMachine>();
+        playerStateMachine = GetComponent<PlayerStateMachine>();
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+        animator = GetComponent<Animator>();
+        animator.SetBool("has_ammo", (manager.basicAmmo > 0));
     }
-    public void SetVars(StatManager stats, LineRenderer tracer)
+
+    private void Update()
     {
-        cooldownTime = stats.ComputeValue("Basic Cooldown");
-        damage.damage = stats.ComputeValue("BASIC_DAMAGE");
-        range = stats.ComputeValue("BASIC_RANGE");
-        width = stats.ComputeValue("BASIC_WIDTH");
-        this.tracer = tracer;
-    }
-    public void FireSidearm()
-    {
-        GetComponent<Move>().PlayerStop();
+        if (isCharging && chargingTime > 0f) chargingTime -= Time.deltaTime;
+        if (isCharging && chargingTime <= 0f) playerStateMachine.EnableTrigger("OPT");
 
-        Vector2 rawDir = mainCamera.ScreenToWorldPoint(Input.mousePosition) - transform.position;
-        Vector2 dir = rawDir.normalized;
-        Vector2 perp = Vector2.Perpendicular(dir) * width / 2;
+        if (isPrimed && primedTime > 0f) primedTime -= Time.deltaTime;
+        if (isPrimed && primedTime <= 0f) playerStateMachine.EnableTrigger("OPT");
 
-        transform.rotation = dir.x > 0 ? Quaternion.Euler(0, 0, 0) : Quaternion.Euler(0, 180, 0);
+        Vector3 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 mouseDiff = transform.position - mousePos;
 
-        List<RaycastHit2D> hits = new List<RaycastHit2D>
+        if (isCharging || isPrimed)
         {
-            Physics2D.Raycast((Vector2)transform.position - perp, dir, range, LayerMask.GetMask("Enemy", "Ground")),
-            Physics2D.Raycast(transform.position, dir, range, LayerMask.GetMask("Enemy", "Ground")),
-            Physics2D.Raycast((Vector2)transform.position + perp, dir, range, LayerMask.GetMask("Enemy", "Ground"))
-        };
-
-        Debug.DrawRay((Vector2)transform.position - perp, dir * range);
-        Debug.DrawRay(transform.position, dir * range);
-        Debug.DrawRay((Vector2)transform.position + perp, dir * range);
-
-        bool hitSomething = false;
-        for (int i = 0; i < hits.Count; i++)
-        {
-            if (hits[i])
+            if (mouseDiff.x < 0) // update player facing direction
             {
-                DrawLine(tracer, transform.position, hits[i].point);
-                if (hits[i].collider.gameObject.CompareTag("Enemy"))
-                {
-                    hits[i].collider.gameObject.GetComponent<Health>().Damage(damage, gameObject);
-                }
-                hitSomething = true;
-                break;
+                transform.rotation = Quaternion.Euler(0, 0, 0);
+            }
+            else if (mouseDiff.x > 0)
+            {
+                transform.rotation = Quaternion.Euler(0, 180, 0);
             }
         }
-        if (!hitSomething)
-        {
-            DrawLine(tracer, transform.position, dir * range);
-        }
+    }
 
-        StartCoroutine(BulletTime(0.2f));
-        StartCoroutine(SidearmCooldown(cooldownTime));
-    }
-    IEnumerator BulletTime(float time)
+
+
+    // Charge Up
+    public void StartSidearmChargeUp()
     {
-        yield return new WaitForSeconds(time);
-        tracer.positionCount = 0;
+        chargingTime = manager.GetStats().ComputeValue("Basic Charge Up Time");
+        isCharging = true;
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("HeavyAttackWindUp");
+        SetSidearmDamage(2);
+        GetComponent<Move>().PlayerStop();
     }
-    IEnumerator SidearmCooldown(float time)
+
+    public void StopSidearmChargeUp()
     {
-        print("Sidearm cooldown");
-        psm.OnCooldown("c_sidearm");
-        yield return new WaitForSeconds(time);
-        psm.OffCooldown("c_sidearm");
-        print("Done!");
-    }
-    public void StopSidearm()
-    {
+        isCharging = false;
+        chargingTime = 0f;
         GetComponent<Move>().PlayerGo();
     }
-    public void ResetSidearm()
+
+
+
+    // Primed
+    public void StartSidearmPrimed()
     {
-        StopAllCoroutines();
+        primedTime = manager.GetStats().ComputeValue("Basic Primed Autofire Time");
+        isPrimed = true;
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("HeavyAttackPrimed");
+        SetSidearmDamage(3);
+        GetComponent<Move>().PlayerStop();
     }
-    public void DrawLine(LineRenderer render, Vector2 start, Vector2 end)
+
+    public void StopSidearmPrimed()
     {
-        render.positionCount = 2;
-        render.SetPosition(0, new Vector3(start.x, start.y, 0));
-        render.SetPosition(1, new Vector3(end.x, end.y, 0));
+        isPrimed = false;
+        primedTime = 0f;
+        GetComponent<Move>().PlayerGo();
+    }
+
+
+
+    // Sidearm Attack
+    public void FireSidearm()
+    {
+        if (manager.basicAmmo <= 1) playerStateMachine.ConsumeHeavyAttackInput();
+        GetComponent<Move>().PlayerStop();
+
+        // Calculate shot aiming vector
+        Vector2 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 pos = transform.position;
+        Vector2 dir = (mousePos - pos).normalized;
+
+        // Fire shot
+        GameObject sidearmShot = Instantiate(manager.basicShot, Vector3.zero, Quaternion.identity);
+        sidearmShot.GetComponent<PoliceChiefSidearmShot>().fireSidearmShot(manager, pos, dir);
+        ConsumeAmmo(1);
+    }
+
+    public void StopSidearm()
+    {
+        SetSidearmDamage(1);
+        GetComponent<Move>().PlayerGo();
+    }
+
+    public void AddAmmo(int ammo)
+    {
+        manager.basicAmmo = Mathf.Max(manager.basicAmmo + ammo, 0);
+        animator.SetBool("has_ammo", (manager.basicAmmo > 0));
+    }
+
+    public void ConsumeAmmo(int ammo)
+    {
+        manager.basicAmmo = Mathf.Max(manager.basicAmmo - ammo, 0);
+        animator.SetBool("has_ammo", (manager.basicAmmo > 0));
+    }
+
+    /// <summary>
+    /// Modifies the Police Chief's Basic Ability damage context based on the given attack type.
+    /// </summary>
+    /// <param name="attackType">1 = Light Attack, 2 = Heavy Attack, 3 = Super Heavy Attack</param>
+    private void SetSidearmDamage(int attackType)
+    {
+        switch (attackType)
+        {
+            case 1:
+                manager.basicDamage.damage = manager.GetStats().ComputeValue("Basic Damage");
+                manager.basicDamage.damageStrength = DamageStrength.MINOR;
+                break;
+            case 2:
+                manager.basicDamage.damage = manager.GetStats().ComputeValue("Basic Heavy Damage");
+                manager.basicDamage.damageStrength = DamageStrength.MINOR;
+                break;
+            case 3:
+                manager.basicDamage.damage = manager.GetStats().ComputeValue("Basic Super Heavy Damage");
+                manager.basicDamage.damageStrength = DamageStrength.LIGHT;
+                break;
+            default:
+                manager.basicDamage.damage = manager.GetStats().ComputeValue("Basic Damage");
+                manager.basicDamage.damageStrength = DamageStrength.MINOR;
+                break;
+        }
     }
 }

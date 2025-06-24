@@ -13,7 +13,7 @@ using UnityEngine.Windows;
 public class PlayerStateMachine : MonoBehaviour
 {
     [SerializeField] LayerMask groundLayer; //The layer representing ground
-    [SerializeField] String currentAnimation;
+    [SerializeField] public string currentAnimation;
 
     float groundDetectRadius = 0.5f; //The radius of the circle checking for ground overlap
     float minimumFallSpeed = -0.1f; // The minimum negative vertical velocity required to be considered falling
@@ -23,7 +23,17 @@ public class PlayerStateMachine : MonoBehaviour
     InputAction jumpInput; // The jump action from the playerInput component
     InputAction fallInput; // The fall actions frmo playerINput component
     InputAction specialInput; // The special key action from the playerInput component
-    InputAction attackInput;
+    InputAction attackInput; // The attack key action from the PlayerInput component
+    InputAction heavyAttackInput; // The heavy attack key action from the PlayerInput component
+
+    public bool lightAttackQueued = false;
+    public bool lightAttackConsumed = false;
+    public bool isLightAttack2Ready = false;
+    public float lightAttack2ReadyTime = 0f;
+    public float lightAttack2LingerTime = 1.5f;
+
+    public bool heavyAttackQueued = false;
+    public bool heavyAttackConsumed = false;
 
     Animator animator; // the animator of the player object
     Rigidbody2D rb; // the rigidbody of the player object
@@ -37,6 +47,7 @@ public class PlayerStateMachine : MonoBehaviour
         jumpInput = input.actions.FindAction("Jump");
         fallInput = input.actions.FindAction("Fall");
         attackInput = input.actions.FindAction("Attack");
+        heavyAttackInput = input.actions.FindAction("HeavyAttack");
         specialInput = input.actions.FindAction("Special");
 
         animator = GetComponent<Animator>();
@@ -100,7 +111,69 @@ public class PlayerStateMachine : MonoBehaviour
     void UpdateAttack()
     {
         bool i_attack = attackInput.ReadValue<float>() != 0;
-        animator.SetBool("i_attack", i_attack);
+        bool i_heavy_attack = heavyAttackInput.ReadValue<float>() != 0;
+
+        // Handle light attack input buffering 
+        if (i_attack)
+        {
+            lightAttackQueued = !lightAttackConsumed;
+        }
+        else
+        {
+            lightAttackQueued = false;
+            if (lightAttackConsumed) lightAttackConsumed = false;
+        }
+
+        // Handle heavy attack input buffering
+        if (i_heavy_attack)
+        {
+            heavyAttackQueued = !heavyAttackConsumed;
+        }
+        else
+        {
+            heavyAttackQueued = false;
+            if (heavyAttackConsumed) heavyAttackConsumed = false;
+        }
+
+        animator.SetBool("i_attack", lightAttackQueued);
+        animator.SetBool("i_heavy_attack", heavyAttackQueued);
+
+        // Update Light Attack 2 Ready
+        if (isLightAttack2Ready && lightAttack2ReadyTime > 0f) lightAttack2ReadyTime -= Time.deltaTime;
+        if (isLightAttack2Ready && lightAttack2ReadyTime <= 0f) isLightAttack2Ready = false;
+        animator.SetBool("light_2_ready", isLightAttack2Ready);
+    }
+
+    public void SetLightAttack2Ready(bool lightAttack2Ready)
+    {
+        if (lightAttack2Ready)
+        {
+            lightAttack2ReadyTime = lightAttack2LingerTime;
+            isLightAttack2Ready = true;
+        }
+        else
+        {
+            isLightAttack2Ready = false;
+            lightAttack2ReadyTime = 0f;
+        }
+    }
+
+    public void ConsumeLightAttackInput()
+    {
+        if (lightAttackConsumed) return;
+        lightAttackConsumed = true;
+        SetLightAttack2Ready(!isLightAttack2Ready);
+    }
+
+    public void SetLightAttackRecoveryState(bool isRecovering)
+    {
+        animator.SetBool("light_recovering", isRecovering);
+    }
+
+    public void ConsumeHeavyAttackInput()
+    {
+        if (heavyAttackConsumed) return;
+        heavyAttackConsumed = true;
     }
 
     void UpdateSpecial()
@@ -135,6 +208,7 @@ public class PlayerStateMachine : MonoBehaviour
     void ReadCurrentAnimatorState()
     {
         AnimatorClipInfo[] animatorClip = animator.GetCurrentAnimatorClipInfo(0);
+        if (animatorClip.Length <= 0) return;
         currentAnimation = animatorClip[0].clip.name;
     }
 
@@ -169,11 +243,13 @@ public class PlayerStateMachine : MonoBehaviour
         jumpInput.Disable();
         specialInput.Disable();
         attackInput.Disable();
+        heavyAttackInput.Disable();
         yield return new WaitForSeconds(duration);
         animator.speed = 1;
         moveInput.Enable();
         jumpInput.Enable();
         specialInput.Enable();
         attackInput.Enable();
+        heavyAttackInput.Enable();
     }
 }

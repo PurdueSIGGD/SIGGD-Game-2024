@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections;
-using UnityEditor.Experimental.GraphView;
 
 /// <summary>
 /// Special action: player sprite color changes to 0.3 alpha for 8 seconds

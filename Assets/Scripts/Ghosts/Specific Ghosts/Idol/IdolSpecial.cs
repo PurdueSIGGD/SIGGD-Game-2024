@@ -2,60 +2,47 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 
 /// <summary>
 /// Special action for the idol ghost, teleports the player towards mouse position
 /// and leaves a clone that player may swap position with.
 /// </summary>
-public class IdolSpecial : MonoBehaviour, ISpecialMove
+public class IdolSpecial : MonoBehaviour
 {
     //bool possessing;
-    PlayerStateMachine psm;
-    [SerializeField] float maxDistance = 8.0f;
-    [SerializeField] float tpCoolDown = 8.0f; // cooldown for teleporting special action
-    [SerializeField] float switchCoolDown = 0.5f; // cooldown for switching with clones
-
-    private bool isDashing; // bool for if is currently dashing
-    private bool canTp = true;
-    private bool canSwitch = false;
+    private PlayerStateMachine psm;
+    [SerializeField] private float maxDistance = 8.0f;
+    [SerializeField] private float switchCoolDown = 0.5f; // cooldown for switching with clones
     private Camera mainCamera;
-    private Vector2 dir;
 
     public GameObject idolClone; // ref to clone prefab
-    private GameObject activeClone; // ref to currently active clone, if exists
+    private GameObject swapClone; // ref to currently cloneAliveactive clone, if exists
+    public bool spawnSecondClone = false; // used with Dynamic Trio skill
+    public bool cloneAlive; // is at least one clone supposed to be alive right now?
+    private bool isSwitchOnCooldown = false;
 
     [HideInInspector] public IdolManager manager;
 
-    /*
-    public void Select(GameObject player)
-    {
-        possessing = true;
-        psm = player.GetComponent<PlayerStateMachine>();
+    public UnityEvent holoJumpCreatedCloneEvent = new UnityEvent();
 
-        // override delegate
-        //player.GetComponent<Dash>().specialAction = HoloJump;
-    }
-    public void DeSelect(GameObject player)
-    {
-        possessing = false;
+    // list of avaliable audio banks to play on holo jumping
+    public List<string> avaliableHoloJumpVA = new List<string>() { "Eva-Idol Holo Jump Activate" };
 
-        // unoverride delegate
-        //player.GetComponent<Dash>().specialAction = null;
-    }
-    */
 
     void Start()
     {
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         psm = GetComponent<PlayerStateMachine>();
-        //idolClone = Resources.Load<GameObject>("IdolClone");
+        swapClone = manager.clones.Count > 0 ? manager.clones[0] : null;
+        cloneAlive = swapClone != null;
     }
 
     void Update()
     {
         if (manager != null)
         {
-            if (manager.getSpecialCooldown() > 0)
+            if (manager.getSpecialCooldown() > 0 || isSwitchOnCooldown)
             {
                 psm.OnCooldown("c_special");
             }
@@ -64,6 +51,13 @@ public class IdolSpecial : MonoBehaviour, ISpecialMove
                 psm.OffCooldown("c_special");
             }
         }
+
+        // runs once, at the instant the last clone dies
+        if (manager.clones.Count == 0 && cloneAlive)
+        {
+            cloneAlive = false;
+        }
+        
     }
 
     /// <summary>
@@ -71,15 +65,17 @@ public class IdolSpecial : MonoBehaviour, ISpecialMove
     /// If none is active and the skill is not under cooldown, attempt to
     /// teleport the player towards the mouse position.
     /// </summary>
-    public void StartDash()
+    public void StartHoloJump()
     {
-        if (canSwitch) // if there is currently a clone active, switch with it
+        if (swapClone) // if there is currently a clone active, switch with it
         {
             StartCoroutine(SwitchCoroutine());
         }
-        else if (canTp) // else create clone and teleport
+        else // else create clone and teleport
         {
+            GameplayEventHolder.OnAbilityUsed?.Invoke(manager.onDashContext);
             StartCoroutine(DashCoroutine());
+            holoJumpCreatedCloneEvent?.Invoke();
         }
     }
 
@@ -88,51 +84,83 @@ public class IdolSpecial : MonoBehaviour, ISpecialMove
     /// </summary>
     private IEnumerator DashCoroutine()
     {
-        Debug.Log("Holo Dash!");
+        Vector3 dest;
 
-        // instant cast time
-        //psm.EnableTrigger("OPT");
-
-        isDashing = true;
-        canTp = false;
-        //dir = (mainCamera.ScreenToWorldPoint(Input.mousePosition) - transform.position).normalized;
+        // calculate desired teleport position based on mouse location
         Vector2 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         Vector2 pos = transform.position;
-        dir = (mousePos - pos).normalized;
+        Vector2 rawDir = mousePos - pos;
 
-        // create a clone
-        activeClone = Instantiate(idolClone, transform.position, transform.rotation);
-        activeClone.GetComponent<IdolClone>().Initialize(gameObject);
-        canSwitch = true;
+        // Check mouse position for valid teleport position
+        dest = mousePos;
+        Collider2D[] surfaces = Physics2D.OverlapCircleAll(mousePos, 0.1f, LayerMask.GetMask("Ground"));
+        if (surfaces.Length > 0 || Vector2.Distance(mousePos, pos) > manager.GetStats().ComputeValue("HOLOJUMP_MAX_DISTANCE"))
+        {
+            // cap newpos magnitude at maxDistance
+            Vector2 cappedDir = rawDir;
+            if (rawDir.magnitude > manager.GetStats().ComputeValue("HOLOJUMP_MAX_DISTANCE"))
+            {
+                cappedDir = cappedDir.normalized * manager.GetStats().ComputeValue("HOLOJUMP_MAX_DISTANCE");
+            }
 
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, maxDistance, LayerMask.GetMask("Ground"));
-        Vector3 dest;
-        if (hit)
-        {
-            dest = hit.point;
+            // calculate final destination (cannot teleport through "ground" layers)
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, cappedDir.normalized, cappedDir.magnitude, LayerMask.GetMask("Ground"));
+            if (hit)
+            {
+                dest = hit.point;
+            }
+            else
+            {
+                dest = pos + cappedDir;
+            }
         }
-        else
-        {
-            float destX = transform.position.x + (dir * maxDistance).x;
-            float destY = transform.position.y + (dir * maxDistance).y;
-            dest = new Vector2(destX, destY);
-        }
+        Debug.DrawLine(transform.position, dest);
+
+        // instantiate clone at position (right before teleporting)
+        swapClone = Instantiate(idolClone, transform.position, transform.rotation);
+        swapClone.GetComponent<IdolClone>().Initialize(
+            gameObject,
+            manager,
+            manager.GetStats().ComputeValue("HOLOJUMP_DURATION_SECONDS"),
+            manager.GetStats().ComputeValue("HOLOJUMP_DURATION_INACTIVE_MODIFIER")
+        );
+        //manager.activeClone = activeClone.GetComponent<IdolClone>();
+        cloneAlive = true;
+        manager.clones.Add(swapClone);
+
+        // teleport player to final destination
         transform.position = dest;
-        isDashing = false;
 
-        yield return new WaitForSeconds(0.1f);
-        psm.EnableTrigger("OPT");
-        //psm.OnCooldown("c_special");
-        //yield return new WaitForSeconds(switchCoolDown);
-        //psm.OffCooldown("c_special");
-        //// do not use psm cooldown because of swap mechanic
-        // psm.OnCooldown("c_special");
-        manager.startSpecialCooldown();
-        //yield return new WaitForSeconds(tpCoolDown);
-        yield return new WaitForSeconds(0.1f);
-        // psm.OffCooldown("c_special");
+        // Teleport VFX
+        GameObject teleportTracerVFX = Instantiate(manager.holojumpTracerVFX, Vector2.zero, Quaternion.identity);
+        teleportTracerVFX.GetComponent<RaycastTracerHandler>().playTracer(swapClone.transform.position, transform.position, true, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
+        GameObject teleportPulseVfX = Instantiate(manager.holojumpPulseVFX , transform.position, Quaternion.identity);
+        teleportPulseVfX.GetComponent<RingExplosionHandler>().playRingExplosion(1f, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
+        GameObject teleportDecoyPulseVfX = Instantiate(manager.holojumpPulseVFX, swapClone.transform.position, Quaternion.identity);
+        teleportDecoyPulseVfX.GetComponent<RingExplosionHandler>().playRingExplosion(1f, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
+        
+        // create duplicate clone if DYNAMIC TRIO skill says so
+        if (spawnSecondClone)
+        {
+            GameObject secondClone = Instantiate(idolClone, transform.position, transform.rotation);
+            secondClone.GetComponent<IdolClone>().Initialize(
+                gameObject,
+                manager,
+                manager.GetStats().ComputeValue("HOLOJUMP_DURATION_SECONDS"),
+                manager.GetStats().ComputeValue("HOLOJUMP_DURATION_INACTIVE_MODIFIER")
+            );
+            manager.clones.Add(secondClone);
+        }
 
-        canTp = true;
+        // play audio, if has upgrade, choose from 1 random voice bank to play
+        string chosenBank = avaliableHoloJumpVA[Random.Range(0, avaliableHoloJumpVA.Count)];
+        AudioManager.Instance.VABranch.PlayVATrack(chosenBank);
+
+        // small pause before player can start swapping with clone
+        HoloJumpImmune(manager.GetStats().ComputeValue("HOLOJUMP_IMMUNE_SECONDS"));
+        isSwitchOnCooldown = true;
+        yield return new WaitForSeconds(manager.GetStats().ComputeValue("HOLOJUMP_CLONE_SWAP_INTERVAL"));
+        isSwitchOnCooldown = false;
     }
 
     /// <summary>
@@ -140,34 +168,65 @@ public class IdolSpecial : MonoBehaviour, ISpecialMove
     /// </summary>
     private IEnumerator SwitchCoroutine()
     {
-        canSwitch = false;
         // check if clone still exists
-        if (activeClone == null)
+        if (swapClone == null)
         {
-            // if not, dash instead
-            StartCoroutine(DashCoroutine());
+            if (manager.clones.Count == 0)
+            {
+                yield break;
+            }
+            swapClone = manager.clones[0];
         }
-        else
-        {
-            Debug.Log("Holo Swap!");
 
-            // instant cast time
-            //psm.EnableTrigger("OPT");
+        //play audio
+        AudioManager.Instance.VABranch.PlayVATrack("Eva-Idol Holo Jump Switch");
 
-            // if so, switch places with clone
-            (psm.transform.position, activeClone.transform.position) = (activeClone.transform.position, psm.transform.position);
-            //psm.OnCooldown("c_special");
-            yield return new WaitForSeconds(switchCoolDown);
-            //psm.OffCooldown("c_special");
-            canSwitch = true;
+        // switch position with active clone
+        (psm.transform.position, swapClone.transform.position) = (swapClone.transform.position, psm.transform.position);
 
-            yield return new WaitForSeconds(0.1f);
-            psm.EnableTrigger("OPT");
-        }
+        // Teleport VFX
+        GameObject teleportVFX = Instantiate(manager.holojumpTracerVFX, Vector2.zero, Quaternion.identity);
+        teleportVFX.GetComponent<RaycastTracerHandler>().playTracer(swapClone.transform.position, transform.position, true, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
+        GameObject teleportPulseVfX = Instantiate(manager.holojumpPulseVFX, transform.position, Quaternion.identity);
+        teleportPulseVfX.GetComponent<RingExplosionHandler>().playRingExplosion(1f, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
+        GameObject teleportDecoyPulseVfX = Instantiate(manager.holojumpPulseVFX, swapClone.transform.position, Quaternion.identity);
+        teleportDecoyPulseVfX.GetComponent<RingExplosionHandler>().playRingExplosion(1f, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
+
+        // small pause before player can swap with clone again
+        HoloJumpImmune(manager.GetStats().ComputeValue("HOLOJUMP_IMMUNE_SECONDS"));
+        isSwitchOnCooldown = true;
+        yield return new WaitForSeconds(manager.GetStats().ComputeValue("HOLOJUMP_CLONE_SWAP_INTERVAL"));
+        isSwitchOnCooldown = false;
     }
 
-    public bool GetBool()
+    /// <summary>
+    /// Returns a ref to the currently active clone, may not exist
+    /// </summary>
+    public GameObject GetClone()
     {
-        return true;
+        return swapClone;
+    }
+    public void RemoveCloneFromList(GameObject clone)
+    {
+        manager.clones.Remove(clone);
+    }
+    void HoloJumpImmune(float time)
+    {
+        StartCoroutine(ImmuneTimer(time));
+    }
+
+    IEnumerator ImmuneTimer(float time)
+    {
+        GameplayEventHolder.OnDamageFilter.Add(HoloJumpImmuneFilter);
+        yield return new WaitForSeconds(time);
+        GameplayEventHolder.OnDamageFilter.Remove(HoloJumpImmuneFilter);
+    }
+
+    void HoloJumpImmuneFilter(ref DamageContext context)
+    {
+        if (context.victim.CompareTag("Player"))
+        {
+            context.damage = 0f;
+        }
     }
 }

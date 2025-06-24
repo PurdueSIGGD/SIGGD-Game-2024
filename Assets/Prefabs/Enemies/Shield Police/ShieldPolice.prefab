@@ -171,10 +171,10 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 30
-  m_LinearDrag: 0
+  m_Mass: 0.5
+  m_LinearDrag: 1
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 4
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -315,17 +315,17 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 30
-  m_LinearDrag: 0
+  m_Mass: 0.5
+  m_LinearDrag: 1
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 4
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 2097216
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -390,7 +390,10 @@ MonoBehaviour:
   stats: {fileID: 0}
   pool: {fileID: 0}
   animator: {fileID: 9133294469049910592}
+  isFlyer: 0
   aggroRange: 9.32
+  isBeingKnockedBack: 0
+  grounded: 0
   batonTrigger: {fileID: 7835333299776145468}
   batonDamage:
     damageStrength: 1
@@ -416,7 +419,7 @@ FixedJoint2D:
   m_BreakAction: 3
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: 0.64499664, y: 0}
+  m_ConnectedAnchor: {x: -0.645, y: 0}
   m_DampingRatio: 0
   m_Frequency: 0
 --- !u!114 &6887818589130474418
@@ -449,13 +452,13 @@ MonoBehaviour:
   actions:
   - name: Baton Swing
     priority: 3
-    ready: 0
+    ready: 1
     hitBox: {fileID: 7835333299776145468}
     coolDown: 0
     animationClip: {fileID: 7400000, guid: e1d9d9dad2b0cbc459e43540f42e4eb2, type: 2}
   - name: Shield Charge
     priority: 3
-    ready: 0
+    ready: 1
     hitBox: {fileID: 7835333299776145468}
     coolDown: 10
     animationClip: {fileID: 7400000, guid: eb1df1c681087954eb5856c1fc5b1ac6, type: 2}
@@ -488,6 +491,7 @@ MonoBehaviour:
   statList:
   - name: Max Health
     value: 100
+  deathLevel: 
 --- !u!1001 &1841495103992843679
 PrefabInstance:
   m_ObjectHideFlags: 0

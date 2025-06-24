@@ -35,19 +35,21 @@ public class FastFall : MonoBehaviour
     public void StartFastFall()
     {
         isFastFalling = true;
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("FastFall");
     }
 
     public void StopFastFall()
     {
         isFastFalling = false;
+        AudioManager.Instance.VABranch.PlayVATrack(PartyManager.instance.selectedGhost + " Long Fall");
+        AudioManager.Instance.SFXBranch.StopSFXTrack("FastFall");
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (isFastFalling == true && collision.transform.position.y < transform.position.y)
         {
-            //cameraShaker.Shake(0.35f, 10f, 0f, 10f, new Vector2(Random.Range(-0.5f, 0.5f), 1f)); // add screen shake
-            CameraShake.instance.Shake(0.35f, 10f, 0f, 10f, new Vector2(Random.Range(-0.5f, 0.5f), 1f));
+            CameraShake.instance.Shake(0.15f, 10f, 0f, 10f, new Vector2(Random.Range(-0.5f, 0.5f), 1f)); // add screen shake
         }
     }
 

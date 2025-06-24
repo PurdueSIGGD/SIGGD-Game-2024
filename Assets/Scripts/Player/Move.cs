@@ -1,9 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
-using UnityEditor.SceneTemplate;
-using UnityEditor.U2D;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -19,7 +14,6 @@ public class Move : MonoBehaviour, IStatList
     private StatManager stats;
     private Animator animator;
 
-    private bool dashing = false;
     private bool stopMoving = false;
     private bool charging = false;
 
@@ -28,10 +22,13 @@ public class Move : MonoBehaviour, IStatList
     private float maxSpeed;
 
     private float overflowSpeed;
-    private float overflowDeaccel;
+    private float overflowGroundDeaccel;
+    private float overflowAirDeaccel;
 
     private bool stopTurning;
 
+    private float footstepTime;
+    private float landSFXtime;
 
     // Start is called before the first frame update
     void Start()
@@ -46,20 +43,23 @@ public class Move : MonoBehaviour, IStatList
         deaccel = stats.ComputeValue("Running Deaccel.");
 
         overflowSpeed = maxSpeed;
-        overflowDeaccel = 0.96f;
+        overflowGroundDeaccel = 0.8f;
+        overflowAirDeaccel = 0.96f;
+        footstepTime = Time.time;
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (!dashing && !stopMoving)
+        //Debug.Log("ACCEL: " + accel + "  |  MAX SPEED:" + maxSpeed +  "  |  DEACCEL: " + deaccel);
+        if (!stopMoving)
         {
             Movement();
         }
 
         if (stopMoving && animator.GetBool("p_grounded"))
         {
-            GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x * 0.9f, GetComponent<Rigidbody2D>().velocity.y);
+            GetComponent<Rigidbody2D>().velocity = new Vector2(GetComponent<Rigidbody2D>().velocity.x * stats.ComputeValue("Running Deaccel."), GetComponent<Rigidbody2D>().velocity.y);
         }
     }
 
@@ -78,7 +78,7 @@ public class Move : MonoBehaviour, IStatList
         if (overflowSpeed > maxSpeed)
         {
             newVel.x = Mathf.Clamp(newVel.x, -1 * overflowSpeed, overflowSpeed);
-            overflowSpeed = Mathf.Clamp(Mathf.Abs(rb.velocity.x), maxSpeed, overflowSpeed * overflowDeaccel);
+            overflowSpeed = Mathf.Clamp(Mathf.Abs(rb.velocity.x), maxSpeed, overflowSpeed * ((animator.GetBool("p_grounded")) ? overflowGroundDeaccel : overflowAirDeaccel));
         }
         else
         {
@@ -90,6 +90,13 @@ public class Move : MonoBehaviour, IStatList
         if (input == 0)
         {
             newVel.x *= deaccel;
+        }
+        if (input!=0 && animator.GetBool("p_grounded") && maxSpeed > 0f)
+        {
+            if (Time.time - footstepTime > (0.25f * (10 / maxSpeed))) {
+                AudioManager.Instance.SFXBranch.PlaySFXTrack("Footstep");
+                footstepTime = Time.time;
+            }
         }
 
         // keep updating y velocity
@@ -111,7 +118,21 @@ public class Move : MonoBehaviour, IStatList
         rb.velocity = newVel;
     }
 
+    public void UpdateRun()
+    {
+        accel = stats.ComputeValue("Running Accel.");
+        maxSpeed = stats.ComputeValue("Max Running Speed");
+        deaccel = stats.ComputeValue("Running Deaccel.");
+    }
+
     public void StartJump()
+    {
+        accel = stats.ComputeValue("Airborne Accel.");
+        maxSpeed = stats.ComputeValue("Max Running Speed");
+        deaccel = stats.ComputeValue("Airborne Deaccel.");
+    }
+
+    public void UpdateJump()
     {
         accel = stats.ComputeValue("Airborne Accel.");
         maxSpeed = stats.ComputeValue("Max Running Speed");
@@ -132,14 +153,37 @@ public class Move : MonoBehaviour, IStatList
         deaccel = stats.ComputeValue("Airborne Deaccel.");
     }
 
+    public void UpdateFall()
+    {
+        accel = stats.ComputeValue("Airborne Accel.");
+        maxSpeed = stats.ComputeValue("Max Running Speed");
+        deaccel = stats.ComputeValue("Airborne Deaccel.");
+    }
+
     public void StopFall()
     {
         accel = stats.ComputeValue("Running Accel.");
         maxSpeed = stats.ComputeValue("Max Running Speed");
         deaccel = stats.ComputeValue("Running Deaccel.");
+        if (animator.GetBool("p_grounded"))
+        {
+            if(Time.time - landSFXtime > 0.25)
+            {
+                AudioManager.Instance.SFXBranch.PlaySFXTrack("Landing");
+                landSFXtime = Time.time;
+                footstepTime = Time.time;
+            }
+        }
     }
 
     public void StartFastFall()
+    {
+        accel = stats.ComputeValue("Airborne Accel.");
+        maxSpeed = stats.ComputeValue("Max Running Speed");
+        deaccel = stats.ComputeValue("Airborne Deaccel.");
+    }
+
+    public void UpdateFastFall()
     {
         accel = stats.ComputeValue("Airborne Accel.");
         maxSpeed = stats.ComputeValue("Max Running Speed");
@@ -160,15 +204,22 @@ public class Move : MonoBehaviour, IStatList
         deaccel = stats.ComputeValue("Glide Deaccel.");
     }
 
+    public void UpdateGlide()
+    {
+        accel = stats.ComputeValue("Glide Accel.");
+        maxSpeed = stats.ComputeValue("Max Glide Speed");
+        deaccel = stats.ComputeValue("Glide Deaccel.");
+    }
+
     public void StopGlide()
     {
         accel = stats.ComputeValue("Running Accel.");
         maxSpeed = stats.ComputeValue("Max Running Speed");
         deaccel = stats.ComputeValue("Running Deaccel.");
     }
+
     public void StartDash()
     {
-        dashing = true;
         accel = stats.ComputeValue("Running Accel.");
         maxSpeed = stats.ComputeValue("Max Running Speed");
         deaccel = stats.ComputeValue("Running Deaccel.");
@@ -176,14 +227,15 @@ public class Move : MonoBehaviour, IStatList
 
     public void StopDash()
     {
-        dashing = false;
-        if (animator.GetBool("p_grounded")) return;
-        ApplyKnockback(rb.velocity.normalized, rb.velocity.magnitude);
+
     }
 
     public void StartLightAttack()
     {
         stopTurning = true;
+        accel = stats.ComputeValue("Accel. while Heavy");
+        maxSpeed = stats.ComputeValue("Max Speed while Heavy");
+        deaccel = stats.ComputeValue("Deaccel. while Heavy");
     }
 
     public void StopLightAttack()
@@ -191,14 +243,18 @@ public class Move : MonoBehaviour, IStatList
         if (!charging)
         {
             stopTurning = false;
+            accel = stats.ComputeValue("Running Accel.");
+            maxSpeed = stats.ComputeValue("Max Running Speed");
+            deaccel = stats.ComputeValue("Running Deaccel.");
         }
     }
 
     public void StartHeavyChargeUp()
     {
         charging = true;
-        accel = stats.ComputeValue("Accel. while Heavy");
-        maxSpeed = stats.ComputeValue("Max Speed while Heavy");
+        accel = 0.5f;
+        maxSpeed = 2f;
+        //maxSpeed = stats.ComputeValue("Max Speed while Heavy");
         deaccel = stats.ComputeValue("Deaccel. while Heavy");
     }
 
@@ -211,7 +267,6 @@ public class Move : MonoBehaviour, IStatList
             accel = stats.ComputeValue("Running Accel.");
             maxSpeed = stats.ComputeValue("Max Running Speed");
             deaccel = stats.ComputeValue("Running Deaccel.");
-            Debug.Log("Stop Heavy ChargeUp");
         }
     }
 
@@ -219,28 +274,59 @@ public class Move : MonoBehaviour, IStatList
     {
         Debug.Log("Primed");
         charging = false;
-        accel = stats.ComputeValue("Accel. while Heavy");
-        maxSpeed = stats.ComputeValue("Max Speed while Heavy");
+        accel = 0.5f;
+        maxSpeed = 2f;
+        //maxSpeed = stats.ComputeValue("Max Speed while Heavy");
         deaccel = stats.ComputeValue("Deaccel. while Heavy");
     }
 
     public void StopHeavyPrimed()
     {
         stopTurning = false;
+        //accel = 0;
+        //maxSpeed = 0;
+        //deaccel = stats.ComputeValue("Deaccel. while Heavy");
         accel = stats.ComputeValue("Running Accel.");
         maxSpeed = stats.ComputeValue("Max Running Speed");
         deaccel = stats.ComputeValue("Running Deaccel.");
-        Debug.Log("Back to normal");
+    }
+
+    public void StartHeavyAttack()
+    {
+        stopTurning = true;
+        accel = stats.ComputeValue("Accel. while Heavy");
+        maxSpeed = stats.ComputeValue("Max Speed while Heavy");
+        deaccel = stats.ComputeValue("Deaccel. while Heavy");
+    }
+
+    public void EnterHeavyAttackRecovery()
+    {
+        accel = 0.5f;
+        maxSpeed = 1f;
+        //maxSpeed = stats.ComputeValue("Max Speed while Heavy");
+        deaccel = stats.ComputeValue("Deaccel. while Heavy");
+    }
+
+    public void StopHeavyAttack()
+    {
+        stopTurning = false;
+        //accel = 0;
+        //maxSpeed = 0;
+        accel = stats.ComputeValue("Running Accel.");
+        maxSpeed = stats.ComputeValue("Max Running Speed");
+        deaccel = stats.ComputeValue("Running Deaccel.");
     }
 
     public void PlayerStop()
     {
         stopMoving = true;
+        stopTurning = true;
     }
 
     public void PlayerGo()
     {
         stopMoving = false;
+        stopTurning = false;
     }
 
     public StatManager.Stat[] GetStatList()
@@ -248,9 +334,16 @@ public class Move : MonoBehaviour, IStatList
         return statList;
     }
 
-    public void ApplyKnockback(Vector2 direction, float knockbackStrength)
+    /// <summary>
+    /// Knockback the player.
+    /// </summary>
+    /// <param name="direction">The direction of the knockback</param>
+    /// <param name="knockbackStrength">The strength of the knockback</param>
+    /// <param name="cancelCurrentMovement">If true, all player movement is overriden by this knockback</param>
+    public void ApplyKnockback(Vector2 direction, float knockbackStrength, bool cancelCurrentMovement)
     {
-        overflowSpeed = knockbackStrength;
-        rb.AddForce(direction.normalized * knockbackStrength);
+        if (overflowSpeed < knockbackStrength) overflowSpeed = knockbackStrength;
+        if (cancelCurrentMovement) rb.velocity = Vector2.zero;
+        rb.velocity += direction.normalized * knockbackStrength;
     }
 }

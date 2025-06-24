@@ -52,12 +52,14 @@ public class Glide : MonoBehaviour, IStatList
     {
         isFalling = true;
         rb.gravityScale = 0;
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("Glide");
     }
 
     public void StopGlide()
     {
         isFalling = false;
         rb.gravityScale = 4;
+        AudioManager.Instance.SFXBranch.StopSFXTrack("Glide");
     }
 
     public StatManager.Stat[] GetStatList()

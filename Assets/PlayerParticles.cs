@@ -4,17 +4,21 @@ using UnityEngine;
 
 public class PlayerParticles : MonoBehaviour
 {
-    private CameraShake shake;
 
     [SerializeField] ParticleSystem heavyCharging;
     [SerializeField] ParticleSystem heavyPrimed;
     [SerializeField] ParticleSystem heavyAttack;
+    [SerializeField] ParticleSystem lightAttack;
+    [SerializeField] ParticleSystem upLightAttack;
 
     void Start()
     {
-        shake = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraShake>();
+
     }
 
+
+
+    // Heavy Attack
     public void StartHeavyChargeUp()
     {
         heavyCharging.Play();
@@ -33,13 +37,81 @@ public class PlayerParticles : MonoBehaviour
     public void StopHeavyPrimed()
     {
         heavyPrimed.Stop();
+    }
+
+    public void PlayHeavyAttackVFX()
+    {
         StartCoroutine(HeavyAttackCoroutine());
     }
 
     private IEnumerator HeavyAttackCoroutine()
     {
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.12f);
         heavyAttack.Play();
-        shake.Shake(0.2f, 10f, 0, 10, new Vector2(Random.Range(-0.5f, 0.5f), 1f));
+    }
+
+
+
+    // Light Attack
+    public void PlayLightAttackVFX(bool isUp)
+    {
+        StartCoroutine(LightAttackCoroutine(isUp));
+    }
+
+    private IEnumerator LightAttackCoroutine(bool isUp)
+    {
+        yield return new WaitForSeconds(0.05f);
+        if (isUp)
+        {
+            upLightAttack.Play();
+            yield break;
+        }
+        lightAttack.Play();
+    }
+
+
+
+    // Police Chief Heavy Attack
+    public void StartSidearmChargeUp()
+    {
+        heavyCharging.Play();
+    }
+
+    public void StopSidearmChargeUp()
+    {
+        heavyCharging.Stop();
+    }
+
+    public void StartSidearmPrimed()
+    {
+        heavyPrimed.Play();
+    }
+
+    public void StopSidearmPrimed()
+    {
+        heavyPrimed.Stop();
+    }
+
+
+
+    // Police Chief Special Ability
+    public void StartSpecialChargeUp()
+    {
+        heavyCharging.Play();
+    }
+
+    public void StopSpecialChargeUp()
+    {
+        heavyCharging.Stop();
+    }
+
+    public void StartSpecialPrimed()
+    {
+        heavyPrimed.Play();
+    }
+
+    public void StopSpecialPrimed()
+    {
+        heavyPrimed.Stop();
     }
 }

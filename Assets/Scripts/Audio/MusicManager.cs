@@ -1,0 +1,113 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class MusicManager : MonoBehaviour
+{
+    //[SerializeField] private LeveledMusicTrack japan;
+    //[SerializeField] private LeveledMusicTrack cyberpunk;
+    //[SerializeField] private MusicTrack seamstress;
+    [SerializeField] private LeveledMusicTrack cyberpunkLevel;
+    [SerializeField] private MusicTrack hubLevel;
+    [SerializeField] private MusicTrack policeChief;
+    [SerializeField] private MusicTrack idol;
+
+    private MusicTrackName currentTrackName;
+
+    private void Awake()
+    {
+        currentTrackName = MusicTrackName.NULL;
+    }
+    
+    // Update is called once per frame
+    void Update() 
+    {
+        //GetCurrentMusicTrack().SetTrackVolume(0.07f);
+    }
+
+
+    public IMusicTrack GetMusicTrack(MusicTrackName trackName) {
+        switch (trackName) {
+            // case MusicTrackName.JAPAN:              return (IMusicTrack) japan;
+            // case MusicTrackName.CYBERPUNK:          return (IMusicTrack) cyberpunk;
+            // case MusicTrackName.SEAMSTRESS:         return (IMusicTrack) seamstress;
+            case MusicTrackName.CYBERPUNK_LEVEL:       return (IMusicTrack) cyberpunkLevel;
+            case MusicTrackName.HUB:                   return (IMusicTrack) hubLevel;
+            case MusicTrackName.POLICE_CHIEF:          return (IMusicTrack) policeChief;
+            case MusicTrackName.IDOL:                  return (IMusicTrack) idol;
+            default:                                   return null;
+        }
+    }
+
+    // Swaps the current track with NO crossfade
+    public void PlayMusicTrack(MusicTrackName trackName) {
+        IMusicTrack cTrack = GetCurrentMusicTrack();
+        if (cTrack != null) {
+            GetCurrentMusicTrack().StopTrack();
+        }
+        currentTrackName = trackName;
+        GetCurrentMusicTrack().PlayTrack();
+    }
+
+    public IMusicTrack GetCurrentMusicTrack() {
+        return GetMusicTrack(currentTrackName);
+    }
+
+    public MusicTrackName GetCurrentMusicTrackName() {
+        return currentTrackName;
+    }
+
+
+    public void CrossfadeTo(MusicTrackName trackName, float fadeTime) {
+        StartCoroutine(Crossfade(trackName, fadeTime));
+    }
+
+    // Fades into the given track over fadeTime seconds
+    private IEnumerator Crossfade(MusicTrackName trackName, float fadeTime) {
+        if (fadeTime <= 0) {
+            PlayMusicTrack(trackName);
+            yield return null;
+        }
+
+        int fadeSteps = 20;
+        float stepTime = fadeTime / fadeSteps;
+        IMusicTrack originalTrack = GetMusicTrack(currentTrackName);
+        IMusicTrack newTrack = GetMusicTrack(trackName);
+        
+        // Need to be careful since these tracks might already be playing and have their own volume
+        float originalTrackStartVolume = originalTrack.GetTrackVolume();
+        float newTrackStartVolume = newTrack.GetTrackVolume();
+
+        // The rate to change the tracks' volumes
+        float originalTrackVolumeDelta = -originalTrackStartVolume / fadeSteps;
+        float newTrackVolumeDelta = (originalTrackStartVolume) / fadeSteps;
+
+        // Fade by adjusting volume over multiple steps
+        newTrack.PlayTrack();  
+        for (int i = 0; i <= fadeSteps; i++) {
+            float originalTrackVolumeAdjustment = originalTrackVolumeDelta * i + originalTrackStartVolume;
+            float newTrackVolumeAdjustment = newTrackVolumeDelta * i + newTrackStartVolume;
+
+
+            originalTrack.SetTrackVolume(originalTrackVolumeAdjustment);
+            newTrack.SetTrackVolume(newTrackVolumeAdjustment);            
+            yield return new WaitForSeconds(stepTime);
+        }
+        originalTrack.StopTrack();
+        currentTrackName = trackName;
+    }
+}
+
+public enum MusicTrackName {
+    ////                  loopStart       loopEnd
+    //JAPAN, //           21.943          197.486
+    //CYBERPUNK, //       0.000           224.???
+    //SEAMSTRESS //       11.912          83.383    
+
+    //                    loopStart       loopEnd
+    NULL, //              lol             lmao
+    CYBERPUNK_LEVEL, //   0.000           224.000
+    HUB, //               0.000           191.000
+    POLICE_CHIEF, //      0.000           48.000
+    IDOL, //              0.000           98.000
+}

@@ -12,5 +12,9 @@ public class ManageJumpState : StateMachineBehaviour
     {
         animator.gameObject.SendMessage("StopJump", null, SendMessageOptions.DontRequireReceiver);
     }
+    public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        animator.gameObject.SendMessage("UpdateJump", null, SendMessageOptions.DontRequireReceiver);
+    }
 
 }

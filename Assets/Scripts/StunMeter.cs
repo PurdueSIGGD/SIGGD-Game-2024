@@ -10,14 +10,24 @@ using UnityEngine;
 /// Stun meter for enemies. When stun meter has been depleted, the enemy will
 /// be flinched/stunned for a breif duration.
 /// </summary>
-public class StunMeter : MonoBehaviour, IDamageable, IStatList
+public class StunMeter : MonoBehaviour, IStatList
 {
     [SerializeField] public StatManager.Stat[] statList;
 
-    private float currentStun;
-    private float maxStun;
+    public float currentStun;
+    public float maxStun;
     private StatManager stats;
     private EnemyStateManager esm;
+
+    void OnEnable()
+    {
+        GameplayEventHolder.OnDamageDealt += Damage;
+    }
+
+    void OnDisable()
+    {
+        GameplayEventHolder.OnDamageDealt -= Damage;
+    }
 
     void Start()
     {
@@ -26,18 +36,31 @@ public class StunMeter : MonoBehaviour, IDamageable, IStatList
         esm = GetComponent<EnemyStateManager>();
     }
 
-    public float Damage(DamageContext context, GameObject attacker)
+    public float ComputeStunBuildUp(DamageStrength strength)
     {
-        float stun = (float)StunLookUpTable.table[context.damageStrength];
+        return strength switch
+        {
+            DamageStrength.MEAGER => 0f,
+            DamageStrength.MINOR => 20f,
+            DamageStrength.LIGHT => 35f,
+            DamageStrength.MODERATE => 70f,
+            DamageStrength.HEAVY => 100f,
+            DamageStrength.DEVASTATING => 250f,
+            _ => 0f,
+        };
+    }
+
+    public void Damage(DamageContext context)
+    {
+        if (context.victim != gameObject) return;
+        float stun = ComputeStunBuildUp(context.damageStrength);
         currentStun -= stun;
 
         if (currentStun <= 0)
         {
-            currentStun = maxStun;
-            esm.Stun(context, 0.5f);
+            currentStun = maxStun = stats.ComputeValue("Stun Threshold");
+            esm.Stun(context, 0.6f);
         }
-
-        return stun;
     }
 
     public float Heal(HealingContext context, GameObject healer)

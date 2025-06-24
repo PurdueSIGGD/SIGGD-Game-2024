@@ -7,14 +7,34 @@ using UnityEngine;
 /// </summary>
 public class IdolClone : MonoBehaviour
 {
-    [SerializeField] float duration = 6.0f; // duration clone can last
+    private IdolManager manager;
+    [SerializeField] public float duration; // duration clone can last
+    [SerializeField] private float inactiveModifier;
+
+    [Header("Used by clone to kill self")]
+    [SerializeField] DamageContext expireContext = new DamageContext();
     private GameObject player;
+
+    void OnEnable()
+    {
+        GameplayEventHolder.OnDeath += PlayDeathVa;
+    }
+
+    private void OnDisable()
+    {
+        GameplayEventHolder.OnDeath -= PlayDeathVa;
+    }
 
     void Update()
     {
+        TickTimer();
+    }
+
+    void TickTimer()
+    {
         if (duration <= 0)
         {
-            Destroy(gameObject);
+            DeallocateDecoy();
         }
         if (player.GetComponent<IdolSpecial>())
         {
@@ -22,7 +42,7 @@ public class IdolClone : MonoBehaviour
         }
         else // if player is no longer in idol mode, count down twice as fast
         {
-            duration -= Time.deltaTime * 2;
+            duration -= Time.deltaTime * inactiveModifier;
         }
     }
 
@@ -31,8 +51,35 @@ public class IdolClone : MonoBehaviour
     /// using
     /// </summary>
     /// <param name="player"> player gameobject </param>
-    public void Initialize(GameObject player)
+    public void Initialize(GameObject player, IdolManager manager, float duration, float inactiveModifier)
     {
         this.player = player;
+        this.manager = manager;
+        this.duration = duration;
+        this.inactiveModifier = inactiveModifier;
+        this.manager = manager;
+    }
+
+    public void DeallocateDecoy()
+    {
+        if (manager)
+        {
+            manager.clones.Remove(gameObject);
+        }
+        expireContext.attacker = gameObject;
+        expireContext.victim = gameObject;
+        GameplayEventHolder.OnDeath.Invoke(expireContext);
+        GameplayEventHolder.OnDeath -= PlayDeathVa;
+        Destroy(gameObject);
+    }
+
+    private void PlayDeathVa(DamageContext context)
+    {
+        if (context.victim == gameObject)
+        {
+            // play audio, if has upgrade, choose from 1 random voice bank to play
+            string chosenBank = manager.passive.avaliableCloneLostVA[Random.Range(0, manager.passive.avaliableCloneLostVA.Count)];
+            AudioManager.Instance.VABranch.PlayVATrack(chosenBank);
+        }
     }
 }

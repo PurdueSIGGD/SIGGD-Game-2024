@@ -1,10 +1,9 @@
 using System;
 using System.Collections;
-using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using static GameplayEventHolder;
 
 [DisallowMultipleComponent]
 public class Health : MonoBehaviour, IDamageable, IStatList
@@ -14,18 +13,19 @@ public class Health : MonoBehaviour, IDamageable, IStatList
 
     [NonSerialized] public float currentHealth; // Current health of player
     [NonSerialized] public bool isAlive = true; // Checks if player is still alive
-    private StatManager stats;
+    [NonSerialized] private float damageResistance = 0.0f; // 0 to 1, Multiply damage by (1 - resistance) 
+
+    protected StatManager stats;
+    [SerializeField] private string deathLevel;
 
     public delegate void DamageFilters(DamageContext context);
 
 
-    // Start is called before the first frame update
     void Start()
     {
         stats = GetComponent<StatManager>();
         currentHealth = stats.ComputeValue("Max Health");
     }
-
 
     public float Damage(DamageContext context, GameObject attacker)
     {
@@ -36,12 +36,19 @@ public class Health : MonoBehaviour, IDamageable, IStatList
         context.damage = Mathf.Clamp(context.damage, 0f, currentHealth);
         context.invokingScript = this;
 
+        // potential alternative implementation of the foreach header:
+        //List<DamageFilterEvent> onDamageFilter = GameplayEventHolder.OnDamageFilter.ToArray(...idk something here);
+        //foreach (GameplayEventHolder.DamageFilterEvent filter in onDamageFilter)
         foreach (GameplayEventHolder.DamageFilterEvent filter in GameplayEventHolder.OnDamageFilter)
         {
             filter(ref context);
-            Debug.Log("After Filter: " + context.damage);
+            Debug.Log("After Filter " + filter + ": " + context.damage);
         }
 
+        
+        // Resistance
+        context.damage *= 1.0f - damageResistance;
+        
         Debug.Log("Damaged: " + context.damage);
 
         // Reduce current health
@@ -56,6 +63,8 @@ public class Health : MonoBehaviour, IDamageable, IStatList
             Kill(context);
         }
 
+        AggroEnemy(context.victim);
+
         return context.damage;
     }
 
@@ -69,6 +78,9 @@ public class Health : MonoBehaviour, IDamageable, IStatList
         context.attacker = attacker;
         context.damage = Mathf.Clamp(context.damage, 0f, currentHealth);
 
+        // Resistance
+        context.damage *= 1.0f - damageResistance;
+
         currentHealth -= context.damage;
 
         if (currentHealth <= 0f)
@@ -76,10 +88,12 @@ public class Health : MonoBehaviour, IDamageable, IStatList
             Kill(context);
         }
 
+        AggroEnemy(context.victim);
+
         return context.damage;
     }
 
-    public float Heal(HealingContext context, GameObject healer)
+    public virtual float Heal(HealingContext context, GameObject healer)
     {
         // Configure healing context
         float missingHealth = stats.ComputeValue("Max Health") - currentHealth;
@@ -113,7 +127,7 @@ public class Health : MonoBehaviour, IDamageable, IStatList
         }
 
         //Trigger Events
-        GameplayEventHolder.OnDeath?.Invoke(ref context);
+        GameplayEventHolder.OnDeath?.Invoke(context);
 
         StartCoroutine(DeathCoroutine(context));
     }
@@ -125,34 +139,44 @@ public class Health : MonoBehaviour, IDamageable, IStatList
             Destroy(gameObject);
             yield break;
         }
-
-        Time.timeScale = 0;
-        gameObject.layer = 0; // I really hope this doesn't collide with anything
-        if (GetComponent<PlayerInput>() != null) GetComponent<PlayerInput>().enabled = false;
-
-        float startTime = Time.unscaledTime;
-        float endTime = startTime + 3;
-
-        Vector3 originalScale = transform.localScale;
-
-        while (Time.unscaledTime < endTime)
-        {
-            float timePercentage = (Time.unscaledTime - startTime) / (endTime - startTime);
-
-            transform.Rotate(0, 0, Time.unscaledDeltaTime * 360);
-            transform.localScale = originalScale * (1 - timePercentage);
-
-            yield return null;
-        }
-
-        gameObject.SetActive(false);
-
-        SceneManager.LoadScene("HubWorld");
-        Time.timeScale = 1;
+        PlayerDeathManager playerDeath = gameObject.GetComponent<PlayerDeathManager>();
+        playerDeath.PlayDeathAnim();
     }
 
     public StatManager.Stat[] GetStatList()
     {
         return statList;
+    }
+
+    public void AggroEnemy(GameObject obj)
+    {
+        if (obj.CompareTag("Enemy"))
+        {
+            EnemyStateManager enemy = obj.GetComponent<EnemyStateManager>();
+            if (enemy != null && (enemy.GetCurrentState().GetType().Equals(typeof(IdleState)) || enemy.GetCurrentState().GetType().Equals(typeof(MoveState))))
+            {
+                enemy.SwitchState(enemy.AggroState);
+            }
+        }
+    }
+
+    public float GetDamageResistance()
+    {
+        return damageResistance;
+    }
+
+    public void SetDamageResistance(float damageResistance)
+    {
+        this.damageResistance = Mathf.Clamp(damageResistance, 0.0f, 1.0f);
+    }
+
+    public void ModifyDamageResistance(float delta)
+    {
+        damageResistance = Mathf.Clamp(damageResistance + delta, 0.0f, 1.0f);
+    }
+
+    public StatManager GetStats()
+    {
+        return stats;
     }
 }

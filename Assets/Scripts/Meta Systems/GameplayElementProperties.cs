@@ -27,6 +27,7 @@ public enum ActionID
     KING_BASIC,
     KING_SPECIAL,
     MISCELLANEOUS,
+    IDOL_SPECIAL_SWAP
 }
 
 public enum ActionType
@@ -55,6 +56,7 @@ public enum DamageStrength
     MODERATE,
     HEAVY,
     DEVASTATING,
+    MINOR,
 }
 
 public enum DamageType

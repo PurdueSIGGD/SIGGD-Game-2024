@@ -1,10 +1,5 @@
-using System;
 using System.Collections;
-using System.Threading;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 //<summary>
 // Special ability script for player - if a ghost is currently posessing and 
@@ -18,12 +13,11 @@ public class Dash : MonoBehaviour, IStatList
     [SerializeField]
     private StatManager.Stat[] statList;
 
-    
     private Camera mainCamera;
     private Rigidbody2D rb;
 
-    [SerializeField] private Vector2 velocity = Vector2.zero;
-    [SerializeField] private bool isDashing = false;
+    private Vector2 velocity = Vector2.zero;
+    private bool isDashing = false;
 
     private StatManager stats;
     private OrionManager orionManager;
@@ -49,9 +43,11 @@ public class Dash : MonoBehaviour, IStatList
         {
             rb.velocity = velocity;
         }
+
+
         if (orionManager != null)
         {
-            if (orionManager.getSpecialCooldown() > 0)
+            if (orionManager.getSpecialCooldown() > 0f || orionManager.isAirbornePostDash)
             {
                 psm.OnCooldown("c_special");
             }
@@ -69,47 +65,50 @@ public class Dash : MonoBehaviour, IStatList
     //</summary>
     public void StartDash()
     {
-        if (specialAction != null)
+        GetComponent<Move>().PlayerStop();
+        Vector3 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 direction = ((Vector2) mousePos - (Vector2) transform.position).normalized;
+        if (GetComponent<Animator>().GetBool("p_grounded"))
         {
-            specialAction();
+            direction = new Vector2(direction.x, Mathf.Max(direction.y, 0f)).normalized;
         }
-        else
+
+        if (direction.x > 0) // update player facing direction
         {
-            Vector3 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-            //Vector2 displacement = Vector2.ClampMagnitude((Vector2)mousePos - (Vector2)transform.position, stats.ComputeValue("Max Dash Distance"));
-
-            Vector2 displacement = ((Vector2)mousePos - (Vector2)transform.position).normalized * stats.ComputeValue("Max Dash Distance");
-            
-            /*
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, displacement.normalized, displacement.magnitude, LayerMask.GetMask("Ground"));
-            if (hit.collider != null)
-            {
-                displacement = hit.point - (Vector2)transform.position - displacement.normalized * rb.GetComponent<Collider2D>().bounds.extents.magnitude;
-            }
-            displacement = (displacement.magnitude < 5f) ? displacement.normalized * 5f : displacement;
-            */
-
-            this.velocity = displacement / stats.ComputeValue("Dash Time");
-            StartCoroutine(DashCoroutine());
+            transform.rotation = Quaternion.Euler(0, 0, 0);
         }
+        else if (direction.x < 0)
+        {
+            transform.rotation = Quaternion.Euler(0, 180, 0);
+        }
+
+        Vector2 displacement = direction * stats.ComputeValue("Max Dash Distance");
+        this.velocity = displacement / stats.ComputeValue("Dash Time");
+        StartCoroutine(DashCoroutine());
+    }
+
+    public void StopDash()
+    {
+        GetComponent<Move>().PlayerGo();
+        if (GetComponent<Animator>().GetBool("p_grounded")) return;
+        GetComponent<Move>().ApplyKnockback(rb.velocity.normalized, rb.velocity.magnitude, true);
+        GetComponent<Animator>().SetBool("air_light_ready", true);
+        orionManager.isAirbornePostDash = true;
     }
 
     private IEnumerator DashCoroutine()
     {
         isDashing = true;
-        PlayerStateMachine psm = this.GetComponent<PlayerStateMachine>();
 
-        yield return new WaitForSeconds(stats.ComputeValue("Dash Time"));
+        yield return new WaitForSeconds(stats.ComputeValue("Dash Time") - 0.05f);
+        orionManager.setSpecialCooldown(stats.ComputeValue("Dash Cooldown"));
+        yield return new WaitForSeconds(0.05f);
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("Dash");
+        AudioManager.Instance.VABranch.PlayVATrack("Orion Dash");
 
         rb.velocity *= stats.ComputeValue("Post Dash Momentum Fraction");
         psm.EnableTrigger("OPT");
-        //psm.OnCooldown("c_special");
-
         isDashing = false;
-        //yield return new WaitForSeconds(stats.ComputeValue("Dash Cooldown"));
-        //psm.OffCooldown("c_special");
-        orionManager.setSpecialCooldown(stats.ComputeValue("Dash Cooldown"));
-        //psm.EnableTrigger("OPT");
     }
 
     public StatManager.Stat[] GetStatList()
