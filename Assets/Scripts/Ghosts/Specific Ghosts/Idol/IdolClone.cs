@@ -108,5 +108,8 @@ public class IdolClone : MonoBehaviour
         // play audio, if has upgrade, choose from 1 random voice bank to play
         string chosenBank = manager.passive.avaliableCloneLostVA[Random.Range(0, manager.passive.avaliableCloneLostVA.Count)];
         AudioManager.Instance.VABranch.PlayVATrack(chosenBank);
+
+        // SFX
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("Eva-Nova Pop");
     }
 }

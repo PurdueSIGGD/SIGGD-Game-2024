@@ -33,6 +33,7 @@ public class ElectricStep : Skill
         fieldVisualInstance = Instantiate(fieldVisual, PlayerID.instance.gameObject.transform);
         fieldVisualInstance.transform.localScale = new Vector3(1, 1, 1) * radius;
         fieldVisualInstance.SetActive(false);
+        AudioManager.Instance.SFXBranch.StopSFXTrack("Eva-Electric Step");
     }
 
     public override void AddPointTrigger()
@@ -102,10 +103,12 @@ public class ElectricStep : Skill
         if (!fieldVisualInstance.activeSelf && fieldActive)
         {
             fieldVisualInstance.SetActive(true);
+            AudioManager.Instance.SFXBranch.PlaySFXTrack("Eva-Electric Step");
         }
         else if (fieldVisualInstance.activeSelf && !fieldActive)
         {
             fieldVisualInstance.SetActive(false);
+            AudioManager.Instance.SFXBranch.StopSFXTrack("Eva-Electric Step");
         }
     }
 

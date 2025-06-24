@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class IdolUIDriver : GhostUIDriver
 {
+    [SerializeField] private Sprite cloneIcon;
+
     private IdolManager manager;
 
     // Start is called before the first frame update
@@ -53,7 +55,8 @@ public class IdolUIDriver : GhostUIDriver
         {
             skill1UIManager.setUIActive(true);
             skill1UIManager.setNumberActive(false);
-            skill1UIManager.setIcon(manager.GetComponent<GhostIdentity>().GetCharacterInfo().specialAbilityIcon);
+            //skill1UIManager.setIcon(manager.GetComponent<GhostIdentity>().GetCharacterInfo().specialAbilityIcon);
+            skill1UIManager.setIcon(cloneIcon);
             skill1UIManager.setMeterValue(manager.clones[0].GetComponent<Health>().currentHealth, manager.clones[0].GetComponent<StatManager>().ComputeValue("Max Health"));
             skill1UIManager.setChargeWidgetActive(true);
             skill1UIManager.setChargeValue(manager.clones[0].GetComponent<Health>().currentHealth, manager.clones[0].GetComponent<StatManager>().ComputeValue("Max Health"));
@@ -70,7 +73,8 @@ public class IdolUIDriver : GhostUIDriver
         {
             skill2UIManager.setUIActive(true);
             skill2UIManager.setNumberActive(false);
-            skill2UIManager.setIcon(manager.GetComponent<GhostIdentity>().GetCharacterInfo().specialAbilityIcon);
+            //skill2UIManager.setIcon(manager.GetComponent<GhostIdentity>().GetCharacterInfo().specialAbilityIcon);
+            skill2UIManager.setIcon(cloneIcon);
             skill2UIManager.setMeterValue(manager.clones[1].GetComponent<Health>().currentHealth, manager.clones[1].GetComponent<StatManager>().ComputeValue("Max Health"));
             skill2UIManager.setChargeWidgetActive(true);
             skill2UIManager.setChargeValue(manager.clones[1].GetComponent<Health>().currentHealth, manager.clones[1].GetComponent<StatManager>().ComputeValue("Max Health"));

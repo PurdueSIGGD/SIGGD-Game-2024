@@ -37,7 +37,7 @@ public abstract class Skill : MonoBehaviour
 
     public string GetName()
     {
-        return skillSO.name;
+        return skillSO.skillName;
     }
 
     public string GetDescription()

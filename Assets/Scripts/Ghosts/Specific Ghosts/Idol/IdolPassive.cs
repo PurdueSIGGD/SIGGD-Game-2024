@@ -156,7 +156,9 @@ public class IdolPassive : MonoBehaviour
     {
         Debug.Log("Increasing tempo");
 
+        // ensure tempo stacks don't exceed maximum
         int remainingStacks = (int) manager.GetStats().ComputeValue("TEMPO_MAX_STACKS") - tempoStacks;
+        stacks = stacks < remainingStacks ? stacks : remainingStacks;
 
         // if at max tempo, play max tempo audio
         if (remainingStacks <= 0)
@@ -172,8 +174,18 @@ public class IdolPassive : MonoBehaviour
             AudioManager.Instance.VABranch.PlayVATrack("Eva-Idol Activate Tempo");
         }
 
-        // increment tempo stacks by stacks so it doesn't exceed maximum
-        stacks = stacks < remainingStacks ? stacks : remainingStacks;
+        // SFX
+        if (tempoStacks + stacks < manager.GetStats().ComputeValue("TEMPO_MAX_STACKS") || tempoStacks >= manager.GetStats().ComputeValue("TEMPO_MAX_STACKS"))
+        {
+            AudioManager.Instance.SFXBranch.GetSFXTrack("Eva-Tempo Gained").SetPitch(tempoStacks, manager.GetStats().ComputeValue("TEMPO_MAX_STACKS"));
+            AudioManager.Instance.SFXBranch.PlaySFXTrack("Eva-Tempo Gained");
+        }
+        else
+        {
+            AudioManager.Instance.SFXBranch.PlaySFXTrack("Eva-Tempo Max");
+        }
+
+        // increment tempo stacks by stacks
         tempoStacks += stacks;
 
         // Feedback Loop reduce Special cooldown
@@ -232,6 +244,9 @@ public class IdolPassive : MonoBehaviour
         // VFX
         particlesVFX.gameObject.SetActive(false);
         particlesVFX.SetIntensity(tempoStacks, manager.GetStats().ComputeValue("TEMPO_MAX_STACKS"));
+
+        // SFX
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("Eva-Tempo Lost");
 
         return "AAAOAOAOAO SH I HIT A BRICK WALL OH GOD IT HURTS";
     }

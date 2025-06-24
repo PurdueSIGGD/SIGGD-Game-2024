@@ -159,6 +159,9 @@ public class IdolSpecial : MonoBehaviour
         string chosenBank = avaliableHoloJumpVA[Random.Range(0, avaliableHoloJumpVA.Count)];
         AudioManager.Instance.VABranch.PlayVATrack(chosenBank);
 
+        // SFX
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("Eva-Special Use");
+
         // small pause before player can start swapping with clone
         HoloJumpImmune(manager.GetStats().ComputeValue("HOLOJUMP_IMMUNE_SECONDS"));
         isSwitchOnCooldown = true;
@@ -194,6 +197,9 @@ public class IdolSpecial : MonoBehaviour
         teleportPulseVfX.GetComponent<RingExplosionHandler>().playRingExplosion(1f, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
         GameObject teleportDecoyPulseVfX = Instantiate(manager.holojumpPulseVFX, swapClone.transform.position, Quaternion.identity);
         teleportDecoyPulseVfX.GetComponent<RingExplosionHandler>().playRingExplosion(1f, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
+
+        // SFX
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("Eva-Special Swap");
 
         // small pause before player can swap with clone again
         HoloJumpImmune(manager.GetStats().ComputeValue("HOLOJUMP_IMMUNE_SECONDS"));
