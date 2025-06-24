@@ -28,7 +28,7 @@ public class SkillTree : MonoBehaviour
         string identityName = gameObject.name;
         if (!SaveManager.data.ghostLevel.ContainsKey(identityName))
         {
-            SaveManager.data.ghostLevel.Add(identityName, 10);
+            SaveManager.data.ghostLevel.Add(identityName, startAtLevel);
         }
         startAtLevel = SaveManager.data.ghostLevel[identityName];
 
@@ -76,7 +76,7 @@ public class SkillTree : MonoBehaviour
 
     private void Start()
     {
-        for (int i = 0; i < startAtLevel; i++)
+        for (int i = 1; i < startAtLevel; i++)
         {
             LevelUp();
         }
