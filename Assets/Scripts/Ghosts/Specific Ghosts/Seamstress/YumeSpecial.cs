@@ -49,7 +49,7 @@ public class YumeSpecial : MonoBehaviour
             manager.ResetDuration();
             manager.startSpecialCooldown();
             StartCoroutine(FireProjectile(transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition)));
-            manager.AddSpools(-manager.GetStats().ComputeValue("Special Attack Spools Needed"));
+            manager.AddSpools((int)-manager.GetStats().ComputeValue("Special Attack Spools Needed"));
         }
     }
 
