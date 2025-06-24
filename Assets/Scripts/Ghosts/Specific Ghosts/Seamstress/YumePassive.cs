@@ -29,7 +29,7 @@ public class YumePassive : MonoBehaviour, IStatList
     // Update is called once per frame
     void Update()
     {
-        if (crouching && manager.GetSpools() < GetComponent<StatManager>().ComputeValue("Max Spools")) {
+        if (crouching && manager.GetSpools() < manager.GetStats().ComputeValue("Max Spools")) {
             timer += Time.deltaTime;
         }
         else
@@ -38,7 +38,7 @@ public class YumePassive : MonoBehaviour, IStatList
             concurrentSpools = 0;
         }
 
-        if ((concurrentSpools == 0 && timer > GetComponent<StatManager>().ComputeValue("Initial Spool Buffer")) || (concurrentSpools > 0 && timer > GetComponent<StatManager>().ComputeValue("Concurrent Spool Buffer")))
+        if ((concurrentSpools == 0 && timer > manager.GetStats().ComputeValue("Initial Spool Buffer")) || (concurrentSpools > 0 && timer > GetComponent<StatManager>().ComputeValue("Concurrent Spool Buffer")))
         {
             manager.AddSpools(1);
             concurrentSpools++;
