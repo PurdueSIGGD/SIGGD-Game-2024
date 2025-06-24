@@ -213,7 +213,9 @@ MonoBehaviour:
   - name: TEMPO_DAMAGE_DURATION_GAIN
     value: 0.33
   - name: Nova Pop Damage
-    value: 20
+    value: 10
+  - name: Dynamic Trio Clone Health
+    value: 10
   defaultController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
   ghostController: {fileID: 9100000, guid: 5779acd767093ee419301b684e1317dd, type: 2}
   special: {fileID: 0}
@@ -349,7 +351,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: 741d655c9f17315478dd227c3f3276e0, type: 2}
-  invisibilityDuration: 3
+  invisibilityDuration: 3.5
   values:
   - 0
   - 40
@@ -413,7 +415,7 @@ MonoBehaviour:
     actionID: 8
     actionTypes: 04000000
     extraContext: 
-  radius: 7
+  radius: 6
   values:
   - 0
   - 0.8

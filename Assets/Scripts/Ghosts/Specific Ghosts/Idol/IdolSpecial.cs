@@ -149,7 +149,7 @@ public class IdolSpecial : MonoBehaviour
                 manager,
                 manager.GetStats().ComputeValue("HOLOJUMP_DURATION_SECONDS"),
                 manager.GetStats().ComputeValue("HOLOJUMP_DURATION_INACTIVE_MODIFIER"),
-                15f
+                manager.GetStats().ComputeValue("Dynamic Trio Clone Health")
             );
             //if (secondClone.GetComponent<StatManager>() != null) Debug.Log("CLONE HEALTH: " + secondClone.GetComponent<StatManager>().ComputeValue("Max Health"));
             manager.clones.Add(secondClone);
