@@ -15,11 +15,33 @@ public class YumeUIDriver : GhostUIDriver
     protected override void Update()
     {
         base.Update();
-        if (!isInParty) return;
-        updateSpecialAbility();
+        if (!isInParty)
+        {
+            basicAbilityUIManager.setChargeWidgetActive(false);
+            return;
+        }
+        basicAbilityUIManager.setChargeWidgetActive(true);
+        UpdateBasicAbility();
+        UpdateSpecialAbility();
     }
 
-    private void updateSpecialAbility()
+    private void UpdateBasicAbility()
+    {
+        int spoolCount = manager.GetSpools();
+        basicAbilityUIManager.setChargeValue(spoolCount, manager.GetStats().ComputeValue("Max Spools"));
+        if (spoolCount > 0)
+        {
+            basicAbilityUIManager.setAbilityEnabled(true);
+            basicAbilityUIManager.setMeterValue(manager.GetWeaveTimer(), manager.GetStats().ComputeValue("Concurrent Spool Buffer"));
+        }
+        else
+        {
+            basicAbilityUIManager.setAbilityEnabled(false);
+            basicAbilityUIManager.setMeterValue(manager.GetWeaveTimer(), manager.GetStats().ComputeValue("Initial Spool Buffer"));
+        }
+    }
+
+    private void UpdateSpecialAbility()
     {
         specialAbilityUIManager.setAbilityCooldownTime(manager.getSpecialCooldown(), stats.ComputeValue("Special Cooldown"));
     }

@@ -38,15 +38,19 @@ public class YumeSpecial : MonoBehaviour
 
     public void StartDash()
     {
-        // whenever ability fires, grab a copy of all enemies at play in a queue
-        foreach (GameObject enemy in enemySpawning.GetCurrentEnemies())
+        if (manager.GetSpools() >= manager.GetStats().ComputeValue("Special Attack Spools Needed"))
         {
-            manager.linkableEnemies.Enqueue(enemy);
+            // whenever ability fires, grab a copy of all enemies at play in a queue
+            foreach (GameObject enemy in enemySpawning.GetCurrentEnemies())
+            {
+                manager.linkableEnemies.Enqueue(enemy);
+            }
+            // now this.enemies should be populated with every enemy at play
+            manager.ResetDuration();
+            manager.startSpecialCooldown();
+            StartCoroutine(FireProjectile(transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition)));
+            manager.AddSpools(-manager.GetStats().ComputeValue("Special Attack Spools Needed"));
         }
-        // now this.enemies should be populated with every enemy at play
-        manager.ResetDuration();
-        manager.startSpecialCooldown();
-        StartCoroutine(FireProjectile(transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition)));
     }
 
     private IEnumerator FireProjectile(Vector2 orig, Vector2 dest)

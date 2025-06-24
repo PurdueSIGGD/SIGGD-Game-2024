@@ -6,7 +6,10 @@ using UnityEngine;
 public class SeamstressManager : GhostManager
 {
     private YumeSpecial special;
+    private YumeHeavy heavy;
 
+    private int spools;
+    private float spoolTimer;
 
     [Header("Projectile")]
     public GameObject projectile;
@@ -55,13 +58,35 @@ public class SeamstressManager : GhostManager
         base.Select(player);
         special = PlayerID.instance.AddComponent<YumeSpecial>();
         special.manager = this;
+        heavy = PlayerID.instance.AddComponent<YumeHeavy>();
+        heavy.manager = this;
     }
 
     public override void DeSelect(GameObject player)
     {
         if (PlayerID.instance.GetComponent<YumeSpecial>()) Destroy(PlayerID.instance.GetComponent<YumeSpecial>());
-
+        if (PlayerID.instance.GetComponent<YumeHeavy>()) Destroy(PlayerID.instance.GetComponent<YumeHeavy>());
         base.DeSelect(player);
+    }
+
+    public int GetSpools()
+    {
+        return spools;
+    }
+
+    public void AddSpools(int nspools)
+    {
+        spools = (int) Math.Clamp(spools + nspools, 0, stats.ComputeValue("Max Spools"));
+    }
+
+    public void SetWeaveTimer(float time)
+    {
+        spoolTimer = time;
+    }
+
+    public float GetWeaveTimer()
+    {
+        return spoolTimer;
     }
 
     public void ResetDuration()
