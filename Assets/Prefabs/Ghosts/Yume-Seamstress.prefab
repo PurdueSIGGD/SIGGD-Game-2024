@@ -18,8 +18,10 @@ GameObject:
   - component: {fileID: 504260248778479986}
   - component: {fileID: 6265072175092927981}
   - component: {fileID: 6584130053324715732}
+  - component: {fileID: 6038404173171518364}
+  - component: {fileID: 670032466409933237}
   m_Layer: 17
-  m_Name: Yume
+  m_Name: Yume-Seamstress
   m_TagString: Ghost
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -351,6 +353,40 @@ MonoBehaviour:
   skill1UIManager: {fileID: 0}
   skill2UIManager: {fileID: 0}
   meterUIManager: {fileID: 0}
+--- !u!114 &6038404173171518364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981645078808632434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6751ace73ed618a489adcadc57478e19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skills:
+  - {fileID: 670032466409933237}
+  - {fileID: 670032466409933237}
+  - {fileID: 670032466409933237}
+  - {fileID: 670032466409933237}
+  - {fileID: 670032466409933237}
+  - {fileID: 670032466409933237}
+  - {fileID: 670032466409933237}
+  startAtLevel: 10
+--- !u!114 &670032466409933237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981645078808632434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cded2aefff03514c80651e9f3c8ea75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillSO: {fileID: 0}
 --- !u!1 &4936111184687609786
 GameObject:
   m_ObjectHideFlags: 0
