@@ -13,9 +13,38 @@ public class SamuraiManager : GhostManager, ISelectable
     [HideInInspector] public WrathHeavyAttack basic; // the heavy attack ability
     [HideInInspector] public SamuraiRetribution special; // the special ability
 
+    [SerializeField] string identityName;
+
+    void Awake()
+    {
+
+        if (!SaveManager.data.ghostSkillPts.ContainsKey(identityName))
+        {
+            SaveManager.data.ghostSkillPts.Add(identityName, new int[7]);
+        }
+
+        if (!SaveManager.data.ghostLevel.ContainsKey(identityName))
+        {
+            SaveManager.data.ghostLevel.Add(identityName, 10);
+        }
+
+        
+    }
+
     protected override void Start()
     {
         base.Start();
+        int[] points = SaveManager.data.ghostSkillPts[identityName];
+        Skill[] skills = GetComponent<SkillTree>().GetAllSkills();
+        for (int i = 0; i < skills.Length; i++)
+        {
+            Debug.Log("skill Points from: " + skills[i].GetPoints());
+            for (int j = 0; j < skills[i].GetPoints(); j++)
+            {
+                Debug.Log("Removed skillPoints from: " + skills[i]);
+                GetComponent<SkillTree>().RemoveSkillPoint(skills[i]);
+            }
+        }
     }
 
     // Update is called once per frame

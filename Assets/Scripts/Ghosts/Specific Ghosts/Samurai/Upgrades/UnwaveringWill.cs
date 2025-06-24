@@ -11,7 +11,7 @@ public class UnwaveringWill : Skill
     [Header("Life steal rate")]
     [SerializeField] float healRate;
 
-    private static int pointIndex;
+    private int pointIndex;
     private SamuraiManager manager;
     private PlayerHealth health;
 
