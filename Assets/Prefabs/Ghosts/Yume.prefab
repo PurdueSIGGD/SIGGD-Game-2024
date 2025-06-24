@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 1173352059460126574}
   - component: {fileID: 504260248778479986}
   - component: {fileID: 6265072175092927981}
-  - component: {fileID: 6565641950570550647}
+  - component: {fileID: 6584130053324715732}
   m_Layer: 17
   m_Name: Yume
   m_TagString: Ghost
@@ -143,7 +143,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64193cb6f57202744bf8fb56115e3b2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterInfo: {fileID: 0}
+  characterInfo: {fileID: 11400000, guid: d6a4c90d3488ecb40b9460e34601cb53, type: 2}
+  isUnlocked: 0
+  exp: 0
 --- !u!114 &584133115329307738
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -159,6 +161,8 @@ MonoBehaviour:
   interactRange: 3
   menuOffset: {x: 0, y: 2, z: 0}
   hubConvo: {fileID: 11400000, guid: 1c32528fb16f67c429d8be38265fa140, type: 2}
+  isFirstInteraction: 0
+  isNPC: 0
 --- !u!114 &1173352059460126574
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -173,8 +177,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Special Cooldown
-    value: 5
+    value: 8
   - name: Basic Cooldown
+    value: 5
+  - name: Projectile Damage
+    value: 10
+  - name: Projectile Ricochet Count
+    value: 4
+  - name: 'Projectile Ricochet Maximum Normal Angle '
+    value: 60
+  - name: Projectile Enemy Chain Range
+    value: 10
+  - name: Projectile Maximum Chain Target Count
+    value: 4
+  - name: Projectile Flight Speed
+    value: 15
+  - name: Fatebound Duration
     value: 5
 --- !u!114 &504260248778479986
 MonoBehaviour:
@@ -190,13 +208,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList: []
   defaultController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
-  ghostController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
+  ghostController: {fileID: 9100000, guid: b2df4cc609beea44285ab4d10e80ffae, type: 2}
   projectile: {fileID: 7891332324626441984, guid: f3b339b45781d2541b8cac7e219b9f59,
     type: 3}
   maxRicochet: 4
-  flightSpeed: 5
+  flightSpeed: 15
   chainRange: 10
-  chainedDuration: 10
+  chainedDuration: 5
+  sharedDmg:
+    damageStrength: 0
+    damageTypes: 03000000
+    actionID: 12
+    actionTypes: 03000000
+    extraContext: 
   sharedDmgScaling: 0.6
 --- !u!120 &6265072175092927981
 LineRenderer:
@@ -300,7 +324,7 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
---- !u!114 &6565641950570550647
+--- !u!114 &6584130053324715732
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -309,21 +333,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 981645078808632434}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ee62bcf0f759944dbb7619f44379d0e, type: 3}
+  m_Script: {fileID: 11500000, guid: 8a8381928595e0d4990e23506758f116, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statList:
-  - name: Spool Heavy Attack Stun
-    value: 0.1
-  - name: Heavy Attack Spools Needed
-    value: 1
-  - name: Max Spools
-    value: 4
-  - name: Initial Spool Buffer Time
-    value: 0.5
-  - name: Concurrent Spool Buffer Time
-    value: 0.25
-  manager: {fileID: 0}
+  selectedGhostUIManager: {fileID: 0}
+  deselectedGhostUIManager: {fileID: 0}
+  basicAbilityUIManager: {fileID: 0}
+  specialAbilityUIManager: {fileID: 0}
+  skill1UIManager: {fileID: 0}
+  skill2UIManager: {fileID: 0}
+  meterUIManager: {fileID: 0}
 --- !u!1 &4936111184687609786
 GameObject:
   m_ObjectHideFlags: 0

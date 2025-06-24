@@ -1,21 +1,21 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class SeamstressManager : GhostManager
 {
+    private YumeSpecial special;
+
+
     [Header("Projectile")]
     public GameObject projectile;
-    public float maxRicochet;
-    public float flightSpeed;
-    public float chainRange;
-    public float chainedDuration;
 
     private float durationCounter;
     private float ricochetCounter;
 
     [Header("Fatebound Effect")]
+    [SerializeField] private DamageContext sharedDmg;
     [SerializeField] private float sharedDmgScaling;
 
     public Queue<GameObject> linkableEnemies;
@@ -45,36 +45,19 @@ public class SeamstressManager : GhostManager
         linkableEnemies = new Queue<GameObject>();
         lineRenderer = GetComponent<LineRenderer>();
 
-        durationCounter = chainedDuration;
+        durationCounter = GetStats().ComputeValue("Fatebound Duration");
     }
 
     protected override void Update()
     {
         base.Update();
-        if (head.enemy != null) // if linked list isn't empty
-        {
-            durationCounter -= Time.deltaTime;
-            if (durationCounter < 0)
-            {
-                ClearList();
-            }
-
-            // draw a line of connection between each enemy
-            ptr = head;
-            int i = 0;
-            while (ptr.enemy != null)
-            {
-                lineRenderer.SetPosition(i, ptr.enemy.transform.position);
-                i++;
-                ptr = ptr.chainedTo;
-            }
-        }
+        UpdateLinkedEnemies();
     }
 
     public override void Select(GameObject player)
     {
         base.Select(player);
-        YumeSpecial special = PlayerID.instance.AddComponent<YumeSpecial>();
+        special = PlayerID.instance.AddComponent<YumeSpecial>();
         special.manager = this;
         YumePassive passive = PlayerID.instance.AddComponent<YumePassive>();
         passive.manager = this;
@@ -91,12 +74,13 @@ public class SeamstressManager : GhostManager
     {
         if (PlayerID.instance.GetComponent<YumeSpecial>()) Destroy(PlayerID.instance.GetComponent<YumeSpecial>());
         if (PlayerID.instance.GetComponent<YumePassive>()) Destroy(PlayerID.instance.GetComponent<YumePassive>());
-        PlayerID.instance.GetComponent<Animator>().runtimeAnimatorController = defaultController;
+
+        base.DeSelect(player);
     }
 
     public void ResetDuration()
     {
-        durationCounter = chainedDuration;
+        durationCounter = GetStats().ComputeValue("Fatebound Duration");
     }
 
     public void AddEnemy(GameObject hitTarget)
@@ -120,12 +104,12 @@ public class SeamstressManager : GhostManager
     public Transform FindNextTarget(GameObject cur)
     {
         Transform targetLoc = null;
-        float minDist = chainRange;
+        float minDist = GetStats().ComputeValue("Projectile Enemy Chain Range");
         for (int i = 0; i < linkableEnemies.Count; i++)
         {
             GameObject enemy = linkableEnemies.Dequeue();
 
-            if (enemy.GetInstanceID() == cur.GetInstanceID()) // if checking the currently linked enemy, pass
+            if (enemy == null || enemy.GetInstanceID() == cur.GetInstanceID()) // if checking the currently linked enemy, pass
             {
                 i--;
                 continue; // do not add the removed enemy back to the list, the enemy is already linked
@@ -157,9 +141,12 @@ public class SeamstressManager : GhostManager
         {
             if (ptr.enemy.GetInstanceID() != enemyID)
             {
-                DamageContext sharedDmg = new DamageContext();
+                // when damaging an enemy through fatebound effect, only damage, 
+                // damagestrength, and the victim will be set according to the origional damage
+                // action type and damage type will be preset in the editor
                 sharedDmg.damage = context.damage * sharedDmgScaling;
                 sharedDmg.damageStrength = context.damageStrength;
+                sharedDmg.victim = ptr.enemy;
 
                 ptr.enemy.GetComponent<Health>().NoContextDamage(sharedDmg, PlayerID.instance.gameObject);
             }
@@ -175,13 +162,13 @@ public class SeamstressManager : GhostManager
     {
         ptr = head;
 
-        if (ptr.enemy.GetInstanceID() == enemyID)
+        if (ptr.enemy != null && ptr.enemy.GetInstanceID() == enemyID)
         {
             head = head.chainedTo;
             return;
         }
 
-        while(ptr.enemy != null)
+        while (ptr.enemy != null)
         {
             if (ptr.chainedTo.enemy.GetInstanceID() == enemyID)
             {
@@ -198,7 +185,7 @@ public class SeamstressManager : GhostManager
     public bool IncrementRicochet()
     {
         ricochetCounter++;
-        return ricochetCounter == maxRicochet;
+        return ricochetCounter == GetStats().ComputeValue("Projectile Ricochet Count");
     }
 
     public void ResetRicochet()
@@ -228,5 +215,29 @@ public class SeamstressManager : GhostManager
     public void AddSpools(int nspools)
     {
         spools += nspools;
+    }
+
+    private void UpdateLinkedEnemies()
+    {
+        int i = 0; // used to keep track of each point used in line-render
+        if (head.enemy != null) // if linked list isn't empty
+        {
+            durationCounter -= Time.deltaTime;
+            if (durationCounter < 0)
+            {
+                ClearList();
+            }
+
+            // draw a line of connection between each enemy
+            ptr = head;
+
+            while (ptr.enemy != null)
+            {
+                lineRenderer.SetPosition(i, ptr.enemy.transform.position);
+                i++;
+                ptr = ptr.chainedTo;
+            }
+        }
+        lineRenderer.positionCount = i; // clear any extra points left behind when an enemy dies
     }
 }
