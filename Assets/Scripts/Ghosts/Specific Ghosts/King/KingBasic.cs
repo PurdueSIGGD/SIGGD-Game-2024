@@ -7,6 +7,9 @@ public class KingBasic : MonoBehaviour
     [HideInInspector] public KingManager manager;
     [HideInInspector] public bool isShielding;
 
+    // checks used for the Recompence skill
+    [HideInInspector] public bool hasShield; // will be toggled false if King throws shield
+
     private GameObject shieldCircle;
 
     // Start is called before the first frame update
@@ -14,6 +17,7 @@ public class KingBasic : MonoBehaviour
     {
         playerStateMachine = GetComponent<PlayerStateMachine>();
         isShielding = false;
+        hasShield = true;
     }
 
     // Update is called once per frame
@@ -24,10 +28,14 @@ public class KingBasic : MonoBehaviour
 
     public void StartHeavyChargeUp()
     {
-        if (manager.currentShieldHealth <= 0f || manager.getBasicCooldown() > 0f)
+        if (manager.currentShieldHealth <= 0f || manager.getBasicCooldown() > 0f || !hasShield)
         {
             playerStateMachine.EnableTrigger("OPT");
             return;
+        }
+        if (manager.recompenceAvaliable)
+        {
+            playerStateMachine.OnCooldown("recompence_avaliable");
         }
 
         // Set flag
@@ -93,5 +101,11 @@ public class KingBasic : MonoBehaviour
             // Cancel shield
             GetComponent<PlayerStateMachine>().EnableTrigger("OPT");
         }
+    }
+
+    // should only be avaliable with Recompence skill
+    public void ThrowShield()
+    {
+        Debug.Log("hi");
     }
 }

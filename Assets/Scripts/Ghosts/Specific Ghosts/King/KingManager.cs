@@ -16,6 +16,7 @@ public class KingManager : GhostManager, ISelectable
 
     [HideInInspector] public KingBasic basic;
     [HideInInspector] public KingSpecial special;
+    [HideInInspector] public bool recompenceAvaliable = false;
 
     private PlayerStateMachine psm;
 
@@ -37,8 +38,6 @@ public class KingManager : GhostManager, ISelectable
         base.Update();
         rechargeShieldHealth();
     }
-
-
 
     private void rechargeShieldHealth()
     {
