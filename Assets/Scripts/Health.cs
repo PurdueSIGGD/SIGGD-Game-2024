@@ -76,6 +76,7 @@ public class Health : MonoBehaviour, IDamageable, IStatList
     public float NoContextDamage(DamageContext context, GameObject attacker)
     {
         context.attacker = attacker;
+        context.victim = gameObject;
         context.damage = Mathf.Clamp(context.damage, 0f, currentHealth);
 
         // Resistance

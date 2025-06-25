@@ -13,6 +13,7 @@ public class SeamstressManager : GhostManager
 
     [Header("Projectile")]
     public GameObject projectile;
+    public DamageContext projectileDamageContext;
 
     private float durationCounter;
     private float ricochetCounter;

@@ -8,6 +8,7 @@ public class YumeProjectile : MonoBehaviour
     float lifeTime; // time after which the projectile should expire
     bool hit = false; // if the projectile has hit an enemy
     GameObject hitTarget;
+    DamageContext context;
 
     // standard projectile fields
     Rigidbody2D rb;
@@ -45,6 +46,8 @@ public class YumeProjectile : MonoBehaviour
         }
         else if (hitObject.CompareTag("Enemy"))
         {
+            context.damage = manager.GetStats().ComputeValue("Projectile Damage");
+            hitObject.GetComponent<Health>().NoContextDamage(context, PlayerID.instance.gameObject);
             if (hitObject.GetComponent<FateboundDebuff>() != null)
             {
                 Physics2D.IgnoreCollision(collision.collider, GetComponent<BoxCollider2D>());
@@ -60,7 +63,8 @@ public class YumeProjectile : MonoBehaviour
 
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();   
+        rb = GetComponent<Rigidbody2D>();
+        context = manager.projectileDamageContext;
     }
 
     void Update()
