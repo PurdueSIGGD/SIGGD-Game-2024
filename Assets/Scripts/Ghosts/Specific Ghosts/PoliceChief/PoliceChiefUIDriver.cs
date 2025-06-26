@@ -61,12 +61,22 @@ public class PoliceChiefUIDriver : GhostUIDriver
     }
 
     private void updateMeter() {
-        if (GetComponent<PoliceChiefLethalForce>() != null && GetComponent<PoliceChiefLethalForce>().GetTotalHits() != -1)
+        // Meter
+        meterUIManager.setMeterValue(manager.basicAmmo, stats.ComputeValue("Basic Starting Ammo"));
+        meterUIManager.setMeterColor(ghostIdentity.GetCharacterInfo().highlightColor);
+
+        // Lethal Force Submeter
+        PoliceChiefLethalForce lethalForce = GetComponent<PoliceChiefLethalForce>();
+        if (lethalForce != null && lethalForce.GetTotalHits() != -1)
         {
             //meterUIManager.setMeterColor(Color.red);
             //meterUIManager.setMeterValue(GetComponent<PoliceChiefLethalForce>().GetConsecutiveHits(), GetComponent<PoliceChiefLethalForce>().GetTotalHits());
             //meterUIManager.setBackgroundColor(Color.grey);
-            meterUIManager.setSubMeterValue(GetComponent<PoliceChiefLethalForce>().GetConsecutiveHits(), GetComponent<PoliceChiefLethalForce>().GetTotalHits());
+            meterUIManager.setSubMeterValue(lethalForce.GetConsecutiveHits(), lethalForce.GetTotalHits());
+            if (lethalForce.GetConsecutiveHits() >= lethalForce.GetTotalHits())
+            {
+                meterUIManager.setMeterColor(ghostIdentity.GetCharacterInfo().primaryColor);
+            }
             //meterUIManager.activateWidget();
         }
         else
@@ -75,11 +85,7 @@ public class PoliceChiefUIDriver : GhostUIDriver
             meterUIManager.setSubMeterValue(0f, 0f);
         }
 
-        //Meter
-        meterUIManager.setMeterValue(manager.basicAmmo, stats.ComputeValue("Basic Starting Ammo"));
-        meterUIManager.setMeterColor(ghostIdentity.GetCharacterInfo().primaryColor);
-
-        //Widget active
+        // Widget active
         if (manager.basic == null) return;
         if (manager.basicAmmo < stats.ComputeValue("Basic Starting Ammo"))
         {

@@ -161,18 +161,19 @@ public class IdolPassive : MonoBehaviour
         stacks = stacks < remainingStacks ? stacks : remainingStacks;
 
         // if at max tempo, play max tempo audio
+        /*
         if (remainingStacks <= 0)
         {
             // play audio, if has upgrade, choose from 1 random voice bank to play
             string chosenBank = avaliableHoloJumpVA[Random.Range(0, avaliableHoloJumpVA.Count)];
             AudioManager.Instance.VABranch.PlayVATrack(chosenBank);
         }
-        
-        // if does not currently have any tempo, play on activate audio
-        if (tempoStacks <= 0)
+        else
         {
+            // play on activate audio
             AudioManager.Instance.VABranch.PlayVATrack("Eva-Idol Activate Tempo");
         }
+        */
 
         // SFX
         if (tempoStacks + stacks < manager.GetStats().ComputeValue("TEMPO_MAX_STACKS") || tempoStacks >= manager.GetStats().ComputeValue("TEMPO_MAX_STACKS"))
@@ -183,6 +184,18 @@ public class IdolPassive : MonoBehaviour
         else
         {
             AudioManager.Instance.SFXBranch.PlaySFXTrack("Eva-Tempo Max");
+        }
+
+        // Voice Lines
+        if (tempoStacks + stacks < manager.GetStats().ComputeValue("TEMPO_MAX_STACKS"))
+        {
+            AudioManager.Instance.VABranch.PlayVATrack("Eva-Idol Activate Tempo");
+        }
+        else if (tempoStacks < manager.GetStats().ComputeValue("TEMPO_MAX_STACKS"))
+        {
+            // play audio, if has upgrade, choose from 1 random voice bank to play
+            string chosenBank = avaliableHoloJumpVA[Random.Range(0, avaliableHoloJumpVA.Count)];
+            AudioManager.Instance.VABranch.PlayVATrack(chosenBank);
         }
 
         // increment tempo stacks by stacks
@@ -196,6 +209,7 @@ public class IdolPassive : MonoBehaviour
         {
             UpdateSpeed(stacks);
         }
+
         // initialize tempo effect if idol is active, has stacks, and isn't speed boosted yet 
         if (tempoStacks > 0 && !uptempo)
         {

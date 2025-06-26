@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 
 // A different type of SFX or dialogue file with multiple sound variations
@@ -17,6 +19,10 @@ public abstract class AbstractSoundBank : MonoBehaviour, ITrack {
     // lists keep track of all sounds
     public List<UnityEngine.Object> outOfCombatSounds;
     public List<float> outOfCombatSoundWeights;
+
+    // General probability of a sound playing from 0 to 1
+    public float playChance = 1f;
+    [DoNotSerialize] public bool lastSkipped = false;
 
     // Used to prevent the n most recent sounds from playing again
     public int recencyBlacklistSize;
@@ -39,6 +45,16 @@ public abstract class AbstractSoundBank : MonoBehaviour, ITrack {
     }
 
     public void PlayTrack() {
+
+        // Roll to see if this sound will play
+        float playChanceRoll = UnityEngine.Random.Range(0f, 1f);
+        if (playChanceRoll > playChance)
+        {
+            lastSkipped = true;
+            return;
+        }
+        lastSkipped = false;
+
         inCombat = AudioManager.Instance.GetEnergyLevel() >= 0.5f;
 
         GenerateCumulativeWeights();
@@ -108,10 +124,11 @@ public abstract class AbstractSoundBank : MonoBehaviour, ITrack {
     }
 
     public IVATrack GetMostRecentTrack() {
-        if (!inCombat && playsOutsideCombat)
+        if (!inCombat && playsOutsideCombat && outOfCombatSounds.Count > 0)
         {
-            return (IVATrack)outOfCombatSounds[outOfCombatRecentSounds.Count - 1];
+            return (IVATrack) outOfCombatSounds[outOfCombatRecentSounds.Count - 1];
         }
+        if (recentSounds.Count <= 0) return null;
         return (IVATrack) sounds[recentSounds.Count - 1];
     }
 
