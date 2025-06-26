@@ -9,6 +9,7 @@ public class KingBasic : MonoBehaviour
 
     // checks used for the Recompence skill
     [HideInInspector] public bool hasShield; // will be toggled false if King throws shield
+    private Camera mainCamera;
 
     private GameObject shieldCircle;
 
@@ -16,6 +17,7 @@ public class KingBasic : MonoBehaviour
     void Start()
     {
         playerStateMachine = GetComponent<PlayerStateMachine>();
+        mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         isShielding = false;
         hasShield = true;
     }
@@ -36,6 +38,10 @@ public class KingBasic : MonoBehaviour
         if (manager.recompenceAvaliable)
         {
             playerStateMachine.OnCooldown("recompence_avaliable");
+        }
+        else
+        {
+            playerStateMachine.OffCooldown("recompence_avaliable");
         }
 
         // Set flag
@@ -104,8 +110,16 @@ public class KingBasic : MonoBehaviour
     }
 
     // should only be avaliable with Recompence skill
-    public void ThrowShield()
+    private void StartThrowShield()
     {
-        Debug.Log("hi");
+        PlayerID.instance.gameObject.GetComponent<Move>().PlayerStop();
+        Vector2 target = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        GameObject shield = Instantiate(manager.thrownShield, transform.position, transform.rotation);
+        shield.GetComponent<KingThrownShield>().Init((target - (Vector2)transform.position).normalized);
+    }
+
+    private void StopThrowShield()
+    {
+        PlayerID.instance.gameObject.GetComponent<Move>().PlayerGo();
     }
 }

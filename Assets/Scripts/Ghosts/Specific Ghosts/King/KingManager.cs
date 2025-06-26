@@ -17,6 +17,8 @@ public class KingManager : GhostManager, ISelectable
     [HideInInspector] public KingBasic basic;
     [HideInInspector] public KingSpecial special;
     [HideInInspector] public bool recompenceAvaliable = false;
+    [Header("Thrown Shield Used by Recompence Skill")]
+    public GameObject thrownShield;
 
     private PlayerStateMachine psm;
 

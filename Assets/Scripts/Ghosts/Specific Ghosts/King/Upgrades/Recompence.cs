@@ -10,9 +10,9 @@ public class Recompence : Skill
 
     void Start()
     {
-        AddPoint();
         manager = GetComponent<KingManager>();
-        basic = manager.basic;
+        basic = manager.basic; 
+        AddPoint();
     }
 
     public override void AddPointTrigger()

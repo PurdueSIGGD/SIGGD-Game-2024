@@ -4,8 +4,126 @@ using UnityEngine;
 
 public class KingThrownShield : MonoBehaviour
 {
-    void Start()
-    {
+    //[Header("Maximum range of Projectile")]
+    //[SerializeField] private float maxRange;
+    [Header("Damage Context of Thrown Shield")]
+    [SerializeField] private DamageContext context;
+    [Header("Damage of Thrown Shield")]
+    [SerializeField] private float damage;
+    [Header("Range before Projectile begins to deaccelerate")]
+    [SerializeField] private float deaccelZone;
+    [Header("Minimum speed of Projectile")]
+    [SerializeField] private float minSpeed; 
+    [Header("Deacceleration speed")]
+    [SerializeField] private float deaccel;
+    [Header("Acceleration speed")]
+    [SerializeField] private float accel;
+    [Header("Acceleration speed while returning")]
+    [SerializeField] private float returningAccel;
+    [Header("Time before shield can be picked up (unless returning)")]
+    [SerializeField] private float pickUpImmunityTime;
 
+    private GameObject player;
+    private Rigidbody2D rb;
+    private Vector2 orig;
+    private Vector2 dir;
+    private bool returning = false;
+
+    void Awake()
+    {
+        player = PlayerID.instance.gameObject;
+        rb = GetComponent<Rigidbody2D>();
+    }
+
+    public void Init(Vector2 dir)
+    {
+        orig = transform.position;
+        this.dir = dir;
+        UpdateOrientation();
+        context.damage = damage;
+        rb.velocity = minSpeed * dir;
+        returning = false;
+    }
+
+    void FixedUpdate()
+    {
+        if (!returning)
+        {
+            if (Vector2.Distance(transform.position, orig) > deaccelZone) // if in deaccel zone
+            {
+                rb.velocity -= deaccel * Time.deltaTime * dir;
+
+                // if velocity is already below the minimum speed, begin the return process
+                if (rb.velocity.magnitude <= minSpeed)
+                {
+                    BeginReturn();
+                }
+            }
+            else // before reaching the deaccel zone, accelerate continuously
+            {
+                rb.velocity += accel * Time.deltaTime * dir;
+            }
+        }
+        else // if attempting to return to king, accelerate indefinitely
+        {
+            dir = (player.transform.position - transform.position).normalized;
+            UpdateOrientation();
+            rb.velocity = rb.velocity.magnitude * dir;
+            rb.velocity += returningAccel * Time.deltaTime * dir;
+        }
+        pickUpImmunityTime -= Time.deltaTime;
+    }
+
+    void OnTriggerEnter2D(Collider2D collider)
+    {
+        if ((collider.CompareTag("Enemy")))
+        {
+            DamageHitEnemy(collider.gameObject);
+        }
+        if (!returning) // if the shield is still shooting outwards
+        {
+            // if collides with player, only allow picking up the shield after some time
+            if (collider.CompareTag("Player")) 
+            {
+                if (pickUpImmunityTime < 0) Destroy(gameObject);
+            }
+            // if not player, the shield should only be able to collide with environment or enemy
+            else
+            {
+                // in either case, always begin the return process
+                BeginReturn();
+            }
+        }
+        else // if the shield is now returning
+        {
+            // if collides with player while returning, pick it up
+            if (collider.CompareTag("Player"))
+            {
+                Destroy(gameObject);
+            }
+        }
+    }
+
+    private void BeginReturn()
+    {
+        if (returning) return;
+        returning = true;
+        dir = (player.transform.position - transform.position).normalized;
+        rb.velocity = minSpeed * dir;
+    }
+
+    private void DamageHitEnemy(GameObject enemy)
+    {
+        Health health = enemy.GetComponent<Health>();
+        if (health != null)
+        {
+            health.Damage(context, player);
+        }
+    }
+
+    private void UpdateOrientation()
+    {
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
     }
 }
