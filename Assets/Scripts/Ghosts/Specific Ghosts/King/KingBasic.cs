@@ -7,8 +7,6 @@ public class KingBasic : MonoBehaviour
     [HideInInspector] public KingManager manager;
     [HideInInspector] public bool isShielding;
 
-    // checks used for the Recompence skill
-    [HideInInspector] public bool hasShield; // will be toggled false if King throws shield
     private Camera mainCamera;
 
     private GameObject shieldCircle;
@@ -19,7 +17,6 @@ public class KingBasic : MonoBehaviour
         playerStateMachine = GetComponent<PlayerStateMachine>();
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         isShielding = false;
-        hasShield = true;
     }
 
     // Update is called once per frame
@@ -30,7 +27,7 @@ public class KingBasic : MonoBehaviour
 
     public void StartHeavyChargeUp()
     {
-        if (manager.currentShieldHealth <= 0f || manager.getBasicCooldown() > 0f || !hasShield)
+        if (manager.currentShieldHealth <= 0f || manager.getBasicCooldown() > 0f)
         {
             playerStateMachine.EnableTrigger("OPT");
             return;
@@ -109,13 +106,27 @@ public class KingBasic : MonoBehaviour
         }
     }
 
+    public void DisableShield(bool disable)
+    {
+        if (disable)
+        {
+            manager.hasShield = false;
+            playerStateMachine.OffCooldown("has_shield");
+        }
+        else 
+        { 
+            manager.hasShield = true;
+            playerStateMachine.OnCooldown("has_shield"); 
+        }
+    }
+
     // should only be avaliable with Recompence skill
     private void StartThrowShield()
     {
         PlayerID.instance.gameObject.GetComponent<Move>().PlayerStop();
         Vector2 target = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         GameObject shield = Instantiate(manager.thrownShield, transform.position, transform.rotation);
-        shield.GetComponent<KingThrownShield>().Init((target - (Vector2)transform.position).normalized);
+        shield.GetComponent<KingThrownShield>().Init(this, (target - (Vector2)transform.position).normalized);
     }
 
     private void StopThrowShield()

@@ -308,6 +308,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 2
     m_ConditionEvent: c_basic
     m_EventTreshold: 0
+  - m_ConditionMode: 1
+    m_ConditionEvent: has_shield
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -7905319676247584739}
   m_Solo: 0
@@ -1069,7 +1072,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: ad86a0b5d2a3909478053e9e31c70a06, type: 2}
+  m_Motion: {fileID: 7400000, guid: 48cf363ae077b2d479e80b01d1f4f373, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -1247,6 +1250,12 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
+  - m_Name: has_shield
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 1
     m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5

@@ -23,6 +23,7 @@ public class KingThrownShield : MonoBehaviour
     [Header("Time before shield can be picked up (unless returning)")]
     [SerializeField] private float pickUpImmunityTime;
 
+    private KingBasic basic;
     private GameObject player;
     private Rigidbody2D rb;
     private Vector2 orig;
@@ -35,8 +36,10 @@ public class KingThrownShield : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
-    public void Init(Vector2 dir)
+    public void Init(KingBasic basic, Vector2 dir)
     {
+        this.basic = basic;
+        basic.DisableShield(true);
         orig = transform.position;
         this.dir = dir;
         UpdateOrientation();
@@ -85,7 +88,10 @@ public class KingThrownShield : MonoBehaviour
             // if collides with player, only allow picking up the shield after some time
             if (collider.CompareTag("Player")) 
             {
-                if (pickUpImmunityTime < 0) Destroy(gameObject);
+                if (pickUpImmunityTime < 0)
+                {
+                    PickUpShield();
+                }
             }
             // if not player, the shield should only be able to collide with environment or enemy
             else
@@ -99,7 +105,7 @@ public class KingThrownShield : MonoBehaviour
             // if collides with player while returning, pick it up
             if (collider.CompareTag("Player"))
             {
-                Destroy(gameObject);
+                PickUpShield();
             }
         }
     }
@@ -108,7 +114,14 @@ public class KingThrownShield : MonoBehaviour
     {
         if (returning) return;
         returning = true;
-        dir = (player.transform.position - transform.position).normalized;
+        Vector2 diff = player.transform.position - transform.position;
+        // if shield is already next to player, simply pick it immediately
+        // (this happens when player throws shield right below their feet)
+        if (diff.sqrMagnitude < 1)
+        {
+            PickUpShield();
+        }
+        dir = diff.normalized;
         rb.velocity = minSpeed * dir;
     }
 
@@ -125,5 +138,11 @@ public class KingThrownShield : MonoBehaviour
     {
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+    }
+
+    private void PickUpShield()
+    {
+        basic.DisableShield(false);
+        Destroy(gameObject);
     }
 }
