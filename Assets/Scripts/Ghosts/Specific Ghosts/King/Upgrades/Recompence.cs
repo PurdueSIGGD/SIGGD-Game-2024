@@ -11,8 +11,12 @@ public class Recompence : Skill
     void Start()
     {
         manager = GetComponent<KingManager>();
-        basic = manager.basic; 
-        AddPoint();
+        basic = manager.basic;
+    }
+
+    public float ComputeDamage()
+    {
+        return (pointindex + 1) * (manager.GetStats().ComputeValue("Shield Max Health") - manager.currentShieldHealth);
     }
 
     public override void AddPointTrigger()

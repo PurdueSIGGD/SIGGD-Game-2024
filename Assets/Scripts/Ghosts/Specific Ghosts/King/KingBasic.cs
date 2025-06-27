@@ -126,7 +126,7 @@ public class KingBasic : MonoBehaviour
         PlayerID.instance.gameObject.GetComponent<Move>().PlayerStop();
         Vector2 target = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         GameObject shield = Instantiate(manager.thrownShield, transform.position, transform.rotation);
-        shield.GetComponent<KingThrownShield>().Init(this, (target - (Vector2)transform.position).normalized);
+        shield.GetComponent<KingThrownShield>().Init(this, (target - (Vector2)transform.position).normalized, manager.GetComponent<Recompence>().ComputeDamage());
     }
 
     private void StopThrowShield()

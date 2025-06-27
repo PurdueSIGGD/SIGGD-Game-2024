@@ -4,12 +4,8 @@ using UnityEngine;
 
 public class KingThrownShield : MonoBehaviour
 {
-    //[Header("Maximum range of Projectile")]
-    //[SerializeField] private float maxRange;
     [Header("Damage Context of Thrown Shield")]
     [SerializeField] private DamageContext context;
-    [Header("Damage of Thrown Shield")]
-    [SerializeField] private float damage;
     [Header("Range before Projectile begins to deaccelerate")]
     [SerializeField] private float deaccelZone;
     [Header("Minimum speed of Projectile")]
@@ -36,14 +32,14 @@ public class KingThrownShield : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
-    public void Init(KingBasic basic, Vector2 dir)
+    public void Init(KingBasic basic, Vector2 dir, float dmg)
     {
         this.basic = basic;
         basic.DisableShield(true);
         orig = transform.position;
         this.dir = dir;
         UpdateOrientation();
-        context.damage = damage;
+        context.damage = dmg;
         rb.velocity = minSpeed * dir;
         returning = false;
     }
@@ -117,7 +113,7 @@ public class KingThrownShield : MonoBehaviour
         Vector2 diff = player.transform.position - transform.position;
         // if shield is already next to player, simply pick it immediately
         // (this happens when player throws shield right below their feet)
-        if (diff.sqrMagnitude < 1)
+        if (diff.sqrMagnitude < 1.5)
         {
             PickUpShield();
         }
@@ -128,7 +124,10 @@ public class KingThrownShield : MonoBehaviour
     private void DamageHitEnemy(GameObject enemy)
     {
         Health health = enemy.GetComponent<Health>();
-        if (health != null)
+        // I don't want anything to happen if the shield hasn't taken any damage :)
+        // otherwise there will be shennigans like spamming shield to stun enemy
+        // even though no damage is done
+        if (health != null && context.damage > 0)
         {
             health.Damage(context, player);
         }

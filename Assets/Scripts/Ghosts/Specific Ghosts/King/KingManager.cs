@@ -31,7 +31,7 @@ public class KingManager : GhostManager, ISelectable
         specialDamage.damage = stats.ComputeValue("Special Damage");
         currentShieldHealth = stats.ComputeValue("Shield Max Health");
         endShieldHealth = 0f;
-
+        hasShield = true;
         psm = PlayerID.instance.GetComponent<PlayerStateMachine>();
     }
 
