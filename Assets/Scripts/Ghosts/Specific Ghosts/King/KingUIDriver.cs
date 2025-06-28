@@ -27,7 +27,7 @@ public class KingUIDriver : GhostUIDriver
 
     private void updateBasicAbility()
     {
-        basicAbilityUIManager.setAbilityEnabled(manager.getBasicCooldown() <= 0f, true);
+        basicAbilityUIManager.setAbilityEnabled(manager.getBasicCooldown() <= 0f && manager.hasShield, true);
         basicAbilityUIManager.setNumberActive(manager.getBasicCooldown() > 0f);
         basicAbilityUIManager.setNumberValue(manager.getBasicCooldown());
         basicAbilityUIManager.setMeterValue(manager.currentShieldHealth, stats.ComputeValue("Shield Max Health"));

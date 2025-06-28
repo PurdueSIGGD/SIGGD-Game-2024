@@ -7,12 +7,15 @@ public class KingBasic : MonoBehaviour
     [HideInInspector] public KingManager manager;
     [HideInInspector] public bool isShielding;
 
+    private Camera mainCamera;
+
     private GameObject shieldCircle;
 
     // Start is called before the first frame update
     void Start()
     {
         playerStateMachine = GetComponent<PlayerStateMachine>();
+        mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         isShielding = false;
     }
 
@@ -28,6 +31,14 @@ public class KingBasic : MonoBehaviour
         {
             playerStateMachine.EnableTrigger("OPT");
             return;
+        }
+        if (manager.recompenceAvaliable)
+        {
+            playerStateMachine.OnCooldown("recompence_avaliable");
+        }
+        else
+        {
+            playerStateMachine.OffCooldown("recompence_avaliable");
         }
 
         // Set flag
@@ -93,5 +104,33 @@ public class KingBasic : MonoBehaviour
             // Cancel shield
             GetComponent<PlayerStateMachine>().EnableTrigger("OPT");
         }
+    }
+
+    public void DisableShield(bool disable)
+    {
+        if (disable)
+        {
+            manager.hasShield = false;
+            playerStateMachine.OffCooldown("has_shield");
+        }
+        else 
+        { 
+            manager.hasShield = true;
+            playerStateMachine.OnCooldown("has_shield"); 
+        }
+    }
+
+    // should only be avaliable with Recompence skill
+    private void StartThrowShield()
+    {
+        PlayerID.instance.gameObject.GetComponent<Move>().PlayerStop();
+        Vector2 target = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        GameObject shield = Instantiate(manager.thrownShield, transform.position, transform.rotation);
+        shield.GetComponent<KingThrownShield>().Init(this, (target - (Vector2)transform.position).normalized, manager.GetComponent<Recompence>().ComputeDamage());
+    }
+
+    private void StopThrowShield()
+    {
+        PlayerID.instance.gameObject.GetComponent<Move>().PlayerGo();
     }
 }
