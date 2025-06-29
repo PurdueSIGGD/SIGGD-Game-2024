@@ -69,19 +69,14 @@ public class PoliceChiefUIDriver : GhostUIDriver
         PoliceChiefLethalForce lethalForce = GetComponent<PoliceChiefLethalForce>();
         if (lethalForce != null && lethalForce.GetTotalHits() != -1)
         {
-            //meterUIManager.setMeterColor(Color.red);
-            //meterUIManager.setMeterValue(GetComponent<PoliceChiefLethalForce>().GetConsecutiveHits(), GetComponent<PoliceChiefLethalForce>().GetTotalHits());
-            //meterUIManager.setBackgroundColor(Color.grey);
             meterUIManager.setSubMeterValue(lethalForce.GetConsecutiveHits(), lethalForce.GetTotalHits());
             if (lethalForce.GetConsecutiveHits() >= lethalForce.GetTotalHits())
             {
                 meterUIManager.setMeterColor(ghostIdentity.GetCharacterInfo().primaryColor);
             }
-            //meterUIManager.activateWidget();
         }
         else
         {
-            //meterUIManager.setSubMeterColor(ghostIdentity.GetCharacterInfo().primaryColor);
             meterUIManager.setSubMeterValue(0f, 0f);
         }
 

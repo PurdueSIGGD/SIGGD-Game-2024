@@ -22,7 +22,7 @@ public abstract class AbstractSoundBank : MonoBehaviour, ITrack {
 
     // General probability of a sound playing from 0 to 1
     public float playChance = 1f;
-    [DoNotSerialize] public bool lastSkipped = false;
+    [NonSerialized] public bool lastSkipped = false;
 
     // Used to prevent the n most recent sounds from playing again
     public int recencyBlacklistSize;

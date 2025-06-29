@@ -55,6 +55,12 @@ public class PoliceChiefBasic : MonoBehaviour
                 transform.rotation = Quaternion.Euler(0, 180, 0);
             }
         }
+
+        // SFX
+        if (isCharging)
+        {
+            AudioManager.Instance.SFXBranch.GetSFXTrack("North-Sidearm Charging").SetPitch(manager.GetStats().ComputeValue("Basic Charge Up Time") - chargingTime, manager.GetStats().ComputeValue("Basic Charge Up Time"));
+        }
     }
 
 
@@ -64,9 +70,13 @@ public class PoliceChiefBasic : MonoBehaviour
     {
         chargingTime = manager.GetStats().ComputeValue("Basic Charge Up Time");
         isCharging = true;
-        AudioManager.Instance.SFXBranch.PlaySFXTrack("HeavyAttackWindUp");
+        //AudioManager.Instance.SFXBranch.PlaySFXTrack("HeavyAttackWindUp");
         SetSidearmDamage(2);
         GetComponent<Move>().PlayerStop();
+
+        // SFX
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("North-Sidearm Charging");
+        AudioManager.Instance.SFXBranch.GetSFXTrack("North-Sidearm Attack").SetPitch(0f, 1f);
     }
 
     public void StopSidearmChargeUp()
@@ -74,6 +84,9 @@ public class PoliceChiefBasic : MonoBehaviour
         isCharging = false;
         chargingTime = 0f;
         GetComponent<Move>().PlayerGo();
+
+        // SFX
+        AudioManager.Instance.SFXBranch.StopSFXTrack("North-Sidearm Charging");
     }
 
 
@@ -86,6 +99,11 @@ public class PoliceChiefBasic : MonoBehaviour
         AudioManager.Instance.SFXBranch.PlaySFXTrack("HeavyAttackPrimed");
         SetSidearmDamage(3);
         GetComponent<Move>().PlayerStop();
+
+        // SFX
+        //AudioManager.Instance.SFXBranch.PlaySFXTrack("North-Sidearm Primed");
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("North-Sidearm Primed Loop");
+        AudioManager.Instance.SFXBranch.GetSFXTrack("North-Sidearm Attack").SetPitch(1f, 1f);
     }
 
     public void StopSidearmPrimed()
@@ -93,6 +111,10 @@ public class PoliceChiefBasic : MonoBehaviour
         isPrimed = false;
         primedTime = 0f;
         GetComponent<Move>().PlayerGo();
+
+        // SFX
+        AudioManager.Instance.SFXBranch.StopSFXTrack("North-Sidearm Charging");
+        AudioManager.Instance.SFXBranch.StopSFXTrack("North-Sidearm Primed Loop");
     }
 
 
@@ -112,6 +134,11 @@ public class PoliceChiefBasic : MonoBehaviour
         GameObject sidearmShot = Instantiate(manager.basicShot, Vector3.zero, Quaternion.identity);
         sidearmShot.GetComponent<PoliceChiefSidearmShot>().fireSidearmShot(manager, pos, dir);
         ConsumeAmmo(1);
+
+        // SFX
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("North-Sidearm Attack");
+        AudioManager.Instance.SFXBranch.StopSFXTrack("North-Sidearm Charging");
+        AudioManager.Instance.SFXBranch.StopSFXTrack("North-Sidearm Primed Loop");
     }
 
     public void StopSidearm()
