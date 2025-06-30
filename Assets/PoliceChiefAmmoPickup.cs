@@ -31,6 +31,8 @@ public class PoliceChiefAmmoPickup : MonoBehaviour
         if (collision.transform.gameObject == PlayerID.instance.gameObject)
         {
             manager.basic.AddAmmo(1);
+            AudioManager.Instance.SFXBranch.GetSFXTrack("North-Ricochet").SetPitch(Mathf.Max(manager.basicAmmo - 1, 0), Mathf.Max(manager.GetStats().ComputeValue("Basic Starting Ammo") - 1, 0));
+            AudioManager.Instance.SFXBranch.PlaySFXTrack("North-Ricochet");
             Destroy(gameObject);
         }
     }

@@ -16,6 +16,10 @@ public class KingManager : GhostManager, ISelectable
 
     [HideInInspector] public KingBasic basic;
     [HideInInspector] public KingSpecial special;
+    [HideInInspector] public bool recompenceAvaliable = false;
+    [Header("Thrown Shield Used by Recompence Skill")]
+    public GameObject thrownShield;
+    [HideInInspector] public bool hasShield; // will be toggled false if King throws shield
 
     private PlayerStateMachine psm;
 
@@ -27,7 +31,7 @@ public class KingManager : GhostManager, ISelectable
         specialDamage.damage = stats.ComputeValue("Special Damage");
         currentShieldHealth = stats.ComputeValue("Shield Max Health");
         endShieldHealth = 0f;
-
+        hasShield = true;
         psm = PlayerID.instance.GetComponent<PlayerStateMachine>();
     }
 
@@ -37,8 +41,6 @@ public class KingManager : GhostManager, ISelectable
         base.Update();
         rechargeShieldHealth();
     }
-
-
 
     private void rechargeShieldHealth()
     {

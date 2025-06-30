@@ -11,6 +11,10 @@ public class NovaPop : Skill
     private GameObject playerRef;
     private StatManager stat;
     private IdolManager manager;
+    [SerializeField] private List<float> values = new List<float>
+    {
+        0f, 0.8f, 1.6f, 2.4f, 3.2f
+    };
     private static int pointIndex;
 
     void Start()
@@ -47,7 +51,7 @@ public class NovaPop : Skill
                 {
                     explosionContext.damage = stat.ComputeValue("Nova Pop Damage");
                     hit.transform.gameObject.GetComponent<Health>().Damage(explosionContext, playerRef);
-                    hit.GetComponent<EnemyStateManager>().Stun(stunContext, 0.6f * pointIndex);
+                    hit.GetComponent<EnemyStateManager>().Stun(stunContext, values[pointIndex]);
                 }
             }
         }
@@ -71,11 +75,13 @@ public class NovaPop : Skill
 
     private void EvaSelected()
     {
+        if (pointIndex <= 0) return;
         manager.passive.avaliableCloneLostVA.Add("Eva-Idol Nova Pop");
     }
 
     private void EvaDeselected()
     {
+        if (pointIndex <= 0) return;
         manager.passive.avaliableCloneLostVA.Remove("Eva-Idol Nova Pop");
     }
 }

@@ -371,7 +371,7 @@ MonoBehaviour:
   pool: {fileID: 0}
   animator: {fileID: 166145500235385066}
   isFlyer: 0
-  aggroRange: 9.92
+  aggroRange: 10
   isBeingKnockedBack: 0
   grounded: 0
   gunShoot: {fileID: 6754032986899484797}
@@ -392,9 +392,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Speed
-    value: 1
+    value: 5
   - name: Idle Speed
-    value: 1
+    value: 3
   - name: Pause Timer Duration Min
     value: 1
   - name: Pause Timer Duration Max
@@ -404,7 +404,7 @@ MonoBehaviour:
   - name: Target Range Max
     value: 10
   - name: Enemy Group Aggro Radius
-    value: 10
+    value: 20
 --- !u!114 &310345646144262094
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -453,7 +453,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Max Health
-    value: 75
+    value: 70
   deathLevel: 
 --- !u!114 &5636141568663372118
 MonoBehaviour:
@@ -494,7 +494,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Stun Threshold
-    value: 100
+    value: 70
   currentStun: 0
   maxStun: 0
 --- !u!114 &8681257202382327024

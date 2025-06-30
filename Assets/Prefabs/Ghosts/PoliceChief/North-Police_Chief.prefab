@@ -192,7 +192,7 @@ MonoBehaviour:
   - name: Basic Heavy Damage
     value: 20
   - name: Basic Super Heavy Damage
-    value: 40
+    value: 30
   - name: Basic Travel Distance
     value: 17
   - name: Basic Charge Up Time
@@ -299,7 +299,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: 756d295103b4b3c4d93616011de8e174, type: 2}
-  secondaryShotDamage: 08000000100000001800000020000000
+  values: 04000000080000000c00000010000000
+  secondaryShotDamage:
+    damageStrength: 0
+    damageTypes: 01000000
+    actionID: 5
+    actionTypes: 010000000200000004000000
+    extraContext: 
 --- !u!114 &6532718052842151599
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -360,11 +366,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: b89279340f3214445bdd49edb54b2342, type: 2}
-  pointCooldowns:
-  - 0.001
-  - 0.002
-  - 0.003
-  - 0.004
+  values:
+  - 0.0007
+  - 0.0014
+  - 0.0021
+  - 0.0028
 --- !u!114 &4769327096740874371
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -378,7 +384,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: 9bc7c0b2f197f7a419e48f1179f8f200, type: 2}
-  pointCounts: 04000000030000000200000001000000
+  pointCounts: 05000000040000000300000002000000
+  chargeUpSpeedReduction: 0
+  damageBoost: 0
 --- !u!114 &3756874392414048416
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -392,12 +400,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: 5e4de3b30358f61459d074a5002be894, type: 2}
-  pointCounts:
-  - 1.25
-  - 1.45
-  - 1.65
-  - 1.85
-  immediateTimeframe: 0.25
+  values:
+  - 0
+  - 1.2
+  - 1.4
+  - 1.6
+  - 1.8
+  immediateTimeframe: 0.35
 --- !u!114 &572864510421831245
 MonoBehaviour:
   m_ObjectHideFlags: 0

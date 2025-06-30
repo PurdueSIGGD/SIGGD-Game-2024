@@ -5,6 +5,7 @@ using UnityEngine;
 public class PoliceChiefSidearmShot : MonoBehaviour
 {
     private PoliceChiefManager manager;
+    private bool isDoubleTap = false;
     private float travelSpeed = 300f;
     public static event System.Action enemyWasShot;
 
@@ -22,9 +23,14 @@ public class PoliceChiefSidearmShot : MonoBehaviour
 
     public void fireSidearmShot(PoliceChiefManager manager, Vector2 pos, Vector2 dir)
     {
+        fireSidearmShot(manager, pos, dir, false);
+    }
+
+    public void fireSidearmShot(PoliceChiefManager manager, Vector2 pos, Vector2 dir, bool isDoubleTap)
+    {
         this.manager = manager;
+        this.isDoubleTap = isDoubleTap;
         StartCoroutine(sidearmShotCoroutine(pos, dir));
-        GameplayEventHolder.OnAbilityUsed?.Invoke(manager.sidearmActionContext);
     }
 
     private RaycastHit2D rayCastDetection(Vector2 pos, Vector2 dir, float distToTravel)
@@ -64,8 +70,11 @@ public class PoliceChiefSidearmShot : MonoBehaviour
         // No Hit Ammo Pickup
         if (!hit)
         {
-            GameObject airAmmoPickup = Instantiate(manager.basicAmmoPickup, hitPoint, Quaternion.identity);
-            airAmmoPickup.GetComponent<PoliceChiefAmmoPickup>().InitializeAmmoPickup(manager, dir * 5f);
+            if (!isDoubleTap)
+            {
+                GameObject airAmmoPickup = Instantiate(manager.basicAmmoPickup, hitPoint, Quaternion.identity);
+                airAmmoPickup.GetComponent<PoliceChiefAmmoPickup>().InitializeAmmoPickup(manager, dir * 5f);
+            }
             Destroy(this.gameObject);
             yield break;
         }
@@ -73,7 +82,7 @@ public class PoliceChiefSidearmShot : MonoBehaviour
         // Affect enemies
         if (hit.transform.CompareTag("Enemy"))
         {
-            hit.transform.gameObject.GetComponent<Health>().Damage(manager.basicDamage, PlayerID.instance.gameObject);
+            hit.transform.gameObject.GetComponent<Health>().Damage((isDoubleTap) ? manager.GetComponent<DoubleTapSkill>().secondaryShotDamage : manager.basicDamage, PlayerID.instance.gameObject);
             enemyWasShot?.Invoke();
             GameObject enemyExplosion = Instantiate(manager.basicImpactExplosionVFX, hit.point, Quaternion.identity);
             enemyExplosion.GetComponent<RingExplosionHandler>().playRingExplosion(1f, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
@@ -82,9 +91,12 @@ public class PoliceChiefSidearmShot : MonoBehaviour
         }
 
         // Surface impact Ammo Pickup & VFX
-        Vector2 reflect = Vector2.Reflect(dir, hit.normal);
-        GameObject surfaceAmmoPickup = Instantiate(manager.basicAmmoPickup, hit.point + new Vector2(reflect.x * 0.1f, reflect.y * 0.1f), Quaternion.identity);
-        surfaceAmmoPickup.GetComponent<PoliceChiefAmmoPickup>().InitializeAmmoPickup(manager, reflect * 10f);
+        if (!isDoubleTap)
+        {
+            Vector2 reflect = Vector2.Reflect(dir, hit.normal);
+            GameObject surfaceAmmoPickup = Instantiate(manager.basicAmmoPickup, hit.point + new Vector2(reflect.x * 0.1f, reflect.y * 0.1f), Quaternion.identity);
+            surfaceAmmoPickup.GetComponent<PoliceChiefAmmoPickup>().InitializeAmmoPickup(manager, reflect * 10f);
+        }
         GameObject surfaceExplosion = Instantiate(manager.basicImpactExplosionVFX, hit.point, Quaternion.identity);
         surfaceExplosion.GetComponent<RingExplosionHandler>().playRingExplosion(0.5f, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
         Destroy(this.gameObject);
