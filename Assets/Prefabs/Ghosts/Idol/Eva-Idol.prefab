@@ -199,19 +199,23 @@ MonoBehaviour:
   - name: HOLOJUMP_DURATION_SECONDS
     value: 12
   - name: HOLOJUMP_DURATION_INACTIVE_MODIFIER
-    value: 1.5
+    value: 1
   - name: TEMPO_BUFF_PERCENT_INT
     value: 7
   - name: TEMPO_MAX_STACKS
     value: 10
   - name: TEMPO_INACTIVE_DURATION_MODIFIER
-    value: 1.5
+    value: 1
   - name: TEMPO_BASE_DURATION
-    value: 9
+    value: 5
   - name: TEMPO_STACKS_PER_KILL
     value: 2
+  - name: TEMPO_DAMAGE_DURATION_GAIN
+    value: 0.33
   - name: Nova Pop Damage
-    value: 20
+    value: 10
+  - name: Dynamic Trio Clone Health
+    value: 10
   defaultController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
   ghostController: {fileID: 9100000, guid: 5779acd767093ee419301b684e1317dd, type: 2}
   special: {fileID: 0}
@@ -300,6 +304,7 @@ MonoBehaviour:
   skill1UIManager: {fileID: 0}
   skill2UIManager: {fileID: 0}
   meterUIManager: {fileID: 0}
+  cloneIcon: {fileID: 21300000, guid: 61dcf789a77af9a4c8bc931812125122, type: 3}
 --- !u!114 &9211257940781465955
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -347,7 +352,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: 741d655c9f17315478dd227c3f3276e0, type: 2}
-  invisibilityDuration: 4
+  invisibilityDuration: 3.5
+  values:
+  - 0
+  - 40
+  - 80
+  - 120
+  - 160
 --- !u!114 &2247047511266038100
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -361,6 +372,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: 7fbbc74c58fea6546b74b8d2dfaabbb4, type: 2}
+  values:
+  - 0
+  - 3
+  - 6
+  - 9
+  - 12
 --- !u!114 &5028833019426444995
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -388,18 +405,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: 6cd317815f2422c4c838b49b23db82ea, type: 2}
   explosionContext:
-    damageStrength: 0
-    damageTypes: 
-    actionID: 0
-    actionTypes: 
-    extraContext: 
-  stunContext:
-    damageStrength: 0
+    damageStrength: 3
     damageTypes: 02000000
     actionID: 8
-    actionTypes: 
+    actionTypes: 04000000
     extraContext: 
-  radius: 4
+  stunContext:
+    damageStrength: 3
+    damageTypes: 02000000
+    actionID: 8
+    actionTypes: 04000000
+    extraContext: 
+  radius: 6
+  values:
+  - 0
+  - 0.8
+  - 1.6
+  - 2.4
+  - 3.2
 --- !u!114 &219043313411044668
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -414,16 +437,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: 47d10ae9d4bb8664591d154467935b21, type: 2}
   values: 00000000070000000e000000150000001c000000
+  damageTickSpeed: 0.2
   manager: {fileID: 0}
   fieldVisual: {fileID: 1539173856502906608, guid: 677f9ddb74eb33a41ab8c747775a259c,
     type: 3}
   damage:
     damageStrength: 0
-    damageTypes: 00000000
-    actionID: 0
+    damageTypes: 0300000002000000
+    actionID: 7
     actionTypes: 04000000
     extraContext: 
-  radius: 5
+  radius: 3.5
 --- !u!114 &1545715215794891431
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -437,6 +461,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: 83559512b00d5424bb5f00c82f5c9074, type: 2}
+  values:
+  - 0
+  - 10
+  - 20
+  - 30
+  - 40
 --- !u!114 &1780750385296793499
 MonoBehaviour:
   m_ObjectHideFlags: 0

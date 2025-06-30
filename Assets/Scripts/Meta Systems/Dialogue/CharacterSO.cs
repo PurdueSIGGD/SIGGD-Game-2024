@@ -10,6 +10,8 @@ public class CharacterSO : ScriptableObject
 
     public Color primaryColor;
 
+    public Color highlightColor;
+
     public Sprite fullImage;
 
     [Header("Abilities")]

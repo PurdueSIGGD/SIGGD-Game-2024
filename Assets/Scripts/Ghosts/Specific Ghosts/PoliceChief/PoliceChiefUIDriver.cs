@@ -29,11 +29,20 @@ public class PoliceChiefUIDriver : GhostUIDriver
 
     private void updateBasicAbility()
     {
-        basicAbilityUIManager.setAbilityHighlighted(GetComponent<PoliceChiefPowerSpike>().GetAbleToCrit());
+        //basicAbilityUIManager.setAbilityHighlighted(GetComponent<PoliceChiefPowerSpike>().GetAbleToCrit());
         basicAbilityUIManager.setAbilityEnabled(manager.basicAmmo > 0);
         basicAbilityUIManager.setMeterValue(manager.basicAmmo, stats.ComputeValue("Basic Starting Ammo"));
         basicAbilityUIManager.setChargeWidgetActive(true);
         basicAbilityUIManager.setChargeValue(manager.basicAmmo, stats.ComputeValue("Basic Starting Ammo"));
+        PoliceChiefLethalForce lethalForce = GetComponent<PoliceChiefLethalForce>();
+        if (lethalForce != null && lethalForce.shotEmpowered)
+        {
+            basicAbilityUIManager.setAbilityHighlighted(true);
+        }
+        else if (lethalForce != null)
+        {
+            basicAbilityUIManager.setAbilityHighlighted(false);
+        }
     }
 
     private void updateSpecialAbility()
@@ -61,27 +70,29 @@ public class PoliceChiefUIDriver : GhostUIDriver
     }
 
     private void updateMeter() {
-        if (GetComponent<PoliceChiefLethalForce>() != null && GetComponent<PoliceChiefLethalForce>().GetTotalHits() != -1)
+        // Meter
+        meterUIManager.setMeterValue(manager.basicAmmo, stats.ComputeValue("Basic Starting Ammo"));
+        meterUIManager.setMeterColor(ghostIdentity.GetCharacterInfo().highlightColor);
+
+        // Lethal Force Submeter
+        PoliceChiefLethalForce lethalForce = GetComponent<PoliceChiefLethalForce>();
+        if (lethalForce != null && lethalForce.GetTotalHits() != -1)
         {
-            //meterUIManager.setMeterColor(Color.red);
-            //meterUIManager.setMeterValue(GetComponent<PoliceChiefLethalForce>().GetConsecutiveHits(), GetComponent<PoliceChiefLethalForce>().GetTotalHits());
-            //meterUIManager.setBackgroundColor(Color.grey);
-            meterUIManager.setSubMeterValue(GetComponent<PoliceChiefLethalForce>().GetConsecutiveHits(), GetComponent<PoliceChiefLethalForce>().GetTotalHits());
-            //meterUIManager.activateWidget();
+            meterUIManager.setSubMeterValue(lethalForce.GetConsecutiveHits(), lethalForce.GetTotalHits());
+            if (lethalForce.GetConsecutiveHits() >= lethalForce.GetTotalHits())
+            {
+                meterUIManager.setMeterColor(ghostIdentity.GetCharacterInfo().primaryColor);
+            }
         }
         else
         {
-            //meterUIManager.setSubMeterColor(ghostIdentity.GetCharacterInfo().primaryColor);
             meterUIManager.setSubMeterValue(0f, 0f);
         }
 
-        //Meter
-        meterUIManager.setMeterValue(manager.basicAmmo, stats.ComputeValue("Basic Starting Ammo"));
-        meterUIManager.setMeterColor(ghostIdentity.GetCharacterInfo().primaryColor);
-
-        //Widget active
+        // Widget active
         if (manager.basic == null) return;
-        if (manager.basicAmmo < stats.ComputeValue("Basic Starting Ammo"))
+        if (manager.basicAmmo < stats.ComputeValue("Basic Starting Ammo") ||
+            (lethalForce != null && lethalForce.GetTotalHits() != -1 && lethalForce.GetConsecutiveHits() > 0))
         {
             meterUIManager.activateWidget();
             return;

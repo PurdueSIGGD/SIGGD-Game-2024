@@ -23,7 +23,7 @@ public class RunningStart : Skill
 
     private void ApplyBuff(ActionContext context)
     {
-        if (context.actionID == ActionID.IDOL_SPECIAL)
+        if (context.actionID == ActionID.IDOL_SPECIAL && pointindex > 0)
         {
             // attempt to grab the Idol passive script
             IdolPassive passive = GetComponent<IdolPassive>();
@@ -31,6 +31,8 @@ public class RunningStart : Skill
             {
                 passive.IncrementTempo(pointindex);
             }
+            // Activate Feedback Loop manually because the clone doesn't spawn fast enough in the special script
+            GetComponent<FeedbackLoop>().reduceCooldown(true);
         }
     }
 

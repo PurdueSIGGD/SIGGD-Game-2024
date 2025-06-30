@@ -400,11 +400,11 @@ public class AudioWizard : ScriptableWizard
         switch (mixerType)
         {
             case Mixer.BIGSFX: return "BIGSFX";
-            case Mixer.AmbientSFX: return "AmbientSFX";
+            case Mixer.AmbientSFX: return "Ambient SFX";
             case Mixer.SFX: return "SFX";
-            case Mixer.PrioritySFX: return "PrioritySFX";
+            case Mixer.PrioritySFX: return "Priority SFX";
             case Mixer.Music: return "Music";
-            case Mixer.DefaultSFX: return "DefaultSFX";
+            case Mixer.DefaultSFX: return "Default SFX";
             case Mixer.Master: return "Master";
             case Mixer.VA: return "VA";
             default:

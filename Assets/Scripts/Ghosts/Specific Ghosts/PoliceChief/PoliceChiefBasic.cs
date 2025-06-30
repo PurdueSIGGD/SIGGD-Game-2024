@@ -55,6 +55,12 @@ public class PoliceChiefBasic : MonoBehaviour
                 transform.rotation = Quaternion.Euler(0, 180, 0);
             }
         }
+
+        // SFX
+        if (isCharging)
+        {
+            AudioManager.Instance.SFXBranch.GetSFXTrack("North-Sidearm Charging").SetPitch(manager.GetStats().ComputeValue("Basic Charge Up Time") - chargingTime, manager.GetStats().ComputeValue("Basic Charge Up Time"));
+        }
     }
 
 
@@ -64,9 +70,12 @@ public class PoliceChiefBasic : MonoBehaviour
     {
         chargingTime = manager.GetStats().ComputeValue("Basic Charge Up Time");
         isCharging = true;
-        AudioManager.Instance.SFXBranch.PlaySFXTrack("HeavyAttackWindUp");
         SetSidearmDamage(2);
         GetComponent<Move>().PlayerStop();
+
+        // SFX
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("North-Sidearm Charging");
+        AudioManager.Instance.SFXBranch.GetSFXTrack("North-Sidearm Attack").SetPitch(0f, 1f);
     }
 
     public void StopSidearmChargeUp()
@@ -74,6 +83,9 @@ public class PoliceChiefBasic : MonoBehaviour
         isCharging = false;
         chargingTime = 0f;
         GetComponent<Move>().PlayerGo();
+
+        // SFX
+        AudioManager.Instance.SFXBranch.StopSFXTrack("North-Sidearm Charging");
     }
 
 
@@ -83,9 +95,17 @@ public class PoliceChiefBasic : MonoBehaviour
     {
         primedTime = manager.GetStats().ComputeValue("Basic Primed Autofire Time");
         isPrimed = true;
-        AudioManager.Instance.SFXBranch.PlaySFXTrack("HeavyAttackPrimed");
         SetSidearmDamage(3);
         GetComponent<Move>().PlayerStop();
+
+        // SFX
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("HeavyAttackPrimed");
+        //AudioManager.Instance.SFXBranch.PlaySFXTrack("North-Sidearm Primed");
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("North-Sidearm Primed Loop");
+        AudioManager.Instance.SFXBranch.GetSFXTrack("North-Sidearm Attack").SetPitch(0.2f, 1f);
+
+        // Power Spike Timer
+        manager.GetComponent<PoliceChiefPowerSpike>().StartCritTimer();
     }
 
     public void StopSidearmPrimed()
@@ -93,6 +113,10 @@ public class PoliceChiefBasic : MonoBehaviour
         isPrimed = false;
         primedTime = 0f;
         GetComponent<Move>().PlayerGo();
+
+        // SFX
+        AudioManager.Instance.SFXBranch.StopSFXTrack("North-Sidearm Charging");
+        if (!manager.GetComponent<PoliceChiefLethalForce>().shotEmpowered) AudioManager.Instance.SFXBranch.StopSFXTrack("North-Sidearm Primed Loop");
     }
 
 
@@ -100,6 +124,7 @@ public class PoliceChiefBasic : MonoBehaviour
     // Sidearm Attack
     public void FireSidearm()
     {
+        playerStateMachine.ConsumeLightAttackInput();
         if (manager.basicAmmo <= 1) playerStateMachine.ConsumeHeavyAttackInput();
         GetComponent<Move>().PlayerStop();
 
@@ -112,6 +137,12 @@ public class PoliceChiefBasic : MonoBehaviour
         GameObject sidearmShot = Instantiate(manager.basicShot, Vector3.zero, Quaternion.identity);
         sidearmShot.GetComponent<PoliceChiefSidearmShot>().fireSidearmShot(manager, pos, dir);
         ConsumeAmmo(1);
+        GameplayEventHolder.OnAbilityUsed?.Invoke(manager.sidearmActionContext);
+
+        // SFX
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("North-Sidearm Attack");
+        AudioManager.Instance.SFXBranch.StopSFXTrack("North-Sidearm Charging");
+        if (!manager.GetComponent<PoliceChiefLethalForce>().shotEmpowered) AudioManager.Instance.SFXBranch.StopSFXTrack("North-Sidearm Primed Loop");
     }
 
     public void StopSidearm()
@@ -143,18 +174,22 @@ public class PoliceChiefBasic : MonoBehaviour
             case 1:
                 manager.basicDamage.damage = manager.GetStats().ComputeValue("Basic Damage");
                 manager.basicDamage.damageStrength = DamageStrength.MINOR;
+                manager.sidearmActionContext.extraContext = "";
                 break;
             case 2:
                 manager.basicDamage.damage = manager.GetStats().ComputeValue("Basic Heavy Damage");
                 manager.basicDamage.damageStrength = DamageStrength.MINOR;
+                manager.sidearmActionContext.extraContext = "";
                 break;
             case 3:
                 manager.basicDamage.damage = manager.GetStats().ComputeValue("Basic Super Heavy Damage");
                 manager.basicDamage.damageStrength = DamageStrength.LIGHT;
+                manager.sidearmActionContext.extraContext = "Full Charge";
                 break;
             default:
                 manager.basicDamage.damage = manager.GetStats().ComputeValue("Basic Damage");
                 manager.basicDamage.damageStrength = DamageStrength.MINOR;
+                manager.sidearmActionContext.extraContext = "";
                 break;
         }
     }

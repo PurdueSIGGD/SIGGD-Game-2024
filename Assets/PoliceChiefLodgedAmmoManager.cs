@@ -36,7 +36,7 @@ public class PoliceChiefLodgedAmmoManager : MonoBehaviour
     private void LodgeAmmoOnHit(DamageContext context)
     {
         if (!context.victim.CompareTag("Enemy")) return;
-        if (context.actionID.Equals(ActionID.POLICE_CHIEF_BASIC))
+        if (context.actionID.Equals(ActionID.POLICE_CHIEF_BASIC) && !context.actionTypes.Contains(ActionType.SKILL))
         {
             LodgeAmmo(context, 1);
         }
@@ -71,7 +71,7 @@ public class PoliceChiefLodgedAmmoManager : MonoBehaviour
     public void DropAmmo(DamageContext context, int ammo)
     {
         PoliceChiefLodgedAmmo enemyLodgedAmmo = context.victim.GetComponent<PoliceChiefLodgedAmmo>();
-        int ammoLodged = 1;
+        int ammoLodged = (context.actionTypes.Contains(ActionType.SKILL)) ? 0 : 1;
         if (enemyLodgedAmmo == null && context.actionID != ActionID.POLICE_CHIEF_BASIC) return;
         if (enemyLodgedAmmo != null)
         {

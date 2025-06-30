@@ -261,6 +261,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 872d96247465fd541bea93e36537b26f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemy: {fileID: 0}
   actions:
   - name: Baton Swing
     priority: 1
@@ -296,11 +297,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Speed
-    value: 5
+    value: 7
   - name: Damage
-    value: 7.5
+    value: 10
   - name: Idle Speed
-    value: 3.5
+    value: 4
   - name: Pause Timer Duration Min
     value: 1
   - name: Pause Timer Duration Max
@@ -310,7 +311,7 @@ MonoBehaviour:
   - name: Target Range Max
     value: 30
   - name: Enemy Group Aggro Radius
-    value: 10
+    value: 20
 --- !u!114 &2121035421530653855
 MonoBehaviour:
   m_ObjectHideFlags: 0
