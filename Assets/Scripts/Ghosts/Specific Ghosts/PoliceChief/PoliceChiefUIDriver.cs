@@ -29,11 +29,20 @@ public class PoliceChiefUIDriver : GhostUIDriver
 
     private void updateBasicAbility()
     {
-        basicAbilityUIManager.setAbilityHighlighted(GetComponent<PoliceChiefPowerSpike>().GetAbleToCrit());
+        //basicAbilityUIManager.setAbilityHighlighted(GetComponent<PoliceChiefPowerSpike>().GetAbleToCrit());
         basicAbilityUIManager.setAbilityEnabled(manager.basicAmmo > 0);
         basicAbilityUIManager.setMeterValue(manager.basicAmmo, stats.ComputeValue("Basic Starting Ammo"));
         basicAbilityUIManager.setChargeWidgetActive(true);
         basicAbilityUIManager.setChargeValue(manager.basicAmmo, stats.ComputeValue("Basic Starting Ammo"));
+        PoliceChiefLethalForce lethalForce = GetComponent<PoliceChiefLethalForce>();
+        if (lethalForce != null && lethalForce.shotEmpowered)
+        {
+            basicAbilityUIManager.setAbilityHighlighted(true);
+        }
+        else if (lethalForce != null)
+        {
+            basicAbilityUIManager.setAbilityHighlighted(false);
+        }
     }
 
     private void updateSpecialAbility()
@@ -82,7 +91,8 @@ public class PoliceChiefUIDriver : GhostUIDriver
 
         // Widget active
         if (manager.basic == null) return;
-        if (manager.basicAmmo < stats.ComputeValue("Basic Starting Ammo"))
+        if (manager.basicAmmo < stats.ComputeValue("Basic Starting Ammo") ||
+            (lethalForce != null && lethalForce.GetTotalHits() != -1 && lethalForce.GetConsecutiveHits() > 0))
         {
             meterUIManager.activateWidget();
             return;

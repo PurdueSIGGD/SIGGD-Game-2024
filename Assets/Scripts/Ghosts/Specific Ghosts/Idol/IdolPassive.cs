@@ -273,7 +273,7 @@ public class IdolPassive : MonoBehaviour
     {
         // apply changes to each speed stat
 
-        int mod = (int)manager.GetStats().ComputeValue("TEMPO_BUFF_PERCENT_INT");
+        int mod = (int) manager.GetStats().ComputeValue("TEMPO_BUFF_PERCENT_INT");
         foreach (string statName in statNames)
         {
             // flip scaling direction for deacceleration stats
