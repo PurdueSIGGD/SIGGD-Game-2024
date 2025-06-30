@@ -39,10 +39,12 @@ public class IdolPassive : MonoBehaviour
     void OnEnable()
     {
         GameplayEventHolder.OnDeath += IdolOnKill;
+        GameplayEventHolder.OnDamageDealt += IdolOnDamageDealt;
     }
     void OnDisable()
     {
         GameplayEventHolder.OnDeath -= IdolOnKill;
+        GameplayEventHolder.OnDamageDealt -= IdolOnDamageDealt;
     }
 
     void Start()
@@ -138,6 +140,15 @@ public class IdolPassive : MonoBehaviour
         IncrementTempo(Mathf.CeilToInt(manager.GetStats().ComputeValue("TEMPO_STACKS_PER_KILL")));
     }
 
+    public void IdolOnDamageDealt(DamageContext context)
+    {
+        if (context.attacker != PlayerID.instance.gameObject || context.damageTypes.Contains(DamageType.STATUS)) return;
+        if (uptempo && duration > 0)
+        {
+            duration += manager.GetStats().ComputeValue("TEMPO_DAMAGE_DURATION_GAIN");
+        }
+    }
+
     /// <summary>
     /// Increases the Idol buff count by one
     /// </summary>
@@ -145,31 +156,60 @@ public class IdolPassive : MonoBehaviour
     {
         Debug.Log("Increasing tempo");
 
-        int remainingStacks = (int)manager.GetStats().ComputeValue("TEMPO_MAX_STACKS") - tempoStacks;
+        // ensure tempo stacks don't exceed maximum
+        int remainingStacks = (int) manager.GetStats().ComputeValue("TEMPO_MAX_STACKS") - tempoStacks;
+        stacks = stacks < remainingStacks ? stacks : remainingStacks;
 
         // if at max tempo, play max tempo audio
+        /*
         if (remainingStacks <= 0)
         {
             // play audio, if has upgrade, choose from 1 random voice bank to play
             string chosenBank = avaliableHoloJumpVA[Random.Range(0, avaliableHoloJumpVA.Count)];
             AudioManager.Instance.VABranch.PlayVATrack(chosenBank);
         }
-        
-        // if does not currently have any tempo, play on activate audio
-        if (tempoStacks <= 0)
+        else
+        {
+            // play on activate audio
+            AudioManager.Instance.VABranch.PlayVATrack("Eva-Idol Activate Tempo");
+        }
+        */
+
+        // SFX
+        if (tempoStacks + stacks < manager.GetStats().ComputeValue("TEMPO_MAX_STACKS") || tempoStacks >= manager.GetStats().ComputeValue("TEMPO_MAX_STACKS"))
+        {
+            AudioManager.Instance.SFXBranch.GetSFXTrack("Eva-Tempo Gained").SetPitch(tempoStacks, manager.GetStats().ComputeValue("TEMPO_MAX_STACKS"));
+            AudioManager.Instance.SFXBranch.PlaySFXTrack("Eva-Tempo Gained");
+        }
+        else
+        {
+            AudioManager.Instance.SFXBranch.PlaySFXTrack("Eva-Tempo Max");
+        }
+
+        // Voice Lines
+        if (tempoStacks + stacks < manager.GetStats().ComputeValue("TEMPO_MAX_STACKS"))
         {
             AudioManager.Instance.VABranch.PlayVATrack("Eva-Idol Activate Tempo");
         }
+        else if (tempoStacks < manager.GetStats().ComputeValue("TEMPO_MAX_STACKS"))
+        {
+            // play audio, if has upgrade, choose from 1 random voice bank to play
+            string chosenBank = avaliableHoloJumpVA[Random.Range(0, avaliableHoloJumpVA.Count)];
+            AudioManager.Instance.VABranch.PlayVATrack(chosenBank);
+        }
 
-        // increment tempo stacks by stacks so it doesn't exceed maximum
-        stacks = stacks < remainingStacks ? stacks : remainingStacks;
+        // increment tempo stacks by stacks
         tempoStacks += stacks;
+
+        // Feedback Loop reduce Special cooldown
+        GetComponent<FeedbackLoop>().reduceCooldown(false);
 
         // immediately apply tempo changes if Idol is active
         if (active)
         {
             UpdateSpeed(stacks);
         }
+
         // initialize tempo effect if idol is active, has stacks, and isn't speed boosted yet 
         if (tempoStacks > 0 && !uptempo)
         {
@@ -219,6 +259,9 @@ public class IdolPassive : MonoBehaviour
         particlesVFX.gameObject.SetActive(false);
         particlesVFX.SetIntensity(tempoStacks, manager.GetStats().ComputeValue("TEMPO_MAX_STACKS"));
 
+        // SFX
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("Eva-Tempo Lost");
+
         return "AAAOAOAOAO SH I HIT A BRICK WALL OH GOD IT HURTS";
     }
 
@@ -230,7 +273,7 @@ public class IdolPassive : MonoBehaviour
     {
         // apply changes to each speed stat
 
-        int mod = (int)manager.GetStats().ComputeValue("TEMPO_BUFF_PERCENT_INT");
+        int mod = (int) manager.GetStats().ComputeValue("TEMPO_BUFF_PERCENT_INT");
         foreach (string statName in statNames)
         {
             // flip scaling direction for deacceleration stats

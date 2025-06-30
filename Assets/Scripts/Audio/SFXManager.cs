@@ -13,6 +13,11 @@ public class SFXManager : MonoBehaviour
 
     [SerializeField] private AudioLookUpTable lookUpTable;
 
+    public ISFXTrack GetSFXTrack(string trackName)
+    {
+        return lookUpTable.sfxTable[trackName];
+    }
+
     public void PlaySFXTrack(string trackName) {
         lookUpTable.sfxTable[trackName].PlayTrack();
     }

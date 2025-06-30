@@ -44,12 +44,13 @@ public class VAManager : MonoBehaviour {
                 float trackLength = 0.0f;
                 if (castedTrack is SoundBankVATrack) {
                     SoundBankVATrack recastedTrack = (SoundBankVATrack) castedTrack;
+                    if (recastedTrack.lastSkipped) return;
                     OneShotVATrack reRecastedTrack = (OneShotVATrack) recastedTrack.GetMostRecentTrack();
-                    trackLength = reRecastedTrack.GetTrackLength();
+                    if (reRecastedTrack != null) trackLength = reRecastedTrack.GetTrackLength();
                 }
                 if (castedTrack is OneShotVATrack) {
                     OneShotVATrack recastedTrack = (OneShotVATrack) castedTrack;
-                    trackLength = recastedTrack.GetTrackLength();
+                    if (recastedTrack != null) trackLength = recastedTrack.GetTrackLength();
                 }
                 voicelineCullingTimer = Math.Max(voicelineCullingTimer, trackLength);
                 globalVoicelineChance = 0.0f;

@@ -51,6 +51,12 @@ public class PoliceChiefSpecial : MonoBehaviour
                 playerStateMachine.OffCooldown("c_special");
             }
         }
+
+        // SFX
+        if (isCharging)
+        {
+            AudioManager.Instance.SFXBranch.GetSFXTrack("North-Railgun Charging").SetPitch(manager.GetStats().ComputeValue("Special Charge Up Time") - chargingTime, manager.GetStats().ComputeValue("Special Charge Up Time"));
+        }
     }
 
 
@@ -62,6 +68,9 @@ public class PoliceChiefSpecial : MonoBehaviour
         isCharging = true;
         camAnim.SetBool("pullBack", true);
         GetComponent<Move>().PlayerStop();
+
+        // SFX
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("North-Railgun Charging");
     }
 
     void StopSpecialChargeUp()
@@ -69,6 +78,9 @@ public class PoliceChiefSpecial : MonoBehaviour
         if (chargingTime > 0f) endSpecial(false, false);
         isCharging = false;
         chargingTime = 0f;
+
+        // SFX
+        AudioManager.Instance.SFXBranch.StopSFXTrack("North-Railgun Charging");
     }
 
 
@@ -76,7 +88,9 @@ public class PoliceChiefSpecial : MonoBehaviour
     // Primed
     void StartSpecialPrimed()
     {
-
+        // SFX
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("North-Railgun Primed");
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("North-Railgun Primed Loop");
     }
     
     void StopSpecialPrimed()
@@ -101,6 +115,11 @@ public class PoliceChiefSpecial : MonoBehaviour
         GameObject railgunShot = Instantiate(manager.specialShot, Vector3.zero, Quaternion.identity);
         railgunShot.GetComponent<PoliceChiefRailgunShot>().fireRailgunShot(manager, pos, dir);
         GameplayEventHolder.OnAbilityUsed?.Invoke(manager.policeChiefRailgun);
+
+        // SFX
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("North-Railgun Attack");
+        AudioManager.Instance.SFXBranch.StopSFXTrack("North-Railgun Charging");
+        AudioManager.Instance.SFXBranch.StopSFXTrack("North-Railgun Primed Loop");
     }
 
     void StopSpecialAttack(Animator animator)
@@ -128,5 +147,9 @@ public class PoliceChiefSpecial : MonoBehaviour
             playerStateMachine.OnCooldown("c_special");
             manager.startSpecialCooldown();
         }
+
+        // SFX
+        AudioManager.Instance.SFXBranch.StopSFXTrack("North-Railgun Charging");
+        AudioManager.Instance.SFXBranch.StopSFXTrack("North-Railgun Primed Loop");
     }
 }

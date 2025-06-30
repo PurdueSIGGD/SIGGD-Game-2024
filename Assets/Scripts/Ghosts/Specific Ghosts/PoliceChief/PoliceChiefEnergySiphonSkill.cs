@@ -8,7 +8,8 @@ public class PoliceChiefEnergySiphonSkill : Skill
     private StatManager stats;
     private PoliceChiefManager policeChiefManager;
     private static float amountCooldownReduction = 0.0f;
-    [SerializeField] float[] pointCooldowns = { 0.0005f, 0.001f, 0.0015f, 0.002f };
+    [SerializeField] float[] values = { 0.0005f, 0.001f, 0.0015f, 0.002f };
+
     private void Start()
     {
         /*if(GetPoints() > 0)
@@ -36,7 +37,7 @@ public class PoliceChiefEnergySiphonSkill : Skill
 
     public override void AddPointTrigger()
     {
-        amountCooldownReduction = pointCooldowns[GetPoints() - 1];
+        amountCooldownReduction = values[GetPoints() - 1];
     }
 
     public override void ClearPointsTrigger()
