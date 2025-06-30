@@ -65,10 +65,12 @@ public class PoliceChiefOvercharged : Skill
     {
         bonusDamage = pointCounts[GetPoints() - 1];
     }
+
     public override void RemovePointTrigger()
     {
 
     }
+
     public override void ClearPointsTrigger()
     {
         bonusDamage = 1.0f;
