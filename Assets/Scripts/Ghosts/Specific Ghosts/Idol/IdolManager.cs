@@ -32,6 +32,11 @@ public class IdolManager : GhostManager, ISelectable
     {
         identityName = name;
 
+        if (identityName.Contains("(Clone)"))
+        {
+            identityName = identityName.Replace("(Clone)", "");
+        }
+
         if (!SaveManager.data.ghostSkillPts.ContainsKey(identityName))
         {
             SaveManager.data.ghostSkillPts.Add(identityName, new int[7]);

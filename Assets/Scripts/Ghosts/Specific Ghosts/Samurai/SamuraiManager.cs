@@ -17,6 +17,10 @@ public class SamuraiManager : GhostManager, ISelectable
 
     void Awake()
     {
+        if (identityName.Contains("(Clone)"))
+        {
+            identityName = identityName.Replace("(Clone)", "");
+        }
 
         if (!SaveManager.data.ghostSkillPts.ContainsKey(identityName))
         {

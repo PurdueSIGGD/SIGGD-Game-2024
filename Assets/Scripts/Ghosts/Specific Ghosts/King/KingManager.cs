@@ -18,17 +18,49 @@ public class KingManager : GhostManager, ISelectable
     [HideInInspector] public KingSpecial special;
 
     private PlayerStateMachine psm;
+    private string identityName;
 
     // Start is called before the first frame update
     protected override void Start()
     {
         base.Start();
+
+        int[] points = SaveManager.data.ghostSkillPts[identityName];
+        Skill[] skills = GetComponent<SkillTree>().GetAllSkills();
+        for (int i = 0; i < skills.Length; i++)
+        {
+            for (int j = 0; j < points[i]; j++)
+            {
+                GetComponent<SkillTree>().RemoveSkillPoint(skills[i]);
+            }
+        }
+
         shieldBreakDamage.damage = stats.ComputeValue("Shield Break Damage");
         specialDamage.damage = stats.ComputeValue("Special Damage");
         currentShieldHealth = stats.ComputeValue("Shield Max Health");
         endShieldHealth = 0f;
 
         psm = PlayerID.instance.GetComponent<PlayerStateMachine>();
+    }
+
+    void Awake()
+    {
+        identityName = name;
+
+        if (identityName.Contains("(Clone)"))
+        {
+            identityName = identityName.Replace("(Clone)", "");
+        }
+
+        if (!SaveManager.data.ghostSkillPts.ContainsKey(identityName))
+        {
+            SaveManager.data.ghostSkillPts.Add(identityName, new int[7]);
+        }
+
+        if (!SaveManager.data.ghostLevel.ContainsKey(identityName))
+        {
+            SaveManager.data.ghostLevel.Add(identityName, 0);
+        }
     }
 
     // Update is called once per frame
