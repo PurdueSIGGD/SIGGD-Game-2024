@@ -42,7 +42,7 @@ public class PoliceChiefUIDriver : GhostUIDriver
         if (lockedAndLoaded.reservedCount > 0)
         {
             specialAbilityUIManager.setChargeWidgetActive(true);
-            specialAbilityUIManager.setChargeValue(lockedAndLoaded.reservedCount, lockedAndLoaded.reserveCharges[LockedAndLoadedSkill.pointIndex]);
+            specialAbilityUIManager.setChargeValue(lockedAndLoaded.reservedCount, lockedAndLoaded.reserveCharges[GetComponent<LockedAndLoadedSkill>().pointIndex]);
         }
         else
         {

@@ -23,9 +23,17 @@ public class SkillTree : MonoBehaviour
     private SkillTier[] skillTiers;
     private int level = 0;
 
+    private string identityName;
+
     private void Awake()
     {
-        string identityName = gameObject.name;
+        identityName = gameObject.name;
+
+        if (identityName.Contains("(Clone)"))
+        {
+            identityName = identityName.Replace("(Clone)", "");
+        }
+
         if (!SaveManager.data.ghostLevel.ContainsKey(identityName))
         {
             SaveManager.data.ghostLevel.Add(identityName, startAtLevel);
@@ -76,7 +84,7 @@ public class SkillTree : MonoBehaviour
 
     private void Start()
     {
-        for (int i = 1; i < startAtLevel; i++)
+        for (int i = 0; i < startAtLevel; i++)
         {
             LevelUp();
         }
@@ -125,7 +133,7 @@ public class SkillTree : MonoBehaviour
             }
             level++;
         }
-        SaveManager.data.ghostLevel[GetComponent<GhostIdentity>().name] = level;
+        SaveManager.data.ghostLevel[identityName] = level;
     }
 
     public void TryAddPoint(Skill skill)

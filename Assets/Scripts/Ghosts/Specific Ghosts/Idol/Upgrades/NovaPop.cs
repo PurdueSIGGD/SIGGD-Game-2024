@@ -11,7 +11,7 @@ public class NovaPop : Skill
     private GameObject playerRef;
     private StatManager stat;
     private IdolManager manager;
-    private static int pointIndex;
+    private int pointIndex;
 
     void Start()
     {

@@ -6,7 +6,7 @@ using UnityEngine;
 public class PoliceChiefLethalForce : Skill
 {
     [SerializeField] private int[] pointCounts = { 4, 3, 2, 1 };
-    private static int numHits = -1;
+    private int numHits = -1;
     private int consecutiveHits = 0;
     private float timer = -1.0f;
 

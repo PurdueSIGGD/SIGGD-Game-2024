@@ -20,7 +20,7 @@ public class ElectricStep : Skill
     float damageTick; // the amount of damage
     [SerializeField] float radius;
     bool fieldActive;
-    private static int pointIndex;
+    private int pointIndex;
 
     void Start()
     {

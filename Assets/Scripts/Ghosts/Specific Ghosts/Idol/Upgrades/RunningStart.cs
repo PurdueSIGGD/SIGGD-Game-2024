@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RunningStart : Skill
 {
-    private static int pointindex;
+    private int pointindex;
 
     //void Start()
     //{

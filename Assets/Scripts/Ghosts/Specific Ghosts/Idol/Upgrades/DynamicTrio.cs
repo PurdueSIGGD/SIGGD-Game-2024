@@ -9,7 +9,7 @@ public class DynamicTrio : Skill
         0, 15, 30, 45, 60
     };
     float transferPercentage = 0;
-    private static int pointIndex;
+    private int pointIndex;
     void Start()
     {
         manager = gameObject.GetComponent<IdolManager>();

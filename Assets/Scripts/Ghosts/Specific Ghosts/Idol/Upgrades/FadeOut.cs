@@ -16,7 +16,7 @@ public class FadeOut : Skill
     IdolSpecial idolSpecial;
 
     [SerializeField] private float invisibilityDuration = 4f;  // designers: this field is serialized, so change it 
-    private static int pointIndex;
+    private int pointIndex;
 
     // Start is called before the first frame update
     void Start()

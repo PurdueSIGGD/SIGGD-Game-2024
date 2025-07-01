@@ -10,7 +10,7 @@ public class FeedbackLoop : Skill
         0, 7, 14, 21, 28
     };
     int percentIncrease = 0;
-    private static int pointIndex;
+    private int pointIndex;
 
     void Start()
     {
