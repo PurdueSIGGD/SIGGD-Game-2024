@@ -1,15 +1,14 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class KingBasic : MonoBehaviour
 {
     private PlayerStateMachine playerStateMachine;
+    private GameObject shieldCircle;
 
     [HideInInspector] public KingManager manager;
     [HideInInspector] public bool isShielding;
-
     private Camera mainCamera;
-
-    private GameObject shieldCircle;
 
     // Start is called before the first frame update
     void Start()
@@ -70,10 +69,11 @@ public class KingBasic : MonoBehaviour
 
     public void invincibilityFilter(ref DamageContext context)
     {
-        if (context.victim.tag != "Player") return;
+        if (!context.victim.CompareTag("Player")) return;
 
         // Shield damage absorb
         manager.currentShieldHealth = Mathf.Max(manager.currentShieldHealth - context.damage, 0f);
+        
         context.damage = 0f;
 
         // Shield destroyed

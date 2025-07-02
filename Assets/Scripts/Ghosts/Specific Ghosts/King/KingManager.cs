@@ -13,6 +13,7 @@ public class KingManager : GhostManager, ISelectable
 
     public float currentShieldHealth;
     public float endShieldHealth;
+    public bool selected;
 
     [HideInInspector] public KingBasic basic;
     [HideInInspector] public KingSpecial special;
@@ -31,6 +32,8 @@ public class KingManager : GhostManager, ISelectable
         specialDamage.damage = stats.ComputeValue("Special Damage");
         currentShieldHealth = stats.ComputeValue("Shield Max Health");
         endShieldHealth = 0f;
+        selected = false;
+
         hasShield = true;
         psm = PlayerID.instance.GetComponent<PlayerStateMachine>();
     }
@@ -58,6 +61,7 @@ public class KingManager : GhostManager, ISelectable
     public override void Select(GameObject player)
     {
         Debug.Log("KING SELECTED");
+        selected = true;
 
         if (PlayerID.instance.GetComponent<HeavyAttack>()) Destroy(PlayerID.instance.GetComponent<HeavyAttack>());
         basic = PlayerID.instance.AddComponent<KingBasic>();
@@ -71,6 +75,7 @@ public class KingManager : GhostManager, ISelectable
 
     public override void DeSelect(GameObject player)
     {
+        selected = false;
         if (basic) Destroy(basic);
         if (!PlayerID.instance.GetComponent<HeavyAttack>()) PlayerID.instance.AddComponent<HeavyAttack>();
 
