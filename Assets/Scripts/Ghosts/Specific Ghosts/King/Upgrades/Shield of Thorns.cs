@@ -17,11 +17,6 @@ public class ShieldOfThorns : Skill
     private KingManager manager;
     private KingBasic basic;
 
-    void Start()
-    {
-        AddPoint();
-    }
-
     private void OnEnable()
     {
         manager = gameObject.GetComponent<KingManager>();
