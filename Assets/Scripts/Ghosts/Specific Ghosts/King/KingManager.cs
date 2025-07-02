@@ -10,6 +10,7 @@ public class KingManager : GhostManager, ISelectable
     [SerializeField] public GameObject shieldCircleVFX;
     [SerializeField] public GameObject shieldExplosionVFX;
     [SerializeField] public GameObject specialExplosionVFX;
+    public ActionContext specialContext;
 
     public float currentShieldHealth;
     public float endShieldHealth;

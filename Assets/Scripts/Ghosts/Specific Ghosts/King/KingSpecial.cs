@@ -87,6 +87,9 @@ public class KingSpecial : MonoBehaviour, ISpecialMove
         // End invincibility
         yield return new WaitForSeconds(Mathf.Max((manager.GetStats().ComputeValue("Special Invincibility Duration") - castTime), 0f));
         endSpecial(false, true);
+
+        // Trigger events
+        GameplayEventHolder.OnAbilityUsed.Invoke(manager.specialContext);
     }
 
     /// <summary>
