@@ -1,4 +1,4 @@
-#define DEBUG_LOG
+//#define DEBUG_LOG
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,25 +14,18 @@ using UnityEngine;
 public class ShieldOfThorns : Skill
 {
 
-    private static int pointIndex = 0;
     private KingManager manager;
     private KingBasic basic;
-    private StatManager stats;
 
     private void OnEnable()
     {
         manager = gameObject.GetComponent<KingManager>();
-        stats = manager.GetStats();
-
-        // FIXME
         GameplayEventHolder.OnDamageFilter.Insert(0, ReflectDamage);
-
     }
 
     private void OnDisable()
     {
         GameplayEventHolder.OnDamageFilter.Remove(ReflectDamage);
-
     }
 
     /// <summary>
@@ -43,11 +36,6 @@ public class ShieldOfThorns : Skill
     public void ReflectDamage(ref DamageContext context)
     {
 
-#if DEBUG_LOG
-        Debug.Log("Shield of Thorns: " + context.victim + " hurt " + context.damage + " by " + context.attacker);
-        Debug.Log("Shield of Thorns: Shield health " + manager.currentShieldHealth + ", skill points " + GetPoints());
-#endif
-
         // Conditions
 
         if (GetPoints() <= 0 || !manager.selected)
@@ -55,12 +43,20 @@ public class ShieldOfThorns : Skill
             return;
         }
 
-        if (!context.attacker.CompareTag("Enemy") || !context.victim.CompareTag("Player"))
+#if DEBUG_LOG
+        Debug.Log("Shield of Thorns: " + context.victim.name + " hurt " + context.damage + " by " + context.attacker.name + " " + context.attacker.tag);
+        Debug.Log("Shield of Thorns: Shield health " + manager.currentShieldHealth + "/" + manager.GetStats().ComputeValue("Shield Max Health") + ", points: " + GetPoints() + 
+                  ", Shield up: " + manager.basic.isShielding);
+#endif
+
+        if (manager.currentShieldHealth < manager.GetStats().ComputeValue("Shield Max Health"))
         {
             return;
         }
 
-        if (manager.currentShieldHealth < stats.ComputeValue("Shield Max Health"))
+        // Attacker should not be player
+
+        if (context.attacker.CompareTag("Player") || !context.victim.CompareTag("Player"))
         {
             return;
         }
@@ -74,26 +70,32 @@ public class ShieldOfThorns : Skill
         DamageContext newContext = new DamageContext();
         newContext.damage = damageReflected;
 
+#if DEBUG_LOG
+        Debug.Log("Health before: " + context.attacker.GetComponent<Health>().currentHealth);
+        Debug.Log("Shield of Thorns: Reflected " + 8 * GetPoints() + "% damage to " + context.attacker);
+#endif
+
         context.attacker.GetComponent<Health>().Damage(newContext, context.victim);
 
 #if DEBUG_LOG
-        Debug.Log("Shield of Thorns: Reflected " + damageReflected*100 + "% percent damage to " + context.attacker);
+        // not sure why this is not printing FIXME
+        Debug.Log("Enemy Health " + context.attacker.GetComponent<Health>().currentHealth);
 #endif
     }
 
     public override void AddPointTrigger()
     {
-        pointIndex = GetPoints();
+        //pointIndex = GetPoints();
     }
 
     public override void ClearPointsTrigger()
     {
-        pointIndex = GetPoints();
+        //pointIndex = GetPoints();
     }
 
     public override void RemovePointTrigger()
     {
-        pointIndex = GetPoints(); 
+        //pointIndex = GetPoints(); 
     }
 
 }

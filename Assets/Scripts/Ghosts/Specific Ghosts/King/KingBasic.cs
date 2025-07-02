@@ -71,9 +71,6 @@ public class KingBasic : MonoBehaviour
     {
         if (!context.victim.CompareTag("Player")) return;
 
-        // Reflect damage: Shield of Thorns skill FIXME
-        manager.gameObject.GetComponent<ShieldOfThorns>().ReflectDamage(ref context);
-
         // Shield damage absorb
         manager.currentShieldHealth = Mathf.Max(manager.currentShieldHealth - context.damage, 0f);
         
