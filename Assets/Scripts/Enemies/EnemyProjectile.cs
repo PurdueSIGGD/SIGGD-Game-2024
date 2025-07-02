@@ -14,7 +14,7 @@ public class EnemyProjectile : MonoBehaviour, IStatList
 
     public string target = "Player";
 
-    //protected Transform target; // Target location at the time of releasing the projectile
+    protected GameObject parent;
     protected StatManager statManager;
     protected Vector3 dir;
     protected Rigidbody2D rb;
@@ -42,8 +42,9 @@ public class EnemyProjectile : MonoBehaviour, IStatList
     /// </summary>
     /// <param name="target"> transform of the target object </param>
     /// <param name="damage"> damage of the projectile </param>
-    public void Init(Vector3 target)
+    public void Init(GameObject parent, Vector3 target)
     {
+        this.parent = parent;
         dir = (target - transform.position).normalized;
         bounds = dir * range + transform.position;
     }
@@ -60,7 +61,8 @@ public class EnemyProjectile : MonoBehaviour, IStatList
 
         if (collision.gameObject.CompareTag(target) || collision.gameObject.CompareTag("Idol_Clone"))
         {
-            collision.gameObject.GetComponent<Health>().Damage(projectileDamage, gameObject);
+            projectileDamage.victim = collision.gameObject;
+            collision.gameObject.GetComponent<Health>().Damage(projectileDamage, parent);
         }
 
         if (collision.gameObject.CompareTag(target) || collision.gameObject.CompareTag("Idol_Clone") || collision.gameObject.layer == LayerMask.NameToLayer("Ground"))

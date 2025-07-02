@@ -17,6 +17,11 @@ public class ShieldOfThorns : Skill
     private KingManager manager;
     private KingBasic basic;
 
+    void Start()
+    {
+        AddPoint();
+    }
+
     private void OnEnable()
     {
         manager = gameObject.GetComponent<KingManager>();
@@ -69,6 +74,10 @@ public class ShieldOfThorns : Skill
 
         DamageContext newContext = new DamageContext();
         newContext.damage = damageReflected;
+        newContext.damageStrength = DamageStrength.MEAGER;
+        newContext.damageTypes = new List<DamageType>() { DamageType.STATUS };
+        newContext.actionID = ActionID.KING_SPECIAL;
+        newContext.actionTypes = new List<ActionType>() { ActionType.SKILL } ;
 
 #if DEBUG_LOG
         Debug.Log("Health before: " + context.attacker.GetComponent<Health>().currentHealth);
