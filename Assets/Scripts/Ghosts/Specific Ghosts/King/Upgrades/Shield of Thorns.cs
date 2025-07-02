@@ -76,7 +76,7 @@ public class ShieldOfThorns : Skill
         newContext.damage = damageReflected;
         newContext.damageStrength = DamageStrength.MEAGER;
         newContext.damageTypes = new List<DamageType>() { DamageType.STATUS };
-        newContext.actionID = ActionID.KING_SPECIAL;
+        newContext.actionID = ActionID.MISCELLANEOUS;
         newContext.actionTypes = new List<ActionType>() { ActionType.SKILL } ;
 
 #if DEBUG_LOG
