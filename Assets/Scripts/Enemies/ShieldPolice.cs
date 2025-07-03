@@ -75,7 +75,7 @@ public class ShieldPolice : EnemyStateManager
         SetCharging(false);
     }
 
-    public void ProcessShieldCollision(Collision2D collision)
+    public void ProcessShieldCollision(Collider2D collider)
     {
         // TODO implement knockback
         if (!isCharging)
@@ -83,12 +83,12 @@ public class ShieldPolice : EnemyStateManager
             return;
         }
         gameObject.GetComponent<Animator>().SetBool("HasCollided", true);
-        if (!collision.gameObject.CompareTag("Player"))
+        if (!collider.gameObject.CompareTag("Player"))
         {
             SetCharging(false);
             return;
         }
-        GameObject player = collision.gameObject;
+        GameObject player = collider.gameObject;
         Health playerHealth = player.GetComponent<Health>();
 
         chargeDamage.damage = chargeDamageVal;
@@ -100,7 +100,8 @@ public class ShieldPolice : EnemyStateManager
     {
         animator.SetBool("HasCollided", false);
         float direction = new Vector2(rb.velocity.x, 0).normalized.x;
-        rb.velocity = new Vector2(-0.25f * direction * math.abs(rb.velocity.x), rb.velocity.y);
+        Vector2 endForce = new Vector2(-0.8f * direction * math.abs(rb.velocity.x), 0);
+        rb.AddForce(endForce, ForceMode2D.Impulse);
         SetCharging(false);
     }
 

@@ -16,7 +16,10 @@ public class PoliceShield : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        shieldPolice.ProcessShieldCollision(collision.collider);
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
         shieldPolice.ProcessShieldCollision(collision);
-        print("SHIELD: COLLISION");
     }
 }
