@@ -10,8 +10,11 @@ public class PoliceShield : MonoBehaviour
     [SerializeField] private DamageContext chargeDamage;
     private bool isCharging = false;
 
+    [SerializeField] float damageVal;
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        chargeDamage.damage = damageVal;
+
         // TODO implement knockback
         if (!isCharging || !collision.gameObject.CompareTag("Player"))
         {
@@ -22,11 +25,11 @@ public class PoliceShield : MonoBehaviour
         player.GetComponent<Health>()?.Damage(chargeDamage, transform.parent.gameObject);
         gameObject.GetComponentInParent<Animator>().SetBool("HasCollided", true);
 
-        ToggleCollision();
+        SetCharging(false);
     }
 
-    public void ToggleCollision()
+    public void SetCharging(bool isCharging)
     {
-        isCharging = !isCharging;
+        this.isCharging = isCharging;
     }
 }

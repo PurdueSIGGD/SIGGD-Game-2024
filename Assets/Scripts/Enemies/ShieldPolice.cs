@@ -9,19 +9,27 @@ using UnityEngine;
 /// </summary>
 public class ShieldPolice : EnemyStateManager
 {
+
+    PoliceShield shield;
+
     [Header("Baton Attack")]
     [SerializeField] protected Transform batonTrigger;
     [SerializeField] protected DamageContext batonDamage;
+    [SerializeField] float batonDamageVal;
 
     [Header("Charge Attack (See shield to define damage)")]
     [SerializeField] protected Transform chargeTrigger;
     [SerializeField] protected float chargeSpeed;
 
-    protected bool isCharging;
+    [SerializeField] protected bool isCharging;
     protected Vector2 chargePos;
 
     void Update()
     {
+        if (shield == null)
+        {
+            shield = GetComponentInChildren<PoliceShield>();
+        }
         if (isCharging)
         {
             rb.velocity = new Vector2(chargeSpeed, rb.velocity.y) * transform.right;
@@ -31,14 +39,18 @@ public class ShieldPolice : EnemyStateManager
     // Generate damage frame for baton swing
     protected void OnBatonEvent()
     {
+        batonDamage.damage = batonDamageVal;
         GenerateDamageFrame(batonTrigger.position, batonTrigger.lossyScale.x, batonTrigger.lossyScale.y, batonDamage, gameObject);
     }
 
     // Ask police to begin charging and enable shield damage
     protected void OnChargeEvent1()
     {
-        GetComponentInChildren<PoliceShield>().ToggleCollision();
         isCharging = true;
+        if (shield)
+        {
+            shield.SetCharging(isCharging);
+        }
         chargePos = player.position;
     }
 
