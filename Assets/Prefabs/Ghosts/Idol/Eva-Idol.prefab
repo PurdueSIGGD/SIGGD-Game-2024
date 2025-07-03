@@ -22,7 +22,6 @@ GameObject:
   - component: {fileID: 3272375648746919725}
   - component: {fileID: 2617003682761076201}
   - component: {fileID: 2247047511266038100}
-  - component: {fileID: 5028833019426444995}
   - component: {fileID: 9025963487758876621}
   - component: {fileID: 219043313411044668}
   - component: {fileID: 1545715215794891431}
@@ -339,6 +338,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: ea15666da1c03af44acd60ffc6345a04, type: 2}
+  skillIndex: 0
 --- !u!114 &2617003682761076201
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -352,6 +352,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: 741d655c9f17315478dd227c3f3276e0, type: 2}
+  skillIndex: 2
   invisibilityDuration: 3.5
   values:
   - 0
@@ -372,25 +373,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: 7fbbc74c58fea6546b74b8d2dfaabbb4, type: 2}
+  skillIndex: 1
   values:
   - 0
   - 3
   - 6
   - 9
   - 12
---- !u!114 &5028833019426444995
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 981645078808632434}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5cded2aefff03514c80651e9f3c8ea75, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  skillSO: {fileID: 11400000, guid: 741d655c9f17315478dd227c3f3276e0, type: 2}
 --- !u!114 &9025963487758876621
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -404,6 +393,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: 6cd317815f2422c4c838b49b23db82ea, type: 2}
+  skillIndex: 3
   explosionContext:
     damageStrength: 3
     damageTypes: 02000000
@@ -436,6 +426,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: 47d10ae9d4bb8664591d154467935b21, type: 2}
+  skillIndex: 4
   values: 00000000070000000e000000150000001c000000
   damageTickSpeed: 0.2
   manager: {fileID: 0}
@@ -461,6 +452,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: 83559512b00d5424bb5f00c82f5c9074, type: 2}
+  skillIndex: 5
   values:
   - 0
   - 10
@@ -480,6 +472,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: 47064ef7ba27a6448a378006df0569af, type: 2}
+  skillIndex: 6
   healthRestored: 35
   timeStopDuration: 5
 --- !u!114 &3943762812193780925
