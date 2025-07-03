@@ -9,7 +9,7 @@ public class PoliceChiefOvercharged : Skill
     [SerializeField] float damageToEnemy;
     [SerializeField] float damageToPlayer;
     [SerializeField] GameObject circleVFX;
-    private static float bonusDamage = 1.0f;
+    private float bonusDamage = 1.0f;
     private StatManager statManager;
     private PlayerStateMachine playerStateMachine;
     private float timer = -1.0f;
@@ -18,17 +18,19 @@ public class PoliceChiefOvercharged : Skill
     private void Start()
     {
         playerStateMachine = PlayerID.instance.gameObject.GetComponent<PlayerStateMachine>();
-        /*if (GetPoints() > 0)
+        if (GetPoints() > 0)
         {
             bonusDamage = pointCounts[GetPoints() - 1];
         }
         else{
             bonusDamage = 1.0f;
-        }*/
+        }
+        Debug.Log("Overcharged bonus dmg: " +  bonusDamage);
     }
 
     private void Update()
     {
+
         if (timer > 0.0f && bonusDamage != 1.0f) {
             timer -= Time.deltaTime;
             if (timer < 0.0f) {

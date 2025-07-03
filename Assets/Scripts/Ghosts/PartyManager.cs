@@ -33,8 +33,14 @@ public class PartyManager : MonoBehaviour
     public string selectedGhost = "Orion";
     private int selectedGhostIndex = -1;
 
+    private void OnDoorOpen()
+    {
+        //SaveManager.instance.Save();
+    }
+
     private void Awake()
     {
+        //SaveManager.instance.Load();
         instance = this;
 
         /*foreach (GhostIdentity ghost in FindObjectsOfType<GhostIdentity>())
@@ -63,6 +69,8 @@ public class PartyManager : MonoBehaviour
 
     private void Start()
     {
+        Door.OnDoorOpened += OnDoorOpen;
+
         foreach (string ghost in ghostsInParty)
         {
             Debug.Log("Creating " + ghost);
