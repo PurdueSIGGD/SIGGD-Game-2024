@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using System.Security.Principal;
 using UnityEngine;
 
 public class SkillTree : MonoBehaviour
@@ -23,6 +25,13 @@ public class SkillTree : MonoBehaviour
 
     private void Awake()
     {
+        string identityName = gameObject.name;
+        if (!SaveManager.data.ghostLevel.ContainsKey(identityName))
+        {
+            SaveManager.data.ghostLevel.Add(identityName, 10);
+        }
+        startAtLevel = SaveManager.data.ghostLevel[identityName];
+
         // initialize the skill tiers
         skillTiers = new SkillTier[TIER_COUNT];
         for (int i = 0; i < skillTiers.Length; i++)
@@ -67,7 +76,7 @@ public class SkillTree : MonoBehaviour
 
     private void Start()
     {
-        for (int i = 0; i < startAtLevel - 1; i++)
+        for (int i = 0; i < startAtLevel; i++)
         {
             LevelUp();
         }
@@ -82,9 +91,10 @@ public class SkillTree : MonoBehaviour
             skillTiers[steps[currStep]].isUnlocked = true;
         }*/
     }
-
+    
     private int GetSkillTierIndex(Skill skill)
     {
+        Debug.Log("skillTiers: " + skillTiers == null);
         for (int i = 0; i < skillTiers.Length; i++)
         {
             if (skillTiers[i].leftSkill == skill || skillTiers[i].rightSkill == skill)
@@ -115,6 +125,7 @@ public class SkillTree : MonoBehaviour
             }
             level++;
         }
+        SaveManager.data.ghostLevel[GetComponent<GhostIdentity>().name] = level;
     }
 
     public void TryAddPoint(Skill skill)
@@ -125,6 +136,19 @@ public class SkillTree : MonoBehaviour
         {
             skillTiers[tidx].unusedPoints--;
             skill.AddPoint();
+        }
+    }
+
+    public void RemoveSkillPoint(Skill skill)
+    {
+        int tidx = GetSkillTierIndex(skill);
+
+        Debug.Log("unused points: " + skillTiers[tidx].unusedPoints);
+
+        if (skillTiers[tidx].unusedPoints > 0)
+        {
+            Debug.Log("Removed points from: " + skillTiers[tidx].leftSkill.name);
+            skillTiers[tidx].unusedPoints--;
         }
     }
 
