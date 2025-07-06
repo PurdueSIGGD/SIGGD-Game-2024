@@ -21,7 +21,8 @@ public class FadeOut : Skill
     {
         0, 30, 60, 90, 120
     };
-    private static int pointIndex;
+
+    private int pointIndex;
 
     // Start is called before the first frame update
     void Start()
