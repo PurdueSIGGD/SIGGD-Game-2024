@@ -62,8 +62,8 @@ public class PartyManager : MonoBehaviour
         }
         else
         {
-            ghostsInParty = new List<string>();
-            selectedGhost = "Orion";
+            SaveManager.data.ghostsInParty = ghostsInParty = new List<string>();
+            SaveManager.data.selectedGhost = selectedGhost = "Orion";
         }
     }
 
