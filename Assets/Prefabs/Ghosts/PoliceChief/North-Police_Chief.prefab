@@ -252,6 +252,7 @@ MonoBehaviour:
   basicAmmo: 0
   basic: {fileID: 0}
   special: {fileID: 0}
+  identityName: 
 --- !u!114 &7204414934066423109
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -299,7 +300,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: 756d295103b4b3c4d93616011de8e174, type: 2}
-  values: 04000000070000000a0000000d000000
+  skillIndex: 1
+  values: 04000000080000000c00000010000000
   secondaryShotDamage:
     damageStrength: 0
     damageTypes: 01000000
@@ -319,7 +321,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: 3199848284157d44abaab00036650e65, type: 2}
+  skillIndex: 5
   reserveCharges: 000000000300000006000000090000000c000000
+  pointIndex: 0
   reservedCount: 0
 --- !u!114 &589596433784939328
 MonoBehaviour:
@@ -334,6 +338,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: fd265e8b4f8c78f4d9da8e1564a50f39, type: 2}
+  skillIndex: 0
 --- !u!114 &2592299519637331682
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -366,6 +371,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: b89279340f3214445bdd49edb54b2342, type: 2}
+  skillIndex: 0
   values:
   - 0.0007
   - 0.0014
@@ -384,8 +390,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: 9bc7c0b2f197f7a419e48f1179f8f200, type: 2}
+  skillIndex: 2
   pointCounts: 05000000040000000300000002000000
-  bonusDamage: 30
+  bonusDamage: 0
 --- !u!114 &3756874392414048416
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -399,12 +406,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: 5e4de3b30358f61459d074a5002be894, type: 2}
+  skillIndex: 3
   values:
   - 0
-  - 1.15
-  - 1.3
-  - 1.45
+  - 1.2
+  - 1.4
   - 1.6
+  - 1.8
   immediateTimeframe: 0.35
 --- !u!114 &572864510421831245
 MonoBehaviour:
@@ -419,6 +427,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: f7c2431cb399822458eb560bd7fa8df7, type: 2}
+  skillIndex: 4
   pointCounts:
   - 1.4
   - 1.8

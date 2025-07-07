@@ -10,7 +10,8 @@ public class FeedbackLoop : Skill
     {
         0, 7, 14, 21, 28
     };
-    private static int pointIndex;
+
+    private int pointIndex;
 
     private float accumulatedCooldownReduction;
 

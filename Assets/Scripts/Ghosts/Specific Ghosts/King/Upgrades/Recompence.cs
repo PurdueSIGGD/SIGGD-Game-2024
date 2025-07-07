@@ -8,7 +8,7 @@ public class Recompence : Skill
     private KingBasic basic;
     private static int pointindex;
 
-    void Start()
+    void Awake()
     {
         manager = GetComponent<KingManager>();
         basic = manager.basic;

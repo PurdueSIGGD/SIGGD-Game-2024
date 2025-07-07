@@ -9,8 +9,10 @@ public class PoliceChiefPowerSpike : Skill
     private float timer = -1.0f;
     private bool critHit = false;
     private bool ableToCrit = false;
+
     [SerializeField] private float[] values = {0f, 1.25f, 1.45f, 1.65f, 1.85f};
-    private static int pointIndex;
+    private int pointIndex;
+
     [SerializeField] private float immediateTimeframe = 0.25f;
     private bool reset = true;
     //private PlayerStateMachine playerStateMachine;

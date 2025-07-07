@@ -7,7 +7,7 @@ using UnityEngine;
 public class Vengeance : Skill {
 
 
-    private static int pointIndex = 0;
+    private int pointIndex = 0;
 
     private SamuraiManager samuraiManager;
 
