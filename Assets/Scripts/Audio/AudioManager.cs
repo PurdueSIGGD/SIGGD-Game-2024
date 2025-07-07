@@ -25,8 +25,8 @@ public class AudioManager : MonoBehaviour {
     void Awake()
     {
         // Make sure there are no duplicates
-        if (Instance != this) {
-            Destroy(this);
+        if (Instance != null && Instance != this) {
+            Destroy(gameObject);
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
