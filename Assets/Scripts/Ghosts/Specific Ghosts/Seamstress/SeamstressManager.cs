@@ -187,6 +187,7 @@ public class SeamstressManager : GhostManager
                 ptr.chainedTo = ptr.chainedTo.chainedTo;
                 return;
             }
+            ptr = ptr.chainedTo;
         }
     }
 
