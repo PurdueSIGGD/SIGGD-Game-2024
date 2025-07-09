@@ -38,6 +38,8 @@ public class YumeProjectile : MonoBehaviour
             }
 
             dir = Vector2.Reflect(dir, collision.contacts[0].normal);
+            float directedAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Euler(new Vector3(0, 0, directedAngle));
             if (manager.IncrementRicochet()) // bouncing off surface counts as ricochet too
             {
                 manager.ResetRicochet();
@@ -72,12 +74,12 @@ public class YumeProjectile : MonoBehaviour
         rb.velocity = dir * speed;
         lifeTime -= Time.deltaTime;
 
-        if (lifeTime < 0.1) Destroy(gameObject);
+        if (lifeTime < 0) Destroy(gameObject);
     }
 
     public void Initialize(Vector2 dest, float speed, float range, SeamstressManager manager)
     {
-        lifeTime = range / speed;
+        lifeTime = range / speed * 2.5f;
         dir = (dest - (Vector2)transform.position).normalized;
         float angle = Mathf.Atan2(dest.y - transform.position.y, dest.x - transform.position.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
@@ -85,7 +87,7 @@ public class YumeProjectile : MonoBehaviour
         this.manager = manager;
     }
 
-    public bool HasExpired() { return hit || lifeTime <= 0; }
+    public bool HasExpired() { return hit || lifeTime < 0; }
 
     public GameObject GetHitTarget() { return hitTarget; }
 }
