@@ -82,7 +82,8 @@ public class ShieldPolice : EnemyStateManager
         {
             return;
         }
-        gameObject.GetComponent<Animator>().SetBool("HasCollided", true);
+        // highkey i have no clue what the original purpose of this animator boolean is
+        animator.SetBool("HasCollided", true);
         if (!collider.gameObject.CompareTag("Player"))
         {
             SetCharging(false);
