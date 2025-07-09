@@ -7,7 +7,7 @@ public class RadientWellEffect : MonoBehaviour
     [SerializeField] float duration;
 
     [Header("Outgoing Damage Percentage Modifiers")]
-    [SerializeField] int damageBuff = 10;
+    [SerializeField] float damageBuff = 10;
 
     [Header("Incoming Damage Percentage Modifiers")]
     [SerializeField] float damageResistance = 10;
