@@ -19,7 +19,7 @@ public class StatManager : MonoBehaviour, IStatList
         [NonSerialized] public int modifier;
     }
 
-    private void Start()
+    private void Awake()
     {
         IStatList[] scripts = this.GetComponents<IStatList>();
         foreach (IStatList script in scripts)

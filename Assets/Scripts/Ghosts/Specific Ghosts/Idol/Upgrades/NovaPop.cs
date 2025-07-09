@@ -11,11 +11,12 @@ public class NovaPop : Skill
     private GameObject playerRef;
     private StatManager stat;
     private IdolManager manager;
+
     [SerializeField] private List<float> values = new List<float>
     {
         0f, 0.8f, 1.6f, 2.4f, 3.2f
     };
-    private static int pointIndex;
+    private int pointIndex;
 
     void Start()
     {
