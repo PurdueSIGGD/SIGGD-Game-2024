@@ -16,4 +16,7 @@ public class SaveData
     public int[] yumeSkillPts = new int[8];
     public int[] silasSkillPts = new int[8];
     public int[] aegisSkillPts = new int[8];
+
+    // Yume
+    public int spoolCount;
 }
