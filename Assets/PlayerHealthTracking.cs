@@ -6,41 +6,55 @@ using UnityEngine;
 /// </summary>
 public class PlayerHealthTracking : MonoBehaviour
 {
-    static float health;
+
+    static float trackedHealth;
+
+    void OnEnable()
+    {
+        GameplayEventHolder.OnDeath += PlayerDeathHealthFunction;
+    }
+    void OnDisable()
+    {
+        GameplayEventHolder.OnDeath -= PlayerDeathHealthFunction;
+    }
+
+    /// <summary>
+    /// On death, sets player tracked health to max health so that, on next player instantiation,
+    /// sets player health to it's maximum via the value in 'static float health' through the Start function.
+    /// </summary>
+    /// <param name="context"></param>
+    private void PlayerDeathHealthFunction(DamageContext context)
+    {
+        if (context.victim != gameObject)
+        {
+            return;
+        }
+        UpdateTrackedHealth(PlayerID.instance.GetComponent<Health>().GetStats().ComputeValue("Max Health"));
+    }
+
+    void UpdateTrackedHealth(float value)
+    {
+        trackedHealth = value;
+    }
 
     void Start()
     {
-        if (health == 0)
+        // initialize trackedHealth's static value if it hadn't been initialized previously
+        if (trackedHealth == 0)
         {
-            health = PlayerID.instance.GetComponent<Health>().currentHealth;
+            UpdateTrackedHealth(PlayerID.instance.GetComponent<Health>().currentHealth);
         }
-        PlayerID.instance.GetComponent<Health>().currentHealth = health;
-        Door.OnDoorOpened += TrackPlayerHealth;
-        GameplayEventHolder.OnDamageDealt += PlayHurtExertion;
-    }
 
+        // otherwise, update player's current health to reflect the trackedHealth value brought over from the previous room
+        PlayerID.instance.GetComponent<Health>().currentHealth = trackedHealth;
+
+        // when door is opened (aka begin changing to next room), make trackedHealth equal to the player's health
+        // before exiting the room so that trackedHealth can be used in the next room to update the health 
+        Door.OnDoorOpened += TrackPlayerHealth;
+    }
     private void TrackPlayerHealth()
     {
-        health = PlayerID.instance.GetComponent<Health>().currentHealth;
+        UpdateTrackedHealth(PlayerID.instance.GetComponent<Health>().currentHealth);
     }
-    
-    // Play voice line for when player is damaged
-    // Keeping this code here cus I don't really want to make a new script just yet
-    private void PlayHurtExertion(DamageContext context)
-    {
-        if (context.victim.CompareTag("Player"))
-        {
-            // if light amount of damage
-            if (context.damage <= 30)
-            {
-                AudioManager.Instance.VABranch.PlayVATrack(PartyManager.instance.selectedGhost + " Light Damage Taken");
-            }
 
-            // if heavy damage taken
-            if (context.damage > 30)
-            {
-                AudioManager.Instance.VABranch.PlayVATrack(PartyManager.instance.selectedGhost + " Significant Damage Taken");
-            }
-        }
-    }
 }
