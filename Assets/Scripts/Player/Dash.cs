@@ -85,6 +85,11 @@ public class Dash : MonoBehaviour, IStatList
         Vector2 displacement = direction * stats.ComputeValue("Max Dash Distance");
         this.velocity = displacement / stats.ComputeValue("Dash Time");
         StartCoroutine(DashCoroutine());
+
+        // Old Fling for Aegis - King
+
+        GameObject.Find("Aegis-King").GetComponent<OldFling>().AddExtraHealth();
+
     }
 
     public void StopDash()
