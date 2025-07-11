@@ -26,6 +26,14 @@ public class OldFling : Skill
             return;
         }
 
+        // In Party?
+
+
+        if (PartyManager.instance.IsGhostInParty(identity))
+        {
+            return;
+        }
+
         manager.currentShieldHealth += GetPoints() * 10; // add extra health
         manager.currentShieldHealth = Mathf.Min(manager.currentShieldHealth, 
                                                 manager.GetStats().ComputeValue("Shield Max Health"));

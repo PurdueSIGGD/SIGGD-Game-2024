@@ -23,9 +23,12 @@ public class Dash : MonoBehaviour, IStatList
     private OrionManager orionManager;
     private PlayerStateMachine psm;
 
+    private OldFling oldFlingSkill; // Reference to OldFling
+
     [Header("Delegate Override Variables")]
     public SpecialAction specialAction;
     public delegate void SpecialAction(); // delegate to contain any ghost overrides
+
 
     private void Start()
     {
@@ -88,7 +91,12 @@ public class Dash : MonoBehaviour, IStatList
 
         // Old Fling for Aegis - King
 
-        GameObject.Find("Aegis-King").GetComponent<OldFling>().AddExtraHealth();
+        GameObject king = GameObject.Find("Aegis-King(Clone)");
+
+        if (king != null)
+        {
+            king.GetComponent<OldFling>().AddExtraHealth();
+        }
 
     }
 
