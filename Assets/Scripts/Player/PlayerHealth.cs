@@ -21,6 +21,7 @@ public class PlayerHealth : Health
     void Start()
     {
         currentHealth = stats.ComputeValue("Max Health");
+        GameplayEventHolder.OnDamageDealt += PlayHurtExertion;
     }
 
     void Update()
@@ -59,5 +60,27 @@ public class PlayerHealth : Health
             context.healing = Mathf.Clamp(context.healing, 0, thresholdOne * maxHealth - currentHealth);
         }
         return base.Heal(context, healer);
+    }
+
+    /// <summary>
+    /// Function for audio playing hurt sounds from losing health.
+    /// </summary>
+    /// <param name="context"></param>
+    private void PlayHurtExertion(DamageContext context)
+    {
+        if (context.victim.CompareTag("Player"))
+        {
+            // if light amount of damage
+            if (context.damage <= 30)
+            {
+                AudioManager.Instance.VABranch.PlayVATrack(PartyManager.instance.selectedGhost + " Light Damage Taken");
+            }
+
+            // if heavy damage taken
+            if (context.damage > 30)
+            {
+                AudioManager.Instance.VABranch.PlayVATrack(PartyManager.instance.selectedGhost + " Significant Damage Taken");
+            }
+        }
     }
 }

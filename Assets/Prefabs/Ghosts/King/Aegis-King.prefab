@@ -191,7 +191,7 @@ GameObject:
   - component: {fileID: 1138551263187270770}
   - component: {fileID: 8690753536578335436}
   - component: {fileID: 534967436660533357}
-  - component: {fileID: 3942401433332675673}
+  - component: {fileID: 4703010170985794943}
   m_Layer: 17
   m_Name: Aegis-King
   m_TagString: Ghost
@@ -405,6 +405,10 @@ MonoBehaviour:
   currentShieldHealth: 0
   endShieldHealth: 0
   selected: 0
+  specialContext:
+    actionID: 16
+    actionTypes: 03000000
+    extraContext: 
   basic: {fileID: 0}
   special: {fileID: 0}
   recompenceAvaliable: 0
@@ -491,8 +495,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcdd24a61d7372940844606cf25147aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skillSO: {fileID: 0}
-  skillIndex: 0
+  skillSO: {fileID: 11400000, guid: 1753adb17a168184f9d9b1a637964163, type: 2}
+  skillIndex: 5
 --- !u!114 &534967436660533357
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -506,8 +510,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: ade94862dbae6e14ebb09d008b70bb8d, type: 2}
-  skillIndex: 0
---- !u!114 &3942401433332675673
+  skillIndex: 1
+--- !u!114 &4703010170985794943
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -516,11 +520,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 4105203604402636954}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1db73209cc71889449cd559a6d7c69a3, type: 3}
+  m_Script: {fileID: 11500000, guid: 3221cf801f6349b45839c57510f8cd60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skillSO: {fileID: 11400000, guid: 10871f32fa678d3449929d863ea3f6d0, type: 2}
-  skillIndex: 0
+  skillSO: {fileID: 11400000, guid: 4ba87e9801f87a946912f3a7f34cf6ba, type: 2}
+  skillIndex: 4
+  wellObj: {fileID: 1203596973211500315, guid: 57c5866a05f834643984c2e3584c1992, type: 3}
 --- !u!1 &4168595070812540214
 GameObject:
   m_ObjectHideFlags: 0

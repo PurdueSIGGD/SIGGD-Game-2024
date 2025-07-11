@@ -63,7 +63,7 @@ public class LevelSwitching : MonoBehaviour
 
     public void SwitchLevel()
     {
-        if(levelCount >= maxLevels)
+        if (levelCount >= maxLevels)
         {
             SceneManager.LoadScene(homeWorld);
             levelCount = 0;
@@ -123,5 +123,9 @@ public class LevelSwitching : MonoBehaviour
             //SceneManager.UnloadSceneAsync(nextScene);
             levelCount = 0;
         }
+    }
+    public string GetHomeWorld()
+    {
+        return homeWorld;
     }
 }
