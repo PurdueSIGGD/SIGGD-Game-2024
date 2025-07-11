@@ -17,6 +17,20 @@ public class SaveData
     public int[] silasSkillPts = new int[8];
     public int[] aegisSkillPts = new int[8];
 
-    // Yume
+    public YumeData yume;
+}
+
+
+[Serializable]
+public class GhostData
+{
+    public bool isUnlocked = false;
+    public int storybeat = 0;
+    public int xp = 0;
+}
+
+[Serializable]
+public class YumeData : GhostData
+{
     public int spoolCount;
 }

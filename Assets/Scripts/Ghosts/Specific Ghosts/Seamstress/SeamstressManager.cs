@@ -46,7 +46,7 @@ public class SeamstressManager : GhostManager
         lineRenderer = GetComponent<LineRenderer>();
 
         durationCounter = GetStats().ComputeValue("Fatebound Duration");
-        spools = SaveManager.data.spoolCount;
+        spools = SaveManager.data.yume.spoolCount;
     }
 
     protected override void Update()
@@ -79,7 +79,7 @@ public class SeamstressManager : GhostManager
     public void AddSpools(int nspools)
     {
         spools = (int) Math.Clamp(spools + nspools, 0, stats.ComputeValue("Max Spools"));
-        SaveManager.data.spoolCount = spools;
+        SaveManager.data.yume.spoolCount = spools;
     }
 
     public void SetWeaveTimer(float time)
