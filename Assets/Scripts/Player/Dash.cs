@@ -91,7 +91,8 @@ public class Dash : MonoBehaviour, IStatList
 
         // Old Fling for Aegis - King
 
-        GameObject king = GameObject.Find("Aegis-King(Clone)");
+        GhostIdentity king = null;
+        PartyManager.instance.GetIdentitiesByName().TryGetValue("Aegis-King", out king);
 
         if (king != null)
         {

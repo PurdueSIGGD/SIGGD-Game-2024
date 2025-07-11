@@ -28,8 +28,7 @@ public class OldFling : Skill
 
         // In Party?
 
-
-        if (PartyManager.instance.IsGhostInParty(identity))
+        if (!PartyManager.instance.GetIdentitiesByName().ContainsKey(identityName))
         {
             return;
         }
