@@ -88,7 +88,10 @@ public class KingManager : GhostManager, ISelectable
         psm.OnCooldown("c_basic");
     }
 
-
+    public void TakeShieldDamage(float damage)
+    {
+        GetComponent<DivineSmite>().OnTakeDamage(damage);
+    }
 
     public override void Select(GameObject player)
     {

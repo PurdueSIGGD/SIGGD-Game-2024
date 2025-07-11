@@ -191,6 +191,7 @@ GameObject:
   - component: {fileID: 1138551263187270770}
   - component: {fileID: 8690753536578335436}
   - component: {fileID: 534967436660533357}
+  - component: {fileID: 7543046094175671731}
   m_Layer: 17
   m_Name: Aegis-King
   m_TagString: Ghost
@@ -458,7 +459,7 @@ MonoBehaviour:
   - {fileID: 1138551263187270770}
   - {fileID: 534967436660533357}
   - {fileID: 1138551263187270770}
-  - {fileID: 1138551263187270770}
+  - {fileID: 7543046094175671731}
   - {fileID: 1138551263187270770}
   - {fileID: 1138551263187270770}
   - {fileID: 1138551263187270770}
@@ -476,6 +477,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: ade94862dbae6e14ebb09d008b70bb8d, type: 2}
+  skillIndex: 0
 --- !u!114 &8690753536578335436
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -489,6 +491,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 0}
+  skillIndex: 0
 --- !u!114 &534967436660533357
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -502,6 +505,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: ade94862dbae6e14ebb09d008b70bb8d, type: 2}
+  skillIndex: 1
+--- !u!114 &7543046094175671731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4105203604402636954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 561fd8d04cc9f7b43bfd8c802496ecf0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillSO: {fileID: 11400000, guid: e38ac9036d0cf1e4daa57576ff8cf247, type: 2}
+  skillIndex: 3
+  dmgNeeded: 0a0000000a0000000a0000000a000000
+  damageBoost: 2
 --- !u!1 &4168595070812540214
 GameObject:
   m_ObjectHideFlags: 0
