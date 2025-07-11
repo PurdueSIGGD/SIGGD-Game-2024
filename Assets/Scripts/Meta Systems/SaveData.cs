@@ -25,7 +25,7 @@ public class SaveData
 public class GhostData
 {
     public bool isUnlocked = false;
-    public int storybeat = 0;
+    public int storyProgress = 0;
     public int xp = 0;
 }
 
