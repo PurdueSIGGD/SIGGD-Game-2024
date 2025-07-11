@@ -10,11 +10,10 @@ using UnityEngine;
 public class OldFling : Skill
 {
 
-    private KingManager manager = null;
-
-    private void OnEnable()
+    private KingManager manager;
+    private void Start()
     {
-        manager = GetComponent<KingManager>();
+        manager = gameObject.GetComponent<KingManager>();
     }
 
     /// <summary>
@@ -33,7 +32,7 @@ public class OldFling : Skill
 
 
 #if DEBUG_LOG
-        Debug.Log("OldFling: Extra Health Gained, Health: " + manager.currentShieldHealth);
+        Debug.Log("OldFling: Extra Health Gained, Health now: " + manager.currentShieldHealth + " points: " + GetPoints());
 #endif
 
     }
