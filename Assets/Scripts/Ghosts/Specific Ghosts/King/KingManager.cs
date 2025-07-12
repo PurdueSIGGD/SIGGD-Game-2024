@@ -15,6 +15,8 @@ public class KingManager : GhostManager, ISelectable
     public float endShieldHealth;
     public bool selected;
 
+    public ActionContext specialContext;
+
     [HideInInspector] public KingBasic basic;
     [HideInInspector] public KingSpecial special;
     [HideInInspector] public bool recompenceAvaliable = false;

@@ -80,6 +80,11 @@ public class KingSpecial : MonoBehaviour, ISpecialMove
             enemy.gameObject.GetComponent<EnemyStateManager>().ApplyKnockback(Vector2.up, extraUpwardKnockback); // Extra knock up
         }
 
+        // Fire Special Action Context
+        manager.specialContext.extraContext = "Activated";
+        GameplayEventHolder.OnAbilityUsed.Invoke(manager.specialContext);
+        manager.specialContext.extraContext = "";
+
         // End cast
         yield return new WaitForSeconds(castTime);
         endSpecial(true, false);
