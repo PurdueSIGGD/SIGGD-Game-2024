@@ -38,6 +38,7 @@ public class KingUIDriver : GhostUIDriver
     private void updateSpecialAbility()
     {
         specialAbilityUIManager.setAbilityCooldownTime(manager.getSpecialCooldown(), stats.ComputeValue("Special Cooldown"));
+        specialAbilityUIManager.setAbilityHighlighted(GetComponent<DivineSmite>().isSpecialPowered());
     }
 
     private void updateSkill1()

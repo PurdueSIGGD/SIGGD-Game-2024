@@ -132,6 +132,5 @@ public class SaveManager : MonoBehaviour
         LoadGhostSkills(ref data.akihitoSkillPts, "Akihito-Samurai");
         LoadGhostSkills(ref data.silasSkillPts, "Silas-PlagueDoc");
         LoadGhostSkills(ref data.aegisSkillPts, "Aegis-King");
-
     }
 }

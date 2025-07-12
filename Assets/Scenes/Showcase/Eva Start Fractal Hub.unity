@@ -4566,12 +4566,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dca4b7156b4905144832bf0e8c2efdef, type: 3}
---- !u!1 &1931570571 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4105203604402636954, guid: c7f5475ff351d944198b6f2953b7cd6e,
-    type: 3}
-  m_PrefabInstance: {fileID: 1512665502283413942}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1992297266
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14640,57 +14634,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 9034026866145772273, guid: c7f5475ff351d944198b6f2953b7cd6e,
-        type: 3}
-      propertyPath: startAtLevel
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 9034026866145772273, guid: c7f5475ff351d944198b6f2953b7cd6e,
-        type: 3}
-      propertyPath: skills.Array.data[2]
-      value: 
-      objectReference: {fileID: 1512665502283413944}
-    - target: {fileID: 9034026866145772273, guid: c7f5475ff351d944198b6f2953b7cd6e,
-        type: 3}
-      propertyPath: skills.Array.data[4]
-      value: 
-      objectReference: {fileID: 1512665502283413943}
     m_RemovedComponents:
     - {fileID: 9038952861822365748, guid: c7f5475ff351d944198b6f2953b7cd6e, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4105203604402636954, guid: c7f5475ff351d944198b6f2953b7cd6e,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1512665502283413944}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c7f5475ff351d944198b6f2953b7cd6e, type: 3}
---- !u!114 &1512665502283413943 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4703010170985794943, guid: c7f5475ff351d944198b6f2953b7cd6e,
-    type: 3}
-  m_PrefabInstance: {fileID: 1512665502283413942}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1931570571}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3221cf801f6349b45839c57510f8cd60, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1512665502283413944
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1931570571}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1db73209cc71889449cd559a6d7c69a3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  skillSO: {fileID: 11400000, guid: 10871f32fa678d3449929d863ea3f6d0, type: 2}
-  skillIndex: 0
 --- !u!483693784 &1673853139082486534
 TilemapRenderer:
   m_ObjectHideFlags: 0
