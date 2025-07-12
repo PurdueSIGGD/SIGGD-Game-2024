@@ -18,6 +18,7 @@ public class SaveData
     public int[] aegisSkillPts = new int[8];
 
     public YumeData yume;
+    public AegisData aegis;
 }
 
 
@@ -33,4 +34,11 @@ public class GhostData
 public class YumeData : GhostData
 {
     public int spoolCount;
+}
+
+[Serializable]
+public class AegisData : GhostData
+{
+    public float damageDealtTillSmite = 0;
+    public float damageBlockTillSmite = 0;
 }

@@ -7,8 +7,6 @@ public class DivineSmite : Skill
 {
     private KingManager manager;
     private int pointindex;
-    private float totalDmgTaken = 0.0f;
-    private float totalDmgDealt = 0.0f;
     private bool divineSmitePowered = false;
     [SerializeField] private int[] dmgNeeded = {800, 600, 400, 200};
     [SerializeField] private float damageBoost = 2f;
@@ -23,11 +21,11 @@ public class DivineSmite : Skill
     {
         if(GetPoints() > 0)
         {
-            totalDmgTaken += dmg;
-            if (totalDmgTaken > dmgNeeded[GetPoints() - 1])
+            SaveManager.data.aegis.damageBlockTillSmite += dmg;
+            if (SaveManager.data.aegis.damageBlockTillSmite > dmgNeeded[GetPoints() - 1])
             {
                 divineSmitePowered = true;
-                totalDmgTaken = 0;
+                SaveManager.data.aegis.damageBlockTillSmite = 0;
             }
         }
     }
@@ -46,11 +44,11 @@ public class DivineSmite : Skill
         }
         if(context.attacker.CompareTag("Player") && GetPoints() > 0 && manager.selected)
         {
-            totalDmgDealt += context.damage;
-            if (totalDmgDealt > dmgNeeded[GetPoints() - 1])
+            SaveManager.data.aegis.damageDealtTillSmite += context.damage;
+            if (SaveManager.data.aegis.damageDealtTillSmite > dmgNeeded[GetPoints() - 1])
             {
                 divineSmitePowered = true;
-                totalDmgDealt = 0;
+                SaveManager.data.aegis.damageDealtTillSmite = 0;
             }
         }
     }
