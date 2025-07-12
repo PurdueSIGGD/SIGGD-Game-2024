@@ -245,4 +245,13 @@ public class PartyManager : MonoBehaviour
         }
         isSwappingEnabled = enabled;
     }
+
+    /// <summary>
+    /// Getter for identities by name
+    /// </summary>
+    /// <returns></returns>
+    public Dictionary<string, GhostIdentity> GetIdentitiesByName()
+    {
+        return identitiesByName;
+    }
 }
