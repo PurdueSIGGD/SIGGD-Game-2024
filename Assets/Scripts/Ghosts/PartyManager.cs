@@ -33,6 +33,9 @@ public class PartyManager : MonoBehaviour
     public string selectedGhost = "Orion";
     private int selectedGhostIndex = -1;
 
+    // simple gate for select last posessed ghost
+    bool hasSelectedLastGhost = false;
+
     private void OnDoorOpen()
     {
         //SaveManager.instance.Save();
@@ -88,6 +91,16 @@ public class PartyManager : MonoBehaviour
         if (swapRecoveryTimer <= 0f && isSwapping) isSwapping = false;
     }
 
+    private void LateUpdate()
+    {
+        // ensures swap only after everything is loaded properly 
+        if (!hasSelectedLastGhost)
+        {
+            SelectLastPosessedGhost();
+            hasSelectedLastGhost = true;
+        }
+    }
+
     /// <summary>
     /// Adds ghost to end of player's ghost list
     /// </summary>
@@ -109,7 +122,7 @@ public class PartyManager : MonoBehaviour
 
             return true;
         }
-        
+
         return false;
     }
 
@@ -120,7 +133,7 @@ public class PartyManager : MonoBehaviour
     public void OnHotbar(InputValue value)
     {
         //Debug.Log("HOTBAR: " + (int)value.Get<float>());
-        int keyValue = (int) value.Get<float>();
+        int keyValue = (int)value.Get<float>();
         if (keyValue != 0)
         {
             // hotkey #2 is 0th ghost index in list
@@ -131,7 +144,7 @@ public class PartyManager : MonoBehaviour
     public void OnScrollWheel(InputValue value)
     {
         Debug.Log("SCROLL WHEEL INPUT: " + value.Get<float>());
-        int scrollWheelValue = (int) value.Get<float>();
+        int scrollWheelValue = (int)value.Get<float>();
         int newIndex = selectedGhostIndex;
         if (scrollWheelValue == 0)
         {
@@ -151,9 +164,67 @@ public class PartyManager : MonoBehaviour
     }
 
     /// <summary>
+    /// If present in the party, autoselects the last possessed ghost as stated in SaveManager.
+    /// </summary>
+    public void SelectLastPosessedGhost()
+    {
+        const int INVALID_INDEX = -9999;
+        string lastGhost = SaveManager.data.selectedGhost;
+        print("LAST GHOST: " + lastGhost);
+        int lastGhostIndex = INVALID_INDEX;
+        for (int i = 0; i < ghostsInParty.Count; i++)
+        {
+            print("GHOST NAMES: " + ghostsInParty[i]);
+            if (ghostsInParty[i].Equals(lastGhost))
+            {
+                lastGhostIndex = i;
+                break;
+            }
+        }
+        if (lastGhostIndex == INVALID_INDEX)
+        {
+            return;
+        }
+        SwitchGhostToIndex(lastGhostIndex);
+    }
+
+    /// <summary>
+    /// Switching ghost functionality
+    /// </summary>
+    /// <param name="index"></param>
+    /// <returns>Name of newly selected ghost, or an error code: "invalid" - bad index arg; "current" - index is current ghost</returns>
+    public string SwitchGhostToIndex(int index)
+    {
+        // handle bad input
+        if (index >= ghostsInParty.Count) return "invalid";
+
+        // Don't swap if ghost is already possessing
+        if (selectedGhostIndex == index) return "current";
+
+        // deselect all ghosts in the list
+        for (int i = 0; i < ghostsInParty.Count; i++)
+        {
+            ghostsByName[ghostsInParty[i]].GetComponent<GhostIdentity>()?.TriggerDeSelectedBehavior();
+        }
+        selectedGhostIndex = index;
+
+        // do not possess if player selected base kit
+        if (index == -1)
+        {
+            selectedGhost = "Orion";
+            return selectedGhost;
+        }
+
+        ghostsByName[ghostsInParty[index]].GetComponent<GhostIdentity>().TriggerSelectedBehavior();
+        selectedGhost = ghostsInParty[index];
+
+        return selectedGhost;
+    }
+
+    /// <summary>
     /// Switches the currently posessing ghost based on hotkey input (1,2,3, etc.)
     /// </summary>
-    /// <param name="inputNum">The index to select from the list(value is either -1(player kit), 0, or 1)</param>
+    /// <param name="inputNum">The index to select from the list</param>
     public void ChangePosessingGhost(int index)
     {
         if (isSwapping) return;
@@ -171,35 +242,14 @@ public class PartyManager : MonoBehaviour
         swapRecoveryTimer = 0.3f;
         isSwapping = true;
 
-        // handle bad input
-        if (index >= ghostsInParty.Count) return;
-
-        // Don't swap if ghost is already possessing
-        if (selectedGhostIndex == index) return;
-        //if (index == -1 && selectedGhostIndex == -1) return;
-
-        // deselect all ghosts in the list
-        for (int i = 0; i < ghostsInParty.Count; i++)
+        string result = SwitchGhostToIndex(index);
+        if (result == "invalid" || result == "current")
         {
-            ghostsByName[ghostsInParty[i]].GetComponent<GhostIdentity>().TriggerDeSelectedBehavior();
-        }
-        selectedGhostIndex = index;
-
-        // do not possess if player selected base kit
-        if (index == -1)
-        {
-            AudioManager.Instance.VABranch.PlayVATrack("Orion On Swap");
-            AudioManager.Instance.SFXBranch.PlaySFXTrack("GhostSwap");
-            selectedGhost = "Orion";
             return;
         }
-
-        ghostsByName[ghostsInParty[index]].GetComponent<GhostIdentity>().TriggerSelectedBehavior();
-        selectedGhost = ghostsInParty[index];
         AudioManager.Instance.VABranch.PlayVATrack(selectedGhost + " On Swap");
         AudioManager.Instance.SFXBranch.PlaySFXTrack("GhostSwap");
-
-        //SaveManager.data.selectedGhost = selectedGhost;
+        SaveManager.data.selectedGhost = selectedGhost;
     }
 
     /// <summary>
