@@ -191,11 +191,11 @@ MonoBehaviour:
   - name: Projectile Maximum Chain Target Count
     value: 4
   - name: Projectile Flight Speed
-    value: 20
+    value: 30
   - name: Fatebound Duration
     value: 5
   - name: Max Spools
-    value: 8
+    value: 6
   - name: Initial Spool Buffer
     value: 1
   - name: Concurrent Spool Buffer
@@ -203,7 +203,7 @@ MonoBehaviour:
   - name: Heavy Attack Spools Needed
     value: 1
   - name: Special Attack Spools Needed
-    value: 3
+    value: 2
   - name: Spool Heavy Attack Stun
     value: 2
 --- !u!114 &504260248778479986
@@ -391,6 +391,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 0}
+  skillIndex: 0
 --- !u!1 &4936111184687609786
 GameObject:
   m_ObjectHideFlags: 0

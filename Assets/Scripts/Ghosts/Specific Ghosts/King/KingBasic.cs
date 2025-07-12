@@ -73,6 +73,8 @@ public class KingBasic : MonoBehaviour
 
         // Shield damage absorb
         manager.currentShieldHealth = Mathf.Max(manager.currentShieldHealth - context.damage, 0f);
+
+        manager.TakeShieldDamage(Mathf.Max(manager.currentShieldHealth - context.damage, 0f));
         
         context.damage = 0f;
 

@@ -15,6 +15,8 @@ public class KingManager : GhostManager, ISelectable
     public float endShieldHealth;
     public bool selected;
 
+    public ActionContext specialContext;
+
     [HideInInspector] public KingBasic basic;
     [HideInInspector] public KingSpecial special;
     [HideInInspector] public bool recompenceAvaliable = false;
@@ -88,7 +90,10 @@ public class KingManager : GhostManager, ISelectable
         psm.OnCooldown("c_basic");
     }
 
-
+    public void TakeShieldDamage(float damage)
+    {
+        GetComponent<DivineSmite>().OnTakeDamage(damage);
+    }
 
     public override void Select(GameObject player)
     {
