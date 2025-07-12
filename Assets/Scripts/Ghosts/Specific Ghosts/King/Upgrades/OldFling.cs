@@ -38,6 +38,14 @@ public class OldFling : Skill
                                                 manager.GetStats().ComputeValue("Shield Max Health"));
 
 
+        // re-enable the basic ability ui icon to notify the player it is usable again
+        // I am not sure if shield should be immediately usable, so I will use this threshold stat for now
+        if (manager.currentShieldHealth > manager.GetStats().ComputeValue("Shield Health Cooldown Threshold"))
+        {
+            manager.setBasicCooldown(0);
+        }
+
+
 #if DEBUG_LOG
         Debug.Log("OldFling: Extra Health Gained, Health now: " + manager.currentShieldHealth + " points: " + GetPoints());
 #endif
