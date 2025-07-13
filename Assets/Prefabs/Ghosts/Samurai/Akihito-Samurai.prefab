@@ -486,11 +486,15 @@ MonoBehaviour:
   - name: Melee Parry Bonus Damage per Incoming Attack Damage
     value: 2
   - name: Melee Parry Stun Time
-    value: 1
+    value: 0.8
   - name: Parry Success Special Cooldown
     value: 0
+  - name: Parry Duration
+    value: 0.3
+  - name: Parry Slow Percent
+    value: 80
   - name: Special Cooldown
-    value: 1
+    value: 3
   defaultController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
   ghostController: {fileID: 9100000, guid: f32f8db40ef7cc14b84350e7507f9eb9, type: 2}
   heavyDamageContext:
@@ -498,6 +502,12 @@ MonoBehaviour:
     damageTypes: 00000000
     actionID: 9
     actionTypes: 0100000002000000
+    extraContext: 
+  specialMeleeParryContext:
+    damageStrength: 3
+    damageTypes: 00000000
+    actionID: 10
+    actionTypes: 03000000
     extraContext: 
   onDashContext:
     actionID: 9
@@ -510,6 +520,11 @@ MonoBehaviour:
   selected: 0
   basic: {fileID: 0}
   special: {fileID: 0}
+  wrathPercent: 0
+  decayTimer: 0
+  startingToDecay: 0
+  decaying: 0
+  resetDecay: 0
   identityName: 
 --- !u!114 &8557088112885291382
 MonoBehaviour:
@@ -545,7 +560,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: ac6153f58f672004586dfa89ae616b89, type: 2}
-  skillIndex: 6
 --- !u!114 &8210555671088878272
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -578,7 +592,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: ac6153f58f672004586dfa89ae616b89, type: 2}
-  skillIndex: 0
   poisonDebuff: {fileID: 7565183235025711588, guid: e8aa912d65ec96c43ac28ce27387314e,
     type: 3}
   duration: 3
@@ -596,7 +609,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: 9f3693c9f43a9f3459fa01e57dc9b995, type: 2}
-  skillIndex: 4
 --- !u!114 &3968104243975458799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -610,7 +622,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: a29b754973a32ff41904e737b4a972ef, type: 2}
-  skillIndex: 1
 --- !u!114 &7591434726526564384
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -624,7 +635,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: 7cd5dead9e8bb3243b0a4af930796f17, type: 2}
-  skillIndex: 3
   healContext:
     healing: 0
     actionID: 17
@@ -644,7 +654,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: 8736a069d6eedc74095796536e89c777, type: 2}
-  skillIndex: 2
 --- !u!114 &1809617064450391629
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -658,5 +667,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: 0179f79cebe153a448ea40fb58ee955a, type: 2}
-  skillIndex: 5
   boostDuration: 3

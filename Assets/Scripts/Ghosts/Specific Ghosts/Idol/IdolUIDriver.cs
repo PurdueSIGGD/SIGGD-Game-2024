@@ -88,7 +88,6 @@ public class IdolUIDriver : GhostUIDriver
     private void updateMeter()
     {
         meterUIManager.setMeterValue(manager.passive.tempoStacks, stats.ComputeValue("TEMPO_MAX_STACKS"));
-        //meterUIManager.setMeterColor(ghostIdentity.GetCharacterInfo().primaryColor);
         meterUIManager.setMeterColor(ghostIdentity.GetCharacterInfo().highlightColor);
         if (manager.passive.tempoStacks >= stats.ComputeValue("TEMPO_MAX_STACKS"))
         {
