@@ -31,12 +31,12 @@ PrefabInstance:
     - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
         type: 3}
       propertyPath: levels.Array.size
-      value: 5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
         type: 3}
       propertyPath: enemies.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
         type: 3}
@@ -61,6 +61,12 @@ PrefabInstance:
       propertyPath: enemies.Array.data[3].enemy
       value: 
       objectReference: {fileID: 8652318323731026824, guid: b5d7b25097e81c641a939214d938169d,
+        type: 3}
+    - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
+        type: 3}
+      propertyPath: enemies.Array.data[4].enemy
+      value: 
+      objectReference: {fileID: 8652318323731026824, guid: e394c39f0e71d7f4fa475f7f14decda6,
         type: 3}
     - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
         type: 3}
@@ -95,7 +101,7 @@ PrefabInstance:
     - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
         type: 3}
       propertyPath: levels.Array.data[0].sceneName
-      value: Cyberpunk_Arena
+      value: Cyberpunk_Rafters
       objectReference: {fileID: 0}
     - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
         type: 3}
@@ -125,27 +131,32 @@ PrefabInstance:
     - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
         type: 3}
       propertyPath: enemies.Array.data[0].endChance
-      value: 0.8
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
         type: 3}
       propertyPath: enemies.Array.data[1].endChance
-      value: 0.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
-        type: 3}
-      propertyPath: enemies.Array.data[2].endChance
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
         type: 3}
+      propertyPath: enemies.Array.data[2].endChance
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
+        type: 3}
       propertyPath: enemies.Array.data[3].endChance
-      value: 0.8
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
+        type: 3}
+      propertyPath: enemies.Array.data[4].endChance
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
         type: 3}
       propertyPath: enemies.Array.data[0].startChance
-      value: 1.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
         type: 3}
@@ -155,22 +166,27 @@ PrefabInstance:
     - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
         type: 3}
       propertyPath: enemies.Array.data[2].startChance
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
         type: 3}
       propertyPath: enemies.Array.data[3].startChance
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
+        type: 3}
+      propertyPath: enemies.Array.data[4].startChance
+      value: 0.7
+      objectReference: {fileID: 0}
     - target: {fileID: 7028998140566284846, guid: d14585abf46b0db47a3386cf3b6a395a,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 199.9
       objectReference: {fileID: 0}
     - target: {fileID: 7028998140566284846, guid: d14585abf46b0db47a3386cf3b6a395a,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -13.7
       objectReference: {fileID: 0}
     - target: {fileID: 7028998140566284846, guid: d14585abf46b0db47a3386cf3b6a395a,
         type: 3}
