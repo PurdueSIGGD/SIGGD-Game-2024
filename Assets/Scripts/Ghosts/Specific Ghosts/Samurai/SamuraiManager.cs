@@ -9,6 +9,7 @@ public class SamuraiManager : GhostManager, ISelectable
     public DamageContext specialMeleeParryContext;
     public ActionContext onDashContext;
     public ActionContext onParryContext;
+    public GameObject parrySuccessVFX;
 
     [HideInInspector] public bool selected;
     [HideInInspector] public WrathHeavyAttack basic; // the heavy attack ability
@@ -120,18 +121,18 @@ public class SamuraiManager : GhostManager, ISelectable
     //The function gets called (via event) whenever something gets damaged in the scene
     public void WrathOnDamage(DamageContext context)
     {
-        if (context.attacker == PlayerID.instance.gameObject && context.actionID != ActionID.SAMURAI_BASIC)
+        if (context.attacker == PlayerID.instance.gameObject /*&& context.actionID != ActionID.SAMURAI_BASIC*/)
         {
-            float wrathGained = stats.ComputeValue("Wrath Percent Gain Per Damage Dealt") * context.damage / 100;
-            wrathPercent = Mathf.Min(wrathPercent + wrathGained, 1);
+            float wrathGained = stats.ComputeValue("Wrath Percent Gain Per Damage Dealt") * context.damage / 100f;
+            wrathPercent = Mathf.Min(wrathPercent + wrathGained, 1f);
             decayTimer = stats.ComputeValue("Wrath Decay Buffer");
             startingToDecay = true;
             decaying = false;
         }
         else if (context.victim == PlayerID.instance.gameObject)
         {
-            float wrathLost = stats.ComputeValue("Wrath Percent Loss Per Damage Taken") * context.damage / 100;
-            wrathPercent = Mathf.Max(wrathPercent - wrathLost, 0);
+            float wrathLost = stats.ComputeValue("Wrath Percent Loss Per Damage Taken") * context.damage / 100f;
+            wrathPercent = Mathf.Max(wrathPercent - wrathLost, 0f);
         }
     }
 }

@@ -169,7 +169,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactRange: 3
   menuOffset: {x: 0, y: 2, z: 0}
-  hubConvo: {fileID: 11400000, guid: a9f9877b4a87fc140986ff519984aca4, type: 2}
+  hubConvo: {fileID: 0}
   isFirstInteraction: 0
   isNPC: 0
 --- !u!114 &773703493236735993
@@ -188,7 +188,7 @@ MonoBehaviour:
   - name: Basic Cooldown
     value: 1
   - name: Special Cooldown
-    value: 6
+    value: 7
   - name: HOLOJUMP_MAX_DISTANCE
     value: 200
   - name: HOLOJUMP_CLONE_SWAP_INTERVAL
@@ -196,7 +196,7 @@ MonoBehaviour:
   - name: HOLOJUMP_IMMUNE_SECONDS
     value: 0.2
   - name: HOLOJUMP_DURATION_SECONDS
-    value: 12
+    value: 11
   - name: HOLOJUMP_DURATION_INACTIVE_MODIFIER
     value: 1
   - name: TEMPO_BUFF_PERCENT_INT
@@ -373,10 +373,10 @@ MonoBehaviour:
   skillSO: {fileID: 11400000, guid: 7fbbc74c58fea6546b74b8d2dfaabbb4, type: 2}
   values:
   - 0
-  - 3
+  - 2
+  - 4
   - 6
-  - 9
-  - 12
+  - 8
 --- !u!114 &9025963487758876621
 MonoBehaviour:
   m_ObjectHideFlags: 0

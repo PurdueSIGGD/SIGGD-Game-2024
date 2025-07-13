@@ -454,29 +454,31 @@ MonoBehaviour:
   - name: Heavy Charge Up Time
     value: 0.5
   - name: Heavy Primed Autofire Time
-    value: 1.5
+    value: 1
   - name: Heavy Attack Minimum Damage
-    value: 40
+    value: 20
   - name: Heavy Attack Maximum Damage
-    value: 140
+    value: 50
   - name: Primed Attack Extra Minimum Damage
-    value: 40
+    value: 20
   - name: Primed Attack Extra Maximum Damage
-    value: 40
+    value: 50
   - name: Heavy Attack Minimum Travel Distance
-    value: 3
+    value: 2
   - name: Heavy Attack Maximum Travel Distance
-    value: 10
+    value: 8
   - name: Heavy Attack On-hit Final Travel Distance
     value: 1
   - name: Heavy Attack Travel Speed
     value: 50
+  - name: Heavy Attack Post Dash Momentum Fraction
+    value: 0.3
   - name: Heavy Attack Cooldown Time
     value: 1
   - name: Wrath Percent Gain Per Damage Dealt
-    value: 0.8
+    value: 0.5
   - name: Wrath Percent Loss Per Damage Taken
-    value: 2
+    value: 3
   - name: Wrath Decay Buffer
     value: 3
   - name: Wrath Decay Rate
@@ -517,6 +519,8 @@ MonoBehaviour:
     actionID: 10
     actionTypes: 03000000
     extraContext: 
+  parrySuccessVFX: {fileID: 7966241730260626198, guid: a5295bc6cb8948243b75f99e5a18cc48,
+    type: 3}
   selected: 0
   basic: {fileID: 0}
   special: {fileID: 0}
@@ -594,8 +598,20 @@ MonoBehaviour:
   skillSO: {fileID: 11400000, guid: ac6153f58f672004586dfa89ae616b89, type: 2}
   poisonDebuff: {fileID: 7565183235025711588, guid: e8aa912d65ec96c43ac28ce27387314e,
     type: 3}
+  poisonDamage:
+    damageStrength: 0
+    damageTypes: 03000000
+    actionID: 17
+    actionTypes: 04000000
+    extraContext: 
   duration: 3
-  interval: 0.5
+  interval: 0.2
+  values:
+  - 0
+  - 6
+  - 12
+  - 18
+  - 24
 --- !u!114 &3432727028805303405
 MonoBehaviour:
   m_ObjectHideFlags: 0
