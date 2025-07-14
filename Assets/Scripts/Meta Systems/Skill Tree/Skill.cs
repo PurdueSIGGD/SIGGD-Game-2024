@@ -7,7 +7,6 @@ public abstract class Skill : MonoBehaviour
 {
     [SerializeField]
     protected SkillSO skillSO;
-    [SerializeField]
     protected int skillIndex;
     protected string identityName;
     protected GhostIdentity identity;
@@ -38,14 +37,12 @@ public abstract class Skill : MonoBehaviour
         for (int i = 0; i < SaveManager.data.ghostSkillPts[identityName][skillIndex]; i++)
         {
             AddPointTrigger();
-            Debug.Log("Added Point to " + GetName());
         }
         
     }
 
     public void AddPoint()
     {
-        Debug.Log(GetName() + " has increased 1 point");
         SaveManager.data.ghostSkillPts[identityName][skillIndex]++;
         AddPointTrigger();
     }
@@ -56,7 +53,6 @@ public abstract class Skill : MonoBehaviour
     }
     public void ClearPoints()
     {
-        Debug.Log("Clear ALl points");
         SaveManager.data.ghostSkillPts[identityName][skillIndex] = 0;
         ClearPointsTrigger();
     }
@@ -88,5 +84,10 @@ public abstract class Skill : MonoBehaviour
     public string GetDescriptionValue()
     {
         return skillSO.descriptionValue;
+    }
+
+    public void SetSkillIndex(int ind)
+    {
+        skillIndex = ind;
     }
 }

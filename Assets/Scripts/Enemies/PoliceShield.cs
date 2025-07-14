@@ -7,26 +7,19 @@ using UnityEngine;
 /// </summary>
 public class PoliceShield : MonoBehaviour
 {
-    [SerializeField] private DamageContext chargeDamage;
-    private bool isCharging = false;
+    ShieldPolice shieldPolice;
 
+    [SerializeField] float damageVal;
+    void Start()
+    {
+        shieldPolice = this.gameObject.GetComponentInParent<ShieldPolice>();
+    }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // TODO implement knockback
-        if (!isCharging || !collision.gameObject.CompareTag("Player"))
-        {
-            return;
-        }
-        GameObject player = collision.gameObject;
-
-        player.GetComponent<Health>()?.Damage(chargeDamage, transform.parent.gameObject);
-        gameObject.GetComponentInParent<Animator>().SetBool("HasCollided", true);
-
-        ToggleCollision();
+        shieldPolice.ProcessShieldCollision(collision.collider);
     }
-
-    public void ToggleCollision()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        isCharging = !isCharging;
+        shieldPolice.ProcessShieldCollision(collision);
     }
 }

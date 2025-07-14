@@ -42,10 +42,8 @@ public class SamuraiManager : GhostManager, ISelectable
         Skill[] skills = GetComponent<SkillTree>().GetAllSkills();
         for (int i = 0; i < skills.Length; i++)
         {
-            Debug.Log("skill Points from: " + skills[i].GetPoints());
             for (int j = 0; j < skills[i].GetPoints(); j++)
             {
-                Debug.Log("Removed skillPoints from: " + skills[i]);
                 GetComponent<SkillTree>().RemoveSkillPoint(skills[i]);
             }
         }

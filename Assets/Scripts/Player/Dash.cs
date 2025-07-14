@@ -23,9 +23,12 @@ public class Dash : MonoBehaviour, IStatList
     private OrionManager orionManager;
     private PlayerStateMachine psm;
 
+    private OldFling oldFlingSkill; // Reference to OldFling
+
     [Header("Delegate Override Variables")]
     public SpecialAction specialAction;
     public delegate void SpecialAction(); // delegate to contain any ghost overrides
+
 
     private void Start()
     {
@@ -85,6 +88,17 @@ public class Dash : MonoBehaviour, IStatList
         Vector2 displacement = direction * stats.ComputeValue("Max Dash Distance");
         this.velocity = displacement / stats.ComputeValue("Dash Time");
         StartCoroutine(DashCoroutine());
+
+        // Old Fling for Aegis - King
+
+        GhostIdentity king = null;
+        PartyManager.instance.GetIdentitiesByName().TryGetValue("Aegis-King", out king);
+
+        if (king != null)
+        {
+            king.GetComponent<OldFling>().AddExtraHealth();
+        }
+
     }
 
     public void StopDash()

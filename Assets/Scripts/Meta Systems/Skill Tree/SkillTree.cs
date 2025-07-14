@@ -40,6 +40,11 @@ public class SkillTree : MonoBehaviour
         }
         startAtLevel = SaveManager.data.ghostLevel[identityName];
 
+        for(int i = 0; i < skills.Length; i++)
+        {
+            skills[i].SetSkillIndex(i);
+        }
+
         // initialize the skill tiers
         skillTiers = new SkillTier[TIER_COUNT];
         for (int i = 0; i < skillTiers.Length; i++)
@@ -151,11 +156,8 @@ public class SkillTree : MonoBehaviour
     {
         int tidx = GetSkillTierIndex(skill);
 
-        Debug.Log("unused points: " + skillTiers[tidx].unusedPoints);
-
         if (skillTiers[tidx].unusedPoints > 0)
         {
-            Debug.Log("Removed points from: " + skillTiers[tidx].leftSkill.name);
             skillTiers[tidx].unusedPoints--;
         }
     }
