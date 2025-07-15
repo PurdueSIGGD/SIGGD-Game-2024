@@ -36,6 +36,7 @@ public class GhostData
 public class EvaData : GhostData
 {
     public int tempoCount;
+    public float remainingTempoDuration;
 }
 
 [Serializable]

@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 /// <summary>
@@ -53,6 +51,11 @@ public class IdolPassive : MonoBehaviour
         particlesVFX = Instantiate(tempoParticlesVFX, PlayerID.instance.gameObject.transform).GetComponent<IdolTempoParticles>();
         particlesVFX.gameObject.SetActive(false);
         tempoStacks = SaveManager.data.eva.tempoCount;
+        if (tempoStacks > 0)
+        {
+            uptempo = true;
+            duration = SaveManager.data.eva.remainingTempoDuration;
+        }
     }
 
     void Update()
@@ -65,7 +68,7 @@ public class IdolPassive : MonoBehaviour
 
             // decrement duration at a modified rate if Idol is not active
             tick = active ? Time.deltaTime : Time.deltaTime * inactiveModifier;
-            duration -= tick;
+            SaveManager.data.eva.remainingTempoDuration = duration -= tick;
 
             // reset duration if player scored a kill
             if (kill)
