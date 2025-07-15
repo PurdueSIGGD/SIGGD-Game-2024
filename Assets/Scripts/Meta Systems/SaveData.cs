@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System;
 using System.Collections.Generic;
 
@@ -17,6 +18,7 @@ public class SaveData
     public int[] silasSkillPts = new int[8];
     public int[] aegisSkillPts = new int[8];
 
+    public EvaData eva;
     public YumeData yume;
     public AegisData aegis;
 }
@@ -28,6 +30,12 @@ public class GhostData
     public bool isUnlocked = false;
     public int storyProgress = 0;
     public int xp = 0;
+}
+
+[Serializable]
+public class EvaData : GhostData
+{
+    public int tempoCount;
 }
 
 [Serializable]

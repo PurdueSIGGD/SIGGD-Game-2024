@@ -52,6 +52,7 @@ public class IdolPassive : MonoBehaviour
         playerStats = PlayerID.instance.gameObject.GetComponent<StatManager>(); // yoink
         particlesVFX = Instantiate(tempoParticlesVFX, PlayerID.instance.gameObject.transform).GetComponent<IdolTempoParticles>();
         particlesVFX.gameObject.SetActive(false);
+        tempoStacks = SaveManager.data.eva.tempoCount;
     }
 
     void Update()
@@ -200,6 +201,7 @@ public class IdolPassive : MonoBehaviour
 
         // increment tempo stacks by stacks
         tempoStacks += stacks;
+        SaveManager.data.eva.tempoCount = tempoStacks;
 
         // Feedback Loop reduce Special cooldown
         GetComponent<FeedbackLoop>().reduceCooldown(false);
