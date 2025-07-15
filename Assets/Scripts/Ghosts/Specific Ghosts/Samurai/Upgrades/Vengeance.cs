@@ -6,42 +6,19 @@ using UnityEngine;
 
 public class Vengeance : Skill {
 
-
+    [SerializeField]
+    List<float> values = new List<float>
+    {
+        0f, 0.5f, 1.0f, 1.5f, 2.0f
+    };
     private int pointIndex = 0;
 
-    private SamuraiManager samuraiManager;
-
-    private void OnEnable()
+    public float CalculateBoostedWrathGain(DamageContext context, float wrathGained)
     {
-        GameplayEventHolder.OnDamageDealt += ApplyBonusWrath;
-
-        samuraiManager = gameObject.GetComponent<SamuraiManager>();
-
+        if (context.actionID != ActionID.SAMURAI_SPECIAL || pointIndex <= 0) return wrathGained;
+        return wrathGained + (wrathGained * values[pointIndex]);
     }
 
-    private void OnDisable()
-    {
-        GameplayEventHolder.OnDamageDealt -= ApplyBonusWrath;
-    }
-
-    private void ApplyBonusWrath(DamageContext context)
-    {
-        if (pointIndex > 0 && context.actionID == ActionID.SAMURAI_SPECIAL)
-        {
-            // Grant bonus wrath
-
-            float bonusWrath = pointIndex * 0.2f;
-            float prevWrath = samuraiManager.basic.GetWrathPercent();
-            float newWrath = Mathf.Min(1.0f, bonusWrath + prevWrath);
-
-            samuraiManager.basic.SetWrathPercent(newWrath);
-
-#if DEBUG_LOG
-            Debug.Log("Old Wrath: " + prevWrath + " New Wrath: " + newWrath + " Skill Pts: " + pointIndex);
-#endif
-
-        }
-    }
     public override void AddPointTrigger()
     {
         pointIndex = GetPoints();

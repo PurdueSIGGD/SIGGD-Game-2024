@@ -74,7 +74,8 @@ public class DynamicTrio : Skill
         float originalDamage = context.damage;
 
         // split transfer damage across each decoy in the list
-        context.damage = originalDamage * transferPercentage;
+        float damageTransferPercentage = (transferPercentage / 2f) * manager.clones.Count;
+        context.damage = originalDamage * damageTransferPercentage;
         foreach (GameObject decoy in manager.clones)
         {
             context.victim = decoy;
@@ -83,7 +84,7 @@ public class DynamicTrio : Skill
 
         // set remaining damage for the player
         context.victim = PlayerID.instance.gameObject;
-        context.damage = originalDamage * (1f - transferPercentage);
+        context.damage = originalDamage * (1f - damageTransferPercentage);
     }
 
     private void EvaSelected()

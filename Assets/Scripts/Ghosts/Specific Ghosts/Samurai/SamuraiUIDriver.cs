@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SamuraiUIDriver : GhostUIDriver
 {
+    [SerializeField] private Sprite roninsResolveIcon;
+
     private SamuraiManager manager;
 
     // Start is called before the first frame update
@@ -18,15 +20,17 @@ public class SamuraiUIDriver : GhostUIDriver
     {
         base.Update();
         if (!isInParty) return;
-        if (manager.selected) updateBasicAbility();
+        updateBasicAbility();
         updateSpecialAbility();
+        updateSkill1();
+        if (ghostIdentity.IsSelected()) updateMeter();
 
     }
 
     private void updateBasicAbility()
     {
-        basicAbilityUIManager.setMeterValue(manager.basic.GetWrathPercent(), 1f);
-        basicAbilityUIManager.setAbilityEnabled(manager.basic.GetWrathPercent() > 0);
+        basicAbilityUIManager.setMeterValue(manager.wrathPercent, 1f);
+        basicAbilityUIManager.setAbilityEnabled(manager.wrathPercent > 0f);
     }
 
     private void updateSpecialAbility()
@@ -34,15 +38,46 @@ public class SamuraiUIDriver : GhostUIDriver
         specialAbilityUIManager.setAbilityCooldownTime(manager.getSpecialCooldown(), stats.ComputeValue("Special Cooldown"));
     }
 
+    private void updateSkill1()
+    {
+        skill1UIManager.setUIActive(false);
+        RoninsResolve roninsResolve = GetComponent<RoninsResolve>();
+        if (roninsResolve.boostTimer > 0f)
+        {
+            skill1UIManager.setUIActive(true);
+            skill1UIManager.setAbilityEnabled(true);
+            skill1UIManager.setNumberActive(false);
+            skill1UIManager.setChargeWidgetActive(false);
+            skill1UIManager.setMeterValue(roninsResolve.boostTimer, roninsResolve.boostDuration);
+            skill1UIManager.setIcon(roninsResolveIcon);
+        }
+    }
+
     private void updateMeter()
     {
-        if (GetComponent<WrathHeavyAttack>() != null && GetComponent<WrathHeavyAttack>().GetWrathPercent() != -1)
+        // Wrath meter
+        meterUIManager.setMeterValue(manager.wrathPercent, 1f);
+        meterUIManager.setMeterColor(ghostIdentity.GetCharacterInfo().primaryColor);
+        if (manager.wrathPercent >= 1f)
         {
-            meterUIManager.setMeterColor(Color.red);
-            meterUIManager.setMeterValue(GetComponent<PoliceChiefLethalForce>().GetConsecutiveHits(), GetComponent<PoliceChiefLethalForce>().GetTotalHits());
-            meterUIManager.setBackgroundColor(Color.grey);
-            meterUIManager.setSubMeterValue(0f, 0f);
-            meterUIManager.activateWidget();
+            meterUIManager.setMeterColor(ghostIdentity.GetCharacterInfo().highlightColor);
         }
+        WrathHeavyAttack wrath = PlayerID.instance.GetComponent<WrathHeavyAttack>();
+        if (wrath != null && (wrath.isCharging || wrath.isPrimed))
+        {
+            meterUIManager.setMeterColor(ghostIdentity.GetCharacterInfo().highlightColor);
+        }
+
+        // Honed Strike submeter
+        meterUIManager.setSubMeterValue(0f, 1f);
+        HonedStrike honedStrike = GetComponent<HonedStrike>();
+        meterUIManager.setSubMeterValue(((honedStrike.buffApplied) ? 1f : 0f), 1f);
+
+        if (manager.wrathPercent > 0f || honedStrike.buffApplied)
+        {
+            meterUIManager.activateWidget();
+            return;
+        }
+        meterUIManager.deactivateWidget(0.3f);
     }
 }

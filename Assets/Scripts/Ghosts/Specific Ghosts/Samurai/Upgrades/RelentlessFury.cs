@@ -4,6 +4,7 @@ using Microsoft.Win32.SafeHandles;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
+using UnityEditor.Rendering.LookDev;
 using UnityEngine;
 
 /// <summary>
@@ -11,7 +12,22 @@ using UnityEngine;
 /// </summary>
 public class RelentlessFury : Skill
 {
+
+    // **********
+    //
+    // NOTE: THERE IS SOME SPOOKY MAGIC SHIT GOING ON HERE THAT IS BREAKING THIS AND I DON'T KNOW WHAT'S HAPPENING BUT I DON'T HAVE TIME TO FIX IT
+    //
+    // **********
+
     private SamuraiManager samuraiManager;
+
+    [SerializeField] private DamageContext boostedDamageContext;
+
+    [SerializeField]
+    List<float> values = new List<float>
+    {
+        0f, 0.15f, 0.25f, 0.35f, 0.45f
+    };
     private int pointIndex;
 
 
@@ -32,6 +48,11 @@ public class RelentlessFury : Skill
 #if DEBUG_LOG
         Debug.Log("Relentless Fury disabled");
 #endif
+    }
+
+    private void Update()
+    {
+        boostedDamageContext.damage = 20f * values[pointIndex] * samuraiManager.wrathPercent; // GOD DAMMIT THIS WAS TEMP BUT I AT LEAST THOUGHT IT WOULD WORK
     }
 
 
@@ -63,7 +84,7 @@ public class RelentlessFury : Skill
         
         return multiplier;
     }
-
+    
     /// <summary>
     /// Buffs damage for light attacks according to Wrath Percent.
     /// </summary>
@@ -83,6 +104,13 @@ public class RelentlessFury : Skill
             Debug.Log("Damage: " + damageContext.damage);
 #endif
         }*/
+
+        /*
+        if (pointIndex > 0 && samuraiManager.selected && samuraiManager.wrathPercent > 0f && damageContext.actionID == ActionID.PLAYER_LIGHT_ATTACK)
+        {
+            damageContext.victim.GetComponent<Health>().Damage(boostedDamageContext, damageContext.attacker);
+        }
+        */
     }
 
     public override void AddPointTrigger()

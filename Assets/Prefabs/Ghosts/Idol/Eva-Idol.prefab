@@ -169,7 +169,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactRange: 3
   menuOffset: {x: 0, y: 2, z: 0}
-  hubConvo: {fileID: 11400000, guid: a9f9877b4a87fc140986ff519984aca4, type: 2}
+  hubConvo: {fileID: 0}
   isFirstInteraction: 0
   isNPC: 0
 --- !u!114 &773703493236735993
@@ -188,7 +188,7 @@ MonoBehaviour:
   - name: Basic Cooldown
     value: 1
   - name: Special Cooldown
-    value: 6
+    value: 7
   - name: HOLOJUMP_MAX_DISTANCE
     value: 200
   - name: HOLOJUMP_CLONE_SWAP_INTERVAL
@@ -196,7 +196,7 @@ MonoBehaviour:
   - name: HOLOJUMP_IMMUNE_SECONDS
     value: 0.2
   - name: HOLOJUMP_DURATION_SECONDS
-    value: 12
+    value: 11
   - name: HOLOJUMP_DURATION_INACTIVE_MODIFIER
     value: 1
   - name: TEMPO_BUFF_PERCENT_INT
@@ -338,7 +338,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: ea15666da1c03af44acd60ffc6345a04, type: 2}
-  skillIndex: 0
 --- !u!114 &2617003682761076201
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -352,7 +351,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: 741d655c9f17315478dd227c3f3276e0, type: 2}
-  skillIndex: 2
   invisibilityDuration: 3.5
   values:
   - 0
@@ -373,13 +371,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: 7fbbc74c58fea6546b74b8d2dfaabbb4, type: 2}
-  skillIndex: 1
   values:
   - 0
-  - 3
+  - 2
+  - 4
   - 6
-  - 9
-  - 12
+  - 8
 --- !u!114 &9025963487758876621
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -393,7 +390,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: 6cd317815f2422c4c838b49b23db82ea, type: 2}
-  skillIndex: 3
   explosionContext:
     damageStrength: 3
     damageTypes: 02000000
@@ -426,8 +422,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: 47d10ae9d4bb8664591d154467935b21, type: 2}
-  skillIndex: 4
-  values: 00000000070000000e000000150000001c000000
+  values: 000000000a00000010000000160000001c000000
   damageTickSpeed: 0.2
   manager: {fileID: 0}
   fieldVisual: {fileID: 1539173856502906608, guid: 677f9ddb74eb33a41ab8c747775a259c,
@@ -452,7 +447,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: 83559512b00d5424bb5f00c82f5c9074, type: 2}
-  skillIndex: 5
   values:
   - 0
   - 10
@@ -472,7 +466,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: 47064ef7ba27a6448a378006df0569af, type: 2}
-  skillIndex: 6
   healthRestored: 35
   timeStopDuration: 5
 --- !u!114 &3943762812193780925

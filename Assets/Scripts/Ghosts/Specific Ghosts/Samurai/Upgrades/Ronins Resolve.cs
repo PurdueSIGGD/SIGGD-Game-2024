@@ -12,16 +12,21 @@ using UnityEngine;
 public class RoninsResolve : Skill
 {
     private const string RUNNING_SPEED_STAT = "Max Running Speed";
-    private const string MOVE_SPEED_STAT = "Move Speed";
+    //private const string MOVE_SPEED_STAT = "Move Speed";
 
+    [SerializeField]
+    List<float> values = new List<float>
+    {
+        0f, 15f, 30f, 45f, 60f
+    };
     private int pointIndex = 0;
 
     private SamuraiManager manager;
     private StatManager playerStats;
     private PlayerHealth playerHealth;
 
-    [SerializeField] private float boostDuration = 5.0f; // boost duration in seconds
-    private float boostTimer = 0.0f; // timer for boost
+    [SerializeField] public float boostDuration = 5.0f; // boost duration in seconds
+    [HideInInspector] public float boostTimer = 0.0f; // timer for boost
 
     private void OnEnable()
     {
@@ -102,13 +107,13 @@ public class RoninsResolve : Skill
     /// </summary>
     public void AddBoosts()
     {
-        int percentInt = CalculatePercentInt();
+        int percentInt = Mathf.CeilToInt(values[pointIndex]);
         boostTimer = boostDuration;
 
         // Speed
 
         playerStats.ModifyStat(RUNNING_SPEED_STAT, percentInt);
-        playerStats.ModifyStat(MOVE_SPEED_STAT, percentInt);
+        //playerStats.ModifyStat(MOVE_SPEED_STAT, percentInt);
 
         // Resistance
 
@@ -127,17 +132,17 @@ public class RoninsResolve : Skill
     /// </summary>
     public void RemoveBoosts()
     {
-        int percentInt = CalculatePercentInt();
+        int percentInt = Mathf.CeilToInt(values[pointIndex]);
         boostTimer = 0.0f;
 
         // Speed
 
         playerStats.ModifyStat(RUNNING_SPEED_STAT, -percentInt);
-        playerStats.ModifyStat(MOVE_SPEED_STAT, -percentInt);
+        //playerStats.ModifyStat(MOVE_SPEED_STAT, -percentInt);
 
         // Resistance
 
-        playerHealth.ModifyDamageResistance(-percentInt / 100.0f);
+        playerHealth.ModifyDamageResistance(-(percentInt / 100.0f));
 
 #if DEBUG_LOG
         Debug.Log("Ronin's Resolve: Boost removed!");
