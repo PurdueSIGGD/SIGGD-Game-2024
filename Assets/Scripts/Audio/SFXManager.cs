@@ -19,6 +19,11 @@ public class SFXManager : MonoBehaviour
     }
 
     public void PlaySFXTrack(string trackName) {
+        if (!lookUpTable.sfxTable.ContainsKey(trackName))
+        {
+            Debug.LogError("Cannot find VA track recorded under name: " + trackName);
+            return;
+        }
         lookUpTable.sfxTable[trackName].PlayTrack();
     }
 

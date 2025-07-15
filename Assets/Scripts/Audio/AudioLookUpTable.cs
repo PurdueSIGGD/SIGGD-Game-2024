@@ -16,7 +16,7 @@ public class AudioLookUpTable : MonoBehaviour
     public Dictionary<string, ConversationAudioHolder> conversationTable;
     public Dictionary<string, IVATrack> vaTable;
 
-    void Start()
+    void Awake()
     {
         sfxTable = new Dictionary<string, ISFXTrack>();
         foreach (SFXBank bank in SFXBanks) sfxTable.Add(bank.name, bank.soundBank);

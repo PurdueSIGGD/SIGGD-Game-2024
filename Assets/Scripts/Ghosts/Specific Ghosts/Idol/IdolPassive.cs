@@ -254,7 +254,7 @@ public class IdolPassive : MonoBehaviour
         {
             UpdateSpeed(-tempoStacks);
         }
-        tempoStacks = 0;
+        tempoStacks = SaveManager.data.eva.tempoCount = 0;
         uptempo = false;
 
         // VFX
