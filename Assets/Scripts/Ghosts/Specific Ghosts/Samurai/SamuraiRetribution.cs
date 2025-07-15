@@ -54,9 +54,8 @@ public class SamuraiRetribution : MonoBehaviour
 
     public void StartParry()
     {
-        //parrying = true;
-        StartCoroutine(ParryDuration());
-        //GameplayEventHolder.OnDamageFilter.Add(ParryingFilter);
+        parrying = true;
+        //StartCoroutine(ParryDuration());
         gameObject.GetComponent<StatManager>().ModifyStat("Max Running Speed", -1 * Mathf.CeilToInt(manager.GetStats().ComputeValue("Parry Slow Percent")));
         gameObject.GetComponent<StatManager>().ModifyStat("Running Accel.", -1 * Mathf.CeilToInt(manager.GetStats().ComputeValue("Parry Slow Percent")));
         gameObject.GetComponent<Move>().UpdateRun();
@@ -148,6 +147,10 @@ public class SamuraiRetribution : MonoBehaviour
         parrying = false;
         parrySuccess = false;
         //GameplayEventHolder.OnDamageFilter.Remove(ParryingFilter);
+        parrying = false;
+        gameObject.GetComponent<StatManager>().ModifyStat("Max Running Speed", Mathf.CeilToInt(manager.GetStats().ComputeValue("Parry Slow Percent")));
+        gameObject.GetComponent<StatManager>().ModifyStat("Running Accel.", Mathf.CeilToInt(manager.GetStats().ComputeValue("Parry Slow Percent")));
+        gameObject.GetComponent<Move>().UpdateRun();
     }
 
     public void ParryingFilter(ref DamageContext context)

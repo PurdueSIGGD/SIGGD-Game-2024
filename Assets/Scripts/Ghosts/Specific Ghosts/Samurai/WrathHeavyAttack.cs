@@ -133,15 +133,14 @@ public class WrathHeavyAttack : MonoBehaviour
     //this function get called (via message form animator) when you enter the Heavy Attack state
     public void StartHeavyAttack()
     {
-        //playerStateMachine.ConsumeHeavyAttackInput();
+        psm.ConsumeHeavyAttackInput();
         AudioManager.Instance.VABranch.PlayVATrack(PartyManager.instance.selectedGhost + " Heavy Attack");
     }
 
     public void ExecuteHeavyAttack()
     {
-        //GetComponent<PlayerParticles>().PlayHeavyAttackVFX();
         psm.SetLightAttack2Ready(false);
-        //AudioManager.Instance.SFXBranch.PlaySFXTrack("HeavyAttack");
+        AudioManager.Instance.SFXBranch.GetSFXTrack("Akihito-Dash Attack").SetPitch(manager.wrathPercent, 1f);
         AudioManager.Instance.SFXBranch.PlaySFXTrack("Akihito-Dash Attack");
 
         Vector2 dir = Vector2.zero;

@@ -121,17 +121,38 @@ public class SamuraiManager : GhostManager, ISelectable
     //The function gets called (via event) whenever something gets damaged in the scene
     public void WrathOnDamage(DamageContext context)
     {
-        if (context.attacker == PlayerID.instance.gameObject /*&& context.actionID != ActionID.SAMURAI_BASIC*/)
+        if (context.attacker == PlayerID.instance.gameObject && context.actionID != ActionID.SAMURAI_BASIC)
         {
             float wrathGained = stats.ComputeValue("Wrath Percent Gain Per Damage Dealt") * context.damage / 100f;
+            wrathGained = GetComponent<Vengeance>().CalculateBoostedWrathGain(context, wrathGained);
+
+            // SFX
+            if (wrathPercent < 1f && wrathPercent + wrathGained >= 1f)
+            {
+                AudioManager.Instance.SFXBranch.PlaySFXTrack("Akihito-Wrath Max");
+            }
+            else
+            {
+                AudioManager.Instance.SFXBranch.GetSFXTrack("Akihito-Wrath Gained").SetPitch(wrathPercent, 1f);
+                AudioManager.Instance.SFXBranch.PlaySFXTrack("Akihito-Wrath Gained");
+            }
+
             wrathPercent = Mathf.Min(wrathPercent + wrathGained, 1f);
             decayTimer = stats.ComputeValue("Wrath Decay Buffer");
             startingToDecay = true;
             decaying = false;
         }
-        else if (context.victim == PlayerID.instance.gameObject)
+        else if (context.victim == PlayerID.instance.gameObject && context.damage > 0f)
         {
             float wrathLost = stats.ComputeValue("Wrath Percent Loss Per Damage Taken") * context.damage / 100f;
+
+            // SFX
+            if (wrathPercent > 0f)
+            {
+                AudioManager.Instance.SFXBranch.GetSFXTrack("Akihito-Wrath Lost").SetPitch(wrathPercent, 1f);
+                AudioManager.Instance.SFXBranch.PlaySFXTrack("Akihito-Wrath Lost");
+            }
+
             wrathPercent = Mathf.Max(wrathPercent - wrathLost, 0f);
         }
     }

@@ -34,8 +34,8 @@ public class BleedingEdge : Skill
         {
             poisonDamage.attacker = context.attacker;
             poisonDamage.victim = context.victim;
-            //poisonDamage.actionID = context.actionID;
-            //poisonDamage.actionID = ActionID.SAMURAI_SPECIAL; // TODO: RAAAAAH WHAT THE FUCK CAN U JUST WORK PLEASE AAAAAAAAH (I forgot to take my meds so I'm done for the day I think)
+            poisonDamage.actionID = context.actionID;
+            if (context.actionID == ActionID.SAMURAI_BASIC) poisonDamage.actionID = ActionID.PLAYER_HEAVY_ATTACK;
 
             // creating a new damage over time effect
             float totalDamageOverTime = values[pointIndex];
@@ -43,7 +43,8 @@ public class BleedingEdge : Skill
             PoisonDebuff debuff = context.victim.transform.GetComponentInChildren<PoisonDebuff>();
             if (debuff != null)
             {
-                //debuff.damageContext.actionID = context.actionID;
+                debuff.damageContext.actionID = context.actionID;
+                if (context.actionID == ActionID.SAMURAI_BASIC) debuff.damageContext.actionID = ActionID.PLAYER_HEAVY_ATTACK;
                 debuff.duration = duration;
                 return;
             }
