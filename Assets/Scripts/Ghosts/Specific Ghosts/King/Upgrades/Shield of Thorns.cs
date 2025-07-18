@@ -1,10 +1,5 @@
 //#define DEBUG_LOG
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.EditorTools;
-using UnityEditor.Rendering.LookDev;
-using UnityEngine;
 
 /// <summary>
 /// While Radiant Shield is at full health, a portion of damage that 

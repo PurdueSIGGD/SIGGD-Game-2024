@@ -18,11 +18,10 @@ public class SaveData
     public int[] silasSkillPts = new int[8];
     public int[] aegisSkillPts = new int[8];
 
-
-    public NorthData north;
-    public EvaData eva;
-    public YumeData yume;
-    public AegisData aegis;
+    public NorthData north = new();
+    public EvaData eva = new();
+    public YumeData yume = new();
+    public AegisData aegis = new();
 }
 
 
@@ -43,7 +42,8 @@ public class NorthData : GhostData
 [Serializable]
 public class EvaData : GhostData
 {
-
+    public int tempoCount;
+    public float remainingTempoDuration;
 }
 
 [Serializable]

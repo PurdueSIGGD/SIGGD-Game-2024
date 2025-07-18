@@ -125,7 +125,6 @@ public class LightAttack : MonoBehaviour, IStatList
 #if DEBUG
         Debug.DrawLine(orig, center * range + orig, Color.red, 0.25f);
 #endif
-        //GetComponent<PlayerParticles>().PlayLightAttackVFX(false);
         AudioManager.Instance.SFXBranch.PlaySFXTrack("LightAttack");
         Vector3 vfxPosition = gameObject.transform.position + new Vector3(1f * Mathf.Sign(gameObject.transform.rotation.y), 0f, 0f);
         VFXManager.Instance.PlayVFX(((playerStateMachine.isLightAttack2Ready) ? VFX.PLAYER_LIGHT_ATTACK_1 : VFX.PLAYER_LIGHT_ATTACK_2), vfxPosition, gameObject.transform.rotation);
@@ -146,11 +145,9 @@ public class LightAttack : MonoBehaviour, IStatList
 #if DEBUG
         Debug.DrawLine(orig, center * range + orig, Color.red, 0.25f);
 #endif
-        //GetComponent<PlayerParticles>().PlayLightAttackVFX(true);
         AudioManager.Instance.SFXBranch.PlaySFXTrack("LightAttack");
-        Vector3 vfxPosition = gameObject.transform.position + new Vector3(0f, 1.5f, 0f);
-        Quaternion vfxRotation = new Quaternion(gameObject.transform.rotation.x, gameObject.transform.rotation.y, gameObject.transform.rotation.z, gameObject.transform.rotation.w);
-        VFXManager.Instance.PlayVFX(VFX.PLAYER_LIGHT_ATTACK_1, vfxPosition, vfxRotation);
+        Vector3 vfxPosition = gameObject.transform.position + new Vector3(0f, 1f, 0f);
+        VFXManager.Instance.PlayVFX(VFX.PLAYER_LIGHT_ATTACK_UP, vfxPosition, gameObject.transform.rotation);
         playerStateMachine.SetLightAttack2Ready(true);
 
         CameraShake.instance.Shake(0.02f, 10f, 0, 10, new Vector2(Random.Range(-0.5f, 0.5f), 1f));
@@ -225,20 +222,10 @@ public class LightAttack : MonoBehaviour, IStatList
         center = center.normalized;
         lastMousePos = center;
 
-        //Debug.Log(center * 10);
-        //GetComponent<Rigidbody2D>().AddForce(center * 10, ForceMode2D.Impulse);
-        //GetComponent<Move>().ApplyKnockback(center, 10, true);
-
-        //GetComponent<Move>().PlayerStop();
-        //Vector3 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-        //Vector2 direction = ((Vector2)mousePos - (Vector2)transform.position).normalized;
-
         if (!isSkyDash) return;
 
-        //Vector2 displacement = center * 3f;
         GetComponent<Move>().PlayerStop();
         skyLightAttackVelocity = (center * stats.ComputeValue("Air Attack Dash Speed")) + new Vector2(upDashXVelocity, 0f);
-        //skyLightAttackVelocity = new Vector2(skyLightAttackVelocity.x + upDashXVelocity, skyLightAttackVelocity.y);
         isSkyLightAttackDashing = true;
     }
 
@@ -257,8 +244,8 @@ public class LightAttack : MonoBehaviour, IStatList
 
     public void ExecuteSkyLightAttack()
     {
-        //GetComponent<PlayerParticles>().PlayLightAttackVFX(false);
         AudioManager.Instance.SFXBranch.PlaySFXTrack("AirAttack");
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("LightAttack");
         Vector3 vfxPosition = gameObject.transform.position + new Vector3(1f * Mathf.Sign(gameObject.transform.rotation.y), 0f, 0f);
         VFXManager.Instance.PlayVFX(VFX.PLAYER_LIGHT_ATTACK_1, vfxPosition, gameObject.transform.rotation);
         CameraShake.instance.Shake(0.02f, 10f, 0, 10, new Vector2(Random.Range(-0.5f, 0.5f), 1f));
@@ -283,11 +270,10 @@ public class LightAttack : MonoBehaviour, IStatList
 
     public void ExecuteUpSkyLightAttack()
     {
-        //GetComponent<PlayerParticles>().PlayLightAttackVFX(true);
         AudioManager.Instance.SFXBranch.PlaySFXTrack("AirAttack");
-        Vector3 vfxPosition = gameObject.transform.position + new Vector3(0f, 1.5f, 0f);
-        Quaternion vfxRotation = new Quaternion(gameObject.transform.rotation.x, gameObject.transform.rotation.y, gameObject.transform.rotation.z, gameObject.transform.rotation.w);
-        VFXManager.Instance.PlayVFX(VFX.PLAYER_LIGHT_ATTACK_1, vfxPosition, vfxRotation);
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("LightAttack");
+        Vector3 vfxPosition = gameObject.transform.position + new Vector3(0f, 1f, 0f);
+        VFXManager.Instance.PlayVFX(VFX.PLAYER_LIGHT_ATTACK_UP, vfxPosition, gameObject.transform.rotation);
         CameraShake.instance.Shake(0.02f, 10f, 0, 10, new Vector2(Random.Range(-0.5f, 0.5f), 1f));
 
         float halfAngle = angle / 2; // angle above and below the centerline of the attack cone
@@ -314,12 +300,6 @@ public class LightAttack : MonoBehaviour, IStatList
         if (playerStateMachine.lightAttackQueued) return;
         playerStateMachine.SetLightAttackRecoveryState(false);
         */
-        /*
-        isSkyLightAttackDashing = false;
-        GetComponent<Move>().PlayerGo();
-        rb.velocity *= 0.6f;
-        GetComponent<Move>().ApplyKnockback(rb.velocity.normalized, rb.velocity.magnitude, true);
-        */
         GetComponent<Animator>().SetTrigger("OPT");
     }
 
@@ -327,7 +307,7 @@ public class LightAttack : MonoBehaviour, IStatList
 
     public void StopSkyLightAttack()
     {
-        //GetComponent<Move>().PlayerGo();
+
     }
 
 
@@ -360,7 +340,7 @@ public class LightAttack : MonoBehaviour, IStatList
             if (h.collider.gameObject.GetComponent<EnemyStateManager>() != null)
             {
                 h.collider.gameObject.GetComponent<EnemyStateManager>().ApplyKnockback(Vector3.up, 4f, 0.3f);
-                h.collider.gameObject.GetComponent<EnemyStateManager>().ApplyKnockback(centerRay, 4f, 0.3f);
+                h.collider.gameObject.GetComponent<EnemyStateManager>().ApplyKnockback(centerRay, 3.8f, 0.3f);
             }
             foreach (IDamageable damageable in h.collider.gameObject.GetComponents<IDamageable>())
             {

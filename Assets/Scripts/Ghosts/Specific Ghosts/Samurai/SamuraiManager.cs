@@ -6,33 +6,51 @@ using UnityEngine;
 public class SamuraiManager : GhostManager, ISelectable
 {
     public DamageContext heavyDamageContext;
+    public DamageContext specialMeleeParryContext;
     public ActionContext onDashContext;
     public ActionContext onParryContext;
+    public GameObject parrySuccessVFX;
 
     [HideInInspector] public bool selected;
     [HideInInspector] public WrathHeavyAttack basic; // the heavy attack ability
     [HideInInspector] public SamuraiRetribution special; // the special ability
 
+    [HideInInspector] public float wrathPercent = 0f;
+    [HideInInspector] public float decayTimer = 0f;
+    [HideInInspector] public bool startingToDecay = false;
+    [HideInInspector] public bool decaying = false;
+    [HideInInspector] public bool resetDecay = false;
+
     [SerializeField] string identityName;
 
     void Awake()
     {
+        identityName = name;
+
         if (identityName.Contains("(Clone)"))
         {
             identityName = identityName.Replace("(Clone)", "");
         }
 
-        if (!SaveManager.data.ghostSkillPts.ContainsKey(identityName))
-        {
-            SaveManager.data.ghostSkillPts.Add(identityName, new int[7]);
-        }
+        //if (!SaveManager.data.ghostSkillPts.ContainsKey(identityName))
+        //{
+        //    SaveManager.data.ghostSkillPts.Add(identityName, new int[7]);
+        //}
 
-        if (!SaveManager.data.ghostLevel.ContainsKey(identityName))
-        {
-            SaveManager.data.ghostLevel.Add(identityName, 10);
-        }
+        //if (!SaveManager.data.ghostLevel.ContainsKey(identityName))
+        //{
+        //    SaveManager.data.ghostLevel.Add(identityName, 10);
+        //}
+    }
 
-        
+    private void OnEnable()
+    {
+        GameplayEventHolder.OnDamageDealt += WrathOnDamage;
+    }
+
+    private void OnDisable()
+    {
+        GameplayEventHolder.OnDamageDealt -= WrathOnDamage;
     }
 
     protected override void Start()
@@ -42,7 +60,7 @@ public class SamuraiManager : GhostManager, ISelectable
         Skill[] skills = GetComponent<SkillTree>().GetAllSkills();
         for (int i = 0; i < skills.Length; i++)
         {
-            for (int j = 0; j < skills[i].GetPoints(); j++)
+            for (int j = 0; j < points[i]; j++)
             {
                 GetComponent<SkillTree>().RemoveSkillPoint(skills[i]);
             }
@@ -53,6 +71,26 @@ public class SamuraiManager : GhostManager, ISelectable
     protected override void Update()
     {
         base.Update();
+
+        if (startingToDecay)
+        {
+            decayTimer -= Time.deltaTime;
+            if (decayTimer < 0.0f)
+            {
+                startingToDecay = false;
+                decaying = true;
+            }
+        }
+        float decayRate = stats.ComputeValue("Wrath Decay Rate");
+        if (decaying && wrathPercent >= decayRate * Time.deltaTime)
+        {
+            wrathPercent -= decayRate * Time.deltaTime;
+        }
+        else if (decaying)
+        {
+            wrathPercent = 0f;
+            decaying = false;
+        }
     }
 
     public override void Select(GameObject player)
@@ -78,5 +116,46 @@ public class SamuraiManager : GhostManager, ISelectable
         if (special) Destroy(special);
 
         base.DeSelect(player);
+    }
+
+
+
+    //The function gets called (via event) whenever something gets damaged in the scene
+    public void WrathOnDamage(DamageContext context)
+    {
+        if (context.attacker == PlayerID.instance.gameObject && context.actionID != ActionID.SAMURAI_BASIC)
+        {
+            float wrathGained = stats.ComputeValue("Wrath Percent Gain Per Damage Dealt") * context.damage / 100f;
+            wrathGained = GetComponent<Vengeance>().CalculateBoostedWrathGain(context, wrathGained);
+
+            // SFX
+            if (wrathPercent < 1f && wrathPercent + wrathGained >= 1f)
+            {
+                AudioManager.Instance.SFXBranch.PlaySFXTrack("Akihito-Wrath Max");
+            }
+            else
+            {
+                AudioManager.Instance.SFXBranch.GetSFXTrack("Akihito-Wrath Gained").SetPitch(wrathPercent, 1f);
+                AudioManager.Instance.SFXBranch.PlaySFXTrack("Akihito-Wrath Gained");
+            }
+
+            wrathPercent = Mathf.Min(wrathPercent + wrathGained, 1f);
+            decayTimer = stats.ComputeValue("Wrath Decay Buffer");
+            startingToDecay = true;
+            decaying = false;
+        }
+        else if (context.victim == PlayerID.instance.gameObject && context.damage > 0f)
+        {
+            float wrathLost = stats.ComputeValue("Wrath Percent Loss Per Damage Taken") * context.damage / 100f;
+
+            // SFX
+            if (wrathPercent > 0f)
+            {
+                AudioManager.Instance.SFXBranch.GetSFXTrack("Akihito-Wrath Lost").SetPitch(wrathPercent, 1f);
+                AudioManager.Instance.SFXBranch.PlaySFXTrack("Akihito-Wrath Lost");
+            }
+
+            wrathPercent = Mathf.Max(wrathPercent - wrathLost, 0f);
+        }
     }
 }

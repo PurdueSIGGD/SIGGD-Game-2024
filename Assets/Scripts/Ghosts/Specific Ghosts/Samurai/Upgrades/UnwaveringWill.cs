@@ -8,10 +8,16 @@ public class UnwaveringWill : Skill
     // [SerializeField] float triggerThreshold;
 
     [SerializeField] HealingContext healContext;
-    [Header("Life steal rate")]
-    [SerializeField] float healRate;
+    //[Header("Life steal rate")]
+    //[SerializeField] float healRate;
 
+    [SerializeField]
+    List<float> values = new List<float>
+    {
+        0f, 0.05f, 0.1f, 0.15f, 0.2f
+    };
     private int pointIndex;
+
     private SamuraiManager manager;
     private PlayerHealth health;
 
@@ -37,8 +43,8 @@ public class UnwaveringWill : Skill
         if (pointIndex > 0 && manager.selected && 
             health.MortallyWounded && context.attacker.CompareTag("Player"))
         {
-            healContext.healing = context.damage * pointIndex * healRate;
-            health.Heal(healContext, gameObject);
+            healContext.healing = context.damage * values[pointIndex];
+            health.Heal(healContext, PlayerID.instance.gameObject);
         }
     }
 

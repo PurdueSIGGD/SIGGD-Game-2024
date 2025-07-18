@@ -5,7 +5,13 @@ using UnityEngine;
 public class HonedStrike : Skill
 {
     private SamuraiManager manager;
-    private bool buffApplied;
+    [HideInInspector] public bool buffApplied;
+
+    [SerializeField]
+    List<float> values = new List<float>
+    {
+        0f, 20f, 40f, 60f, 80f
+    };
     private int pointIndex;
 
     void Start()
@@ -30,9 +36,10 @@ public class HonedStrike : Skill
         if (pointIndex > 0 && context.actionID == ActionID.SAMURAI_SPECIAL && 
             !buffApplied && context.extraContext.Equals("Parry Success"))
         {
-            manager.GetStats().ModifyStat("Heavy Attack Minimum Travel Distance", 20 * pointIndex);
-            manager.GetStats().ModifyStat("Heavy Attack Maximum Travel Distance", 20 * pointIndex);
-            manager.GetStats().ModifyStat("Heavy Attack Travel Speed", 20 * pointIndex);
+            manager.GetStats().ModifyStat("Heavy Attack Minimum Travel Distance", Mathf.CeilToInt(values[pointIndex]));
+            manager.GetStats().ModifyStat("Heavy Attack Maximum Travel Distance", Mathf.CeilToInt(values[pointIndex]));
+            manager.GetStats().ModifyStat("Heavy Attack Travel Speed", Mathf.CeilToInt(values[pointIndex]));
+            manager.GetStats().ModifyStat("Heavy Charge Up Time", -(Mathf.CeilToInt(values[pointIndex])));
 
             buffApplied = true;
         }
@@ -42,9 +49,10 @@ public class HonedStrike : Skill
     {
         if (pointIndex > 0 && buffApplied && context.actionID == ActionID.SAMURAI_BASIC)
         {
-            manager.GetStats().ModifyStat("Heavy Attack Minimum Travel Distance", -20 * pointIndex);
-            manager.GetStats().ModifyStat("Heavy Attack Maximum Travel Distance", -20 * pointIndex);
-            manager.GetStats().ModifyStat("Heavy Attack Travel Speed", -20 * pointIndex);
+            manager.GetStats().ModifyStat("Heavy Attack Minimum Travel Distance", -(Mathf.CeilToInt(values[pointIndex])));
+            manager.GetStats().ModifyStat("Heavy Attack Maximum Travel Distance", -(Mathf.CeilToInt(values[pointIndex])));
+            manager.GetStats().ModifyStat("Heavy Attack Travel Speed", -(Mathf.CeilToInt(values[pointIndex])));
+            manager.GetStats().ModifyStat("Heavy Charge Up Time", Mathf.CeilToInt(values[pointIndex]));
 
             buffApplied = false;
         }

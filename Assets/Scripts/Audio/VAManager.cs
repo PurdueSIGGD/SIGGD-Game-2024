@@ -15,7 +15,7 @@ public class VAManager : MonoBehaviour {
     private const float VOICE_LINE_CHANCE_GAIN_PER_SECOND = 1.0f;
 
     // Start is called before the first frame update    
-    void Start() {
+    void Awake() {
         audioManager = AudioManager.Instance;
         StartCoroutine(Debug_Culling_Status());
     }

@@ -30,15 +30,15 @@ public class PoliceChiefManager : GhostManager, ISelectable
             identityName = identityName.Replace("(Clone)", "");
         }
 
-        if (!SaveManager.data.ghostSkillPts.ContainsKey(identityName))
-        {
-            SaveManager.data.ghostSkillPts.Add(identityName, new int[7]);
-        }
+        //if (!SaveManager.data.ghostSkillPts.ContainsKey(identityName))
+        //{
+        //    SaveManager.data.ghostSkillPts.Add(identityName, new int[7]);
+        //}
 
-        if (!SaveManager.data.ghostLevel.ContainsKey(identityName))
-        {
-            SaveManager.data.ghostLevel.Add(identityName, 0);
-        }
+        //if (!SaveManager.data.ghostLevel.ContainsKey(identityName))
+        //{
+        //    SaveManager.data.ghostLevel.Add(identityName, 0);
+        //}
 
     }
 
