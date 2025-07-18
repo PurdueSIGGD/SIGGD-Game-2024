@@ -15,6 +15,7 @@ public class Action
     public float priority;
     public bool ready = true;
     [SerializeField] private Transform hitBox; // The area in which if a player is inside, the action will be performed
+    [SerializeField] bool usesCircleHitbox = false;
     [SerializeField] private float coolDown;
     [SerializeField] private AnimationClip animationClip;
 
@@ -35,7 +36,16 @@ public class Action
     /// <returns> True if there is a player in range </returns>
     public virtual bool InAttackRange()
     {
-        return Physics2D.OverlapBox(hitBox.position, hitBox.lossyScale, 0f, LayerMask.GetMask("Player"));
+        return usesCircleHitbox
+
+                ? Physics2D.OverlapBox(
+                    hitBox.position,
+                    hitBox.lossyScale, 0f,
+                    LayerMask.GetMask("Player"))
+
+                : Physics2D.OverlapCircle(hitBox.position,
+                    hitBox.lossyScale.x + hitBox.lossyScale.y / 2,
+                    LayerMask.GetMask("Player"));
     }
 
     public float GetPriority()
