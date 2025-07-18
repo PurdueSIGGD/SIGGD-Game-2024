@@ -120,7 +120,7 @@ public class SaveManager : MonoBehaviour
         }
         catch (Exception e)
         {
-            Debug.LogError($"Exception while loading save data: {e}");
+            Debug.LogWarning($"Exception while loading save data: {e}");
             return;
         }
 
