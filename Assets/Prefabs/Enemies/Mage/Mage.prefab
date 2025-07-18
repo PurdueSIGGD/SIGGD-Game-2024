@@ -153,7 +153,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.016220987}
+  m_Offset: {x: -0.3817731, y: -0.37475565}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.2, y: 0.7}
@@ -164,7 +164,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1.5839494}
+  m_Size: {x: 0.9898193, y: 1.6105075}
   m_EdgeRadius: 0
 --- !u!95 &3894447656859363398
 Animator:
@@ -206,6 +206,7 @@ MonoBehaviour:
   aggroRange: 10
   isBeingKnockedBack: 0
   grounded: 1
+  groundedRayCheckLength: 1.5
   lightningDamage:
     damageStrength: 2
     damageTypes: 02000000
@@ -218,6 +219,7 @@ MonoBehaviour:
   lightningPrefab: {fileID: 3530741045561927567, guid: 3fbf525f0e6c1a04e8dc4d84879763fc,
     type: 3}
   chargeTriggerBox: {fileID: 2179027480825402844}
+  isCharging: 0
 --- !u!114 &4299196913714008640
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -285,9 +287,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Idle Speed
-    value: 5
+    value: 0
   - name: Speed
-    value: 5
+    value: 0
   - name: Damage
     value: 15
   - name: Pause Timer Duration Min
@@ -336,7 +338,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 1.36}
+  m_AnchoredPosition: {x: -0.338, y: 0.76}
   m_SizeDelta: {x: 3, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &5830312214364521733

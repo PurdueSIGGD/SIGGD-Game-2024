@@ -10,6 +10,7 @@ public class Mage : EnemyStateManager
 {
 
     private GameObject lightningObject;   // reference to the MageLightningAttack GameObject itself
+    private MageLightningAttack lightningScript;
 
     [Header("Lightning Attack")]
 
@@ -20,29 +21,58 @@ public class Mage : EnemyStateManager
 
     [SerializeField] private GameObject lightningPrefab;
     [SerializeField] GameObject chargeTriggerBox;
+    [SerializeField] bool isCharging;
 
-    // Starting to cast lightning
-    public void Attack()
+    public void StartCharge()
     {
-        // spawn a lightning prefab
         lightningObject = Instantiate(lightningPrefab, player.position, Quaternion.identity);
-        MageLightningAttack attack = lightningObject.GetComponent<MageLightningAttack>();
+        lightningScript = lightningObject.GetComponent<MageLightningAttack>();
 
         lightningDamage.damage = stats.ComputeValue("Damage");
-        attack.Initialize(player.position, lightningRadius, lightningDamage, lightningChargeDuration, gameObject);
-        attack.StartCharging();
+        lightningScript.Initialize(player.position, lightningRadius, lightningDamage, lightningChargeDuration, gameObject);
+
+        isCharging = true;
+    }
+
+    public void ActivateLightning()
+    {
+        lightningScript.LightningPhase();
+    }
+
+    public void EndLightning()
+    {
+        isCharging = false;
+        lightningScript.Fizzle();
+        lightningObject = null;
+        lightningScript = null;
     }
 
     void Update()
     {
-
+        // manually flip the mage to face the player while charging attack
+        if (isCharging)
+        {
+            if (player.position.x - transform.position.x < 0)
+            {
+                Flip(false);
+            }
+            else
+            {
+                Flip(true);
+            }
+        }
     }
 
+    public override bool HasLineOfSight(bool tracking)
+    {
+        // override L.O.S. calculation to be really super generous to the mage rather than require direct L.O.S.
+        return Physics2D.OverlapCircle(chargeTriggerBox.transform.position, chargeTriggerBox.transform.lossyScale.x, LayerMask.GetMask("Player"));
+    }
 
     // Draws the Mage's attack range
     protected override void OnDrawGizmos()
     {
         base.OnDrawGizmos();
-        //Gizmos.DrawWireSphere(transform.position, chargeTriggerBox.transform.lossyScale.x);
+        Gizmos.DrawWireSphere(transform.position, chargeTriggerBox.transform.lossyScale.x);
     }
 }

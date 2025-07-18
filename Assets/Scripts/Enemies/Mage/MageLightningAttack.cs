@@ -6,7 +6,7 @@ public class MageLightningAttack : MonoBehaviour
     [SerializeField] private float ringSpinSpeed = 2f;
     [SerializeField] private float particlesDuration = 2f;
     [SerializeField] private ParticleSystem particleSys;
-    
+
     private Animator animator;
     [SerializeField] private GameObject ringGameObject;
     private SpriteRenderer ringSpriteRenderer;
@@ -22,7 +22,6 @@ public class MageLightningAttack : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         ringSpriteRenderer = ringGameObject.GetComponent<SpriteRenderer>();
-        //spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     private void FixedUpdate()
@@ -37,38 +36,19 @@ public class MageLightningAttack : MonoBehaviour
     // Invoke this method right after instantiating this GameObject
     public void Initialize(Vector2 attackPosition, float attackRadius, DamageContext damageContext, float chargeDuration, GameObject sourceMage)
     {
-        //Debug.Log("Mage attack init");
         this.attackPosition = attackPosition;
         this.attackRadius = attackRadius;
         this.damageContext = damageContext;
         this.chargeDuration = chargeDuration;
         this.sourceMage = sourceMage;
-        
+
         transform.position = attackPosition;  // update position
 
         UpdateSpriteSize();  // update the sprite size
     }
 
-    // Starts the charging animation and the attack as a coroutine
-    // Make sure to call this only after Initialize() has been called
-    public void StartCharging()
+    public void LightningPhase()
     {
-        animator.Play("Charging");
-
-        //Debug.Log("starting charging");
-
-        StartCoroutine(Attack(chargeDuration));
-    }
-
-    
-    // Waits for a certain number of seconds and actually applies the attack
-    // If you want to activate this attack, invoke StartCharging() instead of this method
-    private IEnumerator Attack(float seconds)
-    {
-        yield return new WaitForSeconds(seconds);
-
-        //Debug.Log("actual attack");
-
         // Making the lightning ring white as a VFX
         ringSpriteRenderer.color = Color.white;
 
@@ -82,20 +62,10 @@ public class MageLightningAttack : MonoBehaviour
         if (hit)
         {
             hit.GetComponent<Health>().Damage(damageContext, sourceMage);
-            
-            //Debug.Log("HIT");
-            //hit.GetComponent<Health>().Damage(damageContext, sourceMage);
         }
-
-        StartCoroutine(SelfDestruct(particlesDuration));
     }
-
-    private IEnumerator SelfDestruct(float seconds)
+    public void Fizzle()
     {
-        yield return new WaitForSeconds(seconds);
-
-        //Debug.Log("actual destruct");
-
         Destroy(gameObject);
     }
 
