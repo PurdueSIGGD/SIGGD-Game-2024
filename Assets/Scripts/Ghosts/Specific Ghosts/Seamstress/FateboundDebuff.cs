@@ -33,6 +33,10 @@ public class FateboundDebuff : MonoBehaviour
     {
         if (context.victim == gameObject)
         {
+
+            // Handle Scrap Saver Skill
+            manager.gameObject.GetComponent<ScrapSaver>().HandleEnemyDefeated();
+
             manager.RemoveFromLink(gameObject.GetInstanceID());
             RemoveShareDamage();
         }

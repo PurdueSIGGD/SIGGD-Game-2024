@@ -1,4 +1,4 @@
-#define DEBUG_LOG
+//#define DEBUG_LOG
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,11 +16,6 @@ public class ScrapSaver : Skill
     private void Start()
     {
         manager = gameObject.GetComponent<SeamstressManager>();
-    }
-
-    private void Enable()
-    {
-        numEnemiesDefeated = 0;
     }
 
     /// <summary>
@@ -53,7 +48,7 @@ public class ScrapSaver : Skill
         }
 
 #if DEBUG_LOG
-        Debug.Log("Yume Scrap Saver: Enemies defeated/needede " + numEnemiesDefeated + "/" + CalculateNumEnemiesNeeded());
+        Debug.Log("Yume Scrap Saver: Enemies defeated/needed " + numEnemiesDefeated + "/" + CalculateNumEnemiesNeeded() + " points " + GetPoints());
 #endif
     }
 
