@@ -18,9 +18,9 @@ public class SaveData
     public int[] silasSkillPts = new int[8];
     public int[] aegisSkillPts = new int[8];
 
-    public EvaData eva;
-    public YumeData yume;
-    public AegisData aegis;
+    public EvaData eva = new();
+    public YumeData yume = new();
+    public AegisData aegis = new();
 }
 
 

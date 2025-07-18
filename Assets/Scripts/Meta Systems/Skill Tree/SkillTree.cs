@@ -85,15 +85,20 @@ public class SkillTree : MonoBehaviour
         list.Add(TIER_3);
 
         steps = list.ToArray();
-    }
-
-    private void Start()
-    {
+        
         for (int i = 0; i < startAtLevel; i++)
         {
             LevelUp();
         }
     }
+
+    //private void Start()
+    //{
+    //    for (int i = 0; i < startAtLevel; i++)
+    //    {
+    //        LevelUp();
+    //    }
+    //}
 
     private void Update()
     {
