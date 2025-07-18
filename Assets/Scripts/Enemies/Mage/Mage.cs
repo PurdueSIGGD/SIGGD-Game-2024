@@ -17,8 +17,6 @@ public class Mage : EnemyStateManager
     //[SerializeField] private float lightningDamage = 25;
     [SerializeField] private DamageContext lightningDamage;
     [SerializeField] private float lightningRadius;   // the size of the ACTUAL lightning attack
-    [SerializeField] private float lightningChargeDuration;  // how long in seconds the lightning is charging before damage is applied
-
     [SerializeField] private GameObject lightningPrefab;
     [SerializeField] GameObject chargeTriggerBox;
     [SerializeField] bool isCharging;
@@ -29,9 +27,14 @@ public class Mage : EnemyStateManager
         lightningScript = lightningObject.GetComponent<MageLightningAttack>();
 
         lightningDamage.damage = stats.ComputeValue("Damage");
-        lightningScript.Initialize(player.position, lightningRadius, lightningDamage, lightningChargeDuration, gameObject);
+        lightningScript.Initialize(player.position, lightningRadius, lightningDamage, gameObject);
 
         isCharging = true;
+    }
+
+    public void StopFollow()
+    {
+        lightningScript.StopFollow();
     }
 
     public void ActivateLightning()
@@ -47,22 +50,6 @@ public class Mage : EnemyStateManager
         lightningScript = null;
     }
 
-    void Update()
-    {
-        // manually flip the mage to face the player while charging attack
-        if (isCharging)
-        {
-            if (player.position.x - transform.position.x < 0)
-            {
-                Flip(false);
-            }
-            else
-            {
-                Flip(true);
-            }
-        }
-    }
-
     public override bool HasLineOfSight(bool tracking)
     {
         // override L.O.S. calculation to be really super generous to the mage rather than require direct L.O.S.
@@ -74,5 +61,9 @@ public class Mage : EnemyStateManager
     {
         base.OnDrawGizmos();
         Gizmos.DrawWireSphere(transform.position, chargeTriggerBox.transform.lossyScale.x);
+    }
+    void OnDestroy()
+    {
+        lightningScript.MageDeathHandler();
     }
 }

@@ -14,8 +14,8 @@ public class MageLightningAttack : MonoBehaviour
     private Vector2 attackPosition;   // where the attack will be created
     private float attackRadius;   // the size of the lightning
     private DamageContext damageContext;  // Note: if you want to modify lightning damage context, go to Mage enemy prefab
-    private float chargeDuration = 1;   // how many seconds before damage is applied
     private GameObject sourceMage;  // reference to the Mage who casted this attack
+    bool followPlayer;
 
 
     private void Awake()
@@ -30,21 +30,32 @@ public class MageLightningAttack : MonoBehaviour
         {
             ringGameObject.transform.Rotate(0, 0, ringSpinSpeed);
         }
+        // follow player
+        if (followPlayer && PlayerID.instance.gameObject)
+        {
+            transform.position = PlayerID.instance.gameObject.transform.position;
+        }
     }
 
     // Sets all instance variables and updates position (similar to a constructor)
     // Invoke this method right after instantiating this GameObject
-    public void Initialize(Vector2 attackPosition, float attackRadius, DamageContext damageContext, float chargeDuration, GameObject sourceMage)
+    public void Initialize(Vector2 attackPosition, float attackRadius, DamageContext damageContext, GameObject sourceMage)
     {
         this.attackPosition = attackPosition;
         this.attackRadius = attackRadius;
         this.damageContext = damageContext;
-        this.chargeDuration = chargeDuration;
         this.sourceMage = sourceMage;
+        followPlayer = true;
 
         transform.position = attackPosition;  // update position
 
         UpdateSpriteSize();  // update the sprite size
+    }
+
+    public void StopFollow()
+    {
+        followPlayer = false;
+        ringSpriteRenderer.color = Color.red;
     }
 
     public void LightningPhase()
@@ -67,6 +78,28 @@ public class MageLightningAttack : MonoBehaviour
     public void Fizzle()
     {
         Destroy(gameObject);
+    }
+
+    /// <summary>
+    /// Trigger an automatic sequence if mage dies while spell is active
+    /// </summary>
+    public void MageDeathHandler()
+    {
+        StartCoroutine(MageDeathHandlerCoroutine());
+    }
+    IEnumerator MageDeathHandlerCoroutine()
+    {
+        StopFollow();
+        float flickerTime = 1;
+        int numFlickers = 20;
+        for (int i = 0; i < numFlickers; i++)
+        {
+            ringSpriteRenderer.color = i % 2 == 0 ? Color.red : Color.white;
+            yield return new WaitForSeconds(flickerTime / numFlickers);
+        }
+        LightningPhase();
+        yield return new WaitForSeconds(0.5f);
+        Fizzle();
     }
 
     // Draws the size of the area attack
