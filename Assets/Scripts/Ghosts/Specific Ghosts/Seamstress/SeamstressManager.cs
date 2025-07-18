@@ -29,6 +29,9 @@ public class SeamstressManager : GhostManager
 
     private LineRenderer lineRenderer;
 
+    private ScrapSaver scrapSaverSkill = null;
+
+
     // Used to keep track of the all chaind enmeies
     class ChainedEnemy
     {
@@ -47,6 +50,7 @@ public class SeamstressManager : GhostManager
 
         durationCounter = GetStats().ComputeValue("Fatebound Duration");
         spools = SaveManager.data.yume.spoolCount;
+        scrapSaverSkill = gameObject.GetComponent<ScrapSaver>();
     }
 
     protected override void Update()
@@ -174,6 +178,11 @@ public class SeamstressManager : GhostManager
     /// <param name="enemyID"> The instance id of the enemy being removed </param>
     public void RemoveFromLink(int enemyID)
     {
+
+        // Handle Scrap Saver Skill
+        scrapSaverSkill.HandleEnemyDefeated();
+
+
         ptr = head;
 
         if (ptr.enemy != null && ptr.enemy.GetInstanceID() == enemyID)
