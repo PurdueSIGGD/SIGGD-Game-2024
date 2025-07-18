@@ -38,7 +38,8 @@ public class HeavyAttack : MonoBehaviour, IStatList
 
         Vector3 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         Vector3 mouseDiff = transform.position - mousePos;
-        if (isCharging || isPrimed) {
+        if (isCharging || isPrimed)
+        {
             if (mouseDiff.x < 0) // update player facing direction
             {
                 transform.rotation = Quaternion.Euler(0, 0, 0);
@@ -100,6 +101,7 @@ public class HeavyAttack : MonoBehaviour, IStatList
             if (hit.transform.gameObject.CompareTag("Enemy"))
             {
                 Debug.Log("Heavy Attack Hit: " + hit.transform.gameObject.name);
+                manager.heavyDamage.raycastHitPosition = new Vector2(transform.position.x, transform.position.y);
                 hit.transform.gameObject.GetComponent<Health>().Damage(manager.heavyDamage, gameObject);
                 if (hit.transform.gameObject.GetComponent<EnemyStateManager>() != null)
                 {

@@ -82,7 +82,7 @@ public class LightAttack : MonoBehaviour, IStatList
 
     public void InitializeLightAttack()
     {
-        
+
         playerStateMachine.SetLightAttackRecoveryState(false);
         //playerStateMachine.ConsumeLightAttackInput();
         playerStateMachine.SetLightAttack2Ready(!playerStateMachine.isLightAttack2Ready);
@@ -344,6 +344,8 @@ public class LightAttack : MonoBehaviour, IStatList
             }
             foreach (IDamageable damageable in h.collider.gameObject.GetComponents<IDamageable>())
             {
+                Vector2 hitPos = h.point;
+                lightDamage.raycastHitPosition = hitPos;
                 damageable.Damage(lightDamage, gameObject);
             }
         }
