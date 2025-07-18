@@ -10,7 +10,7 @@ using UnityEngine;
 public class ScrapSaver : Skill
 {
 
-    private int numEnemiesUntilNextSpool = 0; // Counts down, when 0 spool is added
+    private int numEnemiesDefeated = 0; // Counts up
     private SeamstressManager manager = null;
 
     private void Start()
@@ -20,7 +20,7 @@ public class ScrapSaver : Skill
 
     private void Enable()
     {
-        numEnemiesUntilNextSpool = CalculateNumEnemiesNeeded();
+        numEnemiesDefeated = 0;
     }
 
     /// <summary>
@@ -35,12 +35,12 @@ public class ScrapSaver : Skill
     {
         if (GetPoints() <= 0) { return; }
 
-        // Count down
-        numEnemiesUntilNextSpool--;
+        // Count up
+        numEnemiesDefeated++;
 
-        if (numEnemiesUntilNextSpool <= 0)
+        if (numEnemiesDefeated >= CalculateNumEnemiesNeeded())
         {
-            numEnemiesUntilNextSpool = CalculateNumEnemiesNeeded();
+            numEnemiesDefeated = 0;
 
             // Add spool
             manager.AddSpools(1);
@@ -53,7 +53,7 @@ public class ScrapSaver : Skill
         }
 
 #if DEBUG_LOG
-        Debug.Log("Yume Scrap Saver: Enemies until next spool " + numEnemiesUntilNextSpool);
+        Debug.Log("Yume Scrap Saver: Enemies defeated/needede " + numEnemiesDefeated + "/" + CalculateNumEnemiesNeeded());
 #endif
     }
 
