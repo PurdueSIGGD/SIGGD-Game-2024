@@ -74,7 +74,8 @@ public enum DamageType
 /// <summary>
 /// Struct that contains context for a damage instance.
 /// </summary>
-[Serializable] public struct DamageContext
+[Serializable]
+public struct DamageContext
 {
     /// <summary>
     /// The GameObject that is inflicting damage.
@@ -116,12 +117,17 @@ public enum DamageType
     /// An arbitrary string containing any extra information the user wishes to relay through this damage instance.
     /// </summary>
     public string extraContext;
+    /// <summary>
+    /// Optional: The point at which a raycast attack hit the collider to trigger the damage effect.
+    /// </summary>
+    public Vector2 raycastHitPosition;
 }
 
 /// <summary>
 /// Struct that contains context for a healing instance.
 /// </summary>
-[Serializable] public struct HealingContext
+[Serializable]
+public struct HealingContext
 {
     /// <summary>
     /// The GameObject that is providing healing.
@@ -160,7 +166,8 @@ public enum DamageType
 /// <summary>
 /// Struct that contains context for an action instance.
 /// </summary>
-[Serializable] public struct ActionContext
+[Serializable]
+public struct ActionContext
 {
     /// <summary>
     /// An identifier for this action.
