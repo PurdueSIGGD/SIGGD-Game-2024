@@ -55,7 +55,7 @@ public class MoveState : IEnemyStates
         //    return;
         //}
 
-        if (!(enemy.isFlyer || enemy.isGrounded())) return;
+        if (!enemy.isFlyer && !enemy.isGrounded()) return;
 
         float speed = enemy.stats.ComputeValue("Speed");
         rb.velocity = new Vector2(speed * enemy.transform.right.x, rb.velocity.y);

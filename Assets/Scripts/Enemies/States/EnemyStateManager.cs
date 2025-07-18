@@ -26,6 +26,7 @@ public class EnemyStateManager : MonoBehaviour
     public bool isBeingKnockedBack;
     protected float currentKnockbackDurationTime;
     [SerializeField] protected bool grounded;
+    [SerializeField] float groundedRayCheckLength = 1;
 
     protected virtual void Awake()
     {
@@ -35,7 +36,7 @@ public class EnemyStateManager : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         pool = GetComponent<ActionPool>();
         pool.enemy = this;
-        isBeingKnockedBack = false;        
+        isBeingKnockedBack = false;
     }
 
     protected virtual void Start()
@@ -55,7 +56,7 @@ public class EnemyStateManager : MonoBehaviour
             curState.UpdateState(this);
             if (isFlyer) rb.gravityScale = 0f;
         }
-		
+
         UpdateKnockbackTime();
         isGrounded();
     }
@@ -170,8 +171,8 @@ public class EnemyStateManager : MonoBehaviour
     /// <returns>Returns true if the enemy is on the ground.</returns>
     public bool isGrounded()
     {
-        Debug.DrawRay(transform.position, Vector2.down, Color.blue);
-        return grounded = Physics2D.Raycast(transform.position, Vector2.down, 1f, LayerMask.GetMask("Ground"));
+        Debug.DrawRay(transform.position, Vector2.down * groundedRayCheckLength, Color.blue);
+        return grounded = Physics2D.Raycast(transform.position, Vector2.down, groundedRayCheckLength, LayerMask.GetMask("Ground"));
     }
 
     /// <summary>
