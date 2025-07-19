@@ -38,14 +38,15 @@ public class Action
     {
         return usesCircleHitbox
 
-                ? Physics2D.OverlapBox(
-                    hitBox.position,
-                    hitBox.lossyScale, 0f,
+                ? Physics2D.OverlapCircle(hitBox.position,
+                    hitBox.lossyScale.x + hitBox.lossyScale.y / 2,
                     LayerMask.GetMask("Player"))
 
-                : Physics2D.OverlapCircle(hitBox.position,
-                    hitBox.lossyScale.x + hitBox.lossyScale.y / 2,
+                : Physics2D.OverlapBox(
+                    hitBox.position,
+                    hitBox.lossyScale, 0f,
                     LayerMask.GetMask("Player"));
+
     }
 
     public float GetPriority()
