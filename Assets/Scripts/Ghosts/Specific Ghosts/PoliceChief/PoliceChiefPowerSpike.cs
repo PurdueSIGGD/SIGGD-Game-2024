@@ -15,7 +15,6 @@ public class PoliceChiefPowerSpike : Skill
 
     [SerializeField] private float immediateTimeframe = 0.25f;
     private bool reset = true;
-    //private PlayerStateMachine playerStateMachine;
 
     public override void AddPointTrigger()
     {
@@ -33,18 +32,15 @@ public class PoliceChiefPowerSpike : Skill
     void Start()
     {
         if (pointIndex <= 0) pointIndex = 0;
-        //playerStateMachine = PlayerID.instance.GetComponent<PlayerStateMachine>();
     }
 
     private void OnEnable()
     {
-        //GameplayEventHolder.OnAbilityUsed += OnAbilityUse;
         GameplayEventHolder.OnDamageFilter.Add(OnDamage);
     }
 
     void OnDisable()
     {
-        //GameplayEventHolder.OnAbilityUsed -= OnAbilityUse;
         GameplayEventHolder.OnDamageFilter.Remove(OnDamage);
     }
 
@@ -60,21 +56,6 @@ public class PoliceChiefPowerSpike : Skill
             AudioManager.Instance.SFXBranch.GetSFXTrack("North-Sidearm Attack").SetPitch(0.2f, 1f);
             ableToCrit = false;
         }
-
-        /*
-        string currentAnim = playerStateMachine.currentAnimation;
-        if (reset && currentBuff > 0 && currentAnim.Equals("sidearm_primed") && timer < 0f)
-        {
-            timer = immediateTimeframe;
-            ableToCrit = true;
-            reset = false;
-        }
-
-        if (currentBuff > 0 && currentAnim.Equals("player_idle"))
-        {
-            reset = true;
-        }
-        */
     }
 
     public void StartCritTimer()
@@ -92,30 +73,8 @@ public class PoliceChiefPowerSpike : Skill
         timer = 0f;
     }
 
-    /*
-    void OnAbilityUse(ActionContext context)
-    {
-        if (timer > 0.0f)
-        {
-            critHit = true;
-        }
-        else
-        {
-            critHit = false;
-        }
-    }
-    */
-
     void OnDamage(ref DamageContext context)
     {
-        /*
-        if (currentBuff != -1.0f && critHit && context.actionID == ActionID.POLICE_CHIEF_BASIC)
-        {
-            critHit = false;
-            context.damage *= currentBuff;
-        }
-        */
-
         if (pointIndex > 0 && ableToCrit && context.actionID == ActionID.POLICE_CHIEF_BASIC && !context.actionTypes.Contains(ActionType.SKILL))
         {
             context.damage *= values[pointIndex];
