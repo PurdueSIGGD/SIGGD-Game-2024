@@ -64,6 +64,9 @@ public class Mage : EnemyStateManager
     }
     void OnDestroy()
     {
-        lightningScript.MageDeathHandler();
+        if (lightningScript)
+        {
+            lightningScript.MageDeathHandler();
+        }
     }
 }

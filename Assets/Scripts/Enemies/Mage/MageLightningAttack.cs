@@ -16,6 +16,7 @@ public class MageLightningAttack : MonoBehaviour
     private DamageContext damageContext;  // Note: if you want to modify lightning damage context, go to Mage enemy prefab
     private GameObject sourceMage;  // reference to the Mage who casted this attack
     bool followPlayer;
+    bool lightningActive;
 
 
     private void Awake()
@@ -46,6 +47,7 @@ public class MageLightningAttack : MonoBehaviour
         this.damageContext = damageContext;
         this.sourceMage = sourceMage;
         followPlayer = true;
+        lightningActive = false;
 
         transform.position = attackPosition;  // update position
 
@@ -61,6 +63,7 @@ public class MageLightningAttack : MonoBehaviour
     public void LightningPhase()
     {
         // Making the lightning ring white as a VFX
+        lightningActive = true;
         ringSpriteRenderer.color = Color.white;
 
         if (particleSys != null)
@@ -81,24 +84,40 @@ public class MageLightningAttack : MonoBehaviour
     }
 
     /// <summary>
-    /// Trigger an automatic sequence if mage dies while spell is active
+    /// Trigger an automatic sequence if mage dies while spell is active.
+    /// 
+    /// Since the lightning attack sequence timing is typically handled by
+    /// mage animation events, once the mage dies, the lightning attack needs
+    /// to keep going depending on what stage it is currently at.
+    /// 
+    /// It's like sending your kid off to college.
     /// </summary>
     public void MageDeathHandler()
     {
+        // cancel spell entirely if in the tracking phase
+        if (followPlayer)
+        {
+            Fizzle();
+        }
         StartCoroutine(MageDeathHandlerCoroutine());
     }
     IEnumerator MageDeathHandlerCoroutine()
     {
-        StopFollow();
-        float flickerTime = 1;
-        int numFlickers = 20;
-        for (int i = 0; i < numFlickers; i++)
+        // flashing warning lights and delayed attack if in the warning phase
+        if (!lightningActive)
         {
-            ringSpriteRenderer.color = i % 2 == 0 ? Color.red : Color.white;
-            yield return new WaitForSeconds(flickerTime / numFlickers);
+            float flickerTime = 1;
+            int numFlickers = 20;
+            for (int i = 0; i < numFlickers; i++)
+            {
+                ringSpriteRenderer.color = i % 2 == 0 ? Color.red : Color.white;
+                yield return new WaitForSeconds(flickerTime / numFlickers);
+            }
+            // transition to lightning phase after the flickering warning time is done
+            LightningPhase();
         }
-        LightningPhase();
-        yield return new WaitForSeconds(0.5f);
+        // if already in the lightning phase, continue for a little bit and then end
+        yield return new WaitForSeconds(0.25f);
         Fizzle();
     }
 
