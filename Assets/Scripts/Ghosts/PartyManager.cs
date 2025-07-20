@@ -280,6 +280,11 @@ public class PartyManager : MonoBehaviour
         return ghostsInParty.Contains(ghost.name.Replace("(Clone)", ""));
     }
 
+    public bool IsGhostInParty(string ghostName)
+    {
+        return ghostsInParty.Contains(ghostName.Replace("(Clone)", ""));
+    }
+
     /// <summary>
     /// Enable or disable the ability to swap the active ghost. If a swap is attempted while disabled, the input is buffered for 0.3 seconds.
     /// </summary>

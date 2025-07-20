@@ -53,11 +53,12 @@ public class KingBasic : MonoBehaviour
 
     public void StopHeavyChargeUp()
     {
+        float maxHealth = manager.GetStats().ComputeValue("Shield Max Health");
+
         isShielding = false;
         if (manager.getBasicCooldown() <= 0f) manager.endShieldHealth = manager.currentShieldHealth;
-        float maxCooldown = manager.GetStats().ComputeValue("Shield Max Health") / manager.GetStats().ComputeValue("Shield Health Regeneration Rate");
-        float cooldownMultiplier = (manager.GetStats().ComputeValue("Shield Max Health") - manager.currentShieldHealth - manager.GetStats().ComputeValue("Shield Health Cooldown Threshold"))
-                                   / manager.GetStats().ComputeValue("Shield Max Health");
+        float maxCooldown = maxHealth / manager.GetStats().ComputeValue("Shield Health Regeneration Rate");
+        float cooldownMultiplier = (maxHealth - manager.currentShieldHealth + manager.GetStats().ComputeValue("Shield Health Cooldown Threshold")) / maxHealth;
         manager.setBasicCooldown(maxCooldown * cooldownMultiplier);
 
         // VFX
