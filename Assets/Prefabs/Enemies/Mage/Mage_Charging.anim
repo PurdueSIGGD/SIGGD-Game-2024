@@ -17,21 +17,82 @@ AnimationClip:
   m_PositionCurves: []
   m_ScaleCurves: []
   m_FloatCurves: []
-  m_PPtrCurves: []
+  m_PPtrCurves:
+  - serializedVersion: 2
+    curve:
+    - time: 0
+      value: {fileID: 21300000, guid: d60ff7e2ca1789b4c8427de26f1390d2, type: 3}
+    - time: 0.083333336
+      value: {fileID: 21300000, guid: 4965ca93375f67f41a13101507a3c6b4, type: 3}
+    - time: 0.16666667
+      value: {fileID: 21300000, guid: 638dc400732a61b469412f167c18f629, type: 3}
+    - time: 0.25
+      value: {fileID: 21300000, guid: d1dffbff03d19ae4780df4a1917f30dc, type: 3}
+    - time: 0.33333334
+      value: {fileID: 21300000, guid: 6635c06a933fe164892f6819211ede4a, type: 3}
+    - time: 0.5
+      value: {fileID: 21300000, guid: f3cdfa386bfc4ea42be85939dad2eecc, type: 3}
+    - time: 0.6666667
+      value: {fileID: 21300000, guid: 55f2606c8a6ca64409c941895991696b, type: 3}
+    - time: 0.8333333
+      value: {fileID: 21300000, guid: f3cdfa386bfc4ea42be85939dad2eecc, type: 3}
+    - time: 1
+      value: {fileID: 21300000, guid: 55f2606c8a6ca64409c941895991696b, type: 3}
+    - time: 1.1666666
+      value: {fileID: 21300000, guid: f7a5ac4a1d5ae97488a5b4f11d92d254, type: 3}
+    - time: 1.3333334
+      value: {fileID: 21300000, guid: 29aca4885c653684dbe91b4e794bb421, type: 3}
+    - time: 1.6666666
+      value: {fileID: 21300000, guid: c49d356feba9d94409779fe625ebee56, type: 3}
+    - time: 1.8333334
+      value: {fileID: 21300000, guid: 8b5a246079b307f45a4cd9ae88d93e5f, type: 3}
+    - time: 1.9166666
+      value: {fileID: 21300000, guid: 8e22b6a87c4617144b697e305854f800, type: 3}
+    - time: 2
+      value: {fileID: 21300000, guid: c91552e116805e342be0eab94bf3f385, type: 3}
+    attribute: m_Sprite
+    path: 
+    classID: 212
+    script: {fileID: 0}
+    flags: 2
   m_SampleRate: 60
   m_WrapMode: 0
   m_Bounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
   m_ClipBindingConstant:
-    genericBindings: []
-    pptrCurveMapping: []
+    genericBindings:
+    - serializedVersion: 2
+      path: 0
+      attribute: 0
+      script: {fileID: 0}
+      typeID: 212
+      customType: 23
+      isPPtrCurve: 1
+      isIntCurve: 0
+      isSerializeReferenceCurve: 0
+    pptrCurveMapping:
+    - {fileID: 21300000, guid: d60ff7e2ca1789b4c8427de26f1390d2, type: 3}
+    - {fileID: 21300000, guid: 4965ca93375f67f41a13101507a3c6b4, type: 3}
+    - {fileID: 21300000, guid: 638dc400732a61b469412f167c18f629, type: 3}
+    - {fileID: 21300000, guid: d1dffbff03d19ae4780df4a1917f30dc, type: 3}
+    - {fileID: 21300000, guid: 6635c06a933fe164892f6819211ede4a, type: 3}
+    - {fileID: 21300000, guid: f3cdfa386bfc4ea42be85939dad2eecc, type: 3}
+    - {fileID: 21300000, guid: 55f2606c8a6ca64409c941895991696b, type: 3}
+    - {fileID: 21300000, guid: f3cdfa386bfc4ea42be85939dad2eecc, type: 3}
+    - {fileID: 21300000, guid: 55f2606c8a6ca64409c941895991696b, type: 3}
+    - {fileID: 21300000, guid: f7a5ac4a1d5ae97488a5b4f11d92d254, type: 3}
+    - {fileID: 21300000, guid: 29aca4885c653684dbe91b4e794bb421, type: 3}
+    - {fileID: 21300000, guid: c49d356feba9d94409779fe625ebee56, type: 3}
+    - {fileID: 21300000, guid: 8b5a246079b307f45a4cd9ae88d93e5f, type: 3}
+    - {fileID: 21300000, guid: 8e22b6a87c4617144b697e305854f800, type: 3}
+    - {fileID: 21300000, guid: c91552e116805e342be0eab94bf3f385, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 1
+    m_StopTime: 2.0166667
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -50,4 +111,39 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events: []
+  m_Events:
+  - time: 0.26666668
+    functionName: StartCharge
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.6666667
+    functionName: StopFollow
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 1.35
+    functionName: ActivateLightning
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 1.6666666
+    functionName: EndLightning
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 2
+    functionName: OnFinishAnimation
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
