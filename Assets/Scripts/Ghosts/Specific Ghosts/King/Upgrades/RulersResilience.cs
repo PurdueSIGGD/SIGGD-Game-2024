@@ -38,7 +38,7 @@ public class RulersResilience : Skill
     public override void AddPointTrigger() {
         // In Party?
 
-        if (!PartyManager.instance.IsGhostInParty(identityName))
+        if (GetManager() == null || GetManager().GetStats() == null)
         {
             return;
         }
@@ -47,7 +47,7 @@ public class RulersResilience : Skill
     public override void ClearPointsTrigger() {
         // In Party?
 
-        if (!PartyManager.instance.IsGhostInParty(identityName))
+        if (GetManager() == null || GetManager().GetStats() == null)
         {
             return;
         }
@@ -56,7 +56,7 @@ public class RulersResilience : Skill
     public override void RemovePointTrigger() {
         // In Party?
 
-        if (!PartyManager.instance.IsGhostInParty(identityName))
+        if (GetManager() == null || GetManager().GetStats() == null)
         {
             return;
         }
