@@ -7,17 +7,24 @@ public class Knight : EnemyStateManager
     [Header("Sword Attack")]
     [SerializeField] protected Transform swordTrigger;
     [SerializeField] protected DamageContext swordDamage;
+    [SerializeField] float damageVal;
+    [SerializeField] GameObject swingVisual;
+
 
     protected override void Start()
     {
         base.Start();
-        swordDamage.damage = 20.0f;
+        swordDamage.damage = damageVal;
     }
-
     // Check for collision in swing range to deal damage
     protected void OnSlashEvent()
     {
         GenerateDamageFrame(swordTrigger.position, swordTrigger.lossyScale.x, swordTrigger.lossyScale.y, swordDamage, gameObject);
+        swingVisual.SetActive(true);
+    }
+    protected void OnEndSlash()
+    {
+        swingVisual.SetActive(false);
     }
 
     // Draws the Enemy attack range in the editor
