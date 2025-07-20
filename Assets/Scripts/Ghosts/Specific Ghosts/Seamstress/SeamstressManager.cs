@@ -174,6 +174,7 @@ public class SeamstressManager : GhostManager
     /// <param name="enemyID"> The instance id of the enemy being removed </param>
     public void RemoveFromLink(int enemyID)
     {
+
         ptr = head;
 
         if (ptr.enemy != null && ptr.enemy.GetInstanceID() == enemyID)

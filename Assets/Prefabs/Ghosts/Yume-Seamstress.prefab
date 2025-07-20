@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 6584130053324715732}
   - component: {fileID: 6038404173171518364}
   - component: {fileID: 670032466409933237}
+  - component: {fileID: 5978596217540347318}
   m_Layer: 17
   m_Name: Yume-Seamstress
   m_TagString: Ghost
@@ -370,7 +371,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skills:
-  - {fileID: 670032466409933237}
+  - {fileID: 5978596217540347318}
   - {fileID: 670032466409933237}
   - {fileID: 670032466409933237}
   - {fileID: 670032466409933237}
@@ -391,7 +392,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 0}
-  skillIndex: 0
+--- !u!114 &5978596217540347318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981645078808632434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed2d432d24f249042bdb8e068868965d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillSO: {fileID: 11400000, guid: 1db5f989da2802d4d86ae150ab0f9f74, type: 2}
 --- !u!1 &4936111184687609786
 GameObject:
   m_ObjectHideFlags: 0
