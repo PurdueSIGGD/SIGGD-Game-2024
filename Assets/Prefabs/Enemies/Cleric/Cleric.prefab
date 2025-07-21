@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4944585375890722224}
   m_Layer: 0
-  m_Name: CastRadius
+  m_Name: ChannelTriggerBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26,7 +26,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.06701471, y: 0.29577723, z: -0.0054552634}
-  m_LocalScale: {x: 10, y: 10, z: 10}
+  m_LocalScale: {x: 12, y: 12, z: 12}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 4932421612925103064}
@@ -248,10 +248,10 @@ MonoBehaviour:
     extraContext: 
     raycastHitPosition: {x: 0, y: 0}
   swingDamage: 0
-  channelTriggerBox: {fileID: 0}
-  maxChannelRadius: 0
-  bubble: {fileID: 0}
-  bubbleMissCooldown: 0
+  channelTriggerBox: {fileID: 1986142665454310588}
+  maxChannelRadius: 12
+  bubble: {fileID: 8985519509906945407, guid: 3786d48ed23cb20459a0b41b46dec86d, type: 3}
+  bubbleMissCooldown: 1
 --- !u!114 &4982090033555401577
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -281,7 +281,7 @@ MonoBehaviour:
     coolDown: 8
     animationClip: {fileID: 7400000, guid: ee6250f7e50535d45867c9d8c62c1417, type: 2}
   - name: bubble_check
-    priority: 10
+    priority: 1
     ready: 1
     hitBox: {fileID: 4944585375890722224}
     usesCircleHitbox: 1
