@@ -7,7 +7,8 @@ using UnityEngine;
 /// </summary>
 public class EnterHub : MonoBehaviour
 {
-    [SerializeField] GameObject north;
+    [SerializeField] GhostInteract north;
+    [SerializeField] ConvoSO northHubEntrance;
 
     void Awake()
     {
@@ -22,7 +23,7 @@ public class EnterHub : MonoBehaviour
     {
         if (SaveManager.data.north.storyProgress == 1)
         {
-            
+            north.SetConvo(northHubEntrance);
         }
     }
 }
