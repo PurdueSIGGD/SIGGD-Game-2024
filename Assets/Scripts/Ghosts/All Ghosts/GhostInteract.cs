@@ -12,14 +12,12 @@ public class GhostInteract : InRangeInteract, IParty
     [SerializeField] private bool isFirstInteraction;
     [SerializeField] private bool isNPC;
 
-    // ==============================
-    //        Other Variables
-    // ==============================
+    public void SetConvo(ConvoSO convo)
+    {
+        // TODO also spawn in indicators
 
-
-    // ==============================
-    //        Unity Functions
-    // ==============================
+        hubConvo = convo;
+    }
 
 
     // ==============================

@@ -7,6 +7,8 @@ using UnityEngine;
 /// </summary>
 public class EnterHub : MonoBehaviour
 {
+    [SerializeField] GameObject north;
+
     void Awake()
     {
         SaveManager.data.eva.tempoCount = 0;
@@ -14,5 +16,13 @@ public class EnterHub : MonoBehaviour
         SaveManager.data.yume.spoolCount = 0;
         SaveManager.data.aegis.damageDealtTillSmite = 0.0f;
         SaveManager.data.aegis.damageBlockTillSmite = 0.0f;
+    }
+
+    void Start()
+    {
+        if (SaveManager.data.north.storyProgress == 1)
+        {
+            
+        }
     }
 }
