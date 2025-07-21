@@ -7,22 +7,24 @@ using UnityEngine;
 public class PoliceChiefPowerSpike : Skill
 {
     private float timer = -1.0f;
-    private bool critHit = false;
     private bool ableToCrit = false;
 
     [SerializeField] private float[] values = {0f, 1.25f, 1.45f, 1.65f, 1.85f};
     private int pointIndex;
 
     [SerializeField] private float immediateTimeframe = 0.25f;
-    private bool reset = true;
+    [SerializeField] public float explosionRadius = 3f;
+    [SerializeField] public DamageContext explosionDamage;
+    //private bool reset = true;
 
     public override void AddPointTrigger()
     {
         pointIndex = GetPoints();
+
     }
     public override void RemovePointTrigger()
     {
-
+        pointIndex = GetPoints();
     }
     public override void ClearPointsTrigger()
     {
@@ -36,12 +38,12 @@ public class PoliceChiefPowerSpike : Skill
 
     private void OnEnable()
     {
-        GameplayEventHolder.OnDamageFilter.Add(OnDamage);
+        //GameplayEventHolder.OnDamageFilter.Add(OnDamage);
     }
 
     void OnDisable()
     {
-        GameplayEventHolder.OnDamageFilter.Remove(OnDamage);
+        //GameplayEventHolder.OnDamageFilter.Remove(OnDamage);
     }
 
     void Update()
@@ -73,6 +75,7 @@ public class PoliceChiefPowerSpike : Skill
         timer = 0f;
     }
 
+    /*
     void OnDamage(ref DamageContext context)
     {
         if (pointIndex > 0 && ableToCrit && context.actionID == ActionID.POLICE_CHIEF_BASIC && !context.actionTypes.Contains(ActionType.SKILL))
@@ -81,9 +84,16 @@ public class PoliceChiefPowerSpike : Skill
             StopCritTimer();
         }
     }
+    */
 
     public bool GetAbleToCrit()
     {
         return ableToCrit;
+    }
+
+    public DamageContext GetExplosionDamage()
+    {
+        explosionDamage.damage = values[pointIndex];
+        return explosionDamage;
     }
 }

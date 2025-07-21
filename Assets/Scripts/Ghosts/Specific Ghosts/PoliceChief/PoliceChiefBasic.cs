@@ -135,7 +135,8 @@ public class PoliceChiefBasic : MonoBehaviour
 
         // Fire shot
         GameObject sidearmShot = Instantiate(manager.basicShot, Vector3.zero, Quaternion.identity);
-        sidearmShot.GetComponent<PoliceChiefSidearmShot>().fireSidearmShot(manager, pos, dir);
+        bool isPowerSpike = manager.GetComponent<PoliceChiefPowerSpike>().GetAbleToCrit();
+        sidearmShot.GetComponent<PoliceChiefSidearmShot>().fireSidearmShot(manager, pos, dir, false, isPowerSpike);
         ConsumeAmmo(1);
         GameplayEventHolder.OnAbilityUsed?.Invoke(manager.sidearmActionContext);
 

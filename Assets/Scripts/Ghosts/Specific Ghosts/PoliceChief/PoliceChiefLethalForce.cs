@@ -69,7 +69,7 @@ public class PoliceChiefLethalForce : Skill
     }
     public override void RemovePointTrigger()
     {
-
+        numHits = pointCounts[GetPoints() - 1];
     }
     public override void ClearPointsTrigger()
     {
@@ -80,6 +80,7 @@ public class PoliceChiefLethalForce : Skill
     {
         if (numHits != -1 && context.attacker == PlayerID.instance.gameObject && context.actionID == ActionID.POLICE_CHIEF_BASIC)
         {
+            if (context.extraContext.Equals("Power Spike Explosion")) return;
             if (consecutiveHits < numHits)
             {
                 consecutiveHits += 1;

@@ -8,6 +8,10 @@ public class RingExplosionHandler : MonoBehaviour
     [SerializeField] private float fadeOutDelayTime;
     [SerializeField] private float fadeOutDurationTime;
 
+    private float initialScale;
+    private float finalScale;
+    private float timer;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -17,7 +21,16 @@ public class RingExplosionHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (timer > 0f)
+        {
+            timer -= Time.deltaTime;
+            float currentScale = Mathf.Lerp(initialScale, finalScale, (explosionDurationTime - timer) / explosionDurationTime);
+            transform.localScale = new Vector3(currentScale, currentScale, 1f);
+            if (timer <= 0f)
+            {
+                Destroy(gameObject);
+            }
+        }
     }
 
     /// <summary>
@@ -28,17 +41,18 @@ public class RingExplosionHandler : MonoBehaviour
     public void playRingExplosion(float explosionRadius, Color color)
     {
         gameObject.SetActive(true);
-        StartCoroutine(animateRingExplosion(explosionRadius, color));
+        animateRingExplosion(explosionRadius, color);
         StartCoroutine(fadeOutRing());
     }
 
-    private IEnumerator animateRingExplosion(float explosionRadius, Color color)
+    private void animateRingExplosion(float explosionRadius, Color color)
     {
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.color = new Color(color.r, color.g, color.b, spriteRenderer.color.a);
-        float initialScale = 0.05f;
-        float finalScale = explosionRadius / 4.5f;
+        initialScale = 0.05f;
+        finalScale = explosionRadius / 4.5f;
         transform.localScale = new Vector3(initialScale, initialScale, 1f);
+        /*
         int step = 20;
         for (int i = 0; i < step; i++)
         {
@@ -47,6 +61,8 @@ public class RingExplosionHandler : MonoBehaviour
             yield return new WaitForSeconds(explosionDurationTime / (float)step);
         }
         Destroy(gameObject);
+        */
+        timer = explosionDurationTime;
     }
 
     private IEnumerator fadeOutRing()

@@ -83,8 +83,10 @@ public class FadeOut : Skill
             AudioManager.Instance.VABranch.PlayVATrack("Eva-Idol Fade Out Hit");
 
             // buff damage
-            float damageMultiplier = 1f + (values[pointIndex] / 100f);
-            damageContext.damage *= damageMultiplier;
+            //float damageMultiplier = 1f + (values[pointIndex] / 100f);
+            //damageContext.damage *= damageMultiplier;
+            damageContext.damage += values[pointIndex];
+
             StartCoroutine(RemoveInvisibilityOnTimer(0f)); // we MUST wait 1 frame before removing invis. Here's why: ask Temirlan
         }
     }
