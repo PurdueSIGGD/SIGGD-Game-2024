@@ -38,6 +38,18 @@ public class StoryProgresser : MonoBehaviour
             case "eva":
                 SaveManager.data.eva.storyProgress = progressTo;
                 break;
+            case "yume":
+                SaveManager.data.yume.storyProgress = progressTo;
+                break;
+            case "akihito":
+                SaveManager.data.akihito.storyProgress = progressTo;
+                break;
+            case "silas":
+                SaveManager.data.silas.storyProgress = progressTo;
+                break;
+            case "aegis":
+                SaveManager.data.aegis.storyProgress = progressTo;
+                break;
             default:
                 Debug.LogError("Can not recognize ghost: " + ghost.ToLower() + " when attempting to progress story");
                 break;

@@ -7,10 +7,13 @@ using UnityEngine;
 /// </summary>
 public class EnterHub : MonoBehaviour
 {
-    [SerializeField] StoryProgresser sp;
-
+    [Header("North")]
     [SerializeField] GhostInteract north;
     [SerializeField] ConvoSO northHubEntrance;
+
+    [Header("Eva")]
+    [SerializeField] GhostInteract eva;
+    [SerializeField] ConvoSO evaHubEntrance;
 
     void Awake()
     {
@@ -23,11 +26,20 @@ public class EnterHub : MonoBehaviour
 
     void Start()
     {
+        // load North on hub enter convo
         if (SaveManager.data.north.storyProgress == 1)
         {
-            sp.enabled = true;
+            StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
             sp.Init(northHubEntrance.data.convoName, "north", 2);
             north.SetConvo(northHubEntrance);
+        }
+
+        // load Eva on hub enter convo
+        if (SaveManager.data.eva.storyProgress == 1)
+        {
+            StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
+            sp.Init(evaHubEntrance.data.convoName, "eva", 2);
+            eva.SetConvo(evaHubEntrance);
         }
     }
 }
