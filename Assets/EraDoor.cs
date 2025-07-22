@@ -56,6 +56,7 @@ public class EraDoor : MonoBehaviour
     {
         Cyberpunk,
         Feudal,
-        Medival
+        Medival,
+        Misc
     }
 }

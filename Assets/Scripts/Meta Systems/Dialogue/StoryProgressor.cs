@@ -8,7 +8,7 @@ public class StoryProgresser : MonoBehaviour
     [SerializeField] string ghost;
     [SerializeField] int progressTo;
 
-    void OnEnable()
+    void Awake()
     {
         Door.OnDoorOpened += ProgressStory;
     }
