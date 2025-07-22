@@ -74,7 +74,10 @@ public class Cleric : EnemyStateManager
 
     private void ApplyBubbleAsChildTo(GameObject enemy)
     {
-        if (enemy != null) Instantiate(bubble, enemy.transform);
+        if (enemy != null)
+        {
+            ClericBubbleShieldScript bubbleScript = Instantiate(bubble, enemy.transform).GetComponent<ClericBubbleShieldScript>();
+            bubbleScript.SetParentEnemy(enemy);
+        }
     }
-
 }

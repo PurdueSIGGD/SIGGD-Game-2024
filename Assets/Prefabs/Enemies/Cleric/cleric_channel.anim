@@ -44,6 +44,16 @@ AnimationClip:
       value: {fileID: -1804905126, guid: 5b9733593ba5b97418f08dd3ece0e5a1, type: 3}
     - time: 1
       value: {fileID: 1503819703, guid: 5b9733593ba5b97418f08dd3ece0e5a1, type: 3}
+    - time: 1.1666666
+      value: {fileID: 184683406, guid: 4d121fb68a3f19c45a14e24bea72f33e, type: 3}
+    - time: 1.25
+      value: {fileID: -1878286507, guid: 4d121fb68a3f19c45a14e24bea72f33e, type: 3}
+    - time: 1.3333334
+      value: {fileID: 286200596, guid: 4d121fb68a3f19c45a14e24bea72f33e, type: 3}
+    - time: 1.4166666
+      value: {fileID: 223515030, guid: 4d121fb68a3f19c45a14e24bea72f33e, type: 3}
+    - time: 1.5
+      value: {fileID: 349938037, guid: 4d121fb68a3f19c45a14e24bea72f33e, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -78,12 +88,17 @@ AnimationClip:
     - {fileID: 1233997731, guid: 5b9733593ba5b97418f08dd3ece0e5a1, type: 3}
     - {fileID: -1804905126, guid: 5b9733593ba5b97418f08dd3ece0e5a1, type: 3}
     - {fileID: 1503819703, guid: 5b9733593ba5b97418f08dd3ece0e5a1, type: 3}
+    - {fileID: 184683406, guid: 4d121fb68a3f19c45a14e24bea72f33e, type: 3}
+    - {fileID: -1878286507, guid: 4d121fb68a3f19c45a14e24bea72f33e, type: 3}
+    - {fileID: 286200596, guid: 4d121fb68a3f19c45a14e24bea72f33e, type: 3}
+    - {fileID: 223515030, guid: 4d121fb68a3f19c45a14e24bea72f33e, type: 3}
+    - {fileID: 349938037, guid: 4d121fb68a3f19c45a14e24bea72f33e, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 1.0166667
+    m_StopTime: 1.5833334
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -102,4 +117,18 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events: []
+  m_Events:
+  - time: 0.8333333
+    functionName: ChannelBubble
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 1.5833334
+    functionName: OnFinishAnimation
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0

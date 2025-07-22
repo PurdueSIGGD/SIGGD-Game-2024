@@ -46,8 +46,8 @@ GameObject:
   - component: {fileID: 4367037497738148225}
   - component: {fileID: 101113413474975211}
   - component: {fileID: 4982090033555401577}
-  - component: {fileID: 7495209999528494521}
   - component: {fileID: 6386295069930212313}
+  - component: {fileID: 7495209999528494521}
   - component: {fileID: 8675166827137029948}
   m_Layer: 21
   m_Name: Cleric
@@ -209,7 +209,7 @@ BoxCollider2D:
   m_Offset: {x: -0.047415614, y: -0.6590729}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0.5, y: 0.53}
     oldSize: {x: 1.6000001, y: 3.6008792}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
@@ -239,15 +239,15 @@ MonoBehaviour:
   isBeingKnockedBack: 0
   grounded: 0
   groundedRayCheckLength: 1
-  swingContactBox: {fileID: 0}
+  swingContactBox: {fileID: 6722717173434858109}
   swingContext:
     damageStrength: 0
     damageTypes: 
-    actionID: 0
+    actionID: 17
     actionTypes: 
     extraContext: 
     raycastHitPosition: {x: 0, y: 0}
-  swingDamage: 0
+  swingDamage: 5
   channelTriggerBox: {fileID: 1986142665454310588}
   maxChannelRadius: 12
   bubble: {fileID: 8985519509906945407, guid: 3786d48ed23cb20459a0b41b46dec86d, type: 3}
@@ -280,13 +280,6 @@ MonoBehaviour:
     usesCircleHitbox: 1
     coolDown: 8
     animationClip: {fileID: 7400000, guid: ee6250f7e50535d45867c9d8c62c1417, type: 2}
-  - name: bubble_check
-    priority: 1
-    ready: 1
-    hitBox: {fileID: 4944585375890722224}
-    usesCircleHitbox: 1
-    coolDown: 8
-    animationClip: {fileID: 7400000, guid: ee6250f7e50535d45867c9d8c62c1417, type: 2}
   move:
     name: 
     priority: 0
@@ -303,6 +296,22 @@ MonoBehaviour:
     usesCircleHitbox: 0
     coolDown: 0
     animationClip: {fileID: 7400000, guid: 98127cc7cf610484499cfc30bb98dfc8, type: 2}
+--- !u!114 &6386295069930212313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4188048675522988209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a13ad00583bca6b4fa6de9939a968201, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  statList:
+  - name: Max Health
+    value: 100
+  deathLevel: 
 --- !u!114 &7495209999528494521
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -330,22 +339,6 @@ MonoBehaviour:
     value: 30
   - name: Enemy Group Aggro Radius
     value: 20
---- !u!114 &6386295069930212313
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4188048675522988209}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a13ad00583bca6b4fa6de9939a968201, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  statList:
-  - name: Max Health
-    value: 100
-  deathLevel: 
 --- !u!114 &8675166827137029948
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2968853826487687886}
   - component: {fileID: 3932358635049127337}
   - component: {fileID: 9198132599061633369}
+  - component: {fileID: 2834604385282900470}
   m_Layer: 0
   m_Name: ClericBubbleShield
   m_TagString: Untagged
@@ -28,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 8985519509906945407}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 200.26488, y: -13.879016, z: -0.13726868}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -114,3 +115,16 @@ MonoBehaviour:
   - name: Max Health
     value: 15
   deathLevel: 
+--- !u!114 &2834604385282900470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8985519509906945407}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83a0782e8961e074bbf391401404ae17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  statList: []
