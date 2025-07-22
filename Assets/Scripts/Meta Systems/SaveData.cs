@@ -28,7 +28,6 @@ public class SaveData
 [Serializable]
 public class GhostData
 {
-    public bool isUnlocked = false;
     public int storyProgress = 0;
     public int xp = 0;
 }

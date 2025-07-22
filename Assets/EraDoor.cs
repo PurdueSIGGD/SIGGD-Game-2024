@@ -24,7 +24,7 @@ public class EraDoor : MonoBehaviour
         if (era == Era.Cyberpunk)
         {
             // North
-            if (!SaveManager.data.north.isUnlocked) // North First Encounter
+            if (SaveManager.data.north.storyProgress == 0) // North First Encounter
             {
                 SpecificLevelPool pool = new(new Level[] { new("North First Encounter", 1) }, 5);
                 specificLevels.Add(pool);
@@ -41,7 +41,7 @@ public class EraDoor : MonoBehaviour
             }
 
             // Eva
-            if (!SaveManager.data.eva.isUnlocked) // Eva First Encounter
+            if (SaveManager.data.eva.storyProgress == 0) // Eva First Encounter
             {
                 SpecificLevelPool pool = new(new Level[] { new("Eva First Encounter", 1) }, 5);
                 specificLevels.Add(pool);

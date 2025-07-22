@@ -5,21 +5,31 @@ using UnityEngine.Rendering;
 
 public class StoryProgresser : MonoBehaviour
 {
+    [SerializeField] string requiredDialogue;
     [SerializeField] string ghost;
     [SerializeField] int progressTo;
 
     void Awake()
     {
-        Door.OnDoorOpened += ProgressStory;
+        DialogueManager.onFinishDialogue += ProgressStory;
     }
 
     void OnDisable()
     {
-        Door.OnDoorOpened -= ProgressStory;
+        DialogueManager.onFinishDialogue -= ProgressStory;
     }
 
-    private void ProgressStory()
+    public void Init(string requiredDialogue, string ghost, int progressTo)
     {
+        this.requiredDialogue = requiredDialogue;
+        this.ghost = ghost;
+        this.progressTo = progressTo;
+    }
+
+    private void ProgressStory(string key)
+    {
+        if (!key.Equals(requiredDialogue)) return;
+
         switch (ghost.ToLower())
         {
             case "north":
