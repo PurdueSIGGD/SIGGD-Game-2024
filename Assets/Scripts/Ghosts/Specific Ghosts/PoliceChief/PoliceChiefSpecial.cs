@@ -13,7 +13,8 @@ public class PoliceChiefSpecial : MonoBehaviour
     [HideInInspector] public PoliceChiefManager manager;
     private bool isCharging = false;
     private float chargingTime = 0f;
-    [HideInInspector] public int reserves = 0;
+
+    private LockedAndLoadedSkill lockedAndLoaded;
 
 
 
@@ -29,9 +30,14 @@ public class PoliceChiefSpecial : MonoBehaviour
         if (isCharging && chargingTime > 0f) chargingTime -= Time.deltaTime;
         if (isCharging && chargingTime <= 0f) playerStateMachine.EnableTrigger("OPT");
 
+        if (manager != null && lockedAndLoaded == null)
+        {
+            lockedAndLoaded = manager.GetComponent<LockedAndLoadedSkill>();
+        }
+
         if (manager != null)
         {
-            if (reserves > 0)
+            if (lockedAndLoaded.reservedCount > 0)
             {
                 playerStateMachine.OnCooldown("c_reserves");
             }
@@ -41,10 +47,7 @@ public class PoliceChiefSpecial : MonoBehaviour
             }
             if (manager.getSpecialCooldown() > 0)
             {
-                if (reserves > 0)
-                {
-                    playerStateMachine.OnCooldown("c_special");
-                }
+                playerStateMachine.OnCooldown("c_special");
             }
             else
             {
@@ -125,7 +128,8 @@ public class PoliceChiefSpecial : MonoBehaviour
     void StopSpecialAttack(Animator animator)
     {
         bool startCooldown = !(manager.getSpecialCooldown() > 0); // if cooldown already exists, don't restart it
-        bool loop = (reserves > 0 && animator.GetBool("i_special")); // if has reserve, and still holding down right click
+        if (manager.getSpecialCooldown() > 0) lockedAndLoaded.ConsumeReserveCharge();
+        bool loop = (lockedAndLoaded.reservedCount > 0 && animator.GetBool("i_special")); // if has reserve, and still holding down right click
 
         endSpecial(startCooldown, loop);
     }

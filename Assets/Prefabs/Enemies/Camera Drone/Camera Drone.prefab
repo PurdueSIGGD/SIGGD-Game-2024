@@ -342,6 +342,7 @@ MonoBehaviour:
   aggroRange: 15
   isBeingKnockedBack: 0
   grounded: 0
+  groundedRayCheckLength: 1
   alarmTrigger: {fileID: 7775618551989780944}
   enemyToSummon: {fileID: 1487853512614266132, guid: 73f93381fbec0764a90fbc89c20293ff,
     type: 3}
@@ -453,6 +454,7 @@ MonoBehaviour:
     actionID: 17
     actionTypes: 08000000
     extraContext: 
+    raycastHitPosition: {x: 0, y: 0}
 --- !u!114 &3348080620902511625
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -188,11 +188,11 @@ MonoBehaviour:
   - name: Basic Cooldown
     value: 1
   - name: Basic Damage
-    value: 20
+    value: 10
   - name: Basic Heavy Damage
-    value: 20
+    value: 10
   - name: Basic Super Heavy Damage
-    value: 30
+    value: 20
   - name: Basic Travel Distance
     value: 17
   - name: Basic Charge Up Time
@@ -302,7 +302,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: 756d295103b4b3c4d93616011de8e174, type: 2}
-  values: 04000000070000000a0000000d000000
+  values: 02000000040000000600000008000000
   secondaryShotDamage:
     damageStrength: 0
     damageTypes: 01000000
@@ -358,6 +358,7 @@ MonoBehaviour:
   skill1UIManager: {fileID: 0}
   skill2UIManager: {fileID: 0}
   meterUIManager: {fileID: 0}
+  lethalForceIcon: {fileID: 21300000, guid: af366ca7b8ebecf4f940205735ef9720, type: 3}
 --- !u!114 &7569012328589363263
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -390,8 +391,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: 9bc7c0b2f197f7a419e48f1179f8f200, type: 2}
-  pointCounts: 05000000040000000300000002000000
-  bonusDamage: 30
+  pointCounts: 06000000050000000400000003000000
+  bonusDamage: 40
 --- !u!114 &3756874392414048416
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -408,9 +409,9 @@ MonoBehaviour:
   values:
   - 0
   - 4
-  - 8
-  - 12
-  - 16
+  - 7
+  - 10
+  - 13
   immediateTimeframe: 0.35
   explosionRadius: 3
   explosionDamage:

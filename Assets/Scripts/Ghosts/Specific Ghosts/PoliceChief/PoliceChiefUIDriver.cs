@@ -7,6 +7,8 @@ public class PoliceChiefUIDriver : GhostUIDriver
     private PoliceChiefManager manager;
     private LockedAndLoadedSkill lockedAndLoaded;
 
+    [SerializeField] private Sprite lethalForceIcon;
+
     // Start is called before the first frame update
     protected override void Start()
     {
@@ -50,8 +52,10 @@ public class PoliceChiefUIDriver : GhostUIDriver
         specialAbilityUIManager.setAbilityCooldownTime(manager.getSpecialCooldown(), stats.ComputeValue("Special Cooldown"));
         if (lockedAndLoaded.reservedCount > 0)
         {
+            specialAbilityUIManager.setNumberActive(false);
+            specialAbilityUIManager.setAbilityEnabled(true);
             specialAbilityUIManager.setChargeWidgetActive(true);
-            specialAbilityUIManager.setChargeValue(lockedAndLoaded.reservedCount, lockedAndLoaded.reserveCharges[GetComponent<LockedAndLoadedSkill>().pointIndex]);
+            specialAbilityUIManager.setChargeValue(lockedAndLoaded.reservedCount, (manager.getSpecialCooldown() > 0) ? 0f : 100f);
         }
         else
         {
@@ -61,7 +65,18 @@ public class PoliceChiefUIDriver : GhostUIDriver
 
     private void updateSkill1()
     {
-
+        skill1UIManager.setUIActive(false);
+        PoliceChiefLethalForce lethalForce = GetComponent<PoliceChiefLethalForce>();
+        if (lethalForce.GetTotalHits() != -1)
+        {
+            skill1UIManager.setUIActive(true);
+            skill1UIManager.setAbilityEnabled(lethalForce.shotEmpowered);
+            skill1UIManager.setNumberActive(false);
+            skill1UIManager.setChargeWidgetActive(!lethalForce.shotEmpowered);
+            skill1UIManager.setChargeValue(lethalForce.GetTotalHits() - lethalForce.GetConsecutiveHits(), lethalForce.GetTotalHits() - lethalForce.GetConsecutiveHits());
+            skill1UIManager.setMeterValue(lethalForce.GetConsecutiveHits(), lethalForce.GetTotalHits());
+            skill1UIManager.setIcon(lethalForceIcon);
+        }
     }
 
     private void updateSkill2()

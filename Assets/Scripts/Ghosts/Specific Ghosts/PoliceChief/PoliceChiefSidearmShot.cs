@@ -73,7 +73,8 @@ public class PoliceChiefSidearmShot : MonoBehaviour
         //Debug.DrawLine(pos, hitPoint, Color.red, 5.0f);
         CameraShake.instance.Shake(0.25f, 10f, 0f, 10f, new Vector2(Random.Range(-0.5f, 0.5f), 1f));
         GameObject railgunTracer = Instantiate(manager.basicTracerVFX, Vector3.zero, Quaternion.identity);
-        railgunTracer.GetComponent<RaycastTracerHandler>().playTracer(pos, hitPoint, travelSpeed, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
+        Color tracerColor = (manager.GetComponent<PoliceChiefLethalForce>().shotEmpowered && !isDoubleTap) ? manager.GetComponent<GhostIdentity>().GetCharacterInfo().highlightColor : manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor;
+        railgunTracer.GetComponent<RaycastTracerHandler>().playTracer(pos, hitPoint, travelSpeed, tracerColor, tracerColor);
 
         // Wait for travel speed
         yield return new WaitForSeconds(Vector2.Distance(pos, hitPoint) / travelSpeed);

@@ -1,77 +1,70 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LockedAndLoadedSkill : Skill
 {
     [HideInInspector] public int[] reserveCharges = {0, 3, 6, 9, 12};
     [HideInInspector] public int pointIndex;
-    [HideInInspector] public int reservedCount;
+    [HideInInspector] public int reservedCount = -1;
     private float reserveCoolDown = 0.75f;
     private float lastreserveTime = 0.5f;
     private bool hasReserves;
     private Animator camAnim;
 
-    PoliceChiefSpecial policeChiefSpecial;
+    private int savedReservedCount;
+    private int totalReservedCount;
+
+    LevelSwitching levelSwitchingScript;
 
     public override void AddPointTrigger()
     {
         pointIndex = GetPoints();
+        levelSwitchingScript = FindFirstObjectByType<LevelSwitching>();
+        if (SceneManager.GetActiveScene().name.Equals(levelSwitchingScript.GetHomeWorld()))
+        {
+            reservedCount = reserveCharges[pointIndex];
+            SaveManager.data.north.reserveSpecialCharges = reservedCount;
+        }
     }
 
     public override void ClearPointsTrigger()
     {
+        pointIndex = GetPoints();
+        levelSwitchingScript = FindFirstObjectByType<LevelSwitching>();
+        if (SceneManager.GetActiveScene().name.Equals(levelSwitchingScript.GetHomeWorld()))
+        {
+            reservedCount = reserveCharges[pointIndex];
+            SaveManager.data.north.reserveSpecialCharges = reservedCount;
+        }
     }
 
     public override void RemovePointTrigger()
     {
         pointIndex = GetPoints();
+        levelSwitchingScript = FindFirstObjectByType<LevelSwitching>();
+        if (SceneManager.GetActiveScene().name.Equals(levelSwitchingScript.GetHomeWorld()))
+        {
+            reservedCount = reserveCharges[pointIndex];
+            SaveManager.data.north.reserveSpecialCharges = reservedCount;
+        }
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        //pointIndex = GetPoints();
-        reservedCount = reserveCharges[pointIndex];
+        reservedCount = SaveManager.data.north.reserveSpecialCharges;
         camAnim = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (policeChiefSpecial == null)
-        {
-            policeChiefSpecial = PlayerID.instance.GetComponent<PoliceChiefSpecial>();
-            return;
-        }
-        else
-        {
-            if (policeChiefSpecial.manager.getSpecialCooldown() > 0)
-            {
-                if (reservedCount <= 0)
-                {
-                    hasReserves = false;
-                }
-                else
-                {
-                    hasReserves = true;
-                    if (Time.time - lastreserveTime > reserveCoolDown)
-                    {
-                        UseReserves();
-                    }
-                }
-            }
-        }
-        policeChiefSpecial.reserves = reservedCount;
+
     }
-    void UseReserves()
+
+    public void ConsumeReserveCharge()
     {
-        if (camAnim.GetBool("pullBack") == true)
-        {
-            if (Input.GetMouseButton(0))
-            {
-                // policeChiefSpecial.StartSpecialAttack();
-                reservedCount--;
-                lastreserveTime = Time.time;
-            }
-        }
+        reservedCount = Mathf.Max(reservedCount - 1, 0);
+        SaveManager.data.north.reserveSpecialCharges = reservedCount;
     }
 }

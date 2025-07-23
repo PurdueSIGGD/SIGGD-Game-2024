@@ -374,6 +374,7 @@ MonoBehaviour:
   aggroRange: 10
   isBeingKnockedBack: 0
   grounded: 0
+  groundedRayCheckLength: 1
   gunShoot: {fileID: 6754032986899484797}
   rangeOrig: {fileID: 6425544609560146439}
   projectile: {fileID: 1293525611164901038, guid: e64abde8a304ea641afa693f1da4fc8b,
@@ -515,6 +516,7 @@ MonoBehaviour:
     actionID: 17
     actionTypes: 08000000
     extraContext: 
+    raycastHitPosition: {x: 0, y: 0}
 --- !u!1001 &4415854243174678356
 PrefabInstance:
   m_ObjectHideFlags: 0
