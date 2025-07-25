@@ -34,7 +34,7 @@ Transform:
   m_GameObject: {fileID: 1393067818931581941}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.188, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -256,9 +256,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Idle Speed
-    value: 4
+    value: 3
   - name: Speed
-    value: 4
+    value: 5
   - name: Enemy Group Aggro Radius
     value: 10
   - name: Target Range Min
@@ -285,7 +285,7 @@ MonoBehaviour:
   pool: {fileID: 0}
   animator: {fileID: 0}
   isFlyer: 0
-  aggroRange: 7
+  aggroRange: 15
   isBeingKnockedBack: 0
   grounded: 1
   groundedRayCheckLength: 1.5
@@ -297,7 +297,7 @@ MonoBehaviour:
     actionTypes: 
     extraContext: 
     raycastHitPosition: {x: 0, y: 0}
-  damageVal: 20
+  damageVal: 15
   swingVisual: {fileID: 8528928557719529496}
 --- !u!114 &2071007487395054228
 MonoBehaviour:

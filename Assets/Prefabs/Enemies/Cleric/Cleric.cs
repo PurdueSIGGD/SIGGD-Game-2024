@@ -29,7 +29,7 @@ public class Cleric : EnemyStateManager
     public void Update()
     {
         // manually flip the cleric to face the player
-        if (isSwinging)
+        if (!isSwinging)
         {
             if (player.position.x - transform.position.x < 0)
             {
