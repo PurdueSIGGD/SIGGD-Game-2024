@@ -9,6 +9,8 @@ public class Cleric : EnemyStateManager
     [SerializeField] Transform swingContactBox;
     [SerializeField] DamageContext swingContext;
     [SerializeField] float swingDamage;
+    [SerializeField] GameObject swingVisual;
+    bool isSwinging;
 
     [Header("Bubble Channel Fields")]
 
@@ -21,7 +23,23 @@ public class Cleric : EnemyStateManager
     public void Start()
     {
         base.Start();
+        swingContext.damage = swingDamage;
+    }
 
+    public void Update()
+    {
+        // manually flip the cleric to face the player
+        if (isSwinging)
+        {
+            if (player.position.x - transform.position.x < 0)
+            {
+                Flip(false);
+            }
+            else
+            {
+                Flip(true);
+            }
+        }
     }
 
     public override bool HasLineOfSight(bool tracking)
@@ -30,14 +48,22 @@ public class Cleric : EnemyStateManager
         return Physics2D.OverlapCircle(channelTriggerBox.transform.position, channelTriggerBox.transform.lossyScale.x, LayerMask.GetMask("Player"));
     }
 
+    protected void EnterSwingAnimation()
+    {
+        isSwinging = true;
+    }
+
     protected void StartStaffSwing()
     {
+        swingVisual.SetActive(true);
         GenerateDamageFrame(swingContactBox.position, swingContactBox.lossyScale.x, swingContactBox.lossyScale.y, swingContext, gameObject);
     }
 
     protected void EndStaffSwing()
     {
         // good soup!
+        swingVisual.SetActive(false);
+        isSwinging = false;
     }
 
     protected void ChannelBubble()
@@ -60,8 +86,9 @@ public class Cleric : EnemyStateManager
         foreach (Collider2D col in collision)
         {
             GameObject enemy = col.gameObject;
-            if ((enemy.GetComponent<Knight>() != null) ||
-                (enemy.GetComponent<Mage>() != null))
+            if ((enemy.GetComponentInChildren<ClericBubbleShieldScript>() == null) &&
+                ((enemy.GetComponent<Knight>() != null) ||
+                 (enemy.GetComponent<Mage>() != null)))
             {
                 validTargets.Add(enemy);
             }
@@ -76,8 +103,20 @@ public class Cleric : EnemyStateManager
     {
         if (enemy != null)
         {
+            ClericBubbleShieldScript oldBubble = enemy.GetComponentInChildren<ClericBubbleShieldScript>();
+            if (oldBubble != null)
+            {
+                Destroy(oldBubble.gameObject);
+            }
             ClericBubbleShieldScript bubbleScript = Instantiate(bubble, enemy.transform).GetComponent<ClericBubbleShieldScript>();
             bubbleScript.SetParentEnemy(enemy);
         }
+    }
+
+
+    protected override void OnDrawGizmos()
+    {
+        base.OnDrawGizmos();
+        Gizmos.DrawWireCube(swingContactBox.position, swingContactBox.lossyScale);
     }
 }
