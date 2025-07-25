@@ -21,6 +21,22 @@ public class Mage : EnemyStateManager
     [SerializeField] GameObject chargeTriggerBox;
     [SerializeField] bool isCharging;
 
+    public void Update()
+    {
+        // manually flip the mage to face the player
+        if (lightningObject == null || lightningScript.IsFollowing())
+        {
+            if (player.position.x - transform.position.x < 0)
+            {
+                Flip(false);
+            }
+            else
+            {
+                Flip(true);
+            }
+        }
+    }
+
     public void StartCharge()
     {
         lightningObject = Instantiate(lightningPrefab, player.position, Quaternion.identity);
@@ -53,7 +69,7 @@ public class Mage : EnemyStateManager
     public override bool HasLineOfSight(bool tracking)
     {
         // override L.O.S. calculation to be really super generous to the mage rather than require direct L.O.S.
-        return Physics2D.OverlapCircle(chargeTriggerBox.transform.position, chargeTriggerBox.transform.lossyScale.x, LayerMask.GetMask("Player"));
+        return Physics2D.OverlapCircle(chargeTriggerBox.transform.position, chargeTriggerBox.transform.lossyScale.x, LayerMask.GetMask("Player")) || base.HasLineOfSight(tracking);
     }
 
     // Draws the Mage's attack range
