@@ -39,10 +39,11 @@ public class FateboundDebuff : MonoBehaviour
 
             manager.RemoveFromLink(gameObject.GetInstanceID());
 
+            RemoveShareDamage();
+
+
             // Handle Unraveled Fate Skill (must be after RemoveFromLink - otherwise stack overflow)
             manager.gameObject.GetComponent<UnraveledFate>().DamageFateboundEnemies(gameObject.GetInstanceID());
-
-            RemoveShareDamage();
 
 
         }
