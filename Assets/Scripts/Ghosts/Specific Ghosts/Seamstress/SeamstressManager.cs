@@ -147,7 +147,8 @@ public class SeamstressManager : GhostManager
     /// effect.
     /// </summary>
     /// <param name="enemyID"> The instance id of the enemy currently being damaged </param>
-    public void DamageLinkedEnemies(int enemyID, DamageContext context)
+    /// <param name="scaleDamageStrength"> Whether to scale the damage strength by sharedDmgScaling </param>
+    public void DamageLinkedEnemies(int enemyID, DamageContext context, bool scaleDamageStrength)
     {
         ptr = head;
 
@@ -158,7 +159,11 @@ public class SeamstressManager : GhostManager
                 // when damaging an enemy through fatebound effect, only damage, 
                 // damagestrength, and the victim will be set according to the origional damage
                 // action type and damage type will be preset in the editor
-                sharedDmg.damage = context.damage * sharedDmgScaling;
+                sharedDmg.damage = context.damage;
+                if (scaleDamageStrength)
+                {
+                    sharedDmg.damage *= sharedDmgScaling;
+                }
                 sharedDmg.damageStrength = context.damageStrength;
                 sharedDmg.victim = ptr.enemy;
 
