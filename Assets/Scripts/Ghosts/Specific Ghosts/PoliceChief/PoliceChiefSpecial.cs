@@ -48,10 +48,12 @@ public class PoliceChiefSpecial : MonoBehaviour
             if (manager.getSpecialCooldown() > 0)
             {
                 playerStateMachine.OnCooldown("c_special");
+                lockedAndLoaded.BoostChargeSpeed(manager);
             }
             else
             {
                 playerStateMachine.OffCooldown("c_special");
+                lockedAndLoaded.UnboostChargeSpeed(manager);
             }
         }
 

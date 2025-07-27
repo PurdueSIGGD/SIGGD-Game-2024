@@ -3,16 +3,11 @@ using UnityEngine.SceneManagement;
 
 public class LockedAndLoadedSkill : Skill
 {
-    [HideInInspector] public int[] reserveCharges = {0, 3, 6, 9, 12};
+    [SerializeField] public int[] reserveCharges = {0, 3, 6, 9, 12};
     [HideInInspector] public int pointIndex;
     [HideInInspector] public int reservedCount = -1;
-    private float reserveCoolDown = 0.75f;
-    private float lastreserveTime = 0.5f;
-    private bool hasReserves;
-    private Animator camAnim;
-
-    private int savedReservedCount;
-    private int totalReservedCount;
+    [SerializeField] public int chargeSpeedBoostPercent;
+    private bool isChargeBoosted = false;
 
     LevelSwitching levelSwitchingScript;
 
@@ -53,7 +48,6 @@ public class LockedAndLoadedSkill : Skill
     void Start()
     {
         reservedCount = SaveManager.data.north.reserveSpecialCharges;
-        camAnim = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -66,5 +60,19 @@ public class LockedAndLoadedSkill : Skill
     {
         reservedCount = Mathf.Max(reservedCount - 1, 0);
         SaveManager.data.north.reserveSpecialCharges = reservedCount;
+    }
+
+    public void BoostChargeSpeed(PoliceChiefManager manager)
+    {
+        if (isChargeBoosted) return;
+        manager.GetStats().ModifyStat("Special Charge Up Time", -chargeSpeedBoostPercent);
+        isChargeBoosted = true;
+    }
+
+    public void UnboostChargeSpeed(PoliceChiefManager manager)
+    {
+        if (!isChargeBoosted) return;
+        manager.GetStats().ModifyStat("Special Charge Up Time", chargeSpeedBoostPercent);
+        isChargeBoosted = false;
     }
 }

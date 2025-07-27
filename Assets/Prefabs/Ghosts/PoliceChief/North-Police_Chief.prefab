@@ -188,11 +188,11 @@ MonoBehaviour:
   - name: Basic Cooldown
     value: 1
   - name: Basic Damage
-    value: 10
+    value: 15
   - name: Basic Heavy Damage
-    value: 10
+    value: 15
   - name: Basic Super Heavy Damage
-    value: 20
+    value: 25
   - name: Basic Travel Distance
     value: 17
   - name: Basic Charge Up Time
@@ -302,7 +302,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: 756d295103b4b3c4d93616011de8e174, type: 2}
-  values: 02000000040000000600000008000000
+  values: 0000000003000000050000000700000009000000
   secondaryShotDamage:
     damageStrength: 0
     damageTypes: 01000000
@@ -323,9 +323,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: 3199848284157d44abaab00036650e65, type: 2}
-  reserveCharges: 000000000300000006000000090000000c000000
+  reserveCharges: 0000000003000000050000000700000009000000
   pointIndex: 0
   reservedCount: 0
+  chargeSpeedBoostPercent: 90
 --- !u!114 &589596433784939328
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -466,6 +467,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec3eda79782f2b74f9818f600c432dd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  directionalIndicator: {fileID: 4796005695382463095, guid: beaff2e9da4acc947ba7a52a72eb88a6,
+    type: 3}
 --- !u!1 &4441818572976834460
 GameObject:
   m_ObjectHideFlags: 0
