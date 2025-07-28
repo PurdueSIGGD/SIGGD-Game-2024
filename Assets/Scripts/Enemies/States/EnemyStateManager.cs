@@ -213,7 +213,7 @@ public class EnemyStateManager : MonoBehaviour
             if (hit)
             {
                 float dmgDealt = hit.GetComponent<Health>().Damage(damageContext, attacker);
-                if (hit.CompareTag("Player") && dmgDealt > 0)
+                if (hit.CompareTag("Player") && dmgDealt > 0 && damageContext.damageStrength > DamageStrength.MEAGER)
                 {
                     PlayerID.instance.GetComponent<PlayerStateMachine>().SetStun(0.2f);
                 }

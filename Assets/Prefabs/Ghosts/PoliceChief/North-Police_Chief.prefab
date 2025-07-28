@@ -360,6 +360,7 @@ MonoBehaviour:
   skill2UIManager: {fileID: 0}
   meterUIManager: {fileID: 0}
   lethalForceIcon: {fileID: 21300000, guid: af366ca7b8ebecf4f940205735ef9720, type: 3}
+  overclockedIcon: {fileID: 21300000, guid: acbf6eaf8b049514caf8821d2bc6cb89, type: 3}
 --- !u!114 &7569012328589363263
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -435,26 +436,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: f7c2431cb399822458eb560bd7fa8df7, type: 2}
-  pointCounts:
-  - 1.4
-  - 1.8
-  - 2.2
-  - 2.6
-  explosionRadius: 10
-  attackmask:
-    serializedVersion: 2
-    m_Bits: 2097152
+  values:
+  - 0
+  - 40
+  - 80
+  - 120
+  - 160
+  pointIndex: 0
+  overchargeDuration: 2
+  minDamage: 10
+  minExplosionRadius: 2
+  maxExplosionRadius: 6
   explosionContext:
-    damageStrength: 4
+    damageStrength: 3
     damageTypes: 02000000
     actionID: 6
     actionTypes: 0400000003000000
     extraContext: 
     raycastHitPosition: {x: 0, y: 0}
-  damageToEnemy: 100
-  damageToPlayer: 20
-  circleVFX: {fileID: 7966241730260626198, guid: a5295bc6cb8948243b75f99e5a18cc48,
-    type: 3}
+  playerBaseDamage: 10
+  playerDamagePercent: 0.25
+  timer: -1
+  isOvercharging: 0
 --- !u!114 &2084270038230117945
 MonoBehaviour:
   m_ObjectHideFlags: 0

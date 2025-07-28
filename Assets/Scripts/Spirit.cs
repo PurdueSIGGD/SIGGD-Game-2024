@@ -10,7 +10,8 @@ public class Spirit : MonoBehaviour
     [SerializeField] float minLaunchSpeed;
     [SerializeField] float maxLaunchSpeed;
     [SerializeField] float launchDeceleration;
-    [SerializeField] float launchDuration;
+    [SerializeField] float minLaunchDuration;
+    [SerializeField] float maxLaunchDuration;
     [SerializeField] float collectionAcceleration;
     [SerializeField] float minCollectionRange;
     [SerializeField] float maxCollectionRange;
@@ -39,7 +40,7 @@ public class Spirit : MonoBehaviour
     {
         Vector3 dropDir = ((new Vector3(Random.Range(-1f, 1f), Random.Range(0f, 1f), 0f)).normalized + ((transform.position - PlayerID.instance.gameObject.transform.position).normalized * 1f)).normalized;
         rb.velocity = dropDir * Random.Range(minLaunchSpeed, maxLaunchSpeed);
-        launchTimer = launchDuration;
+        launchTimer = Random.Range(minLaunchDuration, maxLaunchDuration);
         isLaunching = true;
         collectionRange = minCollectionRange;
     }

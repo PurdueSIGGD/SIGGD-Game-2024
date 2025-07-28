@@ -28,6 +28,7 @@ public class PoliceChiefRailgunShot : MonoBehaviour
 
     private IEnumerator railgunShotCoroutine(Vector2 pos, Vector2 dir)
     {
+        PoliceChiefOvercharged overcharged = manager.GetComponent<PoliceChiefOvercharged>();
         damagedEnemies = new List<GameObject>();
         float remainingDistance = manager.GetStats().ComputeValue("Special Travel Distance");
 
@@ -53,7 +54,14 @@ public class PoliceChiefRailgunShot : MonoBehaviour
             Debug.DrawLine(pos, hitPoint, Color.red, 5.0f);
             CameraShake.instance.Shake(0.35f, 10f, 0f, 10f, new Vector2(Random.Range(-0.5f, 0.5f), 1f));
             GameObject railgunTracer = Instantiate(manager.specialTracerVFX, Vector3.zero, Quaternion.identity);
-            railgunTracer.GetComponent<RaycastTracerHandler>().playTracer(pos, hitPoint, travelSpeed, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
+            if (overcharged.pointIndex > 0)
+            {
+                railgunTracer.GetComponent<RaycastTracerHandler>().playTracer(pos, hitPoint, travelSpeed, manager.GetComponent<GhostIdentity>().GetCharacterInfo().highlightColor, manager.GetComponent<GhostIdentity>().GetCharacterInfo().highlightColor);
+            }
+            else
+            {
+                railgunTracer.GetComponent<RaycastTracerHandler>().playTracer(pos, hitPoint, travelSpeed, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
+            }
 
             // Affect enemies
             foreach (RaycastHit2D enemyHit in enemyHits)
@@ -68,9 +76,28 @@ public class PoliceChiefRailgunShot : MonoBehaviour
                 break;
             }
 
+            // Overclocked surface explosion
+            /*
+            if (overcharged.pointIndex > 0)
+            {
+                Collider2D[] enemiesHit = Physics2D.OverlapCircleAll(hit.point, overcharged.GetExplosionRadius(), LayerMask.GetMask("Enemy"));
+                foreach (Collider2D enemy in enemiesHit)
+                {
+                    enemy.transform.gameObject.GetComponent<Health>().Damage(overcharged.GetExplosionDamage(), PlayerID.instance.gameObject);
+                }
+            }
+            */
+
             // Surface impact VFX
             GameObject surfaceExplosion = Instantiate(manager.specialImpactExplosionVFX, hit.point, Quaternion.identity);
-            surfaceExplosion.GetComponent<RingExplosionHandler>().playRingExplosion(2f, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
+            if (false)//overcharged.pointIndex > 0)
+            {
+                surfaceExplosion.GetComponent<RingExplosionHandler>().playRingExplosion(overcharged.GetExplosionRadius(), manager.GetComponent<GhostIdentity>().GetCharacterInfo().highlightColor);
+            }
+            else
+            {
+                surfaceExplosion.GetComponent<RingExplosionHandler>().playRingExplosion(2f, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
+            }
 
             // Calculate shot aiming vector for next ricochet
             if (i == manager.GetStats().ComputeValue("Special Ricochet Count")) break;
@@ -93,8 +120,26 @@ public class PoliceChiefRailgunShot : MonoBehaviour
         damagedEnemies.Add(enemyHit.transform.gameObject);
         enemyHit.transform.gameObject.GetComponent<Health>().Damage(manager.specialDamage, PlayerID.instance.gameObject);
 
+        // Overclocked enemy explosion
+        PoliceChiefOvercharged overcharged = manager.GetComponent<PoliceChiefOvercharged>();
+        if (overcharged.pointIndex > 0)
+        {
+            Collider2D[] enemiesHit = Physics2D.OverlapCircleAll(enemyHit.point, overcharged.GetExplosionRadius(), LayerMask.GetMask("Enemy"));
+            foreach (Collider2D enemy in enemiesHit)
+            {
+                enemy.transform.gameObject.GetComponent<Health>().Damage(overcharged.GetExplosionDamage(), PlayerID.instance.gameObject);
+            }
+        }
+
         // Enemy impact VFX
         GameObject enemyExplosion = Instantiate(manager.specialImpactExplosionVFX, enemyHit.point, Quaternion.identity);
-        enemyExplosion.GetComponent<RingExplosionHandler>().playRingExplosion(3f, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
+        if (overcharged.pointIndex > 0)
+        {
+            enemyExplosion.GetComponent<RingExplosionHandler>().playRingExplosion(overcharged.GetExplosionRadius(), manager.GetComponent<GhostIdentity>().GetCharacterInfo().highlightColor);
+        }
+        else
+        {
+            enemyExplosion.GetComponent<RingExplosionHandler>().playRingExplosion(2f, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
+        }
     }
 }

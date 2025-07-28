@@ -8,6 +8,7 @@ public class PoliceChiefUIDriver : GhostUIDriver
     private LockedAndLoadedSkill lockedAndLoaded;
 
     [SerializeField] private Sprite lethalForceIcon;
+    [SerializeField] private Sprite overclockedIcon;
 
     // Start is called before the first frame update
     protected override void Start()
@@ -77,11 +78,32 @@ public class PoliceChiefUIDriver : GhostUIDriver
             skill1UIManager.setMeterValue(lethalForce.GetConsecutiveHits(), lethalForce.GetTotalHits());
             skill1UIManager.setIcon(lethalForceIcon);
         }
+        else
+        {
+            OverclockedUIDriver(skill1UIManager);
+        }
     }
 
     private void updateSkill2()
     {
+        PoliceChiefLethalForce lethalForce = GetComponent<PoliceChiefLethalForce>();
+        if (lethalForce.GetTotalHits() != -1) OverclockedUIDriver(skill2UIManager);
+    }
 
+    private void OverclockedUIDriver(PlayerAbilityUIManager UIManager)
+    {
+        UIManager.setUIActive(false);
+        PoliceChiefOvercharged overcharged = GetComponent<PoliceChiefOvercharged>();
+        if (manager.special == null) return;
+        if (overcharged.pointIndex > 0 && (manager.special.isCharging || overcharged.isOvercharging))
+        {
+            UIManager.setUIActive(true);
+            UIManager.setAbilityEnabled((manager.special.isCharging) ? false : true);
+            UIManager.setNumberActive(false);
+            UIManager.setChargeWidgetActive(false);
+            UIManager.setMeterValue((manager.special.isCharging) ? 0f : (overcharged.overchargeDuration - overcharged.timer), overcharged.overchargeDuration);
+            UIManager.setIcon(overclockedIcon);
+        }
     }
 
     private void updateMeter() {

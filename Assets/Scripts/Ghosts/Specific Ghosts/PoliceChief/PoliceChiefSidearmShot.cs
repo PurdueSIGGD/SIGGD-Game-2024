@@ -73,7 +73,7 @@ public class PoliceChiefSidearmShot : MonoBehaviour
         //Debug.DrawLine(pos, hitPoint, Color.red, 5.0f);
         CameraShake.instance.Shake(0.25f, 10f, 0f, 10f, new Vector2(Random.Range(-0.5f, 0.5f), 1f));
         GameObject railgunTracer = Instantiate(manager.basicTracerVFX, Vector3.zero, Quaternion.identity);
-        Color tracerColor = (manager.GetComponent<PoliceChiefLethalForce>().shotEmpowered && !isDoubleTap) ? manager.GetComponent<GhostIdentity>().GetCharacterInfo().highlightColor : manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor;
+        Color tracerColor = ((manager.GetComponent<PoliceChiefLethalForce>().shotEmpowered || isPowerSpike) && !isDoubleTap) ? manager.GetComponent<GhostIdentity>().GetCharacterInfo().highlightColor : manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor;
         railgunTracer.GetComponent<RaycastTracerHandler>().playTracer(pos, hitPoint, travelSpeed, tracerColor, tracerColor);
 
         // Wait for travel speed
@@ -91,7 +91,7 @@ public class PoliceChiefSidearmShot : MonoBehaviour
                 }
                 if (enemiesHit.Length > 0) enemyWasShot?.Invoke();
                 GameObject airExplosion = Instantiate(manager.basicImpactExplosionVFX, hitPoint, Quaternion.identity);
-                airExplosion.GetComponent<RingExplosionHandler>().playRingExplosion(manager.GetComponent<PoliceChiefPowerSpike>().explosionRadius, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
+                airExplosion.GetComponent<RingExplosionHandler>().playRingExplosion(manager.GetComponent<PoliceChiefPowerSpike>().explosionRadius, tracerColor);
             }
             if (!isDoubleTap)
             {
@@ -117,7 +117,7 @@ public class PoliceChiefSidearmShot : MonoBehaviour
             hit.transform.gameObject.GetComponent<Health>().Damage((isDoubleTap) ? manager.GetComponent<DoubleTapSkill>().secondaryShotDamage : manager.basicDamage, PlayerID.instance.gameObject);
             enemyWasShot?.Invoke();
             GameObject enemyExplosion = Instantiate(manager.basicImpactExplosionVFX, hit.point, Quaternion.identity);
-            enemyExplosion.GetComponent<RingExplosionHandler>().playRingExplosion(((isPowerSpike) ? manager.GetComponent<PoliceChiefPowerSpike>().explosionRadius : 1f), manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
+            enemyExplosion.GetComponent<RingExplosionHandler>().playRingExplosion(((isPowerSpike) ? manager.GetComponent<PoliceChiefPowerSpike>().explosionRadius : 1f), tracerColor);
             manager.GetComponent<PoliceChiefPowerSpike>().StopCritTimer();
             Destroy(this.gameObject);
             yield break;
@@ -140,7 +140,7 @@ public class PoliceChiefSidearmShot : MonoBehaviour
             surfaceAmmoPickup.GetComponent<PoliceChiefAmmoPickup>().InitializeAmmoPickup(manager, reflect * 10f);
         }
         GameObject surfaceExplosion = Instantiate(manager.basicImpactExplosionVFX, hit.point, Quaternion.identity);
-        surfaceExplosion.GetComponent<RingExplosionHandler>().playRingExplosion(((isPowerSpike) ? manager.GetComponent<PoliceChiefPowerSpike>().explosionRadius : 0.5f), manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
+        surfaceExplosion.GetComponent<RingExplosionHandler>().playRingExplosion(((isPowerSpike) ? manager.GetComponent<PoliceChiefPowerSpike>().explosionRadius : 0.5f), tracerColor);
         manager.GetComponent<PoliceChiefPowerSpike>().StopCritTimer();
         Destroy(this.gameObject);
     }

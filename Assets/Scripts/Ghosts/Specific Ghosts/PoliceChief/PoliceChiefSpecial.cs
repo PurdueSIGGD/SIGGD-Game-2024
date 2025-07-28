@@ -11,10 +11,11 @@ public class PoliceChiefSpecial : MonoBehaviour
     private Animator camAnim;
     private Camera cam;
     [HideInInspector] public PoliceChiefManager manager;
-    private bool isCharging = false;
+    [HideInInspector] public bool isCharging = false;
     private float chargingTime = 0f;
 
     private LockedAndLoadedSkill lockedAndLoaded;
+    private PoliceChiefOvercharged overcharged;
 
 
 
@@ -33,6 +34,11 @@ public class PoliceChiefSpecial : MonoBehaviour
         if (manager != null && lockedAndLoaded == null)
         {
             lockedAndLoaded = manager.GetComponent<LockedAndLoadedSkill>();
+        }
+
+        if (manager != null && overcharged == null)
+        {
+            overcharged = manager.GetComponent<PoliceChiefOvercharged>();
         }
 
         if (manager != null)
@@ -95,12 +101,17 @@ public class PoliceChiefSpecial : MonoBehaviour
     {
         // SFX
         AudioManager.Instance.SFXBranch.PlaySFXTrack("North-Railgun Primed");
+        AudioManager.Instance.SFXBranch.GetSFXTrack("North-Railgun Primed Loop").SetPitch(0f, 1f);
         AudioManager.Instance.SFXBranch.PlaySFXTrack("North-Railgun Primed Loop");
+
+        if (overcharged.pointIndex > 0) overcharged.StartOvercharging();
     }
     
     void StopSpecialPrimed()
     {
         endSpecial(false, false);
+
+        if (overcharged.pointIndex > 0) overcharged.StopOvercharging();
     }
 
 
@@ -127,11 +138,23 @@ public class PoliceChiefSpecial : MonoBehaviour
         AudioManager.Instance.SFXBranch.StopSFXTrack("North-Railgun Primed Loop");
     }
 
-    void StopSpecialAttack(Animator animator)
+    void StopSpecialAttack()
+    {
+        /*
+        bool startCooldown = !(manager.getSpecialCooldown() > 0); // if cooldown already exists, don't restart it
+        if (manager.getSpecialCooldown() > 0) lockedAndLoaded.ConsumeReserveCharge();
+        bool loop = (lockedAndLoaded.reservedCount > 0 && PlayerID.instance.GetComponent<Animator>().GetBool("i_special")); // if has reserve, and still holding down right click
+
+        endSpecial(startCooldown, loop);
+        */
+        KillSpecial();
+    }
+
+    public void KillSpecial()
     {
         bool startCooldown = !(manager.getSpecialCooldown() > 0); // if cooldown already exists, don't restart it
         if (manager.getSpecialCooldown() > 0) lockedAndLoaded.ConsumeReserveCharge();
-        bool loop = (lockedAndLoaded.reservedCount > 0 && animator.GetBool("i_special")); // if has reserve, and still holding down right click
+        bool loop = (lockedAndLoaded.reservedCount > 0 && PlayerID.instance.GetComponent<Animator>().GetBool("i_special")); // if has reserve, and still holding down right click
 
         endSpecial(startCooldown, loop);
     }
