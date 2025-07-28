@@ -101,4 +101,9 @@ public class EnemyProjectile : MonoBehaviour, IStatList
     {
         return statList;
     }
+
+    public StatManager GetStats()
+    {
+        return statManager;
+    }
 }

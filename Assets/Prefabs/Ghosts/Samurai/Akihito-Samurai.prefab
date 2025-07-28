@@ -496,7 +496,7 @@ MonoBehaviour:
   - name: Parry Slow Percent
     value: 80
   - name: Special Cooldown
-    value: 3
+    value: 6
   defaultController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
   ghostController: {fileID: 9100000, guid: f32f8db40ef7cc14b84350e7507f9eb9, type: 2}
   heavyDamageContext:
@@ -505,12 +505,14 @@ MonoBehaviour:
     actionID: 9
     actionTypes: 0100000002000000
     extraContext: 
+    raycastHitPosition: {x: 0, y: 0}
   specialMeleeParryContext:
     damageStrength: 3
     damageTypes: 00000000
     actionID: 10
     actionTypes: 03000000
     extraContext: 
+    raycastHitPosition: {x: 0, y: 0}
   onDashContext:
     actionID: 9
     actionTypes: 0200000001000000
@@ -605,6 +607,7 @@ MonoBehaviour:
     actionID: 10
     actionTypes: 04000000
     extraContext: 
+    raycastHitPosition: {x: 0, y: 0}
   duration: 3
   interval: 0.2
   values:
@@ -632,6 +635,7 @@ MonoBehaviour:
     actionID: 17
     actionTypes: 
     extraContext: 
+    raycastHitPosition: {x: 0, y: 0}
   values:
   - 0
   - 0.15

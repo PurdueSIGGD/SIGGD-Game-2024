@@ -6,6 +6,7 @@ public class ManageGhostSwapState : StateMachineBehaviour
 {
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        animator.ResetTrigger("OPT");
         animator.SetTrigger("ATK");
         animator.SetTrigger("SPEC");
         animator.gameObject.SendMessage("StartGhostSwap", null, SendMessageOptions.DontRequireReceiver);

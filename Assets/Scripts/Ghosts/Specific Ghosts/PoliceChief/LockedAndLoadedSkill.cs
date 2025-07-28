@@ -6,8 +6,6 @@ public class LockedAndLoadedSkill : Skill
     [SerializeField] public int[] reserveCharges = {0, 3, 6, 9, 12};
     [HideInInspector] public int pointIndex;
     [HideInInspector] public int reservedCount = -1;
-    [SerializeField] public int chargeSpeedBoostPercent;
-    private bool isChargeBoosted = false;
 
     LevelSwitching levelSwitchingScript;
 
@@ -60,19 +58,5 @@ public class LockedAndLoadedSkill : Skill
     {
         reservedCount = Mathf.Max(reservedCount - 1, 0);
         SaveManager.data.north.reserveSpecialCharges = reservedCount;
-    }
-
-    public void BoostChargeSpeed(PoliceChiefManager manager)
-    {
-        if (isChargeBoosted) return;
-        manager.GetStats().ModifyStat("Special Charge Up Time", -chargeSpeedBoostPercent);
-        isChargeBoosted = true;
-    }
-
-    public void UnboostChargeSpeed(PoliceChiefManager manager)
-    {
-        if (!isChargeBoosted) return;
-        manager.GetStats().ModifyStat("Special Charge Up Time", chargeSpeedBoostPercent);
-        isChargeBoosted = false;
     }
 }

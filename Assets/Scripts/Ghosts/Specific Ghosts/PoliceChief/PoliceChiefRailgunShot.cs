@@ -7,6 +7,7 @@ public class PoliceChiefRailgunShot : MonoBehaviour
     private PoliceChiefManager manager;
     private float travelSpeed = 300f;
     private List<GameObject> damagedEnemies;
+    private List<GameObject> allDamagedEnemies;
 
     // Start is called before the first frame update
     void Start()
@@ -30,6 +31,7 @@ public class PoliceChiefRailgunShot : MonoBehaviour
     {
         PoliceChiefOvercharged overcharged = manager.GetComponent<PoliceChiefOvercharged>();
         damagedEnemies = new List<GameObject>();
+        allDamagedEnemies = new List<GameObject>();
         float remainingDistance = manager.GetStats().ComputeValue("Special Travel Distance");
 
         // Loop for each ricocheting shot
@@ -76,28 +78,9 @@ public class PoliceChiefRailgunShot : MonoBehaviour
                 break;
             }
 
-            // Overclocked surface explosion
-            /*
-            if (overcharged.pointIndex > 0)
-            {
-                Collider2D[] enemiesHit = Physics2D.OverlapCircleAll(hit.point, overcharged.GetExplosionRadius(), LayerMask.GetMask("Enemy"));
-                foreach (Collider2D enemy in enemiesHit)
-                {
-                    enemy.transform.gameObject.GetComponent<Health>().Damage(overcharged.GetExplosionDamage(), PlayerID.instance.gameObject);
-                }
-            }
-            */
-
             // Surface impact VFX
             GameObject surfaceExplosion = Instantiate(manager.specialImpactExplosionVFX, hit.point, Quaternion.identity);
-            if (false)//overcharged.pointIndex > 0)
-            {
-                surfaceExplosion.GetComponent<RingExplosionHandler>().playRingExplosion(overcharged.GetExplosionRadius(), manager.GetComponent<GhostIdentity>().GetCharacterInfo().highlightColor);
-            }
-            else
-            {
-                surfaceExplosion.GetComponent<RingExplosionHandler>().playRingExplosion(2f, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
-            }
+            surfaceExplosion.GetComponent<RingExplosionHandler>().playRingExplosion(2f, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
 
             // Calculate shot aiming vector for next ricochet
             if (i == manager.GetStats().ComputeValue("Special Ricochet Count")) break;
@@ -120,6 +103,13 @@ public class PoliceChiefRailgunShot : MonoBehaviour
         damagedEnemies.Add(enemyHit.transform.gameObject);
         enemyHit.transform.gameObject.GetComponent<Health>().Damage(manager.specialDamage, PlayerID.instance.gameObject);
 
+        // Energy Siphon CD reduction
+        if (!allDamagedEnemies.Contains(enemyHit.transform.gameObject))
+        {
+            allDamagedEnemies.Add(enemyHit.transform.gameObject);
+            manager.GetComponent<PoliceChiefEnergySiphonSkill>().ReduceCooldownOnHit();
+        }
+
         // Overclocked enemy explosion
         PoliceChiefOvercharged overcharged = manager.GetComponent<PoliceChiefOvercharged>();
         if (overcharged.pointIndex > 0)
@@ -128,6 +118,13 @@ public class PoliceChiefRailgunShot : MonoBehaviour
             foreach (Collider2D enemy in enemiesHit)
             {
                 enemy.transform.gameObject.GetComponent<Health>().Damage(overcharged.GetExplosionDamage(), PlayerID.instance.gameObject);
+
+                // Energy Siphon CD reduction
+                if (!allDamagedEnemies.Contains(enemy.transform.gameObject))
+                {
+                    allDamagedEnemies.Add(enemy.transform.gameObject);
+                    manager.GetComponent<PoliceChiefEnergySiphonSkill>().ReduceCooldownOnHit();
+                }
             }
         }
 

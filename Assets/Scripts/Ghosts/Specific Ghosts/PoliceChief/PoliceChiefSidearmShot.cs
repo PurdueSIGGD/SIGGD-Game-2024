@@ -30,9 +30,6 @@ public class PoliceChiefSidearmShot : MonoBehaviour
 
     public void fireSidearmShot(PoliceChiefManager manager, Vector2 pos, Vector2 dir, bool isDoubleTap)
     {
-        //this.manager = manager;
-        //this.isDoubleTap = isDoubleTap;
-        //StartCoroutine(sidearmShotCoroutine(pos, dir));
         fireSidearmShot(manager, pos, dir, isDoubleTap, false);
     }
 

@@ -28,16 +28,6 @@ public class PoliceChiefEnergySiphonSkill : Skill
         }
     }
 
-    private void OnEnable()
-    {
-        GameplayEventHolder.OnDamageDealt += OnDmg;
-    }
-
-    private void OnDisable()
-    {
-        GameplayEventHolder.OnDamageDealt -= OnDmg;
-    }
-
     public override void AddPointTrigger()
     {
         pointIndex = GetPoints();
@@ -53,20 +43,17 @@ public class PoliceChiefEnergySiphonSkill : Skill
         pointIndex = GetPoints();
     }
 
-    void OnDmg(DamageContext context)
+    public void ReduceCooldownOnHit()
     {
-        if (context.attacker == PlayerID.instance.gameObject && context.actionID == ActionID.POLICE_CHIEF_SPECIAL)
+        if (pointIndex <= 0) return;
+        float cooldownReduction = stats.ComputeValue("Special Cooldown") * (values[pointIndex] / 100f);
+        if (policeChiefManager.getSpecialCooldown() > 0)
         {
-            if (pointIndex <= 0) return;
-            float cooldownReduction = stats.ComputeValue("Special Cooldown") * (values[pointIndex] / 100f);
-            if (policeChiefManager.getSpecialCooldown() > 0)
-            {
-                policeChiefManager.setSpecialCooldown(policeChiefManager.getSpecialCooldown() - cooldownReduction);
-            }
-            else
-            {
-                accumulatedCooldownReduction += cooldownReduction;
-            }
+            policeChiefManager.setSpecialCooldown(policeChiefManager.getSpecialCooldown() - cooldownReduction);
+        }
+        else
+        {
+            accumulatedCooldownReduction += cooldownReduction;
         }
     }
 }

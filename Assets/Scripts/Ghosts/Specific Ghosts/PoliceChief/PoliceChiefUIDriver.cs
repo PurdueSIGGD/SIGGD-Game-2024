@@ -32,7 +32,6 @@ public class PoliceChiefUIDriver : GhostUIDriver
 
     private void updateBasicAbility()
     {
-        //basicAbilityUIManager.setAbilityHighlighted(GetComponent<PoliceChiefPowerSpike>().GetAbleToCrit());
         basicAbilityUIManager.setAbilityEnabled(manager.basicAmmo > 0);
         basicAbilityUIManager.setMeterValue(manager.basicAmmo, stats.ComputeValue("Basic Starting Ammo"));
         basicAbilityUIManager.setChargeWidgetActive(true);
@@ -51,12 +50,14 @@ public class PoliceChiefUIDriver : GhostUIDriver
     private void updateSpecialAbility()
     {
         specialAbilityUIManager.setAbilityCooldownTime(manager.getSpecialCooldown(), stats.ComputeValue("Special Cooldown"));
+        
+        // Locked and Loaded
         if (lockedAndLoaded.reservedCount > 0)
         {
             specialAbilityUIManager.setNumberActive(false);
             specialAbilityUIManager.setAbilityEnabled(true);
             specialAbilityUIManager.setChargeWidgetActive(true);
-            specialAbilityUIManager.setChargeValue(lockedAndLoaded.reservedCount, (manager.getSpecialCooldown() > 0) ? 0f : 100f);
+            specialAbilityUIManager.setChargeValue(lockedAndLoaded.reservedCount, ((manager.special != null && manager.special.isPrimed) && manager.getSpecialCooldown() <= 0) ? 100f : 0f);
         }
         else
         {
