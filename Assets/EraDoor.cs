@@ -34,12 +34,12 @@ public class EraDoor : MonoBehaviour
                 SpecificLevelPool pool = new(new Level[] { new("North First Encounter", 1) }, ghostOneFirstEncounterLoc);
                 specificLevels.Add(pool);
             }
-            else if (SaveManager.data.north.storyProgress == 2) // North Hub Dialogue
+            else if (SaveManager.data.north.storyProgress == 2) // North story beat 1
             {
                 SpecificLevelPool pool = new(new Level[] { new("North Story Beat One", 1) }, GenerateStorybeatLocation());
                 specificLevels.Add(pool);
             }
-            else if (SaveManager.data.north.storyProgress == 3)
+            else if (SaveManager.data.north.storyProgress == 3) // North story beat 2
             {
                 SpecificLevelPool pool = new(new Level[] { new("North Story Beat Two", 1) }, GenerateStorybeatLocation());
                 specificLevels.Add(pool);
@@ -51,12 +51,12 @@ public class EraDoor : MonoBehaviour
                 SpecificLevelPool pool = new(new Level[] { new("Eva First Encounter", 1) }, ghostTwoFirstEncounterLoc);
                 specificLevels.Add(pool);
             }
-            else if (SaveManager.data.eva.storyProgress == 2) // North Hub Dialogue
+            else if (SaveManager.data.eva.storyProgress == 2) // Eva story beat 1
             {
                 SpecificLevelPool pool = new(new Level[] { new("Eva Story Beat One", 1) }, GenerateStorybeatLocation());
                 specificLevels.Add(pool);
             }
-            else if (SaveManager.data.eva.storyProgress == 3)
+            else if (SaveManager.data.eva.storyProgress == 3) // Eva story beat 2
             {
                 SpecificLevelPool pool = new(new Level[] { new("Eva Story Beat Two", 1) }, GenerateStorybeatLocation());
                 specificLevels.Add(pool);

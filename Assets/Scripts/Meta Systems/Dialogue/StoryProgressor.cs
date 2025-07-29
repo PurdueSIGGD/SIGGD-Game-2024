@@ -8,6 +8,7 @@ public class StoryProgresser : MonoBehaviour
     [SerializeField] string requiredDialogue;
     [SerializeField] string ghost;
     [SerializeField] int progressTo;
+    [SerializeField] bool autoProgress;
 
     void Awake()
     {
@@ -16,14 +17,19 @@ public class StoryProgresser : MonoBehaviour
 
     void OnDisable()
     {
+        if (autoProgress)
+        {
+            ProgressStory(requiredDialogue);
+        }
         DialogueManager.onFinishDialogue -= ProgressStory;
     }
 
-    public void Init(string requiredDialogue, string ghost, int progressTo)
+    public void Init(string requiredDialogue, string ghost, int progressTo, bool autoProgress = false)
     {
         this.requiredDialogue = requiredDialogue;
         this.ghost = ghost;
         this.progressTo = progressTo;
+        this.autoProgress = autoProgress;
     }
 
     private void ProgressStory(string key)
