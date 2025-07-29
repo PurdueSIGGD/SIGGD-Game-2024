@@ -17,6 +17,7 @@ public class Crow : EnemyStateManager
 
     void Start()
     {
+        base.Start();
         MoveState = new CrowMoveState();
         diveDamage.damage = damage;
     }
@@ -123,7 +124,7 @@ public class Crow : EnemyStateManager
             if (GenerateDamageFrame(crowDive.position, 0.65f, diveDamage, gameObject))
             {
                 print("WE HIT EM LETS GOOOOOO");
-                Instantiate(poisonDebuff, player.transform);
+                Instantiate(poisonDebuff, player.transform).GetComponent<PoisonDebuff>().SetAttacker(this.gameObject);
                 EndDive();
                 break;
             }
