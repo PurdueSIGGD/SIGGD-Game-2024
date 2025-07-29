@@ -137,4 +137,9 @@ public class MageLightningAttack : MonoBehaviour
 
         ringSpriteRenderer.size = spriteWorldSize * scaleFactor;
     }
+
+    public bool IsFollowing()
+    {
+        return followPlayer;
+    }
 }
