@@ -116,7 +116,6 @@ public class RelentlessFury : Skill
     public override void ClearPointsTrigger()
     {
         pointIndex = GetPoints();
-
     }
 
     public override void RemovePointTrigger()

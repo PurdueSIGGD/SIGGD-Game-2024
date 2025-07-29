@@ -73,7 +73,7 @@ public class SamuraiRetribution : MonoBehaviour
         // SFX
         if (!parryChaining)
         {
-            AudioManager.Instance.SFXBranch.PlaySFXTrack("Akihito-Parry Success");
+            //AudioManager.Instance.SFXBranch.PlaySFXTrack("Akihito-Parry Success");
             AudioManager.Instance.SFXBranch.PlaySFXTrack("Akihito-Parry Failure");
         }
     }
