@@ -6,6 +6,7 @@ public class EnemySpawning : MonoBehaviour
 {
     public static EnemySpawning instance;
     public static EnemySpawn[] enemies;
+    public bool roomCleared; // toggled true when all enemies are killed and no more can be spawned
     [SerializeField] int startMinEnemiesSpawn;
     [SerializeField] int startMaxEnemiesSpawn;
     [SerializeField] int endMinEnemiesSpawn;
@@ -53,6 +54,7 @@ public class EnemySpawning : MonoBehaviour
                 else
                 {
                     Door.activateDoor(true);
+                    roomCleared = true;
                     foreach (Door door in GameObject.FindObjectsOfType<Door>()) 
                     {
                         Instantiate(doorIndicator, door.transform.position, Quaternion.identity);

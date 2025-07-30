@@ -10,11 +10,15 @@ public class EraDoor : MonoBehaviour
     [SerializeField] EnemySpawn[] enemies;
 
     [SerializeField] Era era;
-    [SerializeField] int maxLevels = 20;
-    [SerializeField] int ghostOneFirstEncounterLoc = 5;
-    [SerializeField] int ghostTwoFirstEncounterLoc = 15;
-    [SerializeField] int minPossibleStorybeatLoc = 3;
-    [SerializeField] int maxPossibleStorybeatLoc = 15;
+    //[SerializeField] int maxLevels = 20;
+    //[SerializeField] int minPossibleStorybeatLoc = 3;
+    //[SerializeField] int maxPossibleStorybeatLoc = 15;
+    [SerializeField] int ghostOneFirstEncounterLoc = 3;
+    [SerializeField] int ghostOneStoryBeatOne = 3;
+    [SerializeField] int ghostOneStoryBeatTwo = 3;
+    [SerializeField] int ghostTwoFirstEncounterLoc = 6;
+    [SerializeField] int ghostTwoStoryBeatOne = 6;
+    [SerializeField] int ghostTwoStoryBeatTwo = 6;
 
     // Rough progression of story progress:
     // 0: first encounter
@@ -41,7 +45,7 @@ public class EraDoor : MonoBehaviour
             }
             else if (SaveManager.data.north.storyProgress == 3) // North story beat 2
             {
-                SpecificLevelPool pool = new(new Level[] { new("North Story Beat Two", 1) }, GenerateStorybeatLocation());
+                SpecificLevelPool pool = new(new Level[] { new("North Story Beat Two", 1) }, ghostOneStoryBeatTwo);
                 specificLevels.Add(pool);
             }
 
@@ -53,12 +57,12 @@ public class EraDoor : MonoBehaviour
             }
             else if (SaveManager.data.eva.storyProgress == 2) // Eva story beat 1
             {
-                SpecificLevelPool pool = new(new Level[] { new("Eva Story Beat One", 1) }, GenerateStorybeatLocation());
+                SpecificLevelPool pool = new(new Level[] { new("Eva Story Beat One", 1) }, ghostTwoStoryBeatOne);
                 specificLevels.Add(pool);
             }
             else if (SaveManager.data.eva.storyProgress == 3) // Eva story beat 2
             {
-                SpecificLevelPool pool = new(new Level[] { new("Eva Story Beat Two", 1) }, GenerateStorybeatLocation());
+                SpecificLevelPool pool = new(new Level[] { new("Eva Story Beat Two", 1) }, ghostTwoStoryBeatTwo);
                 specificLevels.Add(pool);
             }
         }
@@ -67,15 +71,16 @@ public class EraDoor : MonoBehaviour
         EnemySpawning.enemies = enemies;
     }
 
-    private int GenerateStorybeatLocation()
-    {
-        int storyBeatLoc = Random.Range(minPossibleStorybeatLoc, maxPossibleStorybeatLoc);
-        while (storyBeatLoc == ghostOneFirstEncounterLoc || storyBeatLoc == ghostTwoFirstEncounterLoc)
-        {
-            storyBeatLoc = Random.Range(minPossibleStorybeatLoc, maxPossibleStorybeatLoc);
-        }
-        return storyBeatLoc;
-    }
+    // can be used to generate a random index for story beat to occur, currently not in use
+    //private int GenerateStorybeatLocation()
+    //{
+    //    int storyBeatLoc = Random.Range(minPossibleStorybeatLoc, maxPossibleStorybeatLoc);
+    //    while (storyBeatLoc == ghostOneFirstEncounterLoc || storyBeatLoc == ghostTwoFirstEncounterLoc)
+    //    {
+    //        storyBeatLoc = Random.Range(minPossibleStorybeatLoc, maxPossibleStorybeatLoc);
+    //    }
+    //    return storyBeatLoc;
+    //}
 
     public enum Era
     {

@@ -21,6 +21,9 @@ public class ConvoConverterWizard : ScriptableWizard
             ConvoData data = new ConvoData();
             EditorJsonUtility.FromJsonOverwrite(convoFile.ToString(), data);
 
+            // cannot create asset with colon symbol
+            data.convoName = data.convoName.Replace(":", ""); 
+
             Debug.Log(convoFile.name);
             Debug.Log(data.convoName);
 
