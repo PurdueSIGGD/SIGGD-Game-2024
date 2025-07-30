@@ -66,8 +66,6 @@ public class GhostUIDriver : MonoBehaviour, ISelectable
         {
             isInParty = false;
 
-            Debug.Log("count " + count);
-
             ghostIdentity.TriggerExitPartyBehavior();
 
             // switch to orion
