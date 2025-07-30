@@ -120,6 +120,8 @@ public class PartyManager : MonoBehaviour
                 SaveManager.data.ghostsInParty = ghostsInParty;
             }
 
+            ghost.gameObject.GetComponent<GhostUIDriver>().UpdatePartyStatus();
+
             return true;
         }
 
@@ -258,7 +260,17 @@ public class PartyManager : MonoBehaviour
     /// <param ghostName="ghostIndex"></param>
     public bool RemoveGhostFromParty(GhostIdentity ghost)
     {
-        return ghostsInParty.Remove(ghost.name);
+        bool success = ghostsInParty.Remove(ghost.name);
+
+        ghost.gameObject.GetComponent<GhostUIDriver>().UpdatePartyStatus();
+
+        Debug.Log("Saving Ghosts");
+        if (isStoryRoom)
+        {
+            SaveManager.data.ghostsInParty = ghostsInParty;
+        }
+
+        return success;
     }
 
     /// <summary>

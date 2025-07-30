@@ -4,8 +4,11 @@ using UnityEngine.UI;
 
 public class PartyManagerUI : MonoBehaviour
 {
+
     public static readonly string ADD_PARTY_LABEL = "Add (Party)";
     public static readonly string REMOVE_PARTY_LABEL = "Remove (Party)";
+
+    public static PartyManagerUI instance = null;
 
     [Header("Selected Ghost Details")]
 
@@ -41,6 +44,11 @@ public class PartyManagerUI : MonoBehaviour
     private void Awake()
     {
         gameObject.SetActive(false);
+    }
+
+    private void Start()
+    {
+        instance = this;
     }
 
     private void Update()
