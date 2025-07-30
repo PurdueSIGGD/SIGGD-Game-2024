@@ -467,8 +467,10 @@ MonoBehaviour:
     value: 3
   - name: Heavy Attack Maximum Travel Distance
     value: 8
+  - name: Heavy Attack Guaranteed Travel Distance
+    value: 1
   - name: Heavy Attack On-hit Final Travel Distance
-    value: 0.7
+    value: -2
   - name: Heavy Attack Travel Speed
     value: 50
   - name: Heavy Attack Post Dash Momentum Fraction
@@ -478,13 +480,13 @@ MonoBehaviour:
   - name: Wrath Percent Gain Per Damage Dealt
     value: 0.6
   - name: Wrath Percent Loss Per Damage Taken
-    value: 3
+    value: 100
   - name: Wrath Decay Buffer
     value: 3
   - name: Wrath Decay Rate
     value: 0.125
   - name: Melee Parry Base Damage
-    value: 10
+    value: 0
   - name: Melee Parry Bonus Damage per Incoming Attack Damage
     value: 2
   - name: Melee Parry Stun Time
@@ -681,10 +683,10 @@ MonoBehaviour:
     extraContext: 
   values:
   - 0
+  - 0.01
   - 0.02
+  - 0.03
   - 0.04
-  - 0.06
-  - 0.08
 --- !u!114 &6412266853432260435
 MonoBehaviour:
   m_ObjectHideFlags: 0

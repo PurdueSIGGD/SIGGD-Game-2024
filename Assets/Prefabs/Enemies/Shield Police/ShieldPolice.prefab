@@ -422,6 +422,7 @@ MonoBehaviour:
   aggroRange: 15
   isBeingKnockedBack: 0
   grounded: 0
+  groundedRayCheckLength: 1
   batonTrigger: {fileID: 7835333299776145468}
   batonDamage:
     damageStrength: 1
@@ -430,7 +431,7 @@ MonoBehaviour:
     actionTypes: 07000000
     extraContext: Shield Police Baton
     raycastHitPosition: {x: 0, y: 0}
-  batonDamageVal: 10
+  batonDamageVal: 15
   chargeTrigger: {fileID: 5532669551329529462}
   chargeDamage:
     damageStrength: 4
@@ -558,18 +559,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dropTable:
-  - obj: {fileID: 4809253014695496824, guid: fe291ced3ae40fc46a74c816a48d0e61, type: 3}
-    chance: 0.5
-    minCount: 1
-    maxCount: 3
   - obj: {fileID: 4809253014695496824, guid: 4950ea8f40c9d9944b6d20a6150d4cce, type: 3}
-    chance: 0.8
-    minCount: 0
-    maxCount: 2
+    chance: 1
+    minCount: 2
+    maxCount: 5
+  - obj: {fileID: 4809253014695496824, guid: fe291ced3ae40fc46a74c816a48d0e61, type: 3}
+    chance: 1
+    minCount: 2
+    maxCount: 5
   - obj: {fileID: 4809253014695496824, guid: e8a6431bc0e6c7a4e922f586f4216e97, type: 3}
     chance: 1
-    minCount: 0
-    maxCount: 2
+    minCount: 2
+    maxCount: 5
 --- !u!1 &7241042388776439341
 GameObject:
   m_ObjectHideFlags: 0
