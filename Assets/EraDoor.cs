@@ -40,7 +40,7 @@ public class EraDoor : MonoBehaviour
             }
             else if (SaveManager.data.north.storyProgress == 2) // North story beat 1
             {
-                SpecificLevelPool pool = new(new Level[] { new("North Story Beat One", 1) }, GenerateStorybeatLocation());
+                SpecificLevelPool pool = new(new Level[] { new("North Story Beat One", 1) }, ghostOneStoryBeatOne);
                 specificLevels.Add(pool);
             }
             else if (SaveManager.data.north.storyProgress == 3) // North story beat 2
