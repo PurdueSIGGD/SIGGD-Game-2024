@@ -35,18 +35,21 @@ public class EraDoor : MonoBehaviour
             // North
             if (SaveManager.data.north.storyProgress == 0) // North First Encounter
             {
-                SpecificLevelPool pool = new(new Level[] { new("North First Encounter", 1) }, ghostOneFirstEncounterLoc);
+                SpecificLevelPool pool = new(new Level[] { new("North First Encounter", 1) }, 1);
                 specificLevels.Add(pool);
             }
-            else if (SaveManager.data.north.storyProgress == 2) // North story beat 1
+            else if (PartyManager.instance.IsGhostInParty("North-Police_Chief")) 
             {
-                SpecificLevelPool pool = new(new Level[] { new("North Story Beat One", 1) }, ghostOneStoryBeatOne);
-                specificLevels.Add(pool);
-            }
-            else if (SaveManager.data.north.storyProgress == 3) // North story beat 2
-            {
-                SpecificLevelPool pool = new(new Level[] { new("North Story Beat Two", 1) }, ghostOneStoryBeatTwo);
-                specificLevels.Add(pool);
+                if (SaveManager.data.north.storyProgress == 1 || SaveManager.data.north.storyProgress == 2) // North story beat 1
+                {
+                    SpecificLevelPool pool = new(new Level[] { new("North Story Beat One", 1) }, 1);
+                    specificLevels.Add(pool);
+                }
+                else if (SaveManager.data.north.storyProgress == 3) // North story beat 2
+                {
+                    SpecificLevelPool pool = new(new Level[] { new("North Story Beat Two", 1) }, 1);
+                    specificLevels.Add(pool);
+                }
             }
 
             // Eva
@@ -55,15 +58,18 @@ public class EraDoor : MonoBehaviour
                 SpecificLevelPool pool = new(new Level[] { new("Eva First Encounter", 1) }, ghostTwoFirstEncounterLoc);
                 specificLevels.Add(pool);
             }
-            else if (SaveManager.data.eva.storyProgress == 2) // Eva story beat 1
+            else if (PartyManager.instance.IsGhostInParty("Eva-Idol"))
             {
-                SpecificLevelPool pool = new(new Level[] { new("Eva Story Beat One", 1) }, ghostTwoStoryBeatOne);
-                specificLevels.Add(pool);
-            }
-            else if (SaveManager.data.eva.storyProgress == 3) // Eva story beat 2
-            {
-                SpecificLevelPool pool = new(new Level[] { new("Eva Story Beat Two", 1) }, ghostTwoStoryBeatTwo);
-                specificLevels.Add(pool);
+                if (SaveManager.data.eva.storyProgress == 1 || SaveManager.data.eva.storyProgress == 2) // Eva story beat 1
+                {
+                    SpecificLevelPool pool = new(new Level[] { new("Eva Story Beat One", 1) }, ghostTwoStoryBeatOne);
+                    specificLevels.Add(pool);
+                }
+                else if (SaveManager.data.eva.storyProgress == 3) // Eva story beat 2
+                {
+                    SpecificLevelPool pool = new(new Level[] { new("Eva Story Beat Two", 1) }, ghostTwoStoryBeatTwo);
+                    specificLevels.Add(pool);
+                }
             }
         }
         LevelSwitching.levels = levels;
