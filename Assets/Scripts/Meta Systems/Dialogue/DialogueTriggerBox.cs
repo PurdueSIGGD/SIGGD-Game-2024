@@ -24,6 +24,7 @@ public class DialogueTriggerBox : MonoBehaviour
         {
             DialogueManager dialogueManager = FindAnyObjectByType<DialogueManager>(FindObjectsInactive.Include);
             dialogueManager.StartDialogue(convo);
+            this.enabled = false;
         }
     }
 

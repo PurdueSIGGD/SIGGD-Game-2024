@@ -60,11 +60,25 @@ public class VAManager : MonoBehaviour {
 
     // Don't test for voiceline spam - conversation lines MUST play
     public void PlayConversationLine(string convName, int lineNumber) {
-        lookUpTable.conversationTable[convName].PlayTrack(lineNumber);
+        try
+        {
+            lookUpTable.conversationTable[convName].PlayTrack(lineNumber);
+        } 
+        catch (Exception e)
+        {
+            Debug.LogWarning("Cannot find conversation " + convName + " with line number " + lineNumber);
+        }
     }
 
     public void StopConversationLine(string convName, int lineNumber) {
-        lookUpTable.conversationTable[convName].StopTrack(lineNumber);
+        try
+        {
+            lookUpTable.conversationTable[convName].StopTrack(lineNumber);
+        }
+        catch (Exception e)
+        {
+            Debug.LogWarning("Cannot find conversation " + convName + " with line number " + lineNumber);
+        }
     }
 
     public IEnumerator Debug_Culling_Status() {
