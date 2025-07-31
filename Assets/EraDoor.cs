@@ -35,19 +35,19 @@ public class EraDoor : MonoBehaviour
             // North
             if (SaveManager.data.north.storyProgress == 0) // North First Encounter
             {
-                SpecificLevelPool pool = new(new Level[] { new("North First Encounter", 1) }, 1);
+                SpecificLevelPool pool = new(new Level[] { new("North First Encounter", 1) }, ghostOneFirstEncounterLoc);
                 specificLevels.Add(pool);
             }
             else if (PartyManager.instance.IsGhostInParty("North-Police_Chief")) 
             {
                 if (SaveManager.data.north.storyProgress == 1 || SaveManager.data.north.storyProgress == 2) // North story beat 1
                 {
-                    SpecificLevelPool pool = new(new Level[] { new("North Story Beat One", 1) }, 1);
+                    SpecificLevelPool pool = new(new Level[] { new("North Story Beat One", 1) }, ghostOneStoryBeatOne);
                     specificLevels.Add(pool);
                 }
                 else if (SaveManager.data.north.storyProgress == 3) // North story beat 2
                 {
-                    SpecificLevelPool pool = new(new Level[] { new("North Story Beat Two", 1) }, 1);
+                    SpecificLevelPool pool = new(new Level[] { new("North Story Beat Two", 1) }, ghostOneStoryBeatTwo);
                     specificLevels.Add(pool);
                 }
             }
