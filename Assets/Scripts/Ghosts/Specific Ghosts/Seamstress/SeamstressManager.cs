@@ -81,7 +81,10 @@ public class SeamstressManager : GhostManager
     {
         spools = (int) Math.Clamp(spools + nspools, 0, stats.ComputeValue("Max Spools"));
         SaveManager.data.yume.spoolCount = spools;
-        GameplayEventHolder.OnAbilityUsed.Invoke(onSpoolGained);
+        if (nspools > 0)
+        {
+            GameplayEventHolder.OnAbilityUsed.Invoke(onSpoolGained);
+        }
     }
 
     public void SetWeaveTimer(float time)

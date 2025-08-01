@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 5978596217540347318}
   - component: {fileID: 6929056156911069088}
   - component: {fileID: 5409127624454326957}
+  - component: {fileID: 3307188215727306708}
   m_Layer: 17
   m_Name: Yume-Seamstress
   m_TagString: Ghost
@@ -381,7 +382,7 @@ MonoBehaviour:
   skills:
   - {fileID: 5978596217540347318}
   - {fileID: 6929056156911069088}
-  - {fileID: 670032466409933237}
+  - {fileID: 3307188215727306708}
   - {fileID: 670032466409933237}
   - {fileID: 5409127624454326957}
   - {fileID: 670032466409933237}
@@ -439,6 +440,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: bdad5160f0c1fc44395601583cd8beea, type: 2}
+--- !u!114 &3307188215727306708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981645078808632434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a5634e4460f5c64aa2d46cd1616a0d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillSO: {fileID: 11400000, guid: d3bba513ba7b93641a6033c2f8ebbb23, type: 2}
+  effectiveRadius: 25
+  projectile: {fileID: 7381343649167062800, guid: 4c2903f8384bf8f449b86df35fb56a7e,
+    type: 3}
+  projectileSpeed: 5
+  debuffDuration: 10
 --- !u!1 &4936111184687609786
 GameObject:
   m_ObjectHideFlags: 0

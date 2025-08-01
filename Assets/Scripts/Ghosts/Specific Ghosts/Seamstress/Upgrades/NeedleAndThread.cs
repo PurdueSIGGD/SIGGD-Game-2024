@@ -5,7 +5,9 @@ using UnityEngine;
 public class NeedleAndThread : Skill
 {
     [SerializeField] float effectiveRadius;
-    [SerializeField] NeedleAndThreadProjectile projectile;
+    [SerializeField] GameObject projectile;
+    [SerializeField] float projectileSpeed;
+    [SerializeField] float debuffDuration;
     private SeamstressManager manager;
 
     void Start()
@@ -14,13 +16,20 @@ public class NeedleAndThread : Skill
         GameplayEventHolder.OnAbilityUsed += ShootNeedlesOnGainSpools;
     }
 
+    private void OnDisable()
+    {
+        GameplayEventHolder.OnAbilityUsed -= ShootNeedlesOnGainSpools;
+    }
+
     private void ShootNeedlesOnGainSpools(ActionContext context)
     {
         if (context.actionID == ActionID.SEAMSTRESS_BASIC && context.extraContext.Equals("Gained Spool"))
         {
-            Physics2D.OverlapCircleAll(transform.position, effectiveRadius);
-            NeedleAndThreadProjectile projectileRef = Instantiate(projectile, PlayerID.instance.transform.position, PlayerID.instance.transform.rotation);
-            
+            foreach (Collider2D collider in Physics2D.OverlapCircleAll(transform.position, effectiveRadius, LayerMask.GetMask("Enemy")))
+            {
+                NeedleAndThreadProjectile projectileRef = Instantiate(projectile, PlayerID.instance.transform.position, PlayerID.instance.transform.rotation).GetComponent<NeedleAndThreadProjectile>();
+                projectileRef.Init(collider.gameObject, projectileSpeed, 5.0f, GetPoints() * 20 + 5, debuffDuration);
+            }
         }
     }
 
