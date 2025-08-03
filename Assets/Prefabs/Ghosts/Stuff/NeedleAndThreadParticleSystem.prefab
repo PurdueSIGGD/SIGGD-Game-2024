@@ -47,9 +47,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseParticleVelocity: 2
-  baseParticleAccel: 4
-  deviationMagnitude: 2.5
-  correctionMagnitude: 0.5
+  baseParticleAccel: 5
+  deviationMagnitude: 3
+  correctionMagnitude: 1
 --- !u!198 &1388357818863256474
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -304,7 +304,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.1
+      scalar: 0.08
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -3957,29 +3957,29 @@ ParticleSystem:
     lifetime:
       serializedVersion: 2
       minMaxState: 1
-      scalar: 0.05
+      scalar: 0.015
       minScalar: 1
       maxCurve:
         serializedVersion: 2
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 0.43022883
-          inSlope: -0.42891312
-          outSlope: -0.42891312
-          tangentMode: 0
+          value: 1
+          inSlope: -1
+          outSlope: -1
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0.33333334
+        - serializedVersion: 3
+          time: 1
+          value: 0
+          inSlope: -1
+          outSlope: -1
+          tangentMode: 34
           weightedMode: 0
           inWeight: 0.33333334
-          outWeight: 0.13846153
-        - serializedVersion: 3
-          time: 0.97891563
-          value: 0.046512134
-          inSlope: -0.4021282
-          outSlope: -0.4021282
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0.14769234
-          outWeight: 0.33333334
+          outWeight: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
