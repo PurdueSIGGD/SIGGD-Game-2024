@@ -11,6 +11,7 @@ public class SaveData
     public Dictionary<string, int[]> ghostSkillPts = new();
     public List<string> saveGhostNames = new();
     public List<List<int>> saveGhostData = new();
+
     public int[] northSkillPts = new int[8];
     public int[] evaSkillPts = new int[8];
     public int[] akihitoSkillPts = new int[8];
@@ -21,6 +22,9 @@ public class SaveData
     public EvaData eva = new();
     public YumeData yume = new();
     public AegisData aegis = new();
+
+    // 0: blue, 1: red, 2: yellow, 3: pink
+    public int[] spiritCounts = new int[4];
 }
 
 

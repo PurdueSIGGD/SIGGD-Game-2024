@@ -19,6 +19,11 @@ public class SpiritTracker : MonoBehaviour
         Spirit.SpiritCollected -= CollectSpirit;
     }
 
+     void Update()
+    {
+        Debug.Log("life + blue " + blueSpiritsCollected);
+    }
+
     private void CollectSpirit(Spirit.SpiritType spiritType)
     {
         switch (spiritType)
@@ -36,5 +41,16 @@ public class SpiritTracker : MonoBehaviour
                 pinkSpiritsCollected++;
                 break;
         }
+    }
+
+    /// <summary>
+    /// Call when user chooses to transfer collected spirits to the Hub
+    /// </summary>
+    public void SaveSpiritCounts()
+    {
+        SaveManager.data.spiritCounts[0] += blueSpiritsCollected;
+        SaveManager.data.spiritCounts[1] += redSpiritsCollected;
+        SaveManager.data.spiritCounts[2] += yellowSpiritsCollected;
+        SaveManager.data.spiritCounts[3] += pinkSpiritsCollected;
     }
 }
