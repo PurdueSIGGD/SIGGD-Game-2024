@@ -22,6 +22,9 @@ public class NeedleThreadParticles : MonoBehaviour
     private int debuffStrength;
     private float debuffDuration;
 
+    [SerializeField] ParticleSystemForceField forceField;
+    [SerializeField] float lockOnTime = 1;
+
     public void Init(Collider2D[] targets, int debuffStrength, float debuffDuration)
     {
         this.targets = targets;
@@ -42,13 +45,18 @@ public class NeedleThreadParticles : MonoBehaviour
 
     void LateUpdate()
     {
-        if (initiated) UpdateNeedleVelocity(Time.deltaTime);
+        if (initiated && lockOnTime < 0f)
+        {
+            forceField.enabled = false;
+            UpdateNeedleVelocity(Time.deltaTime);
+        }
+        else lockOnTime -= Time.deltaTime;
     }
 
     public void EmitNeedles(Collider2D[] enemies)
     {
         ParticleSystem.EmitParams emitParams = new();
-        emitParams.startLifetime = 3f;
+        emitParams.startLifetime = 4f;
 
         // emit the particles
         system.Emit(emitParams, enemies.Length);
