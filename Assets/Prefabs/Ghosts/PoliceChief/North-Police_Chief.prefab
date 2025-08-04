@@ -221,14 +221,14 @@ MonoBehaviour:
     actionID: 5
     actionTypes: 0100000002000000
     extraContext: 
-    raycastHitPosition: {x: 0, y: 0}
+    ghostID: 1
   specialDamage:
     damageStrength: 3
     damageTypes: 01000000
     actionID: 6
     actionTypes: 03000000
     extraContext: 
-    raycastHitPosition: {x: 0, y: 0}
+    ghostID: 1
   basicAmmoPickup: {fileID: 2971365794380548036, guid: 129594c2a2d871549883d8535e9655ee,
     type: 3}
   basicShot: {fileID: 6659373191663231290, guid: af6d9e3fef051da4c8265b8d37aa480b,
@@ -309,7 +309,7 @@ MonoBehaviour:
     actionID: 5
     actionTypes: 010000000200000004000000
     extraContext: 
-    raycastHitPosition: {x: 0, y: 0}
+    ghostID: 1
 --- !u!114 &6532718052842151599
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -326,7 +326,6 @@ MonoBehaviour:
   reserveCharges: 0000000002000000040000000600000008000000
   pointIndex: 0
   reservedCount: 0
-  chargeSpeedBoostPercent: 90
 --- !u!114 &589596433784939328
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -422,7 +421,7 @@ MonoBehaviour:
     actionID: 5
     actionTypes: 010000000200000004000000
     extraContext: Power Spike Explosion
-    raycastHitPosition: {x: 0, y: 0}
+    ghostID: 1
 --- !u!114 &572864510421831245
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -453,7 +452,7 @@ MonoBehaviour:
     actionID: 6
     actionTypes: 0400000003000000
     extraContext: 
-    raycastHitPosition: {x: 0, y: 0}
+    ghostID: 1
   playerBaseDamage: 10
   playerDamagePercent: 0.334
   timer: -1

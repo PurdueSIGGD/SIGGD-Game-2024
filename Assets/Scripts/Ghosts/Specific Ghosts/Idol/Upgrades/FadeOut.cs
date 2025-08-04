@@ -86,6 +86,8 @@ public class FadeOut : Skill
             //float damageMultiplier = 1f + (values[pointIndex] / 100f);
             //damageContext.damage *= damageMultiplier;
             damageContext.damage += values[pointIndex];
+            damageContext.damageStrength = DamageStrength.HEAVY;
+            damageContext.ghostID = GhostID.EVA;
 
             StartCoroutine(RemoveInvisibilityOnTimer(0f)); // we MUST wait 1 frame before removing invis. Here's why: ask Temirlan
         }

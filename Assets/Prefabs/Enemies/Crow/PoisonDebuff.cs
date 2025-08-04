@@ -28,6 +28,11 @@ public class PoisonDebuff : MonoBehaviour
     {
         if (duration <= 0f)
         {
+            health = gameObject.GetComponentInParent<Health>();
+            if (health != null)
+            {
+                health.Damage(damageContext, damageContext.attacker);
+            }
             Destroy(gameObject);
         }
         duration -= Time.deltaTime;

@@ -148,7 +148,7 @@ public class WrathHeavyAttack : MonoBehaviour
         primedHeavyDamage = Mathf.Lerp(manager.GetStats().ComputeValue("Primed Attack Extra Minimum Damage"), 
                                        manager.GetStats().ComputeValue("Primed Attack Extra Maximum Damage"), 
                                        manager.wrathPercent);
-        manager.heavyDamageContext.damageStrength = DamageStrength.HEAVY;
+        manager.heavyDamageContext.damageStrength = DamageStrength.MODERATE;
         manager.heavyDamageContext.extraContext = "Full Charge";
     }
 
