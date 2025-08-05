@@ -1,4 +1,5 @@
 using JetBrains.Annotations;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -25,6 +26,7 @@ public class SpiritShopManager : MonoBehaviour, IScreenUI
     private const int NUM_ITEMS = 3; // num items to display in shop 
 
     private SpiritTracker spiritTracker;
+    private bool turnCompleted = false;
 
     public void OnNextCloseCall(UnityAction action)
     {
@@ -37,11 +39,7 @@ public class SpiritShopManager : MonoBehaviour, IScreenUI
 
         spiritTracker = PersistentData.Instance.GetComponent<SpiritTracker>();
 
-        redSpiritCountText.text = spiritTracker.redSpiritsCollected.ToString();
-        blueSpiritCountText.text = spiritTracker.blueSpiritsCollected.ToString();
-        yellowSpiritCountText.text = spiritTracker.yellowSpiritsCollected.ToString();
-
-        //sendSpiritsToHubButton.onClick.AddListener(SpiritTracker.SaveSpiritCounts);
+        sendSpiritsToHubButton.onClick.AddListener(SaveSpirits);
 
         //itemBox1.createItemBox("Test 1");
         //itemBox2.createItemBox("Test 2");
@@ -55,6 +53,28 @@ public class SpiritShopManager : MonoBehaviour, IScreenUI
 
     public void OpenShopUI()
     {
+        if (turnCompleted) return;
         gameObject.SetActive(true);
+    }
+
+    public void CloseShopUI()
+    {
+        gameObject.SetActive(false);
+    }
+    private void UpdateSpiritCountText()
+    {
+        redSpiritCountText.text = spiritTracker.redSpiritsCollected.ToString();
+        blueSpiritCountText.text = spiritTracker.blueSpiritsCollected.ToString();
+        yellowSpiritCountText.text = spiritTracker.yellowSpiritsCollected.ToString();
+    }
+
+    private void SaveSpirits()
+    {
+        spiritTracker.SaveSpiritCounts();
+        UpdateSpiritCountText();
+        Debug.Log("saved spirits");
+        turnCompleted = true;
+
+        CloseShopUI();
     }
 }

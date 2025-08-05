@@ -18,11 +18,6 @@ public class SpiritTracker : MonoBehaviour
         Spirit.SpiritCollected -= CollectSpirit;
     }
 
-     void Update()
-    {
-        Debug.Log("test + blue " + blueSpiritsCollected);
-    }
-
     private void CollectSpirit(Spirit.SpiritType spiritType)
     {
         switch (spiritType)
