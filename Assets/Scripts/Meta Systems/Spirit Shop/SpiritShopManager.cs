@@ -28,11 +28,13 @@ public class SpiritShopManager : MonoBehaviour, IScreenUI
 
     public void OnNextCloseCall(UnityAction action)
     {
+        
     }
 
     // Start is called before the first frame update
     void Start()
     {
+
         spiritTracker = PersistentData.Instance.GetComponent<SpiritTracker>();
 
         redSpiritCountText.text = spiritTracker.redSpiritsCollected.ToString();
@@ -45,14 +47,14 @@ public class SpiritShopManager : MonoBehaviour, IScreenUI
         //itemBox2.createItemBox("Test 2");
         //itemBox3.createItemBox("Test 3");
 
+        gameObject.SetActive(false);
         
 
 
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OpenShopUI()
     {
-        
+        gameObject.SetActive(true);
     }
 }
