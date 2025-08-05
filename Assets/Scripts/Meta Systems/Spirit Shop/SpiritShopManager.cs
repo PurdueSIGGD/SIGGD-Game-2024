@@ -60,6 +60,7 @@ public class SpiritShopManager : MonoBehaviour, IScreenUI
 
     public void CloseShopUI()
     {
+        Door.activateDoor(true);
         gameObject.SetActive(false);
     }
     private void UpdateSpiritCountText()
