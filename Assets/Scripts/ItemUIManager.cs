@@ -5,6 +5,8 @@ using UnityEngine;
 public class ItemUIManager : MonoBehaviour
 {
     public GameObject itemUIBox;
+
+    [SerializeField]
     public Transform Panel;
 
     void Start()

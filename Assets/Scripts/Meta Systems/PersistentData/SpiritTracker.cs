@@ -21,7 +21,7 @@ public class SpiritTracker : MonoBehaviour
 
      void Update()
     {
-        Debug.Log("life + blue " + blueSpiritsCollected);
+        Debug.Log("test + blue " + blueSpiritsCollected);
     }
 
     private void CollectSpirit(Spirit.SpiritType spiritType)
@@ -48,8 +48,8 @@ public class SpiritTracker : MonoBehaviour
     /// </summary>
     public void SaveSpiritCounts()
     {
-        SaveManager.data.spiritCounts[0] += blueSpiritsCollected;
-        SaveManager.data.spiritCounts[1] += redSpiritsCollected;
+        SaveManager.data.spiritCounts[0] += redSpiritsCollected;
+        SaveManager.data.spiritCounts[1] += blueSpiritsCollected;
         SaveManager.data.spiritCounts[2] += yellowSpiritsCollected;
         SaveManager.data.spiritCounts[3] += pinkSpiritsCollected;
     }
