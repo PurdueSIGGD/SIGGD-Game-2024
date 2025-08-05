@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class DamageNumberManager : MonoBehaviour
 {
+    [HideInInspector] public static DamageNumberManager instance;
 
     [SerializeField] private GameObject damageNumber;
     [SerializeField] private GameObject healingNumber;
 
-    private List<GameObject> activeDamageOwners;
-    private List<GameObject> activeHealingOwners;
+    private List<DamageNumber> activeDamageNumbers;
+    private List<DamageNumber> activeHealingNumbers;
 
 
 
@@ -27,11 +28,16 @@ public class DamageNumberManager : MonoBehaviour
         GameplayEventHolder.OnHealingDealt -= HealingNumberEvent;
     }
 
+    private void Awake()
+    {
+        instance = this;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        activeDamageOwners = new List<GameObject>();
-        activeHealingOwners = new List<GameObject>();
+        activeDamageNumbers = new List<DamageNumber>();
+        activeHealingNumbers = new List<DamageNumber>();
     }
 
     // Update is called once per frame
@@ -44,24 +50,24 @@ public class DamageNumberManager : MonoBehaviour
 
 
 
-    public void AddToActiveDamageOwners(GameObject owner)
+    public void AddToActiveDamageNumbers(DamageNumber damageNumber)
     {
-        activeDamageOwners.Add(owner);
+        activeDamageNumbers.Add(damageNumber);
     }
 
-    public void RemoveFromActiveDamageOwners(GameObject owner)
+    public void RemoveFromActiveDamageNumbers(DamageNumber damageNumber)
     {
-        activeDamageOwners.Remove(owner);
+        activeDamageNumbers.Remove(damageNumber);
     }
 
-    public void AddToActiveHealingOwners(GameObject owner)
+    public void AddToActiveHealingNumbers(DamageNumber healingNumber)
     {
-        activeHealingOwners.Add(owner);
+        activeHealingNumbers.Add(healingNumber);
     }
 
-    public void RemoveFromActiveHealingOwners(GameObject owner)
+    public void RemoveFromActiveHealingNumbers(DamageNumber healingNumber)
     {
-        activeHealingOwners.Remove(owner);
+        activeHealingNumbers.Remove(healingNumber);
     }
 
 
@@ -70,15 +76,55 @@ public class DamageNumberManager : MonoBehaviour
 
     public void DamageNumberEvent(DamageContext context)
     {
-        if (activeDamageOwners.Contains(context.victim)) return;
+        if (GetActiveDamageNumber(context.victim) != null) return;
         GameObject newDamageNumber = Instantiate(damageNumber, new Vector3(-999f, -999f, 0f), Quaternion.identity);
         newDamageNumber.GetComponent<DamageNumber>().InitializeMessage(this, context.victim, context);
     }
 
     public void HealingNumberEvent(HealingContext context)
     {
-        if (activeHealingOwners.Contains(context.healee)) return;
+        if (GetActiveHealingNumber(context.healee) != null) return;
         GameObject newDamageNumber = Instantiate(healingNumber, new Vector3(-999f, -999f, 0f), Quaternion.identity);
         newDamageNumber.GetComponent<DamageNumber>().InitializeMessage(this, context.healee, context);
+    }
+
+    public void PlayMessage(GameObject owner, float value, Sprite icon, string message, Color color)
+    {
+        DamageNumber activeDamageNumber = GetActiveDamageNumber(owner);
+        if (activeDamageNumber != null)
+        {
+            activeDamageNumber.PlayMessage(value, icon, message, color);
+            return;
+        }
+        GameObject newDamageNumber = Instantiate(damageNumber, new Vector3(-999f, -999f, 0f), Quaternion.identity);
+        newDamageNumber.GetComponent<DamageNumber>().InitializeMessage(this, owner, value, icon, message, color);
+    }
+
+
+
+
+
+    private DamageNumber GetActiveDamageNumber(GameObject owner)
+    {
+        foreach (DamageNumber damageNumber in activeDamageNumbers)
+        {
+            if (damageNumber.GetOwner().Equals(owner))
+            {
+                return damageNumber;
+            }
+        }
+        return null;
+    }
+
+    private DamageNumber GetActiveHealingNumber(GameObject owner)
+    {
+        foreach (DamageNumber healingNumber in activeHealingNumbers)
+        {
+            if (healingNumber.GetOwner().Equals(owner))
+            {
+                return healingNumber;
+            }
+        }
+        return null;
     }
 }

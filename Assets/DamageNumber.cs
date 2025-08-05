@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Collections;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
@@ -18,10 +19,9 @@ public class DamageNumber : MonoBehaviour
 
     [SerializeField] private Vector3 positionOffset;
     [SerializeField] private float initialSpeed;
-    [SerializeField] private float damageTakenInitialSpeed;
     [SerializeField] private float deceleration;
     [SerializeField] private float messageDuration;
-    [SerializeField] private float damageTakenAddedDuration;
+    [SerializeField] private float extendedDuration;
     [SerializeField] private float fadeOutDelay;
     [SerializeField] private float minimumStartingScale;
     [SerializeField] private float maximumStartingScale;
@@ -42,6 +42,9 @@ public class DamageNumber : MonoBehaviour
     private float timer = 0f;
     private float baseTextOutlineWidth;
     private Color nextColor;
+    private bool skipToMaxStartingScale = false;
+    private bool stickToMinStartingScale = false;
+    private float durationTime;
 
 
 
@@ -80,14 +83,14 @@ public class DamageNumber : MonoBehaviour
             if (timer <= 0f) DestroyMessage();
         }
 
-        if (timer <= messageDuration - fadeOutDelay)
+        if (timer <= durationTime - fadeOutDelay)
         {
-            SetOpacity(timer, messageDuration - fadeOutDelay);
+            SetOpacity(timer, durationTime - fadeOutDelay);
             transform.localScale += new Vector3(fadeOutScaleGrowthRate * Time.fixedDeltaTime, fadeOutScaleGrowthRate * Time.fixedDeltaTime, 0f);
         }
         else
         {
-            float newScale = Mathf.Lerp(minimumStartingScale, maximumStartingScale, Mathf.Clamp((totalDamage / maximumStartingScaleThreshold), 0f, 1f));
+            float newScale = Mathf.Lerp((skipToMaxStartingScale ? maximumStartingScale : minimumStartingScale), (stickToMinStartingScale ? minimumStartingScale : maximumStartingScale), Mathf.Clamp((totalDamage / maximumStartingScaleThreshold), 0f, 1f));
             transform.localScale = new Vector3(newScale, newScale, 1f);
         }
 
@@ -100,6 +103,10 @@ public class DamageNumber : MonoBehaviour
     public void SetManager(DamageNumberManager manager)
     {
         this.manager = manager;
+        if (this.owner != null && isDamage) manager.RemoveFromActiveDamageNumbers(this);
+        if (this.owner != null && !isDamage) manager.RemoveFromActiveHealingNumbers(this);
+        if (isDamage) manager.AddToActiveDamageNumbers(this);
+        else manager.AddToActiveHealingNumbers(this);
     }
 
     public DamageNumberManager GetManager()
@@ -109,18 +116,7 @@ public class DamageNumber : MonoBehaviour
 
     public void SetOwner(GameObject owner)
     {
-        if (this.owner != null && isDamage) manager.RemoveFromActiveDamageOwners(this.owner);
-        if (this.owner != null && !isDamage) manager.RemoveFromActiveHealingOwners(this.owner);
         this.owner = owner;
-        if (isDamage) manager.AddToActiveDamageOwners(this.owner);
-        else manager.AddToActiveHealingOwners(this.owner);
-        if (this.owner == PlayerID.instance.gameObject)
-        {
-            initialSpeed = damageTakenInitialSpeed;
-            messageDuration += damageTakenAddedDuration;
-            fadeOutDelay += damageTakenAddedDuration;
-            if (isDamage) minimumStartingScale = maximumStartingScale;
-        }
     }
 
     public GameObject GetOwner()
@@ -149,6 +145,38 @@ public class DamageNumber : MonoBehaviour
         messageText.fontStyle = enabled ? FontStyles.Bold : FontStyles.Normal;
     }
 
+    private void UseDamageDealtSettings()
+    {
+        durationTime = messageDuration;
+        skipToMaxStartingScale = false;
+        stickToMinStartingScale = false;
+        EnableThickTextOutline(false);
+    }
+
+    private void UseDamageTakenSettings()
+    {
+        durationTime = extendedDuration;
+        skipToMaxStartingScale = true;
+        stickToMinStartingScale = false;
+        EnableThickTextOutline(true);
+    }
+
+    private void UseHealingReceivedSettings()
+    {
+        durationTime = extendedDuration;
+        skipToMaxStartingScale = false;
+        stickToMinStartingScale = false;
+        EnableThickTextOutline(false);
+    }
+
+    private void UseMessageSetttings()
+    {
+        durationTime = messageDuration;
+        skipToMaxStartingScale = false;
+        stickToMinStartingScale = true;
+        EnableThickTextOutline(false);
+    }
+
 
 
 
@@ -171,12 +199,12 @@ public class DamageNumber : MonoBehaviour
         HandleHealingEvent(context);
     }
 
-    public void InitializeMessage(DamageNumberManager manager, GameObject owner, float value, Sprite icon, string message)
+    public void InitializeMessage(DamageNumberManager manager, GameObject owner, float value, Sprite icon, string message, Color color)
     {
-        
         SetManager(manager);
         SetOwner(owner);
-        PlayMessage(value, icon, message);
+        nextColor = color;
+        PlayMessage(value, icon, message, color);
     }
 
 
@@ -196,13 +224,12 @@ public class DamageNumber : MonoBehaviour
         if (context.victim == PlayerID.instance.gameObject)
         {
             nextColor = damageTakenColor;
-            EnableThickTextOutline(true);
+            UseDamageTakenSettings();
         }
         else
         {
-            //SetColor(damageDealtColor);
             SetColorByGhostAction(context);
-            EnableThickTextOutline(false);
+            UseDamageDealtSettings();
         }
         PlayMessage(context.damage);
     }
@@ -218,6 +245,7 @@ public class DamageNumber : MonoBehaviour
     {
         if (context.healee != owner) return;
         nextColor = healingReceivedColor;
+        UseHealingReceivedSettings();
         PlayMessage(context.healing, null, null, "+", null);
     }
     
@@ -226,22 +254,29 @@ public class DamageNumber : MonoBehaviour
 
 
 
-    public void PlayMessage(float value)
+    private void PlayMessage(float value)
     {
         PlayMessage(value, null, null, null, null);
     }
     
-    public void PlayMessage(float value, Sprite icon)
+    private void PlayMessage(float value, Sprite icon)
     {
         PlayMessage(value, icon, null, null, null);
     }
 
-    public void PlayMessage(float value, Sprite icon, string message)
+    private void PlayMessage(float value, Sprite icon, string message)
     {
         PlayMessage(value, icon, message, null, null);
     }
 
-    public void PlayMessage(float value, Sprite icon, string message, string prependMessage, string appendMessage)
+    public void PlayMessage(float value, Sprite icon, string message, Color color)
+    {
+        nextColor = color;
+        UseMessageSetttings();
+        PlayMessage(value, icon, message);
+    }
+
+    private void PlayMessage(float value, Sprite icon, string message, string prependMessage, string appendMessage)
     {
         if (value <= 0 && icon == null && message == null) return;
 
@@ -263,11 +298,19 @@ public class DamageNumber : MonoBehaviour
 
         SetOpacity(1f, 1f);
         SetColor(nextColor);
-        transform.position = owner.transform.position + positionOffset;
-        rb.velocity = initialSpeed * (new Vector2(Random.Range(-1f, 1f), 0.75f)).normalized;
-        float newScale = Mathf.Lerp(minimumStartingScale, maximumStartingScale, Mathf.Clamp((totalDamage / maximumStartingScaleThreshold), 0f, 1f));
+        Vector2 direction = (new Vector2(Random.Range(-0.25f, 0.25f), 0.75f)).normalized;
+        transform.position = owner.transform.position + ((Vector3) (direction) * Random.Range(0.75f, 1.25f));
+        rb.velocity = initialSpeed * direction;
+        float newScale = Mathf.Lerp((skipToMaxStartingScale ? maximumStartingScale : minimumStartingScale), (stickToMinStartingScale ? minimumStartingScale : maximumStartingScale), Mathf.Clamp((totalDamage / maximumStartingScaleThreshold), 0f, 1f));
         transform.localScale = new Vector3(newScale, newScale, 1f);
-        timer = messageDuration;
+        timer = durationTime;
+    }
+
+    public void PlayMessage(float value, Sprite icon, string message, string prependMessage, string appendMessage, Color color)
+    {
+        nextColor = color;
+        UseMessageSetttings();
+        PlayMessage(value, icon, message, prependMessage, appendMessage);
     }
 
 
@@ -276,8 +319,8 @@ public class DamageNumber : MonoBehaviour
 
     private void DestroyMessage()
     {
-        if (isDamage) manager.RemoveFromActiveDamageOwners(owner);
-        else manager.RemoveFromActiveHealingOwners(owner);
+        if (isDamage) manager.RemoveFromActiveDamageNumbers(this);
+        else manager.RemoveFromActiveHealingNumbers(this);
         Destroy(gameObject);
     }
 

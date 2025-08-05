@@ -148,6 +148,8 @@ public class SamuraiRetribution : MonoBehaviour
         GameplayEventHolder.OnAbilityUsed?.Invoke(newContext);
         psm.EnableTrigger("OPT");
 
+        DamageNumberManager.instance.PlayMessage(this.gameObject, 0f, manager.GetComponent<GhostIdentity>().GetCharacterInfo().specialAbilityIcon, "Parried!", manager.GetComponent<GhostIdentity>().GetCharacterInfo().highlightColor);
+
         // VFX
         GameObject surfaceExplosion = Instantiate(manager.parrySuccessVFX, position, Quaternion.identity);
         surfaceExplosion.GetComponent<RingExplosionHandler>().playRingExplosion(1.5f, manager.GetComponent<GhostIdentity>().GetCharacterInfo().highlightColor);
