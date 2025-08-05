@@ -23,8 +23,8 @@ public class SaveData
     public YumeData yume = new();
     public AegisData aegis = new();
 
-    // 0: red, 1: bkue, 2: yellow, 3: pink
-    public int[] spiritCounts = new int[4];
+    // 0: red, 1: blue, 2: yellow
+    public int[] spiritCounts = new int[3];
 }
 
 

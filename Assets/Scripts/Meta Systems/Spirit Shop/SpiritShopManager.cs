@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class SpiritShopManager : MonoBehaviour, IScreenUI
 {
@@ -15,10 +16,7 @@ public class SpiritShopManager : MonoBehaviour, IScreenUI
     [SerializeField] private TMP_Text blueSpiritCountText;
     [SerializeField] private TMP_Text yellowSpiritCountText;
 
-
-    [SerializeField] private ItemUIManager itemBox1;
-    [SerializeField] private ItemUIManager itemBox2;
-    [SerializeField] private ItemUIManager itemBox3;
+    [SerializeField] private Button sendSpiritsToHubButton;
 
     // ==============================
     //        Other Variables
@@ -26,21 +24,28 @@ public class SpiritShopManager : MonoBehaviour, IScreenUI
 
     private const int NUM_ITEMS = 3; // num items to display in shop 
 
+    private SpiritTracker spiritTracker;
+
     public void OnNextCloseCall(UnityAction action)
     {
-        throw new System.NotImplementedException();
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        //redSpiritCountTexst.text =
+        spiritTracker = PersistentData.Instance.GetComponent<SpiritTracker>();
+
+        redSpiritCountText.text = spiritTracker.redSpiritsCollected.ToString();
+        blueSpiritCountText.text = spiritTracker.blueSpiritsCollected.ToString();
+        yellowSpiritCountText.text = spiritTracker.yellowSpiritsCollected.ToString();
+
+        //sendSpiritsToHubButton.onClick.AddListener(SpiritTracker.SaveSpiritCounts);
 
         //itemBox1.createItemBox("Test 1");
         //itemBox2.createItemBox("Test 2");
         //itemBox3.createItemBox("Test 3");
 
-
+        
 
 
     }

@@ -7,7 +7,6 @@ public class SpiritTracker : MonoBehaviour
     public int blueSpiritsCollected = 0;
     public int redSpiritsCollected = 0;
     public int yellowSpiritsCollected = 0;
-    public int pinkSpiritsCollected = 0;
 
     private void OnEnable()
     {
@@ -37,9 +36,6 @@ public class SpiritTracker : MonoBehaviour
             case Spirit.SpiritType.Yellow:
                 yellowSpiritsCollected++;
                 break;
-            case Spirit.SpiritType.Pink:
-                pinkSpiritsCollected++;
-                break;
         }
     }
 
@@ -51,6 +47,9 @@ public class SpiritTracker : MonoBehaviour
         SaveManager.data.spiritCounts[0] += redSpiritsCollected;
         SaveManager.data.spiritCounts[1] += blueSpiritsCollected;
         SaveManager.data.spiritCounts[2] += yellowSpiritsCollected;
-        SaveManager.data.spiritCounts[3] += pinkSpiritsCollected;
+
+        redSpiritsCollected = 0;
+        blueSpiritsCollected = 0;
+        yellowSpiritsCollected = 0;
     }
 }

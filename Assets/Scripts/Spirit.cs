@@ -13,8 +13,7 @@ public class Spirit : MonoBehaviour
     {
         Blue,
         Red,
-        Yellow,
-        Pink
+        Yellow
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
