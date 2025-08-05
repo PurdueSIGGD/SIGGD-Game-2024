@@ -54,6 +54,7 @@ public class SpiritShopManager : MonoBehaviour, IScreenUI
     public void OpenShopUI()
     {
         if (turnCompleted) return;
+        UpdateSpiritCountText();
         gameObject.SetActive(true);
     }
 
@@ -71,7 +72,7 @@ public class SpiritShopManager : MonoBehaviour, IScreenUI
     private void SaveSpirits()
     {
         spiritTracker.SaveSpiritCounts();
-        UpdateSpiritCountText();
+
         Debug.Log("saved spirits");
         turnCompleted = true;
 
