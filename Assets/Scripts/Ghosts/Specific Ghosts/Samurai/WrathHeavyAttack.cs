@@ -29,6 +29,10 @@ public class WrathHeavyAttack : MonoBehaviour
     private Vector2 animationTransitionDest;
     private bool animationTransitionReached = false;
 
+
+
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -38,11 +42,14 @@ public class WrathHeavyAttack : MonoBehaviour
         enemiesDamaged = new List<GameObject>();
     }
 
+
+
     // Update is called once per frame
     void FixedUpdate()
     {
         if (isDashing)
         {
+            // Affect enemies during dash
             Collider2D[] hit = Physics2D.OverlapBoxAll(transform.position + new Vector3(1f * Mathf.Sign(gameObject.transform.rotation.y), 0f, 0f), new Vector2(4, 2), 0, LayerMask.GetMask("Enemy"));
             foreach (Collider2D h in hit)
             {
@@ -60,17 +67,15 @@ public class WrathHeavyAttack : MonoBehaviour
                 }
             }
 
-            // Animation Transition
+            // Slash animation transition
             if (!animationTransitionReached && Mathf.Sign(transform.position.x - animationTransitionDest.x) == Mathf.Sign(desiredDashVelocity.x))
             {
                 animationTransitionReached = true;
                 psm.EnableTrigger("finishWrath");
-                //Vector3 vfxPosition = gameObject.transform.position + new Vector3(1f * Mathf.Sign(gameObject.transform.rotation.y), 0f, 0f);
-                //VFXManager.Instance.PlayVFX(VFX.PLAYER_LIGHT_ATTACK_1, vfxPosition, gameObject.transform.rotation, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
             }
 
             // Dash destination reached
-            else if (Mathf.Sign(transform.position.x - desiredDashDest.x) == Mathf.Sign(desiredDashVelocity.x))
+            else if (animationTransitionReached && Mathf.Sign(transform.position.x - desiredDashDest.x) == Mathf.Sign(desiredDashVelocity.x))
             {
                 PlayerID.instance.GetComponent<Move>().PlayerGo();
                 if (!GetComponent<Animator>().GetBool("p_grounded"))
@@ -78,7 +83,6 @@ public class WrathHeavyAttack : MonoBehaviour
                     GetComponent<Move>().ApplyKnockback(rb.velocity.normalized, rb.velocity.magnitude, true);
                 }
 
-                //psm.EnableTrigger("finishWrath");
                 StopSamuraiHeavyAttack();
                 isDashing = false;
                 enemiesDamaged.Clear();
@@ -92,23 +96,27 @@ public class WrathHeavyAttack : MonoBehaviour
                 VFXManager.Instance.PlayVFX(VFX.PLAYER_LIGHT_ATTACK_1, vfxPosition, gameObject.transform.rotation, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
             }
 
+            // Maintain dash speed
             else
             {
                 rb.velocity = desiredDashVelocity;
             }
+            return;
         }
 
+        // Charging and primed timers
         if (isCharging && chargingTime > 0f) chargingTime -= Time.deltaTime;
         if (isCharging && chargingTime <= 0f) psm.EnableTrigger("OPT");
 
         if (isPrimed && primedTime > 0f) primedTime -= Time.deltaTime;
         if (isPrimed && primedTime <= 0f) psm.EnableTrigger("OPT");
 
+        // Update player facing direction
         Vector3 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         Vector3 mouseDiff = transform.position - mousePos;
         if (isCharging || isPrimed)
         {
-            if (mouseDiff.x < 0) // update player facing direction
+            if (mouseDiff.x < 0)
             {
                 transform.rotation = Quaternion.Euler(0, 0, 0);
             }
@@ -118,6 +126,10 @@ public class WrathHeavyAttack : MonoBehaviour
             }
         }
     }
+
+
+
+
 
     //this functionn get called (via message from animator) when you enter the Heavy Charge up state
     public void StartHeavyChargeUp()
@@ -139,6 +151,8 @@ public class WrathHeavyAttack : MonoBehaviour
         chargingTime = 0f;
     }
 
+
+
     public void StartHeavyPrimed()
     {
         primedTime = manager.GetStats().ComputeValue("Heavy Primed Autofire Time");
@@ -158,19 +172,19 @@ public class WrathHeavyAttack : MonoBehaviour
         primedTime = 0f;
     }
 
+
+
     //this function get called (via message form animator) when you enter the Heavy Attack state
     public void StartHeavyAttack()
     {
         psm.ConsumeHeavyAttackInput();
         AudioManager.Instance.VABranch.PlayVATrack(PartyManager.instance.selectedGhost + " Heavy Attack");
-    }
 
-    public void ExecuteHeavyAttack()
-    {
         psm.SetLightAttack2Ready(true);
         AudioManager.Instance.SFXBranch.GetSFXTrack("Akihito-Dash Attack").SetPitch(manager.wrathPercent, 1f);
         AudioManager.Instance.SFXBranch.PlaySFXTrack("Akihito-Dash Attack");
 
+        // Get dash direction
         Vector2 dir = Vector2.zero;
         Vector3 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         if (mousePos.x < PlayerID.instance.transform.position.x)
@@ -184,12 +198,12 @@ public class WrathHeavyAttack : MonoBehaviour
             dir = new Vector2(1, 0);
         }
 
+        // Unimpeaded dash distance
         startingDashLocation = transform.position;
-        desiredDashDist = Mathf.Lerp(manager.GetStats().ComputeValue("Heavy Attack Minimum Travel Distance"), 
-                                     manager.GetStats().ComputeValue("Heavy Attack Maximum Travel Distance"), 
+        desiredDashDist = Mathf.Lerp(manager.GetStats().ComputeValue("Heavy Attack Minimum Travel Distance"),
+                                     manager.GetStats().ComputeValue("Heavy Attack Maximum Travel Distance"),
                                      manager.wrathPercent);
-        desiredDashDest = new (transform.position.x + desiredDashDist * dir.x, transform.position.y);
-        //targetedEnemyDest = new(transform.position.x + (desiredDashDist - 1f) * dir.x, transform.position.y);
+        desiredDashDest = new(transform.position.x + desiredDashDist * dir.x, transform.position.y);
 
         // Enemy hit distance modifier
         RaycastHit2D enemyHit = Physics2D.Raycast(transform.position, dir, desiredDashDist + 2f, LayerMask.GetMask("Enemy"));
@@ -210,79 +224,51 @@ public class WrathHeavyAttack : MonoBehaviour
         }
 
         // Level geometry distance modifier
-        RaycastHit2D groundHit = Physics2D.Raycast(transform.position, dir, desiredDashDist, LayerMask.GetMask("Ground"));
+        RaycastHit2D groundHit = Physics2D.Raycast(transform.position, dir, desiredDashDist + 1f, LayerMask.GetMask("Ground"));
         if (groundHit)
         {
-            desiredDashDist = Mathf.Abs(transform.position.x - groundHit.point.x);
-            desiredDashDest = groundHit.point + new Vector2(1.5f * Mathf.Sign(transform.position.x - groundHit.point.x), 0);
+            desiredDashDest = new (groundHit.point.x + (-1.5f * dir.x), groundHit.point.y);
+            desiredDashDist = Vector3.Distance(transform.position, desiredDashDest);
+            Debug.DrawLine(transform.position, groundHit.point, Color.blue, 5f);
         }
 
-        animationTransitionDest = new (transform.position.x + (desiredDashDist - 0.5f) * dir.x, transform.position.y);
+        // Set the slash animation start distance
+        animationTransitionDest = new (desiredDashDest.x + (-0.5f * dir.x), desiredDashDest.y);
+        Debug.DrawLine(transform.position, desiredDashDest, Color.red, 2f);
+        Debug.DrawLine(transform.position, animationTransitionDest, Color.green, 2f);
 
+        // Start dash physics
         desiredDashVelocity = manager.GetStats().ComputeValue("Heavy Attack Travel Speed") * dir;
-        rb.isKinematic = true;
         PlayerID.instance.GetComponent<Move>().PlayerStop();
         isDashing = true;
 
         GameplayEventHolder.OnAbilityUsed?.Invoke(manager.onDashContext);
     }
 
+
+
+    public void ExecuteHeavyAttack()
+    {
+        animationTransitionReached = true;
+        psm.EnableTrigger("finishWrath");
+    }
+
+
+
     //this function get called (via message form animator) when you exit the Heavy Attack state
     public void StopHeavyAttack() 
     {
-        //rb.velocity *= manager.GetStats().ComputeValue("Heavy Attack Post Dash Momentum Fraction");
 
-
-        
-        /*
-        PlayerID.instance.GetComponent<Move>().PlayerGo();
-        if (!GetComponent<Animator>().GetBool("p_grounded"))
-        {
-            GetComponent<Move>().ApplyKnockback(rb.velocity.normalized, rb.velocity.magnitude, true);
-        }
-        */
-        
-
-
-        /*
-        Collider2D[] hit = Physics2D.OverlapBoxAll(transform.position, new Vector2(3, 2), 0, LayerMask.GetMask("Enemy"));
-        foreach (Collider2D h in hit)
-        {
-            Health health = h.GetComponent<Health>();
-            if (health)
-            {
-                DamageContext context = manager.heavyDamageContext;
-                context.damage = Mathf.Lerp(manager.GetStats().ComputeValue("Heavy Attack Minimum Damage"),
-                                            manager.GetStats().ComputeValue("Heavy Attack Maximum Damage"),
-                                            manager.wrathPercent);
-                context.damage += primedHeavyDamage;
-                health.Damage(context, gameObject);
-            }
-        }
-        */
-
-
-        /*
-        ResetWrath();
-        if (manager.resetDecay)
-        {
-            manager.decaying = true;
-            manager.resetDecay = false;
-        }
-        */
     }
+
+
 
     public void StartSamuraiHeavySlash()
     {
-        /*
-        gameObject.GetComponent<StatManager>().ModifyStat("Max Running Speed", -1 * 50);
-        gameObject.GetComponent<StatManager>().ModifyStat("Running Accel.", -1 * 50);
-        gameObject.GetComponent<Move>().UpdateRun();
 
-        Vector3 vfxPosition = gameObject.transform.position + new Vector3(1f * Mathf.Sign(gameObject.transform.rotation.y), 0f, 0f);
-        VFXManager.Instance.PlayVFX(VFX.PLAYER_LIGHT_ATTACK_1, vfxPosition, gameObject.transform.rotation, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
-        */
     }
+
+
 
     public void StopSamuraiHeavySlash()
     {
@@ -290,37 +276,6 @@ public class WrathHeavyAttack : MonoBehaviour
         gameObject.GetComponent<StatManager>().ModifyStat("Running Accel.", 30);
         gameObject.GetComponent<Move>().UpdateRun();
 
-        //StopSamuraiHeavyAttack();
-        //isDashing = false;
-        //enemiesDamaged.Clear();
-
-        //rb.velocity *= manager.GetStats().ComputeValue("Heavy Attack Post Dash Momentum Fraction");
-
-        /*
-        PlayerID.instance.GetComponent<Move>().PlayerGo();
-        if (!GetComponent<Animator>().GetBool("p_grounded"))
-        {
-            GetComponent<Move>().ApplyKnockback(rb.velocity.normalized, rb.velocity.magnitude, true);
-        }
-        */
-
-        /*
-        Collider2D[] hit = Physics2D.OverlapBoxAll(transform.position, new Vector2(3, 2), 0, LayerMask.GetMask("Enemy"));
-        foreach (Collider2D h in hit)
-        {
-            Health health = h.GetComponent<Health>();
-            if (health)
-            {
-                DamageContext context = manager.heavyDamageContext;
-                context.damage = Mathf.Lerp(manager.GetStats().ComputeValue("Heavy Attack Minimum Damage"),
-                                            manager.GetStats().ComputeValue("Heavy Attack Maximum Damage"),
-                                            manager.wrathPercent);
-                context.damage += primedHeavyDamage;
-                health.Damage(context, gameObject);
-            }
-        }
-        */
-
         ResetWrath();
         if (manager.resetDecay)
         {
@@ -329,11 +284,14 @@ public class WrathHeavyAttack : MonoBehaviour
         }
     }
 
+
+
     private void StopSamuraiHeavyAttack()
     {
-        rb.isKinematic = false;
         rb.velocity *= manager.GetStats().ComputeValue("Heavy Attack Post Dash Momentum Fraction");
     }
+
+
 
     //Used to empty the remaining wrath percentage
     public void ResetWrath()
@@ -341,15 +299,21 @@ public class WrathHeavyAttack : MonoBehaviour
         manager.wrathPercent = 0.0f;
     }
 
+
+
     public float GetWrathPercent()
     {
         return manager.wrathPercent;
     }
 
+
+
     public void SetWrathPercent(float newWrathPercent)
     {
         manager.wrathPercent = newWrathPercent;
     }
+
+
 
     //private void OnDrawGizmos()
     //{

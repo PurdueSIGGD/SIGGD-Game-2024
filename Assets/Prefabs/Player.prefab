@@ -35658,7 +35658,7 @@ MonoBehaviour:
     actionID: 1
     actionTypes: 00000000
     extraContext: 
-    raycastHitPosition: {x: 0, y: 0}
+    ghostID: 0
   statList:
   - name: Damage
     value: 20
@@ -35726,7 +35726,7 @@ MonoBehaviour:
     actionID: 2
     actionTypes: 01000000
     extraContext: Player Heavy
-    raycastHitPosition: {x: 0, y: 0}
+    ghostID: 0
   offsetX: 1.5
   isDashEnabled: 1
   isAirbornePostDash: 0
@@ -35762,7 +35762,7 @@ MonoBehaviour:
     actionID: 17
     actionTypes: 08000000
     extraContext: 
-    raycastHitPosition: {x: 0, y: 0}
+    ghostID: 0
   damage: 20
 --- !u!114 &1325501314099060030
 MonoBehaviour:
@@ -35776,12 +35776,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4e5155d49d0fb54c926620c3a33d788, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healPerSpirit: 0.2
+  healPerSpirit: 0.14
   healContext:
-    healing: 0.1
+    healing: 0.14
     actionID: 17
     actionTypes: 08000000
     extraContext: 
+    ghostID: 0
 --- !u!114 &7301745340384326151
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -89,8 +89,8 @@ public class SamuraiRetribution : MonoBehaviour
                 if (projectile && !projectile.parried)
                 {
                     projectile.projectileDamage.actionID = ActionID.SAMURAI_SPECIAL;
-                    //projectile.projectileDamage.damage *= manager.GetStats().ComputeValue("Melee Parry Bonus Damage per Incoming Attack Damage");
-                    projectile.GetStats().ModifyStat("Damage", Mathf.CeilToInt((manager.GetStats().ComputeValue("Melee Parry Bonus Damage per Incoming Attack Damage") * 100f) - 100f));
+                    projectile.projectileDamage.ghostID = GhostID.AKIHITO;
+                    projectile.projectileDamage.damage *= manager.GetStats().ComputeValue("Melee Parry Bonus Damage per Incoming Attack Damage");
                     projectile.projectileDamage.damageStrength = DamageStrength.MINOR;
                     projectile.target = "Enemy";
                     projectile.SwitchDirections();

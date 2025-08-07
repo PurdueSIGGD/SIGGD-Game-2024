@@ -57,12 +57,14 @@ public class EnemyProjectile : MonoBehaviour, IStatList
             projectileDamage.victim = collision.gameObject;
             collision.gameObject.GetComponent<Health>().Damage(projectileDamage, PlayerID.instance.gameObject);
             Destroy(gameObject);
+            return;
         }
 
         if (collision.gameObject.CompareTag(target) || collision.gameObject.CompareTag("Idol_Clone"))
         {
             projectileDamage.victim = collision.gameObject;
             collision.gameObject.GetComponent<Health>().Damage(projectileDamage, parent);
+            return;
         }
 
         if (collision.gameObject.CompareTag(target) || collision.gameObject.CompareTag("Idol_Clone") || collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
