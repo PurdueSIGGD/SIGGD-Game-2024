@@ -241,7 +241,7 @@ MonoBehaviour:
   aggroRange: 14
   isBeingKnockedBack: 0
   grounded: 0
-  groundedRayCheckLength: 1
+  groundedRayCheckLength: 2
   batonTrigger: {fileID: 3561678645181035360}
   batonDamage:
     damageStrength: 3
@@ -269,7 +269,7 @@ MonoBehaviour:
     priority: 1
     ready: 1
     hitBox: {fileID: 3561678645181035360}
-    coolDown: 2
+    coolDown: 2.75
     animationClip: {fileID: 7400000, guid: f612aa8e9cc4b4a488df5b9e1c8237d2, type: 2}
   move:
     name: Move
@@ -307,7 +307,7 @@ MonoBehaviour:
   - name: Pause Timer Duration Min
     value: 1
   - name: Pause Timer Duration Max
-    value: 4
+    value: 2
   - name: Target Range Min
     value: 5
   - name: Target Range Max
@@ -361,7 +361,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Stun Threshold
-    value: 300
+    value: 240
   currentStun: 0
   maxStun: 0
 --- !u!114 &2983644817223031086
