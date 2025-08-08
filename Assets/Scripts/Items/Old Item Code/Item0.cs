@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Item : MonoBehaviour
+public class Item0 : MonoBehaviour
 {
     private StatManager stats;
     private bool isactive;

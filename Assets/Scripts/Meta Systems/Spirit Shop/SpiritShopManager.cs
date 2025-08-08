@@ -1,3 +1,5 @@
+#define DEBUG_LOG
+
 using JetBrains.Annotations;
 using System;
 using System.Collections;
@@ -13,11 +15,19 @@ public class SpiritShopManager : MonoBehaviour, IScreenUI
     // ==============================
     //       Serialized Fields
     // ==============================
+
+    [Header("Item Boxes")]
+    [SerializeField] private GameObject redItemBox;
+    [SerializeField] private GameObject blueItemBox;
+    [SerializeField] private GameObject yellowItemBox;
+
+    [Header("UI")]
     [SerializeField] private TMP_Text redSpiritCountText;
     [SerializeField] private TMP_Text blueSpiritCountText;
     [SerializeField] private TMP_Text yellowSpiritCountText;
 
-    [SerializeField] private Button sendSpiritsToHubButton;
+    [SerializeField] private Button secureSpiritsButton;
+    [SerializeField] private TMP_Text secureSpiritsButtonText;
 
     // ==============================
     //        Other Variables
@@ -39,21 +49,21 @@ public class SpiritShopManager : MonoBehaviour, IScreenUI
 
         spiritTracker = PersistentData.Instance.GetComponent<SpiritTracker>();
 
-        sendSpiritsToHubButton.onClick.AddListener(SaveSpirits);
-
-        //itemBox1.createItemBox("Test 1");
-        //itemBox2.createItemBox("Test 2");
-        //itemBox3.createItemBox("Test 3");
+        secureSpiritsButton.onClick.AddListener(SecureSpirits);
 
         gameObject.SetActive(false);
         
-
-
     }
 
     public void OpenShopUI()
     {
         if (turnCompleted) return;
+
+        redItemBox.GetComponent<ItemUIManager>().DisplayRandomItem();
+        blueItemBox.GetComponent<ItemUIManager>().DisplayRandomItem();
+        yellowItemBox.GetComponent<ItemUIManager>().DisplayRandomItem();
+
+
         UpdateSpiritCountText();
         gameObject.SetActive(true);
     }
@@ -65,16 +75,28 @@ public class SpiritShopManager : MonoBehaviour, IScreenUI
     }
     private void UpdateSpiritCountText()
     {
-        redSpiritCountText.text = spiritTracker.redSpiritsCollected.ToString();
-        blueSpiritCountText.text = spiritTracker.blueSpiritsCollected.ToString();
-        yellowSpiritCountText.text = spiritTracker.yellowSpiritsCollected.ToString();
+        int redSpirits = spiritTracker.redSpiritsCollected;
+        int blueSpirits = spiritTracker.blueSpiritsCollected;
+        int yellowSpirits = spiritTracker.yellowSpiritsCollected;
+
+        redSpiritCountText.text = redSpirits.ToString();
+        blueSpiritCountText.text = blueSpirits.ToString();
+        yellowSpiritCountText.text = yellowSpirits.ToString();
+
+        secureSpiritsButtonText.text = "Secure " + (redSpirits + blueSpirits + yellowSpirits);
     }
 
-    private void SaveSpirits()
+    /// <summary>
+    /// Save spirits to save data
+    /// </summary>
+    private void SecureSpirits()
     {
         spiritTracker.SaveSpiritCounts();
 
+#if DEBUG_LOG
         Debug.Log("saved spirits");
+#endif
+
         turnCompleted = true;
 
         CloseShopUI();
