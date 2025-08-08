@@ -15,7 +15,9 @@ public class ItemPool : MonoBehaviour
 
     public ItemSO PickRandomItem()
     {
-        return itemList[0];
+        int randomIndex = Random.Range(0, itemList.Count);
+        Debug.Log(randomIndex);
+        return itemList[randomIndex];
     }
 
     /// <summary>

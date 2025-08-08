@@ -8,6 +8,8 @@ public class ItemUIManager : MonoBehaviour
 {
     [SerializeField] private TMP_Text priceText;
     [SerializeField] private TMP_Text itemNameText;
+    [SerializeField] private TMP_Text itemDescription;
+
     [SerializeField] private Image itemIcon;
 
     private ItemPool pool;
@@ -26,6 +28,7 @@ public class ItemUIManager : MonoBehaviour
     {
         priceText.text = "Buy for " + item.price.ToString();
         itemNameText.text = item.displayName;
+        itemDescription.text = item.itemDescription;
 
         switch (item.itemType)
         {
