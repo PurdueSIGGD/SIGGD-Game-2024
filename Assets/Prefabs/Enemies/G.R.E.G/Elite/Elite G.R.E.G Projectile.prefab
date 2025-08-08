@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5699505238202723438}
   - component: {fileID: 4113511831999245439}
   m_Layer: 22
-  m_Name: G.R.E.G Projectile
+  m_Name: Elite G.R.E.G Projectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 3, y: 3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -50,10 +50,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Damage
-    value: 7
-  speed: 30
+    value: 15
+  speed: 15
   projectileDamage:
-    damageStrength: 1
+    damageStrength: 3
     damageTypes: 01000000
     actionID: 17
     actionTypes: 07000000
@@ -176,7 +176,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 0.46666667, b: 0.9764706, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

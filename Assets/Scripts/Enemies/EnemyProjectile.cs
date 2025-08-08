@@ -64,10 +64,11 @@ public class EnemyProjectile : MonoBehaviour, IStatList
         {
             projectileDamage.victim = collision.gameObject;
             collision.gameObject.GetComponent<Health>().Damage(projectileDamage, parent);
+            Destroy(gameObject);
             return;
         }
 
-        if (collision.gameObject.CompareTag(target) || collision.gameObject.CompareTag("Idol_Clone") || collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        if (/*collision.gameObject.CompareTag(target) || collision.gameObject.CompareTag("Idol_Clone") ||*/ collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
             Destroy(gameObject);
     }
 

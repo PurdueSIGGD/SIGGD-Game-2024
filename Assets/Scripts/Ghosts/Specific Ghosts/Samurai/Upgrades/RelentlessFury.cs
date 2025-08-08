@@ -1,5 +1,7 @@
 //#define DEBUG_LOG
+using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 /// <summary>
@@ -8,15 +10,7 @@ using UnityEngine;
 public class RelentlessFury : Skill
 {
 
-    // **********
-    //
-    // NOTE: THERE IS SOME SPOOKY MAGIC SHIT GOING ON HERE THAT IS BREAKING THIS AND I DON'T KNOW WHAT'S HAPPENING BUT I DON'T HAVE TIME TO FIX IT
-    //
-    // **********
-
     private SamuraiManager samuraiManager;
-
-    [SerializeField] private DamageContext boostedDamageContext;
 
     [SerializeField]
     List<float> values = new List<float>
@@ -25,21 +19,32 @@ public class RelentlessFury : Skill
     };
     private int pointIndex;
 
+    [SerializeField] public int parryStacksGained = 3;
+    [SerializeField] public int maxStacks = 3;
+    [HideInInspector] public int buffStacks = 0;
 
-    private void OnEnable()
+
+
+
+
+    private void Start()
     {
         samuraiManager = gameObject.GetComponent<SamuraiManager>();
-
-        GameplayEventHolder.OnDamageFilter.Add(BuffLightAttack);
 #if DEBUG_LOG
         Debug.Log("Relentless Fury enabled");
 #endif
 
     }
 
+    private void OnEnable()
+    {
+        GameplayEventHolder.OnAbilityUsed += HandleBoost;
+    }
+
     private void OnDisable()
     {
-        GameplayEventHolder.OnDamageFilter.Add(BuffLightAttack);
+        GameplayEventHolder.OnAbilityUsed -= HandleBoost;
+        GameplayEventHolder.OnDamageFilter.Remove(BuffLightAttack);
 #if DEBUG_LOG
         Debug.Log("Relentless Fury disabled");
 #endif
@@ -47,66 +52,65 @@ public class RelentlessFury : Skill
 
     private void Update()
     {
-        boostedDamageContext.damage = 20f * values[pointIndex] * samuraiManager.wrathPercent; // GOD DAMMIT THIS WAS TEMP BUT I AT LEAST THOUGHT IT WOULD WORK
+
     }
 
 
-    /// <summary>
-    /// Calculate bonus damage per wrath percent
-    /// Returns percent increase according to skill points
-    /// Bonus Damage per Wrath Percent: +0.15% | +0.25% | +0.35% | +0.45%
-    /// </summary>
-    private float CalculateDamageMultiplier()
+
+
+
+    private void HandleBoost(ActionContext context)
     {
-        float multiplier = 1.0f;
-        float wrathPercent = samuraiManager.basic.GetWrathPercent();
-
-        if (pointIndex == 0 || wrathPercent <= 0)
+        if (samuraiManager.selected && pointIndex > 0 &&
+            context.actionID == ActionID.SAMURAI_SPECIAL &&
+            context.extraContext.Equals("Parry Success"))
         {
-            return multiplier;
+            if (!GameplayEventHolder.OnDamageFilter.Contains(BuffLightAttack))
+            {
+                GameplayEventHolder.OnDamageFilter.Add(BuffLightAttack);
+            }
+            buffStacks = Mathf.Min(buffStacks + parryStacksGained, maxStacks);
         }
-
-        // Skill points
-
-        float multiplierAdd = 0.15f + (pointIndex - 1) * 0.1f;
-#if DEBUG_LOG
-        Debug.Log("Multiplier per Wrath percent: " + multiplierAdd +"%");
-#endif
-
-        // Multiply by wrath percent
-
-        multiplier += wrathPercent * multiplierAdd;
-        
-        return multiplier;
     }
-    
-    /// <summary>
-    /// Buffs damage for light attacks according to Wrath Percent.
-    /// </summary>
-    /// <param name="damageContext"></param>
+
+
+
     private void BuffLightAttack(ref DamageContext damageContext)
     {
-        /*if (samuraiManager.selected && pointIndex > 0 &&
-            samuraiManager.basic.GetWrathPercent() >= 0 &&
-            damageContext.actionID == ActionID.PLAYER_LIGHT_ATTACK)
+        if (damageContext.attacker.CompareTag("Player") &&
+            (damageContext.actionTypes.Contains(ActionType.LIGHT_ATTACK) &&
+             !damageContext.actionTypes.Contains(ActionType.SKILL)))
         {
-            // buff damage
-#if DEBUG_LOG
-            Debug.Log("Skill points: " + pointIndex + "\nWrath %: " + samuraiManager.basic.GetWrathPercent());
-#endif
-            damageContext.damage *= CalculateDamageMultiplier();
-#if DEBUG_LOG
-            Debug.Log("Damage: " + damageContext.damage);
-#endif
-        }*/
+            // play audio
+            //AudioManager.Instance.VABranch.PlayVATrack("Eva-Idol Fade Out Hit");
 
-        /*
-        if (pointIndex > 0 && samuraiManager.selected && samuraiManager.wrathPercent > 0f && damageContext.actionID == ActionID.PLAYER_LIGHT_ATTACK)
-        {
-            damageContext.victim.GetComponent<Health>().Damage(boostedDamageContext, damageContext.attacker);
+            // buff damage
+            damageContext.damage += values[pointIndex];
+            damageContext.ghostID = GhostID.AKIHITO;
+            buffStacks--;
+            if (buffStacks <= 0)
+            {
+                StartCoroutine(RemoveBuffOnTimer(0f));
+            }
         }
-        */
     }
+
+
+
+    private IEnumerator RemoveBuffOnTimer(float duration)
+    {
+        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(duration);
+        buffStacks = 0;
+        if (GameplayEventHolder.OnDamageFilter.Contains(BuffLightAttack))
+        {
+            GameplayEventHolder.OnDamageFilter.Remove(BuffLightAttack);
+        }
+    }
+
+
+
+
 
     public override void AddPointTrigger()
     {

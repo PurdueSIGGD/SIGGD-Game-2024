@@ -587,7 +587,7 @@ MonoBehaviour:
   skill1UIManager: {fileID: 0}
   skill2UIManager: {fileID: 0}
   meterUIManager: {fileID: 0}
-  roninsResolveIcon: {fileID: 21300000, guid: 0266cfcd555d1ba46942888c4221447d, type: 3}
+  relentlessFuryIcon: {fileID: 21300000, guid: 1320fd3f3f0545c42a2179dc5e03ed0c, type: 3}
 --- !u!114 &4948673646360677175
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -610,7 +610,7 @@ MonoBehaviour:
     actionTypes: 04000000
     extraContext: 
     ghostID: 3
-  duration: 3
+  duration: 2.4
   interval: 0.2
   values:
   - 0
@@ -631,19 +631,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: 9f3693c9f43a9f3459fa01e57dc9b995, type: 2}
-  boostedDamageContext:
-    damageStrength: 0
-    damageTypes: 
-    actionID: 17
-    actionTypes: 
-    extraContext: 
-    ghostID: 3
   values:
   - 0
-  - 0.15
-  - 0.25
-  - 0.35
-  - 0.45
+  - 4
+  - 8
+  - 12
+  - 16
+  parryStacksGained: 3
+  maxStacks: 3
+  buffStacks: 0
 --- !u!114 &3968104243975458799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -684,10 +680,10 @@ MonoBehaviour:
     ghostID: 3
   values:
   - 0
+  - 0.005
   - 0.01
+  - 0.015
   - 0.02
-  - 0.03
-  - 0.04
 --- !u!114 &6412266853432260435
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -722,5 +718,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: 0179f79cebe153a448ea40fb58ee955a, type: 2}
   values: 00000000070000000e000000150000001c000000
-  boostDuration: 3
-  boostTimer: 0

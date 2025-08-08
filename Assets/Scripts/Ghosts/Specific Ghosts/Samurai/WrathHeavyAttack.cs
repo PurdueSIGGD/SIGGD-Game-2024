@@ -50,7 +50,7 @@ public class WrathHeavyAttack : MonoBehaviour
         if (isDashing)
         {
             // Affect enemies during dash
-            Collider2D[] hit = Physics2D.OverlapBoxAll(transform.position + new Vector3(1f * Mathf.Sign(gameObject.transform.rotation.y), 0f, 0f), new Vector2(4, 2), 0, LayerMask.GetMask("Enemy"));
+            Collider2D[] hit = Physics2D.OverlapBoxAll(transform.position + new Vector3(1.25f * Mathf.Sign(gameObject.transform.rotation.y), 0f, 0f), new Vector2(3.5f, 2f), 0f, LayerMask.GetMask("Enemy"));
             foreach (Collider2D h in hit)
             {
                 if (enemiesDamaged.Contains(h.gameObject)) continue;
