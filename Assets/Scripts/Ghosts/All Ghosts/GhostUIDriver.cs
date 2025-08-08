@@ -41,6 +41,7 @@ public class GhostUIDriver : MonoBehaviour, ISelectable
     // Update is called once per frame
     protected virtual void Update()
     {
+        UpdatePartyStatus();
     }
 
     public void UpdatePartyStatus()
