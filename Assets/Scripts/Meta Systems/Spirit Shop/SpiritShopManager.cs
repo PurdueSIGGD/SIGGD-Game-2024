@@ -16,18 +16,26 @@ public class SpiritShopManager : MonoBehaviour, IScreenUI
     //       Serialized Fields
     // ==============================
 
+    [SerializeField] private int rerollStartPrice;
+    [SerializeField] private int rerollPriceIncrement;
+
     [Header("Item Boxes")]
+
     [SerializeField] private GameObject redItemBox;
     [SerializeField] private GameObject blueItemBox;
     [SerializeField] private GameObject yellowItemBox;
 
     [Header("UI")]
+
     [SerializeField] private TMP_Text redSpiritCountText;
     [SerializeField] private TMP_Text blueSpiritCountText;
     [SerializeField] private TMP_Text yellowSpiritCountText;
 
     [SerializeField] private Button secureSpiritsButton;
     [SerializeField] private TMP_Text secureSpiritsButtonText;
+
+    [SerializeField] private Button rerollButton;
+    [SerializeField] private TMP_Text rerollButtonText;
 
     // ==============================
     //        Other Variables
@@ -40,7 +48,7 @@ public class SpiritShopManager : MonoBehaviour, IScreenUI
 
     public void OnNextCloseCall(UnityAction action)
     {
-        
+        Debug.Log("on next close call");
     }
 
     // Start is called before the first frame update

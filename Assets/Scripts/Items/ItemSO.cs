@@ -5,8 +5,11 @@ using UnityEngine;
 public class ItemSO : ScriptableObject
 {
 
+    [HideInInspector]
     public bool owned = false;
+    [HideInInspector]
     public bool used = false;
+
     public enum ItemType
     {
         RED,

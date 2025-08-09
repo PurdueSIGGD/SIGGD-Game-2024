@@ -30,6 +30,8 @@ public class ItemUIManager : MonoBehaviour
         itemNameText.text = item.displayName;
         itemDescription.text = item.itemDescription;
 
+        itemIcon.sprite = item.itemIcon;
+
         switch (item.itemType)
         {
             case ItemSO.ItemType.RED:
