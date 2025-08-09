@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 6929056156911069088}
   - component: {fileID: 5409127624454326957}
   - component: {fileID: 5549542019633540654}
+  - component: {fileID: 1610780681476371705}
   m_Layer: 17
   m_Name: Yume-Seamstress
   m_TagString: Ghost
@@ -383,7 +384,7 @@ MonoBehaviour:
   - {fileID: 5978596217540347318}
   - {fileID: 6929056156911069088}
   - {fileID: 670032466409933237}
-  - {fileID: 670032466409933237}
+  - {fileID: 1610780681476371705}
   - {fileID: 5409127624454326957}
   - {fileID: 5549542019633540654}
   - {fileID: 670032466409933237}
@@ -455,6 +456,26 @@ MonoBehaviour:
   skillSO: {fileID: 11400000, guid: ee9b529bd477cfc4ea85d2861b58bc43, type: 2}
   voodooDoll: {fileID: 8433722653154054174, guid: 1be269ff8d1579341a10f69bbcc4ab42,
     type: 3}
+--- !u!114 &1610780681476371705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981645078808632434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7839e9b5f53ca7443a13e22e32bfac4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillSO: {fileID: 11400000, guid: 13e3196b9c889004b85628080b71beea, type: 2}
+  warpDmgContext:
+    damageStrength: 0
+    damageTypes: 03000000
+    actionID: 12
+    actionTypes: 08000000
+    extraContext: 
+    raycastHitPosition: {x: 0, y: 0}
 --- !u!1 &4936111184687609786
 GameObject:
   m_ObjectHideFlags: 0
