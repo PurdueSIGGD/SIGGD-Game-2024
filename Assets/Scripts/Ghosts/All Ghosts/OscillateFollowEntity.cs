@@ -26,7 +26,8 @@ public class OscillateFollowEntity : MonoBehaviour, IParty
     [SerializeField]
     Vector3 timeMultipliers; // multiply time by these numbers when rotating by axis
 
-    Rigidbody2D rb;
+    private Rigidbody2D rb;
+    private Vector3 scale;
 
     /// <summary>
     /// Calculates and adds the steering force that will push this gameObject towards the target's position.
@@ -68,6 +69,7 @@ public class OscillateFollowEntity : MonoBehaviour, IParty
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        scale = gameObject.transform.localScale;
     }
 
     void FixedUpdate()
@@ -78,12 +80,14 @@ public class OscillateFollowEntity : MonoBehaviour, IParty
     public void EnterParty(GameObject player)
     {
         this.target = player;
+        gameObject.transform.localScale = scale;
     }
 
     public void ExitParty(GameObject player)
     {
         this.target = null;
         this.rb.velocity = new Vector2(0, 0);
+        gameObject.transform.localScale = new Vector3(0, 0, 0);
     }
 
 }

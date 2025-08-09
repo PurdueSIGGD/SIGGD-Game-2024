@@ -59,4 +59,11 @@ public class GameplayEventHolder : MonoBehaviour
     /// </summary>
     public static List<DeathFilterEvent> OnDeathFilter = new List<DeathFilterEvent>();
 
+
+    // ON ENTITY STUNNED
+    public delegate void EntityStunnedEvent(GameObject stunnedEntity);
+    /// <summary>
+    /// Invoked when an entity is stunned
+    /// </summary>
+    public static EntityStunnedEvent OnEntityStunned;
 }
