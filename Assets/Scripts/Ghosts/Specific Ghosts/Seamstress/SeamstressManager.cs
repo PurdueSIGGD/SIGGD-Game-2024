@@ -19,6 +19,7 @@ public class SeamstressManager : GhostManager
     private float ricochetCounter;
 
     [Header("Fatebound Effect")]
+    public ActionContext specialContext;
     [SerializeField] private DamageContext sharedDmg;
     [SerializeField] private float sharedDmgScaling;
 

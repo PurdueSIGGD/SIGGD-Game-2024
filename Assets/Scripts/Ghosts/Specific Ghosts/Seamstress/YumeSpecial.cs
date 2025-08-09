@@ -50,6 +50,9 @@ public class YumeSpecial : MonoBehaviour
             manager.startSpecialCooldown();
             StartCoroutine(FireProjectile(transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition)));
             manager.AddSpools((int)-manager.GetStats().ComputeValue("Special Attack Spools Needed"));
+
+            // fire any events waiting for special ability to activate
+            GameplayEventHolder.OnAbilityUsed.Invoke(manager.specialContext);
         }
     }
 
