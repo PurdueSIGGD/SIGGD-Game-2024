@@ -41,15 +41,17 @@ public class GhostUIDriver : MonoBehaviour, ISelectable
     // Update is called once per frame
     protected virtual void Update()
     {
+        UpdatePartyStatus();
     }
 
     public void UpdatePartyStatus()
     {
-        List<GhostIdentity> ghostPartyList = partyManager.GetGhostPartyList();
-        int count = ghostPartyList.Count;
 
         if (!isInParty && partyManager.IsGhostInParty(ghostIdentity))
         {
+            List<GhostIdentity> ghostPartyList = partyManager.GetGhostPartyList();
+            int count = ghostPartyList.Count;
+
             isInParty = true;
             Color ghostColor = ghostIdentity.GetCharacterInfo().primaryColor;
 
@@ -64,6 +66,9 @@ public class GhostUIDriver : MonoBehaviour, ISelectable
         }
         else if (isInParty && !partyManager.IsGhostInParty(ghostIdentity))
         {
+            List<GhostIdentity> ghostPartyList = partyManager.GetGhostPartyList();
+            int count = ghostPartyList.Count;
+
             isInParty = false;
 
             ghostIdentity.TriggerExitPartyBehavior();
