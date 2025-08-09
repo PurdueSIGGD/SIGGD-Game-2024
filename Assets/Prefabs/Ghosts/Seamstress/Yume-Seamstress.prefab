@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 5978596217540347318}
   - component: {fileID: 6929056156911069088}
   - component: {fileID: 5409127624454326957}
-  - component: {fileID: 3307188215727306708}
+  - component: {fileID: 5549542019633540654}
   m_Layer: 17
   m_Name: Yume-Seamstress
   m_TagString: Ghost
@@ -225,10 +225,6 @@ MonoBehaviour:
   statList: []
   defaultController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
   ghostController: {fileID: 9100000, guid: b2df4cc609beea44285ab4d10e80ffae, type: 2}
-  onSpoolGained:
-    actionID: 11
-    actionTypes: 02000000
-    extraContext: Gained Spool
   projectile: {fileID: 7891332324626441984, guid: f3b339b45781d2541b8cac7e219b9f59,
     type: 3}
   projectileDamageContext:
@@ -238,6 +234,10 @@ MonoBehaviour:
     actionTypes: 03000000
     extraContext: 
     raycastHitPosition: {x: 0, y: 0}
+  specialContext:
+    actionID: 12
+    actionTypes: 03000000
+    extraContext: 
   sharedDmg:
     damageStrength: 0
     damageTypes: 03000000
@@ -382,10 +382,10 @@ MonoBehaviour:
   skills:
   - {fileID: 5978596217540347318}
   - {fileID: 6929056156911069088}
-  - {fileID: 3307188215727306708}
+  - {fileID: 670032466409933237}
   - {fileID: 670032466409933237}
   - {fileID: 5409127624454326957}
-  - {fileID: 670032466409933237}
+  - {fileID: 5549542019633540654}
   - {fileID: 670032466409933237}
   startAtLevel: 9
 --- !u!114 &670032466409933237
@@ -440,7 +440,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: bdad5160f0c1fc44395601583cd8beea, type: 2}
---- !u!114 &3307188215727306708
+--- !u!114 &5549542019633540654
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -449,14 +449,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 981645078808632434}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a5634e4460f5c64aa2d46cd1616a0d3, type: 3}
+  m_Script: {fileID: 11500000, guid: fa66fb566745d81408446928b85fce56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skillSO: {fileID: 11400000, guid: d3bba513ba7b93641a6033c2f8ebbb23, type: 2}
-  NeedleAndThreadParticleSystem: {fileID: 6594238110341857679, guid: 196d5cda3e0460441a12fa256c699df1,
+  skillSO: {fileID: 11400000, guid: ee9b529bd477cfc4ea85d2861b58bc43, type: 2}
+  voodooDoll: {fileID: 8433722653154054174, guid: 1be269ff8d1579341a10f69bbcc4ab42,
     type: 3}
-  effectiveRadius: 15
-  debuffDuration: 10
 --- !u!1 &4936111184687609786
 GameObject:
   m_ObjectHideFlags: 0
