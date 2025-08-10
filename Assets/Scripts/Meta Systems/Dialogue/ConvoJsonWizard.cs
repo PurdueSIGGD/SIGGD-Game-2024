@@ -36,8 +36,6 @@ public class ConvoJsonWizard : ScriptableWizard
 
             if (match.Success)
             {
-                if (match.Groups[1].Value.Equals("N/A")) continue;
-
                 LineJson lineJson = new()
                 {
                     character = match.Groups[1].Value.Substring(0, 1) +
@@ -49,8 +47,8 @@ public class ConvoJsonWizard : ScriptableWizard
             }
             else
             {
-                Debug.Log("failed to create conversation at line: " + line);
-                Debug.Log("aborting creating conversation");
+                Debug.LogError("failed to create conversation at line: " + line);
+                Debug.LogError("aborting creating conversation");
                 return;
             }
         }
