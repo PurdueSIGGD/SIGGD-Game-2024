@@ -44,7 +44,10 @@ public class KingManager : GhostManager, ISelectable
 
         shieldBreakDamage.damage = stats.ComputeValue("Shield Break Damage");
         specialDamage.damage = stats.ComputeValue("Special Damage");
+
         currentShieldHealth = stats.ComputeValue("Shield Max Health");
+        currentShieldHealth += gameObject.GetComponent<RulersResilience>().GetExtraShieldHealth();
+            
         endShieldHealth = 0f;
         selected = false;
 

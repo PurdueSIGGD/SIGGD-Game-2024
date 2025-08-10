@@ -25,7 +25,7 @@ public class FateboundDebuff : MonoBehaviour
     {
         if (context.victim == gameObject)
         {
-            manager.DamageLinkedEnemies(gameObject.GetInstanceID(), context);
+            manager.DamageLinkedEnemies(gameObject.GetInstanceID(), context, true);
         }
     }
 
@@ -33,8 +33,16 @@ public class FateboundDebuff : MonoBehaviour
     {
         if (context.victim == gameObject)
         {
-            manager.RemoveFromLink(gameObject.GetInstanceID());
+
+            // Handle Scrap Saver Skill
+            manager.gameObject.GetComponent<ScrapSaver>().HandleEnemyDefeated();
+
             RemoveShareDamage();
+
+            manager.gameObject.GetComponent<UnraveledFate>().DamageFateboundEnemies(gameObject.GetInstanceID());
+
+            manager.RemoveFromLink(gameObject.GetInstanceID());
+
         }
     }
 }

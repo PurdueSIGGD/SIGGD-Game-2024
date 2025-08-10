@@ -50,6 +50,11 @@ public class PoisonDebuff : MonoBehaviour
         timer = interval;
     }
 
+    public void SetAttacker(GameObject attacker)
+    {
+        damageContext.attacker = attacker;
+    }
+
     public void Init(DamageContext context, float dps, float time, float interval)
     {
         damageContext = context;

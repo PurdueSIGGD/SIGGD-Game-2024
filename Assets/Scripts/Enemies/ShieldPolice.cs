@@ -49,6 +49,10 @@ public class ShieldPolice : EnemyStateManager
     }
     public void ShieldUpDamageFilter(ref DamageContext context)
     {
+        if (context.victim != this.gameObject)
+        {
+            return;
+        }
         if (context.raycastHitPosition == Vector2.zero)
         {
             return;

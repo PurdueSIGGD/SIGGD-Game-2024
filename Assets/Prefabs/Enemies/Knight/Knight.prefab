@@ -34,12 +34,12 @@ Transform:
   m_GameObject: {fileID: 1393067818931581941}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.188, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7053703775646020486}
-  - {fileID: 2698937358818009775}
+  - {fileID: 1544642369396135217}
   - {fileID: 438740059758093778}
   - {fileID: 3748458408678747414}
   m_Father: {fileID: 0}
@@ -207,13 +207,15 @@ MonoBehaviour:
     priority: 1
     ready: 1
     hitBox: {fileID: 7053703775646020486}
-    coolDown: 3
+    usesCircleHitbox: 0
+    coolDown: 4
     animationClip: {fileID: 7400000, guid: a2483e2a32b39f240947157efb27424b, type: 2}
   move:
     name: Move
     priority: 0
     ready: 1
     hitBox: {fileID: 0}
+    usesCircleHitbox: 0
     coolDown: 0
     animationClip: {fileID: 7400000, guid: 308a817f162a8454a97475f50c55a535, type: 2}
   idle:
@@ -221,6 +223,7 @@ MonoBehaviour:
     priority: 0
     ready: 1
     hitBox: {fileID: 0}
+    usesCircleHitbox: 0
     coolDown: 0
     animationClip: {fileID: 7400000, guid: 4586f135f2897ba4cafc5c80652419f4, type: 2}
 --- !u!114 &2121035421530653855
@@ -253,9 +256,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Idle Speed
-    value: 5
-  - name: Speed
     value: 3
+  - name: Speed
+    value: 5
   - name: Enemy Group Aggro Radius
     value: 10
   - name: Target Range Min
@@ -282,7 +285,7 @@ MonoBehaviour:
   pool: {fileID: 0}
   animator: {fileID: 0}
   isFlyer: 0
-  aggroRange: 7
+  aggroRange: 15
   isBeingKnockedBack: 0
   grounded: 1
   groundedRayCheckLength: 1.5
@@ -293,8 +296,9 @@ MonoBehaviour:
     actionID: 0
     actionTypes: 
     extraContext: 
-  damageVal: 20
-  swingVisual: {fileID: 6703226173508480506}
+    raycastHitPosition: {x: 0, y: 0}
+  damageVal: 15
+  swingVisual: {fileID: 8528928557719529496}
 --- !u!114 &2071007487395054228
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -422,7 +426,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!1 &6703226173508480506
+--- !u!1 &7921356762480239732
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -430,38 +434,68 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2698937358818009775}
-  - component: {fileID: 498292189681236844}
-  - component: {fileID: 5355544489665707548}
-  m_Layer: 0
-  m_Name: SlashVisual
+  - component: {fileID: 7053703775646020486}
+  m_Layer: 21
+  m_Name: Sword Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &2698937358818009775
+  m_IsActive: 1
+--- !u!4 &7053703775646020486
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6703226173508480506}
+  m_GameObject: {fileID: 7921356762480239732}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.0989, y: 0.1947, z: -0.023655001}
-  m_LocalScale: {x: 0.62111706, y: 0.13845077, z: 0.6186668}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.47, y: 0.08, z: 0}
+  m_LocalScale: {x: 4, y: 1.4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9074763983707266519}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &498292189681236844
+--- !u!1 &8528928557719529496
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1544642369396135217}
+  - component: {fileID: 335885959765162085}
+  m_Layer: 0
+  m_Name: SlashVisual (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1544642369396135217
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8528928557719529496}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: -0.043619405, w: 0.9990483}
+  m_LocalPosition: {x: 0.18, y: 0.43, z: -0.023655001}
+  m_LocalScale: {x: 0.61, y: 0.24, z: 0.61867}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9074763983707266519}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -5}
+--- !u!212 &335885959765162085
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6703226173508480506}
+  m_GameObject: {fileID: 8528928557719529496}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -497,7 +531,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -1
   m_Sprite: {fileID: 1362064693, guid: 62345c0aa990a5c4786ea8b620d53557, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.9300407, b: 0.7075472, a: 1}
   m_FlipX: 0
   m_FlipY: 1
   m_DrawMode: 0
@@ -507,93 +541,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &5355544489665707548
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6703226173508480506}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ComponentVersion: 1
-  m_LightType: 1
-  m_BlendStyleIndex: 0
-  m_FalloffIntensity: 0.5
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
-  m_Intensity: 12.29
-  m_LightVolumeIntensity: 1
-  m_LightVolumeIntensityEnabled: 0
-  m_ApplyToSortingLayers: 8fa404e300000000e366b930
-  m_LightCookieSprite: {fileID: 947223071, guid: 5f1bb3c9992e84441baec8720ebfd3d1,
-    type: 3}
-  m_DeprecatedPointLightCookieSprite: {fileID: 0}
-  m_LightOrder: 0
-  m_AlphaBlendOnOverlap: 0
-  m_OverlapOperation: 0
-  m_NormalMapDistance: 3
-  m_NormalMapQuality: 2
-  m_UseNormalMap: 0
-  m_ShadowIntensityEnabled: 0
-  m_ShadowIntensity: 0.75
-  m_ShadowVolumeIntensityEnabled: 0
-  m_ShadowVolumeIntensity: 0.75
-  m_LocalBounds:
-    m_Center: {x: 2.44965, y: 0.49555004, z: 0}
-    m_Extent: {x: 4.64565, y: 4.34585, z: 0}
-  m_PointLightInnerAngle: 360
-  m_PointLightOuterAngle: 360
-  m_PointLightInnerRadius: 0
-  m_PointLightOuterRadius: 1
-  m_ShapeLightParametricSides: 5
-  m_ShapeLightParametricAngleOffset: 0
-  m_ShapeLightParametricRadius: 1
-  m_ShapeLightFalloffSize: 0.5
-  m_ShapeLightFalloffOffset: {x: 0, y: 0}
-  m_ShapePath:
-  - {x: -1.6965019, y: -3.3495412, z: -1.2023138e-10}
-  - {x: 2.7748318, y: -3.2170062, z: -1.2023138e-10}
-  - {x: 6.5268292, y: -1.0241718, z: -1.2023138e-10}
-  - {x: 6.5967245, y: 0.2658945, z: 0.00000010224494}
-  - {x: 3.982146, y: 3.3142414, z: 0.00000010224494}
-  - {x: 0.57832885, y: 4.3435674, z: -1.2023138e-10}
-  - {x: 5.104789, y: 1.6575397, z: 0.00000010224494}
-  - {x: 5.976314, y: -0.26425293, z: 0.00000010224494}
-  - {x: 4.6025534, y: -1.8546922, z: 0.00000010224494}
---- !u!1 &7921356762480239732
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7053703775646020486}
-  m_Layer: 21
-  m_Name: Sword Trigger
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &7053703775646020486
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7921356762480239732}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.27, y: 0.19, z: 0}
-  m_LocalScale: {x: 4.5, y: 1.09, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 9074763983707266519}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1182684825884358672
 PrefabInstance:
   m_ObjectHideFlags: 0
