@@ -259,7 +259,7 @@ public class PlayerStateMachine : MonoBehaviour
     /// <param name="duration"></param>
     public void SetStun(float duration)
     {
-        GameplayEventHolder.OnEntityStunned.Invoke(gameObject);
+        GameplayEventHolder.OnEntityStunned?.Invoke(gameObject);
         StartCoroutine(StunCoroutine(duration));
     }
 

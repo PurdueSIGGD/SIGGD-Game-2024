@@ -117,7 +117,7 @@ public class SamuraiRetribution : MonoBehaviour
         gameObject.GetComponent<StatManager>().ModifyStat("Running Accel.", Mathf.CeilToInt(manager.GetStats().ComputeValue("Parry Slow Percent")));
         gameObject.GetComponent<Move>().UpdateRun();
     }
-
+    
     public void ParryingFilter(ref DamageContext context)
     {
         if (parrying && context.attacker.CompareTag("Enemy") && context.victim.CompareTag("Player") && (context.damageTypes.Contains(DamageType.MELEE) || context.damageTypes.Contains(DamageType.PROJECTILE) || context.damageTypes.Contains(DamageType.AREA)))

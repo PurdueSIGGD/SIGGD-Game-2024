@@ -5,7 +5,7 @@ public class WarpAndWeft : Skill
 {
     [SerializeField] DamageContext warpDmgContext;
 
-    void Start()
+    void OnEnable()
     {
         GameplayEventHolder.OnEntityStunned += DamageStunnedEnemies;
     }
@@ -15,7 +15,7 @@ public class WarpAndWeft : Skill
         GameplayEventHolder.OnEntityStunned -= DamageStunnedEnemies;
     }
 
-    private void DamageStunnedEnemies(GameObject stunnedEntity)
+    public void DamageStunnedEnemies(GameObject stunnedEntity)
     {
         if (GetPoints() > 0 && stunnedEntity.GetComponent<FateboundDebuff>() != null)
         {

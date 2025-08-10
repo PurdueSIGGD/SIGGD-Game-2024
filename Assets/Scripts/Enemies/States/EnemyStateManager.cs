@@ -119,7 +119,7 @@ public class EnemyStateManager : MonoBehaviour
     /// <param name="duration"> the duration of the stun </param>
     public void Stun(DamageContext damageContext, float duration = 0f)
     {
-        GameplayEventHolder.OnEntityStunned.Invoke(gameObject);
+        GameplayEventHolder.OnEntityStunned?.Invoke(gameObject);
         if (duration == 0f)
         {
             StunState.EnterState(this);
