@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Spirit;
 
 public class SpiritTracker : MonoBehaviour
 {
@@ -32,6 +33,46 @@ public class SpiritTracker : MonoBehaviour
                 yellowSpiritsCollected++;
                 break;
         }
+    }
+
+    public bool SpendSpirits(Spirit.SpiritType spiritType, int price)
+    {
+        switch (spiritType)
+        {
+            case Spirit.SpiritType.Red:
+                if (redSpiritsCollected >= price)
+                {
+                    redSpiritsCollected -= price;
+                }
+                else
+                {
+                    return false;
+                }
+                break;
+            case Spirit.SpiritType.Yellow:
+                if (yellowSpiritsCollected >= price)
+                {
+                    yellowSpiritsCollected -= price;
+                }
+                else
+                {
+                    return false;
+                }
+                break;
+            case Spirit.SpiritType.Blue:
+                if (blueSpiritsCollected >= price)
+                {
+                    blueSpiritsCollected -= price;
+                }
+                else
+                {
+                    return false;
+                }
+                break;
+
+        }
+
+        return true;
     }
 
     /// <summary>

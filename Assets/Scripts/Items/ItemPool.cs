@@ -5,28 +5,38 @@ using UnityEngine;
 
 public class ItemPool : MonoBehaviour
 {
-    private List<ItemSO> usedItems; // When item is bought, cannot be bought for rest of run
 
-    [SerializeField] private SpiritShopManager spiritShopManager;
+    // ==============================
+    //       Serialized Fields
+    // ==============================
 
     [SerializeField]
     public Spirit.SpiritType type;
 
     [SerializeField]
-    public List<ItemSO> itemList;    
+    public List<ItemSO> itemList; // items current available during run
 
     [SerializeField] private int rerollStartPrice;
     [SerializeField] private int rerollPriceIncrement;
 
+    // ==============================
+    //        Other Variables
+    // ==============================
+
     public int currentRerollPrice = 0; // Current reroll price
+    private List<ItemSO> usedItems; // When item is bought, cannot be bought for rest of run
+    
+    private SpiritTracker spiritTracker;
 
     private void Start()
     {
         currentRerollPrice = rerollStartPrice;
+        spiritTracker = PersistentData.Instance.GetComponent<SpiritTracker>();
+
     }
 
     /// <summary>
-    /// Returns a random item from the pool and sets the currently displayed item
+    /// Returns a random item from the pool
     /// </summary>
     /// <returns></returns>
     public ItemSO PickRandomItem()
@@ -36,7 +46,22 @@ public class ItemPool : MonoBehaviour
         return itemList[randomIndex];
     }
 
-    public ItemSO 
+
+    public ItemSO RerollRandomItem()
+    {
+        // Remove price of reroll, return null if not enough
+
+        if (!spiritTracker.SpendSpirits(type, currentRerollPrice))
+        {
+            return null;
+        }
+
+        // Return random new item and increase price
+
+        currentRerollPrice += rerollPriceIncrement;
+        return PickRandomItem();
+
+    }
 
     /// <summary>
     /// After run, return all the items to the pool (can be bought again)
@@ -53,11 +78,4 @@ public class ItemPool : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Handles reroll button
-    /// </summary>
-    private void Reroll()
-    {
-        
-    }
 }

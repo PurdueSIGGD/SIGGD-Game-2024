@@ -330,8 +330,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 057d069fda3cb8748a9dc3cfa2138e58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rerollStartPrice: 2
-  rerollPriceIncrement: 1
   redItemBox: {fileID: 3604539933042420026}
   blueItemBox: {fileID: 375972933010156738}
   yellowItemBox: {fileID: 5928775345199388544}
@@ -340,8 +338,6 @@ MonoBehaviour:
   yellowSpiritCountText: {fileID: 3429066086374560718}
   secureSpiritsButton: {fileID: 5832458862554492732}
   secureSpiritsButtonText: {fileID: 4318070308088846981}
-  rerollButton: {fileID: 0}
-  rerollButtonText: {fileID: 0}
 --- !u!1 &2971350349864040471
 GameObject:
   m_ObjectHideFlags: 0
@@ -1511,6 +1507,11 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1582477578083593419, guid: 7ef70e7047cd93e40a9b5e726f855023,
+        type: 3}
+      propertyPath: shopManager
+      value: 
+      objectReference: {fileID: 900742606410262795}
     - target: {fileID: 6260967882022331530, guid: 7ef70e7047cd93e40a9b5e726f855023,
         type: 3}
       propertyPath: m_Name
@@ -1677,6 +1678,11 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1582477578083593419, guid: 7ef70e7047cd93e40a9b5e726f855023,
+        type: 3}
+      propertyPath: shopManager
+      value: 
+      objectReference: {fileID: 900742606410262795}
     - target: {fileID: 6260967882022331530, guid: 7ef70e7047cd93e40a9b5e726f855023,
         type: 3}
       propertyPath: m_Name
@@ -1685,7 +1691,7 @@ PrefabInstance:
     - target: {fileID: 8122159753105708862, guid: 7ef70e7047cd93e40a9b5e726f855023,
         type: 3}
       propertyPath: type
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8122159753105708862, guid: 7ef70e7047cd93e40a9b5e726f855023,
         type: 3}
@@ -1848,6 +1854,11 @@ PrefabInstance:
       propertyPath: pool
       value: 
       objectReference: {fileID: 1464019138613680782}
+    - target: {fileID: 1582477578083593419, guid: 7ef70e7047cd93e40a9b5e726f855023,
+        type: 3}
+      propertyPath: shopManager
+      value: 
+      objectReference: {fileID: 900742606410262795}
     - target: {fileID: 6260967882022331530, guid: 7ef70e7047cd93e40a9b5e726f855023,
         type: 3}
       propertyPath: m_Name
@@ -1856,12 +1867,27 @@ PrefabInstance:
     - target: {fileID: 8122159753105708862, guid: 7ef70e7047cd93e40a9b5e726f855023,
         type: 3}
       propertyPath: type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8122159753105708862, guid: 7ef70e7047cd93e40a9b5e726f855023,
+        type: 3}
+      propertyPath: rerollStartPrice
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8122159753105708862, guid: 7ef70e7047cd93e40a9b5e726f855023,
+        type: 3}
+      propertyPath: currentRerollPrice
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8122159753105708862, guid: 7ef70e7047cd93e40a9b5e726f855023,
         type: 3}
       propertyPath: itemList.Array.size
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8122159753105708862, guid: 7ef70e7047cd93e40a9b5e726f855023,
+        type: 3}
+      propertyPath: rerollPriceIncrement
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8122159753105708862, guid: 7ef70e7047cd93e40a9b5e726f855023,
         type: 3}

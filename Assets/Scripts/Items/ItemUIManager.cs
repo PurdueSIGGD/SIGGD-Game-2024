@@ -15,8 +15,11 @@ public class ItemUIManager : MonoBehaviour
 
     [SerializeField] private Image itemIcon;
 
+    [SerializeField] private SpiritShopManager shopManager;
+
     private ItemPool pool;
     private ItemSO item; // The currently displayed item
+    
 
     private void Start()
     {
@@ -40,13 +43,13 @@ public class ItemUIManager : MonoBehaviour
         // TODO: temporary text color, add icons later
         switch (item.itemType)
         {
-            case ItemSO.ItemType.RED:
+            case Spirit.SpiritType.Red:
                 priceText.color = Color.red;
                 break;
-            case ItemSO.ItemType.BLUE:
+            case Spirit.SpiritType.Yellow:
                 priceText.color = Color.blue;
                 break;
-            case ItemSO.ItemType.YELLOW:
+            case Spirit.SpiritType.Blue:
                 priceText.color = Color.yellow;
                 break;
         }
@@ -83,12 +86,12 @@ public class ItemUIManager : MonoBehaviour
 
             // Update text
             UpdateRerollButtonText();
+            shopManager.UpdateSpiritCountText();
         } else
         {
             // not enough spirits
             return; // TODO
         }
     }
-   
 
 }

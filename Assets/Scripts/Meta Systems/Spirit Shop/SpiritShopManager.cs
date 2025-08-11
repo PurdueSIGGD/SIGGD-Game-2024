@@ -74,7 +74,7 @@ public class SpiritShopManager : MonoBehaviour, IScreenUI
         Door.activateDoor(true);
         gameObject.SetActive(false);
     }
-    private void UpdateSpiritCountText()
+    public void UpdateSpiritCountText()
     {
         int redSpirits = spiritTracker.redSpiritsCollected;
         int blueSpirits = spiritTracker.blueSpiritsCollected;

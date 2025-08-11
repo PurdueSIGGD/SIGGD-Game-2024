@@ -684,7 +684,10 @@ MonoBehaviour:
   priceText: {fileID: 1847081078105227861}
   itemNameText: {fileID: 5443048461196839979}
   itemDescription: {fileID: 1058263705070438583}
+  rerollButton: {fileID: 4304496617044400562}
+  rerollButtonText: {fileID: 5191123743033103996}
   itemIcon: {fileID: 5433917681139722946}
+  shopManager: {fileID: 0}
 --- !u!114 &8122159753105708862
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -699,6 +702,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 1
   itemList: []
+  rerollStartPrice: 1
+  rerollPriceIncrement: 1
+  currentRerollPrice: 0
 --- !u!1 &6665977681588384529
 GameObject:
   m_ObjectHideFlags: 0
