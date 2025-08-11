@@ -8,18 +8,22 @@ public class SilasManager : GhostManager
     public GameObject blightPotion;
     public float initialSpeed;
 
-    private PlagueDoctorSpecial specialRef;
+    [HideInInspector] public PlagueDoctorSpecial special;
 
     public override void Select(GameObject player)
     {
-        Debug.Log("Plague doctor selected");
+        Debug.Log("SILAS SELECTED!");
+
+        special = PlayerID.instance.AddComponent<PlagueDoctorSpecial>();
+        special.manager = this;
+
         base.Select(player);
-        specialRef = PlayerID.instance.AddComponent<PlagueDoctorSpecial>();
-        specialRef.manager = this;
     }
 
     public override void DeSelect(GameObject player)
     {
-        if (specialRef) Destroy(specialRef);
+        if (special) Destroy(special);
+
+        base.DeSelect(player);
     }
 }

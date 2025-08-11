@@ -167,7 +167,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactRange: 3
   menuOffset: {x: 0, y: 2, z: 0}
-  hubConvo: {fileID: 11400000, guid: 1c32528fb16f67c429d8be38265fa140, type: 2}
+  hubConvo: {fileID: 0}
   isFirstInteraction: 0
   isNPC: 0
 --- !u!114 &1173352059460126574
@@ -226,6 +226,10 @@ MonoBehaviour:
   statList: []
   defaultController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
   ghostController: {fileID: 9100000, guid: b2df4cc609beea44285ab4d10e80ffae, type: 2}
+  onSpoolGained:
+    actionID: 0
+    actionTypes: 
+    extraContext: 
   projectile: {fileID: 7891332324626441984, guid: f3b339b45781d2541b8cac7e219b9f59,
     type: 3}
   projectileDamageContext:
@@ -234,7 +238,7 @@ MonoBehaviour:
     actionID: 12
     actionTypes: 03000000
     extraContext: 
-    raycastHitPosition: {x: 0, y: 0}
+    ghostID: 0
   specialContext:
     actionID: 12
     actionTypes: 03000000
@@ -245,7 +249,7 @@ MonoBehaviour:
     actionID: 12
     actionTypes: 03000000
     extraContext: 
-    raycastHitPosition: {x: 0, y: 0}
+    ghostID: 0
   sharedDmgScaling: 0.6
 --- !u!120 &6265072175092927981
 LineRenderer:
@@ -475,7 +479,7 @@ MonoBehaviour:
     actionID: 12
     actionTypes: 08000000
     extraContext: 
-    raycastHitPosition: {x: 0, y: 0}
+    ghostID: 0
 --- !u!1 &4936111184687609786
 GameObject:
   m_ObjectHideFlags: 0
@@ -721,7 +725,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6,
     type: 3}
-  m_Color: {r: 1, g: 0, b: 0.54640484, a: 0.5882353}
+  m_Color: {r: 0.972549, g: 0.7764706, b: 0.92941177, a: 0.5882353}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

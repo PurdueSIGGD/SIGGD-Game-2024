@@ -160,7 +160,7 @@ SpriteRenderer:
   m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6,
     type: 3}
-  m_Color: {r: 0.9622642, g: 0.830259, b: 0.086240634, a: 0.5882353}
+  m_Color: {r: 1, g: 0.9372549, b: 0.60784316, a: 0.5882353}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -337,7 +337,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactRange: 3
   menuOffset: {x: 0, y: 2, z: 0}
-  hubConvo: {fileID: 11400000, guid: d4d980ef81b3c2e4dbaebb3b83bf48d2, type: 2}
+  hubConvo: {fileID: 0}
   isFirstInteraction: 0
   isNPC: 0
 --- !u!114 &4974482219362555187
@@ -393,14 +393,14 @@ MonoBehaviour:
     actionID: 15
     actionTypes: 0100000002000000
     extraContext: 
-    raycastHitPosition: {x: 0, y: 0}
+    ghostID: 0
   specialDamage:
     damageStrength: 1
     damageTypes: 02000000
     actionID: 16
     actionTypes: 03000000
     extraContext: 
-    raycastHitPosition: {x: 0, y: 0}
+    ghostID: 0
   shieldCircleVFX: {fileID: 4293710092863350538, guid: 881280630d925cc4f918efa96024a814,
     type: 3}
   shieldExplosionVFX: {fileID: 7966241730260626198, guid: a5295bc6cb8948243b75f99e5a18cc48,

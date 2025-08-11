@@ -160,7 +160,7 @@ SpriteRenderer:
   m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6,
     type: 3}
-  m_Color: {r: 0.9622642, g: 0.830259, b: 0.086240634, a: 0.5882353}
+  m_Color: {r: 0.9529412, g: 0.70980394, b: 0.5803922, a: 0.5882353}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -271,6 +271,7 @@ GameObject:
   - component: {fileID: 5527549834993910565}
   - component: {fileID: 3640821941058779060}
   - component: {fileID: 7594217564035337209}
+  - component: {fileID: 7685234934013339988}
   m_Layer: 17
   m_Name: Silas-PlagueDoc
   m_TagString: Ghost
@@ -396,7 +397,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64193cb6f57202744bf8fb56115e3b2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterInfo: {fileID: 0}
+  characterInfo: {fileID: 11400000, guid: cef82af047d722640a01d9f84c5ebecb, type: 2}
+  isUnlocked: 0
+  exp: 0
 --- !u!114 &5527549834993910565
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -417,6 +420,7 @@ MonoBehaviour:
   blightPotion: {fileID: 4699030029396985124, guid: e2fab6792587ec249a70e1b7a5314fc9,
     type: 3}
   initialSpeed: 20
+  special: {fileID: 0}
 --- !u!114 &3640821941058779060
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -432,6 +436,8 @@ MonoBehaviour:
   interactRange: 3
   menuOffset: {x: 0, y: 2, z: 0}
   hubConvo: {fileID: 11400000, guid: d4d980ef81b3c2e4dbaebb3b83bf48d2, type: 2}
+  isFirstInteraction: 0
+  isNPC: 0
 --- !u!114 &7594217564035337209
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -445,3 +451,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   statList: []
+--- !u!114 &7685234934013339988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8202687041202382142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b79978fc3bc8aa44af6519c4b2c0406, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectedGhostUIManager: {fileID: 0}
+  deselectedGhostUIManager: {fileID: 0}
+  basicAbilityUIManager: {fileID: 0}
+  specialAbilityUIManager: {fileID: 0}
+  skill1UIManager: {fileID: 0}
+  skill2UIManager: {fileID: 0}
+  meterUIManager: {fileID: 0}
