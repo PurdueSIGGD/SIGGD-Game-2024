@@ -10,15 +10,18 @@ public class ItemUIManager : MonoBehaviour
     [SerializeField] private TMP_Text itemNameText;
     [SerializeField] private TMP_Text itemDescription;
 
+    [SerializeField] private Button rerollButton;
+    [SerializeField] private TMP_Text rerollButtonText;
+
     [SerializeField] private Image itemIcon;
 
     private ItemPool pool;
-
-    private ItemSO item;
+    private ItemSO item; // The currently displayed item
 
     private void Start()
     {
         pool = gameObject.GetComponent<ItemPool>();
+        rerollButton.onClick.AddListener(RerollButtonOnClick);
     }
 
     /// <summary>
@@ -32,6 +35,9 @@ public class ItemUIManager : MonoBehaviour
 
         itemIcon.sprite = item.itemIcon;
 
+        UpdateRerollButtonText();
+
+        // TODO: temporary text color, add icons later
         switch (item.itemType)
         {
             case ItemSO.ItemType.RED:
@@ -47,12 +53,42 @@ public class ItemUIManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Update the text for the reroll button
+    /// </summary>
+    private void UpdateRerollButtonText()
+    {
+        // Update text
+        rerollButtonText.text = "Reroll for " + pool.currentRerollPrice;
+    }
+
+    /// <summary>
     /// Picks a random available item from the pool and displays it in the UI
     /// </summary>
-    public void DisplayRandomItem()
+    public void PickAndDisplayRandomItem()
     {
         item = pool.PickRandomItem();
         UpdateItemBoxUI();
     }
+
+    /// <summary>
+    /// Call this when the reroll button is clicked
+    /// </summary>
+    public void RerollButtonOnClick()
+    {
+        ItemSO newItem = pool.RerollRandomItem();
+        if (newItem != null)
+        {
+            item = newItem;
+            UpdateItemBoxUI();
+
+            // Update text
+            UpdateRerollButtonText();
+        } else
+        {
+            // not enough spirits
+            return; // TODO
+        }
+    }
+   
 
 }

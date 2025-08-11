@@ -16,9 +16,6 @@ public class SpiritShopManager : MonoBehaviour, IScreenUI
     //       Serialized Fields
     // ==============================
 
-    [SerializeField] private int rerollStartPrice;
-    [SerializeField] private int rerollPriceIncrement;
-
     [Header("Item Boxes")]
 
     [SerializeField] private GameObject redItemBox;
@@ -34,9 +31,6 @@ public class SpiritShopManager : MonoBehaviour, IScreenUI
     [SerializeField] private Button secureSpiritsButton;
     [SerializeField] private TMP_Text secureSpiritsButtonText;
 
-    [SerializeField] private Button rerollButton;
-    [SerializeField] private TMP_Text rerollButtonText;
-
     // ==============================
     //        Other Variables
     // ==============================
@@ -44,7 +38,7 @@ public class SpiritShopManager : MonoBehaviour, IScreenUI
     private const int NUM_ITEMS = 3; // num items to display in shop 
 
     private SpiritTracker spiritTracker;
-    private bool turnCompleted = false;
+    private bool turnCompleted = false; // Whether user completed an action (buy item or secure)
 
     public void OnNextCloseCall(UnityAction action)
     {
@@ -67,10 +61,9 @@ public class SpiritShopManager : MonoBehaviour, IScreenUI
     {
         if (turnCompleted) return;
 
-        redItemBox.GetComponent<ItemUIManager>().DisplayRandomItem();
-        blueItemBox.GetComponent<ItemUIManager>().DisplayRandomItem();
-        yellowItemBox.GetComponent<ItemUIManager>().DisplayRandomItem();
-
+        redItemBox.GetComponent<ItemUIManager>().PickAndDisplayRandomItem();
+        blueItemBox.GetComponent<ItemUIManager>().PickAndDisplayRandomItem();
+        yellowItemBox.GetComponent<ItemUIManager>().PickAndDisplayRandomItem();
 
         UpdateSpiritCountText();
         gameObject.SetActive(true);
@@ -109,4 +102,5 @@ public class SpiritShopManager : MonoBehaviour, IScreenUI
 
         CloseShopUI();
     }
+
 }

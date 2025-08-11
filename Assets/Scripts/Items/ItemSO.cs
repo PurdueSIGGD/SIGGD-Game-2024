@@ -10,13 +10,6 @@ public class ItemSO : ScriptableObject
     [HideInInspector]
     public bool used = false;
 
-    public enum ItemType
-    {
-        RED,
-        BLUE,
-        YELLOW
-    }
-
     // Item Attributes
 
     public string displayName;
@@ -25,7 +18,7 @@ public class ItemSO : ScriptableObject
 
     [Header("Attributes")]
 
-    public ItemType itemType;
+    public Spirit.SpiritType itemType;
 
     public int price;
 
