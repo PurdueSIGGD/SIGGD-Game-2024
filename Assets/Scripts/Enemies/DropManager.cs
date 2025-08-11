@@ -7,10 +7,15 @@ public class DropManager : MonoBehaviour
         GameplayEventHolder.OnDeath += DropLoot;
     }
 
+    private void OnDisable()
+    {
+        GameplayEventHolder.OnDeath -= DropLoot;
+    }
+
     private void DropLoot(DamageContext context)
     {
         Debug.Log(context.victim.name + " Died");
-        if(context.victim != context.attacker)
+        if (context.victim != context.attacker)
         {
             GameObject victim = context.victim;
             if (victim == null)

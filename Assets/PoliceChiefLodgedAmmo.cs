@@ -6,7 +6,8 @@ using UnityEngine.Rendering;
 public class PoliceChiefLodgedAmmo : MonoBehaviour
 {
 
-    public int ammoLodged = 0;
+    private int ammoLodged = 0;
+    private GameObject directionalIndicator;
 
     // Start is called before the first frame update
     void Start()
@@ -18,5 +19,22 @@ public class PoliceChiefLodgedAmmo : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void InitializeDirectionalIndicator(GameObject directionalIndicator)
+    {
+        this.directionalIndicator = Instantiate(directionalIndicator, transform);
+        this.directionalIndicator.SetActive(false);
+    }
+
+    public void SetAmmoLodged(int ammoLodged)
+    {
+        this.ammoLodged = Mathf.Max(ammoLodged, 0);
+        directionalIndicator.SetActive(this.ammoLodged > 0);
+    }
+
+    public int GetAmmoLodged()
+    {
+        return this.ammoLodged;
     }
 }

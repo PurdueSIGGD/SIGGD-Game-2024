@@ -11,6 +11,8 @@ public class DynamicTrio : Skill
     float transferPercentage = 0;
     private int pointIndex;
 
+    [SerializeField] private float cloneDamageTakenMultiplier;
+
     void Start()
     {
         manager = gameObject.GetComponent<IdolManager>();
@@ -74,8 +76,9 @@ public class DynamicTrio : Skill
         float originalDamage = context.damage;
 
         // split transfer damage across each decoy in the list
-        float damageTransferPercentage = (transferPercentage / 2f) * manager.clones.Count;
-        context.damage = originalDamage * damageTransferPercentage;
+        float damageTransferPercentage = transferPercentage * manager.clones.Count;
+        float cloneDamagePercentage = transferPercentage * cloneDamageTakenMultiplier;
+        context.damage = originalDamage * cloneDamagePercentage;
         foreach (GameObject decoy in manager.clones)
         {
             context.victim = decoy;

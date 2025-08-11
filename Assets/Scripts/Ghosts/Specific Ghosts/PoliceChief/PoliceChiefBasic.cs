@@ -135,7 +135,8 @@ public class PoliceChiefBasic : MonoBehaviour
 
         // Fire shot
         GameObject sidearmShot = Instantiate(manager.basicShot, Vector3.zero, Quaternion.identity);
-        sidearmShot.GetComponent<PoliceChiefSidearmShot>().fireSidearmShot(manager, pos, dir);
+        bool isPowerSpike = manager.GetComponent<PoliceChiefPowerSpike>().GetAbleToCrit();
+        sidearmShot.GetComponent<PoliceChiefSidearmShot>().fireSidearmShot(manager, pos, dir, false, isPowerSpike);
         ConsumeAmmo(1);
         GameplayEventHolder.OnAbilityUsed?.Invoke(manager.sidearmActionContext);
 
@@ -171,19 +172,19 @@ public class PoliceChiefBasic : MonoBehaviour
     {
         switch (attackType)
         {
-            case 1:
+            case 1: // Light Attack
                 manager.basicDamage.damage = manager.GetStats().ComputeValue("Basic Damage");
                 manager.basicDamage.damageStrength = DamageStrength.MINOR;
                 manager.sidearmActionContext.extraContext = "";
                 break;
-            case 2:
+            case 2: // Heavy Attack
                 manager.basicDamage.damage = manager.GetStats().ComputeValue("Basic Heavy Damage");
                 manager.basicDamage.damageStrength = DamageStrength.MINOR;
                 manager.sidearmActionContext.extraContext = "";
                 break;
-            case 3:
+            case 3: // Super Heavy Attack
                 manager.basicDamage.damage = manager.GetStats().ComputeValue("Basic Super Heavy Damage");
-                manager.basicDamage.damageStrength = DamageStrength.LIGHT;
+                manager.basicDamage.damageStrength = DamageStrength.MINOR;
                 manager.sidearmActionContext.extraContext = "Full Charge";
                 break;
             default:

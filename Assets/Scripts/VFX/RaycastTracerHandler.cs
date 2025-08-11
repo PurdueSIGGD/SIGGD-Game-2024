@@ -16,7 +16,6 @@ public class RaycastTracerHandler : MonoBehaviour
 
     void Awake()
     {
-        //StartCoroutine(fadeOutTracer());
         lineRenderer = GetComponent<LineRenderer>();
         lineRenderer.enabled = false;
     }
@@ -65,15 +64,6 @@ public class RaycastTracerHandler : MonoBehaviour
         startPos = startPosition;
         endPos = endPosition;
         timer = travelTime;
-        /*
-        int step = 20;
-        for (int i = 0; i < step; i++)
-        {
-            lineRenderer.SetPosition(1, Vector2.Lerp(startPosition, endPosition, (float) i / (float) step));
-            yield return new WaitForSeconds(travelTime / (float) step);
-        }
-        lineRenderer.SetPosition(1, endPosition);
-        */
     }
 
     private IEnumerator fadeOutTracer()

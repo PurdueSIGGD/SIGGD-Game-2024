@@ -1566,7 +1566,7 @@ PrefabInstance:
     - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
         type: 3}
       propertyPath: enemies.Array.size
-      value: 6
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
         type: 3}
@@ -1589,13 +1589,19 @@ PrefabInstance:
         type: 3}
       propertyPath: enemies.Array.data[6].enemy
       value: 
-      objectReference: {fileID: 228210843640184050, guid: d99fc8025b389bc4fb8779ed4ce0e434,
+      objectReference: {fileID: 8433722653154054174, guid: d06c5e601569a0147bed12fed6931fa4,
         type: 3}
     - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
         type: 3}
       propertyPath: enemies.Array.data[7].enemy
       value: 
-      objectReference: {fileID: 5499330591125181409, guid: a9d096ed04322f54a9a2ad5c38bda6b7,
+      objectReference: {fileID: 1393067818931581941, guid: 5f09f1f90fa02bd4f80bbae55986caf3,
+        type: 3}
+    - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
+        type: 3}
+      propertyPath: enemies.Array.data[8].enemy
+      value: 
+      objectReference: {fileID: 8652318323731026824, guid: 5e93745cee2dcab449823d9f89516f4d,
         type: 3}
     - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
         type: 3}
@@ -1740,17 +1746,22 @@ PrefabInstance:
     - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
         type: 3}
       propertyPath: enemies.Array.data[5].endChance
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
         type: 3}
       propertyPath: enemies.Array.data[6].endChance
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
         type: 3}
       propertyPath: enemies.Array.data[7].endChance
-      value: 1
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
+        type: 3}
+      propertyPath: enemies.Array.data[8].endChance
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
         type: 3}
@@ -1820,17 +1831,22 @@ PrefabInstance:
     - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
         type: 3}
       propertyPath: enemies.Array.data[5].startChance
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
         type: 3}
       propertyPath: enemies.Array.data[6].startChance
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
         type: 3}
       propertyPath: enemies.Array.data[7].startChance
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
+        type: 3}
+      propertyPath: enemies.Array.data[8].startChance
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
         type: 3}
@@ -2779,7 +2795,7 @@ PrefabInstance:
     - target: {fileID: 1295864056748667176, guid: 0c4504c44e0804246b232122549aca6a,
         type: 3}
       propertyPath: maxLevels
-      value: 20
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 2036965267508140759, guid: 0c4504c44e0804246b232122549aca6a,
         type: 3}
@@ -2835,6 +2851,16 @@ PrefabInstance:
         type: 3}
       propertyPath: endWaveNum
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2191272423200367326, guid: 0c4504c44e0804246b232122549aca6a,
+        type: 3}
+      propertyPath: endMaxEnemiesSpawn
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 2191272423200367326, guid: 0c4504c44e0804246b232122549aca6a,
+        type: 3}
+      propertyPath: endMinEnemiesSpawn
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 2191272423200367326, guid: 0c4504c44e0804246b232122549aca6a,
         type: 3}
