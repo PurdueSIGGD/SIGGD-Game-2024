@@ -32,7 +32,7 @@ public class ItemUIManager : MonoBehaviour
     /// </summary>
     private void UpdateItemBoxUI()
     {
-        priceText.text = "Buy for " + item.price.ToString();
+        priceText.text = "BUY FOR " + item.price.ToString();
         itemNameText.text = item.displayName;
         itemDescription.text = item.itemDescription;
 
@@ -44,13 +44,13 @@ public class ItemUIManager : MonoBehaviour
         switch (item.itemType)
         {
             case Spirit.SpiritType.Red:
-                priceText.color = Color.red;
+                itemNameText.color = Color.red;
                 break;
             case Spirit.SpiritType.Yellow:
-                priceText.color = Color.blue;
+                itemNameText.color = Color.yellow;
                 break;
             case Spirit.SpiritType.Blue:
-                priceText.color = Color.yellow;
+                itemNameText.color = Color.blue;
                 break;
         }
     }
@@ -61,7 +61,7 @@ public class ItemUIManager : MonoBehaviour
     private void UpdateRerollButtonText()
     {
         // Update text
-        rerollButtonText.text = "Reroll for " + pool.currentRerollPrice;
+        rerollButtonText.text = "REROLL FOR " + pool.currentRerollPrice;
     }
 
     /// <summary>

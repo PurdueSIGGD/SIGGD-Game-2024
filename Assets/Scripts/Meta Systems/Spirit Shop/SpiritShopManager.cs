@@ -24,9 +24,9 @@ public class SpiritShopManager : MonoBehaviour, IScreenUI
 
     [Header("UI")]
 
-    [SerializeField] private TMP_Text redSpiritCountText;
-    [SerializeField] private TMP_Text blueSpiritCountText;
-    [SerializeField] private TMP_Text yellowSpiritCountText;
+    [SerializeField] private SpiritCounterUI redCounterUI;
+    [SerializeField] private SpiritCounterUI blueCounterUI;
+    [SerializeField] private SpiritCounterUI yellowCounterUI;
 
     [SerializeField] private Button secureSpiritsButton;
     [SerializeField] private TMP_Text secureSpiritsButtonText;
@@ -65,7 +65,6 @@ public class SpiritShopManager : MonoBehaviour, IScreenUI
         blueItemBox.GetComponent<ItemUIManager>().PickAndDisplayRandomItem();
         yellowItemBox.GetComponent<ItemUIManager>().PickAndDisplayRandomItem();
 
-        UpdateSpiritCountText();
         gameObject.SetActive(true);
     }
 
@@ -74,17 +73,12 @@ public class SpiritShopManager : MonoBehaviour, IScreenUI
         Door.activateDoor(true);
         gameObject.SetActive(false);
     }
+
     public void UpdateSpiritCountText()
     {
-        int redSpirits = spiritTracker.redSpiritsCollected;
-        int blueSpirits = spiritTracker.blueSpiritsCollected;
-        int yellowSpirits = spiritTracker.yellowSpiritsCollected;
-
-        redSpiritCountText.text = redSpirits.ToString();
-        blueSpiritCountText.text = blueSpirits.ToString();
-        yellowSpiritCountText.text = yellowSpirits.ToString();
-
-        secureSpiritsButtonText.text = "Secure " + (redSpirits + blueSpirits + yellowSpirits);
+        redCounterUI.UpdateText();
+        blueCounterUI.UpdateText();
+        yellowCounterUI.UpdateText();
     }
 
     /// <summary>

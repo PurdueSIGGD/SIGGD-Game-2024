@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static Unity.Burst.Intrinsics.X86;
 
 public class SpiritCounterUI : MonoBehaviour
 {
@@ -12,7 +13,7 @@ public class SpiritCounterUI : MonoBehaviour
     [SerializeField] private Spirit.SpiritType spiritType;
     [SerializeField] private Color spiritColor;
 
-    [SerializeField] private bool inHub = true;
+    [SerializeField] private bool fromSaveManager = true; // from save manager or spirit tracker?
 
     // Start is called before the first frame update
     void Start()
@@ -23,7 +24,7 @@ public class SpiritCounterUI : MonoBehaviour
 
     public void UpdateText()
     {
-        if (inHub)
+        if (fromSaveManager)
         {
 
             switch (spiritType) {
@@ -39,6 +40,22 @@ public class SpiritCounterUI : MonoBehaviour
 
             }
 
+        } else
+        {
+            SpiritTracker sp = PersistentData.Instance.GetComponent<SpiritTracker>();
+            switch (spiritType)
+            {
+                case Spirit.SpiritType.Red:
+                    counterText.text = sp.redSpiritsCollected.ToString();
+                    break;
+                case Spirit.SpiritType.Blue:
+                    counterText.text = sp.blueSpiritsCollected.ToString();
+                    break;
+                case Spirit.SpiritType.Yellow:
+                    counterText.text = sp.yellowSpiritsCollected.ToString();
+                    break;
+
+            }
         }
     }
 
