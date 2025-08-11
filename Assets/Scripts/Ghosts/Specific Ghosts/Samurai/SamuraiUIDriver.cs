@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SamuraiUIDriver : GhostUIDriver
 {
-    [SerializeField] private Sprite roninsResolveIcon;
+    [SerializeField] private Sprite relentlessFuryIcon;
 
     private SamuraiManager manager;
 
@@ -41,15 +41,16 @@ public class SamuraiUIDriver : GhostUIDriver
     private void updateSkill1()
     {
         skill1UIManager.setUIActive(false);
-        RoninsResolve roninsResolve = GetComponent<RoninsResolve>();
-        if (roninsResolve.boostTimer > 0f)
+        RelentlessFury relentlessFury = GetComponent<RelentlessFury>();
+        if (relentlessFury.buffStacks > 0)
         {
             skill1UIManager.setUIActive(true);
             skill1UIManager.setAbilityEnabled(true);
             skill1UIManager.setNumberActive(false);
-            skill1UIManager.setChargeWidgetActive(false);
-            skill1UIManager.setMeterValue(roninsResolve.boostTimer, roninsResolve.boostDuration);
-            skill1UIManager.setIcon(roninsResolveIcon);
+            skill1UIManager.setChargeWidgetActive(true);
+            skill1UIManager.setChargeValue(relentlessFury.buffStacks, relentlessFury.maxStacks);
+            skill1UIManager.setMeterValue(relentlessFury.buffStacks, relentlessFury.maxStacks);
+            skill1UIManager.setIcon(relentlessFuryIcon);
         }
     }
 

@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PoliceChiefLodgedAmmoManager : MonoBehaviour
 {
+    [SerializeField] private GameObject directionalIndicator;
 
     private PoliceChiefManager manager;
 
@@ -63,8 +65,9 @@ public class PoliceChiefLodgedAmmoManager : MonoBehaviour
         if (enemyLodgedAmmo == null)
         {
             enemyLodgedAmmo = context.victim.AddComponent<PoliceChiefLodgedAmmo>();
+            enemyLodgedAmmo.InitializeDirectionalIndicator(directionalIndicator);
         }
-        enemyLodgedAmmo.ammoLodged += ammo;
+        enemyLodgedAmmo.SetAmmoLodged(enemyLodgedAmmo.GetAmmoLodged() + ammo);
         return enemyLodgedAmmo;
     }
 
@@ -75,7 +78,7 @@ public class PoliceChiefLodgedAmmoManager : MonoBehaviour
         if (enemyLodgedAmmo == null && context.actionID != ActionID.POLICE_CHIEF_BASIC) return;
         if (enemyLodgedAmmo != null)
         {
-            ammoLodged = enemyLodgedAmmo.ammoLodged;
+            ammoLodged = enemyLodgedAmmo.GetAmmoLodged();
         }
 
         for (int i = 0; i < Mathf.Min(ammo, ammoLodged); i++)
@@ -83,7 +86,7 @@ public class PoliceChiefLodgedAmmoManager : MonoBehaviour
             Vector3 dropDir = (new Vector3(Random.Range(-1f, 1f), 1f, 0f)).normalized;
             GameObject ammoPickup = Instantiate(manager.basicAmmoPickup, context.victim.transform.position, Quaternion.identity);
             ammoPickup.GetComponent<PoliceChiefAmmoPickup>().InitializeAmmoPickup(manager, dropDir * 10f);
-            enemyLodgedAmmo.ammoLodged = Mathf.Max(enemyLodgedAmmo.ammoLodged - 1, 0);
+            enemyLodgedAmmo.SetAmmoLodged(enemyLodgedAmmo.GetAmmoLodged() - 1);
         }
     }
 }

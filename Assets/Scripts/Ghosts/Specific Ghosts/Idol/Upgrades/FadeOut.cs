@@ -53,12 +53,6 @@ public class FadeOut : Skill
 
     private void EvaDeselected()
     {
-        /*
-        if (player.GetComponent<Invisible>() != null)
-        {
-            Destroy(player.GetComponent<Invisible>());
-        }
-        */
         RemoveInvisibility();
     }
 
@@ -83,8 +77,10 @@ public class FadeOut : Skill
             AudioManager.Instance.VABranch.PlayVATrack("Eva-Idol Fade Out Hit");
 
             // buff damage
-            float damageMultiplier = 1f + (values[pointIndex] / 100f);
-            damageContext.damage *= damageMultiplier;
+            damageContext.damage += values[pointIndex];
+            damageContext.damageStrength = DamageStrength.HEAVY;
+            damageContext.ghostID = GhostID.EVA;
+
             StartCoroutine(RemoveInvisibilityOnTimer(0f)); // we MUST wait 1 frame before removing invis. Here's why: ask Temirlan
         }
     }

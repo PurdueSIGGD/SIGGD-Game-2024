@@ -50,12 +50,15 @@ public class IdolPassive : MonoBehaviour
         playerStats = PlayerID.instance.gameObject.GetComponent<StatManager>(); // yoink
         particlesVFX = Instantiate(tempoParticlesVFX, PlayerID.instance.gameObject.transform).GetComponent<IdolTempoParticles>();
         particlesVFX.gameObject.SetActive(false);
+        tempoStacks = 0;
+        /*
         tempoStacks = SaveManager.data.eva.tempoCount;
         if (tempoStacks > 0)
         {
             uptempo = true;
             duration = SaveManager.data.eva.remainingTempoDuration;
         }
+        */
     }
 
     void Update()

@@ -467,8 +467,10 @@ MonoBehaviour:
     value: 3
   - name: Heavy Attack Maximum Travel Distance
     value: 8
+  - name: Heavy Attack Guaranteed Travel Distance
+    value: 1
   - name: Heavy Attack On-hit Final Travel Distance
-    value: 0.7
+    value: -2
   - name: Heavy Attack Travel Speed
     value: 50
   - name: Heavy Attack Post Dash Momentum Fraction
@@ -478,13 +480,13 @@ MonoBehaviour:
   - name: Wrath Percent Gain Per Damage Dealt
     value: 0.6
   - name: Wrath Percent Loss Per Damage Taken
-    value: 3
+    value: 1000
   - name: Wrath Decay Buffer
     value: 3
   - name: Wrath Decay Rate
     value: 0.125
   - name: Melee Parry Base Damage
-    value: 10
+    value: 0
   - name: Melee Parry Bonus Damage per Incoming Attack Damage
     value: 2
   - name: Melee Parry Stun Time
@@ -496,7 +498,7 @@ MonoBehaviour:
   - name: Parry Slow Percent
     value: 80
   - name: Special Cooldown
-    value: 3
+    value: 6
   defaultController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
   ghostController: {fileID: 9100000, guid: f32f8db40ef7cc14b84350e7507f9eb9, type: 2}
   heavyDamageContext:
@@ -505,12 +507,14 @@ MonoBehaviour:
     actionID: 9
     actionTypes: 0100000002000000
     extraContext: 
+    ghostID: 3
   specialMeleeParryContext:
     damageStrength: 3
     damageTypes: 00000000
     actionID: 10
     actionTypes: 03000000
     extraContext: 
+    ghostID: 3
   onDashContext:
     actionID: 9
     actionTypes: 0200000001000000
@@ -583,7 +587,7 @@ MonoBehaviour:
   skill1UIManager: {fileID: 0}
   skill2UIManager: {fileID: 0}
   meterUIManager: {fileID: 0}
-  roninsResolveIcon: {fileID: 21300000, guid: 0266cfcd555d1ba46942888c4221447d, type: 3}
+  relentlessFuryIcon: {fileID: 21300000, guid: 1320fd3f3f0545c42a2179dc5e03ed0c, type: 3}
 --- !u!114 &4948673646360677175
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -605,7 +609,8 @@ MonoBehaviour:
     actionID: 10
     actionTypes: 04000000
     extraContext: 
-  duration: 3
+    ghostID: 3
+  duration: 1.6
   interval: 0.2
   values:
   - 0
@@ -626,18 +631,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: 9f3693c9f43a9f3459fa01e57dc9b995, type: 2}
-  boostedDamageContext:
-    damageStrength: 0
-    damageTypes: 
-    actionID: 17
-    actionTypes: 
-    extraContext: 
   values:
   - 0
-  - 0.15
-  - 0.25
-  - 0.35
-  - 0.45
+  - 4
+  - 8
+  - 12
+  - 16
+  parryStacksGained: 3
+  maxStacks: 3
+  buffStacks: 0
 --- !u!114 &3968104243975458799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -653,10 +655,10 @@ MonoBehaviour:
   skillSO: {fileID: 11400000, guid: a29b754973a32ff41904e737b4a972ef, type: 2}
   values:
   - 0
-  - 0.5
-  - 1
+  - 0.75
   - 1.5
-  - 2
+  - 2.25
+  - 3
 --- !u!114 &7591434726526564384
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -675,12 +677,13 @@ MonoBehaviour:
     actionID: 17
     actionTypes: 04000000
     extraContext: 
+    ghostID: 3
   values:
   - 0
+  - 0.005
+  - 0.01
+  - 0.015
   - 0.02
-  - 0.04
-  - 0.06
-  - 0.08
 --- !u!114 &6412266853432260435
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -714,11 +717,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: 0179f79cebe153a448ea40fb58ee955a, type: 2}
-  values:
-  - 0
-  - 15
-  - 30
-  - 45
-  - 60
-  boostDuration: 3
-  boostTimer: 0
+  values: 00000000070000000e000000150000001c000000

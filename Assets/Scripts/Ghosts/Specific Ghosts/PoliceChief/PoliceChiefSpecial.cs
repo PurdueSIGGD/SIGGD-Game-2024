@@ -11,9 +11,12 @@ public class PoliceChiefSpecial : MonoBehaviour
     private Animator camAnim;
     private Camera cam;
     [HideInInspector] public PoliceChiefManager manager;
-    private bool isCharging = false;
+    [HideInInspector] public bool isCharging = false;
+    [HideInInspector] public bool isPrimed = false;
     private float chargingTime = 0f;
-    [HideInInspector] public int reserves = 0;
+
+    private LockedAndLoadedSkill lockedAndLoaded;
+    private PoliceChiefOvercharged overcharged;
 
 
 
@@ -29,9 +32,19 @@ public class PoliceChiefSpecial : MonoBehaviour
         if (isCharging && chargingTime > 0f) chargingTime -= Time.deltaTime;
         if (isCharging && chargingTime <= 0f) playerStateMachine.EnableTrigger("OPT");
 
+        if (manager != null && lockedAndLoaded == null)
+        {
+            lockedAndLoaded = manager.GetComponent<LockedAndLoadedSkill>();
+        }
+
+        if (manager != null && overcharged == null)
+        {
+            overcharged = manager.GetComponent<PoliceChiefOvercharged>();
+        }
+
         if (manager != null)
         {
-            if (reserves > 0)
+            if (lockedAndLoaded.reservedCount > 0)
             {
                 playerStateMachine.OnCooldown("c_reserves");
             }
@@ -41,10 +54,7 @@ public class PoliceChiefSpecial : MonoBehaviour
             }
             if (manager.getSpecialCooldown() > 0)
             {
-                if (reserves > 0)
-                {
-                    playerStateMachine.OnCooldown("c_special");
-                }
+                playerStateMachine.OnCooldown("c_special");
             }
             else
             {
@@ -68,6 +78,7 @@ public class PoliceChiefSpecial : MonoBehaviour
         isCharging = true;
         camAnim.SetBool("pullBack", true);
         GetComponent<Move>().PlayerStop();
+        manager.specialDamage.extraContext = "Reserve Shot";
 
         // SFX
         AudioManager.Instance.SFXBranch.PlaySFXTrack("North-Railgun Charging");
@@ -88,14 +99,23 @@ public class PoliceChiefSpecial : MonoBehaviour
     // Primed
     void StartSpecialPrimed()
     {
+        isPrimed = true;
+        manager.specialDamage.extraContext = "";
+
         // SFX
         AudioManager.Instance.SFXBranch.PlaySFXTrack("North-Railgun Primed");
+        AudioManager.Instance.SFXBranch.GetSFXTrack("North-Railgun Primed Loop").SetPitch(0f, 1f);
         AudioManager.Instance.SFXBranch.PlaySFXTrack("North-Railgun Primed Loop");
+
+        if (overcharged.pointIndex > 0) overcharged.StartOvercharging();
     }
     
     void StopSpecialPrimed()
     {
+        isPrimed = false;
         endSpecial(false, false);
+
+        if (overcharged.pointIndex > 0) overcharged.StopOvercharging();
     }
 
 
@@ -103,6 +123,7 @@ public class PoliceChiefSpecial : MonoBehaviour
     // Railgun Attack
     public void StartSpecialAttack()
     {
+        playerStateMachine.ConsumeLightAttackInput();
         camAnim.SetBool("pullBack", true);
         GetComponent<Move>().PlayerStop();
 
@@ -122,10 +143,16 @@ public class PoliceChiefSpecial : MonoBehaviour
         AudioManager.Instance.SFXBranch.StopSFXTrack("North-Railgun Primed Loop");
     }
 
-    void StopSpecialAttack(Animator animator)
+    void StopSpecialAttack()
+    {
+        KillSpecial();
+    }
+
+    public void KillSpecial()
     {
         bool startCooldown = !(manager.getSpecialCooldown() > 0); // if cooldown already exists, don't restart it
-        bool loop = (reserves > 0 && animator.GetBool("i_special")); // if has reserve, and still holding down right click
+        if (manager.getSpecialCooldown() > 0 || manager.specialDamage.extraContext.Equals("Reserve Shot")) lockedAndLoaded.ConsumeReserveCharge();
+        bool loop = (lockedAndLoaded.reservedCount > 0 && PlayerID.instance.GetComponent<Animator>().GetBool("i_special")); // if has reserve, and still holding down right click
 
         endSpecial(startCooldown, loop);
     }
