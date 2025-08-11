@@ -188,7 +188,7 @@ MonoBehaviour:
   - name: Basic Cooldown
     value: 1
   - name: Special Cooldown
-    value: 7
+    value: 6
   - name: HOLOJUMP_MAX_DISTANCE
     value: 200
   - name: HOLOJUMP_CLONE_SWAP_INTERVAL
@@ -196,7 +196,7 @@ MonoBehaviour:
   - name: HOLOJUMP_IMMUNE_SECONDS
     value: 0.2
   - name: HOLOJUMP_DURATION_SECONDS
-    value: 11
+    value: 12
   - name: HOLOJUMP_DURATION_INACTIVE_MODIFIER
     value: 1
   - name: TEMPO_BUFF_PERCENT_INT
@@ -338,6 +338,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: ea15666da1c03af44acd60ffc6345a04, type: 2}
+  values: 0000000002000000040000000600000008000000
 --- !u!114 &2617003682761076201
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -354,10 +355,10 @@ MonoBehaviour:
   invisibilityDuration: 3.5
   values:
   - 0
-  - 40
-  - 80
-  - 120
-  - 160
+  - 15
+  - 30
+  - 45
+  - 60
 --- !u!114 &2247047511266038100
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -396,12 +397,14 @@ MonoBehaviour:
     actionID: 8
     actionTypes: 04000000
     extraContext: 
+    ghostID: 2
   stunContext:
     damageStrength: 3
     damageTypes: 02000000
     actionID: 8
     actionTypes: 04000000
     extraContext: 
+    ghostID: 2
   radius: 6
   values:
   - 0
@@ -433,6 +436,7 @@ MonoBehaviour:
     actionID: 7
     actionTypes: 04000000
     extraContext: 
+    ghostID: 2
   radius: 3.5
 --- !u!114 &1545715215794891431
 MonoBehaviour:
@@ -449,10 +453,11 @@ MonoBehaviour:
   skillSO: {fileID: 11400000, guid: 83559512b00d5424bb5f00c82f5c9074, type: 2}
   values:
   - 0
+  - 5
   - 10
+  - 15
   - 20
-  - 30
-  - 40
+  cloneDamageTakenMultiplier: 3
 --- !u!114 &1780750385296793499
 MonoBehaviour:
   m_ObjectHideFlags: 0

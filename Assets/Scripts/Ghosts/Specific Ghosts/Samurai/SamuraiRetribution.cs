@@ -7,6 +7,7 @@ public class SamuraiRetribution : MonoBehaviour
     private PlayerStateMachine psm;
     private bool parrying;
     private bool parrySuccess;
+    private bool parryChaining = false;
     private Camera mainCamera;
 
     private float parrySFXPitch = 0f;
@@ -54,8 +55,10 @@ public class SamuraiRetribution : MonoBehaviour
 
     public void StartParry()
     {
+        psm.ConsumeSpecialInput();
+
+        parrySuccess = false;
         parrying = true;
-        //StartCoroutine(ParryDuration());
         gameObject.GetComponent<StatManager>().ModifyStat("Max Running Speed", -1 * Mathf.CeilToInt(manager.GetStats().ComputeValue("Parry Slow Percent")));
         gameObject.GetComponent<StatManager>().ModifyStat("Running Accel.", -1 * Mathf.CeilToInt(manager.GetStats().ComputeValue("Parry Slow Percent")));
         gameObject.GetComponent<Move>().UpdateRun();
@@ -68,45 +71,16 @@ public class SamuraiRetribution : MonoBehaviour
         VFXManager.Instance.PlayVFX(VFX.PLAYER_LIGHT_ATTACK_2, vfx2Position, vfx2Rotation, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
 
         // SFX
-        AudioManager.Instance.SFXBranch.PlaySFXTrack("Akihito-Parry Success");
-        AudioManager.Instance.SFXBranch.PlaySFXTrack("Akihito-Parry Failure");
-        //parrySFXPitch = 0f;
-    }
-
-    private IEnumerator ParryDuration()
-    {
-        //float parryColliderScale = 4f;
-        //BoxCollider2D playerCollider = GetComponent<BoxCollider2D>();
-        //playerCollider.size = new Vector2(playerCollider.size.x * parryColliderScale, playerCollider.size.y);
-        parrying = true;
-        yield return new WaitForSeconds(manager.GetStats().ComputeValue("Parry Duration"));
-        parrying = false;
-        gameObject.GetComponent<StatManager>().ModifyStat("Max Running Speed", Mathf.CeilToInt(manager.GetStats().ComputeValue("Parry Slow Percent")));
-        gameObject.GetComponent<StatManager>().ModifyStat("Running Accel.", Mathf.CeilToInt(manager.GetStats().ComputeValue("Parry Slow Percent")));
-        gameObject.GetComponent<Move>().UpdateRun();
-        //playerCollider.size = new Vector2(playerCollider.size.x / parryColliderScale, playerCollider.size.y);
+        if (!parryChaining)
+        {
+            //AudioManager.Instance.SFXBranch.PlaySFXTrack("Akihito-Parry Success");
+            AudioManager.Instance.SFXBranch.PlaySFXTrack("Akihito-Parry Failure");
+        }
     }
 
     private void ParryingProjectiles()
     {
-        /*
-        Vector3 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-        Vector3 dir = Vector3.zero;
-        if (mousePos.x < transform.position.x)
-        {
-            dir = new Vector3(-1, 0, 0);
-        }
-        else
-        {
-            dir = new Vector3(1, 0, 0);
-        }
-        */
-
         Collider2D[] coll = Physics2D.OverlapBoxAll(transform.position, new Vector2(2, 3), 0, LayerMask.GetMask("Projectiles", "Enemy"));
-
-        //Debug.DrawLine(transform.position + dir * 2 + new Vector3(0, -1.5f, 0), transform.position + dir * 2 + new Vector3(0, 1.5f, 0), Color.blue, Time.deltaTime);
-        //Debug.DrawLine(transform.position + new Vector3(0, -1.5f, 0), transform.position + new Vector3(0, 1.5f, 0), Color.blue, Time.deltaTime);
-
         foreach (Collider2D coll2d in coll)
         {
             if (!coll2d.gameObject.CompareTag("Enemy"))
@@ -114,54 +88,43 @@ public class SamuraiRetribution : MonoBehaviour
                 EnemyProjectile projectile = coll2d.gameObject.GetComponent<EnemyProjectile>();
                 if (projectile && !projectile.parried)
                 {
+                    projectile.projectileDamage.actionID = ActionID.SAMURAI_SPECIAL;
+                    projectile.projectileDamage.ghostID = GhostID.AKIHITO;
+                    projectile.projectileDamage.damage *= manager.GetStats().ComputeValue("Melee Parry Bonus Damage per Incoming Attack Damage");
+                    projectile.projectileDamage.damageStrength = DamageStrength.MINOR;
                     projectile.target = "Enemy";
                     projectile.SwitchDirections();
                     projectile.SetParried(true);
-                    projectile.projectileDamage.actionID = ActionID.SAMURAI_SPECIAL;
-                    projectile.projectileDamage.damage = projectile.projectileDamage.damage * manager.GetStats().ComputeValue("Melee Parry Bonus Damage per Incoming Attack Damage");
-                    projectile.projectileDamage.damageStrength = DamageStrength.MINOR;
                     NotifyParrySuccess(coll2d.transform.position);
                 }
             }
         }
-
-        /*
-        if (parrySuccess)
-        {
-            psm.EnableTrigger("finishParry");
-        }
-        */
     }
 
     public void StopParry()
     {
-        //gameObject.GetComponent<StatManager>().ModifyStat("Max Running Speed", Mathf.CeilToInt(manager.GetStats().ComputeValue("Parry Slow Percent")));
-        //gameObject.GetComponent<StatManager>().ModifyStat("Running Accel.", Mathf.CeilToInt(manager.GetStats().ComputeValue("Parry Slow Percent")));
-        //gameObject.GetComponent<Move>().UpdateRun();
         manager.startSpecialCooldown();
-        if (parrySuccess)
+        if (parrySuccess || parryChaining)
         {
             manager.setSpecialCooldown(manager.GetStats().ComputeValue("Parry Success Special Cooldown"));
             manager.GetComponent<SamuraiUIDriver>().specialAbilityUIManager.pingAbility();
         }
+        parryChaining = parrySuccess;
+
         parrying = false;
         parrySuccess = false;
-        //GameplayEventHolder.OnDamageFilter.Remove(ParryingFilter);
-        parrying = false;
         gameObject.GetComponent<StatManager>().ModifyStat("Max Running Speed", Mathf.CeilToInt(manager.GetStats().ComputeValue("Parry Slow Percent")));
         gameObject.GetComponent<StatManager>().ModifyStat("Running Accel.", Mathf.CeilToInt(manager.GetStats().ComputeValue("Parry Slow Percent")));
         gameObject.GetComponent<Move>().UpdateRun();
     }
-
+    
     public void ParryingFilter(ref DamageContext context)
     {
-        if (parrying && context.attacker.CompareTag("Enemy") && context.victim.CompareTag("Player"))
+        if (parrying && context.attacker.CompareTag("Enemy") && context.victim.CompareTag("Player") && (context.damageTypes.Contains(DamageType.MELEE) || context.damageTypes.Contains(DamageType.PROJECTILE) || context.damageTypes.Contains(DamageType.AREA)))
         {
-            //DamageContext newContext = context;
             DamageContext newContext = manager.specialMeleeParryContext;
             newContext.attacker = gameObject;
             newContext.victim = context.attacker;
-            //newContext.actionID = ActionID.SAMURAI_SPECIAL;
             newContext.damage = (context.damage * manager.GetStats().ComputeValue("Melee Parry Bonus Damage per Incoming Attack Damage"))
                                 + manager.GetStats().ComputeValue("Melee Parry Base Damage");
 
@@ -173,9 +136,6 @@ public class SamuraiRetribution : MonoBehaviour
 
             context.damage = 0;
             NotifyParrySuccess(context.victim.transform.position + (Vector3.Normalize(context.attacker.transform.position - context.victim.transform.position) * 1.5f));
-
-            // once a parry is successful, exit parry anim
-            //psm.EnableTrigger("finishParry");
         }
     }
 
@@ -184,7 +144,11 @@ public class SamuraiRetribution : MonoBehaviour
         ActionContext newContext = manager.onParryContext;
         newContext.extraContext = "Parry Success";
         parrySuccess = true;
+        parryChaining = true;
         GameplayEventHolder.OnAbilityUsed?.Invoke(newContext);
+        psm.EnableTrigger("OPT");
+
+        DamageNumberManager.instance.PlayMessage(this.gameObject, 0f, manager.GetComponent<GhostIdentity>().GetCharacterInfo().specialAbilityIcon, "Parried!", manager.GetComponent<GhostIdentity>().GetCharacterInfo().highlightColor);
 
         // VFX
         GameObject surfaceExplosion = Instantiate(manager.parrySuccessVFX, position, Quaternion.identity);

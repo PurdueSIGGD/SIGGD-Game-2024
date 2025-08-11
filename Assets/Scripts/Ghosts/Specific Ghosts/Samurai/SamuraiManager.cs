@@ -21,6 +21,8 @@ public class SamuraiManager : GhostManager, ISelectable
     [HideInInspector] public bool decaying = false;
     [HideInInspector] public bool resetDecay = false;
 
+    private RoninsResolve roninsResolve;
+
     [SerializeField] string identityName;
 
     void Awake()
@@ -65,6 +67,7 @@ public class SamuraiManager : GhostManager, ISelectable
                 GetComponent<SkillTree>().RemoveSkillPoint(skills[i]);
             }
         }
+        roninsResolve = GetComponent<RoninsResolve>();
     }
 
     // Update is called once per frame
@@ -85,11 +88,13 @@ public class SamuraiManager : GhostManager, ISelectable
         if (decaying && wrathPercent >= decayRate * Time.deltaTime)
         {
             wrathPercent -= decayRate * Time.deltaTime;
+            roninsResolve.RemoveBoosts(wrathPercent);
         }
         else if (decaying)
         {
             wrathPercent = 0f;
             decaying = false;
+            roninsResolve.RemoveBoosts(wrathPercent);
         }
     }
 
@@ -104,11 +109,15 @@ public class SamuraiManager : GhostManager, ISelectable
         special = PlayerID.instance.AddComponent<SamuraiRetribution>();
         special.manager = this;
 
+        roninsResolve.ActivateBoosts();
+
         base.Select(player);
     }
 
     public override void DeSelect(GameObject player)
     {
+        roninsResolve.DeactivateBoosts();
+
         selected = false;
         if (basic) Destroy(basic);
         if (!PlayerID.instance.GetComponent<HeavyAttack>()) PlayerID.instance.AddComponent<HeavyAttack>();
@@ -123,6 +132,7 @@ public class SamuraiManager : GhostManager, ISelectable
     //The function gets called (via event) whenever something gets damaged in the scene
     public void WrathOnDamage(DamageContext context)
     {
+        // Gain Wrath on damage dealt
         if (context.attacker == PlayerID.instance.gameObject && context.actionID != ActionID.SAMURAI_BASIC)
         {
             float wrathGained = stats.ComputeValue("Wrath Percent Gain Per Damage Dealt") * context.damage / 100f;
@@ -143,7 +153,10 @@ public class SamuraiManager : GhostManager, ISelectable
             decayTimer = stats.ComputeValue("Wrath Decay Buffer");
             startingToDecay = true;
             decaying = false;
+            roninsResolve.AddBoosts(wrathPercent);
         }
+
+        // Lose Wrath on damage taken
         else if (context.victim == PlayerID.instance.gameObject && context.damage > 0f)
         {
             float wrathLost = stats.ComputeValue("Wrath Percent Loss Per Damage Taken") * context.damage / 100f;
@@ -156,6 +169,7 @@ public class SamuraiManager : GhostManager, ISelectable
             }
 
             wrathPercent = Mathf.Max(wrathPercent - wrathLost, 0f);
+            roninsResolve.RemoveBoosts(wrathPercent);
         }
     }
 }

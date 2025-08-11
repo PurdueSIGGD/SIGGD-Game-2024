@@ -79,8 +79,8 @@ public class IdolClone : MonoBehaviour
     {
         yield return new WaitForSeconds(0.1f);
         float initialMaxHealth = GetComponent<StatManager>().ComputeValue("Max Health");
-        GetComponent<StatManager>().ModifyStat("Max Health", -((int) ((maxHealth / initialMaxHealth) * 100f)));
-        GetComponent<Health>().currentHealth = maxHealth;
+        GetComponent<StatManager>().ModifyStat("Max Health", -(Mathf.CeilToInt((1f - (maxHealth / initialMaxHealth)) * 100f)));
+        GetComponent<Health>().currentHealth = GetComponent<StatManager>().ComputeValue("Max Health");
     }
 
     public void DeallocateDecoy()

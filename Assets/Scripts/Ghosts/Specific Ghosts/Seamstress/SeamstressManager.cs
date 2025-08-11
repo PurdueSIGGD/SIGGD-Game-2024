@@ -7,6 +7,7 @@ public class SeamstressManager : GhostManager
 {
     private YumeSpecial special;
     private YumeHeavy heavy;
+    [SerializeField] ActionContext onSpoolGained;
 
     private int spools;
     private float spoolTimer;
@@ -19,6 +20,7 @@ public class SeamstressManager : GhostManager
     private float ricochetCounter;
 
     [Header("Fatebound Effect")]
+    public ActionContext specialContext;
     [SerializeField] private DamageContext sharedDmg;
     [SerializeField] private float sharedDmgScaling;
 
@@ -80,6 +82,10 @@ public class SeamstressManager : GhostManager
     {
         spools = (int) Math.Clamp(spools + nspools, 0, stats.ComputeValue("Max Spools"));
         SaveManager.data.yume.spoolCount = spools;
+        if (nspools > 0)
+        {
+            GameplayEventHolder.OnAbilityUsed.Invoke(onSpoolGained);
+        }
     }
 
     public void SetWeaveTimer(float time)

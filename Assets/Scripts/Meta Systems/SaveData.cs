@@ -19,6 +19,7 @@ public class SaveData
     public int[] silasSkillPts = new int[8];
     public int[] aegisSkillPts = new int[8];
 
+    public NorthData north = new();
     public EvaData eva = new();
     public YumeData yume = new();
     public AegisData aegis = new();
@@ -34,6 +35,12 @@ public class GhostData
     public bool isUnlocked = false;
     public int storyProgress = 0;
     public int xp = 0;
+}
+
+[Serializable]
+public class NorthData : GhostData
+{
+    public int reserveSpecialCharges;
 }
 
 [Serializable]

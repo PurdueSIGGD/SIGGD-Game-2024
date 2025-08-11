@@ -6,11 +6,9 @@ using UnityEngine;
 
 public class DoubleTapSkill : Skill
 {
-    //private float chargeTimeChange;
     private Camera mainCamera;
     private PoliceChiefManager manager;
-    //private bool reduceReady = false;
-    private static int pointIndex;
+    private int pointIndex;
     [SerializeField] private int[] values = {0, 8, 16, 24, 32};
     [SerializeField] public DamageContext secondaryShotDamage;
 
@@ -21,7 +19,7 @@ public class DoubleTapSkill : Skill
 
     public override void ClearPointsTrigger()
     {
-
+        pointIndex = GetPoints();
     }
 
     public override void RemovePointTrigger()
@@ -32,13 +30,11 @@ public class DoubleTapSkill : Skill
     
     private void OnEnable()
     {
-        //GameplayEventHolder.OnDamageFilter.Add(OnDamage);
         GameplayEventHolder.OnAbilityUsed += FireSecondaryShot;
     }
 
     private void OnDisable()
     {
-        //GameplayEventHolder.OnDamageFilter.Remove(OnDamage);
         GameplayEventHolder.OnAbilityUsed -= FireSecondaryShot;
     }
     
@@ -49,43 +45,7 @@ public class DoubleTapSkill : Skill
         if (pointIndex <= 0) pointIndex = 0;
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         manager = GetComponent<PoliceChiefManager>();
-        //baseDamage = manager.GetStats().ComputeValue("Basic Super Heavy Damage");
-        //PoliceChiefSidearmShot.enemyWasShot += changeChargeTime;
-        //chargeTimeChange = 0f;
     }
-
-    /*
-    private void changeChargeTime()
-    {
-        chargeTimeChange = chargeTimeChanging[pointindex];
-        reduceReady = true;
-    }
-    */
-    private void Update()
-    {
-        /*
-        if (policeChiefBasic == null)
-        {
-            policeChiefBasic = PlayerID.instance.GetComponent<PoliceChiefBasic>();
-            return;
-        }
-        if (policeChiefBasic.chargingTime > 0 && reduceReady==true)
-        {
-            policeChiefBasic.chargingTime = (policeChiefBasic.chargingTime - (policeChiefBasic.chargingTime * chargeTimeChange));
-            reduceReady = false;
-        }
-        */
-    }
-
-    /*
-    void OnDamage(ref DamageContext context)
-    {
-        if (context.actionID == ActionID.POLICE_CHIEF_BASIC && context.damage >= baseDamage)
-        {
-            context.damage *= ((baseDamage + secondaryShotDamage[pointindex]) / baseDamage);
-        }
-    }
-    */
 
     public void FireSecondaryShot(ActionContext actionContext)
     {
