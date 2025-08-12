@@ -21,6 +21,8 @@ public class SaveData
     public NorthData north = new();
     public EvaData eva = new();
     public YumeData yume = new();
+    public AkihitoData akihito = new();
+    public SilasData silas = new();
     public AegisData aegis = new();
 }
 
@@ -28,7 +30,6 @@ public class SaveData
 [Serializable]
 public class GhostData
 {
-    public bool isUnlocked = false;
     public int storyProgress = 0;
     public int xp = 0;
 }
@@ -50,6 +51,18 @@ public class EvaData : GhostData
 public class YumeData : GhostData
 {
     public int spoolCount;
+}
+
+[Serializable]
+public class AkihitoData : GhostData
+{
+
+}
+
+[Serializable]
+public class SilasData : GhostData
+{
+
 }
 
 [Serializable]

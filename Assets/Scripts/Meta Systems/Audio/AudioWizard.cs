@@ -391,6 +391,7 @@ public class AudioWizard : ScriptableWizard
             source.playOnAwake = false;
 
             oneShotVATrack.track = source;
+            oneShotVATrack.playsOutsideCombat = playOutsideCombat;
             conversationAudioHolder.tracks.Add(oneShotVATrack);
         }
     }

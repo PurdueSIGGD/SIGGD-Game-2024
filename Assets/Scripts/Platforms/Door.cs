@@ -10,7 +10,7 @@ public class Door : MonoBehaviour
 {
     public delegate void DoorOpened();
     public static DoorOpened OnDoorOpened;
-
+    public static Door instance;
     [SerializeField] private GameObject dest;
     public static bool active;
     [SerializeField] private Vector3 menuOffset;
@@ -18,11 +18,18 @@ public class Door : MonoBehaviour
 
     private GameObject interactMenu;
     private PlayerID player;
+    private SpriteRenderer spriteRenderer;
 
 
     void Start()
     {
         player = PlayerID.instance;
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        if (!specificActive && spriteRenderer != null)
+        {
+            spriteRenderer.enabled = false;
+        }
+        instance = this;
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -46,6 +53,8 @@ public class Door : MonoBehaviour
     public static void activateDoor(bool nactive)
     {
         active = nactive;
+        Debug.Log("Open door");
+        instance.Activate(nactive);
     }
 
     private void CreateInteractMenu()
@@ -99,6 +108,14 @@ public class Door : MonoBehaviour
         else
         {
             Debug.LogWarning("Please ensure " + gameObject.name + " is placed over a platform");
+        }
+    }
+
+    public void Activate(bool nbool)
+    {
+        if (spriteRenderer != null)
+        {
+            spriteRenderer.enabled = nbool;
         }
     }
 
