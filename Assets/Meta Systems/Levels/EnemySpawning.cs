@@ -105,6 +105,7 @@ public class EnemySpawning : MonoBehaviour
             newEnemy.transform.position = points[i].transform.position;
         }
         EnemiesLeftUpdater.enemiesLeft = currentEnemies.Count;
+        LevelProgressUpdater.progress = GetComponent<LevelSwitching>().GetProgress();
         ShowIndicators();
     }
 
