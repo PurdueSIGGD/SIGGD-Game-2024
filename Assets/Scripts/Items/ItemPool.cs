@@ -26,15 +26,15 @@ public class ItemPool : MonoBehaviour
     [HideInInspector]
     public int currentRerollPrice = 0; // Current reroll price
 
-    private List<ItemSO> usedItems; // When item is bought, cannot be bought for rest of run
+    private List<ItemSO> ownedItems; // When item is bought, cannot be bought for rest of run
  
     private SpiritTracker spiritTracker;
 
     private void Start()
     {
         currentRerollPrice = rerollStartPrice;
-        spiritTracker = PersistentData.Instance.GetComponent<SpiritTracker>();
-
+        spiritTracker = PersistentData.Instance.GetComponent<SpiritTracker>(); // reference
+        ownedItems = PersistentData.Instance.GetComponent<ItemInventory>().ownedItems; // reference
     }
 
     /// <summary>
@@ -77,11 +77,11 @@ public class ItemPool : MonoBehaviour
         if (success)
         {
             itemList.Remove(item);
-            usedItems.Add(item);
+            ownedItems.Add(item);
             item.owned = true;
         }
 
-        Debug.Log("Items owned " + usedItems.Count);
+        Debug.Log("Items owned " + ownedItems.Count);
 
         return success;
     }
@@ -91,11 +91,11 @@ public class ItemPool : MonoBehaviour
     /// </summary>
     public void ReturnItemsToPool()
     {
-        foreach (ItemSO item in usedItems)
+        foreach (ItemSO item in ownedItems)
         {
             item.owned = false;
 
-            usedItems.Remove(item);
+            ownedItems.Remove(item);
             itemList.Add(item);
         }
     }
