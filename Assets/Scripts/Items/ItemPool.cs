@@ -23,9 +23,11 @@ public class ItemPool : MonoBehaviour
     //        Other Variables
     // ==============================
 
+    [HideInInspector]
     public int currentRerollPrice = 0; // Current reroll price
+
     private List<ItemSO> usedItems; // When item is bought, cannot be bought for rest of run
-    
+ 
     private SpiritTracker spiritTracker;
 
     private void Start()
@@ -64,13 +66,33 @@ public class ItemPool : MonoBehaviour
     }
 
     /// <summary>
+    /// Spend spirits if enough and move item out of pool into items owned list
+    /// </summary>
+    /// <param name="item"></param>
+    /// <returns></returns>
+    public bool BuyItem(ItemSO item)
+    {
+        bool success = spiritTracker.SpendSpirits(type, item.price);
+
+        if (success)
+        {
+            itemList.Remove(item);
+            usedItems.Add(item);
+            item.owned = true;
+        }
+
+        Debug.Log("Items owned " + usedItems.Count);
+
+        return success;
+    }
+
+    /// <summary>
     /// After run, return all the items to the pool (can be bought again)
     /// </summary>
     public void ReturnItemsToPool()
     {
         foreach (ItemSO item in usedItems)
         {
-            item.used = false;
             item.owned = false;
 
             usedItems.Remove(item);

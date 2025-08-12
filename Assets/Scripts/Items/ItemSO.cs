@@ -7,8 +7,6 @@ public class ItemSO : ScriptableObject
 
     [HideInInspector]
     public bool owned = false;
-    [HideInInspector]
-    public bool used = false;
 
     // Item Attributes
 

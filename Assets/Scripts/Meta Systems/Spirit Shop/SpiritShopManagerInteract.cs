@@ -28,10 +28,17 @@ public class SpiritManagerInteract : InRangeInteract
 
     protected override InteractOption[] GetMenuOptions()
     {
-        InteractOption opt1 = new InteractOption("Open Shop", OpenSpiritShopUI);
-        InteractOption[] options = { opt1 };
-
-        return options;
+        if (spiritShopManager.turnCompleted)
+        {
+            InteractOption[] options = { };
+            return options;
+        }
+        else
+        {
+            InteractOption opt1 = new InteractOption("Open Shop", OpenSpiritShopUI);
+            InteractOption[] options = { opt1 };
+            return options;
+        }
     }
 
     private void OpenSpiritShopUI()

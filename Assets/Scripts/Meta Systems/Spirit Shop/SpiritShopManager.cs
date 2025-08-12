@@ -38,7 +38,9 @@ public class SpiritShopManager : MonoBehaviour, IScreenUI
     private const int NUM_ITEMS = 3; // num items to display in shop 
 
     private SpiritTracker spiritTracker;
-    private bool turnCompleted = false; // Whether user completed an action (buy item or secure)
+
+    [HideInInspector]
+    public bool turnCompleted = false; // Whether user completed an action (buy item or secure)
 
     public void OnNextCloseCall(UnityAction action)
     {
@@ -79,6 +81,8 @@ public class SpiritShopManager : MonoBehaviour, IScreenUI
         redCounterUI.UpdateText();
         blueCounterUI.UpdateText();
         yellowCounterUI.UpdateText();
+
+        secureSpiritsButtonText.text = "SECURE " + (spiritTracker.redSpiritsCollected + spiritTracker.blueSpiritsCollected + spiritTracker.yellowSpiritsCollected);
     }
 
     /// <summary>

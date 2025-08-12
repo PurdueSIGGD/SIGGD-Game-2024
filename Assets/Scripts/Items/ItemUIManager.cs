@@ -7,6 +7,8 @@ using UnityEngine.UI;
 public class ItemUIManager : MonoBehaviour
 {
     [SerializeField] private TMP_Text priceText;
+    [SerializeField] private Button buyButton;
+
     [SerializeField] private TMP_Text itemNameText;
     [SerializeField] private TMP_Text itemDescription;
 
@@ -25,6 +27,7 @@ public class ItemUIManager : MonoBehaviour
     {
         pool = gameObject.GetComponent<ItemPool>();
         rerollButton.onClick.AddListener(RerollButtonOnClick);
+        buyButton.onClick.AddListener(BuyButtonOnClick);
     }
 
     /// <summary>
@@ -91,6 +94,20 @@ public class ItemUIManager : MonoBehaviour
         {
             // not enough spirits
             return; // TODO
+        }
+    }
+
+    /// <summary>
+    /// Called when the buy button is clicked
+    /// </summary>
+    public void BuyButtonOnClick()
+    {
+        bool success = pool.BuyItem(item); // try to buy the current item
+
+        if (success)
+        {
+            Debug.Log("item bought!");
+            shopManager.CloseShopUI();
         }
     }
 
