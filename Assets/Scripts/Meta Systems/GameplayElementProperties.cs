@@ -71,6 +71,20 @@ public enum DamageType
     ENVIRONMENTAL,
 }
 
+public enum GhostID
+{
+    //IMPORTANT NOTE: Do NOT add new values to this enum above any existing values.
+    //                Doing so will cause EVERY serialized instance of this enum to be corrupted.
+    //                You may still add values under the existing ones.
+    ORION,
+    NORTH,
+    EVA,
+    AKIHITO,
+    YUME,
+    SILAS,
+    KING_AEGIS,
+}
+
 /// <summary>
 /// Struct that contains context for a damage instance.
 /// </summary>
@@ -120,7 +134,11 @@ public struct DamageContext
     /// <summary>
     /// Optional: The point at which a raycast attack hit the collider to trigger the damage effect.
     /// </summary>
-    public Vector2 raycastHitPosition;
+    [NonSerialized] public Vector2 raycastHitPosition;
+    /// <summary>
+    /// An identifier for the Ghost that is causing this damage instance.
+    /// </summary>
+    public GhostID ghostID;
 }
 
 /// <summary>
@@ -161,6 +179,10 @@ public struct HealingContext
     /// An arbitrary string containing any extra information the user wishes to relay through this healing instance.
     /// </summary>
     public string extraContext;
+    /// <summary>
+    /// An identifier for the Ghost that is causing this healing instance.
+    /// </summary>
+    public GhostID ghostID;
 }
 
 /// <summary>

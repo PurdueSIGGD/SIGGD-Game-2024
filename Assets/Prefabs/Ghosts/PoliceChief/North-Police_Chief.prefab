@@ -153,7 +153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterInfo: {fileID: 11400000, guid: 82f9561b0030f9b4282a3072b0d5656d, type: 2}
-  isUnlocked: 1
+  isUnlocked: 0
   exp: 0
 --- !u!114 &584133115329307738
 MonoBehaviour:
@@ -188,13 +188,13 @@ MonoBehaviour:
   - name: Basic Cooldown
     value: 1
   - name: Basic Damage
-    value: 20
-  - name: Basic Heavy Damage
-    value: 20
-  - name: Basic Super Heavy Damage
-    value: 30
-  - name: Basic Travel Distance
     value: 17
+  - name: Basic Heavy Damage
+    value: 17
+  - name: Basic Super Heavy Damage
+    value: 27
+  - name: Basic Travel Distance
+    value: 25
   - name: Basic Charge Up Time
     value: 0.5
   - name: Basic Primed Autofire Time
@@ -202,9 +202,11 @@ MonoBehaviour:
   - name: Basic Starting Ammo
     value: 3
   - name: Special Cooldown
-    value: 15
+    value: 30
   - name: Special Damage
-    value: 150
+    value: 200
+  - name: Special Stun Time
+    value: 1
   - name: Special Travel Distance
     value: 200
   - name: Special Ricochet Count
@@ -221,14 +223,14 @@ MonoBehaviour:
     actionID: 5
     actionTypes: 0100000002000000
     extraContext: 
-    raycastHitPosition: {x: 0, y: 0}
+    ghostID: 1
   specialDamage:
     damageStrength: 3
     damageTypes: 01000000
     actionID: 6
     actionTypes: 03000000
     extraContext: 
-    raycastHitPosition: {x: 0, y: 0}
+    ghostID: 1
   basicAmmoPickup: {fileID: 2971365794380548036, guid: 129594c2a2d871549883d8535e9655ee,
     type: 3}
   basicShot: {fileID: 6659373191663231290, guid: af6d9e3fef051da4c8265b8d37aa480b,
@@ -254,7 +256,7 @@ MonoBehaviour:
   basicAmmo: 0
   basic: {fileID: 0}
   special: {fileID: 0}
-  identityName: North-Police_Chief
+  identityName: 
 --- !u!114 &7204414934066423109
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -302,14 +304,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: 756d295103b4b3c4d93616011de8e174, type: 2}
-  values: 04000000070000000a0000000d000000
+  values: 0000000003000000050000000700000009000000
   secondaryShotDamage:
     damageStrength: 0
     damageTypes: 01000000
     actionID: 5
     actionTypes: 010000000200000004000000
     extraContext: 
-    raycastHitPosition: {x: 0, y: 0}
+    ghostID: 1
 --- !u!114 &6532718052842151599
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -323,7 +325,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: 3199848284157d44abaab00036650e65, type: 2}
-  reserveCharges: 000000000300000006000000090000000c000000
+  reserveCharges: 0000000002000000040000000600000008000000
   pointIndex: 0
   reservedCount: 0
 --- !u!114 &589596433784939328
@@ -358,6 +360,8 @@ MonoBehaviour:
   skill1UIManager: {fileID: 0}
   skill2UIManager: {fileID: 0}
   meterUIManager: {fileID: 0}
+  lethalForceIcon: {fileID: 21300000, guid: af366ca7b8ebecf4f940205735ef9720, type: 3}
+  overclockedIcon: {fileID: 21300000, guid: acbf6eaf8b049514caf8821d2bc6cb89, type: 3}
 --- !u!114 &7569012328589363263
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -372,10 +376,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: b89279340f3214445bdd49edb54b2342, type: 2}
   values:
-  - 0.0007
-  - 0.0014
-  - 0.0021
-  - 0.0028
+  - 0
+  - 3
+  - 6
+  - 9
+  - 12
 --- !u!114 &4769327096740874371
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -389,8 +394,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: 9bc7c0b2f197f7a419e48f1179f8f200, type: 2}
-  pointCounts: 05000000040000000300000002000000
-  bonusDamage: 30
+  pointCounts: 06000000050000000400000003000000
+  bonusDamage: 40
 --- !u!114 &3756874392414048416
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -406,11 +411,19 @@ MonoBehaviour:
   skillSO: {fileID: 11400000, guid: 5e4de3b30358f61459d074a5002be894, type: 2}
   values:
   - 0
-  - 1.15
-  - 1.3
-  - 1.45
-  - 1.6
+  - 4
+  - 7
+  - 10
+  - 13
   immediateTimeframe: 0.35
+  explosionRadius: 3
+  explosionDamage:
+    damageStrength: 0
+    damageTypes: 02000000
+    actionID: 5
+    actionTypes: 010000000200000004000000
+    extraContext: Power Spike Explosion
+    ghostID: 1
 --- !u!114 &572864510421831245
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -424,26 +437,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: f7c2431cb399822458eb560bd7fa8df7, type: 2}
-  pointCounts:
-  - 1.4
-  - 1.8
-  - 2.2
-  - 2.6
-  explosionRadius: 10
-  attackmask:
-    serializedVersion: 2
-    m_Bits: 2097152
+  values:
+  - 0
+  - 30
+  - 60
+  - 90
+  - 120
+  pointIndex: 0
+  overchargeDuration: 1.75
+  minDamage: 10
+  minExplosionRadius: 2
+  maxExplosionRadius: 6
   explosionContext:
-    damageStrength: 4
+    damageStrength: 3
     damageTypes: 02000000
     actionID: 6
     actionTypes: 0400000003000000
     extraContext: 
-    raycastHitPosition: {x: 0, y: 0}
-  damageToEnemy: 100
-  damageToPlayer: 20
-  circleVFX: {fileID: 7966241730260626198, guid: a5295bc6cb8948243b75f99e5a18cc48,
-    type: 3}
+    ghostID: 1
+  playerBaseDamage: 10
+  playerDamagePercent: 0.334
+  timer: -1
+  isOvercharging: 0
 --- !u!114 &2084270038230117945
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -456,6 +471,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec3eda79782f2b74f9818f600c432dd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  directionalIndicator: {fileID: 4796005695382463095, guid: beaff2e9da4acc947ba7a52a72eb88a6,
+    type: 3}
 --- !u!1 &4441818572976834460
 GameObject:
   m_ObjectHideFlags: 0

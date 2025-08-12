@@ -119,6 +119,7 @@ public class EnemyStateManager : MonoBehaviour
     /// <param name="duration"> the duration of the stun </param>
     public void Stun(DamageContext damageContext, float duration = 0f)
     {
+        GameplayEventHolder.OnEntityStunned?.Invoke(gameObject);
         if (duration == 0f)
         {
             StunState.EnterState(this);
@@ -213,7 +214,7 @@ public class EnemyStateManager : MonoBehaviour
             if (hit)
             {
                 float dmgDealt = hit.GetComponent<Health>().Damage(damageContext, attacker);
-                if (hit.CompareTag("Player") && dmgDealt > 0)
+                if (hit.CompareTag("Player") && dmgDealt > 0 && damageContext.damageStrength > DamageStrength.MEAGER)
                 {
                     PlayerID.instance.GetComponent<PlayerStateMachine>().SetStun(0.2f);
                 }

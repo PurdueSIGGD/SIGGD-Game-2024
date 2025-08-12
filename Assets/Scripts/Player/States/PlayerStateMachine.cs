@@ -35,6 +35,9 @@ public class PlayerStateMachine : MonoBehaviour
     public bool heavyAttackQueued = false;
     public bool heavyAttackConsumed = false;
 
+    public bool specialQueued = false;
+    public bool specialConsumed = false;
+
     Animator animator; // the animator of the player object
     Rigidbody2D rb; // the rigidbody of the player object
     Camera mainCamera; //the main Camera of the current Scene
@@ -179,7 +182,25 @@ public class PlayerStateMachine : MonoBehaviour
     void UpdateSpecial()
     {
         bool i_special = specialInput.ReadValue<float>() != 0;
-        animator.SetBool("i_special", i_special);
+
+        // Handle special input buffering
+        if (i_special)
+        {
+            specialQueued = !specialConsumed;
+        }
+        else
+        {
+            specialQueued = false;
+            if (specialConsumed) specialConsumed = false;
+        }
+
+        animator.SetBool("i_special", specialQueued);
+    }
+
+    public void ConsumeSpecialInput()
+    {
+        if (specialConsumed) return;
+        specialConsumed = true;
     }
 
     void UpdateMouseDir()
@@ -217,6 +238,11 @@ public class PlayerStateMachine : MonoBehaviour
         animator.SetTrigger(triggerName);
     }
 
+    public void DisableTrigger(string triggerName)
+    {
+        animator.ResetTrigger(triggerName);
+    }
+
     public void OnCooldown(string cooldownName)
     {
         animator.SetBool(cooldownName, true);
@@ -233,6 +259,7 @@ public class PlayerStateMachine : MonoBehaviour
     /// <param name="duration"></param>
     public void SetStun(float duration)
     {
+        GameplayEventHolder.OnEntityStunned?.Invoke(gameObject);
         StartCoroutine(StunCoroutine(duration));
     }
 

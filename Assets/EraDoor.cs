@@ -38,7 +38,7 @@ public class EraDoor : MonoBehaviour
                 SpecificLevelPool pool = new(new Level[] { new("North First Encounter", 1) }, ghostOneFirstEncounterLoc);
                 specificLevels.Add(pool);
             }
-            else if (PartyManager.instance.IsGhostInParty("North-Police_Chief")) 
+            else if (PartyManager.instance.IsGhostInParty("North-Police_Chief"))
             {
                 if (SaveManager.data.north.storyProgress == 1 || SaveManager.data.north.storyProgress == 2) // North story beat 1
                 {
@@ -72,6 +72,93 @@ public class EraDoor : MonoBehaviour
                 }
             }
         }
+        // Japan story beats
+        else if (era == Era.Feudal)
+        {
+            // Yume
+            if (SaveManager.data.yume.storyProgress == 0) // Yume first encounter
+            {
+                SpecificLevelPool pool = new(new Level[] { new("Yume First Encounter", 1) }, ghostOneFirstEncounterLoc);
+                specificLevels.Add(pool);
+            }
+            else if (PartyManager.instance.IsGhostInParty("Yume-Seamstress"))
+            {
+                if (SaveManager.data.yume.storyProgress == 1 || SaveManager.data.yume.storyProgress == 2) // Yume story beat 1
+                {
+                    SpecificLevelPool pool = new(new Level[] { new("Yume Story Beat One", 1) }, ghostOneStoryBeatOne);
+                    specificLevels.Add(pool);
+                }
+                else if (SaveManager.data.yume.storyProgress == 3) // Yume story beat 2
+                {
+                    SpecificLevelPool pool = new(new Level[] { new("Yume Story Beat Two", 1) }, ghostOneStoryBeatTwo);
+                    specificLevels.Add(pool);
+                }
+            }
+
+            // Akihito
+            if (SaveManager.data.akihito.storyProgress == 0) // Akihito First Encounter
+            {
+                SpecificLevelPool pool = new(new Level[] { new("Akihito First Encounter", 1) }, ghostTwoFirstEncounterLoc);
+                specificLevels.Add(pool);
+            }
+            else if (PartyManager.instance.IsGhostInParty("Akihito-Samurai"))
+            {
+                if (SaveManager.data.akihito.storyProgress == 1 || SaveManager.data.akihito.storyProgress == 2) // Akihito story beat 1
+                {
+                    SpecificLevelPool pool = new(new Level[] { new("Akihito Story Beat One", 1) }, ghostTwoStoryBeatOne);
+                    specificLevels.Add(pool);
+                }
+                else if (SaveManager.data.akihito.storyProgress == 3) // Akihito story beat 2
+                {
+                    SpecificLevelPool pool = new(new Level[] { new("Akihito Story Beat Two", 1) }, ghostTwoStoryBeatTwo);
+                    specificLevels.Add(pool);
+                }
+            }
+        }
+        // Medieval story beats
+        else if (era == Era.Medieval)
+        {
+            // Silas
+            if (SaveManager.data.silas.storyProgress == 0) // Silas first encounter
+            {
+                SpecificLevelPool pool = new(new Level[] { new("Silas First Encounter", 1) }, ghostOneFirstEncounterLoc);
+                specificLevels.Add(pool);
+            }
+            else if (PartyManager.instance.IsGhostInParty("Silas-Plague_Doctor"))
+            {
+                if (SaveManager.data.silas.storyProgress == 1 || SaveManager.data.silas.storyProgress == 2) // Silas story beat 1
+                {
+                    SpecificLevelPool pool = new(new Level[] { new("Silas Story Beat One", 1) }, ghostOneStoryBeatOne);
+                    specificLevels.Add(pool);
+                }
+                else if (SaveManager.data.silas.storyProgress == 3) // Silas story beat 2
+                {
+                    SpecificLevelPool pool = new(new Level[] { new("Silas Story Beat Two", 1) }, ghostOneStoryBeatTwo);
+                    specificLevels.Add(pool);
+                }
+            }
+
+            // Aegis
+            if (SaveManager.data.aegis.storyProgress == 0) // Aegis First Encounter
+            {
+                SpecificLevelPool pool = new(new Level[] { new("Aegis First Encounter", 1) }, ghostTwoFirstEncounterLoc);
+                specificLevels.Add(pool);
+            }
+            else if (PartyManager.instance.IsGhostInParty("Aegis-Samurai"))
+            {
+                if (SaveManager.data.aegis.storyProgress == 1 || SaveManager.data.aegis.storyProgress == 2) // Aegis story beat 1
+                {
+                    SpecificLevelPool pool = new(new Level[] { new("Aegis Story Beat One", 1) }, ghostTwoStoryBeatOne);
+                    specificLevels.Add(pool);
+                }
+                else if (SaveManager.data.aegis.storyProgress == 3) // Aegis story beat 2
+                {
+                    SpecificLevelPool pool = new(new Level[] { new("Aegis Story Beat Two", 1) }, ghostTwoStoryBeatTwo);
+                    specificLevels.Add(pool);
+                }
+            }
+        }
+
         LevelSwitching.levels = levels;
         LevelSwitching.specificLevels = specificLevels.ToArray();
         EnemySpawning.enemies = enemies;
@@ -92,7 +179,7 @@ public class EraDoor : MonoBehaviour
     {
         Cyberpunk,
         Feudal,
-        Medival,
+        Medieval,
         Misc
     }
 }

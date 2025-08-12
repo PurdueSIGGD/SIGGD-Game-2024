@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class RunningStart : Skill
 {
+    [SerializeField]
+    List<int> values = new List<int>
+    {
+        0, 1, 2, 3, 4
+    };
     private int pointindex;
 
     //void Start()
@@ -29,7 +34,7 @@ public class RunningStart : Skill
             IdolPassive passive = GetComponent<IdolPassive>();
             if (passive)
             {
-                passive.IncrementTempo(pointindex);
+                passive.IncrementTempo(values[pointindex]);
             }
             // Activate Feedback Loop manually because the clone doesn't spawn fast enough in the special script
             GetComponent<FeedbackLoop>().reduceCooldown(true);

@@ -37,7 +37,7 @@ public class GhostData
 [Serializable]
 public class NorthData : GhostData
 {
-
+    public int reserveSpecialCharges;
 }
 
 [Serializable]
