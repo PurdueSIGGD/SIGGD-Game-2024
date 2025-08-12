@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class StoryProgresser : MonoBehaviour
 {
@@ -17,10 +14,6 @@ public class StoryProgresser : MonoBehaviour
 
     void OnDisable()
     {
-        if (autoProgress)
-        {
-            ProgressStory(requiredDialogue);
-        }
         DialogueManager.onFinishDialogue -= ProgressStory;
     }
 
@@ -30,11 +23,20 @@ public class StoryProgresser : MonoBehaviour
         this.ghost = ghost;
         this.progressTo = progressTo;
         this.autoProgress = autoProgress;
+        if (autoProgress)
+        {
+            Door.OnDoorOpened += AutoProgressStory;
+        }
+    }
+
+    private void AutoProgressStory()
+    {
+        ProgressStory(requiredDialogue);
     }
 
     private void ProgressStory(string key)
     {
-        if (!key.Equals(requiredDialogue)) return;
+        if (!key.Equals(requiredDialogue) && !autoProgress) return;
 
         switch (ghost.ToLower())
         {
