@@ -1,5 +1,3 @@
-#define DEBUG_LOG
-
 using JetBrains.Annotations;
 using System;
 using System.Collections;
@@ -72,6 +70,7 @@ public class SpiritShopManager : MonoBehaviour, IScreenUI
 
     public void CloseShopUI()
     {
+        turnCompleted = true;
         Door.activateDoor(true);
         gameObject.SetActive(false);
     }
@@ -91,13 +90,6 @@ public class SpiritShopManager : MonoBehaviour, IScreenUI
     private void SecureSpirits()
     {
         spiritTracker.SaveSpiritCounts();
-
-#if DEBUG_LOG
-        Debug.Log("saved spirits");
-#endif
-
-        turnCompleted = true;
-
         CloseShopUI();
     }
 
