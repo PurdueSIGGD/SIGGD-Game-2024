@@ -1991,10 +1991,25 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 504260248778479986, guid: e0ec48fa54081d9459b47d6c59b33828,
+        type: 3}
+      propertyPath: sharedDmg.actionTypes.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 981645078808632434, guid: e0ec48fa54081d9459b47d6c59b33828,
         type: 3}
       propertyPath: m_Name
       value: Yume-Seamstress
+      objectReference: {fileID: 0}
+    - target: {fileID: 1173352059460126574, guid: e0ec48fa54081d9459b47d6c59b33828,
+        type: 3}
+      propertyPath: statList.Array.data[4].value
+      value: 3000
+      objectReference: {fileID: 0}
+    - target: {fileID: 1173352059460126574, guid: e0ec48fa54081d9459b47d6c59b33828,
+        type: 3}
+      propertyPath: statList.Array.data[5].value
+      value: 10000
       objectReference: {fileID: 0}
     - target: {fileID: 2521389767202695054, guid: e0ec48fa54081d9459b47d6c59b33828,
         type: 3}
@@ -2223,6 +2238,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1030564137}
+    - targetCorrespondingSourceObject: {fileID: 8252758106455385166, guid: dc37ada359206f040b1417c5d790c31f,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1030564163}
   m_SourcePrefab: {fileID: 100100000, guid: dc37ada359206f040b1417c5d790c31f, type: 3}
 --- !u!1001 &514639784
 PrefabInstance:
@@ -2791,6 +2810,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8eabf06b28ce8dc4cbabec68adb8813f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1030564163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1030564112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 504714de123b23748b33ef161afd453f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  statList:
+  - name: Attack Damage Buff
+    value: 100
+  - name: Crit Chance
+    value: 100
+  - name: Damage Resistance
+    value: 100
+  - name: Melee Damage Resistance
+    value: 100
+  - name: Projectile/Area Damage Resistance
+    value: 100
 --- !u!1 &1043874049
 GameObject:
   m_ObjectHideFlags: 0

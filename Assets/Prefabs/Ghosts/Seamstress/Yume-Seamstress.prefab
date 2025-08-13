@@ -188,29 +188,29 @@ MonoBehaviour:
   - name: Projectile Damage
     value: 10
   - name: Projectile Ricochet Count
-    value: 4
+    value: 2
   - name: 'Projectile Ricochet Maximum Normal Angle '
-    value: 60
-  - name: Projectile Enemy Chain Range
-    value: 15
-  - name: Projectile Maximum Chain Target Count
-    value: 4
-  - name: Projectile Flight Speed
-    value: 30
-  - name: Fatebound Duration
     value: 5
+  - name: Projectile Enemy Chain Range
+    value: 30
+  - name: Projectile Maximum Chain Target Count
+    value: 3
+  - name: Projectile Flight Speed
+    value: 40
+  - name: Fatebound Duration
+    value: 500
   - name: Max Spools
-    value: 6
+    value: 4
   - name: Initial Spool Buffer
-    value: 1
+    value: 0.75
   - name: Concurrent Spool Buffer
-    value: 0.8
+    value: 0.5
   - name: Heavy Attack Spools Needed
     value: 1
   - name: Special Attack Spools Needed
-    value: 2
+    value: 1
   - name: Spool Heavy Attack Stun
-    value: 2
+    value: 1.2
 --- !u!114 &504260248778479986
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -234,11 +234,11 @@ MonoBehaviour:
     type: 3}
   projectileDamageContext:
     damageStrength: 0
-    damageTypes: 01000000
+    damageTypes: 0100000003000000
     actionID: 12
     actionTypes: 03000000
     extraContext: 
-    ghostID: 0
+    ghostID: 4
   specialContext:
     actionID: 12
     actionTypes: 03000000
@@ -249,8 +249,8 @@ MonoBehaviour:
     actionID: 12
     actionTypes: 03000000
     extraContext: 
-    ghostID: 0
-  sharedDmgScaling: 0.6
+    ghostID: 4
+  sharedDmgScaling: 0.5
 --- !u!120 &6265072175092927981
 LineRenderer:
   serializedVersion: 2

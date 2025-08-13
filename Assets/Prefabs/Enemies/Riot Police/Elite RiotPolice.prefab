@@ -269,6 +269,7 @@ MonoBehaviour:
     priority: 1
     ready: 1
     hitBox: {fileID: 3561678645181035360}
+    usesCircleHitbox: 0
     coolDown: 2.5
     animationClip: {fileID: 7400000, guid: f612aa8e9cc4b4a488df5b9e1c8237d2, type: 2}
   move:
@@ -276,6 +277,7 @@ MonoBehaviour:
     priority: 0
     ready: 0
     hitBox: {fileID: 0}
+    usesCircleHitbox: 0
     coolDown: 0
     animationClip: {fileID: 7400000, guid: e1d9f2c18293436429c8a1403b4ada95, type: 2}
   idle:
@@ -283,6 +285,7 @@ MonoBehaviour:
     priority: 0
     ready: 0
     hitBox: {fileID: 0}
+    usesCircleHitbox: 0
     coolDown: 0
     animationClip: {fileID: 7400000, guid: 968e5750ed810fb418cf0add49c4620a, type: 2}
 --- !u!114 &5285581056280043343
@@ -301,7 +304,7 @@ MonoBehaviour:
   - name: Speed
     value: 5
   - name: Damage
-    value: 30
+    value: 40
   - name: Idle Speed
     value: 4
   - name: Pause Timer Duration Min
