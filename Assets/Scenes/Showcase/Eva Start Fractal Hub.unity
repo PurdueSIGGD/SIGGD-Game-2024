@@ -2713,6 +2713,16 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9082417248116334632, guid: 39c14e8a58fe62e4abd3676292cc3919,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9082417248116334632, guid: 39c14e8a58fe62e4abd3676292cc3919,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2726,6 +2736,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4094491556103289599, guid: 910875b692ef0ee4a9934c2b75b1662d,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 0.5882353
+      objectReference: {fileID: 0}
+    - target: {fileID: 4094491556103289599, guid: 910875b692ef0ee4a9934c2b75b1662d,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4094491556103289599, guid: 910875b692ef0ee4a9934c2b75b1662d,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.7254902
+      objectReference: {fileID: 0}
+    - target: {fileID: 4094491556103289599, guid: 910875b692ef0ee4a9934c2b75b1662d,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5005415789474133070, guid: 910875b692ef0ee4a9934c2b75b1662d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2789,7 +2819,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8202687041202382142, guid: 910875b692ef0ee4a9934c2b75b1662d,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1907367268}
   m_SourcePrefab: {fileID: 100100000, guid: 910875b692ef0ee4a9934c2b75b1662d, type: 3}
 --- !u!20 &870843950 stripped
 Camera:
@@ -2903,6 +2937,14 @@ MonoBehaviour:
   northHubEntrance: {fileID: 0}
   eva: {fileID: 0}
   evaHubEntrance: {fileID: 0}
+  akihito: {fileID: 0}
+  akihitoHubEntrance: {fileID: 0}
+  yume: {fileID: 0}
+  yumeHubEntrance: {fileID: 0}
+  silas: {fileID: 0}
+  silasHubEntrance: {fileID: 0}
+  aegis: {fileID: 0}
+  aegisHubEntrance: {fileID: 0}
 --- !u!1001 &1065374474
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4528,6 +4570,31 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68495fc7a9109db4bac74683a7020d73, type: 3}
+--- !u!1 &1907367259 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8202687041202382142, guid: 910875b692ef0ee4a9934c2b75b1662d,
+    type: 3}
+  m_PrefabInstance: {fileID: 864979419}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1907367268
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1907367259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b79978fc3bc8aa44af6519c4b2c0406, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectedGhostUIManager: {fileID: 0}
+  deselectedGhostUIManager: {fileID: 0}
+  basicAbilityUIManager: {fileID: 0}
+  specialAbilityUIManager: {fileID: 0}
+  skill1UIManager: {fileID: 0}
+  skill2UIManager: {fileID: 0}
+  meterUIManager: {fileID: 0}
 --- !u!1001 &1913984568
 PrefabInstance:
   m_ObjectHideFlags: 0
