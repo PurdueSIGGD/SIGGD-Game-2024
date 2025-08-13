@@ -1576,7 +1576,7 @@ PrefabInstance:
     - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
         type: 3}
       propertyPath: specificLevels.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
         type: 3}
@@ -1860,7 +1860,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
         type: 3}
+      propertyPath: specificLevels.Array.data[1].levelNum
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
+        type: 3}
       propertyPath: specificLevels.Array.data[0].levels.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
+        type: 3}
+      propertyPath: specificLevels.Array.data[1].levels.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
@@ -1870,7 +1880,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
         type: 3}
+      propertyPath: specificLevels.Array.data[1].levels.Array.data[0].chance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
+        type: 3}
       propertyPath: specificLevels.Array.data[0].levels.Array.data[0].sceneName
+      value: SpiritShopRoom
+      objectReference: {fileID: 0}
+    - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
+        type: 3}
+      propertyPath: specificLevels.Array.data[1].levels.Array.data[0].sceneName
       value: SpiritShopRoom
       objectReference: {fileID: 0}
     - target: {fileID: 5178862083370102746, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
@@ -2812,6 +2832,16 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9082417248116334632, guid: 39c14e8a58fe62e4abd3676292cc3919,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9082417248116334632, guid: 39c14e8a58fe62e4abd3676292cc3919,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2906,6 +2936,14 @@ MonoBehaviour:
   northHubEntrance: {fileID: 0}
   eva: {fileID: 0}
   evaHubEntrance: {fileID: 0}
+  akihito: {fileID: 0}
+  akihitoHubEntrance: {fileID: 0}
+  yume: {fileID: 0}
+  yumeHubEntrance: {fileID: 0}
+  silas: {fileID: 0}
+  silasHubEntrance: {fileID: 0}
+  aegis: {fileID: 0}
+  aegisHubEntrance: {fileID: 0}
 --- !u!1001 &1065374474
 PrefabInstance:
   m_ObjectHideFlags: 0
