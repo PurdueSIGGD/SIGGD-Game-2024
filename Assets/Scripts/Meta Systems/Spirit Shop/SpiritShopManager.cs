@@ -65,6 +65,8 @@ public class SpiritShopManager : MonoBehaviour, IScreenUI
         blueItemBox.GetComponent<ItemUIManager>().PickAndDisplayRandomItem();
         yellowItemBox.GetComponent<ItemUIManager>().PickAndDisplayRandomItem();
 
+        UpdateSpiritCountText();
+
         gameObject.SetActive(true);
     }
 
