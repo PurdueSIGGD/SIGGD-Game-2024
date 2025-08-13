@@ -167,9 +167,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactRange: 3
   menuOffset: {x: 0, y: 2, z: 0}
-  hubConvo: {fileID: 0}
+  hubConvo: {fileID: 11400000, guid: bb7b221e83331df40abd0b4a5760706e, type: 2}
   isFirstInteraction: 0
-  isNPC: 0
+  isNPC: 1
 --- !u!114 &1173352059460126574
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -188,29 +188,29 @@ MonoBehaviour:
   - name: Projectile Damage
     value: 10
   - name: Projectile Ricochet Count
-    value: 2
-  - name: 'Projectile Ricochet Maximum Normal Angle '
-    value: 5
-  - name: Projectile Enemy Chain Range
-    value: 30
-  - name: Projectile Maximum Chain Target Count
-    value: 3
-  - name: Projectile Flight Speed
-    value: 40
-  - name: Fatebound Duration
-    value: 500
-  - name: Max Spools
     value: 4
+  - name: 'Projectile Ricochet Maximum Normal Angle '
+    value: 60
+  - name: Projectile Enemy Chain Range
+    value: 15
+  - name: Projectile Maximum Chain Target Count
+    value: 4
+  - name: Projectile Flight Speed
+    value: 30
+  - name: Fatebound Duration
+    value: 5
+  - name: Max Spools
+    value: 6
   - name: Initial Spool Buffer
-    value: 0.75
+    value: 1
   - name: Concurrent Spool Buffer
-    value: 0.5
+    value: 0.8
   - name: Heavy Attack Spools Needed
     value: 1
   - name: Special Attack Spools Needed
-    value: 1
+    value: 2
   - name: Spool Heavy Attack Stun
-    value: 1.2
+    value: 2
 --- !u!114 &504260248778479986
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -234,11 +234,11 @@ MonoBehaviour:
     type: 3}
   projectileDamageContext:
     damageStrength: 0
-    damageTypes: 0100000003000000
+    damageTypes: 01000000
     actionID: 12
     actionTypes: 03000000
     extraContext: 
-    ghostID: 4
+    ghostID: 0
   specialContext:
     actionID: 12
     actionTypes: 03000000
@@ -249,8 +249,8 @@ MonoBehaviour:
     actionID: 12
     actionTypes: 03000000
     extraContext: 
-    ghostID: 4
-  sharedDmgScaling: 0.5
+    ghostID: 0
+  sharedDmgScaling: 0.6
 --- !u!120 &6265072175092927981
 LineRenderer:
   serializedVersion: 2
@@ -725,7 +725,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6,
     type: 3}
-  m_Color: {r: 0.972549, g: 0.7764706, b: 0.92941177, a: 0.5882353}
+  m_Color: {r: 1, g: 0, b: 0.54640484, a: 0.5882353}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

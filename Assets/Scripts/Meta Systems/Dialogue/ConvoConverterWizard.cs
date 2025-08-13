@@ -8,10 +8,10 @@ public class ConvoConverterWizard : ScriptableWizard
     public FolderReference targetFolder;
     public TextAsset[] convoFiles;
 
-    [MenuItem("SIGGD/Convo Recipe Wizard")]
+    [MenuItem("SIGGD/[Deprecated] Convo Recipe Wizard")]
     static void CreateWizard()
     {
-        ScriptableWizard.DisplayWizard<ConvoConverterWizard>("Convo Recipe Creator", "Create Convos", "Clear");
+        ScriptableWizard.DisplayWizard<ConvoConverterWizard>("[Deprecated] Convo Recipe Creator", "Create Convos", "Clear");
     }
 
     void OnWizardCreate()
@@ -20,6 +20,9 @@ public class ConvoConverterWizard : ScriptableWizard
         {
             ConvoData data = new ConvoData();
             EditorJsonUtility.FromJsonOverwrite(convoFile.ToString(), data);
+
+            // cannot create asset with colon symbol
+            data.convoName = data.convoName.Replace(":", ""); 
 
             Debug.Log(convoFile.name);
             Debug.Log(data.convoName);
