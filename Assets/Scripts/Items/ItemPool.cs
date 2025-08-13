@@ -13,9 +13,6 @@ public class ItemPool : MonoBehaviour
     [SerializeField]
     public Spirit.SpiritType type;
 
-    [SerializeField]
-    public List<ItemSO> itemList; // items current available during run
-
     [SerializeField] private int rerollStartPrice;
     [SerializeField] private int rerollPriceIncrement;
 
@@ -23,6 +20,8 @@ public class ItemPool : MonoBehaviour
     //        Other Variables
     // ==============================
 
+    [HideInInspector]
+    public List<ItemSO> itemList; // items current available during run, reference
     [HideInInspector]
     public int currentRerollPrice = 0; // Current reroll price
 
@@ -35,6 +34,19 @@ public class ItemPool : MonoBehaviour
         currentRerollPrice = rerollStartPrice;
         spiritTracker = PersistentData.Instance.GetComponent<SpiritTracker>(); // reference
         ownedItems = PersistentData.Instance.GetComponent<ItemInventory>().ownedItems; // reference
+
+        switch (type)
+        {
+            case Spirit.SpiritType.Red:
+                itemList = PersistentData.Instance.GetComponent<ItemInventory>().redItemPool;
+                break;
+            case Spirit.SpiritType.Blue:
+                itemList = PersistentData.Instance.GetComponent<ItemInventory>().blueItemPool;
+                break;
+            case Spirit.SpiritType.Yellow:
+                itemList = PersistentData.Instance.GetComponent<ItemInventory>().yellowItemPool;
+                break;
+        }
     }
 
     /// <summary>
@@ -44,7 +56,6 @@ public class ItemPool : MonoBehaviour
     public ItemSO PickRandomItem()
     {
         int randomIndex = Random.Range(0, itemList.Count);
-        Debug.Log(randomIndex);
         return itemList[randomIndex];
     }
 
@@ -80,24 +91,7 @@ public class ItemPool : MonoBehaviour
             ownedItems.Add(item);
             item.owned = true;
         }
-
-        Debug.Log("Items owned " + ownedItems.Count);
-
         return success;
-    }
-
-    /// <summary>
-    /// After run, return all the items to the pool (can be bought again)
-    /// </summary>
-    public void ReturnItemsToPool()
-    {
-        foreach (ItemSO item in ownedItems)
-        {
-            item.owned = false;
-
-            ownedItems.Remove(item);
-            itemList.Add(item);
-        }
     }
 
 }

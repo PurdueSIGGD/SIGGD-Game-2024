@@ -14,5 +14,8 @@ public class EnterHub : MonoBehaviour
         SaveManager.data.yume.spoolCount = 0;
         SaveManager.data.aegis.damageDealtTillSmite = 0.0f;
         SaveManager.data.aegis.damageBlockTillSmite = 0.0f;
+
+        PersistentData.Instance.GetComponent<SpiritTracker>().ClearSpirits();
+        PersistentData.Instance.GetComponent<ItemInventory>().ReturnItemsToPool();
     }
 }

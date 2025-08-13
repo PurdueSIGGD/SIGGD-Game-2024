@@ -84,6 +84,14 @@ public class SpiritTracker : MonoBehaviour
         SaveManager.data.spiritCounts[1] += blueSpiritsCollected;
         SaveManager.data.spiritCounts[2] += yellowSpiritsCollected;
 
+        ClearSpirits();
+    }
+
+    /// <summary>
+    /// Set run spirit counts to 0
+    /// </summary>
+    public void ClearSpirits()
+    {
         redSpiritsCollected = 0;
         blueSpiritsCollected = 0;
         yellowSpiritsCollected = 0;
