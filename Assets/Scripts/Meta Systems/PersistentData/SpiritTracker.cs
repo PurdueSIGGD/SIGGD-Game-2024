@@ -39,7 +39,22 @@ public class SpiritTracker : MonoBehaviour
         }
     }
 
-    public bool SpendSpirits(Spirit.SpiritType spiritType, int price)
+    public bool SpendSecuredSpirits(Spirit.SpiritType spiritType, int price)
+    {
+        if (SaveManager.data.spiritCounts[(int) spiritType] < price)
+        {
+            // Not enough spirits
+            return false;
+        }
+        else
+        {
+            // Spend spirits
+            SaveManager.data.spiritCounts[(int)spiritType] -= price;
+            return true;
+        }
+    }
+
+    public bool SpendRunSpirits(Spirit.SpiritType spiritType, int price)
     {
         switch (spiritType)
         {

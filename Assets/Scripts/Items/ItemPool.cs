@@ -64,7 +64,7 @@ public class ItemPool : MonoBehaviour
     {
         // Remove price of reroll, return null if not enough
 
-        if (!spiritTracker.SpendSpirits(type, currentRerollPrice))
+        if (!spiritTracker.SpendRunSpirits(type, currentRerollPrice))
         {
             return null;
         }
@@ -83,7 +83,7 @@ public class ItemPool : MonoBehaviour
     /// <returns></returns>
     public bool BuyItem(ItemSO item)
     {
-        bool success = spiritTracker.SpendSpirits(type, item.price);
+        bool success = spiritTracker.SpendRunSpirits(type, item.price);
 
         if (success)
         {
