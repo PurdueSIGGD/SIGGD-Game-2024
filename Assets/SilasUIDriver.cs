@@ -33,6 +33,10 @@ public class SilasUIDriver : GhostUIDriver
     private void updateSpecialAbility()
     {
         specialAbilityUIManager.setAbilityCooldownTime(manager.getSpecialCooldown(), stats.ComputeValue("Special Cooldown"));
+        specialAbilityUIManager.setAbilityEnabled(manager.specialCharges > 0);
+        specialAbilityUIManager.setNumberActive(manager.specialCharges <= 0);
+        specialAbilityUIManager.setChargeWidgetActive(true);
+        specialAbilityUIManager.setChargeValue(manager.specialCharges, stats.ComputeValue("Special Max Charges"));
     }
 
     private void updateSkill1()

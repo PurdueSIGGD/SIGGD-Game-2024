@@ -271,6 +271,7 @@ GameObject:
   - component: {fileID: 5527549834993910565}
   - component: {fileID: 3640821941058779060}
   - component: {fileID: 7594217564035337209}
+  - component: {fileID: 8206914415416009612}
   m_Layer: 17
   m_Name: Silas-PlagueDoc
   m_TagString: Ghost
@@ -412,14 +413,81 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   statList:
+  - name: Basic Cooldown
+    value: 1
   - name: Special Cooldown
-    value: 4
+    value: 7
+  - name: Special Max Charges
+    value: 2
+  - name: Special Bomb Speed
+    value: 30
+  - name: Special Bomb Damage
+    value: 10
+  - name: Special Bomb Radius
+    value: 3.5
+  - name: Special Minibomb Count
+    value: 5
+  - name: Special Minibomb Speed
+    value: 10
+  - name: Special Minibomb Damage
+    value: 3
+  - name: Special Minibomb Radius
+    value: 2
+  - name: Special Minibomb Min Fuse Time
+    value: 0.5
+  - name: Special Minibomb Max Fuse Time
+    value: 1
+  - name: Blight Duration
+    value: 5
+  - name: Blight DPS
+    value: 3
+  - name: Blight Slow
+    value: 30
+  - name: Blight Empowered DPS
+    value: 18
+  - name: Blight Empowered Slow
+    value: 60
+  - name: Blight Empowered Duration
+    value: 1.5
   defaultController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
-  ghostController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
+  ghostController: {fileID: 9100000, guid: afe4d43a7f12e7b41a5ccdc9be4eeae1, type: 2}
   blightPotion: {fileID: 4699030029396985124, guid: e2fab6792587ec249a70e1b7a5314fc9,
     type: 3}
-  initialSpeed: 20
+  blightMinibomb: {fileID: 4699030029396985124, guid: ef4551b616e067d43a01319e2ee45b40,
+    type: 3}
+  bombDamage:
+    damageStrength: 2
+    damageTypes: 0100000002000000
+    actionID: 14
+    actionTypes: 03000000
+    extraContext: 
+    ghostID: 5
+  miniBombDamage:
+    damageStrength: 0
+    damageTypes: 0100000002000000
+    actionID: 14
+    actionTypes: 03000000
+    extraContext: 
+    ghostID: 5
+  blightDebuff: {fileID: 329455982132843419, guid: 0d05a07857e19b5498dd81164c887119,
+    type: 3}
+  blightDamage:
+    damageStrength: 0
+    damageTypes: 03000000
+    actionID: 14
+    actionTypes: 03000000
+    extraContext: 
+    ghostID: 5
+  bombExplosionVFX: {fileID: 7966241730260626198, guid: a5295bc6cb8948243b75f99e5a18cc48,
+    type: 3}
+  basicHealing:
+    healing: 0
+    actionID: 13
+    actionTypes: 02000000
+    extraContext: 
+    ghostID: 5
   special: {fileID: 0}
+  specialCharges: 0
 --- !u!114 &3640821941058779060
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -450,3 +518,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   statList: []
+--- !u!114 &8206914415416009612
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8202687041202382142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b79978fc3bc8aa44af6519c4b2c0406, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectedGhostUIManager: {fileID: 0}
+  deselectedGhostUIManager: {fileID: 0}
+  basicAbilityUIManager: {fileID: 0}
+  specialAbilityUIManager: {fileID: 0}
+  skill1UIManager: {fileID: 0}
+  skill2UIManager: {fileID: 0}
+  meterUIManager: {fileID: 0}
