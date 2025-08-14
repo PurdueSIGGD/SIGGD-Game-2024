@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpiritManagerInteract : InRangeInteract
+public class SpiriShopManagerInteract : InRangeInteract
 {
     // ==============================
     //       Serialized Fields
