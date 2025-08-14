@@ -35,7 +35,7 @@ public class ItemUIManager : MonoBehaviour
     /// </summary>
     private void UpdateItemBoxUI()
     {
-        priceText.text = "BUY FOR " + item.price.ToString();
+        priceText.text = "BUY " + item.price.ToString();
         itemNameText.text = item.displayName.ToUpper();
         itemDescription.text = item.itemDescription;
 
@@ -43,19 +43,6 @@ public class ItemUIManager : MonoBehaviour
 
         UpdateRerollButtonText();
 
-        // TODO: temporary text color, add icons later
-        switch (item.itemType)
-        {
-            case Spirit.SpiritType.Red:
-                itemNameText.color = Color.red;
-                break;
-            case Spirit.SpiritType.Yellow:
-                itemNameText.color = Color.yellow;
-                break;
-            case Spirit.SpiritType.Blue:
-                itemNameText.color = Color.blue;
-                break;
-        }
     }
 
     /// <summary>
@@ -64,7 +51,7 @@ public class ItemUIManager : MonoBehaviour
     private void UpdateRerollButtonText()
     {
         // Update text
-        rerollButtonText.text = "REROLL FOR " + pool.currentRerollPrice;
+        rerollButtonText.text = "REROLL " + pool.currentRerollPrice;
     }
 
     /// <summary>
