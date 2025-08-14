@@ -560,7 +560,12 @@ MonoBehaviour:
   - {fileID: 2003893181276017294}
   - {fileID: 2855078243637072842}
   - {fileID: 2779246086066254718}
-  spiritCounters: []
+  spiritCounters:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  closeButton: {fileID: 2660476101564113696}
 --- !u!1 &6938189913327002146
 GameObject:
   m_ObjectHideFlags: 0
@@ -1025,6 +1030,11 @@ PrefabInstance:
       propertyPath: masteryShop
       value: 
       objectReference: {fileID: 7466911656250857647}
+    - target: {fileID: 1933266034112055895, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
+      propertyPath: unlockPrice
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2233857333583919929, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -1832,6 +1842,11 @@ PrefabInstance:
       propertyPath: masteryShop
       value: 
       objectReference: {fileID: 7466911656250857647}
+    - target: {fileID: 1933266034112055895, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
+      propertyPath: unlockPrice
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2233857333583919929, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
         type: 3}
       propertyPath: m_AnchorMax.y

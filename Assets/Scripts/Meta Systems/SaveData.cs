@@ -78,6 +78,7 @@ public class AegisData : GhostData
     public float damageBlockTillSmite = 0;
 }
 
+[Serializable]
 public class MasteryUpgradeData
 {
     public int numRowsUnlocked = 0;
