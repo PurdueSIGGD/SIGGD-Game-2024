@@ -5,6 +5,7 @@ using UnityEngine;
 public class SpiritHealRegen : MonoBehaviour
 {
     [SerializeField] float healPerSpirit;
+    [SerializeField] float healPerPinkSpirit;
     [SerializeField] HealingContext healContext;
 
     private void OnEnable()
@@ -19,7 +20,7 @@ public class SpiritHealRegen : MonoBehaviour
 
     void OnSpiritPicked(Spirit.SpiritType spirit)
     {
-        healContext.healing = healPerSpirit;
+        healContext.healing = (spirit == Spirit.SpiritType.Pink) ? healPerPinkSpirit : healPerSpirit;
         GetComponent<Health>().Heal(healContext, gameObject);
     }
 }
