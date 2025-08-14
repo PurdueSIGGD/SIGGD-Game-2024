@@ -29,7 +29,7 @@ public class SaveData
     // 0: blue, 1: red, 2: yellow, 3: pink
     public int[] spiritCounts = new int[4];
 
-    public MasteryUpgradesData masteryUpgrades = new();
+    public MasteryUpgradeData masteryUpgrades = new();
 }
 
 
@@ -78,7 +78,7 @@ public class AegisData : GhostData
     public float damageBlockTillSmite = 0;
 }
 
-public class MasteryUpgradesData
+public class MasteryUpgradeData
 {
     public int numRowsUnlocked = 0;
 }

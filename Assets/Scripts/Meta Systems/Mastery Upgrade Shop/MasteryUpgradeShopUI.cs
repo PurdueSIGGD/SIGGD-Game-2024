@@ -10,11 +10,18 @@ public class MasteryUpgradeShopUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        SetupUI(); // TODO - shop open
+        gameObject.SetActive(false);
     }
 
-    public void SetupUI()
+    public void CloseUI()
     {
+        gameObject.SetActive(false);
+        SaveManager.instance.Save();
+    }
+
+    public void OpenUI()
+    {
+        gameObject.SetActive(true);
         int rowsUnlocked = SaveManager.data.masteryUpgrades.numRowsUnlocked;
 
         for (int i = 0; i < rows.Count; i++)
