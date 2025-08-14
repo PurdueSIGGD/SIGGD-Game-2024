@@ -112,7 +112,7 @@ public class SkillTree : MonoBehaviour
     
     private int GetSkillTierIndex(Skill skill)
     {
-        Debug.Log("skillTiers: " + skillTiers == null);
+        //Debug.Log("skillTiers: " + skillTiers == null);
         for (int i = 0; i < skillTiers.Length; i++)
         {
             if (skillTiers[i].leftSkill == skill || skillTiers[i].rightSkill == skill)
