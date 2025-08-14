@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -36,7 +36,7 @@ public class ItemUIManager : MonoBehaviour
     private void UpdateItemBoxUI()
     {
         priceText.text = "BUY FOR " + item.price.ToString();
-        itemNameText.text = item.displayName;
+        itemNameText.text = item.displayName.ToUpper();
         itemDescription.text = item.itemDescription;
 
         itemIcon.sprite = item.itemIcon;
