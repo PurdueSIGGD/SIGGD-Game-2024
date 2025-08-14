@@ -26,8 +26,8 @@ public class SaveData
     public SilasData silas = new();
     public AegisData aegis = new();
 
-    // 0: red, 1: blue, 2: yellow
-    public int[] spiritCounts = new int[3];
+    // 0: blue, 1: red, 2: yellow, 3: pink
+    public int[] spiritCounts = new int[4];
 }
 
 

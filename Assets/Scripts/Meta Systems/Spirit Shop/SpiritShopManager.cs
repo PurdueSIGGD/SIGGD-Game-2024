@@ -83,7 +83,9 @@ public class SpiritShopManager : MonoBehaviour, IScreenUI
         blueCounterUI.UpdateText();
         yellowCounterUI.UpdateText();
 
-        secureSpiritsButtonText.text = "SECURE " + (spiritTracker.redSpiritsCollected + spiritTracker.blueSpiritsCollected + spiritTracker.yellowSpiritsCollected);
+        secureSpiritsButtonText.text = "SECURE " + (
+                spiritTracker.redSpiritsCollected + spiritTracker.blueSpiritsCollected + 
+                spiritTracker.yellowSpiritsCollected + spiritTracker.pinkSpiritsCollected);
     }
 
     /// <summary>

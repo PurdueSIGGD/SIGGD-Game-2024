@@ -27,7 +27,8 @@ public class Spirit : MonoBehaviour
     {
         Blue,
         Red,
-        Yellow
+        Yellow,
+        Pink
     }
 
     void Awake()

@@ -8,6 +8,7 @@ public class SpiritTracker : MonoBehaviour
     public int blueSpiritsCollected = 0;
     public int redSpiritsCollected = 0;
     public int yellowSpiritsCollected = 0;
+    public int pinkSpiritsCollected = 0;
 
     private void OnEnable()
     {
@@ -31,6 +32,9 @@ public class SpiritTracker : MonoBehaviour
                 break;
             case Spirit.SpiritType.Yellow:
                 yellowSpiritsCollected++;
+                break;
+            case Spirit.SpiritType.Pink:
+                pinkSpiritsCollected++;
                 break;
         }
     }
@@ -69,7 +73,16 @@ public class SpiritTracker : MonoBehaviour
                     return false;
                 }
                 break;
-
+            case Spirit.SpiritType.Pink:
+                if (pinkSpiritsCollected >= price)
+                {
+                    pinkSpiritsCollected -= price;
+                }
+                else
+                {
+                    return false;
+                }
+                break;
         }
 
         return true;
@@ -80,9 +93,10 @@ public class SpiritTracker : MonoBehaviour
     /// </summary>
     public void SaveSpiritCounts()
     {
-        SaveManager.data.spiritCounts[0] += redSpiritsCollected;
-        SaveManager.data.spiritCounts[1] += blueSpiritsCollected;
+        SaveManager.data.spiritCounts[0] += blueSpiritsCollected;
+        SaveManager.data.spiritCounts[1] += redSpiritsCollected;
         SaveManager.data.spiritCounts[2] += yellowSpiritsCollected;
+        SaveManager.data.spiritCounts[3] += pinkSpiritsCollected;
 
         ClearSpirits();
     }
@@ -95,5 +109,6 @@ public class SpiritTracker : MonoBehaviour
         redSpiritsCollected = 0;
         blueSpiritsCollected = 0;
         yellowSpiritsCollected = 0;
+        pinkSpiritsCollected = 0;
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using static Unity.Burst.Intrinsics.X86;
@@ -26,21 +27,9 @@ public class SpiritCounterUI : MonoBehaviour
     {
         if (fromSaveManager)
         {
-
-            switch (spiritType) {
-                case Spirit.SpiritType.Red:
-                    counterText.text = SaveManager.data.spiritCounts[0].ToString();
-                    break;
-                case Spirit.SpiritType.Blue:
-                    counterText.text = SaveManager.data.spiritCounts[1].ToString();
-                    break;
-                case Spirit.SpiritType.Yellow:
-                    counterText.text = SaveManager.data.spiritCounts[2].ToString();
-                    break;
-
-            }
-
-        } else
+            counterText.text = SaveManager.data.spiritCounts[(int) spiritType].ToString();
+        }
+        else
         {
             SpiritTracker sp = PersistentData.Instance.GetComponent<SpiritTracker>();
             switch (spiritType)
@@ -53,6 +42,9 @@ public class SpiritCounterUI : MonoBehaviour
                     break;
                 case Spirit.SpiritType.Yellow:
                     counterText.text = sp.yellowSpiritsCollected.ToString();
+                    break;
+                case Spirit.SpiritType.Pink:
+                    counterText.text = sp.pinkSpiritsCollected.ToString();
                     break;
 
             }
