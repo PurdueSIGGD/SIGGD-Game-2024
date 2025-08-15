@@ -368,6 +368,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8753793558984234856}
   - component: {fileID: 122814833706037817}
+  - component: {fileID: 2458648474707538154}
   m_Layer: 5
   m_Name: Mastery Upgrade Box
   m_TagString: Untagged
@@ -403,6 +404,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2245028318730834170}
   m_CullTransparentMesh: 1
+--- !u!114 &2458648474707538154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2245028318730834170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44f3816109525f149b2caf964f62ca51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upgradeName: UPGRADE NAME
+  type: 0
+  statBoostIncrementPercent: 1
+  upgradeStartPrice: 1
+  upgradePriceIncrement: 1
+  upgradePercentText: {fileID: 934513622203891979}
+  upgradePriceText: {fileID: 2648647862789694729}
+  upgradeNameText: {fileID: 424881384108143520}
+  upgradeButton: {fileID: 5652208454547597707}
 --- !u!1 &4321527141015491769
 GameObject:
   m_ObjectHideFlags: 0
@@ -650,7 +672,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 42.6
+  m_fontSize: 18
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1

@@ -520,6 +520,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1654539468390458281}
   - component: {fileID: 7466911656250857647}
+  - component: {fileID: 1020274189456580030}
   m_Layer: 0
   m_Name: Mastery Upgrade Shop Canvas
   m_TagString: Untagged
@@ -566,6 +567,18 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   closeButton: {fileID: 2660476101564113696}
+--- !u!114 &1020274189456580030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6292452947350592056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78281fe8d22d5384ca168e6493baf1d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6938189913327002146
 GameObject:
   m_ObjectHideFlags: 0
@@ -975,6 +988,26 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1111159538958532392, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
+      propertyPath: tier
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1111159538958532392, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
+      propertyPath: upgradeStartPrice
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1111159538958532392, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
+      propertyPath: upgradePriceIncrement
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1111159538958532392, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
+      propertyPath: statBoostIncrementPercent
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1777104449497501191, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -1200,6 +1233,26 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4885539227564288389, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
+      propertyPath: tier
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4885539227564288389, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
+      propertyPath: upgradeStartPrice
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4885539227564288389, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
+      propertyPath: upgradePriceIncrement
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4885539227564288389, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
+      propertyPath: statBoostIncrementPercent
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4935200939372569662, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -1294,6 +1347,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6283840260722775922, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
+      propertyPath: tier
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6283840260722775922, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
+      propertyPath: upgradeStartPrice
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6283840260722775922, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
+      propertyPath: upgradePriceIncrement
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6283840260722775922, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
+      propertyPath: statBoostIncrementPercent
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 9008691475566130588, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
         type: 3}
@@ -1787,6 +1860,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1111159538958532392, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
+      propertyPath: tier
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1777104449497501191, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -2012,6 +2090,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4885539227564288389, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
+      propertyPath: tier
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4935200939372569662, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -2106,6 +2189,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6283840260722775922, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
+      propertyPath: tier
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6283840260722775922, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
+      propertyPath: column
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7479637884302928430, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
         type: 3}
@@ -2197,6 +2290,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1111159538958532392, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
+      propertyPath: tier
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1111159538958532392, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
+      propertyPath: upgradeStartPrice
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1111159538958532392, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
+      propertyPath: upgradePriceIncrement
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1111159538958532392, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
+      propertyPath: statBoostIncrementPercent
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1777104449497501191, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
         type: 3}
@@ -2418,6 +2531,26 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4885539227564288389, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
+      propertyPath: tier
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4885539227564288389, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
+      propertyPath: upgradeStartPrice
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4885539227564288389, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
+      propertyPath: upgradePriceIncrement
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4885539227564288389, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
+      propertyPath: statBoostIncrementPercent
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4935200939372569662, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -2512,6 +2645,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6283840260722775922, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
+      propertyPath: tier
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6283840260722775922, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
+      propertyPath: upgradeStartPrice
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6283840260722775922, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
+      propertyPath: upgradePriceIncrement
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6283840260722775922, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
+      propertyPath: statBoostIncrementPercent
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 9008691475566130588, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
         type: 3}
