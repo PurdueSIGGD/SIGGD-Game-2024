@@ -44,10 +44,9 @@ public class MasteryUpgradeBoxUI : MonoBehaviour
     public void Start()
     {
         upgradeNameText.text = upgradeType.ToString();
-        upgradeButton.onClick.AddListener(TryUpgradeLevel);
 
         spiritTracker = PersistentData.Instance.GetComponent<SpiritTracker>();
-        currentLevel = GetPowerLevel();
+        upgradeButton.onClick.AddListener(TryUpgradeLevel);
 
         UpdateUI();
     }
@@ -61,16 +60,20 @@ public class MasteryUpgradeBoxUI : MonoBehaviour
         return SaveManager.data.masteryUpgrades.upgradeLevels[(int) upgradeType];
     }
 
+    /// <summary>
+    /// Update the UI according to the current level
+    /// </summary>
     private void UpdateUI()
     {
+        currentLevel = GetPowerLevel();
+
         if (currentLevel < MasteryUpgradeShopUI.MAX_POWER_LEVEL) {
             upgradePriceText.text = "UPGRADE " + GetCurrentPrice();
-            upgradeButton.enabled = true;
         }
         else
         {
             upgradePriceText.text = "MAXED";
-            upgradeButton.enabled = false;
+            upgradeButton.onClick.RemoveListener(TryUpgradeLevel);
         }
 
         if (currentLevel == 0)
@@ -83,8 +86,13 @@ public class MasteryUpgradeBoxUI : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Spend spirits to upgrade, update UI and Save Manager if success
+    /// </summary>
     public void TryUpgradeLevel()
     {
+        Debug.Log("clocky");
+
         // Check if level maxed
         if (currentLevel == MasteryUpgradeShopUI.MAX_POWER_LEVEL)
         {
@@ -99,18 +107,27 @@ public class MasteryUpgradeBoxUI : MonoBehaviour
 
         // Success
         Debug.Log("Purchased " + spiritType + " " + tier + " " + upgradeType + ": " + currentLevel + "/" + 20);
-        UpdateUI();
 
         currentLevel++;
         SaveManager.data.masteryUpgrades.upgradeLevels[(int) upgradeType]++;
 
+        UpdateUI();
+
     }
 
+    /// <summary>
+    /// Return the current boost amount as a percent
+    /// </summary>
+    /// <returns></returns>
     public int GetStatBoostPercent()
     {
         return currentLevel * statBoostIncrementPercent;
     }
 
+    /// <summary>
+    /// Return the current price of the upgrade
+    /// </summary>
+    /// <returns></returns>
     public int GetCurrentPrice() {
         return upgradeStartPrice + upgradePriceIncrement * currentLevel;
     }

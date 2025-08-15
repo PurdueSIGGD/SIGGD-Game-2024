@@ -61,7 +61,6 @@ public class MasteryTierRowUI : MonoBehaviour
         if (spiritTracker.SpendSecuredSpirits(Spirit.SpiritType.Pink, unlockPrice)) {
             SaveManager.data.masteryUpgrades.numRowsUnlocked++;
             masteryShop.OpenUI();
-            masteryShop.UpdateSpiritCounters();
         }
     }
 

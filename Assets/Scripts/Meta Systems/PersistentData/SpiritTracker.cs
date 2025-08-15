@@ -10,6 +10,8 @@ public class SpiritTracker : MonoBehaviour
     public int yellowSpiritsCollected = 0;
     public int pinkSpiritsCollected = 0;
 
+    [SerializeField] SpiritTrackerCanvasUI trackerUI; // reference to tracker UI
+
     private void OnEnable()
     {
         Spirit.SpiritCollected += CollectSpirit;
@@ -50,6 +52,13 @@ public class SpiritTracker : MonoBehaviour
         {
             // Spend spirits
             SaveManager.data.spiritCounts[(int)spiritType] -= price;
+
+            // UI
+            if (trackerUI)
+            {
+                trackerUI.UpdateCounters();
+            }
+
             return true;
         }
     }
@@ -98,6 +107,12 @@ public class SpiritTracker : MonoBehaviour
                     return false;
                 }
                 break;
+        }
+
+        // UI
+        if (trackerUI)
+        {
+            trackerUI.UpdateCounters();
         }
 
         return true;
