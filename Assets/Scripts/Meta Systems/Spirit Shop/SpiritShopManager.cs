@@ -42,7 +42,7 @@ public class SpiritShopManager : MonoBehaviour, IScreenUI
 
     public void OnNextCloseCall(UnityAction action)
     {
-        Debug.Log("on next close call");
+        
     }
 
     // Start is called before the first frame update
