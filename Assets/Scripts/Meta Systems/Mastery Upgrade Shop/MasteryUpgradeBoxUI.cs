@@ -6,8 +6,27 @@ using UnityEngine.UI;
 
 public class MasteryUpgradeBoxUI : MonoBehaviour
 {
-    [SerializeField] private string upgradeName = "UPGRADE NAME";
-    [SerializeField] public Spirit.SpiritType type;
+    public enum UpgradeType {
+
+        // Tier 1
+        HASTE,
+        LETHALITY,
+        FORTITUDE,
+
+        // Tier 2
+        DEXTERITY,
+        PRECISION,
+        TENACITY,
+
+        // Tier 3
+        PROFICIENCY,
+        BRUTALITY,
+        RECOVERY
+
+    };
+
+    [SerializeField] public UpgradeType upgradeType;
+    [SerializeField] public Spirit.SpiritType spiritType;
     [SerializeField] public int tier; // 1, 2, or 3
     [SerializeField] private int statBoostIncrementPercent = 1;
     [SerializeField] private int upgradeStartPrice = 1;
@@ -19,33 +38,81 @@ public class MasteryUpgradeBoxUI : MonoBehaviour
     [SerializeField] private TMP_Text upgradeNameText;
     [SerializeField] private Button upgradeButton;
 
+    private int currentLevel = 0;
+    private SpiritTracker spiritTracker;
+
     public void Start()
     {
-        upgradeNameText.text = upgradeName;
+        upgradeNameText.text = upgradeType.ToString();
+        upgradeButton.onClick.AddListener(TryUpgradeLevel);
+
+        spiritTracker = PersistentData.Instance.GetComponent<SpiritTracker>();
+        currentLevel = GetPowerLevel();
+
+        UpdateUI();
     }
 
-    public void UpdateUI(int powerLevel)
+    /// <summary>
+    /// Get power level of an upgrade from Save Manager
+    /// </summary>
+    /// <param name="upgradeBoxUI"></param>
+    private int GetPowerLevel()
     {
+        return SaveManager.data.masteryUpgrades.upgradeLevels[(int) upgradeType];
+    }
 
-        upgradePriceText.text = "UPGRADE " + GetCurrentPrice(powerLevel);
-
-        if (powerLevel == 0)
-        {
-            upgradePercentText.text = "%0";
+    private void UpdateUI()
+    {
+        if (currentLevel < MasteryUpgradeShopUI.MAX_POWER_LEVEL) {
+            upgradePriceText.text = "UPGRADE " + GetCurrentPrice();
+            upgradeButton.enabled = true;
         }
         else
         {
-            upgradePercentText.text = "+" + GetStatBoostPercent(powerLevel) + "%";
+            upgradePriceText.text = "MAXED";
+            upgradeButton.enabled = false;
+        }
+
+        if (currentLevel == 0)
+        {
+            upgradePercentText.text = "0%";
+        }
+        else
+        {
+            upgradePercentText.text = "+" + GetStatBoostPercent() + "%";
         }
     }
 
-    public int GetStatBoostPercent(int powerLevel)
+    public void TryUpgradeLevel()
     {
-        return powerLevel * statBoostIncrementPercent;
+        // Check if level maxed
+        if (currentLevel == MasteryUpgradeShopUI.MAX_POWER_LEVEL)
+        {
+            return;
+        }
+
+        // Try to spend
+        if (!spiritTracker.SpendSecuredSpirits(spiritType, GetCurrentPrice()))
+        {
+            return;
+        }
+
+        // Success
+        Debug.Log("Purchased " + spiritType + " " + tier + " " + upgradeType + ": " + currentLevel + "/" + 20);
+        UpdateUI();
+
+        currentLevel++;
+        SaveManager.data.masteryUpgrades.upgradeLevels[(int) upgradeType]++;
+
     }
 
-    public int GetCurrentPrice(int powerLevel) {
-        return upgradeStartPrice + upgradePriceIncrement * powerLevel;
+    public int GetStatBoostPercent()
+    {
+        return currentLevel * statBoostIncrementPercent;
+    }
+
+    public int GetCurrentPrice() {
+        return upgradeStartPrice + upgradePriceIncrement * currentLevel;
     }
     
 }

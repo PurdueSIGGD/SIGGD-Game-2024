@@ -6,8 +6,12 @@ using UnityEngine.UI;
 
 public class MasteryUpgradeShopUI : MonoBehaviour
 {
+    public static int MAX_POWER_LEVEL = 20;
+
     [SerializeField] private List<MasteryTierRowUI> rows;
     [SerializeField] private List<SpiritCounterUI> spiritCounters;
+
+    [SerializeField] private List<MasteryUpgradeBoxUI> upgradeBoxes;
 
     [SerializeField] private Button closeButton;
 
@@ -15,7 +19,6 @@ public class MasteryUpgradeShopUI : MonoBehaviour
     void Start()
     {
         closeButton.onClick.AddListener(CloseUI);
-
         gameObject.SetActive(false);
     }
 
@@ -30,6 +33,8 @@ public class MasteryUpgradeShopUI : MonoBehaviour
         gameObject.SetActive(true);
 
         int rowsUnlocked = SaveManager.data.masteryUpgrades.numRowsUnlocked;
+
+        // Tier Rows 
 
         for (int i = 0; i < rows.Count; i++)
         {

@@ -36,7 +36,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 574.3, y: 83.5}
+  m_SizeDelta: {x: 400, y: 75}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!222 &4547135920773240471
 CanvasRenderer:
@@ -238,15 +238,15 @@ RectTransform:
   m_GameObject: {fileID: 3541371661675491428}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4011371813935469154}
   m_Father: {fileID: 5839891407964025750}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -230.1, y: -100}
+  m_AnchoredPosition: {x: -150, y: -50}
   m_SizeDelta: {x: 75, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3128400066770392080
@@ -302,7 +302,7 @@ MonoBehaviour:
   panel: {fileID: 4011371813935469154}
   hidePoint: {x: 0, y: 200, z: 0}
   moveDuration: 0.3
-  hoverDelay: 0.3
+  hoverDelay: 0.5
 --- !u!1 &3583451634651508086
 GameObject:
   m_ObjectHideFlags: 0
@@ -331,14 +331,14 @@ RectTransform:
   m_GameObject: {fileID: 3583451634651508086}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 5839891407964025750}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -100, y: -100}
+  m_AnchoredPosition: {x: -50, y: -50}
   m_SizeDelta: {x: 75, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8542897961286214228
@@ -566,6 +566,16 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  upgradeBoxes:
+  - {fileID: 2303433522398442456}
+  - {fileID: 5163515852956113794}
+  - {fileID: 6003365553766753653}
+  - {fileID: 1040530227265267697}
+  - {fileID: 6210387335397691307}
+  - {fileID: 4816592134242021724}
+  - {fileID: 3612080452209485493}
+  - {fileID: 7674062102231846639}
+  - {fileID: 9117534923480657944}
   closeButton: {fileID: 2660476101564113696}
 --- !u!114 &1020274189456580030
 MonoBehaviour:
@@ -995,6 +1005,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1111159538958532392, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
         type: 3}
+      propertyPath: upgradeType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1111159538958532392, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
       propertyPath: upgradeStartPrice
       value: 2
       objectReference: {fileID: 0}
@@ -1213,6 +1228,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2922841837878541410, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 3626118052798766904, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
+      propertyPath: m_Name
+      value: Blue 2 Upgrade Box
+      objectReference: {fileID: 0}
     - target: {fileID: 4788339874774927371, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -1237,6 +1262,16 @@ PrefabInstance:
         type: 3}
       propertyPath: tier
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4885539227564288389, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
+      propertyPath: spiritType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4885539227564288389, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
+      propertyPath: upgradeType
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4885539227564288389, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
         type: 3}
@@ -1355,6 +1390,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6283840260722775922, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
         type: 3}
+      propertyPath: spiritType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6283840260722775922, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
+      propertyPath: upgradeType
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6283840260722775922, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
       propertyPath: upgradeStartPrice
       value: 2
       objectReference: {fileID: 0}
@@ -1368,16 +1413,48 @@ PrefabInstance:
       propertyPath: statBoostIncrementPercent
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 7221320337436846799, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 7641907019627542370, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
+      propertyPath: m_Name
+      value: Red 2 Upgrade Box
+      objectReference: {fileID: 0}
+    - target: {fileID: 8128728978998645816, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 18
+      objectReference: {fileID: 0}
     - target: {fileID: 9008691475566130588, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
         type: 3}
       propertyPath: m_Name
       value: Mastery Tier Row 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9148432160761301397, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
+      propertyPath: m_Name
+      value: Yellow 2 Upgrade Box
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6ec23571c17f4b44c8e9ac555e966c3c, type: 3}
+--- !u!114 &1040530227265267697 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1111159538958532392, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+    type: 3}
+  m_PrefabInstance: {fileID: 79680560336410841}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44f3816109525f149b2caf964f62ca51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &2003893181276017294 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1933266034112055895, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
@@ -1396,6 +1473,30 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 79680560336410841}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &4816592134242021724 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4885539227564288389, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+    type: 3}
+  m_PrefabInstance: {fileID: 79680560336410841}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44f3816109525f149b2caf964f62ca51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6210387335397691307 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6283840260722775922, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+    type: 3}
+  m_PrefabInstance: {fileID: 79680560336410841}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44f3816109525f149b2caf964f62ca51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &911526588207981552
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1503,6 +1604,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1762010334540850875, guid: 4d92deffe6e05754aac10000e6a16c9d,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 2903244161940002014, guid: 4d92deffe6e05754aac10000e6a16c9d,
         type: 3}
@@ -1654,10 +1760,20 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4624323575247720161, guid: 4d92deffe6e05754aac10000e6a16c9d,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 18
+      objectReference: {fileID: 0}
     - target: {fileID: 5613353276919312197, guid: 4d92deffe6e05754aac10000e6a16c9d,
         type: 3}
       propertyPath: m_Name
       value: Buy Secured Spirits Row
+      objectReference: {fileID: 0}
+    - target: {fileID: 6112693852106371094, guid: 4d92deffe6e05754aac10000e6a16c9d,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 6282219375937695991, guid: 4d92deffe6e05754aac10000e6a16c9d,
         type: 3}
@@ -2070,6 +2186,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2922841837878541410, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 3626118052798766904, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
+      propertyPath: m_Name
+      value: Blue 1 Upgrade Box
+      objectReference: {fileID: 0}
     - target: {fileID: 4788339874774927371, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -2094,6 +2220,16 @@ PrefabInstance:
         type: 3}
       propertyPath: tier
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4885539227564288389, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
+      propertyPath: spiritType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4885539227564288389, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
+      propertyPath: upgradeType
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4935200939372569662, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
         type: 3}
@@ -2200,15 +2336,45 @@ PrefabInstance:
       propertyPath: column
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6283840260722775922, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
+      propertyPath: spiritType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6283840260722775922, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
+      propertyPath: upgradeType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7221320337436846799, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 18
+      objectReference: {fileID: 0}
     - target: {fileID: 7479637884302928430, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
         type: 3}
       propertyPath: m_PresetInfoIsWorld
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7641907019627542370, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
+      propertyPath: m_Name
+      value: Red 1 Upgrade Box
+      objectReference: {fileID: 0}
+    - target: {fileID: 8128728978998645816, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 18
+      objectReference: {fileID: 0}
     - target: {fileID: 9008691475566130588, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
         type: 3}
       propertyPath: m_Name
       value: Mastery Tier Row 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9148432160761301397, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
+      propertyPath: m_Name
+      value: Yellow 1 Upgrade Box
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2227,12 +2393,48 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0eb58ecd5cf4d5e479fdd9be6e52bf68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2303433522398442456 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1111159538958532392, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1197061549397757168}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44f3816109525f149b2caf964f62ca51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &3896108526593695550 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2777897629015413710, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
     type: 3}
   m_PrefabInstance: {fileID: 1197061549397757168}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5163515852956113794 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6283840260722775922, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1197061549397757168}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44f3816109525f149b2caf964f62ca51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6003365553766753653 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4885539227564288389, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1197061549397757168}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44f3816109525f149b2caf964f62ca51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4416643368222513565
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2295,6 +2497,11 @@ PrefabInstance:
         type: 3}
       propertyPath: tier
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1111159538958532392, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
+      propertyPath: upgradeType
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1111159538958532392, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
         type: 3}
@@ -2511,6 +2718,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2922841837878541410, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 3626118052798766904, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
+      propertyPath: m_Name
+      value: Blue 3 Upgrade Box
+      objectReference: {fileID: 0}
     - target: {fileID: 4788339874774927371, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -2535,6 +2752,16 @@ PrefabInstance:
         type: 3}
       propertyPath: tier
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4885539227564288389, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
+      propertyPath: spiritType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4885539227564288389, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
+      propertyPath: upgradeType
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4885539227564288389, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
         type: 3}
@@ -2653,6 +2880,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6283840260722775922, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
         type: 3}
+      propertyPath: spiritType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6283840260722775922, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
+      propertyPath: upgradeType
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6283840260722775922, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
       propertyPath: upgradeStartPrice
       value: 3
       objectReference: {fileID: 0}
@@ -2666,10 +2903,30 @@ PrefabInstance:
       propertyPath: statBoostIncrementPercent
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 7221320337436846799, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 7641907019627542370, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
+      propertyPath: m_Name
+      value: Red 3 Upgrade Box
+      objectReference: {fileID: 0}
+    - target: {fileID: 8128728978998645816, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 18
+      objectReference: {fileID: 0}
     - target: {fileID: 9008691475566130588, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
         type: 3}
       propertyPath: m_Name
       value: Mastery Tier Row 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9148432160761301397, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+        type: 3}
+      propertyPath: m_Name
+      value: Yellow 3 Upgrade Box
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2692,5 +2949,41 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0eb58ecd5cf4d5e479fdd9be6e52bf68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3612080452209485493 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1111159538958532392, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+    type: 3}
+  m_PrefabInstance: {fileID: 4416643368222513565}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44f3816109525f149b2caf964f62ca51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7674062102231846639 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6283840260722775922, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+    type: 3}
+  m_PrefabInstance: {fileID: 4416643368222513565}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44f3816109525f149b2caf964f62ca51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &9117534923480657944 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4885539227564288389, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
+    type: 3}
+  m_PrefabInstance: {fileID: 4416643368222513565}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44f3816109525f149b2caf964f62ca51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
