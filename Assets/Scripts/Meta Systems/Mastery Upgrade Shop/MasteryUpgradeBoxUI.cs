@@ -105,13 +105,13 @@ public class MasteryUpgradeBoxUI : MonoBehaviour
             return;
         }
 
-        // Success
-        Debug.Log("Purchased " + spiritType + " " + tier + " " + upgradeType + ": " + currentLevel + "/" + 20);
-
         currentLevel++;
         SaveManager.data.masteryUpgrades.upgradeLevels[(int) upgradeType]++;
 
         UpdateUI();
+
+        // Success
+        Debug.Log("Purchased " + spiritType + " " + tier + " " + upgradeType + ": " + currentLevel + "/" + 20);
 
     }
 
