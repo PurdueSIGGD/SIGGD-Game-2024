@@ -22,8 +22,7 @@ public class EnemySpawning : MonoBehaviour
     private List<GameObject> currentEnemies = new List<GameObject>();
     private int waveNumber;
     private int currentMaxWave;
-    private GameObject[] points;
-    
+    private GameObject[] spawnPoints;
     private bool showRemainingEnemy;
 
     private void Awake()
@@ -37,45 +36,60 @@ public class EnemySpawning : MonoBehaviour
         GameplayEventHolder.OnDeath += OnDeath;
     }
 
+
+    /// <summary>
+    /// Event to handle enemy deaths for the enemy spawn manager
+    /// </summary>
+    /// <param name="context"></param>
     public void OnDeath(DamageContext context)
     {
         if (currentEnemies.Contains(context.victim))
         {
-            Debug.Log(context.victim.name+" has died");
+            // remove the dead enemy from the list
+            Debug.Log(context.victim.name + " has died");
             currentEnemies.Remove(context.victim);
             EnemiesLeftUpdater.enemiesLeft = currentEnemies.Count;
+
+            // handle scenario when the last enemy left in the list dies
+            // increment wave if not last wave, else end room and activate door
             if (currentEnemies.Count <= 0)
             {
-                if(waveNumber + 1 < currentMaxWave)
+                if (waveNumber + 1 < currentMaxWave)
                 {
-                    SpawnEnemies();
+                    SpawnEnemyWave();
                     waveNumber += 1;
                 }
                 else
                 {
                     Door.activateDoor(true);
                     roomCleared = true;
-                    foreach (Door door in GameObject.FindObjectsOfType<Door>()) 
+                    foreach (Door door in GameObject.FindObjectsOfType<Door>())
                     {
                         Instantiate(doorIndicator, door.transform.position, Quaternion.identity);
                     }
-                    //Active Door
                 }
             }
         }
 
+        // hides 'enemies remaining' UI on player death
         if (context.victim.gameObject.CompareTag("Player"))
         {
             EnemiesLeftUpdater.enemiesLeft = -1;
         }
 
+        // show visual indicators on screen
         ShowIndicators();
     }
 
+
+    /// <summary>
+    /// Returns a random enemy gameobject following the rules of the current enemy pool and spawn chances
+    /// </summary>
+    /// <returns></returns>
     private GameObject GetNextEnemy()
     {
         float totalChance = 0.0f;
-        for(int i = 0; i < enemies.Length; i++)
+        for (int i = 0; i < enemies.Length; i++)
         {
             totalChance += Mathf.Lerp(enemies[i].GetStartChance(), enemies[i].GetEndChance(), GetComponent<LevelSwitching>().GetProgress());
         }
@@ -93,19 +107,33 @@ public class EnemySpawning : MonoBehaviour
         return null;
     }
 
-    private void SpawnEnemies()
+    /// <summary>
+    /// Spawns a single wave of enemies
+    /// </summary>
+    public void SpawnEnemyWave()
     {
-        reshufflePoints(ref points);
-        int enemiesSpawn = Mathf.FloorToInt(Random.Range(Mathf.Lerp(startMinEnemiesSpawn, endMinEnemiesSpawn, GetComponent<LevelSwitching>().GetProgress()), Mathf.Lerp(startMaxEnemiesSpawn, endMaxEnemiesSpawn, GetComponent<LevelSwitching>().GetProgress())));
-        //EnemiesLeftUpdater.enemiesLeft = enemiesSpawn;
-        for (int i = 0; i < Mathf.Min(enemiesSpawn, points.Length); i++)
+        // randomize spawn location order
+        ReshufflePoints(ref spawnPoints);
+
+        // calculate number of enemies to spawn
+        int numEnemies = Mathf.FloorToInt(
+            Random.Range(
+                Mathf.Lerp(startMinEnemiesSpawn, endMinEnemiesSpawn, GetComponent<LevelSwitching>().GetProgress()),
+                Mathf.Lerp(startMaxEnemiesSpawn, endMaxEnemiesSpawn, GetComponent<LevelSwitching>().GetProgress())
+            )
+        );
+
+        // spawn enemies
+        for (int i = 0; i < Mathf.Min(numEnemies, spawnPoints.Length); i++)
         {
             GameObject newEnemy = Instantiate(GetNextEnemy());
-            currentEnemies.Add(newEnemy);
-            newEnemy.transform.position = points[i].transform.position;
+            RegisterNewEnemy(newEnemy);
+            // currentEnemies.Add(newEnemy);
+            // newEnemy.transform.position = spawnPoints[i].transform.position;
         }
-        EnemiesLeftUpdater.enemiesLeft = currentEnemies.Count;
-        LevelProgressUpdater.progress = GetComponent<LevelSwitching>().GetProgress();
+        // // update UI to reflect new enemies
+        // EnemiesLeftUpdater.enemiesLeft = currentEnemies.Count;
+        // LevelProgressUpdater.progress = GetComponent<LevelSwitching>().GetProgress();
         ShowIndicators();
     }
 
@@ -139,11 +167,11 @@ public class EnemySpawning : MonoBehaviour
         currentEnemies = new List<GameObject>();
         waveNumber = 0;
         currentMaxWave = Mathf.RoundToInt(Mathf.Lerp((float)startWaveNum, (float)endWaveNum, GetComponent<LevelSwitching>().GetProgress()));
-        points = GameObject.FindGameObjectsWithTag("SpawnPoint");
-        SpawnEnemies();
+        spawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoint");
+        SpawnEnemyWave();
     }
 
-    void reshufflePoints(ref GameObject[] texts)
+    void ReshufflePoints(ref GameObject[] texts)
     {
         // Knuth shuffle algorithm :: courtesy of Wikipedia :)
         for (int t = 0; t < texts.Length; t++)
@@ -157,7 +185,7 @@ public class EnemySpawning : MonoBehaviour
 
     public GameObject[] GetSpawnPoints()
     {
-        return points;
+        return spawnPoints;
     }
 
     public void RegisterNewEnemy(GameObject enemy)
