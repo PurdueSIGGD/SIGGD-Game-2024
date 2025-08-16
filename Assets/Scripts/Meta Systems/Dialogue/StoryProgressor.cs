@@ -62,5 +62,6 @@ public class StoryProgresser : MonoBehaviour
                 Debug.LogError("Can not recognize ghost: " + ghost.ToLower() + " when attempting to progress story");
                 break;
         }
+        SaveManager.instance.Save();
     }
 }
