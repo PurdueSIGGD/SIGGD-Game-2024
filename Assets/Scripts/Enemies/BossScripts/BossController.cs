@@ -1,0 +1,116 @@
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+
+public class BossController : MonoBehaviour
+{
+
+    [Header("Spawning and Enemy parameters")]
+    EnemySpawning enemySpawner;
+    [SerializeField] bool spawningEnabled = false;
+    [SerializeField] int lowEnemyThreshold; // inclusive
+    [SerializeField] float lowEnemyWaveSpawnSec;
+    [SerializeField] float lowEnemyWaveSpawnTimer;
+    [SerializeField] DamageContext killAllEnemiesContext;
+
+    [Header("Boss Identity Parameters")]
+    GameObject bossObject;
+    Health bossHealth;
+    EnemyStateManager bossStateManager; // might be null
+
+    [Header("Boss State Parameters")]
+    bool initialized = false;
+    bool invincible = false;
+    bool defeated = false;
+
+    void OnDestroy()
+    {
+        DisableInvincibility();
+    }
+    void Start()
+    {
+        lowEnemyWaveSpawnTimer = lowEnemyWaveSpawnSec;
+    }
+    public void Initialize(GameObject bossObj)
+    {
+        bossObject = bossObj;
+        enemySpawner = GameObject.Find("PersistentData").GetComponent<EnemySpawning>();
+        bossHealth = bossObject.GetComponent<Health>();
+        bossStateManager = bossObject.GetComponent<EnemyStateManager>();
+        initialized = true;
+        // SpawnWave();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (!initialized) return;
+
+        if (spawningEnabled)
+        {
+            int numEnemies = GetNumEnemies();
+            print("NUM ENEMIES: " + numEnemies);
+            print("ENEMY: " + EnemySpawning.enemies[0]);
+
+            // spawn wave if all enemies dead, or enemies left alive for too long
+            if ((numEnemies <= 0) || (lowEnemyWaveSpawnTimer <= 0))
+            {
+                lowEnemyWaveSpawnTimer = lowEnemyWaveSpawnSec;
+                SpawnWave();
+            }
+            if (numEnemies <= lowEnemyThreshold)
+                lowEnemyWaveSpawnTimer -= Time.deltaTime;
+        }
+    }
+    public void EnableInvincibility()
+    {
+        if (invincible) return;
+        GameplayEventHolder.OnDamageFilter.Add(BossInvincibleDamageFilter);
+        invincible = true;
+    }
+    public void DisableInvincibility()
+    {
+        if (!invincible) return;
+        GameplayEventHolder.OnDamageFilter.Remove(BossInvincibleDamageFilter);
+        invincible = false;
+    }
+    public void BossInvincibleDamageFilter(ref DamageContext context)
+    {
+        if (context.victim == bossHealth.gameObject)
+        {
+            context.damage = 0;
+        }
+    }
+    public void StartDefeatSequence()
+    {
+        defeated = true;
+        StopSpawning();
+        KillAllEnemies();
+    }
+    public void StartSpawning()
+    {
+        spawningEnabled = true;
+        lowEnemyWaveSpawnTimer = lowEnemyWaveSpawnSec;
+    }
+    public void StopSpawning()
+    {
+        spawningEnabled = false;
+    }
+    public void SpawnEnemy(Vector2 position)
+    {
+        enemySpawner.SpawnEnemy(position);
+    }
+    public void SpawnWave()
+    {
+        enemySpawner.SpawnEnemyWave();
+    }
+    public void KillAllEnemies()
+    {
+        enemySpawner.KillAllEnemies(killAllEnemiesContext);
+    }
+    public int GetNumEnemies()
+    {
+        return enemySpawner.GetCurrentEnemies().Count();
+    }
+}

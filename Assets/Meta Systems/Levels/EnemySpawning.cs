@@ -22,7 +22,7 @@ public class EnemySpawning : MonoBehaviour
     private List<GameObject> currentEnemies = new List<GameObject>();
     private int waveNumber;
     private int currentMaxWave;
-    private GameObject[] spawnPoints;
+    [SerializeField] private GameObject[] spawnPoints;
     private bool showRemainingEnemy;
 
     [Header("Boss Room Override")]
@@ -109,9 +109,9 @@ public class EnemySpawning : MonoBehaviour
     /// Spawns a single enemy
     /// General purpose single spawning machine 
     /// </summary>
-    public void SpawnEnemy(GameObject spawnPoint)
+    public void SpawnEnemy(Vector2 spawnPosition)
     {
-        GameObject newEnemy = Instantiate(GetNextEnemy(), spawnPoint.transform.position, Quaternion.identity);
+        GameObject newEnemy = Instantiate(GetNextEnemy(), spawnPosition, Quaternion.identity);
         RegisterNewEnemy(newEnemy);
     }
     /// <summary>
@@ -134,11 +134,19 @@ public class EnemySpawning : MonoBehaviour
         // spawn enemies
         for (int i = 0; i < Mathf.Min(numEnemies, spawnPoints.Length); i++)
         {
-            SpawnEnemy(spawnPoints[i]);
+            SpawnEnemy(spawnPoints[i].transform.position);
         }
         // // update UI to reflect new level progress
         LevelProgressUpdater.progress = GetComponent<LevelSwitching>().GetProgress();
         ShowIndicators();
+    }
+    public void KillAllEnemies(DamageContext context)
+    {
+        foreach (EnemySpawn enemy in enemies)
+        {
+            Health enemyHp = enemy.GetEnemy().GetComponent<Health>();
+            if (enemyHp != null) enemyHp.Kill(context);
+        }
     }
     /// <summary>
     /// Marks the completion of a room by opening the door to the next room, or the end of the run.
@@ -172,7 +180,8 @@ public class EnemySpawning : MonoBehaviour
         spawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoint");
 
         // initialize enemy spawning if no boss room override
-        if (!GetBossRoomOverride()) SpawnEnemyWave();
+        if (!GetBossRoomOverride())
+            SpawnEnemyWave();
     }
     private void ActivateBossRoomOverride()
     {
