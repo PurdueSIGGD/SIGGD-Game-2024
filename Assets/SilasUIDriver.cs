@@ -21,13 +21,37 @@ public class SilasUIDriver : GhostUIDriver
         updateBasicAbility();
         updateSpecialAbility();
         updateSkill1();
+        updateSkill2();
         if (ghostIdentity.IsSelected()) updateMeter();
-
     }
 
     private void updateBasicAbility()
     {
+        basicAbilityUIManager.setNumberActive(false);
 
+        // Apothecary casting
+        if (manager.basic != null && manager.basic.isHealing)
+        {
+            basicAbilityUIManager.setAbilityEnabled(true);
+            basicAbilityUIManager.setMeterValue((stats.ComputeValue("Basic Cast Time") - manager.basic.timer), stats.ComputeValue("Basic Cast Time"));
+            basicAbilityUIManager.setChargeWidgetActive(false);
+            return;
+        }
+
+        // Apothecary ready
+        if (manager.healReady)
+        {
+            basicAbilityUIManager.setAbilityEnabled(true);
+            basicAbilityUIManager.setMeterValue(1f, 1f);
+            basicAbilityUIManager.setChargeWidgetActive(false);
+            return;
+        }
+
+        // Apothecary charging
+        basicAbilityUIManager.setAbilityEnabled(false);
+        basicAbilityUIManager.setMeterValue(manager.ingredientsCollected, stats.ComputeValue("Basic Ingredient Cost"));
+        basicAbilityUIManager.setChargeWidgetActive(true);
+        basicAbilityUIManager.setChargeValue(stats.ComputeValue("Basic Ingredient Cost") - manager.ingredientsCollected, stats.ComputeValue("Basic Ingredient Cost") - manager.ingredientsCollected);
     }
 
     private void updateSpecialAbility()
@@ -44,8 +68,30 @@ public class SilasUIDriver : GhostUIDriver
 
     }
 
-    private void updateMeter()
+    private void updateSkill2()
     {
 
+    }
+
+    private void updateMeter()
+    {
+        meterUIManager.setMeterValue(manager.ingredientsCollected, stats.ComputeValue("Basic Ingredient Cost"));
+        meterUIManager.setMeterColor(ghostIdentity.GetCharacterInfo().primaryColor);
+        if (manager.ingredientsCollected >= stats.ComputeValue("Basic Ingredient Cost"))
+        {
+            meterUIManager.setMeterColor(ghostIdentity.GetCharacterInfo().highlightColor);
+        }
+        meterUIManager.setSubMeterValue(0f, 1f);
+        meterUIManager.resetSubMeterColor();
+        meterUIManager.activateWidget();
+
+        /*
+        if (manager.ingredientsCollected > 0)
+        {
+            meterUIManager.activateWidget();
+            return;
+        }
+        meterUIManager.deactivateWidget(0.3f);
+        */
     }
 }

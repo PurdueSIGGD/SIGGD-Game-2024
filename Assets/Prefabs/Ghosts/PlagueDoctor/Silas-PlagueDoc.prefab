@@ -160,7 +160,7 @@ SpriteRenderer:
   m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6,
     type: 3}
-  m_Color: {r: 0.9622642, g: 0.830259, b: 0.086240634, a: 0.5882353}
+  m_Color: {r: 1, g: 0.7254902, b: 0.6, a: 0.5882353}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -272,6 +272,12 @@ GameObject:
   - component: {fileID: 3640821941058779060}
   - component: {fileID: 7594217564035337209}
   - component: {fileID: 8206914415416009612}
+  - component: {fileID: 3679688963809777540}
+  - component: {fileID: 8120697266993777728}
+  - component: {fileID: 540919338020910009}
+  - component: {fileID: 1641617525109024155}
+  - component: {fileID: 827586359058410053}
+  - component: {fileID: 9164366307553013209}
   m_Layer: 17
   m_Name: Silas-PlagueDoc
   m_TagString: Ghost
@@ -415,8 +421,18 @@ MonoBehaviour:
   statList:
   - name: Basic Cooldown
     value: 1
+  - name: Basic Ingredient Drop Chance
+    value: 50
+  - name: Basic Bonus Ingredient Drop Chance
+    value: 15
+  - name: Basic Ingredient Cost
+    value: 20
+  - name: Basic Cast Time
+    value: 0.75
+  - name: Basic Healing
+    value: 10
   - name: Special Cooldown
-    value: 7
+    value: 8
   - name: Special Max Charges
     value: 2
   - name: Special Bomb Speed
@@ -438,7 +454,7 @@ MonoBehaviour:
   - name: Special Minibomb Max Fuse Time
     value: 1
   - name: Blight Duration
-    value: 5
+    value: 4
   - name: Blight DPS
     value: 3
   - name: Blight Slow
@@ -449,6 +465,10 @@ MonoBehaviour:
     value: 60
   - name: Blight Empowered Duration
     value: 1.5
+  - name: Blight Max Quicksilver Damage Percent
+    value: 100
+  - name: Blight Max Quicksilver Time
+    value: 3.5
   defaultController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
   ghostController: {fileID: 9100000, guid: afe4d43a7f12e7b41a5ccdc9be4eeae1, type: 2}
   blightPotion: {fileID: 4699030029396985124, guid: e2fab6792587ec249a70e1b7a5314fc9,
@@ -480,6 +500,8 @@ MonoBehaviour:
     ghostID: 5
   bombExplosionVFX: {fileID: 7966241730260626198, guid: a5295bc6cb8948243b75f99e5a18cc48,
     type: 3}
+  basicIngredientPickup: {fileID: 2971365794380548036, guid: e1198e9c224ebd94aa4b35eb82458afa,
+    type: 3}
   basicHealing:
     healing: 0
     actionID: 13
@@ -488,6 +510,9 @@ MonoBehaviour:
     ghostID: 5
   special: {fileID: 0}
   specialCharges: 0
+  basic: {fileID: 0}
+  ingredientsCollected: 0
+  healReady: 0
 --- !u!114 &3640821941058779060
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -537,3 +562,101 @@ MonoBehaviour:
   skill1UIManager: {fileID: 0}
   skill2UIManager: {fileID: 0}
   meterUIManager: {fileID: 0}
+--- !u!114 &3679688963809777540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8202687041202382142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6751ace73ed618a489adcadc57478e19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skills:
+  - {fileID: 540919338020910009}
+  - {fileID: 1641617525109024155}
+  - {fileID: 827586359058410053}
+  - {fileID: 9164366307553013209}
+  - {fileID: 8120697266993777728}
+  - {fileID: 8120697266993777728}
+  - {fileID: 8120697266993777728}
+  startAtLevel: 0
+--- !u!114 &8120697266993777728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8202687041202382142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cded2aefff03514c80651e9f3c8ea75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillSO: {fileID: 11400000, guid: 64a4fab7202a9864a91fa59ac48d2e37, type: 2}
+--- !u!114 &540919338020910009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8202687041202382142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c31d1f7edf363894ab4869e681b0dfbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillSO: {fileID: 11400000, guid: 5ed8899fcb9f4424a90e108d725cd291, type: 2}
+  values: 000000001e0000003c0000005a00000078000000
+--- !u!114 &1641617525109024155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8202687041202382142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5675e015cdc6b9d43bcc40eee6265790, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillSO: {fileID: 11400000, guid: d81b09c5b9b153f49a9e75b1eb4c9976, type: 2}
+  values: 0000000014000000280000003c00000050000000
+--- !u!114 &827586359058410053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8202687041202382142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17e71d7cb87c832459cc018636995a5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillSO: {fileID: 11400000, guid: 33b36582baf4f2c4bb0ac4cadb9826aa, type: 2}
+  values: 0000000004000000080000000c00000010000000
+  lowChanceMultiplier: 0.5
+--- !u!114 &9164366307553013209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8202687041202382142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a97d7ae780567e40ada643742204e0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillSO: {fileID: 11400000, guid: 8a095e137bd418a488fff7d80dab3396, type: 2}
+  values:
+  - 0
+  - 0.7
+  - 1.4
+  - 2.1
+  - 2.8
+  poisonCloud: {fileID: 5415055795623798678, guid: 849f686edad280f468e64aebf2a93e61,
+    type: 3}

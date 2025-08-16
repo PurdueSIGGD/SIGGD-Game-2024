@@ -34,6 +34,7 @@ public class Bottle : MonoBehaviour, IStatList
         foreach (Collider2D enemy in enemiesHit)
         {
             enemy.transform.gameObject.GetComponent<Health>().Damage(manager.bombDamage, PlayerID.instance.gameObject);
+            if (enemy.gameObject == null) continue;
             enemy.transform.gameObject.GetComponent<EnemyStateManager>().ApplyKnockback(Vector3.up, 3f, 0.3f);
             enemy.transform.gameObject.GetComponent<EnemyStateManager>().ApplyKnockback(enemy.transform.position - transform.position, 2f, 0.3f);
             if (enemy.GetComponentInChildren<BlightDebuff>() == null)
@@ -59,6 +60,9 @@ public class Bottle : MonoBehaviour, IStatList
         CameraShake.instance.Shake(0.15f, 10f, 0f, 10f, new Vector2(Random.Range(-0.5f, 0.5f), 1f));
         GameObject explosion = Instantiate(manager.bombExplosionVFX, transform.position, Quaternion.identity);
         explosion.GetComponent<RingExplosionHandler>().playRingExplosion(manager.GetStats().ComputeValue("Special Bomb Radius"), manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
+
+        // Spawn Noxious Fumes poison cloud
+        manager.GetComponent<NoxiousFumes>().SpawnPoisonCloud(transform.position, manager.GetStats().ComputeValue("Special Bomb Radius"), manager.GetStats().ComputeValue("Blight Duration"));
         
         // Spawn Minibombs
         for (int i = 0; i < manager.GetStats().ComputeValue("Special Minibomb Count"); i++)
@@ -111,6 +115,9 @@ public class Bottle : MonoBehaviour, IStatList
         CameraShake.instance.Shake(0.075f, 10f, 0f, 10f, new Vector2(Random.Range(-0.5f, 0.5f), 1f));
         GameObject explosion = Instantiate(manager.bombExplosionVFX, transform.position, Quaternion.identity);
         explosion.GetComponent<RingExplosionHandler>().playRingExplosion(manager.GetStats().ComputeValue("Special Minibomb Radius"), manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
+
+        // Spawn Noxious Fumes poison cloud
+        manager.GetComponent<NoxiousFumes>().SpawnPoisonCloud(transform.position, manager.GetStats().ComputeValue("Special Minibomb Radius"), manager.GetStats().ComputeValue("Blight Duration"));
 
         Destroy(gameObject);
     }

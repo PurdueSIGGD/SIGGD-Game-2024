@@ -16,7 +16,8 @@ public class BlightDebuff : MonoBehaviour
     private SilasManager manager;
     private bool isEmpowered = false;
     private float empoweredDuration = 999f;
-
+    private float timeApplied = 0f;
+    private bool isFlyer = false;
 
 
     private void OnEnable()
@@ -37,12 +38,18 @@ public class BlightDebuff : MonoBehaviour
         empoweredBlightParticles.SetActive(false);
         health = gameObject.GetComponentInParent<Health>();
         timer = interval;
-        damageContext.damage = damage;
+        isFlyer = gameObject.GetComponentInParent<EnemyStateManager>().isFlyer;
     }
 
     // Update is called once per frame
     void Update()
     {
+        timeApplied += Time.deltaTime;
+        float quicksilverDamageBoost = Mathf.Lerp(100f, manager.GetStats().ComputeValue("Blight Max Quicksilver Damage Percent"),
+                                                  (timeApplied >= manager.GetStats().ComputeValue("Blight Max Quicksilver Time")) ? 1f : (timeApplied / manager.GetStats().ComputeValue("Blight Max Quicksilver Time")));
+        damageContext.damage = damage * (quicksilverDamageBoost / 100f);
+
+        // Empowered timer
         if (isEmpowered)
         {
             empoweredDuration -= Time.deltaTime;
@@ -52,6 +59,7 @@ public class BlightDebuff : MonoBehaviour
             }
         }
 
+        // Blight duration timer
         if (duration <= 0f)
         {
             if (isEmpowered) StopEmpoweringDebuff();
@@ -60,11 +68,12 @@ public class BlightDebuff : MonoBehaviour
             {
                 health.Damage(damageContext, PlayerID.instance.gameObject);
             }
-            gameObject.GetComponentInParent<StatManager>().ModifyStat("Speed", Mathf.FloorToInt(manager.GetStats().ComputeValue("Blight Slow")));
+            gameObject.GetComponentInParent<StatManager>().ModifyStat((isFlyer) ? "FLIGHT_FORCE" : "Speed", Mathf.FloorToInt(manager.GetStats().ComputeValue("Blight Slow")));
             Destroy(gameObject);
         }
         duration -= Time.deltaTime;
 
+        // Blight damage over time interval
         if (timer > 0)
         {
             timer -= Time.deltaTime;
@@ -92,7 +101,7 @@ public class BlightDebuff : MonoBehaviour
         health = gameObject.GetComponentInParent<Health>();
         timer = 0f;
 
-        gameObject.GetComponentInParent<StatManager>().ModifyStat("Speed", -Mathf.FloorToInt(manager.GetStats().ComputeValue("Blight Slow")));
+        gameObject.GetComponentInParent<StatManager>().ModifyStat((isFlyer) ? "FLIGHT_FORCE" : "Speed", -Mathf.FloorToInt(manager.GetStats().ComputeValue("Blight Slow")));
     }
 
     public void AddDebuffTime(float time)
@@ -120,11 +129,10 @@ public class BlightDebuff : MonoBehaviour
             }
             isEmpowered = true;
             damage = manager.GetStats().ComputeValue("Blight Empowered DPS") * interval;
-            damageContext.damage = damage;
             empoweredDuration = manager.GetStats().ComputeValue("Blight Empowered Duration");
 
             int addedSlow = Mathf.FloorToInt(manager.GetStats().ComputeValue("Blight Empowered Slow")) - Mathf.FloorToInt(manager.GetStats().ComputeValue("Blight Slow"));
-            gameObject.GetComponentInParent<StatManager>().ModifyStat("Speed", -addedSlow);
+            gameObject.GetComponentInParent<StatManager>().ModifyStat((isFlyer) ? "FLIGHT_FORCE" : "Speed", -addedSlow);
 
             empoweredBlightParticles.SetActive(true);
         }
@@ -135,10 +143,9 @@ public class BlightDebuff : MonoBehaviour
     {
         isEmpowered = false;
         damage = manager.GetStats().ComputeValue("Blight DPS") * interval;
-        damageContext.damage = damage;
 
         int addedSlow = Mathf.FloorToInt(manager.GetStats().ComputeValue("Blight Empowered Slow")) - Mathf.FloorToInt(manager.GetStats().ComputeValue("Blight Slow"));
-        gameObject.GetComponentInParent<StatManager>().ModifyStat("Speed", addedSlow);
+        gameObject.GetComponentInParent<StatManager>().ModifyStat((isFlyer) ? "FLIGHT_FORCE" : "Speed", addedSlow);
 
         empoweredBlightParticles.SetActive(false);
     }
