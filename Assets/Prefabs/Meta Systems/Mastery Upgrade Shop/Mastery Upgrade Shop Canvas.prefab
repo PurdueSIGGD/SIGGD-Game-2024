@@ -571,9 +571,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 6292452947350592056}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78281fe8d22d5384ca168e6493baf1d1, type: 3}
+  m_Script: {fileID: 11500000, guid: e350edce0322cf942bc051cf27ba51f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rows:
+  - {fileID: 740989559591012007}
+  - {fileID: 2003893181276017294}
+  - {fileID: 2855078243637072842}
+  - {fileID: 2312140485596165179}
+  closeButton: {fileID: 2660476101564113696}
 --- !u!1 &6938189913327002146
 GameObject:
   m_ObjectHideFlags: 0
@@ -1216,7 +1222,7 @@ PrefabInstance:
     - target: {fileID: 2922841837878541410, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
         type: 3}
       propertyPath: m_fontSize
-      value: 42.6
+      value: 33.2
       objectReference: {fileID: 0}
     - target: {fileID: 3626118052798766904, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
         type: 3}
@@ -1401,7 +1407,7 @@ PrefabInstance:
     - target: {fileID: 7221320337436846799, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
         type: 3}
       propertyPath: m_fontSize
-      value: 42.6
+      value: 33.2
       objectReference: {fileID: 0}
     - target: {fileID: 7641907019627542370, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
         type: 3}
@@ -1411,7 +1417,7 @@ PrefabInstance:
     - target: {fileID: 8128728978998645816, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
         type: 3}
       propertyPath: m_fontSize
-      value: 42.6
+      value: 33.2
       objectReference: {fileID: 0}
     - target: {fileID: 9008691475566130588, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
         type: 3}
@@ -1717,7 +1723,7 @@ PrefabInstance:
     - target: {fileID: 2922841837878541410, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
         type: 3}
       propertyPath: m_fontSize
-      value: 42.6
+      value: 33.2
       objectReference: {fileID: 0}
     - target: {fileID: 3626118052798766904, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
         type: 3}
@@ -1923,7 +1929,7 @@ PrefabInstance:
     - target: {fileID: 7221320337436846799, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
         type: 3}
       propertyPath: m_fontSize
-      value: 42.6
+      value: 33.2
       objectReference: {fileID: 0}
     - target: {fileID: 7479637884302928430, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
         type: 3}
@@ -1938,7 +1944,7 @@ PrefabInstance:
     - target: {fileID: 8128728978998645816, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
         type: 3}
       propertyPath: m_fontSize
-      value: 42.6
+      value: 33.2
       objectReference: {fileID: 0}
     - target: {fileID: 9008691475566130588, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
         type: 3}
@@ -2553,10 +2559,50 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0.94509804
       objectReference: {fileID: 0}
+    - target: {fileID: 1946060788760016965, guid: 08d6a9e1140407646800ae028ab2b2fb,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1946060788760016965, guid: 08d6a9e1140407646800ae028ab2b2fb,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1946060788760016965, guid: 08d6a9e1140407646800ae028ab2b2fb,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1946060788760016965, guid: 08d6a9e1140407646800ae028ab2b2fb,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2245028318730834170, guid: 08d6a9e1140407646800ae028ab2b2fb,
         type: 3}
       propertyPath: m_Name
       value: Buy Yellow Bulk Spirits Box
+      objectReference: {fileID: 0}
+    - target: {fileID: 2561683383950719672, guid: 08d6a9e1140407646800ae028ab2b2fb,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2561683383950719672, guid: 08d6a9e1140407646800ae028ab2b2fb,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2561683383950719672, guid: 08d6a9e1140407646800ae028ab2b2fb,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2561683383950719672, guid: 08d6a9e1140407646800ae028ab2b2fb,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3988475206185136019, guid: 08d6a9e1140407646800ae028ab2b2fb,
         type: 3}
@@ -3000,7 +3046,7 @@ PrefabInstance:
     - target: {fileID: 2922841837878541410, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
         type: 3}
       propertyPath: m_fontSize
-      value: 42.6
+      value: 33.2
       objectReference: {fileID: 0}
     - target: {fileID: 3626118052798766904, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
         type: 3}
@@ -3185,7 +3231,7 @@ PrefabInstance:
     - target: {fileID: 7221320337436846799, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
         type: 3}
       propertyPath: m_fontSize
-      value: 42.6
+      value: 33.2
       objectReference: {fileID: 0}
     - target: {fileID: 7479637884302928430, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
         type: 3}
@@ -3200,7 +3246,7 @@ PrefabInstance:
     - target: {fileID: 8128728978998645816, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
         type: 3}
       propertyPath: m_fontSize
-      value: 42.6
+      value: 33.2
       objectReference: {fileID: 0}
     - target: {fileID: 9008691475566130588, guid: 6ec23571c17f4b44c8e9ac555e966c3c,
         type: 3}
@@ -3258,10 +3304,50 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1946060788760016965, guid: 08d6a9e1140407646800ae028ab2b2fb,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1946060788760016965, guid: 08d6a9e1140407646800ae028ab2b2fb,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1946060788760016965, guid: 08d6a9e1140407646800ae028ab2b2fb,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1946060788760016965, guid: 08d6a9e1140407646800ae028ab2b2fb,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2245028318730834170, guid: 08d6a9e1140407646800ae028ab2b2fb,
         type: 3}
       propertyPath: m_Name
       value: Buy Bulk Red Spirits Box
+      objectReference: {fileID: 0}
+    - target: {fileID: 2561683383950719672, guid: 08d6a9e1140407646800ae028ab2b2fb,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2561683383950719672, guid: 08d6a9e1140407646800ae028ab2b2fb,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2561683383950719672, guid: 08d6a9e1140407646800ae028ab2b2fb,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2561683383950719672, guid: 08d6a9e1140407646800ae028ab2b2fb,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3988475206185136019, guid: 08d6a9e1140407646800ae028ab2b2fb,
         type: 3}
@@ -3437,10 +3523,50 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0.26125845
       objectReference: {fileID: 0}
+    - target: {fileID: 1946060788760016965, guid: 08d6a9e1140407646800ae028ab2b2fb,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1946060788760016965, guid: 08d6a9e1140407646800ae028ab2b2fb,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1946060788760016965, guid: 08d6a9e1140407646800ae028ab2b2fb,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1946060788760016965, guid: 08d6a9e1140407646800ae028ab2b2fb,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2245028318730834170, guid: 08d6a9e1140407646800ae028ab2b2fb,
         type: 3}
       propertyPath: m_Name
       value: Buy Bulk Red Spirits Box
+      objectReference: {fileID: 0}
+    - target: {fileID: 2561683383950719672, guid: 08d6a9e1140407646800ae028ab2b2fb,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2561683383950719672, guid: 08d6a9e1140407646800ae028ab2b2fb,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2561683383950719672, guid: 08d6a9e1140407646800ae028ab2b2fb,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2561683383950719672, guid: 08d6a9e1140407646800ae028ab2b2fb,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3988475206185136019, guid: 08d6a9e1140407646800ae028ab2b2fb,
         type: 3}

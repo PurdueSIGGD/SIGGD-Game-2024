@@ -91,8 +91,6 @@ public class MasteryUpgradeBoxUI : MonoBehaviour
     /// </summary>
     public void TryUpgradeLevel()
     {
-        Debug.Log("clocky");
-
         // Check if level maxed
         if (currentLevel == MasteryUpgradeShopUI.MAX_POWER_LEVEL)
         {
