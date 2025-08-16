@@ -106,13 +106,21 @@ public class MasteryUpgradeBoxUI : MonoBehaviour
         }
 
         currentLevel++;
-        SaveManager.data.masteryUpgrades.upgradeLevels[(int) upgradeType]++;
+        SaveManager.data.masteryUpgrades.upgradeLevels[(int)upgradeType]++;
 
         UpdateUI();
 
-        // Success
-        Debug.Log("Purchased " + spiritType + " " + tier + " " + upgradeType + ": " + currentLevel + "/" + 20);
+        // Success - apply upgrade
+        ApplyUpgrade();
 
+    }
+
+    /// <summary>
+    /// Apply the upgrade boost - does not do anything yet
+    /// </summary>
+    private void ApplyUpgrade()
+    {
+        Debug.Log("Purchased " + spiritType + " " + tier + " " + upgradeType + ": " + currentLevel + "/" + 20);
     }
 
     /// <summary>

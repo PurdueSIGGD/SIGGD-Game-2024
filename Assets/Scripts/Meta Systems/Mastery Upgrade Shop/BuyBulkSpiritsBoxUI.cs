@@ -29,7 +29,7 @@ public class BuyBulkSpiritsBoxUI : MonoBehaviour
     {
         bool success = spiritTracker.SpendSecuredSpirits(Spirit.SpiritType.Pink, bulkPrice);
         if (success) {
-            SaveManager.data.spiritCounts[(int) spiritType] += bulkAmount;
+            spiritTracker.AddSecuredSpirits(spiritType, bulkAmount);
         }
     }
 }

@@ -119,6 +119,20 @@ public class SpiritTracker : MonoBehaviour
     }
 
     /// <summary>
+    /// Add a certain number of one color of spirits (secured)
+    /// </summary>
+    /// <param name="type"></param>
+    /// <param name="numSpirits"></param>
+    public void AddSecuredSpirits(SpiritType type, int numSpirits)
+    {
+        SaveManager.data.spiritCounts[(int)type] += numSpirits;
+        if (trackerUI)
+        {
+            trackerUI.UpdateCounters();
+        }
+    }
+
+    /// <summary>
     /// Call when user chooses to transfer collected spirits to the Hub
     /// </summary>
     public void SaveSpiritCounts()
