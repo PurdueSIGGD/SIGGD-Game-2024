@@ -45,10 +45,10 @@ public class Health : MonoBehaviour, IDamageable, IStatList
             Debug.Log("After Filter " + filter + ": " + context.damage);
         }
 
-        
+
         // Resistance
         context.damage *= 1.0f - damageResistance;
-        
+
         Debug.Log("Damaged: " + context.damage);
 
         // Reduce current health
@@ -129,7 +129,6 @@ public class Health : MonoBehaviour, IDamageable, IStatList
 
         //Trigger Events
         GameplayEventHolder.OnDeath?.Invoke(context);
-
         StartCoroutine(DeathCoroutine(context));
     }
 

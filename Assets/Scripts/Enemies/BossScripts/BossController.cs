@@ -28,25 +28,17 @@ public class BossController : MonoBehaviour
     {
         DisableInvincibility();
     }
-    void Start()
+    public void Start()
     {
         lowEnemyWaveSpawnTimer = lowEnemyWaveSpawnSec;
-    }
-    public void Initialize(GameObject bossObj)
-    {
-        bossObject = bossObj;
         enemySpawner = GameObject.Find("PersistentData").GetComponent<EnemySpawning>();
-        bossHealth = bossObject.GetComponent<Health>();
-        bossStateManager = bossObject.GetComponent<EnemyStateManager>();
-        initialized = true;
-        // SpawnWave();
+        bossHealth = GetComponent<Health>();
+        bossStateManager = GetComponent<EnemyStateManager>();
     }
 
     // Update is called once per frame
-    void Update()
+    public void Update()
     {
-        if (!initialized) return;
-
         if (spawningEnabled)
         {
             int numEnemies = GetNumEnemies();

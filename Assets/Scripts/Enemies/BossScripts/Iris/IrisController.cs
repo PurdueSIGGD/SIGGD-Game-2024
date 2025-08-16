@@ -2,24 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IrisController : MonoBehaviour
+public class IrisController : BossController
 {
-    [SerializeField] GameObject bossControllerPrefab;
-    BossController bossController;
     [SerializeField] bool startSpawn;
 
-    // Start is called before the first frame update
-    void Start()
+    public new void Start()
     {
-        GameObject bossControllerInstance = Instantiate(bossControllerPrefab, transform.position, Quaternion.identity);
-        bossController = bossControllerInstance.GetComponent<BossController>();
-        bossController.Initialize(this.gameObject);
+        base.Start();
     }
-    void Update()
+    public new void Update()
     {
+        base.Update();
         if (startSpawn)
         {
-            bossController.StartSpawning();
+            StartSpawning();
             startSpawn = false;
         }
     }
