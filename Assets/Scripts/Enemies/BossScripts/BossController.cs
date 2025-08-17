@@ -8,16 +8,17 @@ public class BossController : MonoBehaviour
 
     [Header("Spawning and Enemy parameters")]
     EnemySpawning enemySpawner;
-    [SerializeField] bool spawningEnabled = false;
+    [SerializeField] bool waveSpawningEnabled = false;
     [SerializeField] int lowEnemyThreshold; // inclusive
     [SerializeField] float lowEnemyWaveSpawnSec;
-    [SerializeField] float lowEnemyWaveSpawnTimer;
+    float lowEnemyWaveSpawnTimer;
+    [SerializeField] bool passiveSpawningEnabled = false;
+    [SerializeField] float passiveSpawnTimeSec;
+    float passiveSpawnTimer;
     [SerializeField] DamageContext killAllEnemiesContext;
     [SerializeField] int waveCounter = 0;
     [SerializeField] int enemiesKilledCounter = 0;
 
-    [Header("Boss Identity Parameters")]
-    GameObject bossObject;
     Health bossHealth;
     EnemyStateManager bossStateManager; // might be null
 
@@ -45,11 +46,9 @@ public class BossController : MonoBehaviour
     // Update is called once per frame
     public void Update()
     {
-        if (spawningEnabled)
+        if (waveSpawningEnabled)
         {
             int numEnemies = GetNumEnemies();
-            print("NUM ENEMIES: " + numEnemies);
-            print("ENEMY: " + EnemySpawning.enemies[0]);
 
             // spawn wave if all enemies dead, or enemies left alive for too long
             if ((numEnemies <= 0) || (lowEnemyWaveSpawnTimer <= 0))
@@ -59,6 +58,16 @@ public class BossController : MonoBehaviour
             }
             if (numEnemies <= lowEnemyThreshold)
                 lowEnemyWaveSpawnTimer -= Time.deltaTime;
+        }
+
+        if (passiveSpawningEnabled)
+        {
+            passiveSpawnTimer -= Time.deltaTime;
+            if (passiveSpawnTimer <= 0)
+            {
+                SpawnEnemyAtRandomPoint();
+                passiveSpawnTimer = passiveSpawnTimeSec;
+            }
         }
     }
     public void EnableInvincibility()
@@ -83,21 +92,30 @@ public class BossController : MonoBehaviour
     public virtual void StartDefeatSequence()
     {
         defeated = true;
-        StopSpawning();
+        StopWaveSpawning();
         KillAllEnemies();
     }
-    public void StartSpawning()
+    public void StartWaveSpawning()
     {
-        spawningEnabled = true;
+        waveSpawningEnabled = true;
         lowEnemyWaveSpawnTimer = lowEnemyWaveSpawnSec;
     }
-    public void StopSpawning()
+    public void StopWaveSpawning()
     {
-        spawningEnabled = false;
+        waveSpawningEnabled = false;
     }
-    public void SpawnEnemy(Vector2 position)
+    public void StartPassiveSpawning()
     {
-        enemySpawner.SpawnEnemy(position);
+        passiveSpawningEnabled = true;
+        passiveSpawnTimer = passiveSpawnTimeSec;
+    }
+    public void StopPassiveSpawning()
+    {
+        passiveSpawningEnabled = false;
+    }
+    public void SpawnEnemyAtRandomPoint()
+    {
+        enemySpawner.SpawnEnemyAtRandomPoint();
     }
     public void SpawnWave()
     {

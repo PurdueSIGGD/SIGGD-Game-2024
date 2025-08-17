@@ -39,7 +39,8 @@ public class IrisController : BossController
         base.Update();
         if (startSpawn)
         {
-            StartSpawning();
+            StartWaveSpawning();
+            StartPassiveSpawning();
             startSpawn = false;
         }
 

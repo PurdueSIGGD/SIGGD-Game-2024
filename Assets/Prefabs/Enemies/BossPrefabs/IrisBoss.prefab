@@ -480,10 +480,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1b298740c341744ca8d643aee2133f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawningEnabled: 0
-  lowEnemyThreshold: 3
+  waveSpawningEnabled: 0
+  lowEnemyThreshold: 2
   lowEnemyWaveSpawnSec: 10
-  lowEnemyWaveSpawnTimer: 0
+  passiveSpawningEnabled: 0
+  passiveSpawnTimeSec: 5
   killAllEnemiesContext:
     damageStrength: 4
     damageTypes: 02000000
@@ -500,7 +501,7 @@ MonoBehaviour:
   shieldUIVisual: {fileID: 5678611290887616124}
   shieldOn: 0
   shieldBreakTimeSeconds: 20
-  numWavesToBreakShield: 10
+  numWavesToBreakShield: 3
   numEnemiesToBreakShield: 15
   deathTimeSeconds: 2
 --- !u!114 &1249700944668907915

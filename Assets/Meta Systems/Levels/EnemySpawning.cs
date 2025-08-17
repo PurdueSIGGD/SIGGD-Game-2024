@@ -115,6 +115,11 @@ public class EnemySpawning : MonoBehaviour
         GameObject newEnemy = Instantiate(GetNextEnemy(), spawnPosition, Quaternion.identity);
         RegisterNewEnemy(newEnemy);
     }
+    public void SpawnEnemyAtRandomPoint()
+    {
+        ReshufflePoints(ref spawnPoints);
+        SpawnEnemy(spawnPoints[0].transform.position);
+    }
     /// <summary>
     /// Spawns a single wave of enemies
     /// General purpose wave spawning machine
