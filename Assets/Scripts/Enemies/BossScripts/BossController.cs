@@ -13,6 +13,7 @@ public class BossController : MonoBehaviour
     [SerializeField] float lowEnemyWaveSpawnSec;
     [SerializeField] float lowEnemyWaveSpawnTimer;
     [SerializeField] DamageContext killAllEnemiesContext;
+    [SerializeField] int waveCounter = 0;
 
     [Header("Boss Identity Parameters")]
     GameObject bossObject;
@@ -20,9 +21,8 @@ public class BossController : MonoBehaviour
     EnemyStateManager bossStateManager; // might be null
 
     [Header("Boss State Parameters")]
-    bool initialized = false;
-    bool invincible = false;
-    bool defeated = false;
+    [SerializeField] bool invincible = false;
+    [SerializeField] bool defeated = false;
 
     void OnDestroy()
     {
@@ -74,7 +74,7 @@ public class BossController : MonoBehaviour
             context.damage = 0;
         }
     }
-    public void StartDefeatSequence()
+    public virtual void StartDefeatSequence()
     {
         defeated = true;
         StopSpawning();
@@ -96,13 +96,24 @@ public class BossController : MonoBehaviour
     public void SpawnWave()
     {
         enemySpawner.SpawnEnemyWave();
+        waveCounter++;
     }
     public void KillAllEnemies()
     {
+        killAllEnemiesContext.attacker = gameObject;
+        killAllEnemiesContext.damage = 9999999999;
         enemySpawner.KillAllEnemies(killAllEnemiesContext);
     }
     public int GetNumEnemies()
     {
         return enemySpawner.GetCurrentEnemies().Count();
+    }
+    public int GetNumWaves()
+    {
+        return waveCounter;
+    }
+    public void EndBossRoom()
+    {
+        enemySpawner.EndRoom();
     }
 }

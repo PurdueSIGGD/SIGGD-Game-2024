@@ -129,6 +129,13 @@ public class Health : MonoBehaviour, IDamageable, IStatList
 
         //Trigger Events
         GameplayEventHolder.OnDeath?.Invoke(context);
+
+        // go to custom death implementation if dead object is a boss
+        if (context.victim.GetComponent<BossController>() != null)
+        {
+            context.victim.GetComponent<BossController>().StartDefeatSequence();
+            return;
+        }
         StartCoroutine(DeathCoroutine(context));
     }
 

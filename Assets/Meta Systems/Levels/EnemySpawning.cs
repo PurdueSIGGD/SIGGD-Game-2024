@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemySpawning : MonoBehaviour
@@ -19,7 +20,7 @@ public class EnemySpawning : MonoBehaviour
     [SerializeField] GameObject enemyIndicator;
     [SerializeField] private GameObject doorIndicator;
 
-    private List<GameObject> currentEnemies = new List<GameObject>();
+    [SerializeField] private List<GameObject> currentEnemies = new List<GameObject>();
     private int waveNumber;
     private int currentMaxWave;
     [SerializeField] private GameObject[] spawnPoints;
@@ -71,7 +72,7 @@ public class EnemySpawning : MonoBehaviour
         }
 
         // hides 'enemies remaining' UI on player death
-        if (context.victim.gameObject.CompareTag("Player"))
+        if ((context.victim != null) && (context.victim.CompareTag("Player")))
         {
             EnemiesLeftUpdater.enemiesLeft = -1;
         }
@@ -142,10 +143,15 @@ public class EnemySpawning : MonoBehaviour
     }
     public void KillAllEnemies(DamageContext context)
     {
-        foreach (EnemySpawn enemy in enemies)
+        print("NUMBER OF ENEMIES: " + currentEnemies.Count);
+        List<GameObject> currentEnemiesCopy = new List<GameObject>(currentEnemies);
+        for (int i = 0; i < currentEnemiesCopy.Count; i++)
         {
-            Health enemyHp = enemy.GetEnemy().GetComponent<Health>();
-            if (enemyHp != null) enemyHp.Kill(context);
+            Health enemyHp = currentEnemiesCopy[i].GetComponent<Health>();
+            if (enemyHp != null)
+            {
+                enemyHp.NoContextDamage(context, context.attacker);
+            }
         }
     }
     /// <summary>
