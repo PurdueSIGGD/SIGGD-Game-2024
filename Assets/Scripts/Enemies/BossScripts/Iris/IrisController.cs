@@ -4,10 +4,7 @@ using UnityEngine;
 
 public class IrisController : BossController
 {
-
-
     [Header("IRIS VARIABLES")]
-    [SerializeField] bool startSpawn;
     [SerializeField] IrisVisualsManager visualManager;
     [SerializeField] List<float> damageStateThresholds = new List<float>();
     int damageState;
