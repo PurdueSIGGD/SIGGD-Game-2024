@@ -14,6 +14,7 @@ public class BossController : MonoBehaviour
     [SerializeField] float lowEnemyWaveSpawnTimer;
     [SerializeField] DamageContext killAllEnemiesContext;
     [SerializeField] int waveCounter = 0;
+    [SerializeField] int enemiesKilledCounter = 0;
 
     [Header("Boss Identity Parameters")]
     GameObject bossObject;
@@ -24,8 +25,13 @@ public class BossController : MonoBehaviour
     [SerializeField] bool invincible = false;
     [SerializeField] bool defeated = false;
 
+    void Awake()
+    {
+        GameplayEventHolder.OnDeath += CheckEnemyDeathOnDeath;
+    }
     void OnDestroy()
     {
+        GameplayEventHolder.OnDeath -= CheckEnemyDeathOnDeath;
         DisableInvincibility();
     }
     public void Start()
@@ -111,6 +117,17 @@ public class BossController : MonoBehaviour
     public int GetNumWaves()
     {
         return waveCounter;
+    }
+    public void CheckEnemyDeathOnDeath(DamageContext context)
+    {
+        if (context.victim.CompareTag("Enemy"))
+        {
+            enemiesKilledCounter++;
+        }
+    }
+    public int GetNumEnemiesKilled()
+    {
+        return enemiesKilledCounter;
     }
     public void EndBossRoom()
     {

@@ -53,7 +53,16 @@ public class IrisController : BossController
                 StartShieldBreakSequence();
             }
         }
-
+        // run this code block only on the frame that # of enemies is updated
+        if (enemyCountMirror != GetNumEnemiesKilled())
+        {
+            enemyCountMirror = GetNumEnemiesKilled();
+            enemiesSinceShieldUp++;
+            if (shieldOn && (enemiesSinceShieldUp > numEnemiesToBreakShield))
+            {
+                StartShieldBreakSequence();
+            }
+        }
     }
 
     public void ActivateShield()
@@ -82,9 +91,9 @@ public class IrisController : BossController
     {
         DeactivateShield();
         yield return new WaitForSeconds(shieldBreakTimeSeconds);
-        ActivateShield();
         wavesSinceShieldUp = 0;
         enemiesSinceShieldUp = 0;
+        ActivateShield();
     }
     public override void StartDefeatSequence()
     {

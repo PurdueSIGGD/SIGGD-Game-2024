@@ -390,7 +390,7 @@ GameObject:
   - component: {fileID: 1090566417678738660}
   - component: {fileID: 5603614542682101921}
   m_Layer: 21
-  m_Name: Iris
+  m_Name: IrisBoss
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -492,6 +492,7 @@ MonoBehaviour:
     extraContext: Kill all enemies on boss defeat
     ghostID: 0
   waveCounter: 0
+  enemiesKilledCounter: 0
   invincible: 0
   defeated: 0
   startSpawn: 1
@@ -499,7 +500,7 @@ MonoBehaviour:
   shieldUIVisual: {fileID: 5678611290887616124}
   shieldOn: 0
   shieldBreakTimeSeconds: 20
-  numWavesToBreakShield: 1
+  numWavesToBreakShield: 10
   numEnemiesToBreakShield: 15
   deathTimeSeconds: 2
 --- !u!114 &1249700944668907915
