@@ -90,10 +90,17 @@ public class EraDoor : MonoBehaviour
         if (data.storyProgress == (int)storyProgression.First_Encounter) // first encounter
         {
             specificLevels.Add(new(new Level[] { new(truncName + " First Encounter", 1) }, firstEncounterLoc));
+            return;
         }
         else if (!PartyManager.instance.IsGhostInParty(name)) // if not time for first encounter and not in party
         {
             return;
+        }
+
+        if (data.bossProgress == 0)
+        {
+            specificLevels.Add(new(new Level[] { new(truncName + " Cyberpunk_Boss", 1) },
+                PersistentData.Instance.GetComponent<LevelSwitching>().GetMaxLevels()));
         }
 
         if ((data.storyProgress == (int)storyProgression.Hub_First_Entrance || // story beat 1
