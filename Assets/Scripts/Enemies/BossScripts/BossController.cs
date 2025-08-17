@@ -8,23 +8,23 @@ public class BossController : MonoBehaviour
 
     [Header("Spawning and Enemy parameters")]
     EnemySpawning enemySpawner;
-    [SerializeField] bool waveSpawningEnabled = false;
+    bool waveSpawningEnabled = false;
     [SerializeField] int lowEnemyThreshold; // inclusive
     [SerializeField] float lowEnemyWaveSpawnSec;
     float lowEnemyWaveSpawnTimer;
-    [SerializeField] bool passiveSpawningEnabled = false;
+    bool passiveSpawningEnabled = false;
     [SerializeField] float passiveSpawnTimeSec;
     float passiveSpawnTimer;
     [SerializeField] DamageContext killAllEnemiesContext;
-    [SerializeField] int waveCounter = 0;
-    [SerializeField] int enemiesKilledCounter = 0;
+    int waveCounter = 0;
+    int enemiesKilledCounter = 0;
 
-    Health bossHealth;
-    EnemyStateManager bossStateManager; // might be null
+    protected Health bossHealth;
+    protected EnemyStateManager bossStateManager; // might be null
 
     [Header("Boss State Parameters")]
-    [SerializeField] bool invincible = false;
-    [SerializeField] bool defeated = false;
+    bool invincible = false;
+    bool defeated = false;
 
     void Awake()
     {
@@ -43,7 +43,6 @@ public class BossController : MonoBehaviour
         bossStateManager = GetComponent<EnemyStateManager>();
     }
 
-    // Update is called once per frame
     public void Update()
     {
         if (waveSpawningEnabled)
@@ -93,6 +92,7 @@ public class BossController : MonoBehaviour
     {
         defeated = true;
         StopWaveSpawning();
+        StopPassiveSpawning();
         KillAllEnemies();
     }
     public void StartWaveSpawning()
@@ -150,5 +150,9 @@ public class BossController : MonoBehaviour
     public void EndBossRoom()
     {
         enemySpawner.EndRoom();
+    }
+    public bool IsDefeated()
+    {
+        return defeated;
     }
 }

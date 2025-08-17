@@ -8,15 +8,12 @@ public class IrisController : BossController
 
     [Header("IRIS VARIABLES")]
     [SerializeField] bool startSpawn;
-
-    Animator animator;
-    int damageState = 0; // 0:none, 1:low, 2:high
-    List<int> damageStateThresholds = new List<int>();
+    [SerializeField] IrisVisualsManager visualManager;
+    [SerializeField] List<float> damageStateThresholds = new List<float>();
+    int damageState;
 
     [Header("Shield parameters")]
-    [SerializeField] GameObject shieldVisual;
-    [SerializeField] GameObject shieldUIVisual;
-    [SerializeField] bool shieldOn;
+    bool shieldOn;
     [SerializeField] float shieldBreakTimeSeconds;
     [SerializeField] int numWavesToBreakShield;
     int waveCountMirror = 0;
@@ -31,7 +28,6 @@ public class IrisController : BossController
     public new void Start()
     {
         base.Start();
-        animator = GetComponent<Animator>();
         ActivateShield();
     }
     public new void Update()
@@ -64,6 +60,22 @@ public class IrisController : BossController
                 StartShieldBreakSequence();
             }
         }
+
+        // calculate damage state and adjust visuals accordingly
+        float healthProportion = bossHealth.currentHealth / bossHealth.GetStats().ComputeValue("Max Health");
+        if (healthProportion > damageStateThresholds[IrisVisualStates.NORMAL])
+        {
+            damageState = IrisVisualStates.NORMAL;
+        }
+        else if (healthProportion > damageStateThresholds[IrisVisualStates.DAMAGE_LOW])
+        {
+            damageState = IrisVisualStates.DAMAGE_LOW;
+        }
+        else if (healthProportion < damageStateThresholds[IrisVisualStates.DAMAGE_LOW])
+        {
+            damageState = IrisVisualStates.DAMAGE_HIGH;
+        }
+        visualManager.SetVisualState(damageState);
     }
 
     public void ActivateShield()
@@ -77,8 +89,7 @@ public class IrisController : BossController
     void ToggleShield(bool val)
     {
         shieldOn = val;
-        shieldVisual.SetActive(val);
-        shieldUIVisual.SetActive(val);
+        visualManager.ToggleShieldVisual(val);
         if (val)
             EnableInvincibility();
         else
@@ -94,11 +105,13 @@ public class IrisController : BossController
         yield return new WaitForSeconds(shieldBreakTimeSeconds);
         wavesSinceShieldUp = 0;
         enemiesSinceShieldUp = 0;
-        ActivateShield();
+        if (damageState != IrisVisualStates.DAMAGE_HIGH)
+            ActivateShield();
     }
     public override void StartDefeatSequence()
     {
         base.StartDefeatSequence();
+        visualManager.ActivateDeathVisual();
         StartCoroutine(IrisDeathCoroutine());
     }
     IEnumerator IrisDeathCoroutine()
