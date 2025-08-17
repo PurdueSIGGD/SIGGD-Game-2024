@@ -278,6 +278,8 @@ GameObject:
   - component: {fileID: 1641617525109024155}
   - component: {fileID: 827586359058410053}
   - component: {fileID: 9164366307553013209}
+  - component: {fileID: 8613045302450623860}
+  - component: {fileID: 1087986608393877240}
   m_Layer: 17
   m_Name: Silas-PlagueDoc
   m_TagString: Ghost
@@ -422,17 +424,17 @@ MonoBehaviour:
   - name: Basic Cooldown
     value: 1
   - name: Basic Ingredient Drop Chance
-    value: 50
+    value: 60
   - name: Basic Bonus Ingredient Drop Chance
-    value: 15
-  - name: Basic Ingredient Cost
     value: 20
+  - name: Basic Ingredient Cost
+    value: 30
   - name: Basic Cast Time
     value: 0.75
   - name: Basic Healing
     value: 10
   - name: Special Cooldown
-    value: 8
+    value: 10
   - name: Special Max Charges
     value: 2
   - name: Special Bomb Speed
@@ -440,7 +442,7 @@ MonoBehaviour:
   - name: Special Bomb Damage
     value: 10
   - name: Special Bomb Radius
-    value: 3.5
+    value: 4
   - name: Special Minibomb Count
     value: 5
   - name: Special Minibomb Speed
@@ -448,7 +450,7 @@ MonoBehaviour:
   - name: Special Minibomb Damage
     value: 3
   - name: Special Minibomb Radius
-    value: 2
+    value: 2.5
   - name: Special Minibomb Min Fuse Time
     value: 0.5
   - name: Special Minibomb Max Fuse Time
@@ -469,6 +471,10 @@ MonoBehaviour:
     value: 100
   - name: Blight Max Quicksilver Time
     value: 3.5
+  - name: Blight Epidemic Blast Radius
+    value: 4
+  - name: Blight Epidemic Blast Damage
+    value: 10
   defaultController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
   ghostController: {fileID: 9100000, guid: afe4d43a7f12e7b41a5ccdc9be4eeae1, type: 2}
   blightPotion: {fileID: 4699030029396985124, guid: e2fab6792587ec249a70e1b7a5314fc9,
@@ -513,6 +519,7 @@ MonoBehaviour:
   basic: {fileID: 0}
   ingredientsCollected: 0
   healReady: 0
+  isSelected: 0
 --- !u!114 &3640821941058779060
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -562,6 +569,7 @@ MonoBehaviour:
   skill1UIManager: {fileID: 0}
   skill2UIManager: {fileID: 0}
   meterUIManager: {fileID: 0}
+  selfMedicatedIcon: {fileID: 21300000, guid: e1603c4b4639e64478bc3ddfd992d89d, type: 3}
 --- !u!114 &3679688963809777540
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -578,9 +586,9 @@ MonoBehaviour:
   - {fileID: 540919338020910009}
   - {fileID: 1641617525109024155}
   - {fileID: 827586359058410053}
+  - {fileID: 8613045302450623860}
   - {fileID: 9164366307553013209}
-  - {fileID: 8120697266993777728}
-  - {fileID: 8120697266993777728}
+  - {fileID: 1087986608393877240}
   - {fileID: 8120697266993777728}
   startAtLevel: 0
 --- !u!114 &8120697266993777728
@@ -609,7 +617,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: 5ed8899fcb9f4424a90e108d725cd291, type: 2}
-  values: 000000001e0000003c0000005a00000078000000
+  values: 0000000014000000280000003c00000050000000
 --- !u!114 &1641617525109024155
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -637,7 +645,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: 33b36582baf4f2c4bb0ac4cadb9826aa, type: 2}
-  values: 0000000004000000080000000c00000010000000
+  values: 00000000070000000e000000150000001c000000
   lowChanceMultiplier: 0.5
 --- !u!114 &9164366307553013209
 MonoBehaviour:
@@ -660,3 +668,48 @@ MonoBehaviour:
   - 2.8
   poisonCloud: {fileID: 5415055795623798678, guid: 849f686edad280f468e64aebf2a93e61,
     type: 3}
+--- !u!114 &8613045302450623860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8202687041202382142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ea7b3939ad6435408e4c0c0416b31b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillSO: {fileID: 11400000, guid: c27abe9ecf081194b8f3f4fa2ec7171f, type: 2}
+  values:
+  - 0
+  - 1.5
+  - 2.5
+  - 3.5
+  - 4.5
+  blastDamage:
+    damageStrength: 0
+    damageTypes: 0200000003000000
+    actionID: 14
+    actionTypes: 0300000004000000
+    extraContext: 
+    ghostID: 5
+--- !u!114 &1087986608393877240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8202687041202382142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75c33750aeca9ca4b9acac3405387da4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillSO: {fileID: 11400000, guid: 05c7a1dd2e327f442868f7ca8c9c7be8, type: 2}
+  values: 000000000f00000019000000230000002d000000
+  blightBuffDuration: 4
+  apothecaryBuffDuration: 8
+  buffDuration: 0
+  timer: 0
+  isBuffed: 0

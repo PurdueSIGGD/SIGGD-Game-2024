@@ -20,6 +20,7 @@ public class PlayerHealth : Health
     [SerializeField] private GameObject dodgeVFX;
 
     [HideInInspector] public IdolPassive evaTempo;
+    [HideInInspector] public SelfMedicated silasSelfMedicated;
 
     void Awake()
     {
@@ -126,6 +127,15 @@ public class PlayerHealth : Health
             DamageNumberManager.instance.PlayMessage(gameObject, 0f, tempoIcon, "Dodged!", selectedGhost.GetCharacterInfo().highlightColor);
             GameObject tempoDodgePulseVFX = Instantiate(dodgeVFX, gameObject.transform);
             tempoDodgePulseVFX.GetComponent<RingExplosionHandler>().playRingExplosion(2f, selectedGhost.GetCharacterInfo().highlightColor);
+            return;
+        }
+
+        // Silas Self-medicated Dodge Effect
+        if (silasSelfMedicated != null && silasSelfMedicated.isBuffed && selectedGhost != null && selectedGhost.GetCharacterInfo().displayName.Equals("Silas"))
+        {
+            DamageNumberManager.instance.PlayMessage(gameObject, 0f, selfMedicatedIcon, "Dodged!", selectedGhost.GetCharacterInfo().highlightColor);
+            GameObject selfMedicatedDodgePulseVFX = Instantiate(dodgeVFX, gameObject.transform);
+            selfMedicatedDodgePulseVFX.GetComponent<RingExplosionHandler>().playRingExplosion(2f, selectedGhost.GetCharacterInfo().highlightColor);
             return;
         }
 

@@ -13,11 +13,13 @@ public class BlightDebuff : MonoBehaviour
     [SerializeField] float interval; // seconds per tick
     private float timer = 999f;
     public float duration = 999f;
+
     private SilasManager manager;
+
     private bool isEmpowered = false;
     private float empoweredDuration = 999f;
     private float timeApplied = 0f;
-    private bool isFlyer = false;
+    //private bool isFlyer = false;
 
 
     private void OnEnable()
@@ -38,12 +40,13 @@ public class BlightDebuff : MonoBehaviour
         empoweredBlightParticles.SetActive(false);
         health = gameObject.GetComponentInParent<Health>();
         timer = interval;
-        isFlyer = gameObject.GetComponentInParent<EnemyStateManager>().isFlyer;
+        //isFlyer = gameObject.GetComponentInParent<EnemyStateManager>().isFlyer;
     }
 
     // Update is called once per frame
     void Update()
     {
+        // Quicksilver Damage Boost
         timeApplied += Time.deltaTime;
         float quicksilverDamageBoost = Mathf.Lerp(100f, manager.GetStats().ComputeValue("Blight Max Quicksilver Damage Percent"),
                                                   (timeApplied >= manager.GetStats().ComputeValue("Blight Max Quicksilver Time")) ? 1f : (timeApplied / manager.GetStats().ComputeValue("Blight Max Quicksilver Time")));
@@ -68,7 +71,7 @@ public class BlightDebuff : MonoBehaviour
             {
                 health.Damage(damageContext, PlayerID.instance.gameObject);
             }
-            gameObject.GetComponentInParent<StatManager>().ModifyStat((isFlyer) ? "FLIGHT_FORCE" : "Speed", Mathf.FloorToInt(manager.GetStats().ComputeValue("Blight Slow")));
+            gameObject.GetComponentInParent<StatManager>().ModifyStat((gameObject.GetComponentInParent<EnemyStateManager>().isFlyer) ? "FLIGHT_FORCE" : "Speed", Mathf.FloorToInt(manager.GetStats().ComputeValue("Blight Slow")));
             Destroy(gameObject);
         }
         duration -= Time.deltaTime;
@@ -92,21 +95,27 @@ public class BlightDebuff : MonoBehaviour
 
     public void ApplyDebuff(SilasManager manager)
     {
+        ApplyDebuff(manager, manager.GetStats().ComputeValue("Blight Duration"));
+    }
+
+    public void ApplyDebuff(SilasManager manager, float duration)
+    {
         float interval = 0.2f;
         this.manager = manager;
         damage = manager.GetStats().ComputeValue("Blight DPS") * interval;
         damageContext.damage = damage;
         this.interval = interval;
-        duration = manager.GetStats().ComputeValue("Blight Duration");
+        this.duration = duration;
         health = gameObject.GetComponentInParent<Health>();
         timer = 0f;
 
-        gameObject.GetComponentInParent<StatManager>().ModifyStat((isFlyer) ? "FLIGHT_FORCE" : "Speed", -Mathf.FloorToInt(manager.GetStats().ComputeValue("Blight Slow")));
+        gameObject.GetComponentInParent<StatManager>().ModifyStat((gameObject.GetComponentInParent<EnemyStateManager>().isFlyer) ? "FLIGHT_FORCE" : "Speed", -Mathf.FloorToInt(manager.GetStats().ComputeValue("Blight Slow")));
     }
 
     public void AddDebuffTime(float time)
     {
         duration += time;
+        duration = Mathf.Min(duration, manager.GetStats().ComputeValue("Blight Duration"));
     }
 
     public void SetDebuffTime(float time)
@@ -132,11 +141,12 @@ public class BlightDebuff : MonoBehaviour
             empoweredDuration = manager.GetStats().ComputeValue("Blight Empowered Duration");
 
             int addedSlow = Mathf.FloorToInt(manager.GetStats().ComputeValue("Blight Empowered Slow")) - Mathf.FloorToInt(manager.GetStats().ComputeValue("Blight Slow"));
-            gameObject.GetComponentInParent<StatManager>().ModifyStat((isFlyer) ? "FLIGHT_FORCE" : "Speed", -addedSlow);
+            gameObject.GetComponentInParent<StatManager>().ModifyStat((gameObject.GetComponentInParent<EnemyStateManager>().isFlyer) ? "FLIGHT_FORCE" : "Speed", -addedSlow);
 
             empoweredBlightParticles.SetActive(true);
         }
     }
+
 
 
     private void StopEmpoweringDebuff()
@@ -145,7 +155,7 @@ public class BlightDebuff : MonoBehaviour
         damage = manager.GetStats().ComputeValue("Blight DPS") * interval;
 
         int addedSlow = Mathf.FloorToInt(manager.GetStats().ComputeValue("Blight Empowered Slow")) - Mathf.FloorToInt(manager.GetStats().ComputeValue("Blight Slow"));
-        gameObject.GetComponentInParent<StatManager>().ModifyStat((isFlyer) ? "FLIGHT_FORCE" : "Speed", addedSlow);
+        gameObject.GetComponentInParent<StatManager>().ModifyStat((gameObject.GetComponentInParent<EnemyStateManager>().isFlyer) ? "FLIGHT_FORCE" : "Speed", addedSlow);
 
         empoweredBlightParticles.SetActive(false);
     }

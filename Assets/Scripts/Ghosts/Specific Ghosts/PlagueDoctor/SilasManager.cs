@@ -25,6 +25,8 @@ public class SilasManager : GhostManager
     [HideInInspector] public int ingredientsCollected = 0;
     [HideInInspector] public bool healReady = false;
 
+    [HideInInspector] public bool isSelected = false;
+
     private LevelSwitching levelSwitchingScript;
 
 
@@ -98,6 +100,7 @@ public class SilasManager : GhostManager
         special.manager = this;
         basic = PlayerID.instance.AddComponent<PlagueDocApothecary>();
         basic.manager = this;
+        isSelected = true;
 
         base.Select(player);
     }
@@ -106,6 +109,14 @@ public class SilasManager : GhostManager
     {
         if (special) Destroy(special);
         if (basic) Destroy(basic);
+        isSelected = false;
+
+        // Remove Self-medicated Buff
+        SelfMedicated selfMedicated = GetComponent<SelfMedicated>();
+        if (selfMedicated.isBuffed)
+        {
+            selfMedicated.RemoveBuff();
+        }
 
         base.DeSelect(player);
     }

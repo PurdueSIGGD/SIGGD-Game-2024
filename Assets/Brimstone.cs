@@ -34,6 +34,7 @@ public class Brimstone : Skill
         pointIndex = GetPoints();
         GetComponent<StatManager>().ModifyStat("Special Bomb Radius", values[pointIndex] - buffValue);
         GetComponent<StatManager>().ModifyStat("Special Minibomb Radius", values[pointIndex] - buffValue);
+        GetComponent<StatManager>().ModifyStat("Blight Epidemic Blast Radius", values[pointIndex] - buffValue);
         buffValue = values[pointIndex];
     }
 
@@ -42,6 +43,7 @@ public class Brimstone : Skill
         pointIndex = GetPoints();
         GetComponent<StatManager>().ModifyStat("Special Bomb Radius", values[pointIndex] - buffValue);
         GetComponent<StatManager>().ModifyStat("Special Minibomb Radius", values[pointIndex] - buffValue);
+        GetComponent<StatManager>().ModifyStat("Blight Epidemic Blast Radius", values[pointIndex] - buffValue);
         buffValue = values[pointIndex];
     }
 
@@ -50,6 +52,7 @@ public class Brimstone : Skill
         pointIndex = GetPoints();
         GetComponent<StatManager>().ModifyStat("Special Bomb Radius", values[pointIndex] - buffValue);
         GetComponent<StatManager>().ModifyStat("Special Minibomb Radius", values[pointIndex] - buffValue);
+        GetComponent<StatManager>().ModifyStat("Blight Epidemic Blast Radius", values[pointIndex] - buffValue);
         buffValue = values[pointIndex];
     }
 }

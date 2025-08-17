@@ -38,6 +38,17 @@ public class PlagueDocApothecary : MonoBehaviour
                 //VFX
                 GameObject explosion = Instantiate(manager.bombExplosionVFX, transform.position, Quaternion.identity);
                 explosion.GetComponent<RingExplosionHandler>().playRingExplosion(2.5f, manager.GetComponent<GhostIdentity>().GetCharacterInfo().highlightColor);
+
+                // Apply Self-medicated Buff
+                SelfMedicated selfMedicated = manager.GetComponent<SelfMedicated>();
+                if (selfMedicated.isBuffed)
+                {
+                    selfMedicated.SetBuffTime(selfMedicated.apothecaryBuffDuration);
+                }
+                else
+                {
+                    selfMedicated.ApplyBuff(selfMedicated.apothecaryBuffDuration);
+                }
             }
         }
 

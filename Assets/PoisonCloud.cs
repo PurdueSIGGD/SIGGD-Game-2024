@@ -62,7 +62,7 @@ public class PoisonCloud : MonoBehaviour
 
         //VFX
         circleArea = Instantiate(circleVFX, transform.position, Quaternion.identity);
-        circleArea.GetComponent<CircleAreaHandler>().playCircleStart(radius, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor, 0.02f);
+        circleArea.GetComponent<CircleAreaHandler>().playCircleStart(radius, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor, 0.025f);
 
         ParticleSystem.ShapeModule shape = cloudParticleSystem.shape;
         shape.scale *= radius;
@@ -82,11 +82,27 @@ public class PoisonCloud : MonoBehaviour
             if (enemy.GetComponentInChildren<BlightDebuff>() == null)
             {
                 GameObject blight = Instantiate(manager.blightDebuff, enemy.transform);
-                blight.GetComponent<BlightDebuff>().ApplyDebuff(manager); // TODO: Add overload with duration field
+                blight.GetComponent<BlightDebuff>().ApplyDebuff(manager, blightDuration); // TODO: Add overload with duration field
             }
             else
             {
                 enemy.GetComponentInChildren<BlightDebuff>().SetDebuffTime(blightDuration);
+            }
+        }
+
+        // Affect Player
+        Collider2D playerHit = Physics2D.OverlapCircle(transform.position, manager.GetStats().ComputeValue("Special Minibomb Radius"), LayerMask.GetMask("Player"));
+        if (playerHit != null)
+        {
+            // Apply Self-medicated Buff
+            SelfMedicated selfMedicated = manager.GetComponent<SelfMedicated>();
+            if (selfMedicated.isBuffed)
+            {
+                selfMedicated.SetBuffTime(selfMedicated.blightBuffDuration);
+            }
+            else
+            {
+                selfMedicated.ApplyBuff(selfMedicated.blightBuffDuration);
             }
         }
     }

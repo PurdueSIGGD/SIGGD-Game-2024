@@ -6,6 +6,8 @@ public class SilasUIDriver : GhostUIDriver
 {
     private SilasManager manager;
 
+    [SerializeField] private Sprite selfMedicatedIcon;
+    
     // Start is called before the first frame update
     protected override void Start()
     {
@@ -65,7 +67,18 @@ public class SilasUIDriver : GhostUIDriver
 
     private void updateSkill1()
     {
-
+        SelfMedicated selfMedicated = GetComponent<SelfMedicated>();
+        if (!selfMedicated.isBuffed)
+        {
+            skill1UIManager.setUIActive(false);
+            return;
+        }
+        skill1UIManager.setUIActive(true);
+        skill1UIManager.setIcon(selfMedicatedIcon);
+        skill1UIManager.setAbilityEnabled(true);
+        skill1UIManager.setNumberActive(false);
+        skill1UIManager.setMeterValue(selfMedicated.timer, selfMedicated.buffDuration);
+        skill1UIManager.setChargeWidgetActive(false);
     }
 
     private void updateSkill2()
@@ -85,13 +98,11 @@ public class SilasUIDriver : GhostUIDriver
         meterUIManager.resetSubMeterColor();
         meterUIManager.activateWidget();
 
-        /*
         if (manager.ingredientsCollected > 0)
         {
             meterUIManager.activateWidget();
             return;
         }
         meterUIManager.deactivateWidget(0.3f);
-        */
     }
 }

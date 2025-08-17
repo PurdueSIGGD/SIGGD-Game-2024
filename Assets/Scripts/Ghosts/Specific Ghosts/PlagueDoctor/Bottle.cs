@@ -54,6 +54,17 @@ public class Bottle : MonoBehaviour, IStatList
         {
             playerHit.transform.gameObject.GetComponent<Move>().ApplyKnockback(Vector3.up, 3f, false);
             playerHit.transform.gameObject.GetComponent<Move>().ApplyKnockback(playerHit.transform.position - transform.position, 2f, false);
+
+            // Apply Self-medicated Buff
+            SelfMedicated selfMedicated = manager.GetComponent<SelfMedicated>();
+            if (selfMedicated.isBuffed)
+            {
+                selfMedicated.SetBuffTime(selfMedicated.blightBuffDuration);
+            }
+            else
+            {
+                selfMedicated.ApplyBuff(selfMedicated.blightBuffDuration);
+            }
         }
 
         // VFX
@@ -109,6 +120,17 @@ public class Bottle : MonoBehaviour, IStatList
         {
             playerHit.transform.gameObject.GetComponent<Move>().ApplyKnockback(Vector3.up, 1.5f, false);
             playerHit.transform.gameObject.GetComponent<Move>().ApplyKnockback(playerHit.transform.position - transform.position, 1f, false);
+
+            // Apply Self-medicated Buff
+            SelfMedicated selfMedicated = manager.GetComponent<SelfMedicated>();
+            if (selfMedicated.isBuffed)
+            {
+                selfMedicated.SetBuffTime(selfMedicated.blightBuffDuration);
+            }
+            else
+            {
+                selfMedicated.ApplyBuff(selfMedicated.blightBuffDuration);
+            }
         }
 
         // VFX
