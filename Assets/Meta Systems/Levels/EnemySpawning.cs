@@ -112,20 +112,25 @@ public class EnemySpawning : MonoBehaviour
     /// Spawns a single enemy
     /// General purpose single spawning machine 
     /// </summary>
-    public void SpawnEnemy(Vector2 spawnPosition)
+    public void SpawnEnemy(Vector2 spawnPosition, GameObject enemy = null, GameObject orb = null)
     {
-        GameObject newEnemySpawnOrb = Instantiate(spawnOrb, spawnPosition, Quaternion.identity);
+        // create the appropriate orb and add it to the list
+        GameObject orbToSpawn = orb != null ? orb : spawnOrb;
+        GameObject newEnemySpawnOrb = Instantiate(orbToSpawn, spawnPosition, Quaternion.identity);
         currentSpawnOrbs.Add(newEnemySpawnOrb);
+
+        // apply the appropriate enemy prefab to the newly created orb
+        GameObject enemyToSpawn = enemy != null ? enemy : GetNextEnemy();
         newEnemySpawnOrb.GetComponent<EnemySpawnOrb>().Initialize(
             GetNextEnemy(),
             RegisterNewEnemy,
             currentSpawnOrbs.Remove
         );
     }
-    public void SpawnEnemyAtRandomPoint()
+    public void SpawnEnemyAtRandomPoint(GameObject enemy = null, GameObject orb = null)
     {
         ReshufflePoints(ref spawnPoints);
-        SpawnEnemy(spawnPoints[0].transform.position);
+        SpawnEnemy(spawnPoints[0].transform.position, enemy, orb);
     }
     /// <summary>
     /// Spawns a single wave of enemies

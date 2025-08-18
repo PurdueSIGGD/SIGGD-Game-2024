@@ -123,9 +123,9 @@ public class BossController : MonoBehaviour
     {
         passiveSpawningEnabled = false;
     }
-    public void SpawnEnemyAtRandomPoint()
+    public void SpawnEnemyAtRandomPoint(GameObject enemy = null, GameObject orb = null)
     {
-        enemySpawner.SpawnEnemyAtRandomPoint();
+        enemySpawner.SpawnEnemyAtRandomPoint(enemy, orb);
     }
     public void SpawnWave()
     {
