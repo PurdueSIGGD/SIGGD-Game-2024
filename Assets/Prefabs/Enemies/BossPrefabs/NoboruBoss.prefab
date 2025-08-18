@@ -294,7 +294,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b634fb0fef6cca449cab6305db35310, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startSpawn: 0
+  startSpawn: 1
   lowEnemyThreshold: 3
   lowEnemyWaveSpawnSec: 10
   passiveSpawnTimeSec: 5
@@ -305,6 +305,7 @@ MonoBehaviour:
     actionTypes: 08000000
     extraContext: Kill all enemies context
     ghostID: 0
+  deathTimer: 3
 --- !u!114 &2313479604974347677
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -362,7 +363,7 @@ MonoBehaviour:
     ready: 1
     hitBox: {fileID: 6193345598014937500}
     usesCircleHitbox: 1
-    coolDown: 7
+    coolDown: 10
     animationClip: {fileID: 7400000, guid: e65d6c96e65e93c4dbb042e7d68d54c1, type: 2}
   move:
     name: 
@@ -421,7 +422,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Max Health
-    value: 100
+    value: 1
   deathLevel: 
 --- !u!50 &8074799131294597567
 Rigidbody2D:
