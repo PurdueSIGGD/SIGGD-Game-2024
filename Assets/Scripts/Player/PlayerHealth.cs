@@ -113,6 +113,9 @@ public class PlayerHealth : Health
         }
     }
 
+
+
+    // Dodge Chance Handler
     private void CheckDodgeChance(ref DamageContext context)
     {
         if (!context.victim.CompareTag("Player")) return;

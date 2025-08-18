@@ -24,6 +24,7 @@ public class PoliceChiefManager : GhostManager, ISelectable
 
     void Awake()
     {
+        identityName = name;
 
         if (identityName.Contains("(Clone)"))
         {

@@ -35827,6 +35827,7 @@ MonoBehaviour:
   dodgeVFX: {fileID: 7966241730260626198, guid: a5295bc6cb8948243b75f99e5a18cc48,
     type: 3}
   evaTempo: {fileID: 0}
+  silasSelfMedicated: {fileID: 0}
 --- !u!114 &8596380051338084535
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35839,8 +35840,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adabfe4036ea5c2479b3217078b6c826, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timescale: 0.25
-  realtimeDuration: 4
+  timescale: 1
+  realtimeDuration: 4.5
+  realtimeFadeOutStart: 3.4
+  realtimeFadeOutDuration: 1
+  realtimeDeathRingStart: 0
   respawnScene: Eva Start Fractal Hub
 --- !u!1 &8764437494633651125
 GameObject:
