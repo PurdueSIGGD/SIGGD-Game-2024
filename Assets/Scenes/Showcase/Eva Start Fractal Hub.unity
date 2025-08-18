@@ -1576,7 +1576,7 @@ PrefabInstance:
     - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
         type: 3}
       propertyPath: specificLevels.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
         type: 3}
@@ -1871,7 +1871,12 @@ PrefabInstance:
     - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
         type: 3}
       propertyPath: specificLevels.Array.data[3].levelNum
-      value: 30
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
+        type: 3}
+      propertyPath: specificLevels.Array.data[4].levelNum
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
         type: 3}
@@ -1891,6 +1896,11 @@ PrefabInstance:
     - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
         type: 3}
       propertyPath: specificLevels.Array.data[3].levels.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
+        type: 3}
+      propertyPath: specificLevels.Array.data[4].levels.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
@@ -1915,6 +1925,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
         type: 3}
+      propertyPath: specificLevels.Array.data[4].levels.Array.data[0].chance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
+        type: 3}
       propertyPath: specificLevels.Array.data[0].levels.Array.data[0].sceneName
       value: SpiritShopRoom
       objectReference: {fileID: 0}
@@ -1931,6 +1946,11 @@ PrefabInstance:
     - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
         type: 3}
       propertyPath: specificLevels.Array.data[3].levels.Array.data[0].sceneName
+      value: SpiritShopRoom
+      objectReference: {fileID: 0}
+    - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
+        type: 3}
+      propertyPath: specificLevels.Array.data[4].levels.Array.data[0].sceneName
       value: SpiritShopRoom
       objectReference: {fileID: 0}
     - target: {fileID: 5178862083370102746, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
@@ -2139,6 +2159,11 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1325501314099060030, guid: dc37ada359206f040b1417c5d790c31f,
+        type: 3}
+      propertyPath: healPerSpirit
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 2518153858615184674, guid: dc37ada359206f040b1417c5d790c31f,
         type: 3}
       propertyPath: isStoryRoom
@@ -2193,7 +2218,7 @@ PrefabInstance:
     - target: {fileID: 5933473747196306455, guid: dc37ada359206f040b1417c5d790c31f,
         type: 3}
       propertyPath: statList.Array.data[0].value
-      value: 1000000
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 6215153733203291328, guid: dc37ada359206f040b1417c5d790c31f,
         type: 3}
@@ -2370,16 +2395,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2139709771924103522, guid: 7a3ee4e1002625a41807855170af8343,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2139709771924103522, guid: 7a3ee4e1002625a41807855170af8343,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -5.000061
-      objectReference: {fileID: 0}
     - target: {fileID: 2566868491197789339, guid: 7a3ee4e1002625a41807855170af8343,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -2610,18 +2625,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7a3ee4e1002625a41807855170af8343, type: 3}
---- !u!114 &574222399 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8042731899244018755, guid: 7a3ee4e1002625a41807855170af8343,
-    type: 3}
-  m_PrefabInstance: {fileID: 574222398}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 236f4312a25e04847890aadbb1d7397d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &602179158
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3211,11 +3214,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2063011619854580813, guid: 0c4504c44e0804246b232122549aca6a,
-        type: 3}
-      propertyPath: trackerUI
-      value: 
-      objectReference: {fileID: 574222399}
     - target: {fileID: 2191272423200367326, guid: 0c4504c44e0804246b232122549aca6a,
         type: 3}
       propertyPath: endWaveNum
@@ -32122,7 +32120,7 @@ PrefabInstance:
     - target: {fileID: 2905334097505762094, guid: fd518db5063097f408986d06c55a4f3a,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -549.99756
+      value: -549.9975
       objectReference: {fileID: 0}
     - target: {fileID: 2905334097505762094, guid: fd518db5063097f408986d06c55a4f3a,
         type: 3}
