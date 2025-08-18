@@ -102,6 +102,11 @@ public class EraDoor : MonoBehaviour
             specificLevels.Add(new(new Level[] { new(truncName + " Cyberpunk_Boss", 1) },
                 PersistentData.Instance.GetComponent<LevelSwitching>().GetMaxLevels()));
         }
+        else
+        {
+            specificLevels.Add(new(new Level[] { new("Cyberpunk_Boss", 1) },
+                PersistentData.Instance.GetComponent<LevelSwitching>().GetMaxLevels()));
+        }
 
         if ((data.storyProgress == (int)storyProgression.Hub_First_Entrance || // story beat 1
              data.storyProgress == (int)storyProgression.Story_Beat_1) &&
