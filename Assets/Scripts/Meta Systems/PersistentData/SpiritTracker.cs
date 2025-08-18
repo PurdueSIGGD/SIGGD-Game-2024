@@ -148,6 +148,12 @@ public class SpiritTracker : MonoBehaviour
         SaveManager.data.spiritCounts[2] += yellowSpiritsCollected;
         SaveManager.data.spiritCounts[3] += pinkSpiritsCollected;
 
+        // UI
+        if (trackerUI)
+        {
+            trackerUI.UpdateCounters();
+        }
+
         ClearSpirits();
     }
 
