@@ -73,7 +73,9 @@ public class SpiritShopManager : MonoBehaviour, IScreenUI
     public void CloseShopUI()
     {
         turnCompleted = true;
-        Door.activateDoor(true);
+
+        PersistentData.Instance.GetComponent<EnemySpawning>().EndRoom();
+
         gameObject.SetActive(false);
     }
 
