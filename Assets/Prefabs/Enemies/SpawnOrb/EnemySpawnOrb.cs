@@ -6,6 +6,7 @@ using UnityEngine;
 public class EnemySpawnOrb : MonoBehaviour
 {
     GameObject enemyPrefab;
+    [SerializeField] Color orbColor;
     [SerializeField] SpriteRenderer renderer;
     [SerializeField] ParticleSystem particleSystem;
     [SerializeField] float spawnTime;
@@ -19,6 +20,12 @@ public class EnemySpawnOrb : MonoBehaviour
         this.enemyPrefab = enemyPrefab;
         this.registerEnemy = registerEnemy;
         this.deregisterOrb = deregisterOrb;
+
+        // visual
+        // renderer.color = orbColor;
+        // var main = particleSystem.main;
+        // main.startColor = orbColor;
+
         initialized = true;
     }
     void Update()

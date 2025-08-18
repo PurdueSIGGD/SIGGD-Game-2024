@@ -30,12 +30,6 @@ public class IrisController : BossController
     public new void Update()
     {
         base.Update();
-        if (startSpawn)
-        {
-            StartWaveSpawning();
-            StartPassiveSpawning();
-            startSpawn = false;
-        }
 
         // run this code block only on the frame that # of waves is updated
         if (waveCountMirror != GetNumWaves())

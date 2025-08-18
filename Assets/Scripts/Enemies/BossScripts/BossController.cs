@@ -22,6 +22,7 @@ public class BossController : MonoBehaviour
     bool triggerNewWave = false;
 
     protected Health bossHealth;
+    GameObject healthBarUI;
     protected EnemyStateManager bossStateManager; // might be null
 
     [Header("Boss State Parameters")]
@@ -44,9 +45,17 @@ public class BossController : MonoBehaviour
         enemySpawner = GameObject.Find("PersistentData").GetComponent<EnemySpawning>();
         bossHealth = GetComponent<Health>();
         bossStateManager = GetComponent<EnemyStateManager>();
+        healthBarUI = GetComponentInChildren<EnemyHealth>().gameObject;
     }
     public void Update()
     {
+        if (startSpawn)
+        {
+            StartWaveSpawning();
+            StartPassiveSpawning();
+            startSpawn = false;
+        }
+
         if (waveSpawningEnabled)
         {
             int numEnemies = GetNumEnemies();
@@ -103,6 +112,7 @@ public class BossController : MonoBehaviour
         StopWaveSpawning();
         StopPassiveSpawning();
         KillAllEnemies();
+        healthBarUI.SetActive(false);
     }
     public void StartWaveSpawning()
     {

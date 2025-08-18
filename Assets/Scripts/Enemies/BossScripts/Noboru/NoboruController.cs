@@ -6,6 +6,6 @@ public class NoboruController : BossController
 {
     public void SpawnYokai(GameObject yokaiPrefab, GameObject enemy)
     {
-
+        SpawnEnemyAtRandomPoint(enemy, yokaiPrefab);
     }
 }

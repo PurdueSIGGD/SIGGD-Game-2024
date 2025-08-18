@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2969515327343943630
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2094986996042042586}
+  m_Layer: 21
+  m_Name: TPTriggerBox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2094986996042042586
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2969515327343943630}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.01, y: 0.03947735, z: -0.08302906}
+  m_LocalScale: {x: 6.79, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1673469064786115946}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3053431441848350864
 GameObject:
   m_ObjectHideFlags: 0
@@ -113,7 +144,7 @@ GameObject:
   - component: {fileID: 6073739933555087588}
   - component: {fileID: 7368541168105077742}
   - component: {fileID: 8313907701044443505}
-  m_Layer: 6
+  m_Layer: 21
   m_Name: ShieldIndicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -177,6 +208,37 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &4532770260530183587
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6193345598014937500}
+  m_Layer: 21
+  m_Name: SummonTriggerCircle
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6193345598014937500
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4532770260530183587}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 10, y: 10, z: 10}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 1673469064786115946}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7915013102602303243
 GameObject:
   m_ObjectHideFlags: 0
@@ -188,15 +250,16 @@ GameObject:
   - component: {fileID: 1673469064786115946}
   - component: {fileID: 6287094026997312586}
   - component: {fileID: 2313479604974347677}
+  - component: {fileID: 687006798506009572}
   - component: {fileID: 6644183489238561902}
   - component: {fileID: 3161392575698660286}
   - component: {fileID: 8074799131294597567}
   - component: {fileID: 2395595659656792239}
   - component: {fileID: 7601385014736330542}
   - component: {fileID: 7984953670082732377}
-  m_Layer: 0
+  m_Layer: 21
   m_Name: NoboruBoss
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -215,6 +278,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8394016850653557689}
+  - {fileID: 6193345598014937500}
+  - {fileID: 2094986996042042586}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6287094026997312586
@@ -229,7 +294,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b634fb0fef6cca449cab6305db35310, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startSpawn: 0
+  startSpawn: 1
   lowEnemyThreshold: 3
   lowEnemyWaveSpawnSec: 10
   passiveSpawnTimeSec: 5
@@ -260,6 +325,62 @@ MonoBehaviour:
   isBeingKnockedBack: 0
   grounded: 0
   groundedRayCheckLength: 1
+  tpSource: {fileID: 0}
+  teleportPositions: []
+  yokaiPrefab: {fileID: 7951563050262519672, guid: 6f0e0620bc3a8564aa5b6bad1497a152,
+    type: 3}
+  numYokai: 5
+  yokaiSpawnPool:
+  - {fileID: 1393067818931581941, guid: 040374e0994a9d3488cf595921dd96e5, type: 3}
+  - {fileID: 1487853512614266132, guid: 73f93381fbec0764a90fbc89c20293ff, type: 3}
+  - {fileID: 8433722653154054174, guid: e7efa1ed21b10204fbbb9248b1925aa4, type: 3}
+  fancySummonInterval: 0.1
+  tpTriggerBox: {fileID: 2094986996042042586}
+  summonTriggerSphere: {fileID: 6193345598014937500}
+--- !u!114 &687006798506009572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7915013102602303243}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20d794b3ea5a6da42ac5b8feade20f68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemy: {fileID: 2313479604974347677}
+  actions:
+  - name: Teleport
+    priority: 2
+    ready: 1
+    hitBox: {fileID: 2094986996042042586}
+    usesCircleHitbox: 0
+    coolDown: 10
+    animationClip: {fileID: 7400000, guid: 3bbea6b84090afc489d32eded719fbf9, type: 2}
+  - name: Summon
+    priority: 1
+    ready: 1
+    hitBox: {fileID: 6193345598014937500}
+    usesCircleHitbox: 1
+    coolDown: 15
+    animationClip: {fileID: 7400000, guid: e65d6c96e65e93c4dbb042e7d68d54c1, type: 2}
+  move:
+    name: 
+    priority: 0
+    ready: 1
+    hitBox: {fileID: 0}
+    usesCircleHitbox: 0
+    coolDown: 0
+    animationClip: {fileID: 7400000, guid: 3c2a42de4af45b249a73653495034b83, type: 2}
+  idle:
+    name: 
+    priority: 0
+    ready: 1
+    hitBox: {fileID: 0}
+    usesCircleHitbox: 0
+    coolDown: 0
+    animationClip: {fileID: 7400000, guid: 3c2a42de4af45b249a73653495034b83, type: 2}
 --- !u!114 &6644183489238561902
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -325,11 +446,11 @@ Rigidbody2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 2097216
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &2395595659656792239
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -588,6 +709,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2469689008755758983, guid: f82d61c6f20788c41b3b1bf12452e612,
         type: 3}
+      propertyPath: m_Layer
+      value: 21
+      objectReference: {fileID: 0}
+    - target: {fileID: 2469689008755758983, guid: f82d61c6f20788c41b3b1bf12452e612,
+        type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -595,6 +721,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -0.0014648438
+      objectReference: {fileID: 0}
+    - target: {fileID: 2776755092140700504, guid: f82d61c6f20788c41b3b1bf12452e612,
+        type: 3}
+      propertyPath: m_Layer
+      value: 21
       objectReference: {fileID: 0}
     - target: {fileID: 3088449366822249033, guid: f82d61c6f20788c41b3b1bf12452e612,
         type: 3}
@@ -611,10 +742,20 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -0.099975586
       objectReference: {fileID: 0}
+    - target: {fileID: 5041467054591955930, guid: f82d61c6f20788c41b3b1bf12452e612,
+        type: 3}
+      propertyPath: m_Layer
+      value: 21
+      objectReference: {fileID: 0}
     - target: {fileID: 6080966337470081670, guid: f82d61c6f20788c41b3b1bf12452e612,
         type: 3}
       propertyPath: m_Name
       value: Enemy_Healthbar
+      objectReference: {fileID: 0}
+    - target: {fileID: 6080966337470081670, guid: f82d61c6f20788c41b3b1bf12452e612,
+        type: 3}
+      propertyPath: m_Layer
+      value: 21
       objectReference: {fileID: 0}
     - target: {fileID: 6759179661564473175, guid: f82d61c6f20788c41b3b1bf12452e612,
         type: 3}
@@ -626,10 +767,45 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6991671660157752926, guid: f82d61c6f20788c41b3b1bf12452e612,
+        type: 3}
+      propertyPath: m_Layer
+      value: 21
+      objectReference: {fileID: 0}
+    - target: {fileID: 7197879723293666667, guid: f82d61c6f20788c41b3b1bf12452e612,
+        type: 3}
+      propertyPath: m_Layer
+      value: 21
+      objectReference: {fileID: 0}
+    - target: {fileID: 7203273293247962060, guid: f82d61c6f20788c41b3b1bf12452e612,
+        type: 3}
+      propertyPath: m_Layer
+      value: 21
+      objectReference: {fileID: 0}
+    - target: {fileID: 7445123661399275130, guid: f82d61c6f20788c41b3b1bf12452e612,
+        type: 3}
+      propertyPath: m_Layer
+      value: 21
+      objectReference: {fileID: 0}
     - target: {fileID: 7445123661399275130, guid: f82d61c6f20788c41b3b1bf12452e612,
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8386831112958569935, guid: f82d61c6f20788c41b3b1bf12452e612,
+        type: 3}
+      propertyPath: m_Layer
+      value: 21
+      objectReference: {fileID: 0}
+    - target: {fileID: 8943292303975583748, guid: f82d61c6f20788c41b3b1bf12452e612,
+        type: 3}
+      propertyPath: m_Layer
+      value: 21
+      objectReference: {fileID: 0}
+    - target: {fileID: 9069327101558069868, guid: f82d61c6f20788c41b3b1bf12452e612,
+        type: 3}
+      propertyPath: m_Layer
+      value: 21
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

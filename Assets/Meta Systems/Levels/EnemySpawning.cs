@@ -170,6 +170,14 @@ public class EnemySpawning : MonoBehaviour
                 enemyHp.NoContextDamage(context, context.attacker);
             }
         }
+
+        List<GameObject> currentOrbsCopy = new List<GameObject>(currentSpawnOrbs);
+        for (int i = 0; i < currentOrbsCopy.Count; i++)
+        {
+            GameObject targetOrb = currentOrbsCopy[i];
+            currentSpawnOrbs.Remove(targetOrb);
+            Destroy(targetOrb);
+        }
     }
     /// <summary>
     /// Marks the completion of a room by opening the door to the next room, or the end of the run.

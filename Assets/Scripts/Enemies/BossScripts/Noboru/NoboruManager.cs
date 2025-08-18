@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class NoboruManager : EnemyStateManager
@@ -7,14 +8,20 @@ public class NoboruManager : EnemyStateManager
 
     [Header("NOBORU PARAMS")]
     NoboruController controller;
-    List<Transform> teleportPositions = new List<Transform>();
-    GameObject yokaiPrefab;
+    [SerializeField] GameObject tpSource;
+    [SerializeField] List<Transform> teleportPositions = new List<Transform>();
+    [SerializeField] GameObject yokaiPrefab;
     [SerializeField] int numYokai;
     [SerializeField] List<GameObject> yokaiSpawnPool = new List<GameObject>();
     [SerializeField] float fancySummonInterval;
+    [SerializeField] Transform tpTriggerBox;
+    [SerializeField] Transform summonTriggerSphere;
     public void Start()
     {
         base.Start();
+        controller = GetComponent<NoboruController>();
+        Transform[] tpPositions = tpSource.GetComponentsInChildren<Transform>();
+        teleportPositions = new(tpPositions);
     }
     public void Teleport()
     {
@@ -28,7 +35,7 @@ public class NoboruManager : EnemyStateManager
         GameObject enemyToSpawn = yokaiSpawnPool[index];
         controller.SpawnYokai(yokaiPrefab, enemyToSpawn);
     }
-    public void SummonYokai()
+    public void SummonYokaiWave()
     {
         StartCoroutine(FancySummonCoroutine());
     }
@@ -39,5 +46,11 @@ public class NoboruManager : EnemyStateManager
             SpawnYokai();
             yield return new WaitForSeconds(fancySummonInterval);
         }
+    }
+    public void OnDrawGizmos()
+    {
+        base.OnDrawGizmos();
+        Gizmos.DrawWireSphere(transform.position, summonTriggerSphere.lossyScale.x);
+        Gizmos.DrawWireCube(tpTriggerBox.position, tpTriggerBox.lossyScale);
     }
 }
