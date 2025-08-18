@@ -10,6 +10,7 @@ public class NoboruManager : EnemyStateManager
     NoboruController controller;
     [SerializeField] GameObject tpSource;
     List<Transform> teleportPositions = new List<Transform>();
+    Transform currentTransformPosition;
     [SerializeField] GameObject yokaiPrefab;
     [SerializeField] int numYokai;
     [SerializeField] List<GameObject> yokaiSpawnPool = new List<GameObject>();
@@ -22,12 +23,19 @@ public class NoboruManager : EnemyStateManager
         controller = GetComponent<NoboruController>();
         Transform[] tpPositions = tpSource.GetComponentsInChildren<Transform>(includeInactive: false);
         teleportPositions = new(tpPositions);
+        transform.position = teleportPositions[0].position;
+        currentTransformPosition = teleportPositions[0];
     }
     public void Teleport()
     {
-        int index = Random.Range(0, teleportPositions.Count);
-        Vector2 tpPos = teleportPositions[index].position;
-        transform.position = tpPos;
+        List<Transform> transformsCopy = new(teleportPositions);
+        transformsCopy.Remove(currentTransformPosition);
+
+        int index = Random.Range(0, transformsCopy.Count);
+        Transform tpPos = transformsCopy[index];
+
+        transform.position = tpPos.position;
+        currentTransformPosition = tpPos;
     }
     void SpawnYokai()
     {
@@ -46,6 +54,11 @@ public class NoboruManager : EnemyStateManager
             SpawnYokai();
             yield return new WaitForSeconds(fancySummonInterval);
         }
+    }
+    public override bool HasLineOfSight(bool tracking)
+    {
+        // override L.O.S. calculation to be really super generous to the mage rather than require direct L.O.S.
+        return Physics2D.OverlapCircle(summonTriggerSphere.transform.position, summonTriggerSphere.transform.lossyScale.x, LayerMask.GetMask("Player")) || base.HasLineOfSight(tracking);
     }
     public void OnDrawGizmos()
     {
