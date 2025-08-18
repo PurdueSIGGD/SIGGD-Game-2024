@@ -31,6 +31,8 @@ public class SeamstressManager : GhostManager
 
     private LineRenderer lineRenderer;
 
+    private string identityName;
+
     // Used to keep track of the all chaind enmeies
     class ChainedEnemy
     {
@@ -38,6 +40,15 @@ public class SeamstressManager : GhostManager
         public ChainedEnemy chainedTo;
 
         public ChainedEnemy() { enemy = null; chainedTo = null; }
+    }
+
+    void Awake()
+    {
+        identityName = name;
+        if (identityName.Contains("(Clone)"))
+        {
+            identityName = identityName.Replace("(Clone)", "");
+        }
     }
 
     protected override void Start()
@@ -49,6 +60,16 @@ public class SeamstressManager : GhostManager
 
         durationCounter = GetStats().ComputeValue("Fatebound Duration");
         spools = SaveManager.data.yume.spoolCount;
+
+        int[] points = SaveManager.data.ghostSkillPts[identityName];
+        Skill[] skills = GetComponent<SkillTree>().GetAllSkills();
+        for (int i = 0; i < skills.Length; i++)
+        {
+            for (int j = 0; j < points[i]; j++)
+            {
+                GetComponent<SkillTree>().RemoveSkillPoint(skills[i]);
+            }
+        }
     }
 
     protected override void Update()
@@ -173,7 +194,8 @@ public class SeamstressManager : GhostManager
                 sharedDmg.damageStrength = context.damageStrength;
                 sharedDmg.victim = ptr.enemy;
 
-                ptr.enemy.GetComponent<Health>().NoContextDamage(sharedDmg, PlayerID.instance.gameObject);
+                //ptr.enemy.GetComponent<Health>().NoContextDamage(sharedDmg, PlayerID.instance.gameObject);
+                ptr.enemy.GetComponent<Health>().Damage(sharedDmg, PlayerID.instance.gameObject);
             }
             ptr = ptr.chainedTo;
         }

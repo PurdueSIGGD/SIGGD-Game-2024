@@ -13,10 +13,12 @@ public class PartyManagerUI : MonoBehaviour
     [Header("Selected Ghost Details")]
 
     [SerializeField] TextMeshProUGUI nameText;
+    [SerializeField] Image lvlBackground;
     [SerializeField] TextMeshProUGUI lvlText;
+    [SerializeField] Image expBar;
+    [SerializeField] Slider expSlider;
     [SerializeField] TextMeshProUGUI expText;
     [SerializeField] Image posterImage;
-    [SerializeField] Slider expSlider;
 
     [Header("Ghost Ability - Basic")]
     [SerializeField] Image basicAbilityIcon;
@@ -124,7 +126,7 @@ public class PartyManagerUI : MonoBehaviour
     {
         selectedItem = item;
         CharacterSO character = ghost.GetCharacterInfo();
-        nameText.text = character.name;
+        nameText.text = character.displayName;
         posterImage.sprite = character.fullImage;
 
         basicAbility.gameObject.SetActive(true);
@@ -139,14 +141,20 @@ public class PartyManagerUI : MonoBehaviour
         specialAbilityDesc.text = character.specialAbilityDescription;
 
         lvlText.text = ghost.GetComponent<SkillTree>().GetLevel().ToString();
-        expText.text = ghost.GetExp() + " / " + ghost.GetRequiredExp();
+        Color nameBackgroundC = ghost.GetCharacterInfo().primaryColor;
+        nameBackgroundC.a = 0.45f;
+        lvlBackground.color = nameBackgroundC;
+        expText.text = Mathf.Min(ghost.GetExp(), ghost.GetRequiredExp()) + " / " + ghost.GetRequiredExp();
+        expBar.color = ghost.GetCharacterInfo().primaryColor;
         expSlider.value = ghost.GetExp() / (float)ghost.GetRequiredExp();
+        Debug.Log(ghost.name + ": " + ghost.GetExp() / (float)ghost.GetRequiredExp());
+        Debug.Log(ghost.name + ": " + expSlider.value);
     }
 
     public void VisualizeOrion()
     {
         selectedItem = null;
-        nameText.text = orionSO.name;
+        nameText.text = orionSO.displayName;
         posterImage.sprite = orionSO.fullImage;
 
         basicAbility.gameObject.SetActive(false);

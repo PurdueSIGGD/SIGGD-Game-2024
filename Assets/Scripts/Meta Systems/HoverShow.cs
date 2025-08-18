@@ -6,7 +6,7 @@ public class HoverShow : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 {
     [SerializeField] RectTransform panel;
     [SerializeField] float showDuration;
-    [SerializeField] float hoverDelay;
+    [SerializeField] float hoverDelay = 0.15f;
 
     private float t;
     private bool hovered;

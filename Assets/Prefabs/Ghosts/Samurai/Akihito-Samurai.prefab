@@ -75,7 +75,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6,
     type: 3}
-  m_Color: {r: 1, g: 0.50393474, b: 0, a: 0.5882353}
+  m_Color: {r: 0.9528302, g: 0.57914615, b: 0.51686543, a: 0.5882353}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -406,8 +406,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterInfo: {fileID: 11400000, guid: ae8d440ec0dd9064bb65602e9741a469, type: 2}
-  isUnlocked: 1
+  isUnlocked: 0
   exp: 0
+  levelReqs: d0070000d0070000d0070000d0070000d0070000d0070000a00f0000a00f0000a00f000088130000881300008813000088130000
 --- !u!114 &5130785490169831721
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -488,7 +489,7 @@ MonoBehaviour:
   - name: Melee Parry Base Damage
     value: 0
   - name: Melee Parry Bonus Damage per Incoming Attack Damage
-    value: 2
+    value: 2.5
   - name: Melee Parry Stun Time
     value: 0.8
   - name: Parry Success Special Cooldown
@@ -655,10 +656,10 @@ MonoBehaviour:
   skillSO: {fileID: 11400000, guid: a29b754973a32ff41904e737b4a972ef, type: 2}
   values:
   - 0
-  - 0.75
-  - 1.5
-  - 2.25
+  - 1
+  - 2
   - 3
+  - 4
 --- !u!114 &7591434726526564384
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -717,4 +718,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: 0179f79cebe153a448ea40fb58ee955a, type: 2}
-  values: 00000000070000000e000000150000001c000000
+  values: 0000000009000000120000001b00000024000000

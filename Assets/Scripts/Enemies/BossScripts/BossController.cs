@@ -7,6 +7,7 @@ public class BossController : MonoBehaviour
 {
 
     [Header("Spawning and Enemy parameters")]
+    [SerializeField] protected bool startSpawn;
     EnemySpawning enemySpawner;
     bool waveSpawningEnabled = false;
     [SerializeField] int lowEnemyThreshold; // inclusive
@@ -71,6 +72,12 @@ public class BossController : MonoBehaviour
             }
         }
     }
+
+    public void EnableAI()
+    {
+        startSpawn = true;
+    }
+
     public void EnableInvincibility()
     {
         if (invincible) return;

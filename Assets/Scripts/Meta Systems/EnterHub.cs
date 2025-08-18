@@ -47,6 +47,10 @@ public class EnterHub : MonoBehaviour
         {
             north.gameObject.SetActive(false);
         }
+        else
+        {
+            north.GetComponent<GhostIdentity>().UnlockGhost();
+        }
         // load North on hub enter convo
         if (SaveManager.data.north.storyProgress == 1)
         {
@@ -59,6 +63,10 @@ public class EnterHub : MonoBehaviour
         if (SaveManager.data.eva.storyProgress == 0)
         {
             eva.gameObject.SetActive(false);
+        }
+        else
+        {
+            eva.GetComponent<GhostIdentity>().UnlockGhost();
         }
         // load Eva on hub enter convo
         if (SaveManager.data.eva.storyProgress == 1)
@@ -73,8 +81,12 @@ public class EnterHub : MonoBehaviour
         {
             akihito.gameObject.SetActive(false);
         }
-        // load Yume on hub enter convo
-        if (SaveManager.data.yume.storyProgress == 1)
+        else
+        {
+            akihito.GetComponent<GhostIdentity>().UnlockGhost();
+        }
+        // load Akihito on hub enter convo
+        if (SaveManager.data.akihito.storyProgress == 1)
         {
             StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
             sp.Init(akihitoHubEntrance.data.convoName, "akihito", 2, true);
@@ -85,6 +97,10 @@ public class EnterHub : MonoBehaviour
         if (SaveManager.data.yume.storyProgress == 0)
         {
             yume.gameObject.SetActive(false);
+        }
+        else
+        {
+            yume.GetComponent<GhostIdentity>().UnlockGhost();
         }
         // load Yume on hub enter convo
         if (SaveManager.data.yume.storyProgress == 1)
@@ -99,8 +115,12 @@ public class EnterHub : MonoBehaviour
         {
             silas.gameObject.SetActive(false);
         }
-        // load Yume on hub enter convo
-        if (SaveManager.data.yume.storyProgress == 1)
+        else
+        {
+            silas.GetComponent<GhostIdentity>().UnlockGhost();
+        }
+        // load Silas on hub enter convo
+        if (SaveManager.data.silas.storyProgress == 1)
         {
             StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
             sp.Init(silasHubEntrance.data.convoName, "silas", 2, true);
@@ -112,7 +132,11 @@ public class EnterHub : MonoBehaviour
         {
             aegis.gameObject.SetActive(false);
         }
-        // load Yume on hub enter convo
+        else
+        {
+            aegis.GetComponent<GhostIdentity>().UnlockGhost();
+        }
+        // load Aegis on hub enter convo
         if (SaveManager.data.aegis.storyProgress == 1)
         {
             StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
