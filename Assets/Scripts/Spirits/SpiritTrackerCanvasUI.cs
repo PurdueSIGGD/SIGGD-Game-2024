@@ -5,8 +5,7 @@ using UnityEngine;
 public class SpiritTrackerCanvasUI : MonoBehaviour
 {
     [SerializeField] List<SpiritCounterUI> spiritCounters;
-
-    // Start is called before the first frame update
+    [SerializeField] bool fromSaveManager = true;
     void OnEnable()
     {
         SpiritTracker spiritTracker = PersistentData.Instance.GetComponent<SpiritTracker>();
@@ -14,6 +13,11 @@ public class SpiritTrackerCanvasUI : MonoBehaviour
         if (!spiritTracker.trackerUI)
         {
             spiritTracker.trackerUI = this;
+        }
+
+        foreach (SpiritCounterUI counter in spiritCounters)
+        {
+            counter.fromSaveManager = fromSaveManager;
         }
 
         UpdateCounters();

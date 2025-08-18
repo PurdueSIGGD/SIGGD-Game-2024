@@ -14,7 +14,7 @@ public class SpiritCounterUI : MonoBehaviour
     [SerializeField] private Spirit.SpiritType spiritType;
     [SerializeField] private Color spiritColor;
 
-    [SerializeField] private bool fromSaveManager = true; // from SaveManager or spirit tracker?
+    [SerializeField] public bool fromSaveManager = true; // from SaveManager or spirit tracker?
 
     // Start is called before the first frame update
     void Start()

@@ -10,6 +10,7 @@ public class SpiritTracker : MonoBehaviour
     public int yellowSpiritsCollected = 0;
     public int pinkSpiritsCollected = 0;
 
+    [HideInInspector]
     public SpiritTrackerCanvasUI trackerUI; // reference to tracker UI
 
     private void OnEnable()
@@ -38,6 +39,11 @@ public class SpiritTracker : MonoBehaviour
             case Spirit.SpiritType.Pink:
                 pinkSpiritsCollected++;
                 break;
+        }
+
+        if (trackerUI != null)
+        {
+            trackerUI.UpdateCounters();
         }
     }
 
