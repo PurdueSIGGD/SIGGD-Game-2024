@@ -20,10 +20,12 @@ public class EnemySpawning : MonoBehaviour
     [SerializeField] GameObject enemyIndicator;
     [SerializeField] private GameObject doorIndicator;
 
-    [SerializeField] private List<GameObject> currentEnemies = new List<GameObject>();
+    private List<GameObject> currentEnemies = new List<GameObject>();
+    private List<GameObject> currentSpawnOrbs = new List<GameObject>();
+    [SerializeField] GameObject spawnOrb;
     private int waveNumber;
     private int currentMaxWave;
-    [SerializeField] private GameObject[] spawnPoints;
+    private GameObject[] spawnPoints;
     private bool showRemainingEnemy;
 
     [Header("Boss Room Override")]
@@ -112,8 +114,13 @@ public class EnemySpawning : MonoBehaviour
     /// </summary>
     public void SpawnEnemy(Vector2 spawnPosition)
     {
-        GameObject newEnemy = Instantiate(GetNextEnemy(), spawnPosition, Quaternion.identity);
-        RegisterNewEnemy(newEnemy);
+        GameObject newEnemySpawnOrb = Instantiate(spawnOrb, spawnPosition, Quaternion.identity);
+        currentSpawnOrbs.Add(newEnemySpawnOrb);
+        newEnemySpawnOrb.GetComponent<EnemySpawnOrb>().Initialize(
+            GetNextEnemy(),
+            RegisterNewEnemy,
+            currentSpawnOrbs.Remove
+        );
     }
     public void SpawnEnemyAtRandomPoint()
     {

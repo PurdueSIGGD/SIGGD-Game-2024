@@ -18,6 +18,7 @@ public class BossController : MonoBehaviour
     [SerializeField] DamageContext killAllEnemiesContext;
     int waveCounter = 0;
     int enemiesKilledCounter = 0;
+    bool triggerNewWave = false;
 
     protected Health bossHealth;
     protected EnemyStateManager bossStateManager; // might be null
@@ -35,6 +36,7 @@ public class BossController : MonoBehaviour
         GameplayEventHolder.OnDeath -= CheckEnemyDeathOnDeath;
         DisableInvincibility();
     }
+
     public void Start()
     {
         lowEnemyWaveSpawnTimer = lowEnemyWaveSpawnSec;
@@ -42,7 +44,6 @@ public class BossController : MonoBehaviour
         bossHealth = GetComponent<Health>();
         bossStateManager = GetComponent<EnemyStateManager>();
     }
-
     public void Update()
     {
         if (waveSpawningEnabled)
@@ -50,9 +51,10 @@ public class BossController : MonoBehaviour
             int numEnemies = GetNumEnemies();
 
             // spawn wave if all enemies dead, or enemies left alive for too long
-            if ((numEnemies <= 0) || (lowEnemyWaveSpawnTimer <= 0))
+            if (triggerNewWave || (lowEnemyWaveSpawnTimer <= 0))
             {
                 lowEnemyWaveSpawnTimer = lowEnemyWaveSpawnSec;
+                triggerNewWave = false;
                 SpawnWave();
             }
             if (numEnemies <= lowEnemyThreshold)
@@ -99,6 +101,7 @@ public class BossController : MonoBehaviour
     {
         waveSpawningEnabled = true;
         lowEnemyWaveSpawnTimer = lowEnemyWaveSpawnSec;
+        SpawnWave();
     }
     public void StopWaveSpawning()
     {
@@ -141,6 +144,11 @@ public class BossController : MonoBehaviour
         if (context.victim.CompareTag("Enemy"))
         {
             enemiesKilledCounter++;
+            if ((enemySpawner.GetCurrentEnemies().Contains(context.victim) && GetNumEnemies() == 1) ||
+                 (!enemySpawner.GetCurrentEnemies().Contains(context.victim) && GetNumEnemies() == 0))
+            {
+                triggerNewWave = true;
+            }
         }
     }
     public int GetNumEnemiesKilled()
