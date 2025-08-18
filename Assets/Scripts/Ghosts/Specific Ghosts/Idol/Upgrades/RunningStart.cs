@@ -11,11 +11,6 @@ public class RunningStart : Skill
     };
     private int pointindex;
 
-    //void Start()
-    //{
-    //    GameplayEventHolder.OnAbilityUsed += ApplyBuff;
-    //}
-
     private void OnEnable()
     {
         GameplayEventHolder.OnAbilityUsed += ApplyBuff;

@@ -194,7 +194,8 @@ public class SeamstressManager : GhostManager
                 sharedDmg.damageStrength = context.damageStrength;
                 sharedDmg.victim = ptr.enemy;
 
-                ptr.enemy.GetComponent<Health>().NoContextDamage(sharedDmg, PlayerID.instance.gameObject);
+                //ptr.enemy.GetComponent<Health>().NoContextDamage(sharedDmg, PlayerID.instance.gameObject);
+                ptr.enemy.GetComponent<Health>().Damage(sharedDmg, PlayerID.instance.gameObject);
             }
             ptr = ptr.chainedTo;
         }

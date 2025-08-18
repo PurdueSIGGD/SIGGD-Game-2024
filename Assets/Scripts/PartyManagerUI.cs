@@ -126,7 +126,7 @@ public class PartyManagerUI : MonoBehaviour
     {
         selectedItem = item;
         CharacterSO character = ghost.GetCharacterInfo();
-        nameText.text = character.name;
+        nameText.text = character.displayName;
         posterImage.sprite = character.fullImage;
 
         basicAbility.gameObject.SetActive(true);
@@ -154,7 +154,7 @@ public class PartyManagerUI : MonoBehaviour
     public void VisualizeOrion()
     {
         selectedItem = null;
-        nameText.text = orionSO.name;
+        nameText.text = orionSO.displayName;
         posterImage.sprite = orionSO.fullImage;
 
         basicAbility.gameObject.SetActive(false);

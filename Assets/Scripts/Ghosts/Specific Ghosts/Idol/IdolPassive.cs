@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,6 +23,7 @@ public class IdolPassive : MonoBehaviour
             "Glide Accel.",
             //"Glide Deaccel."
         };
+    private string dodgeStatName = "Dodge Chance";
 
     // Reference to player stats
     private StatManager playerStats;
@@ -51,6 +53,9 @@ public class IdolPassive : MonoBehaviour
         particlesVFX = Instantiate(tempoParticlesVFX, PlayerID.instance.gameObject.transform).GetComponent<IdolTempoParticles>();
         particlesVFX.gameObject.SetActive(false);
         tempoStacks = 0;
+
+        PlayerID.instance.gameObject.GetComponent<PlayerHealth>().evaTempo = this;
+
         /*
         tempoStacks = SaveManager.data.eva.tempoCount;
         if (tempoStacks > 0)
@@ -142,7 +147,6 @@ public class IdolPassive : MonoBehaviour
         {
             return;
         }
-        kill = true;
 
         IncrementTempo(Mathf.CeilToInt(manager.GetStats().ComputeValue("TEMPO_STACKS_PER_KILL")));
     }
@@ -163,24 +167,12 @@ public class IdolPassive : MonoBehaviour
     {
         Debug.Log("Increasing tempo");
 
+        // Update flagged to reset duration
+        kill = true;
+
         // ensure tempo stacks don't exceed maximum
         int remainingStacks = (int) manager.GetStats().ComputeValue("TEMPO_MAX_STACKS") - tempoStacks;
         stacks = stacks < remainingStacks ? stacks : remainingStacks;
-
-        // if at max tempo, play max tempo audio
-        /*
-        if (remainingStacks <= 0)
-        {
-            // play audio, if has upgrade, choose from 1 random voice bank to play
-            string chosenBank = avaliableHoloJumpVA[Random.Range(0, avaliableHoloJumpVA.Count)];
-            AudioManager.Instance.VABranch.PlayVATrack(chosenBank);
-        }
-        else
-        {
-            // play on activate audio
-            AudioManager.Instance.VABranch.PlayVATrack("Eva-Idol Activate Tempo");
-        }
-        */
 
         // SFX
         if (tempoStacks + stacks < manager.GetStats().ComputeValue("TEMPO_MAX_STACKS") || tempoStacks >= manager.GetStats().ComputeValue("TEMPO_MAX_STACKS"))
@@ -281,6 +273,8 @@ public class IdolPassive : MonoBehaviour
     {
         // apply changes to each speed stat
 
+        int dodgeMod = Mathf.FloorToInt(manager.GetStats().ComputeValue("TEMPO_DODGE_PERCENT_INT") * 10f);
+        playerStats.ModifyStat(dodgeStatName, dodgeMod * delta);
         int mod = (int) manager.GetStats().ComputeValue("TEMPO_BUFF_PERCENT_INT");
         foreach (string statName in statNames)
         {
@@ -290,5 +284,6 @@ public class IdolPassive : MonoBehaviour
             playerStats.ModifyStat(statName, mod * delta);
         }
         Debug.Log("RUN STAT: " + playerStats.ComputeValue("Max Running Speed"));
+        Debug.Log("DODGE STAT: " + playerStats.ComputeValue("Dodge Chance"));
     }
 }
