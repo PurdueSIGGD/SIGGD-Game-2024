@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GhostIdentity : MonoBehaviour
@@ -5,6 +6,16 @@ public class GhostIdentity : MonoBehaviour
     [SerializeField] private CharacterSO characterInfo;
     [SerializeField] private bool isUnlocked;
     [SerializeField] private int exp = 0;
+    [SerializeField]
+    List<int> levelReqs = new List<int>()
+    { 2000, 2000, 2000,
+      2000, 2000, 2000,
+      4000, 4000, 4000,
+      5000, 5000, 5000,
+      5000};
+    private int curLevel;
+    private int curExp;
+    private GhostData data;
 
     private IParty[] partyScripts;
     private ISelectable[] possessingScripts;
@@ -17,6 +28,63 @@ public class GhostIdentity : MonoBehaviour
         partyScripts = this.GetComponents<IParty>();
         possessingScripts = this.GetComponents<ISelectable>();
         skillTree = GetComponent<SkillTree>();
+    }
+
+    void Start()
+    {
+        string identityName = gameObject.name;
+        if (identityName.Contains("(Clone)"))
+        {
+            identityName = identityName.Replace("(Clone)", "");
+        }
+        switch (identityName)
+        {
+            case "Eva-Idol":
+                data = SaveManager.data.eva;
+                break;
+            case "North-Police_Chief":
+                data = SaveManager.data.north;
+                break;
+            case "Akihito-Samurai":
+                data = SaveManager.data.akihito;
+                break;
+            case "Yume-Seamstress":
+                data = SaveManager.data.yume;
+                break;
+            case "Silas-PlagueDoc":
+                data = SaveManager.data.silas;
+                break;
+            case "Aegis-King":
+                data = SaveManager.data.aegis;
+                break;
+            default:
+                Debug.LogError("Cannot parse ghost's name attmpting to level up: " + identityName);
+                return;
+        }
+        curExp = data.xp;
+        AddExp(curExp);
+    }
+
+    void OnEnable()
+    {
+        Spirit.SpiritCollected += GainExp;
+    }
+
+    void OnDisable()
+    {
+        Spirit.SpiritCollected -= GainExp;
+    }
+
+    private void GainExp(Spirit.SpiritType type)
+    {
+        if (type == Spirit.SpiritType.Pink)
+        {
+            AddExp(30);
+        }
+        else
+        {
+            AddExp(10);
+        }
     }
 
     /// <summary>
@@ -69,11 +137,12 @@ public class GhostIdentity : MonoBehaviour
     public void AddExp(int amount)
     {
         exp += amount;
-        while (exp >= GetRequiredExp())
+        while (exp >= GetRequiredExp() && skillTree.GetLevel() <= levelReqs.Count)
         {
             exp = exp - GetRequiredExp();
             skillTree.LevelUp();
         }
+        data.xp = exp;
     }
 
     public void UnlockGhost()
@@ -93,7 +162,12 @@ public class GhostIdentity : MonoBehaviour
 
     public int GetRequiredExp()
     {
-        return (100 * skillTree.GetLevel());
+        if (skillTree.GetLevel() >= levelReqs.Count) 
+        {
+            Debug.LogWarning("Attempting to level up ghost " + name + " to level higher than expected: " + skillTree.GetLevel());
+            return levelReqs[^1];
+        }
+        return levelReqs[skillTree.GetLevel()];
     }
 
 }
