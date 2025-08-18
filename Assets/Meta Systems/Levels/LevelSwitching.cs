@@ -128,4 +128,9 @@ public class LevelSwitching : MonoBehaviour
     {
         return homeWorld;
     }
+
+    public int GetMaxLevels()
+    {
+        return this.maxLevels;
+    }
 }

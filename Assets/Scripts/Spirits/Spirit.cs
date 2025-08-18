@@ -98,4 +98,9 @@ public class Spirit : MonoBehaviour
             isBeingCollected = true;
         }
     }
+
+    public SpiritType GetSpiritType()
+    {
+        return this.type;
+    }
 }

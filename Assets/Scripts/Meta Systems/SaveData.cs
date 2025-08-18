@@ -36,7 +36,8 @@ public class SaveData
 [Serializable]
 public class GhostData
 {
-    public int storyProgress = 0;
+    public int storyProgress = 0; // progress through the ghost's story
+    public int bossProgress = 0; // if the ghost has encountered their boss before
     public int xp = 0;
 }
 
@@ -68,7 +69,7 @@ public class AkihitoData : GhostData
 [Serializable]
 public class SilasData : GhostData
 {
-
+    public int ingredientsCollected;
 }
 
 [Serializable]

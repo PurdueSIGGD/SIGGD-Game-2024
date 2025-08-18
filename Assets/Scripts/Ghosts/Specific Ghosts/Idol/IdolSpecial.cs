@@ -226,9 +226,11 @@ public class IdolSpecial : MonoBehaviour
 
     IEnumerator ImmuneTimer(float time)
     {
-        GameplayEventHolder.OnDamageFilter.Add(HoloJumpImmuneFilter);
+        //GameplayEventHolder.OnDamageFilter.Add(HoloJumpImmuneFilter);
+        GetComponent<Health>().GetStats().ModifyStat("Dodge Chance", 1000);
         yield return new WaitForSeconds(time);
-        GameplayEventHolder.OnDamageFilter.Remove(HoloJumpImmuneFilter);
+        GetComponent<Health>().GetStats().ModifyStat("Dodge Chance", -1000);
+        //GameplayEventHolder.OnDamageFilter.Remove(HoloJumpImmuneFilter);
     }
 
     void HoloJumpImmuneFilter(ref DamageContext context)
