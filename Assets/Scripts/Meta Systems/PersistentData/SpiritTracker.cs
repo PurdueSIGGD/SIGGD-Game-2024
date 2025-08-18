@@ -10,7 +10,7 @@ public class SpiritTracker : MonoBehaviour
     public int yellowSpiritsCollected = 0;
     public int pinkSpiritsCollected = 0;
 
-    [SerializeField] SpiritTrackerCanvasUI trackerUI; // reference to tracker UI
+    public SpiritTrackerCanvasUI trackerUI; // reference to tracker UI
 
     private void OnEnable()
     {

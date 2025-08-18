@@ -7,8 +7,15 @@ public class SpiritTrackerCanvasUI : MonoBehaviour
     [SerializeField] List<SpiritCounterUI> spiritCounters;
 
     // Start is called before the first frame update
-    void Start()
+    void OnEnable()
     {
+        SpiritTracker spiritTracker = PersistentData.Instance.GetComponent<SpiritTracker>();
+
+        if (!spiritTracker.trackerUI)
+        {
+            spiritTracker.trackerUI = this;
+        }
+
         UpdateCounters();
     }
 
