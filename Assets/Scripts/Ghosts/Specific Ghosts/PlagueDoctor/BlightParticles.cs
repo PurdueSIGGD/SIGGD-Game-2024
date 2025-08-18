@@ -14,7 +14,7 @@ public class BlightParticles : MonoBehaviour
 
     private void OnParticleCollision(GameObject other)
     {
-        if (other.GetComponent<Health>() == null) return; // do not try to add blight to obj without health
+        if (other.GetComponent<Health>() == null || other.Equals(PlayerID.instance.gameObject)) return; // do not try to add blight to obj without health
 
         if (!uniqueHits.Contains(other.GetInstanceID()))
         {

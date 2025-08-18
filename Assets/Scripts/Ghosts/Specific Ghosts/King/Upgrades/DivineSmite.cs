@@ -14,7 +14,16 @@ public class DivineSmite : Skill
     private void Start()
     {
         manager = GetComponent<KingManager>();
+    }
+
+    private void OnEnable()
+    {
         GameplayEventHolder.OnDamageFilter.Add(OnDivineSmite);
+    }
+
+    private void OnDisable()
+    {
+        GameplayEventHolder.OnDamageFilter.Remove(OnDivineSmite);
     }
 
     public void OnTakeDamage(float dmg)

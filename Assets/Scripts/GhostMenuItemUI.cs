@@ -30,7 +30,7 @@ public class GhostMenuItemUI : MonoBehaviour, IPointerClickHandler
     {
         identity = ghost;
         CharacterSO info = ghost.GetCharacterInfo();
-        textComponent.text = info.name;
+        textComponent.text = info.displayName;
         imageComponent.sprite = info.characterIcon;
         borderComponent.color = info.primaryColor;
         inPartyIndicator.GetComponent<Image>().color = info.primaryColor;

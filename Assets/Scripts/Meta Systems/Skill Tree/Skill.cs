@@ -43,6 +43,11 @@ public abstract class Skill : MonoBehaviour
 
     public void AddPoint()
     {
+        identityName = name;
+        if (identityName.Contains("(Clone)"))
+        {
+            identityName = identityName.Replace("(Clone)", "");
+        }
         SaveManager.data.ghostSkillPts[identityName][skillIndex]++;
         AddPointTrigger();
     }

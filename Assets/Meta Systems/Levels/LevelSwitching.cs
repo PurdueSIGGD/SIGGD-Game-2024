@@ -111,7 +111,7 @@ public class LevelSwitching : MonoBehaviour
         {
             //Debug.Log("Done Loading");
             nextScene = sceneName;
-            GetComponent<EnemySpawning>().StartLevel();
+            GetComponent<EnemySpawning>().StartLevel(nextScene);
             //Debug.Log("Scene Loaded: " + SceneManager.GetSceneByName(nextScene).isLoaded);
         }
     }
@@ -127,5 +127,10 @@ public class LevelSwitching : MonoBehaviour
     public string GetHomeWorld()
     {
         return homeWorld;
+    }
+
+    public int GetMaxLevels()
+    {
+        return this.maxLevels;
     }
 }

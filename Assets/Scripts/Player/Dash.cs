@@ -69,6 +69,7 @@ public class Dash : MonoBehaviour, IStatList
     public void StartDash()
     {
         GetComponent<Move>().PlayerStop();
+        GetComponent<Health>().GetStats().ModifyStat("Dodge Chance", 1000);
         Vector3 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         Vector2 direction = ((Vector2) mousePos - (Vector2) transform.position).normalized;
         if (GetComponent<Animator>().GetBool("p_grounded"))
@@ -104,6 +105,7 @@ public class Dash : MonoBehaviour, IStatList
     public void StopDash()
     {
         GetComponent<Move>().PlayerGo();
+        GetComponent<Health>().GetStats().ModifyStat("Dodge Chance", -1000);
         if (GetComponent<Animator>().GetBool("p_grounded")) return;
         GetComponent<Move>().ApplyKnockback(rb.velocity.normalized, rb.velocity.magnitude, true);
         GetComponent<Animator>().SetBool("air_light_ready", true);

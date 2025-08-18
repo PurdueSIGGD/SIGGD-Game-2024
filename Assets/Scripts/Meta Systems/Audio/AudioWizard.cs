@@ -173,6 +173,7 @@ public class AudioWizard : ScriptableWizard
             {
                 mixerType = Mixer.VA;
                 trackType = TrackType.OneShot;
+                playOutsideCombat = true;
             }
         }
 
