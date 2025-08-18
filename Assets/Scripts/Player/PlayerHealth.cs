@@ -12,6 +12,16 @@ public class PlayerHealth : Health
     private float maxHealth;
     private float healthProportion;
 
+    [SerializeField] private int baseDodgeChance;
+    [SerializeField] private Sprite dodgeIcon;
+    [SerializeField] private Sprite tempoIcon;
+    [SerializeField] private Sprite selfMedicatedIcon;
+    [SerializeField] private CharacterSO orionCharacterInfo;
+    [SerializeField] private GameObject dodgeVFX;
+
+    [HideInInspector] public IdolPassive evaTempo;
+    [HideInInspector] public SelfMedicated silasSelfMedicated;
+
     void Awake()
     {
         stats = GetComponent<StatManager>();
@@ -21,7 +31,20 @@ public class PlayerHealth : Health
     void Start()
     {
         currentHealth = stats.ComputeValue("Max Health");
+        stats.ModifyStat("Dodge Chance", 900);
+        stats.ModifyStat("Dodge Chance", baseDodgeChance * 10);
+    }
+
+    private void OnEnable()
+    {
         GameplayEventHolder.OnDamageDealt += PlayHurtExertion;
+        GameplayEventHolder.OnDamageFilter.Add(CheckDodgeChance);
+    }
+
+    private void OnDisable()
+    {
+        GameplayEventHolder.OnDamageDealt -= PlayHurtExertion;
+        GameplayEventHolder.OnDamageFilter.Remove(CheckDodgeChance);
     }
 
     void Update()
@@ -70,17 +93,55 @@ public class PlayerHealth : Health
     {
         if (context.victim.CompareTag("Player"))
         {
+            if (context.damage <= 0f)
+            {
+                return;
+            }
+
             // if light amount of damage
-            if (context.damage <= 30)
+            if (context.damage < 25f)
             {
                 AudioManager.Instance.VABranch.PlayVATrack(PartyManager.instance.selectedGhost + " Light Damage Taken");
+                return;
             }
 
             // if heavy damage taken
-            if (context.damage > 30)
+            if (context.damage >= 25f)
             {
                 AudioManager.Instance.VABranch.PlayVATrack(PartyManager.instance.selectedGhost + " Significant Damage Taken");
             }
         }
+    }
+
+    private void CheckDodgeChance(ref DamageContext context)
+    {
+        if (!context.victim.CompareTag("Player")) return;
+
+        if (Random.Range(1000f, 2000f) > stats.ComputeValue("Dodge Chance")) return;
+        context.damage = 0f;
+
+        // Eva Tempo Dodge Effect
+        GhostIdentity selectedGhost = GetComponent<PartyManager>().GetSelectedGhost();
+        if (evaTempo != null && evaTempo.tempoStacks > 0 && selectedGhost != null && selectedGhost.GetCharacterInfo().displayName.Equals("Eva"))
+        {
+            DamageNumberManager.instance.PlayMessage(gameObject, 0f, tempoIcon, "Dodged!", selectedGhost.GetCharacterInfo().highlightColor);
+            GameObject tempoDodgePulseVFX = Instantiate(dodgeVFX, gameObject.transform);
+            tempoDodgePulseVFX.GetComponent<RingExplosionHandler>().playRingExplosion(2f, selectedGhost.GetCharacterInfo().highlightColor);
+            return;
+        }
+
+        // Silas Self-medicated Dodge Effect
+        if (silasSelfMedicated != null && silasSelfMedicated.isBuffed && selectedGhost != null && selectedGhost.GetCharacterInfo().displayName.Equals("Silas"))
+        {
+            DamageNumberManager.instance.PlayMessage(gameObject, 0f, selfMedicatedIcon, "Dodged!", selectedGhost.GetCharacterInfo().highlightColor);
+            GameObject selfMedicatedDodgePulseVFX = Instantiate(dodgeVFX, gameObject.transform);
+            selfMedicatedDodgePulseVFX.GetComponent<RingExplosionHandler>().playRingExplosion(2f, selectedGhost.GetCharacterInfo().highlightColor);
+            return;
+        }
+
+        // Standard Dodge Effect
+        DamageNumberManager.instance.PlayMessage(gameObject, 0f, dodgeIcon, "Dodged!", orionCharacterInfo.highlightColor);
+        GameObject dodgePulseVFX = Instantiate(dodgeVFX, gameObject.transform);
+        dodgePulseVFX.GetComponent<RingExplosionHandler>().playRingExplosion(2f, orionCharacterInfo.highlightColor);
     }
 }

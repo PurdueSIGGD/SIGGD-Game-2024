@@ -188,11 +188,11 @@ MonoBehaviour:
   - name: Basic Cooldown
     value: 1
   - name: Basic Damage
-    value: 17
+    value: 18
   - name: Basic Heavy Damage
-    value: 17
+    value: 18
   - name: Basic Super Heavy Damage
-    value: 27
+    value: 36
   - name: Basic Travel Distance
     value: 25
   - name: Basic Charge Up Time
@@ -202,7 +202,7 @@ MonoBehaviour:
   - name: Basic Starting Ammo
     value: 3
   - name: Special Cooldown
-    value: 30
+    value: 25
   - name: Special Damage
     value: 200
   - name: Special Stun Time
@@ -325,7 +325,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: 3199848284157d44abaab00036650e65, type: 2}
-  reserveCharges: 0000000002000000040000000600000008000000
+  reserveCharges: 000000000300000006000000090000000c000000
   pointIndex: 0
   reservedCount: 0
 --- !u!114 &589596433784939328
@@ -377,10 +377,10 @@ MonoBehaviour:
   skillSO: {fileID: 11400000, guid: b89279340f3214445bdd49edb54b2342, type: 2}
   values:
   - 0
-  - 3
-  - 6
-  - 9
+  - 4
+  - 8
   - 12
+  - 16
 --- !u!114 &4769327096740874371
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -800,7 +800,7 @@ SpriteRenderer:
   m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6,
     type: 3}
-  m_Color: {r: 0.1037933, g: 0.3226771, b: 0.8050314, a: 0.5882353}
+  m_Color: {r: 0.5647059, g: 0.7254902, b: 0.94509804, a: 0.5882353}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
