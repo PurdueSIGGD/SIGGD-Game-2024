@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 103128502703214001}
-  m_Layer: 0
+  m_Layer: 21
   m_Name: SpawnDisabledTool
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 8306492836625727817}
   - component: {fileID: 5137486025036222595}
   - component: {fileID: 9085363728507123757}
-  m_Layer: 0
+  m_Layer: 21
   m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -60,7 +60,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1029091859426106339}
@@ -4924,9 +4924,16 @@ GameObject:
   m_Component:
   - component: {fileID: 1029091859426106339}
   - component: {fileID: 4247760989905432714}
-  m_Layer: 0
+  - component: {fileID: 2527913991098223787}
+  - component: {fileID: 3615774407264337951}
+  - component: {fileID: 7056995522489862345}
+  - component: {fileID: 1210912285790219668}
+  - component: {fileID: 7121970231918410658}
+  - component: {fileID: 7618341576990429218}
+  - component: {fileID: 505081720793511435}
+  m_Layer: 21
   m_Name: YokaiOrb
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4963,4 +4970,191 @@ MonoBehaviour:
   orbColor: {r: 1, g: 0.017681824, b: 0, a: 0}
   renderer: {fileID: 8306492836625727817}
   particleSystem: {fileID: 5137486025036222595}
-  spawnTime: 1.5
+  spawnTime: 5
+--- !u!114 &2527913991098223787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7951563050262519672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fafccaf82726132409e540d7bf6f6cef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stats: {fileID: 0}
+  pool: {fileID: 0}
+  animator: {fileID: 0}
+  isFlyer: 1
+  aggroRange: 0
+  isBeingKnockedBack: 0
+  grounded: 0
+  groundedRayCheckLength: 1
+  detectionRadius: 15
+--- !u!114 &3615774407264337951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7951563050262519672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83a0782e8961e074bbf391401404ae17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  statList:
+  - name: HEIGHT_OFFSET
+    value: 0
+  - name: FLIGHT_FORCE
+    value: 0.25
+  - name: CATCHUP_FACTOR
+    value: 0.01
+  - name: REPELL_FACTOR
+    value: 0.01
+  - name: MIN_REPELL
+    value: 0
+  - name: RANDOM_FACTOR
+    value: 0.1
+  - name: Idle Speed
+    value: 0
+  - name: Speed
+    value: 1
+  - name: Target Range Min
+    value: 0
+  - name: Target Range Max
+    value: 0
+  - name: Pause Timer Duration Min
+    value: 0
+  - name: Pause Timer Duration Max
+    value: 0
+--- !u!50 &7056995522489862345
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7951563050262519672}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 2097216
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
+--- !u!114 &1210912285790219668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7951563050262519672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a13ad00583bca6b4fa6de9939a968201, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  statList:
+  - name: Max Health
+    value: 10
+  deathLevel: 
+--- !u!58 &7121970231918410658
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7951563050262519672}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 1.5
+--- !u!114 &7618341576990429218
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7951563050262519672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 872d96247465fd541bea93e36537b26f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemy: {fileID: 2527913991098223787}
+  actions: []
+  move:
+    name: 
+    priority: 0
+    ready: 1
+    hitBox: {fileID: 0}
+    usesCircleHitbox: 0
+    coolDown: 0
+    animationClip: {fileID: 7400000, guid: 36ee2184780605a45933343000e54f65, type: 2}
+  idle:
+    name: 
+    priority: 0
+    ready: 1
+    hitBox: {fileID: 0}
+    usesCircleHitbox: 0
+    coolDown: 0
+    animationClip: {fileID: 7400000, guid: 36ee2184780605a45933343000e54f65, type: 2}
+--- !u!95 &505081720793511435
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7951563050262519672}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 47f8e102ae7749d4db5d1f01b7cc349a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

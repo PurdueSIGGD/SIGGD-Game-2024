@@ -106,7 +106,14 @@ public class BossController : MonoBehaviour
             context.damage = 0;
         }
     }
-    public virtual void StartDefeatSequence()
+    public void StartDefeatSequence()
+    {
+        if (!IsDefeated())
+        {
+            DefeatSequence();
+        }
+    }
+    public virtual void DefeatSequence()
     {
         defeated = true;
         StopWaveSpawning();

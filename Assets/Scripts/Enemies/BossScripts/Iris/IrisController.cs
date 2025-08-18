@@ -99,9 +99,9 @@ public class IrisController : BossController
         if (damageState != IrisVisualStates.DAMAGE_HIGH)
             ActivateShield();
     }
-    public override void StartDefeatSequence()
+    public override void DefeatSequence()
     {
-        base.StartDefeatSequence();
+        base.DefeatSequence();
         visualManager.ActivateDeathVisual();
         StartCoroutine(IrisDeathCoroutine());
     }

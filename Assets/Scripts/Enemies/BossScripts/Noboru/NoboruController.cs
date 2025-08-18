@@ -8,4 +8,10 @@ public class NoboruController : BossController
     {
         SpawnEnemyAtRandomPoint(enemy, yokaiPrefab);
     }
+
+    public override void DefeatSequence()
+    {
+        base.DefeatSequence();
+        EnableInvincibility();
+    }
 }

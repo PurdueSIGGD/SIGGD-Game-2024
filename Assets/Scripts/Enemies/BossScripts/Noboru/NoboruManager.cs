@@ -9,7 +9,7 @@ public class NoboruManager : EnemyStateManager
     [Header("NOBORU PARAMS")]
     NoboruController controller;
     [SerializeField] GameObject tpSource;
-    [SerializeField] List<Transform> teleportPositions = new List<Transform>();
+    List<Transform> teleportPositions = new List<Transform>();
     [SerializeField] GameObject yokaiPrefab;
     [SerializeField] int numYokai;
     [SerializeField] List<GameObject> yokaiSpawnPool = new List<GameObject>();
@@ -20,7 +20,7 @@ public class NoboruManager : EnemyStateManager
     {
         base.Start();
         controller = GetComponent<NoboruController>();
-        Transform[] tpPositions = tpSource.GetComponentsInChildren<Transform>();
+        Transform[] tpPositions = tpSource.GetComponentsInChildren<Transform>(includeInactive: false);
         teleportPositions = new(tpPositions);
     }
     public void Teleport()
