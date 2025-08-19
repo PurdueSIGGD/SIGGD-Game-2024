@@ -4,9 +4,18 @@ using UnityEditor.Playables;
 using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
+using Unity.PlasticSCM.Editor.WebApi;
 
 public class DeathRingVFX : MonoBehaviour
 {
+    [SerializeField] private Volume postProcessingVolume;
+    private ChromaticAberration chromaticAbberation;
+
+    [SerializeField] private GameObject pulseVFX;
+    [SerializeField] private Color pulseColor;
+
     [SerializeField] public float fadeInDelay;
     [SerializeField] public float fadeInDuration;
 
@@ -15,13 +24,24 @@ public class DeathRingVFX : MonoBehaviour
     [SerializeField] public float reviveSpinDegree;
     [SerializeField] public float reviveSpinDuration;
 
+    [SerializeField] public float dropChromaticAbberationDelay;
+    [SerializeField] public float dropChromaticAbberationDuration;
+
     [SerializeField] public float fadeOutDelay;
     [SerializeField] public float fadeOutDuration;
+
+    [SerializeField] public float fullFadeOutDelay;
+    [SerializeField] public float fullFadeOutDuration;
 
     [SerializeField] public float deathSpinInitialRotation;
     [SerializeField] public float deathSpinSpeed;
 
+    [SerializeField] public float raiseChromaticAbberationDelay;
+    [SerializeField] public float raiseChromaticAbberationDuration;
+
     [SerializeField] private Color fullyFadedColor;
+    [SerializeField] private float partiallyFadedOpacity;
+    [SerializeField] private float partiallyAbberatedIntensity;
 
     [HideInInspector] public static DeathRingVFX instance;
 
@@ -33,10 +53,15 @@ public class DeathRingVFX : MonoBehaviour
     private bool isDeathSpinning = false;
 
     private bool isFadingOut = false;
+    private bool isFullFadingOut = false;
     private float fadeOutRate = 0f;
 
     private bool isReviveSpinning = false;
     private float reviveSpinTimer = 0f;
+
+    private bool isChangingChromaticAbberation = false;
+    private bool isRaisingChromaticAbberation = false;
+    private float chromaticAbberationRate = 0f;
 
 
 
@@ -49,6 +74,7 @@ public class DeathRingVFX : MonoBehaviour
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        postProcessingVolume.profile.TryGet(out chromaticAbberation);
         if (SceneManager.GetActiveScene().name.Equals("Eva Start Fractal Hub") ||
             SceneManager.GetActiveScene().name.Equals("HubWorld"))
         {
@@ -97,13 +123,43 @@ public class DeathRingVFX : MonoBehaviour
             spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, alpha);
 
             // End fade out
-            if (alpha >= 1f)
+            if (alpha >= partiallyFadedOpacity)
             {
                 isDeathSpinning = false;
                 transform.eulerAngles = new Vector3(0f, 0f, 0f);
                 isFadingOut = false;
-                spriteRenderer.color = fullyFadedColor;
+                //spriteRenderer.color = fullyFadedColor;
                 spriteRenderer.enabled = true;
+                FullFadeOut();
+
+                // VFX
+                //CameraShake.instance.Shake(0.15f, 10f, 0f, 10f, new Vector2(Random.Range(-0.5f, 0.5f), 1f));
+                PlayerID.instance.gameObject.GetComponent<SpriteRenderer>().enabled = false;
+                GameObject explosion = Instantiate(pulseVFX, PlayerID.instance.gameObject.transform.position, Quaternion.identity);
+                explosion.GetComponent<RingExplosionHandler>().playRingExplosion(20f, pulseColor);
+            }
+        }
+
+        if (isFullFadingOut)
+        {
+            // Update fade out
+            float alpha = Mathf.Min(spriteRenderer.color.a + (fadeOutRate * Time.deltaTime), 1f);
+            spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, alpha);
+
+            // End fade out
+            if (alpha >= 1f)
+            {
+                //isDeathSpinning = false;
+                //transform.eulerAngles = new Vector3(0f, 0f, 0f);
+                isFullFadingOut = false;
+                //spriteRenderer.color = fullyFadedColor;
+                spriteRenderer.enabled = true;
+
+                // VFX
+                //CameraShake.instance.Shake(0.15f, 10f, 0f, 10f, new Vector2(Random.Range(-0.5f, 0.5f), 1f));
+                //PlayerID.instance.gameObject.GetComponent<SpriteRenderer>().enabled = false;
+                //GameObject explosion = Instantiate(pulseVFX, PlayerID.instance.gameObject.transform.position, Quaternion.identity);
+                //explosion.GetComponent<RingExplosionHandler>().playRingExplosion(20f, pulseColor);
             }
         }
 
@@ -114,7 +170,13 @@ public class DeathRingVFX : MonoBehaviour
             {
                 isReviveSpinning = false;
                 FadeIn();
-                //return;
+
+                // VFX
+                //CameraShake.instance.Shake(0.15f, 10f, 0f, 10f, new Vector2(Random.Range(-0.5f, 0.5f), 1f));
+                PlayerID.instance.gameObject.GetComponent<SpriteRenderer>().enabled = true;
+                PlayerID.instance.gameObject.GetComponent<Move>().PlayerGo();
+                GameObject explosion = Instantiate(pulseVFX, PlayerID.instance.gameObject.transform.position, Quaternion.identity);
+                explosion.GetComponent<RingExplosionHandler>().playRingExplosion(20f, pulseColor);
             }
 
             float zRotation = reviveSpinCoefficient * Mathf.Pow((reviveSpinDuration - reviveSpinTimer), reviveSpinDegree);
@@ -122,6 +184,35 @@ public class DeathRingVFX : MonoBehaviour
             //rotation.z = zRotation;
             //transform.rotation = rotation;
             transform.eulerAngles = new Vector3(0f, 0f, zRotation);
+        }
+
+        if (isChangingChromaticAbberation)
+        {
+            // Update fade out
+            float intensity = Mathf.Clamp01(chromaticAbberation.intensity.value + (chromaticAbberationRate * Time.deltaTime));
+            chromaticAbberation.intensity.Override(intensity);
+            if (intensity <= 0f)
+            {
+                chromaticAbberation.intensity.Override(0f);
+                chromaticAbberation.active = false;
+                isChangingChromaticAbberation = false;
+                return;
+            }
+            if (intensity >= partiallyAbberatedIntensity && isRaisingChromaticAbberation)
+            {
+                //chromaticAbberation.intensity.Override(1f);
+                //isChangingChromaticAbberation = false;
+                chromaticAbberationRate = 1f / dropChromaticAbberationDuration;
+                isRaisingChromaticAbberation = false;
+                return;
+            }
+
+            if (intensity >= 1f)
+            {
+                chromaticAbberation.intensity.Override(1f);
+                isChangingChromaticAbberation = false;
+                return;
+            }
         }
     }
 
@@ -133,6 +224,7 @@ public class DeathRingVFX : MonoBehaviour
     {
         FadeOut();
         StartDeathSpin();
+        RaiseChromaticAbberation();
     }
 
 
@@ -142,8 +234,11 @@ public class DeathRingVFX : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.enabled = true;
         spriteRenderer.color = fullyFadedColor;
-        ScreenFader.instance.FadeIn(2f, 1f);
+        ScreenFader.instance.FadeIn(1.5f, 1f);
         StartReviveSpin();
+        DropChromaticAbberation();
+        PlayerID.instance.gameObject.GetComponent<SpriteRenderer>().enabled = false;
+        PlayerID.instance.gameObject.GetComponent<Move>().PlayerStop();
     }
 
 
@@ -206,8 +301,31 @@ public class DeathRingVFX : MonoBehaviour
         spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 0f);
         yield return new WaitForSeconds(fadeOutDelay);
 
-        fadeOutRate = 1f / fadeOutDuration;
+        fadeOutRate = partiallyFadedOpacity / fadeOutDuration;
         isFadingOut = true;
+    }
+
+
+
+    public void FullFadeOut()
+    {
+        StartCoroutine(FullFadeOutCoroutine(fullFadeOutDelay, fullFadeOutDuration));
+    }
+
+    public void FullFadeOut(float fadeOutDelay, float fadeOutDuration)
+    {
+        StartCoroutine(FullFadeOutCoroutine(fadeOutDelay, fadeOutDuration));
+    }
+
+    private IEnumerator FullFadeOutCoroutine(float fadeOutDelay, float fadeOutDuration)
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer.enabled = true;
+        //spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 0f);
+        yield return new WaitForSeconds(fadeOutDelay);
+
+        fadeOutRate = (1f - spriteRenderer.color.a) / fadeOutDuration;
+        isFullFadingOut = true;
     }
 
 
@@ -217,5 +335,40 @@ public class DeathRingVFX : MonoBehaviour
         //transform.rotation = new Quaternion(0f, 0f, deathSpinInitialRotation, transform.rotation.w);
         transform.eulerAngles = new Vector3(0f, 0f, deathSpinInitialRotation);
         isDeathSpinning = true;
+    }
+
+
+
+
+
+    private void DropChromaticAbberation()
+    {
+        StartCoroutine(DropChromaticAbberationCoroutine());
+    }
+
+    private IEnumerator DropChromaticAbberationCoroutine()
+    {
+        chromaticAbberation.active = true;
+        chromaticAbberation.intensity.Override(0.99f);
+        yield return new WaitForSeconds(dropChromaticAbberationDelay);
+        chromaticAbberationRate = -1f / dropChromaticAbberationDuration;
+        isChangingChromaticAbberation = true;
+    }
+
+
+
+    private void RaiseChromaticAbberation()
+    {
+        StartCoroutine(RaiseChromaticAbberationCoroutine());
+    }
+
+    private IEnumerator RaiseChromaticAbberationCoroutine()
+    {
+        yield return new WaitForSeconds(raiseChromaticAbberationDelay);
+        chromaticAbberation.active = true;
+        chromaticAbberation.intensity.Override(0.01f);
+        chromaticAbberationRate = partiallyAbberatedIntensity / raiseChromaticAbberationDuration;
+        isChangingChromaticAbberation = true;
+        isRaisingChromaticAbberation = true;
     }
 }

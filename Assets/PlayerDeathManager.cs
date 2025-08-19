@@ -79,6 +79,7 @@ public class PlayerDeathManager : MonoBehaviour
             {
                 isFadingOut = true;
                 ScreenFader.instance.FadeOut(0f, realtimeFadeOutDuration);
+                AudioManager.Instance.MusicBranch.CrossfadeTo(MusicTrackName.HUB, 2f);
             }
 
             // perform loop
