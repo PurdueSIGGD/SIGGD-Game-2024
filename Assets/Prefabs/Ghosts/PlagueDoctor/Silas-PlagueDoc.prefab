@@ -160,7 +160,7 @@ SpriteRenderer:
   m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6,
     type: 3}
-  m_Color: {r: 0.9622642, g: 0.830259, b: 0.086240634, a: 0.5882353}
+  m_Color: {r: 1, g: 0.7254902, b: 0.6, a: 0.5882353}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -271,6 +271,15 @@ GameObject:
   - component: {fileID: 5527549834993910565}
   - component: {fileID: 3640821941058779060}
   - component: {fileID: 7594217564035337209}
+  - component: {fileID: 8206914415416009612}
+  - component: {fileID: 3679688963809777540}
+  - component: {fileID: 8120697266993777728}
+  - component: {fileID: 540919338020910009}
+  - component: {fileID: 1641617525109024155}
+  - component: {fileID: 827586359058410053}
+  - component: {fileID: 9164366307553013209}
+  - component: {fileID: 8613045302450623860}
+  - component: {fileID: 1087986608393877240}
   m_Layer: 17
   m_Name: Silas-PlagueDoc
   m_TagString: Ghost
@@ -413,13 +422,105 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   statList:
+  - name: Basic Cooldown
+    value: 1
+  - name: Basic Ingredient Drop Chance
+    value: 60
+  - name: Basic Bonus Ingredient Drop Chance
+    value: 20
+  - name: Basic Ingredient Cost
+    value: 30
+  - name: Basic Cast Time
+    value: 0.75
+  - name: Basic Healing
+    value: 10
   - name: Special Cooldown
+    value: 10
+  - name: Special Max Charges
+    value: 2
+  - name: Special Bomb Speed
+    value: 30
+  - name: Special Bomb Damage
+    value: 10
+  - name: Special Bomb Radius
     value: 4
+  - name: Special Minibomb Count
+    value: 5
+  - name: Special Minibomb Speed
+    value: 10
+  - name: Special Minibomb Damage
+    value: 3
+  - name: Special Minibomb Radius
+    value: 2.5
+  - name: Special Minibomb Min Fuse Time
+    value: 0.5
+  - name: Special Minibomb Max Fuse Time
+    value: 1
+  - name: Blight Duration
+    value: 4
+  - name: Blight DPS
+    value: 3
+  - name: Blight Slow
+    value: 30
+  - name: Blight Empowered DPS
+    value: 18
+  - name: Blight Empowered Slow
+    value: 60
+  - name: Blight Empowered Duration
+    value: 1.5
+  - name: Blight Max Quicksilver Damage Percent
+    value: 100
+  - name: Blight Max Quicksilver Time
+    value: 3.5
+  - name: Blight Epidemic Blast Radius
+    value: 4
+  - name: Blight Epidemic Blast Damage
+    value: 10
   defaultController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
-  ghostController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
+  ghostController: {fileID: 9100000, guid: afe4d43a7f12e7b41a5ccdc9be4eeae1, type: 2}
   blightPotion: {fileID: 4699030029396985124, guid: e2fab6792587ec249a70e1b7a5314fc9,
     type: 3}
-  initialSpeed: 20
+  blightMinibomb: {fileID: 4699030029396985124, guid: ef4551b616e067d43a01319e2ee45b40,
+    type: 3}
+  bombDamage:
+    damageStrength: 2
+    damageTypes: 0100000002000000
+    actionID: 14
+    actionTypes: 03000000
+    extraContext: 
+    ghostID: 5
+  miniBombDamage:
+    damageStrength: 0
+    damageTypes: 0100000002000000
+    actionID: 14
+    actionTypes: 03000000
+    extraContext: 
+    ghostID: 5
+  blightDebuff: {fileID: 329455982132843419, guid: 0d05a07857e19b5498dd81164c887119,
+    type: 3}
+  blightDamage:
+    damageStrength: 0
+    damageTypes: 03000000
+    actionID: 14
+    actionTypes: 03000000
+    extraContext: 
+    ghostID: 5
+  bombExplosionVFX: {fileID: 7966241730260626198, guid: a5295bc6cb8948243b75f99e5a18cc48,
+    type: 3}
+  basicIngredientPickup: {fileID: 2971365794380548036, guid: e1198e9c224ebd94aa4b35eb82458afa,
+    type: 3}
+  basicHealing:
+    healing: 0
+    actionID: 13
+    actionTypes: 02000000
+    extraContext: 
+    ghostID: 5
+  special: {fileID: 0}
+  specialCharges: 0
+  basic: {fileID: 0}
+  ingredientsCollected: 0
+  healReady: 0
+  isSelected: 0
 --- !u!114 &3640821941058779060
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -450,3 +551,166 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   statList: []
+--- !u!114 &8206914415416009612
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8202687041202382142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b79978fc3bc8aa44af6519c4b2c0406, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectedGhostUIManager: {fileID: 0}
+  deselectedGhostUIManager: {fileID: 0}
+  basicAbilityUIManager: {fileID: 0}
+  specialAbilityUIManager: {fileID: 0}
+  skill1UIManager: {fileID: 0}
+  skill2UIManager: {fileID: 0}
+  meterUIManager: {fileID: 0}
+  selfMedicatedIcon: {fileID: 21300000, guid: e1603c4b4639e64478bc3ddfd992d89d, type: 3}
+--- !u!114 &3679688963809777540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8202687041202382142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6751ace73ed618a489adcadc57478e19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skills:
+  - {fileID: 540919338020910009}
+  - {fileID: 1641617525109024155}
+  - {fileID: 827586359058410053}
+  - {fileID: 8613045302450623860}
+  - {fileID: 9164366307553013209}
+  - {fileID: 1087986608393877240}
+  - {fileID: 8120697266993777728}
+  startAtLevel: 0
+--- !u!114 &8120697266993777728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8202687041202382142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cded2aefff03514c80651e9f3c8ea75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillSO: {fileID: 11400000, guid: 64a4fab7202a9864a91fa59ac48d2e37, type: 2}
+--- !u!114 &540919338020910009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8202687041202382142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c31d1f7edf363894ab4869e681b0dfbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillSO: {fileID: 11400000, guid: 5ed8899fcb9f4424a90e108d725cd291, type: 2}
+  values: 0000000014000000280000003c00000050000000
+--- !u!114 &1641617525109024155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8202687041202382142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5675e015cdc6b9d43bcc40eee6265790, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillSO: {fileID: 11400000, guid: d81b09c5b9b153f49a9e75b1eb4c9976, type: 2}
+  values: 0000000014000000280000003c00000050000000
+--- !u!114 &827586359058410053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8202687041202382142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17e71d7cb87c832459cc018636995a5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillSO: {fileID: 11400000, guid: 33b36582baf4f2c4bb0ac4cadb9826aa, type: 2}
+  values: 00000000070000000e000000150000001c000000
+  lowChanceMultiplier: 0.5
+--- !u!114 &9164366307553013209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8202687041202382142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a97d7ae780567e40ada643742204e0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillSO: {fileID: 11400000, guid: 8a095e137bd418a488fff7d80dab3396, type: 2}
+  values:
+  - 0
+  - 0.7
+  - 1.4
+  - 2.1
+  - 2.8
+  poisonCloud: {fileID: 5415055795623798678, guid: 849f686edad280f468e64aebf2a93e61,
+    type: 3}
+--- !u!114 &8613045302450623860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8202687041202382142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ea7b3939ad6435408e4c0c0416b31b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillSO: {fileID: 11400000, guid: c27abe9ecf081194b8f3f4fa2ec7171f, type: 2}
+  values:
+  - 0
+  - 1.5
+  - 2.5
+  - 3.5
+  - 4.5
+  blastDamage:
+    damageStrength: 0
+    damageTypes: 0200000003000000
+    actionID: 14
+    actionTypes: 0300000004000000
+    extraContext: 
+    ghostID: 5
+--- !u!114 &1087986608393877240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8202687041202382142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75c33750aeca9ca4b9acac3405387da4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillSO: {fileID: 11400000, guid: 05c7a1dd2e327f442868f7ca8c9c7be8, type: 2}
+  values: 000000000f00000019000000230000002d000000
+  blightBuffDuration: 4
+  apothecaryBuffDuration: 8
+  buffDuration: 0
+  timer: 0
+  isBuffed: 0

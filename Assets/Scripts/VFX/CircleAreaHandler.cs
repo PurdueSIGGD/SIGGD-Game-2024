@@ -33,6 +33,18 @@ public class CircleAreaHandler : MonoBehaviour
         StartCoroutine(animateCircleStart(circleRadius, color));
     }
 
+    /// <summary>
+    /// Plays the circle area's activation animation. This GameObject will remain inactive until this function is called.
+    /// </summary>
+    /// <param name="circleRadius">The circle area's radius.</param>
+    /// <param name="color">The circle area's color.</param>
+    /// <param name="alpha">The circle area's opacity.</param>
+    public void playCircleStart(float circleRadius, Color color, float alpha)
+    {
+        gameObject.SetActive(true);
+        StartCoroutine(animateCircleStart(circleRadius, color, alpha));
+    }
+
     private IEnumerator animateCircleStart(float circleRadius, Color color)
     {
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
@@ -46,6 +58,22 @@ public class CircleAreaHandler : MonoBehaviour
             float currentScale = Mathf.Lerp(initialScale, finalScale, ((float) i / (float) step));
             transform.localScale = new Vector3(currentScale, currentScale, 1f);
             yield return new WaitForSeconds(startDurationTime / (float) step);
+        }
+    }
+
+    private IEnumerator animateCircleStart(float circleRadius, Color color, float alpha)
+    {
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer.color = new Color(color.r, color.g, color.b, alpha);
+        float initialScale = 0.05f;
+        float finalScale = circleRadius * 2f;
+        transform.localScale = new Vector3(initialScale, initialScale, 1f);
+        int step = 20;
+        for (int i = 0; i < step; i++)
+        {
+            float currentScale = Mathf.Lerp(initialScale, finalScale, ((float)i / (float)step));
+            transform.localScale = new Vector3(currentScale, currentScale, 1f);
+            yield return new WaitForSeconds(startDurationTime / (float)step);
         }
     }
 

@@ -290,8 +290,15 @@ public class DamageNumber : MonoBehaviour
             totalDamage += value;
         }
 
-        if (icon == null) messageIcon.enabled = false;
-        else messageIcon.sprite = icon;
+        if (icon == null)
+        {
+            messageIcon.enabled = false;
+        }
+        else
+        {
+            messageIcon.sprite = icon;
+            messageIcon.enabled = true;
+        }
         messageText.text = (message == null) ? Mathf.FloorToInt(totalDamage).ToString() : message;
         if (prependMessage != null) messageText.text = prependMessage + messageText.text;
         if (appendMessage != null) messageText.text = messageText.text + appendMessage;
