@@ -10,26 +10,32 @@ public class EnterHub : MonoBehaviour
     [Header("North")]
     [SerializeField] GhostInteract north;
     [SerializeField] ConvoSO northHubEntrance;
+    [SerializeField] ConvoSO northMaxTrust;
 
     [Header("Eva")]
     [SerializeField] GhostInteract eva;
     [SerializeField] ConvoSO evaHubEntrance;
+    [SerializeField] ConvoSO evaMaxTrust;
 
     [Header("Akihito")]
     [SerializeField] GhostInteract akihito;
     [SerializeField] ConvoSO akihitoHubEntrance;
+    [SerializeField] ConvoSO akihitoMaxTrust;
 
     [Header("Yume")]
     [SerializeField] GhostInteract yume;
     [SerializeField] ConvoSO yumeHubEntrance;
+    [SerializeField] ConvoSO yumeMaxTrust;
 
     [Header("Silas")]
     [SerializeField] GhostInteract silas;
     [SerializeField] ConvoSO silasHubEntrance;
+    [SerializeField] ConvoSO silasMaxTrust;
 
     [Header("Aegis")]
     [SerializeField] GhostInteract aegis;
     [SerializeField] ConvoSO aegisHubEntrance;
+    [SerializeField] ConvoSO aegisMaxTrust;
 
     void Awake()
     {
@@ -61,6 +67,13 @@ public class EnterHub : MonoBehaviour
             sp.Init(northHubEntrance.data.convoName, "north", 2, true);
             north.SetConvo(northHubEntrance);
         }
+        // load North max trust convo
+        if (SaveManager.data.north.storyProgress == 4)
+        {
+            StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
+            sp.Init(northMaxTrust.data.convoName, "north", 5, false);
+            north.SetConvo(northMaxTrust);
+        }
 
         // Eva
         if (eva && SaveManager.data.eva.storyProgress == 0)
@@ -78,7 +91,14 @@ public class EnterHub : MonoBehaviour
             sp.Init(evaHubEntrance.data.convoName, "eva", 2, true);
             eva.SetConvo(evaHubEntrance);
         }
-        
+        // load Eva max trust convo
+        if (SaveManager.data.eva.storyProgress == 4)
+        {
+            StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
+            sp.Init(evaMaxTrust.data.convoName, "eva", 5, false);
+            eva.SetConvo(evaMaxTrust);
+        }
+
         // Akihito
         if (akihito && SaveManager.data.akihito.storyProgress == 0)
         {
@@ -94,6 +114,13 @@ public class EnterHub : MonoBehaviour
             StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
             sp.Init(akihitoHubEntrance.data.convoName, "akihito", 2, true);
             akihito.SetConvo(akihitoHubEntrance);
+        }
+        // load Akihito max trust convo
+        if (SaveManager.data.akihito.storyProgress == 4)
+        {
+            StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
+            sp.Init(akihitoMaxTrust.data.convoName, "akihito", 5, false);
+            akihito.SetConvo(akihitoMaxTrust);
         }
 
         // Yume
@@ -112,6 +139,13 @@ public class EnterHub : MonoBehaviour
             sp.Init(yumeHubEntrance.data.convoName, "yume", 2, true);
             yume.SetConvo(yumeHubEntrance);
         }
+        // load Yume max trust convo
+        if (SaveManager.data.yume.storyProgress == 4)
+        {
+            StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
+            sp.Init(yumeMaxTrust.data.convoName, "yume", 5, false);
+            yume.SetConvo(yumeMaxTrust);
+        }
 
         // Silas
         if (silas && SaveManager.data.silas.storyProgress == 0)
@@ -129,6 +163,13 @@ public class EnterHub : MonoBehaviour
             sp.Init(silasHubEntrance.data.convoName, "silas", 2, true);
             silas.SetConvo(silasHubEntrance);
         }
+        // load Silas max trust convo
+        if (SaveManager.data.silas.storyProgress == 4)
+        {
+            StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
+            sp.Init(silasMaxTrust.data.convoName, "silas", 5, false);
+            silas.SetConvo(silasMaxTrust);
+        }
 
         // Aegis
         if (aegis && SaveManager.data.aegis.storyProgress == 0)
@@ -145,6 +186,13 @@ public class EnterHub : MonoBehaviour
             StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
             sp.Init(aegisHubEntrance.data.convoName, "aegis", 2, true);
             aegis.SetConvo(aegisHubEntrance);
+        }
+        // load Aegis max trust convo
+        if (SaveManager.data.aegis.storyProgress == 4)
+        {
+            StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
+            sp.Init(aegisMaxTrust.data.convoName, "aegis", 5, false);
+            aegis.SetConvo(aegisMaxTrust);
         }
     }
 }

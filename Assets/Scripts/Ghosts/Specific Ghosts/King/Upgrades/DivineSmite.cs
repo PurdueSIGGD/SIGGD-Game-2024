@@ -51,7 +51,7 @@ public class DivineSmite : Skill
             context.damage *= damageBoost;
             divineSmitePowered = false;
         }
-        if(context.attacker.CompareTag("Player") && GetPoints() > 0 && manager.selected)
+        if(context.attacker != null && context.attacker.CompareTag("Player") && GetPoints() > 0 && manager.selected)
         {
             SaveManager.data.aegis.damageDealtTillSmite += context.damage;
             if (SaveManager.data.aegis.damageDealtTillSmite > dmgNeeded[GetPoints() - 1])
