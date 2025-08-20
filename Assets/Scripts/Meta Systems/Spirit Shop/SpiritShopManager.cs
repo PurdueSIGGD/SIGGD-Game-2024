@@ -21,11 +21,6 @@ public class SpiritShopManager : MonoBehaviour, IScreenUI
     [SerializeField] private GameObject yellowItemBox;
 
     [Header("UI")]
-
-    [SerializeField] private SpiritCounterUI redCounterUI;
-    [SerializeField] private SpiritCounterUI blueCounterUI;
-    [SerializeField] private SpiritCounterUI yellowCounterUI;
-
     [SerializeField] private Button secureSpiritsButton;
     [SerializeField] private TMP_Text secureSpiritsButtonText;
 
@@ -81,10 +76,6 @@ public class SpiritShopManager : MonoBehaviour, IScreenUI
 
     public void UpdateSpiritCountText()
     {
-        redCounterUI.UpdateText();
-        blueCounterUI.UpdateText();
-        yellowCounterUI.UpdateText();
-
         secureSpiritsButtonText.text = "SECURE " + (
                 spiritTracker.redSpiritsCollected + spiritTracker.blueSpiritsCollected + 
                 spiritTracker.yellowSpiritsCollected + spiritTracker.pinkSpiritsCollected);
