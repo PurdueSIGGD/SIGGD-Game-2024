@@ -10,9 +10,6 @@ public class SpiritTracker : MonoBehaviour
     public int yellowSpiritsCollected = 0;
     public int pinkSpiritsCollected = 0;
 
-    [HideInInspector]
-    public SpiritTrackerCanvasUI trackerUI; // reference to tracker UI
-
     private void OnEnable()
     {
         Spirit.SpiritCollected += CollectSpirit;
@@ -41,10 +38,9 @@ public class SpiritTracker : MonoBehaviour
                 break;
         }
 
-        if (trackerUI != null)
-        {
-            trackerUI.UpdateCounters();
-        }
+        // UI
+        SpiritTrackerCanvasUI.Instance.UpdateCounters();
+        
     }
 
     public bool SpendSecuredSpirits(Spirit.SpiritType spiritType, int price)
@@ -60,10 +56,7 @@ public class SpiritTracker : MonoBehaviour
             SaveManager.data.spiritCounts[(int)spiritType] -= price;
 
             // UI
-            if (trackerUI)
-            {
-                trackerUI.UpdateCounters();
-            }
+            SpiritTrackerCanvasUI.Instance.UpdateCounters();
 
             return true;
         }
@@ -116,10 +109,7 @@ public class SpiritTracker : MonoBehaviour
         }
 
         // UI
-        if (trackerUI)
-        {
-            trackerUI.UpdateCounters();
-        }
+        SpiritTrackerCanvasUI.Instance.UpdateCounters();
 
         return true;
     }
@@ -132,10 +122,9 @@ public class SpiritTracker : MonoBehaviour
     public void AddSecuredSpirits(SpiritType type, int numSpirits)
     {
         SaveManager.data.spiritCounts[(int)type] += numSpirits;
-        if (trackerUI)
-        {
-            trackerUI.UpdateCounters();
-        }
+
+        // UI
+        SpiritTrackerCanvasUI.Instance.UpdateCounters();
     }
 
     /// <summary>
@@ -148,13 +137,10 @@ public class SpiritTracker : MonoBehaviour
         SaveManager.data.spiritCounts[2] += yellowSpiritsCollected;
         SaveManager.data.spiritCounts[3] += pinkSpiritsCollected;
 
-        // UI
-        if (trackerUI)
-        {
-            trackerUI.UpdateCounters();
-        }
-
         ClearSpirits();
+
+        // UI
+        SpiritTrackerCanvasUI.Instance.UpdateCounters();
     }
 
     /// <summary>

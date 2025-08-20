@@ -1,19 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SpiritTrackerCanvasUI : MonoBehaviour
 {
+    public static SpiritTrackerCanvasUI Instance { get; private set; }   // allows read-only access to the PersistentData instance
     [SerializeField] List<SpiritCounterUI> spiritCounters;
-    [SerializeField] bool fromSaveManager = true;
-    void OnEnable()
+   
+    private void Awake()
     {
-        SpiritTracker spiritTracker = PersistentData.Instance.GetComponent<SpiritTracker>();
-
-        if (!spiritTracker.trackerUI)
+        if (Instance == null)
         {
-            spiritTracker.trackerUI = this;
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
+        else
+        {
+            Destroy(gameObject);   // destroys any duplicate instances of PersistentData
+        }
+
+        SceneManager.activeSceneChanged += SwitchCounterType;
+    }
+
+    void SwitchCounterType(Scene s0, Scene s1)
+    {
+        bool fromSaveManager = s1.name.Equals("Eva Start Fractal Hub");
+
+        Debug.Log("hihihi" + s1.name);
 
         foreach (SpiritCounterUI counter in spiritCounters)
         {
