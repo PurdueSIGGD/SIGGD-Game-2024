@@ -28,6 +28,7 @@ public class ItemUIManager : MonoBehaviour
         pool = gameObject.GetComponent<ItemPool>();
         rerollButton.onClick.AddListener(RerollButtonOnClick);
         buyButton.onClick.AddListener(BuyButtonOnClick);
+
     }
 
     /// <summary>

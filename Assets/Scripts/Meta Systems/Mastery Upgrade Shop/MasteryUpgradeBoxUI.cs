@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class MasteryUpgradeBoxUI : MonoBehaviour
 {
-    public enum UpgradeType {
+    public enum UpgradeType { // DO NOT CHANGE ORDER
 
         // Tier 1
         HASTE,
@@ -31,24 +32,59 @@ public class MasteryUpgradeBoxUI : MonoBehaviour
     [SerializeField] private int statBoostIncrementPercent = 1;
     [SerializeField] private int upgradeStartPrice = 1;
     [SerializeField] private int upgradePriceIncrement = 1;
+    [SerializeField] private Sprite masteryUpgradeIcon;
 
     [Header("UI")]
-    [SerializeField] private TMP_Text upgradePercentText;
+    [SerializeField] private TMP_Text upgradeLevelText;
     [SerializeField] private TMP_Text upgradePriceText;
     [SerializeField] private TMP_Text upgradeNameText;
+    [SerializeField] private TMP_Text upgradeDescriptionText;
     [SerializeField] private Button upgradeButton;
+    [SerializeField] private Image upgradeImageUI;
 
     private int currentLevel = 0;
     private SpiritTracker spiritTracker;
+
+    private string[] upgradeDescriptions = {
+        "Increased move speed.",
+        "Increased attack damage.",
+        "Increased maximum health.",
+        "Increased chance to dodge attacks.",
+        "Increased critical hit chance.",
+        "Reduced elite enemy attack damage.",
+        "Reduced ability cooldown times.",
+        "Increased attack stun duration.",
+        "Increased healing from all sources."
+    };
 
     public void Start()
     {
         upgradeNameText.text = upgradeType.ToString();
 
+        upgradeImageUI.sprite = masteryUpgradeIcon;
+
         spiritTracker = PersistentData.Instance.GetComponent<SpiritTracker>();
         upgradeButton.onClick.AddListener(TryUpgradeLevel);
 
         UpdateUI();
+    }
+
+    /// <summary>
+    /// Set upgrade description based on current percent
+    /// </summary>
+    /// <returns></returns>
+    private void SetUpgradeDescription()
+    {
+        string des = upgradeDescriptions[(int) upgradeType] + "\n";
+
+        if (currentLevel == MasteryUpgradeShopUI.MAX_POWER_LEVEL)
+        {
+            des += "(You have maxed this upgrade.)";
+        } else
+        {
+            des += "(Next: " + (GetStatBoostPercent() + statBoostIncrementPercent) + "%)";
+        }
+        upgradeDescriptionText.text = des;
     }
 
     /// <summary>
@@ -67,6 +103,8 @@ public class MasteryUpgradeBoxUI : MonoBehaviour
     {
         currentLevel = GetPowerLevel();
 
+        SetUpgradeDescription();
+
         if (currentLevel < MasteryUpgradeShopUI.MAX_POWER_LEVEL) {
             upgradePriceText.text = "UPGRADE " + GetCurrentPrice();
         }
@@ -76,14 +114,7 @@ public class MasteryUpgradeBoxUI : MonoBehaviour
             upgradeButton.onClick.RemoveListener(TryUpgradeLevel);
         }
 
-        if (currentLevel == 0)
-        {
-            upgradePercentText.text = "0%";
-        }
-        else
-        {
-            upgradePercentText.text = "+" + GetStatBoostPercent() + "%";
-        }
+        upgradeLevelText.text = currentLevel + "/" + MasteryUpgradeShopUI.MAX_POWER_LEVEL;
     }
 
     /// <summary>
