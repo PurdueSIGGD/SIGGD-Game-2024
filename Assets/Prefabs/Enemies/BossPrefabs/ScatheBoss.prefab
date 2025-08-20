@@ -1,67 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2072137741201409819
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 9031766541833759548}
-  m_Layer: 21
-  m_Name: TPTriggerBox
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &9031766541833759548
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2072137741201409819}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.01, y: 0.03947735, z: -0.08302906}
-  m_LocalScale: {x: 10, y: 2, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 5401744675116552336}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &2082202577790814024
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6126490777948413912}
-  m_Layer: 21
-  m_Name: SummonTriggerCircle
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6126490777948413912
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2082202577790814024}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 10, y: 10, z: 10}
-  m_ConstrainProportionsScale: 1
-  m_Children: []
-  m_Father: {fileID: 5401744675116552336}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2230435782448813981
 GameObject:
   m_ObjectHideFlags: 0
@@ -203,8 +141,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5131177841957371146}
-  - {fileID: 6126490777948413912}
-  - {fileID: 9031766541833759548}
+  - {fileID: 5222879963389426892}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &9142504122812395646
@@ -246,10 +183,15 @@ MonoBehaviour:
   pool: {fileID: 0}
   animator: {fileID: 0}
   isFlyer: 1
-  aggroRange: 0
+  aggroRange: 5
   isBeingKnockedBack: 0
   grounded: 0
   groundedRayCheckLength: 1
+  detectionRadius: 67
+  hitAndRunPrefab: {fileID: 5601539080535503312, guid: 6a78f323f92462840ae0bd602c297594,
+    type: 3}
+  swipePrefab: {fileID: 5601539080535503312, guid: 40348b3990d9bc04dabc58e25c08242a,
+    type: 3}
 --- !u!114 &3785621079675222852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -265,19 +207,19 @@ MonoBehaviour:
   enemy: {fileID: 901204917613129762}
   actions:
   - name: HitAndRun
-    priority: 0
-    ready: 0
-    hitBox: {fileID: 0}
+    priority: 1
+    ready: 1
+    hitBox: {fileID: 5222879963389426892}
     usesCircleHitbox: 0
-    coolDown: 0
-    animationClip: {fileID: 7400000, guid: 4c77332c7ebfa2c41879af1503051bfa, type: 2}
+    coolDown: 8
+    animationClip: {fileID: 7400000, guid: 50235f5f8c173974b96d2d711766e3bb, type: 2}
   - name: Swipe
-    priority: 0
-    ready: 0
-    hitBox: {fileID: 0}
+    priority: 1
+    ready: 1
+    hitBox: {fileID: 5222879963389426892}
     usesCircleHitbox: 0
-    coolDown: 0
-    animationClip: {fileID: 7400000, guid: 4c77332c7ebfa2c41879af1503051bfa, type: 2}
+    coolDown: 4
+    animationClip: {fileID: 7400000, guid: ffb6b2f56c95d2543bf9a051d080d1ba, type: 2}
   move:
     name: 
     priority: 0
@@ -307,20 +249,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   statList:
+  - name: HEIGHT_OFFSET
+    value: 0.5
+  - name: FLIGHT_FORCE
+    value: 0.25
+  - name: CATCHUP_FACTOR
+    value: 0.01
+  - name: REPELL_FACTOR
+    value: 0.01
+  - name: MIN_REPELL
+    value: 0
+  - name: RANDOM_FACTOR
+    value: 0.1
   - name: Idle Speed
     value: 0
   - name: Speed
+    value: 1
+  - name: Target Range Min
+    value: 0
+  - name: Target Range Max
     value: 0
   - name: Pause Timer Duration Min
-    value: 1
+    value: 0
   - name: Pause Timer Duration Max
-    value: 4
-  - name: Target Range Min
-    value: 5
-  - name: Target Range Max
-    value: 10
+    value: 0
   - name: Enemy Group Aggro Radius
-    value: 10
+    value: 5
 --- !u!114 &3719536283625742375
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -557,6 +511,37 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &7561904640911736659
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5222879963389426892}
+  m_Layer: 0
+  m_Name: PracticallyGlobalTriggerBox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5222879963389426892
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7561904640911736659}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.5410652, y: 0.36341095, z: -0.034619123}
+  m_LocalScale: {x: 67, y: 67, z: 67}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 5401744675116552336}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &6170149391384200926
 PrefabInstance:
   m_ObjectHideFlags: 0
