@@ -41,6 +41,11 @@ public class GameManager : MonoBehaviour
 
     }
 
+    public void OnReset()
+    {
+
+    }
+
     public void OnQuit()
     {
         Application.Quit();
