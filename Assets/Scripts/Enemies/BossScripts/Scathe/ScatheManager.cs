@@ -9,6 +9,7 @@ public class ScatheManager : EnemyStateManager
     [Header("Attack Prefabs")]
     [SerializeField] GameObject hitAndRunPrefab;
     [SerializeField] GameObject swipePrefab;
+    bool spawnOneSkull;
 
     void Start()
     {
@@ -31,7 +32,7 @@ public class ScatheManager : EnemyStateManager
 
             dir = player.position - transform.position;
 
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, maxTrackDistance, LayerMask.GetMask("Player", "Ground"));
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, maxTrackDistance, LayerMask.GetMask("Player"));
             Debug.DrawRay(transform.position, dir);
             if (hit && hit.collider.gameObject.CompareTag("Player"))
             {
@@ -46,7 +47,7 @@ public class ScatheManager : EnemyStateManager
         {
             // calculate unit vector direction based on angle
             dir = new Vector2(Mathf.Cos(deg), Mathf.Sin(deg));
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, maxDistance, LayerMask.GetMask("Player", "Ground"));
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, maxDistance, LayerMask.GetMask("Player"));
             Debug.DrawRay(transform.position, dir * maxDistance);
             if (hit && hit.collider.gameObject.CompareTag("Player"))
             {
@@ -58,8 +59,10 @@ public class ScatheManager : EnemyStateManager
 
     public void HitAndRun()
     {
+        print("hit and run!!!");
         Transform playerTransform = player.transform;
-
+        GameObject skull = Instantiate(hitAndRunPrefab, playerTransform.position, Quaternion.identity);
+        skull.GetComponent<ScatheHitAndRun>().Initialize(playerTransform, spawnOneSkull);
     }
     public void Swipe()
     {
@@ -69,5 +72,10 @@ public class ScatheManager : EnemyStateManager
     protected override void OnDrawGizmos()
     {
         base.OnDrawGizmos();
+    }
+
+    protected override void OnFinishAnimation()
+    {
+        base.OnFinishAnimation();
     }
 }

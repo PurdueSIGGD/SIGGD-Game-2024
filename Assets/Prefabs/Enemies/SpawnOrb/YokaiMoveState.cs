@@ -36,15 +36,6 @@ public class YokaiMoveState : MoveState
         float minRepell = enemy.stats.ComputeValue("MIN_REPELL"); // minimum distance for repelling force to take effect
         float randomFactor = enemy.stats.ComputeValue("RANDOM_FACTOR"); // force of random force
 
-        if (player.position.x - enemy.transform.position.x < 0)
-        {
-            enemy.Flip(false);
-        }
-        else
-        {
-            enemy.Flip(true);
-        }
-
         Vector2 target = new Vector2(player.position.x, player.position.y) + Vector2.up * heightOffset;
         Vector2 current = new Vector2(enemy.gameObject.transform.position.x, enemy.gameObject.transform.position.y);
 
