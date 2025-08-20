@@ -38,12 +38,15 @@ public class EnterHub : MonoBehaviour
         SaveManager.data.yume.spoolCount = 0;
         SaveManager.data.aegis.damageDealtTillSmite = 0.0f;
         SaveManager.data.aegis.damageBlockTillSmite = 0.0f;
+
+        PersistentData.Instance.GetComponent<SpiritTracker>().ClearSpirits();
+        PersistentData.Instance.GetComponent<ItemInventory>().ReturnItemsToPool();
     }
 
     void Start()
     {
         // North
-        if (SaveManager.data.north.storyProgress == 0)
+        if (north && SaveManager.data.north.storyProgress == 0)
         {
             north.gameObject.SetActive(false);
         }
@@ -52,7 +55,7 @@ public class EnterHub : MonoBehaviour
             north.GetComponent<GhostIdentity>().UnlockGhost();
         }
         // load North on hub enter convo
-        if (SaveManager.data.north.storyProgress == 1)
+        if (north && SaveManager.data.north.storyProgress == 1)
         {
             StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
             sp.Init(northHubEntrance.data.convoName, "north", 2, true);
@@ -60,7 +63,7 @@ public class EnterHub : MonoBehaviour
         }
 
         // Eva
-        if (SaveManager.data.eva.storyProgress == 0)
+        if (eva && SaveManager.data.eva.storyProgress == 0)
         {
             eva.gameObject.SetActive(false);
         }
@@ -69,7 +72,7 @@ public class EnterHub : MonoBehaviour
             eva.GetComponent<GhostIdentity>().UnlockGhost();
         }
         // load Eva on hub enter convo
-        if (SaveManager.data.eva.storyProgress == 1)
+        if (eva && SaveManager.data.eva.storyProgress == 1)
         {
             StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
             sp.Init(evaHubEntrance.data.convoName, "eva", 2, true);
@@ -77,7 +80,7 @@ public class EnterHub : MonoBehaviour
         }
         
         // Akihito
-        if (SaveManager.data.akihito.storyProgress == 0)
+        if (akihito && SaveManager.data.akihito.storyProgress == 0)
         {
             akihito.gameObject.SetActive(false);
         }
@@ -94,7 +97,7 @@ public class EnterHub : MonoBehaviour
         }
 
         // Yume
-        if (SaveManager.data.yume.storyProgress == 0)
+        if (yume && SaveManager.data.yume.storyProgress == 0)
         {
             yume.gameObject.SetActive(false);
         }
@@ -103,7 +106,7 @@ public class EnterHub : MonoBehaviour
             yume.GetComponent<GhostIdentity>().UnlockGhost();
         }
         // load Yume on hub enter convo
-        if (SaveManager.data.yume.storyProgress == 1)
+        if (yume && SaveManager.data.yume.storyProgress == 1)
         {
             StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
             sp.Init(yumeHubEntrance.data.convoName, "yume", 2, true);
@@ -111,7 +114,7 @@ public class EnterHub : MonoBehaviour
         }
 
         // Silas
-        if (SaveManager.data.silas.storyProgress == 0)
+        if (silas && SaveManager.data.silas.storyProgress == 0)
         {
             silas.gameObject.SetActive(false);
         }
@@ -128,7 +131,7 @@ public class EnterHub : MonoBehaviour
         }
 
         // Aegis
-        if (SaveManager.data.aegis.storyProgress == 0)
+        if (aegis && SaveManager.data.aegis.storyProgress == 0)
         {
             aegis.gameObject.SetActive(false);
         }
