@@ -4,17 +4,21 @@ using UnityEngine;
 
 public class ScatheManager : EnemyStateManager
 {
+
+    List<GameObject> currentlyActiveAttacks = new List<GameObject>();
     [Header("Custom Crow Tracking")]
     [SerializeField] float detectionRadius;
     [Header("Attack Prefabs")]
     [SerializeField] GameObject hitAndRunPrefab;
     [SerializeField] GameObject swipePrefab;
-    bool spawnOneSkull;
-
+    [SerializeField] GameObject swipePositionsHolder;
+    List<Transform> swipePositions = new List<Transform>();
     void Start()
     {
         base.Start();
         MoveState = new YokaiMoveState();
+        swipePositions = new(swipePositionsHolder.GetComponentsInChildren<Transform>(includeInactive: false));
+        swipePositions.Remove(swipePositionsHolder.transform);
     }
 
     public override bool HasLineOfSight(bool tracking)
@@ -59,14 +63,22 @@ public class ScatheManager : EnemyStateManager
 
     public void HitAndRun()
     {
-        print("hit and run!!!");
         Transform playerTransform = player.transform;
         GameObject skull = Instantiate(hitAndRunPrefab, playerTransform.position, Quaternion.identity);
-        skull.GetComponent<ScatheHitAndRun>().Initialize(playerTransform, spawnOneSkull);
+        currentlyActiveAttacks.Add(skull);
+        skull.GetComponent<ScatheHitAndRun>().Initialize(playerTransform, currentlyActiveAttacks.Remove);
     }
     public void Swipe()
     {
-
+        int index = Random.Range(0, swipePositions.Count);
+        Vector2 positionToSpawn = swipePositions[index].position;
+        GameObject swipeObject = Instantiate(swipePrefab, positionToSpawn, Quaternion.identity);
+        currentlyActiveAttacks.Add(swipeObject);
+        swipeObject.GetComponent<ScatheSwipe>().Initialize(currentlyActiveAttacks.Remove);
+    }
+    public List<GameObject> GetActiveAttacks()
+    {
+        return currentlyActiveAttacks;
     }
 
     protected override void OnDrawGizmos()

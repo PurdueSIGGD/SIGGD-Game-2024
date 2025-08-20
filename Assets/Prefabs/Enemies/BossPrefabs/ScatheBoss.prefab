@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 443139110817160139}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.12, y: 1.37, z: 0}
+  m_LocalPosition: {x: 0.84, y: 1.02, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -108,7 +108,7 @@ Transform:
   m_GameObject: {fileID: 2104892909545263510}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.86, z: 0}
+  m_LocalPosition: {x: -0.15, y: 0.77, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -326,7 +326,7 @@ Transform:
   m_GameObject: {fileID: 4378145290175925761}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.34, y: -0.71, z: 0}
+  m_LocalPosition: {x: 0.34, y: -0.51, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -370,8 +370,8 @@ MonoBehaviour:
     m_Extent: {x: 0.9985302, y: 0.99853027, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
-  m_PointLightInnerRadius: 1.04
-  m_PointLightOuterRadius: 2.13
+  m_PointLightInnerRadius: 1.2466161
+  m_PointLightOuterRadius: 6.55
   m_ShapeLightParametricSides: 5
   m_ShapeLightParametricAngleOffset: 0
   m_ShapeLightParametricRadius: 1
@@ -437,7 +437,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eca600b5a4e0c1b4d90ff81f6d9dceb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startSpawn: 0
+  startSpawn: 1
   lowEnemyThreshold: 3
   lowEnemyWaveSpawnSec: 10
   passiveSpawnTimeSec: 5
@@ -448,6 +448,7 @@ MonoBehaviour:
     actionTypes: 08000000
     extraContext: Kill all enemies context
     ghostID: 0
+  deathTimer: 5
 --- !u!114 &901204917613129762
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -473,6 +474,7 @@ MonoBehaviour:
     type: 3}
   swipePrefab: {fileID: 5601539080535503312, guid: 40348b3990d9bc04dabc58e25c08242a,
     type: 3}
+  swipePositionsHolder: {fileID: 0}
 --- !u!114 &3785621079675222852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -496,10 +498,10 @@ MonoBehaviour:
     animationClip: {fileID: 7400000, guid: 50235f5f8c173974b96d2d711766e3bb, type: 2}
   - name: Swipe
     priority: 1
-    ready: 0
+    ready: 1
     hitBox: {fileID: 5222879963389426892}
     usesCircleHitbox: 1
-    coolDown: 4
+    coolDown: 3
     animationClip: {fileID: 7400000, guid: ffb6b2f56c95d2543bf9a051d080d1ba, type: 2}
   move:
     name: 
@@ -570,7 +572,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Max Health
-    value: 350
+    value: 500
   deathLevel: 
 --- !u!50 &6047329085431722034
 Rigidbody2D:

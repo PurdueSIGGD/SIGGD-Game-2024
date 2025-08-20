@@ -1,6 +1,6 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class ScatheHitAndRun : MonoBehaviour
@@ -15,15 +15,15 @@ public class ScatheHitAndRun : MonoBehaviour
     [SerializeField] float warningDelaySec;
     [SerializeField] float warningBlinkSec;
     int direction;
+    Func<GameObject, bool> removeFromList;
 
-    public void Initialize(Transform player, bool spawnOneSkull)
+    public void Initialize(Transform player, Func<GameObject, bool> removeFromList)
     {
-        if (spawnOneSkull) Destroy(gameObject);
-
         skullRb = skullObject.GetComponent<Rigidbody2D>();
         renderer = warningObject.GetComponent<LineRenderer>();
-        direction = Mathf.RoundToInt(Random.value) == 0 ? 1 : -1;
+        direction = Mathf.RoundToInt(UnityEngine.Random.value) == 0 ? 1 : -1;
         targetPosition = player.position;
+        this.removeFromList = removeFromList;
 
         transform.position = targetPosition;
         transform.localScale = new Vector3(
@@ -31,6 +31,7 @@ public class ScatheHitAndRun : MonoBehaviour
             transform.localScale.y,
             transform.localScale.z
         );
+
         StartCoroutine(AttackSequenceCoroutine());
     }
     IEnumerator AttackSequenceCoroutine()
@@ -55,6 +56,7 @@ public class ScatheHitAndRun : MonoBehaviour
 
         // end logic
 
+        removeFromList(gameObject);
         Destroy(gameObject);
     }
     IEnumerator WarningBlinkCoroutine()
