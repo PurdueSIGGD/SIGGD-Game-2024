@@ -44,6 +44,8 @@ public class EraDoor : MonoBehaviour
         Hub_First_Entrance = 1,
         Story_Beat_1 = 2,
         Story_Beat_2 = 3,
+        Max_Trust = 4,
+        Story_Beat_3 = 5
     }
 
     void DoorOpened()
