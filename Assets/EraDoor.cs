@@ -94,16 +94,21 @@ public class EraDoor : MonoBehaviour
         }
         else if (!PartyManager.instance.IsGhostInParty(name)) // if not time for first encounter and not in party
         {
+            // inject the standard boss room and return
+            specificLevels.Add(new(new Level[] { new("Cyberpunk_Boss", 1) },
+                PersistentData.Instance.GetComponent<LevelSwitching>().GetMaxLevels()));
             return;
         }
 
         if (data.bossProgress == 0)
         {
+            // inject ghost specific boss room
             specificLevels.Add(new(new Level[] { new(truncName + " Cyberpunk_Boss", 1) },
                 PersistentData.Instance.GetComponent<LevelSwitching>().GetMaxLevels()));
         }
         else
         {
+            // inject standard boss room
             specificLevels.Add(new(new Level[] { new("Cyberpunk_Boss", 1) },
                 PersistentData.Instance.GetComponent<LevelSwitching>().GetMaxLevels()));
         }
