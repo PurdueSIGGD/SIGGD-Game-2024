@@ -117,7 +117,7 @@ public class EnterHub : MonoBehaviour
         {
             StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
             sp.Init(akihitoMaxTrust.data.convoName, "akihito", 5, false);
-            north.SetConvo(akihitoMaxTrust);
+            akihito.SetConvo(akihitoMaxTrust);
         }
 
         // Yume
@@ -141,7 +141,7 @@ public class EnterHub : MonoBehaviour
         {
             StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
             sp.Init(yumeMaxTrust.data.convoName, "yume", 5, false);
-            north.SetConvo(yumeMaxTrust);
+            yume.SetConvo(yumeMaxTrust);
         }
 
         // Silas
@@ -160,6 +160,13 @@ public class EnterHub : MonoBehaviour
             sp.Init(silasHubEntrance.data.convoName, "silas", 2, true);
             silas.SetConvo(silasHubEntrance);
         }
+        // load Silas max trust convo
+        if (SaveManager.data.silas.storyProgress == 4)
+        {
+            StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
+            sp.Init(silasMaxTrust.data.convoName, "silas", 5, false);
+            silas.SetConvo(silasMaxTrust);
+        }
 
         // Aegis
         if (SaveManager.data.aegis.storyProgress == 0)
@@ -176,6 +183,13 @@ public class EnterHub : MonoBehaviour
             StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
             sp.Init(aegisHubEntrance.data.convoName, "aegis", 2, true);
             aegis.SetConvo(aegisHubEntrance);
+        }
+        // load Aegis max trust convo
+        if (SaveManager.data.aegis.storyProgress == 4)
+        {
+            StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
+            sp.Init(aegisMaxTrust.data.convoName, "aegis", 5, false);
+            aegis.SetConvo(aegisMaxTrust);
         }
     }
 }

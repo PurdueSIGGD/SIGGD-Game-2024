@@ -88,7 +88,7 @@ public class StoryProgresser : MonoBehaviour
 
     private void StartBossAI(string key)
     {
-        if (bossTrigger == null && !key.Equals(requiredDialogue)) return;
+        if (bossTrigger == null || !key.Equals(requiredDialogue)) return;
 
         bossTrigger.EnableAI();
     }
