@@ -42,6 +42,7 @@ public class ConvoJsonWizard : ScriptableWizard
                                 match.Groups[1].Value.Substring(1).ToLower(),
                     line = match.Groups[2].Value
                 };
+                if (lineJson.character.Equals("King aegis")) lineJson.character = "King Aegis"; //oops
 
                 conversationJson.lines.Add(lineJson);
             }

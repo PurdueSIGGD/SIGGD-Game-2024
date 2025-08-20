@@ -90,17 +90,18 @@ public class EnemySpawning : MonoBehaviour
     private GameObject GetNextEnemy()
     {
         float currentProgress = GetComponent<LevelSwitching>().GetProgress();
+        int maxLevels = GetComponent<LevelSwitching>().GetMaxLevels();
         float totalChance = 0.0f;
         for (int i = 0; i < enemies.Length; i++)
         {
-            totalChance += Mathf.Lerp(enemies[i].GetStartChance(), enemies[i].GetEndChance(), currentProgress);
+            totalChance += enemies[i].GetChance(currentProgress);
         }
 
         float rng = Random.Range(0.0f, totalChance);
         float counter = 0.0f;
         for (int j = 0; j < enemies.Length; j++)
         {
-            counter += Mathf.Lerp(enemies[j].GetStartChance(), enemies[j].GetEndChance(), currentProgress);
+            counter += enemies[j].GetChance(currentProgress);
             if (rng < counter)
             {
                 return enemies[j].GetEnemy();

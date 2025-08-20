@@ -11,6 +11,7 @@ public class SaveData
     public Dictionary<string, int[]> ghostSkillPts = new();
     public List<string> saveGhostNames = new();
     public List<List<int>> saveGhostData = new();
+
     public int[] northSkillPts = new int[8];
     public int[] evaSkillPts = new int[8];
     public int[] akihitoSkillPts = new int[8];
@@ -24,6 +25,11 @@ public class SaveData
     public AkihitoData akihito = new();
     public SilasData silas = new();
     public AegisData aegis = new();
+
+    // 0: blue, 1: red, 2: yellow, 3: pink
+    public int[] spiritCounts = new int[4];
+
+    public MasteryUpgradeData masteryUpgrades = new();
 }
 
 
@@ -71,4 +77,16 @@ public class AegisData : GhostData
 {
     public float damageDealtTillSmite = 0;
     public float damageBlockTillSmite = 0;
+}
+
+[Serializable]
+public class MasteryUpgradeData
+{
+    public int numRowsUnlocked = 0;
+    public int[] upgradeLevels = {
+      // BLUE  RED   YELLOW
+         0,    0,    0,      // Tier 1
+         0,    0,    0,      // Tier 2
+         0,    0,    0       // Tier 3
+    };
 }
