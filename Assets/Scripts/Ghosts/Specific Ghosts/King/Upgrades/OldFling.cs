@@ -21,6 +21,13 @@ public class OldFling : Skill
     /// </summary>
     public void AddExtraHealth()
     {
+        identityName = name;
+
+        if (identityName.Contains("(Clone)"))
+        {
+            identityName = identityName.Replace("(Clone)", "");
+        }
+
         if (GetPoints() <= 0)
         {
             return;
