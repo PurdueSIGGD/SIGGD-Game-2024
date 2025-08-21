@@ -20,10 +20,12 @@ public class EnemySpawning : MonoBehaviour
     [SerializeField] GameObject enemyIndicator;
     [SerializeField] private GameObject doorIndicator;
 
-    [SerializeField] private List<GameObject> currentEnemies = new List<GameObject>();
+    private List<GameObject> currentEnemies = new List<GameObject>();
+    private List<GameObject> currentSpawnOrbs = new List<GameObject>();
+    [SerializeField] GameObject spawnOrb;
     private int waveNumber;
     private int currentMaxWave;
-    [SerializeField] private GameObject[] spawnPoints;
+    private GameObject[] spawnPoints;
     private bool showRemainingEnemy;
 
     [Header("Boss Room Override")]
@@ -88,17 +90,18 @@ public class EnemySpawning : MonoBehaviour
     private GameObject GetNextEnemy()
     {
         float currentProgress = GetComponent<LevelSwitching>().GetProgress();
+        int maxLevels = GetComponent<LevelSwitching>().GetMaxLevels();
         float totalChance = 0.0f;
         for (int i = 0; i < enemies.Length; i++)
         {
-            totalChance += Mathf.Lerp(enemies[i].GetStartChance(), enemies[i].GetEndChance(), currentProgress);
+            totalChance += enemies[i].GetChance(currentProgress);
         }
 
         float rng = Random.Range(0.0f, totalChance);
         float counter = 0.0f;
         for (int j = 0; j < enemies.Length; j++)
         {
-            counter += Mathf.Lerp(enemies[j].GetStartChance(), enemies[j].GetEndChance(), currentProgress);
+            counter += enemies[j].GetChance(currentProgress);
             if (rng < counter)
             {
                 return enemies[j].GetEnemy();
@@ -110,15 +113,25 @@ public class EnemySpawning : MonoBehaviour
     /// Spawns a single enemy
     /// General purpose single spawning machine 
     /// </summary>
-    public void SpawnEnemy(Vector2 spawnPosition)
+    public void SpawnEnemy(Vector2 spawnPosition, GameObject enemy = null, GameObject orb = null)
     {
-        GameObject newEnemy = Instantiate(GetNextEnemy(), spawnPosition, Quaternion.identity);
-        RegisterNewEnemy(newEnemy);
+        // create the appropriate orb and add it to the list
+        GameObject orbToSpawn = orb != null ? orb : spawnOrb;
+        GameObject newEnemySpawnOrb = Instantiate(orbToSpawn, spawnPosition, Quaternion.identity);
+        currentSpawnOrbs.Add(newEnemySpawnOrb);
+
+        // apply the appropriate enemy prefab to the newly created orb
+        GameObject enemyToSpawn = enemy != null ? enemy : GetNextEnemy();
+        newEnemySpawnOrb.GetComponent<EnemySpawnOrb>().Initialize(
+            GetNextEnemy(),
+            RegisterNewEnemy,
+            currentSpawnOrbs.Remove
+        );
     }
-    public void SpawnEnemyAtRandomPoint()
+    public void SpawnEnemyAtRandomPoint(GameObject enemy = null, GameObject orb = null)
     {
         ReshufflePoints(ref spawnPoints);
-        SpawnEnemy(spawnPoints[0].transform.position);
+        SpawnEnemy(spawnPoints[0].transform.position, enemy, orb);
     }
     /// <summary>
     /// Spawns a single wave of enemies
@@ -157,6 +170,14 @@ public class EnemySpawning : MonoBehaviour
             {
                 enemyHp.NoContextDamage(context, context.attacker);
             }
+        }
+
+        List<GameObject> currentOrbsCopy = new List<GameObject>(currentSpawnOrbs);
+        for (int i = 0; i < currentOrbsCopy.Count; i++)
+        {
+            GameObject targetOrb = currentOrbsCopy[i];
+            currentSpawnOrbs.Remove(targetOrb);
+            Destroy(targetOrb);
         }
     }
     /// <summary>
