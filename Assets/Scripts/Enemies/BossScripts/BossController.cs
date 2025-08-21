@@ -19,8 +19,10 @@ public class BossController : MonoBehaviour
     [SerializeField] DamageContext killAllEnemiesContext;
     int waveCounter = 0;
     int enemiesKilledCounter = 0;
+    bool triggerNewWave = false;
 
     protected Health bossHealth;
+    GameObject healthBarUI;
     protected EnemyStateManager bossStateManager; // might be null
 
     [Header("Boss State Parameters")]
@@ -36,24 +38,33 @@ public class BossController : MonoBehaviour
         GameplayEventHolder.OnDeath -= CheckEnemyDeathOnDeath;
         DisableInvincibility();
     }
+
     public void Start()
     {
         lowEnemyWaveSpawnTimer = lowEnemyWaveSpawnSec;
         enemySpawner = GameObject.Find("PersistentData").GetComponent<EnemySpawning>();
         bossHealth = GetComponent<Health>();
         bossStateManager = GetComponent<EnemyStateManager>();
+        healthBarUI = GetComponentInChildren<EnemyHealth>().gameObject;
     }
-
     public void Update()
     {
+        if (startSpawn)
+        {
+            StartWaveSpawning();
+            StartPassiveSpawning();
+            startSpawn = false;
+        }
+
         if (waveSpawningEnabled)
         {
             int numEnemies = GetNumEnemies();
 
             // spawn wave if all enemies dead, or enemies left alive for too long
-            if ((numEnemies <= 0) || (lowEnemyWaveSpawnTimer <= 0))
+            if (triggerNewWave || (lowEnemyWaveSpawnTimer <= 0))
             {
                 lowEnemyWaveSpawnTimer = lowEnemyWaveSpawnSec;
+                triggerNewWave = false;
                 SpawnWave();
             }
             if (numEnemies <= lowEnemyThreshold)
@@ -95,17 +106,26 @@ public class BossController : MonoBehaviour
             context.damage = 0;
         }
     }
-    public virtual void StartDefeatSequence()
+    public void StartDefeatSequence()
+    {
+        if (!IsDefeated())
+        {
+            DefeatSequence();
+        }
+    }
+    public virtual void DefeatSequence()
     {
         defeated = true;
         StopWaveSpawning();
         StopPassiveSpawning();
         KillAllEnemies();
+        healthBarUI.SetActive(false);
     }
     public void StartWaveSpawning()
     {
         waveSpawningEnabled = true;
         lowEnemyWaveSpawnTimer = lowEnemyWaveSpawnSec;
+        SpawnWave();
     }
     public void StopWaveSpawning()
     {
@@ -120,9 +140,9 @@ public class BossController : MonoBehaviour
     {
         passiveSpawningEnabled = false;
     }
-    public void SpawnEnemyAtRandomPoint()
+    public void SpawnEnemyAtRandomPoint(GameObject enemy = null, GameObject orb = null)
     {
-        enemySpawner.SpawnEnemyAtRandomPoint();
+        enemySpawner.SpawnEnemyAtRandomPoint(enemy, orb);
     }
     public void SpawnWave()
     {
@@ -148,6 +168,11 @@ public class BossController : MonoBehaviour
         if (context.victim.CompareTag("Enemy"))
         {
             enemiesKilledCounter++;
+            if ((enemySpawner.GetCurrentEnemies().Contains(context.victim) && GetNumEnemies() == 1) ||
+                 (!enemySpawner.GetCurrentEnemies().Contains(context.victim) && GetNumEnemies() == 0))
+            {
+                triggerNewWave = true;
+            }
         }
     }
     public int GetNumEnemiesKilled()
