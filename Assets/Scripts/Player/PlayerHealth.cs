@@ -55,22 +55,29 @@ public class PlayerHealth : Health
 
         healthProportion = currentHealth / maxHealth;
 
+        // Mortal Wound Check
         if (healthProportion <= thresholdTwo)
         {
             Wounded = false;
             MortallyWounded = true;
         }
+
+        // Wound Check
         else if (healthProportion <= thresholdOne)
         {
             Wounded = true;
             MortallyWounded = false;
         }
+
+        // Healthy Check
         else
         {
             Wounded = false;
             MortallyWounded = false;
         }
     }
+
+
 
     public override float Heal(HealingContext context, GameObject healer)
     {

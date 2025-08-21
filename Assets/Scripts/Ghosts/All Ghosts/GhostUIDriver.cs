@@ -98,6 +98,7 @@ public class GhostUIDriver : MonoBehaviour, ISelectable
     {
         Color ghostColor = ghostIdentity.GetCharacterInfo().primaryColor;
         selectedGhostUIManager.setBackgroundColor(ghostColor);
+        selectedGhostUIManager.setBackground2Color(ghostColor);
         selectedGhostUIManager.setHealthBarFrameColor(ghostColor);
         selectedGhostUIManager.setIcon(ghostIdentity.GetCharacterInfo().characterIcon);
         selectedGhostUIManager.setIconFrameColor(ghostColor);
