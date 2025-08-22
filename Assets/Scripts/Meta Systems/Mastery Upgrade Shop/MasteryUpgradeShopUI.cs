@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class MasteryUpgradeShopUI : MonoBehaviour
 {
     public static int MAX_POWER_LEVEL = 20;
+    public static UnityEvent boughtUpgradeEvent;
 
     [SerializeField] private List<MasteryTierRowUI> rows;
     [SerializeField] private Button closeButton;
@@ -14,6 +15,11 @@ public class MasteryUpgradeShopUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (boughtUpgradeEvent == null)
+        {
+            boughtUpgradeEvent = new();
+        }
+
         closeButton.onClick.AddListener(CloseUI);
         gameObject.SetActive(false);
     }

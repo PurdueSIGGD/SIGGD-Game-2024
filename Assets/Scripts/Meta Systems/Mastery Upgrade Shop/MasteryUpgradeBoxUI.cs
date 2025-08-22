@@ -66,6 +66,13 @@ public class MasteryUpgradeBoxUI : MonoBehaviour
         spiritTracker = PersistentData.Instance.GetComponent<SpiritTracker>();
         upgradeButton.onClick.AddListener(TryUpgradeLevel);
 
+        if (MasteryUpgradeShopUI.boughtUpgradeEvent == null)
+        {
+            MasteryUpgradeShopUI.boughtUpgradeEvent = new();
+        }
+
+        MasteryUpgradeShopUI.boughtUpgradeEvent.AddListener(UpdateUI);
+
         UpdateUI();
     }
 
@@ -99,7 +106,7 @@ public class MasteryUpgradeBoxUI : MonoBehaviour
     /// <summary>
     /// Update the UI according to the current level
     /// </summary>
-    private void UpdateUI()
+    public void UpdateUI()
     {
         currentLevel = GetPowerLevel();
 
@@ -139,7 +146,7 @@ public class MasteryUpgradeBoxUI : MonoBehaviour
         currentLevel++;
         SaveManager.data.masteryUpgrades.upgradeLevels[(int)upgradeType]++;
 
-        UpdateUI();
+        MasteryUpgradeShopUI.boughtUpgradeEvent?.Invoke();
 
         // Success - apply upgrade
         ApplyUpgrade();

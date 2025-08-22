@@ -13,6 +13,7 @@ public class MasteryTierRowUI : MonoBehaviour
     [SerializeField] public Button unlockButton;
     [SerializeField] private TMP_Text unlockButtonText;
     [SerializeField] private Canvas masteryTierPanel;
+    [SerializeField] public List<MasteryUpgradeBoxUI> upgradeBoxes;
 
     private SpiritTracker spiritTracker;
     private void Start()
