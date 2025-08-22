@@ -24,6 +24,6 @@ public class PrologueTrigerOpenDoorVoiceLine : MonoBehaviour
     {
         yield return new WaitForSeconds(timeToWaitBeforeSelfDestruct);
         subtitle.DisenablePrompt();
-        Destroy(gameObject);
+        Destroy(this);
     }
 }
