@@ -6,6 +6,7 @@ using UnityEngine;
 /// </summary>
 public class TrackingProjectile : EnemyProjectile
 {
+    SpriteRenderer sprite;
     [SerializeField] float trackingStrength; // A larger value will allow the projectile to turn faster.
     [SerializeField] float trackingDistance; // A larger value will lead the projectile to loose tracking earlier
     private float hangTime = 0;
@@ -16,6 +17,7 @@ public class TrackingProjectile : EnemyProjectile
     protected override void Start()
     {
         base.Start();
+        sprite = GetComponent<SpriteRenderer>();
         player = PlayerID.instance.transform;
         Vector3 directionToTarget = (player.position - transform.position).normalized;
         rb.velocity = directionToTarget * speed;
@@ -40,6 +42,14 @@ public class TrackingProjectile : EnemyProjectile
             Quaternion rotation = Quaternion.LookRotation(directionToTarget);
             rb.MoveRotation(Quaternion.RotateTowards(transform.rotation, rotation, trackingStrength));
             rb.velocity = directionToTarget * speed;
+            if (player.position.x - transform.position.x < 0)
+            {
+                sprite.flipX = false;
+            }
+            else
+            {
+                sprite.flipX = true;
+            }
         }
     }
 
