@@ -36,7 +36,7 @@ public class ItemUIManager : MonoBehaviour
     /// </summary>
     private void UpdateItemBoxUI()
     {
-        priceText.text = "BUY " + item.price.ToString();
+        priceText.text = item.price.ToString();
         itemNameText.text = item.displayName.ToUpper();
         itemDescription.text = item.itemDescription;
 
