@@ -145,7 +145,7 @@ public class PartyManager : MonoBehaviour
 
     public void OnScrollWheel(InputValue value)
     {
-        Debug.Log("SCROLL WHEEL INPUT: " + value.Get<float>());
+        //Debug.Log("SCROLL WHEEL INPUT: " + value.Get<float>());
         int scrollWheelValue = (int)value.Get<float>();
         int newIndex = selectedGhostIndex;
         if (scrollWheelValue == 0)

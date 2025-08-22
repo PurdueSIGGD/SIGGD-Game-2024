@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Spirit;
 
 public class SpiritTracker : MonoBehaviour
 {
@@ -38,7 +39,7 @@ public class SpiritTracker : MonoBehaviour
         }
 
         // UI
-        if (SpiritTrackerCanvasUI.Instance) SpiritTrackerCanvasUI.Instance.UpdateCounters();
+        SpiritTrackerCanvasUI.Instance.UpdateCounters();
         
     }
 
