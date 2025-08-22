@@ -8,9 +8,14 @@ public class OnGuardDeath : MonoBehaviour
     [SerializeField] string nextSceneName;
     [SerializeField] GameObject poorGuy;
     
-    void Start()
+    void OnEnable()
     {
         Door.OnDoorOpened += TransitionToNextScene;
+    }
+
+    private void OnDisable()
+    {
+        Door.OnDoorOpened -= TransitionToNextScene;
     }
 
     void Update()
