@@ -40,7 +40,7 @@ public class ItemUIManager : MonoBehaviour
         itemNameText.text = item.displayName.ToUpper();
         itemDescription.text = item.itemDescription;
 
-        itemIcon.sprite = item.itemIcon;
+        //itemIcon.sprite = item.itemIcon;
 
         UpdateRerollButtonText();
 
