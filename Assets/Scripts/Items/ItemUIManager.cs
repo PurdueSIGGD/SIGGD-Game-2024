@@ -21,6 +21,7 @@ public class ItemUIManager : MonoBehaviour
 
     private ItemPool pool;
     private ItemSO item; // The currently displayed item
+    private SpiritTracker spiritTracker; // reference
     
 
     private void Start()
@@ -28,7 +29,7 @@ public class ItemUIManager : MonoBehaviour
         pool = gameObject.GetComponent<ItemPool>();
         rerollButton.onClick.AddListener(RerollButtonOnClick);
         buyButton.onClick.AddListener(BuyButtonOnClick);
-
+        spiritTracker = PersistentData.Instance.GetComponent<SpiritTracker>();
     }
 
     /// <summary>
@@ -39,6 +40,10 @@ public class ItemUIManager : MonoBehaviour
         priceText.text = item.price.ToString();
         itemNameText.text = item.displayName.ToUpper();
         itemDescription.text = item.itemDescription;
+
+        // Buttons disabled or enabled
+        buyButton.interactable = spiritTracker.HasEnoughSpirits(false, pool.type, item.price);
+        rerollButton.interactable = spiritTracker.HasEnoughSpirits(false, pool.type, pool.currentRerollPrice);
 
         //itemIcon.sprite = item.itemIcon;
 
