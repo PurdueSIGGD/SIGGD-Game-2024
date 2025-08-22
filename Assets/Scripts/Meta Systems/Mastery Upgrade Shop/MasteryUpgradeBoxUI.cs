@@ -106,7 +106,7 @@ public class MasteryUpgradeBoxUI : MonoBehaviour
         SetUpgradeDescription();
 
         if (currentLevel < MasteryUpgradeShopUI.MAX_POWER_LEVEL) {
-            upgradePriceText.text = "UPGRADE " + GetCurrentPrice();
+            upgradePriceText.text = "" + GetCurrentPrice();
         }
         else
         {
@@ -114,7 +114,7 @@ public class MasteryUpgradeBoxUI : MonoBehaviour
             upgradeButton.onClick.RemoveListener(TryUpgradeLevel);
         }
 
-        upgradeLevelText.text = currentLevel + "/" + MasteryUpgradeShopUI.MAX_POWER_LEVEL;
+        upgradeLevelText.text = "+" + GetStatBoostPercent() + "%";// currentLevel + "/" + MasteryUpgradeShopUI.MAX_POWER_LEVEL;
     }
 
     /// <summary>

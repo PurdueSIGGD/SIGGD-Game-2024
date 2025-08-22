@@ -23,7 +23,7 @@ public class BuyBulkSpiritsBoxUI : MonoBehaviour
         bulkAmountText.text = "+" + bulkAmount;
         spiritTracker = PersistentData.Instance.GetComponent<SpiritTracker>();
         buySpiritsButton.onClick.AddListener(TryBuySpirits);
-        buySpiritsButtonText.text = "BUY " + bulkPrice;
+        buySpiritsButtonText.text = "" + bulkPrice;
     }
     public void TryBuySpirits()
     {
