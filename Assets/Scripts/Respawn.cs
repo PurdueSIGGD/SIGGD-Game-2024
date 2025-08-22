@@ -22,12 +22,13 @@ public class Respawn : MonoBehaviour
                 if(GetComponent<Health>().currentHealth > damage)
                 {
                     damageContext.damage = damage;
-                    GetComponent<Health>().Damage(damageContext, gameObject);
+                    //GetComponent<Health>().Damage(damageContext, gameObject);
+                    GetComponent<Health>().currentHealth -= damage;
                 }
                 else
                 {
                     damageContext.damage = GetComponent<Health>().currentHealth - 1;
-                    GetComponent<Health>().Damage(damageContext, gameObject);
+                    GetComponent<Health>().currentHealth = 1;
                 }
             }
             
