@@ -32,7 +32,7 @@ public class MasteryUpgradeBoxUI : MonoBehaviour
     [SerializeField] private int statBoostIncrementPercent = 1;
     [SerializeField] private int upgradeStartPrice = 1;
     [SerializeField] private int upgradePriceIncrement = 1;
-    [SerializeField] private Sprite masteryUpgradeIcon;
+    //[SerializeField] private Sprite masteryUpgradeIcon;
 
     [Header("UI")]
     [SerializeField] private TMP_Text upgradeLevelText;
@@ -40,7 +40,7 @@ public class MasteryUpgradeBoxUI : MonoBehaviour
     [SerializeField] private TMP_Text upgradeNameText;
     [SerializeField] private TMP_Text upgradeDescriptionText;
     [SerializeField] private Button upgradeButton;
-    [SerializeField] private Image upgradeImageUI;
+    //[SerializeField] private Image upgradeImageUI;
 
     private int currentLevel = 0;
     private SpiritTracker spiritTracker;
@@ -61,7 +61,7 @@ public class MasteryUpgradeBoxUI : MonoBehaviour
     {
         upgradeNameText.text = upgradeType.ToString();
 
-        upgradeImageUI.sprite = masteryUpgradeIcon;
+        //upgradeImageUI.sprite = masteryUpgradeIcon;
 
         spiritTracker = PersistentData.Instance.GetComponent<SpiritTracker>();
         upgradeButton.onClick.AddListener(TryUpgradeLevel);
