@@ -32,6 +32,7 @@ public class MasteryUpgradeShopUI : MonoBehaviour
     /// </summary>
     public void OpenUI()
     {
+        SpiritTracker spiritTracker = PersistentData.Instance.GetComponent<SpiritTracker>();
         gameObject.SetActive(true);
 
         int rowsUnlocked = SaveManager.data.masteryUpgrades.numRowsUnlocked;
@@ -41,6 +42,8 @@ public class MasteryUpgradeShopUI : MonoBehaviour
         for (int i = 0; i < rows.Count; i++)
         {
             MasteryTierRowUI row = rows[i];
+
+            row.unlockButton.interactable = spiritTracker.HasEnoughSpirits(true, Spirit.SpiritType.Pink, row.unlockPrice);
 
             if (i < rowsUnlocked)
             {

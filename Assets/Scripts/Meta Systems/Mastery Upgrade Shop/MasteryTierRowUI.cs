@@ -6,11 +6,11 @@ using UnityEngine.UI;
 
 public class MasteryTierRowUI : MonoBehaviour
 {
-    [SerializeField] private int unlockPrice = 1;
+    [SerializeField] public int unlockPrice = 1;
 
     [Header("UI")]
     [SerializeField] private MasteryUpgradeShopUI masteryShop;
-    [SerializeField] private Button unlockButton;
+    [SerializeField] public Button unlockButton;
     [SerializeField] private TMP_Text unlockButtonText;
     [SerializeField] private Canvas masteryTierPanel;
 

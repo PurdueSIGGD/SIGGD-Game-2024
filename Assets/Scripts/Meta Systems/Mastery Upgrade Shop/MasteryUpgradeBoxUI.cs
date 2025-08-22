@@ -105,12 +105,14 @@ public class MasteryUpgradeBoxUI : MonoBehaviour
 
         SetUpgradeDescription();
 
+        upgradeButton.interactable = spiritTracker.HasEnoughSpirits(true, spiritType, GetCurrentPrice());
+
         if (currentLevel < MasteryUpgradeShopUI.MAX_POWER_LEVEL) {
             upgradePriceText.text = "" + GetCurrentPrice();
         }
         else
         {
-            upgradePriceText.text = "MAXED";
+            upgradePriceText.text = "MAX";
             upgradeButton.onClick.RemoveListener(TryUpgradeLevel);
         }
 
