@@ -46,13 +46,6 @@ public class Health : MonoBehaviour, IDamageable, IStatList
             Debug.Log("After Filter " + filter + ": " + context.damage);
         }
 
-        // Handle critical hits
-        context.isCriticalHit = false;
-        if (gameObject.CompareTag("Enemy"))
-        {
-            // Do crit roll
-        }
-
         // Resistance
         context.damage *= 1.0f - damageResistance;
 
@@ -67,15 +60,18 @@ public class Health : MonoBehaviour, IDamageable, IStatList
                 damagedHealth <= (stats.ComputeValue("Wounded Threshold") * stats.ComputeValue("Max Health")))
             {
                 context.isCriticalHit = true;
+                context.damageStrength = DamageStrength.HEAVY;
             }
             if (currentHealth > (stats.ComputeValue("Mortal Wound Threshold") * stats.ComputeValue("Max Health")) &&
                 damagedHealth <= (stats.ComputeValue("Mortal Wound Threshold") * stats.ComputeValue("Max Health")))
             {
                 context.isCriticalHit = true;
+                context.damageStrength = DamageStrength.HEAVY;
             }
             if (damagedHealth <= 0f)
             {
                 context.isCriticalHit = true;
+                context.damageStrength = DamageStrength.HEAVY;
             }
         }
 
@@ -143,7 +139,7 @@ public class Health : MonoBehaviour, IDamageable, IStatList
         context.healing = Mathf.Clamp(context.healing, 0f, missingHealth);
 
         // Increase current health
-        currentHealth += context.healing;
+        if (isAlive) currentHealth += context.healing;
 
         // Trigger events
         GameplayEventHolder.OnHealingDealt?.Invoke(context);

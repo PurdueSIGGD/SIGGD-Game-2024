@@ -7,8 +7,13 @@ using UnityEngine.UI;
 public class PlayerHealthUIManager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI healthText;
+    [SerializeField] private TextMeshProUGUI maxHealthText;
+    [SerializeField] private TextMeshProUGUI healthDivider;
     [SerializeField] private Slider healthSlider;
     [SerializeField] private Image healthBar;
+    [SerializeField] private Color healthyColor;
+    [SerializeField] private Color woundedColor;
+    [SerializeField] private Color mortallyWoundedColor;
 
     [SerializeField] private GameObject pipBackground1;
     [SerializeField] private GameObject pipBackground2;
@@ -134,7 +139,8 @@ public class PlayerHealthUIManager : MonoBehaviour
 
     private void UpdateHealthWidget()
     {
-        healthText.text = Mathf.CeilToInt(health.currentHealth) + " | " + Mathf.CeilToInt(stats.ComputeValue("Max Health"));
+        healthText.text = Mathf.CeilToInt(health.currentHealth).ToString();
+        maxHealthText.text = Mathf.CeilToInt(stats.ComputeValue("Max Health")).ToString();
 
         float woundHealthThreshold = stats.ComputeValue("Wounded Threshold") * stats.ComputeValue("Max Health");
         float mortalWoundHealthThreshold = stats.ComputeValue("Mortal Wound Threshold") * stats.ComputeValue("Max Health");
@@ -216,6 +222,7 @@ public class PlayerHealthUIManager : MonoBehaviour
 
     private void StartHealthy()
     {
+        SetHealthBarColor(healthyColor);
         background.sprite = healthyBackground;
         foreground.sprite = healthyForeground;
         isWounded = false;
@@ -227,6 +234,7 @@ public class PlayerHealthUIManager : MonoBehaviour
 
     private void StartWounded()
     {
+        SetHealthBarColor(woundedColor);
         pipBackground1.SetActive(false);
         background.sprite = woundedBackground;
         foreground.sprite = woundedForeground;
@@ -239,6 +247,7 @@ public class PlayerHealthUIManager : MonoBehaviour
 
     private void StartMortallyWounded()
     {
+        SetHealthBarColor(mortallyWoundedColor);
         pipBackground1.SetActive(false);
         pipBackground2.SetActive(false);
         background.sprite = mortallyWoundedBackground;
@@ -256,6 +265,7 @@ public class PlayerHealthUIManager : MonoBehaviour
 
     private void MortalWoundReceived()
     {
+        SetHealthBarColor(mortallyWoundedColor);
         pipBackground1.SetActive(false);
         pipBackground2.SetActive(false);
         PlayAnimation(mortalWoundBackgroundAnimationFrames, mortalWoundForegroundAnimationFrames);
@@ -265,6 +275,7 @@ public class PlayerHealthUIManager : MonoBehaviour
 
     private void MortalWoundHealed()
     {
+        SetHealthBarColor(woundedColor);
         pipBackground2.SetActive(true);
         List<Sprite> backgroundAnimationFrames = GetReversedAnimationFramesList(mortalWoundBackgroundAnimationFrames);
         List<Sprite> foregroundAnimationFrames = GetReversedAnimationFramesList(mortalWoundForegroundAnimationFrames);
@@ -275,6 +286,7 @@ public class PlayerHealthUIManager : MonoBehaviour
 
     private void WoundReceived()
     {
+        SetHealthBarColor(woundedColor);
         pipBackground1.SetActive(false);
         PlayAnimation(woundBackgroundAnimationFrames, woundForegroundAnimationFrames);
         //background.sprite = woundedBackground;
@@ -283,6 +295,7 @@ public class PlayerHealthUIManager : MonoBehaviour
 
     private void WoundHealed()
     {
+        SetHealthBarColor(healthyColor);
         pipBackground1.SetActive(true);
         List<Sprite> backgroundAnimationFrames = GetReversedAnimationFramesList(woundBackgroundAnimationFrames);
         List<Sprite> foregroundAnimationFrames = GetReversedAnimationFramesList(woundForegroundAnimationFrames);
@@ -293,6 +306,7 @@ public class PlayerHealthUIManager : MonoBehaviour
 
     private void DeathReceived()
     {
+        SetHealthBarColor(mortallyWoundedColor);
         pipBackground1.SetActive(false);
         pipBackground2.SetActive(false);
         pipBackground3.SetActive(false);
@@ -303,12 +317,25 @@ public class PlayerHealthUIManager : MonoBehaviour
 
     private void DeathHealed()
     {
+        SetHealthBarColor(mortallyWoundedColor);
         pipBackground3.SetActive(true);
         List<Sprite> backgroundAnimationFrames = GetReversedAnimationFramesList(deathBackgroundAnimationFrames);
         List<Sprite> foregroundAnimationFrames = GetReversedAnimationFramesList(deathForegroundAnimationFrames);
         PlayAnimation(backgroundAnimationFrames, foregroundAnimationFrames);
         //background.sprite = mortallyWoundedBackground;
         //foreground.sprite = mortallyWoundedForeground;
+    }
+
+
+
+
+
+    private void SetHealthBarColor(Color color)
+    {
+        healthBar.color = color;
+        healthText.color = color;
+        maxHealthText.color = color;
+        healthDivider.color = color;
     }
 
 }

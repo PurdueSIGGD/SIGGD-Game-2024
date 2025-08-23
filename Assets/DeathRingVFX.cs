@@ -105,15 +105,7 @@ public class DeathRingVFX : MonoBehaviour
         {
             float rotation = transform.eulerAngles.z;
             rotation += (deathSpinSpeed * Time.deltaTime);
-            //transform.rotation = new Quaternion(0f, 0f, Mathf.Min(rotation, 0f), transform.rotation.w);
             transform.eulerAngles = new Vector3(0f, 0f, rotation);
-            /*
-            if (rotation >= 0f)
-            {
-                isDeathSpinning = false;
-                transform.eulerAngles = new Vector3(0f, 0f, 0f);
-            }
-            */
         }
 
         if (isFadingOut)
@@ -128,12 +120,10 @@ public class DeathRingVFX : MonoBehaviour
                 isDeathSpinning = false;
                 transform.eulerAngles = new Vector3(0f, 0f, 0f);
                 isFadingOut = false;
-                //spriteRenderer.color = fullyFadedColor;
                 spriteRenderer.enabled = true;
                 FullFadeOut();
 
                 // VFX
-                //CameraShake.instance.Shake(0.15f, 10f, 0f, 10f, new Vector2(Random.Range(-0.5f, 0.5f), 1f));
                 PlayerID.instance.gameObject.GetComponent<SpriteRenderer>().enabled = false;
                 GameObject explosion = Instantiate(pulseVFX, PlayerID.instance.gameObject.transform.position, Quaternion.identity);
                 explosion.GetComponent<RingExplosionHandler>().playRingExplosion(20f, pulseColor);
@@ -149,17 +139,8 @@ public class DeathRingVFX : MonoBehaviour
             // End fade out
             if (alpha >= 1f)
             {
-                //isDeathSpinning = false;
-                //transform.eulerAngles = new Vector3(0f, 0f, 0f);
                 isFullFadingOut = false;
-                //spriteRenderer.color = fullyFadedColor;
                 spriteRenderer.enabled = true;
-
-                // VFX
-                //CameraShake.instance.Shake(0.15f, 10f, 0f, 10f, new Vector2(Random.Range(-0.5f, 0.5f), 1f));
-                //PlayerID.instance.gameObject.GetComponent<SpriteRenderer>().enabled = false;
-                //GameObject explosion = Instantiate(pulseVFX, PlayerID.instance.gameObject.transform.position, Quaternion.identity);
-                //explosion.GetComponent<RingExplosionHandler>().playRingExplosion(20f, pulseColor);
             }
         }
 
@@ -172,7 +153,6 @@ public class DeathRingVFX : MonoBehaviour
                 FadeIn();
 
                 // VFX
-                //CameraShake.instance.Shake(0.15f, 10f, 0f, 10f, new Vector2(Random.Range(-0.5f, 0.5f), 1f));
                 PlayerID.instance.gameObject.GetComponent<SpriteRenderer>().enabled = true;
                 PlayerID.instance.gameObject.GetComponent<Move>().PlayerGo();
                 GameObject explosion = Instantiate(pulseVFX, PlayerID.instance.gameObject.transform.position, Quaternion.identity);
@@ -180,9 +160,6 @@ public class DeathRingVFX : MonoBehaviour
             }
 
             float zRotation = reviveSpinCoefficient * Mathf.Pow((reviveSpinDuration - reviveSpinTimer), reviveSpinDegree);
-            //Quaternion rotation = new Quaternion(0f, 0f, transform.rotation.z, transform.rotation.w);
-            //rotation.z = zRotation;
-            //transform.rotation = rotation;
             transform.eulerAngles = new Vector3(0f, 0f, zRotation);
         }
 
@@ -200,8 +177,6 @@ public class DeathRingVFX : MonoBehaviour
             }
             if (intensity >= partiallyAbberatedIntensity && isRaisingChromaticAbberation)
             {
-                //chromaticAbberation.intensity.Override(1f);
-                //isChangingChromaticAbberation = false;
                 chromaticAbberationRate = 1f / dropChromaticAbberationDuration;
                 isRaisingChromaticAbberation = false;
                 return;
@@ -321,7 +296,6 @@ public class DeathRingVFX : MonoBehaviour
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.enabled = true;
-        //spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 0f);
         yield return new WaitForSeconds(fadeOutDelay);
 
         fadeOutRate = (1f - spriteRenderer.color.a) / fadeOutDuration;
@@ -332,7 +306,6 @@ public class DeathRingVFX : MonoBehaviour
 
     private void StartDeathSpin()
     {
-        //transform.rotation = new Quaternion(0f, 0f, deathSpinInitialRotation, transform.rotation.w);
         transform.eulerAngles = new Vector3(0f, 0f, deathSpinInitialRotation);
         isDeathSpinning = true;
     }

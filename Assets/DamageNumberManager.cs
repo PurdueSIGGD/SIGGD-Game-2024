@@ -93,7 +93,7 @@ public class DamageNumberManager : MonoBehaviour
         DamageNumber activeDamageNumber = GetActiveDamageNumber(owner);
         if (activeDamageNumber != null)
         {
-            activeDamageNumber.PlayMessage(value, icon, message, color);
+            activeDamageNumber.PlayMessage(value, icon, message, color, true);
             return;
         }
         GameObject newDamageNumber = Instantiate(damageNumber, new Vector3(-999f, -999f, 0f), Quaternion.identity);

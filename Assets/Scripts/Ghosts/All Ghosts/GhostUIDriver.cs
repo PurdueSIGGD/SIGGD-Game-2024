@@ -60,7 +60,7 @@ public class GhostUIDriver : MonoBehaviour, ISelectable
 
             deselectedGhostUIManager.gameObject.SetActive(true);
             deselectedGhostUIManager.setBackgroundColor(ghostColor);
-            deselectedGhostUIManager.setIcon(ghostIdentity.GetCharacterInfo().characterIcon);
+            deselectedGhostUIManager.setIcon(ghostIdentity.GetCharacterInfo().hudIcon);
             deselectedGhostUIManager.setIconFrameColor(ghostColor);
             updateAbilityUI(false);
         }
@@ -100,7 +100,7 @@ public class GhostUIDriver : MonoBehaviour, ISelectable
         selectedGhostUIManager.setBackgroundColor(ghostColor);
         selectedGhostUIManager.setBackground2Color(ghostColor);
         selectedGhostUIManager.setHealthBarFrameColor(ghostColor);
-        selectedGhostUIManager.setIcon(ghostIdentity.GetCharacterInfo().characterIcon);
+        selectedGhostUIManager.setIcon(ghostIdentity.GetCharacterInfo().hudIcon);
         selectedGhostUIManager.setIconFrameColor(ghostColor);
         meterUIManager.setBackgroundColor(ghostColor);
         updateAbilityUI(true);
@@ -110,7 +110,7 @@ public class GhostUIDriver : MonoBehaviour, ISelectable
     {
         Color ghostColor = ghostIdentity.GetCharacterInfo().primaryColor;
         deselectedGhostUIManager.setBackgroundColor(ghostColor);
-        deselectedGhostUIManager.setIcon(ghostIdentity.GetCharacterInfo().characterIcon);
+        deselectedGhostUIManager.setIcon(ghostIdentity.GetCharacterInfo().hudIcon);
         deselectedGhostUIManager.setIconFrameColor(ghostColor);
         meterUIManager.deactivateWidget();
         updateAbilityUI(false);
