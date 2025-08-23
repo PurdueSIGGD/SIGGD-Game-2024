@@ -39,8 +39,8 @@ public class SpiritTracker : MonoBehaviour
         }
 
         // UI
-        SpiritTrackerCanvasUI.Instance.UpdateCounters();
-        
+        SpiritTrackerCanvasUI.Instance?.UpdateCounters();
+
     }
 
 
