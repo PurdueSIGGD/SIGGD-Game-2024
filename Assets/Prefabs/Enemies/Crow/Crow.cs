@@ -14,12 +14,15 @@ public class Crow : EnemyStateManager
     [SerializeField] protected int damage;
     [SerializeField] GameObject poisonDebuff;
     protected bool diving = false;
+    [SerializeField] GameObject redLight;
+    [SerializeField] GameObject greenLight;
 
     void Start()
     {
         base.Start();
         MoveState = new CrowMoveState();
         diveDamage.damage = damage;
+        RedLightOn(false);
     }
 
     // Check for dive collision and do damage
@@ -44,6 +47,7 @@ public class Crow : EnemyStateManager
     {
         transform.rotation = Quaternion.identity;
         diving = false;
+        RedLightOn(false);
         StopAllCoroutines();
         BusyState.ExitState(this);
     }
@@ -91,15 +95,12 @@ public class Crow : EnemyStateManager
     protected override void OnDrawGizmos()
     {
         base.OnDrawGizmos();
-        // Gizmos.DrawWireCube(gunKick.position, gunKick.lossyScale);
-        // Gizmos.DrawWireCube(gunShoot.position, gunShoot.lossyScale);
-        // Gizmos.DrawWireSphere(rangeOrig.position, 0.1f);
     }
 
     IEnumerator DiveWaitCoroutine(Rigidbody2D rb, float diveSpeed, float waitTime)
     {
 
-        print("WAIT............");
+        RedLightOn(true);
         rb.velocity = Vector2.zero;
         yield return new WaitForSeconds(waitTime);
         Vector2 directionToPlayer = new Vector2(player.position.x - transform.position.x, player.position.y - transform.position.y);
@@ -120,17 +121,14 @@ public class Crow : EnemyStateManager
         while (true)
         {
             Debug.DrawLine(crowDive.position, crowDive.position + Vector3.right * 0.65f);
-            print("GRAHHHHHHHH");
             if (GenerateDamageFrame(crowDive.position, 0.65f, diveDamage, gameObject))
             {
-                print("WE HIT EM LETS GOOOOOO");
                 Instantiate(poisonDebuff, player.transform).GetComponent<PoisonDebuff>().SetAttacker(this.gameObject);
                 EndDive();
                 break;
             }
             if (Physics2D.OverlapCircle(crowDive.position, 0.65f, LayerMask.GetMask("Ground")))
             {
-                print("CRASHED INTO DA GROUND");
                 EndDive();
                 break;
             }
@@ -151,5 +149,10 @@ public class Crow : EnemyStateManager
             yield return null;
         }
         EndDive();
+    }
+    void RedLightOn(bool val)
+    {
+        redLight.SetActive(val);
+        greenLight.SetActive(!val);
     }
 }
