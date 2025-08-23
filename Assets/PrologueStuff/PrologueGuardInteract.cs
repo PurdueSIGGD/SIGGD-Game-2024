@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-public class PrologueGuardInteract : InRangeInteract
+public class PrologueGuardInteract : MonoBehaviour
 {
     [SerializeField] ConvoSO prologueGuardConvo;
     [SerializeField] FadeInUI attackTutorialPrompt;
@@ -13,15 +13,8 @@ public class PrologueGuardInteract : InRangeInteract
         DialogueManager.onFinishDialogue += EnablePlayerAttack;
     }
 
-    protected override InteractOption[] GetMenuOptions()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        InteractOption opt = new InteractOption("Talk", InteractWithGuard);
-        return new InteractOption[] { opt };
-    }
-
-    private void InteractWithGuard()
-    {
-        CloseMenu();
         DialogueManager dialogueManager = FindAnyObjectByType<DialogueManager>(FindObjectsInactive.Include);
         dialogueManager.StartDialogue(prologueGuardConvo);
     }

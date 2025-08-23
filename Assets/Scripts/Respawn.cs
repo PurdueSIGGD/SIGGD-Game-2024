@@ -19,7 +19,7 @@ public class Respawn : MonoBehaviour
             this.transform.position = respawnPoint;
             if (dealDmg)
             {
-                if(GetComponent<Health>().currentHealth > damage)
+                if (GetComponent<Health>().currentHealth > damage)
                 {
                     damageContext.damage = damage;
                     //GetComponent<Health>().Damage(damageContext, gameObject);
@@ -31,7 +31,12 @@ public class Respawn : MonoBehaviour
                     GetComponent<Health>().currentHealth = 1;
                 }
             }
-            
+
         }
+    }
+
+    public void SetRespawnPoint()
+    {
+        respawnPoint = this.transform.position;
     }
 }
