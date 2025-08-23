@@ -28,6 +28,11 @@ public class DialogueTriggerBox : MonoBehaviour
         }
     }
 
+    public void SetConvo(ConvoSO convo)
+    {
+        this.convo = convo;
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject == PlayerID.instance.gameObject)

@@ -43,6 +43,10 @@ public class EnterHub : MonoBehaviour
     [SerializeField] ConvoSO aegisMaxTrust;
     [SerializeField] ConvoSO aegisStartSB3;
 
+    [Header("Death")]
+    [SerializeField] DialogueTriggerBox death;
+    [SerializeField] ConvoSO deathFirstDeath;
+
     void Awake()
     {
         SaveManager.data.eva.tempoCount = 0;
@@ -57,6 +61,36 @@ public class EnterHub : MonoBehaviour
 
     void Start()
     {
+        // Death/Orion
+        if (death && SaveManager.data.death == 1) // First Death encounter
+        {
+            death.gameObject.SetActive(true);
+            death.SetConvo(deathFirstDeath);
+            StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
+            sp.Init(deathFirstDeath.data.convoName, "death", 2, true);
+        }
+        if (death && SaveManager.data.orion == 1) // beating nova point
+        {
+
+        }
+        if (death && SaveManager.data.orion == 2) // beating shigora
+        {
+
+        }
+        if (death && SaveManager.data.orion == 3) // beating caladria
+        {
+
+        }
+        if (death && SaveManager.data.orion == 4) // finishing wheat field? unlock oldrion
+        {
+
+        }
+        if (death && SaveManager.data.orion == 5) // beating oldrion
+        {
+
+        }
+
+
         // North
         if (north && SaveManager.data.north.storyProgress == 0)
         {

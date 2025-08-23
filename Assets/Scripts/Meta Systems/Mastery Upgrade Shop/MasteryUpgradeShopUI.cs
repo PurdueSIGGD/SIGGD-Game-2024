@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class MasteryUpgradeShopUI : MonoBehaviour
 {
     public static int MAX_POWER_LEVEL = 20;
+    public static UnityEvent boughtUpgradeEvent;
 
     [SerializeField] private List<MasteryTierRowUI> rows;
     [SerializeField] private Button closeButton;
@@ -14,6 +15,11 @@ public class MasteryUpgradeShopUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (boughtUpgradeEvent == null)
+        {
+            boughtUpgradeEvent = new();
+        }
+
         closeButton.onClick.AddListener(CloseUI);
         gameObject.SetActive(false);
     }
@@ -32,6 +38,7 @@ public class MasteryUpgradeShopUI : MonoBehaviour
     /// </summary>
     public void OpenUI()
     {
+        SpiritTracker spiritTracker = PersistentData.Instance.GetComponent<SpiritTracker>();
         gameObject.SetActive(true);
 
         int rowsUnlocked = SaveManager.data.masteryUpgrades.numRowsUnlocked;
@@ -41,6 +48,8 @@ public class MasteryUpgradeShopUI : MonoBehaviour
         for (int i = 0; i < rows.Count; i++)
         {
             MasteryTierRowUI row = rows[i];
+
+            row.unlockButton.interactable = spiritTracker.HasEnoughSpirits(true, Spirit.SpiritType.Pink, row.unlockPrice);
 
             if (i < rowsUnlocked)
             {

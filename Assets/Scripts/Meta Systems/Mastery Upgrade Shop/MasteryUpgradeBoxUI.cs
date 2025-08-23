@@ -32,7 +32,7 @@ public class MasteryUpgradeBoxUI : MonoBehaviour
     [SerializeField] private int statBoostIncrementPercent = 1;
     [SerializeField] private int upgradeStartPrice = 1;
     [SerializeField] private int upgradePriceIncrement = 1;
-    [SerializeField] private Sprite masteryUpgradeIcon;
+    //[SerializeField] private Sprite masteryUpgradeIcon;
 
     [Header("UI")]
     [SerializeField] private TMP_Text upgradeLevelText;
@@ -40,7 +40,7 @@ public class MasteryUpgradeBoxUI : MonoBehaviour
     [SerializeField] private TMP_Text upgradeNameText;
     [SerializeField] private TMP_Text upgradeDescriptionText;
     [SerializeField] private Button upgradeButton;
-    [SerializeField] private Image upgradeImageUI;
+    //[SerializeField] private Image upgradeImageUI;
 
     private int currentLevel = 0;
     private SpiritTracker spiritTracker;
@@ -61,10 +61,17 @@ public class MasteryUpgradeBoxUI : MonoBehaviour
     {
         upgradeNameText.text = upgradeType.ToString();
 
-        upgradeImageUI.sprite = masteryUpgradeIcon;
+        //upgradeImageUI.sprite = masteryUpgradeIcon;
 
         spiritTracker = PersistentData.Instance.GetComponent<SpiritTracker>();
         upgradeButton.onClick.AddListener(TryUpgradeLevel);
+
+        if (MasteryUpgradeShopUI.boughtUpgradeEvent == null)
+        {
+            MasteryUpgradeShopUI.boughtUpgradeEvent = new();
+        }
+
+        MasteryUpgradeShopUI.boughtUpgradeEvent.AddListener(UpdateUI);
 
         UpdateUI();
     }
@@ -99,22 +106,24 @@ public class MasteryUpgradeBoxUI : MonoBehaviour
     /// <summary>
     /// Update the UI according to the current level
     /// </summary>
-    private void UpdateUI()
+    public void UpdateUI()
     {
         currentLevel = GetPowerLevel();
 
         SetUpgradeDescription();
 
         if (currentLevel < MasteryUpgradeShopUI.MAX_POWER_LEVEL) {
-            upgradePriceText.text = "UPGRADE " + GetCurrentPrice();
+            upgradePriceText.text = "" + GetCurrentPrice();
+            upgradeButton.interactable = spiritTracker.HasEnoughSpirits(true, spiritType, GetCurrentPrice());
         }
         else
         {
-            upgradePriceText.text = "MAXED";
+            upgradePriceText.text = "MAX";
             upgradeButton.onClick.RemoveListener(TryUpgradeLevel);
+            upgradeButton.interactable = false;
         }
 
-        upgradeLevelText.text = currentLevel + "/" + MasteryUpgradeShopUI.MAX_POWER_LEVEL;
+        upgradeLevelText.text = "+" + GetStatBoostPercent() + "%";// currentLevel + "/" + MasteryUpgradeShopUI.MAX_POWER_LEVEL;
     }
 
     /// <summary>
@@ -137,7 +146,7 @@ public class MasteryUpgradeBoxUI : MonoBehaviour
         currentLevel++;
         SaveManager.data.masteryUpgrades.upgradeLevels[(int)upgradeType]++;
 
-        UpdateUI();
+        MasteryUpgradeShopUI.boughtUpgradeEvent?.Invoke();
 
         // Success - apply upgrade
         ApplyUpgrade();

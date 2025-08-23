@@ -117,9 +117,9 @@ public class DialogueManager : MonoBehaviour, IScreenUI
         characterNameText.text = characterMap[character].displayName;
         characterImage.sprite = characterMap[character].fullImage;
         characterImage.enabled = (characterImage.sprite != null);
-
+        if (characterNameText.text.Equals("Oldrion")) characterNameText.text = "Orion"; // oldrion isn't really it cant hurt u
         // Play sound
-        if(currentLine >= 1)
+        if (currentLine >= 1)
             AudioManager.Instance.VABranch.StopConversationLine(conversation.data.convoName, currentLine - 1);
         AudioManager.Instance.VABranch.PlayConversationLine(conversation.data.convoName, currentLine);
 
