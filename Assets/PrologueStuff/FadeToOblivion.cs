@@ -7,15 +7,15 @@ public class FadeToOblivion : MonoBehaviour
 {
     private void OnEnable()
     {
-        Door.OnDoorOpened += TransitionToOblivion;
+        DialogueManager.onFinishDialogue += TransitionToOblivion;
     }
 
     private void OnDisable()
     {
-        Door.OnDoorOpened -= TransitionToOblivion;
+        DialogueManager.onFinishDialogue -= TransitionToOblivion;
     }
 
-    private void TransitionToOblivion()
+    private void TransitionToOblivion(string key)
     {
         SceneManager.LoadScene("Prologue_Hubworld");
     }
