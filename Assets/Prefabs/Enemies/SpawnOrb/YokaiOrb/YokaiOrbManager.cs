@@ -10,7 +10,7 @@ public class YokaiOrbManager : EnemyStateManager
     void Start()
     {
         base.Start();
-        MoveState = new YokaiMoveState();
+        MoveState = new YokaiMoveState(true);
     }
 
     public override bool HasLineOfSight(bool tracking)
