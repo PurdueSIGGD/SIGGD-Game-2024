@@ -43,9 +43,42 @@ public class SpiritTracker : MonoBehaviour
         
     }
 
+
+    /// <summary>
+    /// Returns true if player has enough spirits to buy something.
+    /// </summary>
+    /// <param name="secured">Whether the spirit is secured/hub spirit or a temporary spirit.</param>
+    /// <param name="spiritType"></param>
+    /// <param name="price"></param>
+    /// <returns></returns>
+    public bool HasEnoughSpirits(bool secured, SpiritType spiritType, int price)
+    {
+        if (secured)
+        {
+            return SaveManager.data.spiritCounts[(int)spiritType] >= price;
+        }
+        else
+        {
+            switch (spiritType)
+            {
+                case SpiritType.Blue:
+                    return price <= blueSpiritsCollected;
+                    break;
+                case SpiritType.Red:
+                    return price <= redSpiritsCollected;
+                    break;
+                case SpiritType.Yellow:
+                    return price <= yellowSpiritsCollected;
+                case SpiritType.Pink:
+                    return price <= pinkSpiritsCollected;
+                default: return false;
+            }
+        }
+    }
+
     public bool SpendSecuredSpirits(Spirit.SpiritType spiritType, int price)
     {
-        if (SaveManager.data.spiritCounts[(int) spiritType] < price)
+        if (!HasEnoughSpirits(true, spiritType, price))
         {
             // Not enough spirits
             return false;

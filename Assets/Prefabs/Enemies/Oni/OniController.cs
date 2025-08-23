@@ -30,10 +30,11 @@ public class OniController : MonoBehaviour
     [SerializeField] float damageVal;
     [SerializeField] float damageInc;
     [SerializeField] float gashRange;
+    [SerializeField] GameObject gashVisual;
+    bool gashable;
+
     [Header("Heal params")]
     [SerializeField] HealingContext healingContext;
-
-    bool gashable;
 
     void Awake()
     {
@@ -48,7 +49,6 @@ public class OniController : MonoBehaviour
         health = GetComponent<Health>();
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
-        healingContext.healing = health.GetStats().ComputeValue("Max Health");
         targetObj = null;
     }
 
@@ -60,6 +60,8 @@ public class OniController : MonoBehaviour
         trackable = IsTargetInRange(targetObj);
         gashable = IsTargetGashable(targetObj);
         UpdateAnimatorParams();
+        if (!gashable)
+            gashVisual.SetActive(false);
     }
     void UpdateAnimatorParams()
     {
@@ -79,11 +81,18 @@ public class OniController : MonoBehaviour
         damageVal += damageInc;
         damageContext.damage = damageVal;
         maxSpeed += speedInc;
+        healingContext.healing = health.GetStats().ComputeValue("Max Health");
         health.Heal(healingContext, this.gameObject);
     }
     void OnGashTarget()
     {
+        damageContext.damage = damageVal;
         targetObj.GetComponent<Health>().Damage(damageContext, this.gameObject);
+        gashVisual.SetActive(true);
+    }
+    void OffGashTarget()
+    {
+        gashVisual.SetActive(false);
     }
     bool IsTargetGashable(GameObject targetObject)
     {
@@ -102,19 +111,34 @@ public class OniController : MonoBehaviour
     }
     GameObject ScanForTargets()
     {
+        Collider2D[] collisions = Physics2D.OverlapCircleAll(transform.position, visionRadius, LayerMask.GetMask("Player", "Enemy"));
         List<GameObject> potentialTargets = new();
-        int numRays = 16;
-        for (float deg = 0; deg < (360 * Mathf.Deg2Rad); deg += 360 / numRays * Mathf.Deg2Rad)
+        foreach (Collider2D collision in collisions)
         {
-            // calculate unit vector direction based on angle
-            Vector2 dir = new Vector2(Mathf.Cos(deg), Mathf.Sin(deg));
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, visionRadius, LayerMask.GetMask("Player", "Enemy", "Ground"));
-            Debug.DrawRay(transform.position, dir * visionRadius);
-            if (hit && (hit.collider.gameObject.CompareTag("Player") || hit.collider.gameObject.CompareTag("Enemy")))
+            if (!collision.gameObject.name.Contains("Oni"))
             {
-                potentialTargets.Add(hit.collider.gameObject);
+                potentialTargets.Add(collision.gameObject);
             }
         }
+        // int numRays = 16;
+        // for (float deg = 0; deg < (360 * Mathf.Deg2Rad); deg += 360 / numRays * Mathf.Deg2Rad)
+        // {
+        //     // calculate unit vector direction based on angle
+        //     Vector2 dir = new Vector2(Mathf.Cos(deg), Mathf.Sin(deg));
+        //     RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, visionRadius, LayerMask.GetMask("Player", "Enemy", "Ground"));
+        //     Debug.DrawRay(transform.position, dir * visionRadius);
+        //     if (hit && hit.collider.gameObject != this.gameObject)
+        //     {
+        //         if (hit.collider.gameObject.CompareTag("Player"))
+        //         {
+        //             return hit.collider.gameObject;
+        //         }
+        //         else if (hit.collider.gameObject.CompareTag("Enemy"))
+        //         {
+        //             potentialTargets.Add(hit.collider.gameObject);
+        //         }
+        //     }
+        // }
         if (potentialTargets.Count == 0)
             return null;
         int randIndex = Random.Range(0, potentialTargets.Count);
@@ -145,30 +169,6 @@ public class OniController : MonoBehaviour
 
         rb.AddForce(flightForce * direction, ForceMode2D.Impulse);
 
-        // Slowing down as approaching targetObject y level
-        float yDiff = targetPos.y - transform.position.y;
-        yDiff = yDiff < 0.001f ? 0.1f : yDiff;
-        rb.AddForce(1 / yDiff * catchupFactor * Vector2.up, ForceMode2D.Impulse);
-
-        // BUT ALSO DON'T GET TOO CLOSE!!!
-        Vector2 directionToPlayer = new Vector2(targetObject.transform.position.x - transform.position.x, targetObject.transform.position.y - transform.position.y);
-        float distanceToPlayer = directionToPlayer.magnitude;
-        if (distanceToPlayer < minRepell)
-        {
-            // avoid any division by zero
-            distanceToPlayer = distanceToPlayer < 0.001f ? 0.1f : distanceToPlayer;
-            float repellMagnitude = -1 / distanceToPlayer * repellFactor;
-            if (repellMagnitude < -2)
-            {
-                repellMagnitude = -2;
-            }
-            rb.AddForce(repellMagnitude * directionToPlayer.normalized.x * Vector2.right, ForceMode2D.Impulse);
-        }
-
-        // RANDOM MOVEMENT!!!
-        Vector2 random_vector = new Vector2(Random.value * 2 - 1, Random.value * 2 - 1);
-        rb.AddForce(randomFactor * random_vector.normalized, ForceMode2D.Impulse);
-
         // CHECK MAX SPEED
         if (rb.velocity.magnitude > maxSpeed)
         {
@@ -177,7 +177,7 @@ public class OniController : MonoBehaviour
     }
     void Flip(bool isFlipped)
     {
-        if (isFlipped)
+        if (!isFlipped)
             transform.rotation = Quaternion.Euler(0, 0, 0);
         else
             transform.rotation = Quaternion.Euler(0, 180f, 0);
