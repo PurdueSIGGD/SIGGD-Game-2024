@@ -35,6 +35,10 @@ public class EnemySpawning : MonoBehaviour
     {
         instance = this;
     }
+    private void OnDestroy()
+    {
+        StopAllCoroutines();
+    }
 
     private void Start()
     {
@@ -128,6 +132,15 @@ public class EnemySpawning : MonoBehaviour
             currentSpawnOrbs.Remove
         );
     }
+    public void SpawnEnemyWithDelay(Vector2 spawnPosition, float time, GameObject enemy = null, GameObject orb = null)
+    {
+        StartCoroutine(DelayedSpawnCoroutine(spawnPosition, time, enemy, orb));
+    }
+    IEnumerator DelayedSpawnCoroutine(Vector2 spawnPosition, float time, GameObject enemy = null, GameObject orb = null)
+    {
+        yield return new WaitForSeconds(time);
+        SpawnEnemy(spawnPosition, enemy, orb);
+    }
     public void SpawnEnemyAtRandomPoint(GameObject enemy = null, GameObject orb = null)
     {
         ReshufflePoints(ref spawnPoints);
@@ -162,6 +175,7 @@ public class EnemySpawning : MonoBehaviour
     public void KillAllEnemies(DamageContext context)
     {
         print("NUMBER OF ENEMIES: " + currentEnemies.Count);
+        StopAllCoroutines();
         List<GameObject> currentEnemiesCopy = new List<GameObject>(currentEnemies);
         for (int i = 0; i < currentEnemiesCopy.Count; i++)
         {
