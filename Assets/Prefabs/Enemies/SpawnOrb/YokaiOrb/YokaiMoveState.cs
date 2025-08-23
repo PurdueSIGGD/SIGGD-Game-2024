@@ -6,6 +6,12 @@ using UnityEngine.Rendering.Universal.Internal;
 
 public class YokaiMoveState : MoveState
 {
+    bool flipEnabled;
+    public YokaiMoveState() { }
+    public YokaiMoveState(bool flipEnabled)
+    {
+        this.flipEnabled = flipEnabled;
+    }
 
     // Movement override to make bird keep birding when action is on cooldown
     public virtual void UpdateState(EnemyStateManager enemy)
@@ -67,5 +73,17 @@ public class YokaiMoveState : MoveState
         // RANDOM MOVEMENT!!!
         Vector2 random_vector = new Vector2(Random.value * 2 - 1, Random.value * 2 - 1);
         rb.AddForce(randomFactor * random_vector.normalized, ForceMode2D.Impulse);
+
+        if (flipEnabled)
+        {
+            if (player.position.x - enemy.transform.position.x < 0)
+            {
+                enemy.Flip(true);
+            }
+            else
+            {
+                enemy.Flip(false);
+            }
+        }
     }
 }
