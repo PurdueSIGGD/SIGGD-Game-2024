@@ -2,14 +2,17 @@
 
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEditor;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.Windows;
 
 public class AudioWizard : ScriptableWizard
 {
     [SerializeField] string audioName = "";
-    [SerializeField] AudioType audioType;
+    [SerializeField] AudioType audioType = AudioType.Conversation;
     [SerializeField] TrackType trackType;
     [SerializeField] Mixer mixerType;
     [SerializeField] string sourcePath = "";
@@ -19,6 +22,9 @@ public class AudioWizard : ScriptableWizard
     [SerializeField] bool enableVoiceCulling;
     [SerializeField] bool playOutsideCombat;
 
+    [Header("For conversation")]
+    [SerializeField] ConvoSO autoSortBySpeakWowSoCool;
+
     private AudioLookUpTable lookUpTable;
     private AudioMixer audioMixer;
 
@@ -26,6 +32,7 @@ public class AudioWizard : ScriptableWizard
     private AudioType oldAudioType = AudioType.VA;
     private string oldPath = "";
     private string oldName = "";
+    private ConvoSO oldSO;
 
     enum AudioType
     {
@@ -194,6 +201,69 @@ public class AudioWizard : ScriptableWizard
                 AudioClip clip = AssetDatabase.LoadAssetAtPath(path, typeof(AudioClip)) as AudioClip;
                 clips.Add(clip);
             }
+        }
+
+        // if checked/unchecked auto sort
+        if (autoSortBySpeakWowSoCool != oldSO)
+        {
+            if (audioType != AudioType.Conversation) return;
+
+            oldSO = autoSortBySpeakWowSoCool;
+            ConvoData data = autoSortBySpeakWowSoCool.data;
+
+            List<AudioClip> clip1 = new List<AudioClip>();
+            List<AudioClip> clip2 = new List<AudioClip>();
+
+            string name1 = "";
+
+            foreach (AudioClip clip in clips)
+            {
+                string name = clip.name;
+                string[] parts = name.Split(" ");
+                name = parts[parts.Length - 3];
+
+                if (name1.Equals(""))
+                {
+                    name1 = name;
+                }
+
+                if (name.Equals(name1))
+                {
+                    clip1.Add(clip);
+                }
+                else
+                {
+                    clip2.Add(clip);
+                }
+
+            }
+
+            List<AudioClip> sortedClips = new List<AudioClip>();
+            foreach (ConvoData.Line line in data.lines)
+            {
+                string trimmedLine = line.line.Trim();
+                trimmedLine = Regex.Replace(trimmedLine, "[^a-zA-Z0-9]", string.Empty);
+                Debug.Log(trimmedLine);
+                if (trimmedLine.Equals(string.Empty))
+                {
+                    sortedClips.Add(null);
+                    continue;
+                }
+
+                string convoSpeaker = line.character;
+                if (convoSpeaker.Equals(name1))
+                {
+                    sortedClips.Add(clip1[0]);
+                    clip1.RemoveAt(0);
+                }
+                else
+                {
+                    sortedClips.Add(clip2[0]);
+                    clip2.RemoveAt(0);
+                }
+            }
+            audioName = autoSortBySpeakWowSoCool.data.convoName;
+            clips = sortedClips;
         }
     }
 
