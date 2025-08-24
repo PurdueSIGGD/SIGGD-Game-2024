@@ -49,6 +49,7 @@ GameObject:
   - component: {fileID: 6386295069930212313}
   - component: {fileID: 7495209999528494521}
   - component: {fileID: 8675166827137029948}
+  - component: {fileID: 998639061161291738}
   m_Layer: 21
   m_Name: Cleric
   m_TagString: Enemy
@@ -235,10 +236,11 @@ MonoBehaviour:
   stats: {fileID: 0}
   pool: {fileID: 0}
   animator: {fileID: 0}
+  isPinkAndProud: 0
   isFlyer: 0
   aggroRange: 0
   isBeingKnockedBack: 0
-  grounded: 0
+  grounded: 1
   groundedRayCheckLength: 1
   swingContactBox: {fileID: 6722717173434858109}
   swingContext:
@@ -251,7 +253,7 @@ MonoBehaviour:
   swingDamage: 5
   swingVisual: {fileID: 7349316861952782752}
   channelTriggerBox: {fileID: 1986142665454310588}
-  maxChannelRadius: 12
+  maxChannelRadius: 15
   bubble: {fileID: 8985519509906945407, guid: 3786d48ed23cb20459a0b41b46dec86d, type: 3}
   bubbleMissCooldown: 1
 --- !u!114 &4982090033555401577
@@ -312,7 +314,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Max Health
-    value: 100
+    value: 90
   deathLevel: 
 --- !u!114 &7495209999528494521
 MonoBehaviour:
@@ -364,8 +366,23 @@ MonoBehaviour:
     maxCount: 1
   - obj: {fileID: 4809253014695496824, guid: e8a6431bc0e6c7a4e922f586f4216e97, type: 3}
     chance: 1
-    minCount: 1
-    maxCount: 3
+    minCount: 3
+    maxCount: 5
+--- !u!114 &998639061161291738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4188048675522988209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0e77295dfdabb743aaa34d7c0307bf8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  statList: []
+  currentStun: 0
+  maxStun: 60
 --- !u!1 &6998591465528712762
 GameObject:
   m_ObjectHideFlags: 0

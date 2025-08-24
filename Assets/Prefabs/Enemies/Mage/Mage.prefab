@@ -17,6 +17,8 @@ GameObject:
   - component: {fileID: 4299196913714008640}
   - component: {fileID: 4693801382311939199}
   - component: {fileID: 7990850349161753078}
+  - component: {fileID: 9084521854579274038}
+  - component: {fileID: 978341307812496434}
   m_Layer: 21
   m_Name: Mage
   m_TagString: Enemy
@@ -202,6 +204,7 @@ MonoBehaviour:
   stats: {fileID: 0}
   pool: {fileID: 0}
   animator: {fileID: 0}
+  isPinkAndProud: 0
   isFlyer: 0
   aggroRange: 10
   isBeingKnockedBack: 0
@@ -238,7 +241,7 @@ MonoBehaviour:
     ready: 1
     hitBox: {fileID: 5571183243266569233}
     usesCircleHitbox: 1
-    coolDown: 4
+    coolDown: 6
     animationClip: {fileID: 7400000, guid: 54fd68bd84de2c64c99eb119f9697135, type: 2}
   move:
     name: none
@@ -270,8 +273,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Max Health
-    value: 75
-  deathLevel: 
+    value: 150
+  deathLevel: 140
 --- !u!114 &7990850349161753078
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -301,6 +304,46 @@ MonoBehaviour:
     value: 10
   - name: Enemy Group Aggro Radius
     value: 10
+--- !u!114 &9084521854579274038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 228210843640184050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0e77295dfdabb743aaa34d7c0307bf8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  statList: []
+  currentStun: 0
+  maxStun: 0
+--- !u!114 &978341307812496434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 228210843640184050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2caedd7880af52f4d89d2cfdf945a215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dropTable:
+  - obj: {fileID: 4809253014695496824, guid: fe291ced3ae40fc46a74c816a48d0e61, type: 3}
+    chance: 0.6
+    minCount: 1
+    maxCount: 6
+  - obj: {fileID: 4809253014695496824, guid: 4950ea8f40c9d9944b6d20a6150d4cce, type: 3}
+    chance: 0.4
+    minCount: 1
+    maxCount: 6
+  - obj: {fileID: 4809253014695496824, guid: e8a6431bc0e6c7a4e922f586f4216e97, type: 3}
+    chance: 0.9
+    minCount: 1
+    maxCount: 6
 --- !u!1 &1991568027994458898
 GameObject:
   m_ObjectHideFlags: 0

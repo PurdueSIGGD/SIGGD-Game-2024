@@ -170,6 +170,7 @@ GameObject:
   - component: {fileID: 3047485959818697918}
   - component: {fileID: 1015405886979419828}
   - component: {fileID: 5436494508425736163}
+  - component: {fileID: -5486637794773673572}
   m_Layer: 21
   m_Name: Ronin
   m_TagString: Enemy
@@ -284,6 +285,7 @@ MonoBehaviour:
   stats: {fileID: 0}
   pool: {fileID: 0}
   animator: {fileID: 0}
+  isPinkAndProud: 0
   isFlyer: 0
   aggroRange: 10
   isBeingKnockedBack: 0
@@ -336,7 +338,7 @@ MonoBehaviour:
     ready: 1
     hitBox: {fileID: 7986608270766379654}
     usesCircleHitbox: 0
-    coolDown: 3
+    coolDown: 4
     animationClip: {fileID: 7400000, guid: b0416459c1ed4dc42b945020e1868e92, type: 2}
   move:
     name: Move
@@ -440,9 +442,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Idle Speed
-    value: 3
+    value: 5
   - name: Speed
-    value: 6
+    value: 8
   - name: Enemy Group Aggro Radius
     value: 10
   - name: Target Range Min
@@ -532,6 +534,21 @@ MonoBehaviour:
     actionTypes: 
     extraContext: 
     ghostID: 0
+--- !u!114 &-5486637794773673572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5758368328312758866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0e77295dfdabb743aaa34d7c0307bf8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  statList: []
+  currentStun: 0
+  maxStun: 120
 --- !u!1 &7803730565979122282
 GameObject:
   m_ObjectHideFlags: 0

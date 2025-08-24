@@ -259,7 +259,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2077229447, guid: 0f80a601fd2907145ac8c668ebcfd413, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.89305514, g: 0.7311321, b: 1, a: 1}
   m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
@@ -284,6 +284,7 @@ MonoBehaviour:
   stats: {fileID: 0}
   pool: {fileID: 0}
   animator: {fileID: 0}
+  isPinkAndProud: 0
   isFlyer: 0
   aggroRange: 10
   isBeingKnockedBack: 0
@@ -336,7 +337,7 @@ MonoBehaviour:
     ready: 1
     hitBox: {fileID: 7986608270766379654}
     usesCircleHitbox: 0
-    coolDown: 3
+    coolDown: 4
     animationClip: {fileID: 7400000, guid: b0416459c1ed4dc42b945020e1868e92, type: 2}
   move:
     name: Move
