@@ -16,7 +16,7 @@ public class ActionPool : MonoBehaviour
     [SerializeField] protected List<Action> actions;
     public Action move;
     public Action idle;
-    
+
     private float curWeight = 0f;
 
     void Start()
@@ -26,7 +26,7 @@ public class ActionPool : MonoBehaviour
             //a.ready = true; // default each action is ready on start, subject to change
             if (a.priority == 0)
             {
-                Debug.LogWarning(a.name + " should have a non-zero priority."); 
+                Debug.LogWarning(a.name + " should have a non-zero priority.");
             }
         }
     }
@@ -109,5 +109,16 @@ public class ActionPool : MonoBehaviour
         a.ready = false;
         yield return new WaitForSeconds(a.GetCoolDown());
         a.ready = true;
+    }
+    public Action GetActionByName(string actionName)
+    {
+        foreach (Action action in actions)
+        {
+            if (action.name.Equals(actionName))
+            {
+                return action;
+            }
+        }
+        return null;
     }
 }
