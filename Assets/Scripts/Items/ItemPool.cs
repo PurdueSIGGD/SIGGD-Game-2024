@@ -29,7 +29,7 @@ public class ItemPool : MonoBehaviour
  
     private SpiritTracker spiritTracker;
 
-    private void Start()
+    private void OnEnable()
     {
         currentRerollPrice = rerollStartPrice;
         spiritTracker = PersistentData.Instance.GetComponent<SpiritTracker>(); // reference
