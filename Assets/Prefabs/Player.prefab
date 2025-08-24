@@ -35227,7 +35227,7 @@ GameObject:
   - component: {fileID: 8596380051338084535}
   - component: {fileID: 3440197112979840949}
   - component: {fileID: 4006401410313971276}
-  - component: {fileID: 8048482491661261222}
+  - component: {fileID: 2910134560478045326}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -35885,6 +35885,8 @@ MonoBehaviour:
     value: 1
   - name: Elite Damage Resistance
     value: 1
+  - name: Critical Health Damage Resistance
+    value: 1
   - name: Cooldown Speed Boost
     value: 100
   - name: Healing Boost
@@ -35920,7 +35922,7 @@ MonoBehaviour:
   proficiencyLevelBuff: 2
   brutalityLevelBuff: 5
   recoveryLevelBuff: 3
---- !u!114 &8048482491661261222
+--- !u!114 &2910134560478045326
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -35929,9 +35931,70 @@ MonoBehaviour:
   m_GameObject: {fileID: 8252758106455385166}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5563024c0e12524d81bc1bb22457658, type: 3}
+  m_Script: {fileID: 11500000, guid: f950504ecb7cfd24d8d15882c267b7dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  alacrity: {fileID: 11400000, guid: 0a02df939a3de5c43b18b63677e05b50, type: 2}
+  alacrityBuff: 300
+  attunement: {fileID: 11400000, guid: 8ac77df64a69eca49876c1fbb1610b4d, type: 2}
+  attunementBuff: 35
+  impendingDoom: {fileID: 11400000, guid: ee02c5748a510b24094b9b84d787824e, type: 2}
+  impendingDoomBuff: 30
+  relentlessPursuit: {fileID: 11400000, guid: b324e49e295a0a54c9bcaaeeb813c0ae, type: 2}
+  relentlessPursuitBuff: 25
+  slipstream: {fileID: 11400000, guid: aea4fd0278d5d0c4b9855d53c1757578, type: 2}
+  slipstreamBuff: 75
+  tailwind: {fileID: 11400000, guid: 476cf40ad80fdb747809a35b797c0119, type: 2}
+  tailwindBuff: 50
+  uncannyReflexes: {fileID: 11400000, guid: de0a8c58a3c95b2418fa21015e3e0e37, type: 2}
+  uncannyReflexesBuff: 10
+  upRush: {fileID: 11400000, guid: 81ff7befeb0ef5c429e9c829cb056ee9, type: 2}
+  upRushBuff: 50
+  windBreaker: {fileID: 11400000, guid: 5f7d23b6ea524804694a067c6cabfa49, type: 2}
+  windBreakerBuff: 50
+  devastation: {fileID: 11400000, guid: b9be621cf106c954e9f9b6334e3db612, type: 2}
+  devastationBuff: 200
+  executioner: {fileID: 11400000, guid: 4209fbb3d67ab5a4a981818590e1741d, type: 2}
+  executionerBuff: 25
+  faustianBargain: {fileID: 11400000, guid: d3b868773350c99479dfe8a0ab3ed1f9, type: 2}
+  faustianBargainBuff: 40
+  faustianBargainDamage:
+    damageStrength: 3
+    damageTypes: 04000000
+    actionID: 17
+    actionTypes: 08000000
+    extraContext: 
+    ghostID: 0
+  onslaught: {fileID: 11400000, guid: b609395a99fc06249ad62601a61704a7, type: 2}
+  onslaughtBuff: 10
+  opportunist: {fileID: 11400000, guid: 2afd4350c45709945af809ae8baaa6d6, type: 2}
+  opportunistBuff: 75
+  paralyzer: {fileID: 11400000, guid: 6296fb3f45b5aab40b31b05ee02c7207, type: 2}
+  paralyzerBuff: 75
+  recklessRuin: {fileID: 11400000, guid: 973876a0b68a2b2418455cc0fb13384d, type: 2}
+  recklessRuinBuff: 30
+  recklessRuinCurse: 30
+  skirmisher: {fileID: 11400000, guid: 76af299a5d87f894289ac66e278375a2, type: 2}
+  skirmisherBuff: 25
+  vigor: {fileID: 11400000, guid: b136f85500e50ae4e9e9aaab048a6812, type: 2}
+  vigorBuff: 300
+  bane: {fileID: 11400000, guid: 6bb28f6b74703644eb79909efb799729, type: 2}
+  baneBuff: 20
+  battleScars: {fileID: 11400000, guid: 67a877ada2e74cf4f8294bd18f51cde4, type: 2}
+  battleScarsBuff: 2
+  bountifulHarvest: {fileID: 11400000, guid: 33932244a780eb4409e91874795e8bc0, type: 2}
+  bountifulHarvestBuff: 30
+  direStraits: {fileID: 11400000, guid: 82c384bac1a9731428dd8359936e998e, type: 2}
+  direStraitsBuff: 20
+  healingFactor: {fileID: 11400000, guid: e00ed23df8e9eb14aabf5d51e4619a67, type: 2}
+  healingFactorBuff: 40
+  lifeReap: {fileID: 11400000, guid: 09f62a4eb0cc5b240be9c76b710268e6, type: 2}
+  scourge: {fileID: 11400000, guid: b3f0bfbc983b5cc43b73beaa25cca553, type: 2}
+  scourgeBuff: 15
+  resolve: {fileID: 11400000, guid: ee35da0f8e056d144b69f798034fc1b6, type: 2}
+  resolveBuff: 300
+  vitality: {fileID: 11400000, guid: fc1044fe8b2ff6b42805a7bee4b62de8, type: 2}
+  vitalityBuff: 20
 --- !u!1 &8764437494633651125
 GameObject:
   m_ObjectHideFlags: 0
