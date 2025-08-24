@@ -21,8 +21,18 @@ public class OldrionController : BossController
     [SerializeField] string dashActionName;
     [SerializeField] List<float> dashCooldowns = new List<float>();
 
+    [Header("Spirit Crushing Shenanigans")]
+    DropManager dropManager;
     [SerializeField] HealingContext fullHealContext;
+    [SerializeField] DamageContext aoeDamage;
+    [SerializeField] GameObject aoeWarning;
+    [SerializeField] GameObject aoeVisual;
+    [SerializeField] Transform aoeTrigger;
+    [SerializeField] float aoeDamageVal;
     bool crushing;
+    [SerializeField] DropTable spiritTable;
+    [SerializeField] Transform spiritCrushedSpawn;
+
 
     public void Start()
     {
@@ -30,9 +40,16 @@ public class OldrionController : BossController
         enemyStateManager = GetComponent<OldrionManager>();
         anim = GetComponent<Animator>();
         actionPool = GetComponent<ActionPool>();
+        dropManager = GetComponent<DropManager>();
 
         currentPhase = 1;
         UpdateCooldowns();
+        GETANGRY();
+    }
+
+    public void GETANGRY()
+    {
+        enemyStateManager.enabled = true;
     }
 
     public override void DefeatSequence()
@@ -47,7 +64,7 @@ public class OldrionController : BossController
         {
             base.DefeatSequence();
             EnableInvincibility();
-            enemyStateManager.DisableAllVFX();
+            enemyStateManager.StopAllActions();
             enemyStateManager.enabled = false;
             anim.SetTrigger("dead");
             StartCoroutine(DefeatCoroutine());
@@ -67,6 +84,8 @@ public class OldrionController : BossController
         print("Bro no way I beat myself ts pmo sm ong :skull :skull :skull");
         yield return new WaitForSeconds(deathTimer);
         EndBossRoom();
+
+        // TRIGGER FINAL CUTSCENE STUFF HERE!!!
     }
     bool ShouldBossBeDefeated()
     {
@@ -87,7 +106,8 @@ public class OldrionController : BossController
     {
         SetCrushing(true);
         EnableInvincibility();
-        enemyStateManager.DisableAllVFX();
+        enemyStateManager.StopAllActions();
+        aoeWarning.SetActive(true);
         StartCoroutine(SpiritCrushCoroutine());
     }
     IEnumerator SpiritCrushCoroutine()
@@ -111,11 +131,19 @@ public class OldrionController : BossController
     }
     void OnCrush()
     {
+        aoeWarning.SetActive(false);
+        aoeVisual.SetActive(true);
+        aoeDamage.damage = aoeDamageVal;
+        enemyStateManager.AoeDamage(aoeTrigger, aoeDamage);
+
         fullHealContext.healing = bossHealth.GetStats().ComputeValue("Max Health");
         bossHealth.Heal(fullHealContext, this.gameObject);
+
+        DropSpirits(spiritTable, spiritCrushedSpawn.gameObject);
     }
     void OnCrushEnd()
     {
+        aoeVisual.SetActive(false);
         DisableInvincibility();
         UpdateCooldowns();
         SetCrushing(false);
@@ -124,5 +152,31 @@ public class OldrionController : BossController
     {
         crushing = val;
         enemyStateManager.SetEnemyManagerCrushing(val);
+    }
+    void DropSpirits(DropTable table, GameObject victim)
+    {
+        foreach (DropTable.Drop drop in table.dropTable)
+        {
+            // Decide if each loot will drop
+            float r = UnityEngine.Random.value;
+            if (r > drop.chance)
+            {
+                continue;
+            }
+
+            // Decdie how much to drop
+            r = UnityEngine.Random.value;
+            float dropCount = (int)((drop.maxCount - drop.minCount) * r + drop.minCount);
+
+            float xDeviation = -0.0003f;
+            float yDeviation = 0.00003f;
+
+            for (int i = 0; i < dropCount; i++)
+            {
+                Rigidbody2D rb = Instantiate(drop.obj, victim.transform.position, victim.transform.rotation).GetComponent<Rigidbody2D>();
+                rb.AddForce(new Vector2(UnityEngine.Random.value * xDeviation, yDeviation), ForceMode2D.Impulse);
+                xDeviation = -xDeviation;
+            }
+        }
     }
 }

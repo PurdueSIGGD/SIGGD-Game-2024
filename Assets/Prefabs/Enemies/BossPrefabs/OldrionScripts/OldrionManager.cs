@@ -13,6 +13,7 @@ public class OldrionManager : EnemyStateManager
     [SerializeField] GameObject lightVisual2;
     int lastLightAttackPerformed; // either 1 or 2
     [SerializeField] Transform lightTrigger;
+    [SerializeField] float lightSpeed;
     [Header("Heavy vals")]
     [SerializeField] DamageContext heavyDamage;
     [SerializeField] float heavyDamageVal;
@@ -48,17 +49,20 @@ public class OldrionManager : EnemyStateManager
         LightDamageFrame();
         lightVisual1.SetActive(true);
         SetLastLightAttackPerformed(1);
+        rb.velocity = new Vector2(lightSpeed, rb.velocity.y) * transform.right;
     }
     void OnStartLight2()
     {
         LightDamageFrame();
         lightVisual2.SetActive(true);
         SetLastLightAttackPerformed(2);
+        rb.velocity = new Vector2(lightSpeed, rb.velocity.y) * transform.right;
     }
     void EndLight()
     {
         lightVisual1.SetActive(false);
         lightVisual2.SetActive(false);
+        rb.velocity = Vector2.zero;
     }
 
     void OnStartHeavy()
@@ -91,6 +95,10 @@ public class OldrionManager : EnemyStateManager
             EndDash();
         }
     }
+    public void AoeDamage(Transform tform, DamageContext context)
+    {
+        GenerateDamageFrame(tform.position, tform.lossyScale.x, tform.lossyScale.y, context, this.gameObject);
+    }
 
     protected override void OnFinishAnimation()
     {
@@ -116,10 +124,11 @@ public class OldrionManager : EnemyStateManager
     {
         return lastLightAttackPerformed;
     }
-    public void DisableAllVFX()
+    public void StopAllActions()
     {
         lightVisual1.SetActive(false);
         lightVisual2.SetActive(false);
+        rb.velocity = Vector2.zero;
     }
     public void SetEnemyManagerCrushing(bool val)
     {
