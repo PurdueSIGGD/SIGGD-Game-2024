@@ -115,6 +115,9 @@ public class MasteryUpgradeBoxUI : MonoBehaviour
         if (currentLevel < MasteryUpgradeShopUI.MAX_POWER_LEVEL) {
             upgradePriceText.text = "" + GetCurrentPrice();
             upgradeButton.interactable = spiritTracker.HasEnoughSpirits(true, spiritType, GetCurrentPrice());
+            Color priceColor = upgradePriceText.color;
+            priceColor.a = (spiritTracker.HasEnoughSpirits(true, spiritType, GetCurrentPrice())) ? 1f : 0.4f;
+            upgradePriceText.color = priceColor;
         }
         else
         {

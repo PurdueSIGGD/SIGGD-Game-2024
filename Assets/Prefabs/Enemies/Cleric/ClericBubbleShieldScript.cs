@@ -1,7 +1,11 @@
+using System.Collections;
 using UnityEngine;
 
 public class ClericBubbleShieldScript : MonoBehaviour
 {
+
+    [SerializeField] private bool isElite;
+    [SerializeField] private float eliteDuration;
     Health health;
     GameObject parentEnemy;
 
@@ -18,6 +22,7 @@ public class ClericBubbleShieldScript : MonoBehaviour
     void Start()
     {
         health = GetComponent<Health>();
+        if (isElite) StartCoroutine(DurationTimer(eliteDuration));
     }
 
     public void SetParentEnemy(GameObject enemy)
@@ -44,5 +49,13 @@ public class ClericBubbleShieldScript : MonoBehaviour
         newContext.victim = this.gameObject;
         newContext.extraContext += "[transfered from " + damage.victim.name + "]";
         return newContext;
+    }
+
+
+
+    private IEnumerator DurationTimer(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        Destroy(gameObject);
     }
 }
