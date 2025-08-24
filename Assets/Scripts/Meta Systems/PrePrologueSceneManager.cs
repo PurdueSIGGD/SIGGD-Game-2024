@@ -19,14 +19,17 @@ public class PrePrologueSceneManager : MonoBehaviour
     float bgFadeOutSpeed = 0;
     float skipTextFadeOutSpeed = 0;
     float dialogueFadeOutSpeed = 0;
+    float eonsFadeInSpeed = 0;
 
     void Start()
     {
+        StartCoroutine(LoadIntoPrologueHub());
         StartCoroutine(StartFadeInTitle());
         StartCoroutine(StartFadeOutTitle());
         StartCoroutine(StartFadeOutBG());
         StartCoroutine(StartFadeOutSkipText());
         StartCoroutine(StartFadeOutDialogue());
+        StartCoroutine(StartFadeInEonsLater());
     }
 
 
@@ -36,9 +39,22 @@ public class PrePrologueSceneManager : MonoBehaviour
         {
             FadeOutItem(title, titleFadeOutSpeed);
         }
+        FadeInItem(eonsLater, eonsFadeInSpeed);
         FadeOutItem(starryBG, bgFadeOutSpeed);
         FadeOutItem(skipText, skipTextFadeOutSpeed);
         FadeOutItem(dialogue, dialogueFadeOutSpeed);
+    }
+
+    IEnumerator LoadIntoPrologueHub()
+    {
+        yield return new WaitForSeconds(69f);
+        SceneManager.LoadScene("Prologue_Hubworld");
+    }
+
+    IEnumerator StartFadeInEonsLater()
+    {
+        yield return new WaitForSeconds(66.5f);
+        eonsFadeInSpeed = 0.4f;
     }
 
     IEnumerator StartFadeInTitle()
@@ -80,6 +96,15 @@ public class PrePrologueSceneManager : MonoBehaviour
         image.color = new Color(image.color.r, image.color.g, image.color.b,
             image.color.a + speed * Time.deltaTime);
         return false;
+    }
+    private void FadeInItem(TextMeshProUGUI text, float speed)
+    {
+        if (text.color.a >= 1)
+        {
+            return;
+        }
+        text.color = new Color(text.color.r, text.color.g, text.color.b,
+            text.color.a + speed * Time.deltaTime);
     }
 
     private void FadeOutItem(Image image, float speed)
