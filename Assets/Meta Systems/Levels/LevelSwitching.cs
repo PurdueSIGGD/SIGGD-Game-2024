@@ -13,6 +13,8 @@ public class LevelSwitching : MonoBehaviour
 
     private int levelCount = 0;
 
+    public static LevelSwitching instance;
+
     public float GetProgress()
     {
         return ((float)levelCount - 1.0f) / (float)maxLevels;
@@ -20,6 +22,7 @@ public class LevelSwitching : MonoBehaviour
 
     private void Start()
     {
+        instance = this;
         GameplayEventHolder.OnDeath += ResetLevelCount;
         Door.OnDoorOpened += SwitchLevel;
     }
@@ -132,5 +135,10 @@ public class LevelSwitching : MonoBehaviour
     public int GetMaxLevels()
     {
         return this.maxLevels;
+    }
+
+    public void SetMaxLevels(int maxLevels)
+    {
+        this.maxLevels = maxLevels;
     }
 }

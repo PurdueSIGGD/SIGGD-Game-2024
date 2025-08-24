@@ -12,18 +12,21 @@ public class EraDoorSwitcher : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (SaveManager.data.orion - 1 < orionNumber)
+        if (SaveManager.data.orion + 1 < orionNumber)
         {
-            spriteRenderer.enabled = false;
+            gameObject.SetActive(false);
+            //spriteRenderer.enabled = false;
         }
-        if (SaveManager.data.orion >= orionNumber)
+        else if (SaveManager.data.orion >= orionNumber)
         {
-            spriteRenderer.enabled = true;
+            gameObject.SetActive(true);
+            //spriteRenderer.enabled = true;
             spriteRenderer.sprite = complete;
         }
         else
         {
-            spriteRenderer.enabled = true;
+            gameObject.SetActive(true);
+            //spriteRenderer.enabled = true;
             spriteRenderer.sprite = incomplete;
         }
     }
