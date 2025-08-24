@@ -21,6 +21,7 @@ public class OldrionManager : EnemyStateManager
     [SerializeField] DamageContext dashDamage;
     [SerializeField] float dashDamageVal;
     [SerializeField] float dashSpeed;
+    [SerializeField] Transform dashTrigger;
     [SerializeField] Collider2D dashCollider;
 
     void LightDamageFrame()
@@ -90,6 +91,7 @@ public class OldrionManager : EnemyStateManager
     {
         Gizmos.DrawWireCube(lightTrigger.position, lightTrigger.lossyScale);
         Gizmos.DrawWireCube(heavyTrigger.position, heavyTrigger.lossyScale);
+        Gizmos.DrawWireCube(dashTrigger.position, dashTrigger.lossyScale);
         base.OnDrawGizmos();
     }
     void SetLastLightAttackPerformed(int val)
@@ -99,5 +101,10 @@ public class OldrionManager : EnemyStateManager
     int GetLastLightAttackPerformed()
     {
         return lastLightAttackPerformed;
+    }
+    public void DisableAllVFX()
+    {
+        lightVisual1.SetActive(false);
+        lightVisual2.SetActive(false);
     }
 }

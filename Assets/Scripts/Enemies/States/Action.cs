@@ -58,4 +58,8 @@ public class Action
     {
         return coolDown;
     }
+    public void SetCoolDown(float val)
+    {
+        this.coolDown = val;
+    }
 }
