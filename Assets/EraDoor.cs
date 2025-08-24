@@ -87,6 +87,9 @@ public class EraDoor : MonoBehaviour
                 InputThirdStoryBeat(SaveManager.data.akihito, "Akihito-Samurai");
                 InputThirdStoryBeat(SaveManager.data.eva, "Eva-Idol");
                 break;
+            case Era.Oldrion:
+                InputFinalBoss();
+                break;
             default:
                 return; // do not inject if Misc
         }
@@ -183,6 +186,18 @@ public class EraDoor : MonoBehaviour
         }
     }
 
+    private void InputFinalBoss()
+    {
+        if(PartyManager.instance.IsGhostInParty("Aegis-King"))
+        {
+            specificLevels.Add(new(new Level[] { new("Aegis Oldrion_BossFight", 1) }, 1));
+        }
+        else
+        {
+            specificLevels.Add(new(new Level[] { new("Oldrion_BossFight", 1) }, 1));
+        }
+    }
+
 
     // can be used to generate a random index for story beat to occur, currently not in use
     //private int GenerateStorybeatLocation()
@@ -203,6 +218,7 @@ public class EraDoor : MonoBehaviour
         Wheat_Cyber,
         Wheat_Feudal,
         Wheat_Medieval,
+        Oldrion,
         Misc
     }
 }
