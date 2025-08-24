@@ -148,9 +148,43 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levels:
-  - sceneName: Cyberpunk_Rafters
+  - sceneName: Japan_AlexSharking
     chance: 1
-  specificLevels: []
+  - sceneName: Japan_Arena
+    chance: 1
+  - sceneName: Japan_Battlefield
+    chance: 1
+  - sceneName: Japan_Battlefield 1
+    chance: 1
+  - sceneName: Japan_Battlefield 2
+    chance: 1
+  - sceneName: Japan_Battlefield 3
+    chance: 1
+  - sceneName: Japan_Battlefield 4
+    chance: 1
+  - sceneName: Japan_Battlefield 5
+    chance: 1
+  - sceneName: Japan_Battlefield 6
+    chance: 1
+  - sceneName: Japan_Battlefield 7
+    chance: 1
+  - sceneName: Japan_Battlefield 8
+    chance: 1
+  - sceneName: Japan_Battlefield 9
+    chance: 1
+  specificLevels:
+  - levels:
+    - sceneName: Japan_SpiritShopRoom
+      chance: 1
+    levelNum: 10
+  - levels:
+    - sceneName: Japan_SpiritShopRoom
+      chance: 1
+    levelNum: 20
+  - levels:
+    - sceneName: Japan_SpriteShopRoom
+      chance: 1
+    levelNum: 29
   enemies:
   - enemy: {fileID: 5758368328312758866, guid: c951616ad3a6e144c924fdd5c6e233ba, type: 3}
     chanceRanges:
@@ -188,6 +222,7 @@ MonoBehaviour:
   ghostTwoFirstEncounterLoc: 6
   ghostTwoStoryBeatOne: 6
   ghostTwoStoryBeatTwo: 6
+  maxLevels: 30
 --- !u!61 &1378374169623166997
 BoxCollider2D:
   m_ObjectHideFlags: 0
