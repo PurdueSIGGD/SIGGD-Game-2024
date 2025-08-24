@@ -46,6 +46,9 @@ public class EnterHub : MonoBehaviour
     [Header("Death")]
     [SerializeField] DialogueTriggerBox death;
     [SerializeField] ConvoSO deathFirstDeath;
+    [SerializeField] ConvoSO deathNovaPoint;
+    [SerializeField] ConvoSO deathShigora;
+    [SerializeField] ConvoSO deathOldrion;
 
     void Awake()
     {
@@ -71,17 +74,16 @@ public class EnterHub : MonoBehaviour
         }
         if (death && SaveManager.data.orion == 1) // beating nova point
         {
-
+            death.gameObject.SetActive(true);
+            death.SetConvo(deathFirstDeath);
+            StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
+            sp.Init(deathFirstDeath.data.convoName, "death", 2, true);
         }
         if (death && SaveManager.data.orion == 2) // beating shigora
         {
 
         }
         if (death && SaveManager.data.orion == 3) // beating caladria
-        {
-
-        }
-        if (death && SaveManager.data.orion == 4) // finishing wheat field? unlock oldrion
         {
 
         }

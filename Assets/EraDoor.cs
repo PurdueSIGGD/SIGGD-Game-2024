@@ -59,9 +59,6 @@ public class EraDoor : MonoBehaviour
 
     private void InjectStoryBeat()
     {
-        GhostData data1;
-        GhostData data2;
-
         switch(era)
         {
             case Era.Cyberpunk:
@@ -69,12 +66,12 @@ public class EraDoor : MonoBehaviour
                 ChooseStoryBeats(SaveManager.data.eva, "Eva-Idol", false);
                 break;
             case Era.Feudal:
-                data1 = SaveManager.data.akihito;
-                data2 = SaveManager.data.yume;
+                ChooseStoryBeats(SaveManager.data.akihito, "Akihito-Samurai", true);
+                ChooseStoryBeats(SaveManager.data.yume, "Yume-Seamstress", false);
                 break;
             case Era.Medieval:
-                data1 = SaveManager.data.silas;
-                data2 = SaveManager.data.aegis;
+                ChooseStoryBeats(SaveManager.data.silas, "Silas-PlagueDoc", true);
+                ChooseStoryBeats(SaveManager.data.aegis, "Aegis-King", false);
                 break;
             default:
                 return; // do not inject if Misc
@@ -103,17 +100,50 @@ public class EraDoor : MonoBehaviour
             return;
         }
 
-        if (data.bossProgress == 0)
+        if (era == Era.Cyberpunk)
         {
-            // inject ghost specific boss room
-            specificLevels.Add(new(new Level[] { new(truncName + " Cyberpunk_Boss", 1) },
-                PersistentData.Instance.GetComponent<LevelSwitching>().GetMaxLevels()));
+            if (data.bossProgress == 0)
+            {
+                // inject ghost specific boss room
+                specificLevels.Add(new(new Level[] { new(truncName + " Cyberpunk_Boss", 1) },
+                    PersistentData.Instance.GetComponent<LevelSwitching>().GetMaxLevels()));
+            }
+            else
+            {
+                // inject standard boss room
+                specificLevels.Add(new(new Level[] { new("Cyberpunk_Boss", 1) },
+                    PersistentData.Instance.GetComponent<LevelSwitching>().GetMaxLevels()));
+            }
         }
-        else
+        else if (era == Era.Feudal)
         {
-            // inject standard boss room
-            specificLevels.Add(new(new Level[] { new("Cyberpunk_Boss", 1) },
-                PersistentData.Instance.GetComponent<LevelSwitching>().GetMaxLevels()));
+            if (data.bossProgress == 0)
+            {
+                // inject ghost specific boss room
+                specificLevels.Add(new(new Level[] { new(truncName + " Japan_Boss", 1) },
+                    PersistentData.Instance.GetComponent<LevelSwitching>().GetMaxLevels()));
+            }
+            else
+            {
+                // inject standard boss room
+                specificLevels.Add(new(new Level[] { new("Japan_Boss", 1) },
+                    PersistentData.Instance.GetComponent<LevelSwitching>().GetMaxLevels()));
+            }
+        }
+        else if (era == Era.Medieval)
+        {
+            if (data.bossProgress == 0)
+            {
+                // inject ghost specific boss room
+                specificLevels.Add(new(new Level[] { new(truncName + " Medieval_Boss", 1) },
+                    PersistentData.Instance.GetComponent<LevelSwitching>().GetMaxLevels()));
+            }
+            else
+            {
+                // inject standard boss room
+                specificLevels.Add(new(new Level[] { new("Medieval_Boss", 1) },
+                    PersistentData.Instance.GetComponent<LevelSwitching>().GetMaxLevels()));
+            }
         }
 
         if ((data.storyProgress == (int)storyProgression.Hub_First_Entrance || // story beat 1
