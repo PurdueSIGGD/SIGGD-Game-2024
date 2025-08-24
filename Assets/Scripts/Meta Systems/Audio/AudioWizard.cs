@@ -4,10 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEditor;
-using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.Audio;
-using UnityEngine.Windows;
 
 public class AudioWizard : ScriptableWizard
 {
@@ -251,6 +249,10 @@ public class AudioWizard : ScriptableWizard
                 }
 
                 string convoSpeaker = line.character;
+                if (convoSpeaker.Equals("King Aegis"))
+                {
+                    convoSpeaker = "Aegis";
+                }
                 if (convoSpeaker.ToLower().Equals(name1.ToLower()))
                 {
                     sortedClips.Add(clip1[0]);
