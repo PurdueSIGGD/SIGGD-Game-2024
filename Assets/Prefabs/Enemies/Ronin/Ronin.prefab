@@ -169,6 +169,7 @@ GameObject:
   - component: {fileID: 963103238379512714}
   - component: {fileID: 3047485959818697918}
   - component: {fileID: 1015405886979419828}
+  - component: {fileID: 5436494508425736163}
   m_Layer: 21
   m_Name: Ronin
   m_TagString: Enemy
@@ -512,6 +513,25 @@ FixedJoint2D:
   m_ConnectedAnchor: {x: -0.42, y: 0.105714284}
   m_DampingRatio: 0
   m_Frequency: 0
+--- !u!114 &5436494508425736163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5758368328312758866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67f2b5dc03552c4bb7d2e37dbcb7033, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageContext:
+    damageStrength: 0
+    damageTypes: 
+    actionID: 0
+    actionTypes: 
+    extraContext: 
+    ghostID: 0
 --- !u!1 &7803730565979122282
 GameObject:
   m_ObjectHideFlags: 0
