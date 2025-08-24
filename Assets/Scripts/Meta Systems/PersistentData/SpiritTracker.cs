@@ -38,6 +38,9 @@ public class SpiritTracker : MonoBehaviour
                 break;
         }
 
+        // play sfx
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("Spirit Collected");
+
         // UI
         SpiritTrackerCanvasUI.Instance?.UpdateCounters();
 
