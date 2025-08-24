@@ -270,7 +270,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!1 &2236462649407199852
+--- !u!1 &3797864302431317815
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -278,37 +278,68 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4687117116422117162}
-  - component: {fileID: 5454906062640578569}
-  m_Layer: 21
-  m_Name: GreenLight
+  - component: {fileID: 4386996987313725797}
+  m_Layer: 0
+  m_Name: CrowDiveHitbox
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4687117116422117162
+--- !u!4 &4386996987313725797
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2236462649407199852}
+  m_GameObject: {fileID: 3797864302431317815}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.6, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 0.25}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6840638104108716763}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3951933829431241914
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6571403803688143467}
+  - component: {fileID: 2657952654117332225}
+  m_Layer: 21
+  m_Name: RedLight
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &6571403803688143467
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3951933829431241914}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.18, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6840638104108716763}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5454906062640578569
+--- !u!114 &2657952654117332225
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2236462649407199852}
+  m_GameObject: {fileID: 3951933829431241914}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
@@ -318,7 +349,7 @@ MonoBehaviour:
   m_LightType: 3
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.73
-  m_Color: {r: 0.103773475, g: 1, b: 0.3391067, a: 1}
+  m_Color: {r: 1, g: 0.10196078, b: 0.15159258, a: 1}
   m_Intensity: 5.34
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
@@ -352,37 +383,6 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   - {x: 0.5, y: 0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
---- !u!1 &3797864302431317815
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4386996987313725797}
-  m_Layer: 0
-  m_Name: CrowDiveHitbox
-  m_TagString: Untagged
-  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4386996987313725797
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3797864302431317815}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.6, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 0.25}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 6840638104108716763}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6632946035724622827
 GameObject:
   m_ObjectHideFlags: 0
@@ -426,8 +426,8 @@ Transform:
   - {fileID: 4386996987313725797}
   - {fileID: 8805697615881361969}
   - {fileID: 7004307168348926723}
-  - {fileID: 4687117116422117162}
-  - {fileID: 7995691567244016245}
+  - {fileID: 6649440105842590820}
+  - {fileID: 6571403803688143467}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8321429816273930515
@@ -587,8 +587,8 @@ MonoBehaviour:
   damage: 2
   poisonDebuff: {fileID: 7565183235025711588, guid: e8aa912d65ec96c43ac28ce27387314e,
     type: 3}
-  redLight: {fileID: 7746024752065460808}
-  greenLight: {fileID: 2236462649407199852}
+  redLight: {fileID: 3951933829431241914}
+  greenLight: {fileID: 8926771517280014988}
 --- !u!114 &5543341696101581592
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -742,7 +742,7 @@ MonoBehaviour:
   statList: []
   currentStun: 0
   maxStun: 60
---- !u!1 &7746024752065460808
+--- !u!1 &8926771517280014988
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -750,37 +750,37 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7995691567244016245}
-  - component: {fileID: 2235737323777554962}
+  - component: {fileID: 6649440105842590820}
+  - component: {fileID: 3380891114609047917}
   m_Layer: 21
-  m_Name: RedLight
+  m_Name: GreenLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
---- !u!4 &7995691567244016245
+--- !u!4 &6649440105842590820
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7746024752065460808}
+  m_GameObject: {fileID: 8926771517280014988}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.18, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6840638104108716763}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2235737323777554962
+--- !u!114 &3380891114609047917
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7746024752065460808}
+  m_GameObject: {fileID: 8926771517280014988}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
@@ -790,7 +790,7 @@ MonoBehaviour:
   m_LightType: 3
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.73
-  m_Color: {r: 1, g: 0.10196078, b: 0.15159258, a: 1}
+  m_Color: {r: 0.103773475, g: 1, b: 0.3391067, a: 1}
   m_Intensity: 5.34
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
