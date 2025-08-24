@@ -22,6 +22,7 @@ public class OldrionController : BossController
     [SerializeField] List<float> dashCooldowns = new List<float>();
 
     [SerializeField] HealingContext fullHealContext;
+    bool crushing;
 
     public void Start()
     {
@@ -31,15 +32,16 @@ public class OldrionController : BossController
         actionPool = GetComponent<ActionPool>();
 
         currentPhase = 1;
-        UpdatePhase();
-    }
-    public void SpawnYokai(GameObject yokaiPrefab, GameObject enemy)
-    {
-        SpawnEnemyAtRandomPoint(enemy, yokaiPrefab);
+        UpdateCooldowns();
     }
 
     public override void DefeatSequence()
     {
+        if (crushing)
+        {
+            return;
+        }
+
         currentPhase++;
         if (ShouldBossBeDefeated())
         {
@@ -53,7 +55,6 @@ public class OldrionController : BossController
         else
         {
             StartPrismaticSpiritCrush();
-            SetPhase(currentPhase);
         }
 
     }
@@ -71,11 +72,11 @@ public class OldrionController : BossController
     {
         return currentPhase > FINAL_PHASE;
     }
-    public void UpdatePhase()
+    public void UpdateCooldowns()
     {
-        SetPhase(currentPhase);
+        SetCooldownsByPhase(currentPhase);
     }
-    void SetPhase(int phase)
+    void SetCooldownsByPhase(int phase)
     {
         int phaseIndex = phase - 1;
         actionPool.GetActionByName(lightActionName).SetCoolDown(lightCooldowns[phaseIndex]);
@@ -84,8 +85,44 @@ public class OldrionController : BossController
     }
     void StartPrismaticSpiritCrush()
     {
-        print("AHHHHHH HEKPE MEEEE HELEPA!!!!!");
+        SetCrushing(true);
+        EnableInvincibility();
+        enemyStateManager.DisableAllVFX();
+        StartCoroutine(SpiritCrushCoroutine());
+    }
+    IEnumerator SpiritCrushCoroutine()
+    {
+        anim.ResetTrigger("precrush");
+        anim.SetTrigger("precrush");
+
+        anim.ResetTrigger("crush");
+        // start of spirit crush
+
+        print("UNC: heh... you're pretty strong...");
+        yield return new WaitForSeconds(1f);
+
+        print("UNC: yet... after all your trials... all your efforts");
+        yield return new WaitForSeconds(1f);
+
+        print("UNC: it was  ALL  FOR  NAUGHT!!!");
+        print("UNC: RAHHHHHH");
+
+        anim.SetTrigger("crush");
+    }
+    void OnCrush()
+    {
         fullHealContext.healing = bossHealth.GetStats().ComputeValue("Max Health");
         bossHealth.Heal(fullHealContext, this.gameObject);
+    }
+    void OnCrushEnd()
+    {
+        DisableInvincibility();
+        UpdateCooldowns();
+        SetCrushing(false);
+    }
+    void SetCrushing(bool val)
+    {
+        crushing = val;
+        enemyStateManager.SetEnemyManagerCrushing(val);
     }
 }

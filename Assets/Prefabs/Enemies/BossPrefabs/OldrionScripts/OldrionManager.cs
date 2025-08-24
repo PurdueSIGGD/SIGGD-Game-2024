@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 
 public class OldrionManager : EnemyStateManager
@@ -23,6 +24,19 @@ public class OldrionManager : EnemyStateManager
     [SerializeField] float dashSpeed;
     [SerializeField] Transform dashTrigger;
     [SerializeField] Collider2D dashCollider;
+    bool crushing; // mirrors the boolean variable of the same name in oldrionController
+
+    protected override void FixedUpdate()
+    {
+        if (crushing)
+        {
+            SwitchState(BusyState);
+        }
+        else
+        {
+            base.FixedUpdate();
+        }
+    }
 
     void LightDamageFrame()
     {
@@ -78,7 +92,7 @@ public class OldrionManager : EnemyStateManager
         }
     }
 
-    protected virtual void OnFinishAnimation()
+    protected override void OnFinishAnimation()
     {
         ComboCheck();
         base.OnFinishAnimation();
@@ -87,7 +101,7 @@ public class OldrionManager : EnemyStateManager
     {
         print("what a bum u are >:(");
     }
-    protected void OnDrawGizmos()
+    protected override void OnDrawGizmos()
     {
         Gizmos.DrawWireCube(lightTrigger.position, lightTrigger.lossyScale);
         Gizmos.DrawWireCube(heavyTrigger.position, heavyTrigger.lossyScale);
@@ -106,5 +120,9 @@ public class OldrionManager : EnemyStateManager
     {
         lightVisual1.SetActive(false);
         lightVisual2.SetActive(false);
+    }
+    public void SetEnemyManagerCrushing(bool val)
+    {
+        crushing = val;
     }
 }
