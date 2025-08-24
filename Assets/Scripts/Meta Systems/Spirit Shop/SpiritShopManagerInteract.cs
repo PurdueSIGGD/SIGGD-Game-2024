@@ -44,6 +44,7 @@ public class SpiriShopManagerInteract : InRangeInteract
     private void OpenSpiritShopUI()
     {
         spiritShopManager.OpenShopUI();
+        spiritShopManager.turnCompleted = false;
     }
 
     // ==============================
