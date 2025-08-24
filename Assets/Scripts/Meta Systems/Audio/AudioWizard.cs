@@ -251,7 +251,7 @@ public class AudioWizard : ScriptableWizard
                 }
 
                 string convoSpeaker = line.character;
-                if (convoSpeaker.Equals(name1))
+                if (convoSpeaker.ToLower().Equals(name1.ToLower()))
                 {
                     sortedClips.Add(clip1[0]);
                     clip1.RemoveAt(0);
