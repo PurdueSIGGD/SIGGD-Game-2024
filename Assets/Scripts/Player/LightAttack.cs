@@ -19,6 +19,8 @@ public class LightAttack : MonoBehaviour, IStatList
     [SerializeField] float rayCount = 6; // number of rays used to check for collision
     [SerializeField] LayerMask attackMask;
 
+    [SerializeField] float vfxSpawnPos = 1;
+
     private HashSet<int> hits; // stores which targets have already been hit in one attack
     private Camera mainCamera;
     private StatManager stats;
@@ -126,7 +128,7 @@ public class LightAttack : MonoBehaviour, IStatList
         Debug.DrawLine(orig, center * range + orig, Color.red, 0.25f);
 #endif
         AudioManager.Instance.SFXBranch.PlaySFXTrack("LightAttack");
-        Vector3 vfxPosition = gameObject.transform.position + new Vector3(1f * Mathf.Sign(gameObject.transform.rotation.y), 0f, 0f);
+        Vector3 vfxPosition = gameObject.transform.position + new Vector3(vfxSpawnPos * Mathf.Sign(gameObject.transform.rotation.y), 0f, 0f);
         VFXManager.Instance.PlayVFX(((playerStateMachine.isLightAttack2Ready) ? VFX.PLAYER_LIGHT_ATTACK_1 : VFX.PLAYER_LIGHT_ATTACK_2), vfxPosition, gameObject.transform.rotation);
         CameraShake.instance.Shake(0.02f, 10f, 0, 10, new Vector2(Random.Range(-0.5f, 0.5f), 1f));
         for (int i = 1; i <= rayCount / 2; i++)
