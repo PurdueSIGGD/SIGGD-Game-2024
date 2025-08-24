@@ -21,6 +21,7 @@ public class EraDoor : MonoBehaviour
     [SerializeField] int ghostTwoFirstEncounterLoc = 6;
     [SerializeField] int ghostTwoStoryBeatOne = 6;
     [SerializeField] int ghostTwoStoryBeatTwo = 6;
+    [SerializeField] int maxLevels = 30;
 
     private const string NORTH_NAME = "North-Police_Chief";
     private const string EVA_NAME = "Eva-Idol";
@@ -51,6 +52,7 @@ public class EraDoor : MonoBehaviour
 
     void DoorOpened()
     {
+        LevelSwitching.instance.SetMaxLevels(maxLevels);
         InjectStoryBeat();
         LevelSwitching.levels = levels;
         LevelSwitching.specificLevels = specificLevels.ToArray();
@@ -72,6 +74,18 @@ public class EraDoor : MonoBehaviour
             case Era.Medieval:
                 ChooseStoryBeats(SaveManager.data.silas, "Silas-PlagueDoc", true);
                 ChooseStoryBeats(SaveManager.data.aegis, "Aegis-King", false);
+                break;
+            case Era.Wheat_Cyber:
+                InputThirdStoryBeat(SaveManager.data.silas, "Silas-PlagueDoc");
+                InputThirdStoryBeat(SaveManager.data.yume, "Yume-Seamstress");
+                break;
+            case Era.Wheat_Feudal:
+                InputThirdStoryBeat(SaveManager.data.north, "North-Police_Chief");
+                InputThirdStoryBeat(SaveManager.data.aegis, "Aegis-King");
+                break;
+            case Era.Wheat_Medieval:
+                InputThirdStoryBeat(SaveManager.data.akihito, "Akihito-Samurai");
+                InputThirdStoryBeat(SaveManager.data.eva, "Eva-Idol");
                 break;
             default:
                 return; // do not inject if Misc
@@ -159,6 +173,16 @@ public class EraDoor : MonoBehaviour
         }
     }
 
+    private void InputThirdStoryBeat(GhostData data, string name)
+    {
+        string truncName = name.Split('-')[0];
+        if (data.storyProgress >= (int)storyProgression.Story_Beat_3 && // story beat 3
+            SaveManager.data.ghostLevel[name] >= 11)
+        {
+            specificLevels.Add(new(new Level[] { new(truncName + " Story Beat Three", 1) }, 5));
+        }
+    }
+
 
     // can be used to generate a random index for story beat to occur, currently not in use
     //private int GenerateStorybeatLocation()
@@ -176,6 +200,9 @@ public class EraDoor : MonoBehaviour
         Cyberpunk,
         Feudal,
         Medieval,
+        Wheat_Cyber,
+        Wheat_Feudal,
+        Wheat_Medieval,
         Misc
     }
 }
