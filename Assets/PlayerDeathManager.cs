@@ -22,7 +22,7 @@ public class PlayerDeathManager : MonoBehaviour
     [SerializeField] float realtimeFadeOutDuration;
     [SerializeField] float realtimeDeathRingStart;
     [SerializeField]
-    string respawnScene = "Eva Fractal Hub";
+    string respawnScene = "Hubworld";
 
     float endTime;
     float fadeOutTime;
@@ -136,6 +136,9 @@ public class PlayerDeathManager : MonoBehaviour
         // reset to hub world and reset everything else we changed in this script
         if (!didSacrifice)
         {
+            // update death story progression if first death
+            if (SaveManager.data.death == 0) SaveManager.data.death = 1;
+
             // make the player die for real if no sacrifices occured here
             gameObject.SetActive(false);
             SceneManager.LoadScene(respawnScene);

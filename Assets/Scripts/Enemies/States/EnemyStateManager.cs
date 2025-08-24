@@ -283,4 +283,9 @@ public class EnemyStateManager : MonoBehaviour
     {
         BusyState.ExitState(this);
     }
+
+    public float GetGroundedRayCheckLength()
+    {
+        return groundedRayCheckLength;
+    }
 }

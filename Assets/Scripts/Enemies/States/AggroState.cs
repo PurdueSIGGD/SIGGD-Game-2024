@@ -13,7 +13,7 @@ using UnityEngine;
 public class AggroState : IEnemyStates
 {
     private Rigidbody2D rb;
-    
+
     private const string AGGRO_RADIUS = "Enemy Group Aggro Radius"; // Max distance for enemy group aggro
     private const float DEFAULT_AGGRO_RADIUS = 3.0f; // If the radius is invalid, set a default value
 
@@ -22,7 +22,7 @@ public class AggroState : IEnemyStates
     /// </summary>
     private void EnemyGroupAggro(EnemyStateManager enemy)
     {
-        
+
         float aggroRadius = enemy.stats.ComputeValue(AGGRO_RADIUS);
         if (aggroRadius < 0)
         {
@@ -34,8 +34,8 @@ public class AggroState : IEnemyStates
         }
 
         // Find enemies
-
-        List<GameObject> enemies = PersistentData.Instance.GetComponent<EnemySpawning>().GetCurrentEnemies();
+        List<GameObject> enemies = new List<GameObject>();
+        if (PersistentData.Instance) enemies = PersistentData.Instance.GetComponent<EnemySpawning>().GetCurrentEnemies();
 
         foreach (GameObject e in enemies)
         {
@@ -43,9 +43,11 @@ public class AggroState : IEnemyStates
 
             // If enemy is self or already aggroed, continue
 
+            if (otherEnemy == null) { continue; }
             if (otherEnemy.Equals(enemy)) { continue; }
 
-            if (!otherEnemy.GetCurrentState().Equals(otherEnemy.IdleState)) {
+            if (!otherEnemy.GetCurrentState().Equals(otherEnemy.IdleState))
+            {
                 continue;
             }
 
@@ -53,7 +55,7 @@ public class AggroState : IEnemyStates
             float d = Vector2.Distance(otherEnemy.transform.position, enemy.transform.position);
 
             // Check if enemy has line of sight to the attacked enemy
-            RaycastHit2D hit = Physics2D.Raycast(enemy.transform.position, 
+            RaycastHit2D hit = Physics2D.Raycast(enemy.transform.position,
                                                 (otherEnemy.transform.position - enemy.transform.position), d,
                                                  LayerMask.GetMask("Ground"));
 

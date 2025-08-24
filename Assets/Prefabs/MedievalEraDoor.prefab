@@ -153,9 +153,41 @@ MonoBehaviour:
   specificLevels: []
   enemies:
   - enemy: {fileID: 1393067818931581941, guid: 2e20c44e50bcd7842955953192304cd4, type: 3}
-    startChance: 1
-    endChance: 1
+    chanceRanges:
+    - start: 0
+      startChance: 5
+      endChance: 8
+  - enemy: {fileID: 228210843640184050, guid: d99fc8025b389bc4fb8779ed4ce0e434, type: 3}
+    chanceRanges:
+    - start: 0
+      startChance: 0
+      endChance: 0
+    - start: 0.1
+      startChance: 4
+      endChance: 7
+  - enemy: {fileID: 6632946035724622827, guid: 7dba8933cfb8ddf4c8e2bd77adfa4dc3, type: 3}
+    chanceRanges:
+    - start: 0
+      startChance: 0
+      endChance: 0
+    - start: 0.2
+      startChance: 6
+      endChance: 7
+  - enemy: {fileID: 4188048675522988209, guid: 41c1ae596201ce742b2d80c066800ad8, type: 3}
+    chanceRanges:
+    - start: 0
+      startChance: 0
+      endChance: 0
+    - start: 0.3
+      startChance: 4
+      endChance: 7
   era: 2
+  ghostOneFirstEncounterLoc: 3
+  ghostOneStoryBeatOne: 3
+  ghostOneStoryBeatTwo: 3
+  ghostTwoFirstEncounterLoc: 6
+  ghostTwoStoryBeatOne: 6
+  ghostTwoStoryBeatTwo: 6
 --- !u!61 &1864423675088016089
 BoxCollider2D:
   m_ObjectHideFlags: 0

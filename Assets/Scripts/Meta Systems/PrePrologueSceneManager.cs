@@ -76,7 +76,7 @@ public class PrePrologueSceneManager : MonoBehaviour
             }
         }
 
-        if (dialogue.transform.localPosition.y >= 1750)
+        if (dialogue.transform.localPosition.y >= 2550)
         {
             Debug.Log("REACHED???");
             needFadeOut = true;
