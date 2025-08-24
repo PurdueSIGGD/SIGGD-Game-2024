@@ -18,10 +18,15 @@ public class PlayerDeathManager : MonoBehaviour
 
     [SerializeField] float timescale;
     [SerializeField] float realtimeDuration;
+    [SerializeField] float realtimeFadeOutStart;
+    [SerializeField] float realtimeFadeOutDuration;
+    [SerializeField] float realtimeDeathRingStart;
     [SerializeField]
     string respawnScene = "Hubworld";
 
     float endTime;
+    float fadeOutTime;
+    bool isFadingOut;
     bool animRunning;
 
 
@@ -33,32 +38,52 @@ public class PlayerDeathManager : MonoBehaviour
         camAnim = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Animator>();
         playerAnim = gameObject.GetComponent<Animator>();
     }
+
+
+
     /// <summary>
     /// Starts the player death animation and logic.
     /// Solely called by player Health script once health reaches 0. 
     /// </summary>
     public void PlayDeathAnim()
     {
-        // toggle camera zoom in animation
-        Time.timeScale = timescale;
+
         playerAnim.SetBool("died", true);
+        playerAnim.SetTrigger("DED");
         camAnim.SetBool("isDead", true);
-        // idk what changing the layer does
-        gameObject.layer = 0; // I really hope this doesn't collide with anything
-        if (GetComponent<PlayerInput>() != null)
-        {
-            // disable player input
-            GetComponent<PlayerInput>().enabled = false;
-        }
-        endTime = Time.unscaledTime + realtimeDuration;
+
+        GetComponent<Collider2D>().enabled = false;
+        GetComponent<Rigidbody2D>().gravityScale = 0f;
+        GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        gameObject.transform.position += new Vector3(0f, 0f, 10f);
+
+        GetComponent<Move>().PlayerStop();
+
+        endTime = Time.time + realtimeDuration;
+        fadeOutTime = Time.time + realtimeFadeOutStart;
+        isFadingOut = false;
         animRunning = true;
+
+        DeathRingVFX.instance.PlayDeathAnimation();
     }
+
+
+
     public void Update()
     {
         if (animRunning)
         {
+
+            // Start fade out
+            if (Time.time >= fadeOutTime && !isFadingOut)
+            {
+                isFadingOut = true;
+                ScreenFader.instance.FadeOut(0f, realtimeFadeOutDuration);
+                AudioManager.Instance.MusicBranch.CrossfadeTo(MusicTrackName.HUB, 2f);
+            }
+
             // perform loop
-            if (Time.unscaledTime >= endTime)
+            if (Time.time >= endTime)
             {
                 // call end of death anim to check for available sacrifices
                 animRunning = false;
@@ -66,6 +91,9 @@ public class PlayerDeathManager : MonoBehaviour
             }
         }
     }
+
+
+
     public void EndOfDeathAnim()
     {
         bool didSacrifice = false;
@@ -79,6 +107,7 @@ public class PlayerDeathManager : MonoBehaviour
             UseSacrifice(curGhostManager);
             didSacrifice = true;
         }
+
         // check down the list of ghosts if their sacrifice is available
         List<GhostIdentity> ghostList = party.GetGhostPartyList();
         foreach (GhostIdentity ghost in ghostList)
@@ -100,8 +129,8 @@ public class PlayerDeathManager : MonoBehaviour
                 didSacrifice = true;
             }
         }
+
         camAnim.SetBool("isDead", false);
-        Time.timeScale = 1;
 
         // if every single ghost in the party doesn't have sacrifice, 
         // reset to hub world and reset everything else we changed in this script
@@ -119,6 +148,9 @@ public class PlayerDeathManager : MonoBehaviour
         }
 
     }
+
+
+
     /// <summary>
     /// Handles how the sacrifice ability activation call is communicated to the relevant ghost manager.
     /// </summary>
