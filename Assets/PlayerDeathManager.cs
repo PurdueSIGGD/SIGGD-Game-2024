@@ -108,8 +108,11 @@ public class PlayerDeathManager : MonoBehaviour
         if (!didSacrifice)
         {
             // update death story progression if first death
-            if (SaveManager.data.death == 0) SaveManager.data.death = 1;
-
+            if (SaveManager.data.death == 0)
+            {
+                SaveManager.data.death = 1;
+                SaveManager.instance.Save();
+            }
             // make the player die for real if no sacrifices occured here
             gameObject.SetActive(false);
             SceneManager.LoadScene(respawnScene);
