@@ -26,6 +26,8 @@ public class GameManager : MonoBehaviour
 
     public void OnNew()
     {
+        SaveManager.data = new SaveData();
+        SaveManager.instance.Save();
         SceneManager.LoadScene("PrePrologue");
     }
 

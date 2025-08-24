@@ -27,7 +27,7 @@ public class TitleDecideIfNewGame : MonoBehaviour
         }
         else
         {
-            newGameBtn.SetActive(false);
+            newGameBtn.SetActive(true);
             continueBtn.SetActive(true);
         }
 
