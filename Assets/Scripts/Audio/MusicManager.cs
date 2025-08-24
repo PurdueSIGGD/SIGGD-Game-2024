@@ -12,6 +12,10 @@ public class MusicManager : MonoBehaviour
     [SerializeField] private MusicTrack hubLevel;
     [SerializeField] private MusicTrack policeChief;
     [SerializeField] private MusicTrack idol;
+    [SerializeField] private MusicTrack seamstress;
+    [SerializeField] private MusicTrack samurai;
+    [SerializeField] private MusicTrack doctor;
+    [SerializeField] private MusicTrack king;
     [SerializeField] private MusicTrack death;
 
     private MusicTrackName currentTrackName;
@@ -32,12 +36,17 @@ public class MusicManager : MonoBehaviour
         switch (trackName) {
             // case MusicTrackName.JAPAN:              return (IMusicTrack) japan;
             // case MusicTrackName.CYBERPUNK:          return (IMusicTrack) cyberpunk;
-            // case MusicTrackName.SEAMSTRESS:         return (IMusicTrack) seamstress;
+            
             case MusicTrackName.CYBERPUNK_LEVEL:       return (IMusicTrack) cyberpunkLevel;
             case MusicTrackName.HUB:                   return (IMusicTrack) hubLevel;
             case MusicTrackName.POLICE_CHIEF:          return (IMusicTrack) policeChief;
             case MusicTrackName.IDOL:                  return (IMusicTrack) idol;
             case MusicTrackName.MEDIVAL_LEVEL:         return (IMusicTrack) medivalLevel;
+
+            case MusicTrackName.SEAMSTRESS:            return (IMusicTrack) seamstress;
+            case MusicTrackName.SAMURAI:            return (IMusicTrack) samurai;
+            case MusicTrackName.DOCTOR:            return (IMusicTrack) doctor;
+            case MusicTrackName.KING:            return (IMusicTrack)king;
             case MusicTrackName.DEATH_THEME:           return (IMusicTrack) death;
             default:                                   return null;
         }
@@ -119,5 +128,9 @@ public enum MusicTrackName {
     POLICE_CHIEF, //      0.000           48.000
     IDOL, //              0.000           98.000
     MEDIVAL_LEVEL, //      what            bruh I dont know this
+    SEAMSTRESS, //              0.000           98.000
+    SAMURAI, //              0.000           98.000
+    DOCTOR, //              0.000           98.000
+    KING, //              0.000           98.000
     DEATH_THEME //        0.000           51.000
 }
