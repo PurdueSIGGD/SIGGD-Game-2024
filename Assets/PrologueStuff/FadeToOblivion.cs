@@ -17,6 +17,13 @@ public class FadeToOblivion : MonoBehaviour
 
     private void TransitionToOblivion(string key)
     {
-        SceneManager.LoadScene("Prologue_Hubworld");
+        StartCoroutine(DoTheThing());
+    }
+
+    private IEnumerator DoTheThing()
+    {
+        ScreenFader.instance.FadeOut();
+        yield return new WaitForSeconds(ScreenFader.instance.fadeOutDuration + 0.1f);
+        SceneManager.LoadScene("PrePrologue");
     }
 }

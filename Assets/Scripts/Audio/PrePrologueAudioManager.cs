@@ -17,7 +17,6 @@ public class PrePrologueAudioManager : MonoBehaviour
     {
         Preprologue.PlayDelayed(preprologueStartTime);
         BGMusic.PlayDelayed(BGMusicStartTimeAfterPreprologue + preprologueStartTime);
-        fadeOutSpeed = SceneManager.GetComponent<PrePrologueSceneManager>().fadeOutSpeed;
     }
 
     // Update is called once per frame
