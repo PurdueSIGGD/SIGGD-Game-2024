@@ -35226,6 +35226,7 @@ GameObject:
   - component: {fileID: 5933473747196306455}
   - component: {fileID: 8596380051338084535}
   - component: {fileID: 3440197112979840949}
+  - component: {fileID: 4006401410313971276}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -35847,7 +35848,7 @@ MonoBehaviour:
   realtimeFadeOutStart: 3.9
   realtimeFadeOutDuration: 1
   realtimeDeathRingStart: 0
-  respawnScene: Eva Start Fractal Hub
+  respawnScene: HubWorld
 --- !u!114 &3440197112979840949
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35869,6 +35870,8 @@ MonoBehaviour:
     value: 1
   - name: Stun Damage Boost
     value: 1
+  - name: Stun Duration Boost
+    value: 1
   - name: Crit Chance
     value: 100
   - name: Crit Damage Boost
@@ -35883,8 +35886,6 @@ MonoBehaviour:
     value: 1
   - name: Cooldown Speed Boost
     value: 100
-  - name: Stun Duration Boost
-    value: 1
   - name: Healing Boost
     value: 1
   - name: Spirit Drop Rate Boost
@@ -35897,6 +35898,27 @@ MonoBehaviour:
   critIcon: {fileID: 21300000, guid: 479f4995fb0308148b6f772ddf0531ea, type: 3}
   damageResistanceIcon: {fileID: 21300000, guid: 150239b220dcdfe4c887a06a669c64bc,
     type: 3}
+--- !u!114 &4006401410313971276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8252758106455385166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5231546b67cf7f04b8c4b3cee74a6e0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hasteLevelBuff: 2
+  lethalityLevelBuff: 5
+  fortitudeLevelBuff: 5
+  dexterityLevelBuff: 1
+  precisionLevelBuff: 1
+  tenacityLevelBuff: 3
+  proficiencyLevelBuff: 2
+  brutalityLevelBuff: 5
+  recoveryLevelBuff: 3
 --- !u!1 &8764437494633651125
 GameObject:
   m_ObjectHideFlags: 0
