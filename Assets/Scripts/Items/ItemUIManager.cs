@@ -24,7 +24,7 @@ public class ItemUIManager : MonoBehaviour
     private SpiritTracker spiritTracker; // reference
     
 
-    private void Start()
+    private void OnEnable()
     {
         pool = gameObject.GetComponent<ItemPool>();
         rerollButton.onClick.AddListener(RerollButtonOnClick);
