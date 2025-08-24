@@ -144,6 +144,7 @@ public class PlayerDeathManager : MonoBehaviour
             }
             // make the player die for real if no sacrifices occured here
             gameObject.SetActive(false);
+            AudioManager.Instance.SFXBranch.PlaySFXTrack("RespawnInOblivionSFX");
             SceneManager.LoadScene(respawnScene);
         }
 

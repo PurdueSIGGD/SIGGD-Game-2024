@@ -176,6 +176,7 @@ public class Health : MonoBehaviour, IDamageable, IStatList
             yield break;
         }
         PlayerDeathManager playerDeath = gameObject.GetComponent<PlayerDeathManager>();
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("PlayerDiesSFX");
         playerDeath.PlayDeathAnim();
     }
 
