@@ -145,7 +145,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 17.64, y: -0.17, z: 0}
-  m_LocalScale: {x: 15, y: 2.02, z: 1}
+  m_LocalScale: {x: 20, y: 2.02, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2725159293832616438}
@@ -172,7 +172,7 @@ GameObject:
   - component: {fileID: 5436494508425736163}
   - component: {fileID: -5486637794773673572}
   m_Layer: 21
-  m_Name: Ronin
+  m_Name: Elite Ronin
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -188,7 +188,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 7565977893133872963}
@@ -260,7 +260,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2077229447, guid: 0f80a601fd2907145ac8c668ebcfd413, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0, b: 1, a: 1}
   m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
@@ -285,7 +285,7 @@ MonoBehaviour:
   stats: {fileID: 0}
   pool: {fileID: 0}
   animator: {fileID: 0}
-  isPinkAndProud: 0
+  isPinkAndProud: 1
   isFlyer: 0
   aggroRange: 10
   isBeingKnockedBack: 0
@@ -299,7 +299,7 @@ MonoBehaviour:
     actionTypes: 07000000
     extraContext: Ronin sword attack
     ghostID: 0
-  swordDamageVal: 7
+  swordDamageVal: 21
   dashCollider: {fileID: 3546262199324420215}
   dashTrigger: {fileID: 7986608270766379654}
   dashDamage:
@@ -309,8 +309,8 @@ MonoBehaviour:
     actionTypes: 
     extraContext: 
     ghostID: 0
-  dashDamageVal: 10
-  dashSpeed: 50
+  dashDamageVal: 21
+  dashSpeed: 100
   isDashing: 0
 --- !u!114 &565511163646216881
 MonoBehaviour:
@@ -331,14 +331,14 @@ MonoBehaviour:
     ready: 1
     hitBox: {fileID: 7565977893133872963}
     usesCircleHitbox: 0
-    coolDown: 3
+    coolDown: 4
     animationClip: {fileID: 7400000, guid: 430d6a0c8d9e0024d86bc9f882250f00, type: 2}
   - name: Dash
     priority: 10
     ready: 1
     hitBox: {fileID: 7986608270766379654}
     usesCircleHitbox: 0
-    coolDown: 4
+    coolDown: 2
     animationClip: {fileID: 7400000, guid: b0416459c1ed4dc42b945020e1868e92, type: 2}
   move:
     name: Move
@@ -442,15 +442,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Idle Speed
-    value: 5
+    value: 6
   - name: Speed
-    value: 8
+    value: 9
   - name: Enemy Group Aggro Radius
     value: 10
   - name: Target Range Min
     value: 3
   - name: Target Range Max
-    value: 8
+    value: 12
   - name: Pause Timer Duration Min
     value: 2
   - name: Pause Timer Duration Max
@@ -469,7 +469,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Max Health
-    value: 75
+    value: 300
   deathLevel: 
 --- !u!114 &3047485959818697918
 MonoBehaviour:
@@ -484,15 +484,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dropTable:
-  - obj: {fileID: 4809253014695496824, guid: 4950ea8f40c9d9944b6d20a6150d4cce, type: 3}
-    chance: 1
-    minCount: 2
-    maxCount: 5
-  - obj: {fileID: 4809253014695496824, guid: fe291ced3ae40fc46a74c816a48d0e61, type: 3}
-    chance: 1
-    minCount: 2
-    maxCount: 5
-  - obj: {fileID: 4809253014695496824, guid: e8a6431bc0e6c7a4e922f586f4216e97, type: 3}
+  - obj: {fileID: 4809253014695496824, guid: 17b983b8188a0f44e81ad10e1be8af57, type: 3}
     chance: 1
     minCount: 2
     maxCount: 5
@@ -512,7 +504,7 @@ FixedJoint2D:
   m_BreakAction: 0
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: -0.42, y: 0.105714284}
+  m_ConnectedAnchor: {x: -0.42, y: 0.10571429}
   m_DampingRatio: 0
   m_Frequency: 0
 --- !u!114 &5436494508425736163
@@ -548,7 +540,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList: []
   currentStun: 0
-  maxStun: 120
+  maxStun: 150
 --- !u!1 &7803730565979122282
 GameObject:
   m_ObjectHideFlags: 0
