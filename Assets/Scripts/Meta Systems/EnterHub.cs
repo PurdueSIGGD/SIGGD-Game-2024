@@ -48,7 +48,7 @@ public class EnterHub : MonoBehaviour
     [SerializeField] ConvoSO deathFirstDeath;
     [SerializeField] ConvoSO deathNovaPoint;
     [SerializeField] ConvoSO deathShigora;
-    [SerializeField] ConvoSO deathOldrion;
+    [SerializeField] ConvoSO deathCaladria;
 
     void Awake()
     {
@@ -61,6 +61,14 @@ public class EnterHub : MonoBehaviour
         PersistentData.Instance.GetComponent<SpiritTracker>().ClearSpirits();
         PersistentData.Instance.GetComponent<ItemInventory>().ReturnItemsToPool();
     }
+
+    // orion = 0: new game
+    // orion = 1: beated nova point
+    // orion = 2: talked to death about nova point
+    // orion = 3: beated shigora
+    // orion = 4: talked to death about shigora
+    // orion = 5: beated caladria
+    // orion = 6: talked to death about caladria
 
     void Start()
     {
@@ -77,19 +85,21 @@ public class EnterHub : MonoBehaviour
             death.gameObject.SetActive(true);
             death.SetConvo(deathFirstDeath);
             StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
-            sp.Init(deathFirstDeath.data.convoName, "death", 2, true);
+            sp.Init(deathNovaPoint.data.convoName, "orion", 2, true);
         }
-        if (death && SaveManager.data.orion == 2) // beating shigora
+        if (death && SaveManager.data.orion == 3) // beating shigora
         {
-
+            death.gameObject.SetActive(true);
+            death.SetConvo(deathFirstDeath);
+            StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
+            sp.Init(deathShigora.data.convoName, "orion", 4, true);
         }
-        if (death && SaveManager.data.orion == 3) // beating caladria
+        if (death && SaveManager.data.orion == 5) // beating caladria
         {
-
-        }
-        if (death && SaveManager.data.orion == 5) // beating oldrion
-        {
-
+            death.gameObject.SetActive(true);
+            death.SetConvo(deathFirstDeath);
+            StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
+            sp.Init(deathNovaPoint.data.convoName, "orion", 6, true);
         }
 
 
