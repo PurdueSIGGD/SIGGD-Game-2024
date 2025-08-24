@@ -84,7 +84,7 @@ public class AegisData : GhostData
 [Serializable]
 public class MasteryUpgradeData
 {
-    public int numRowsUnlocked = 0;
+    public int numRowsUnlocked = 1;
     public int[] upgradeLevels = {
       // BLUE  RED   YELLOW
          0,    0,    0,      // Tier 1
