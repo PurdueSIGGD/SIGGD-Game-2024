@@ -28,6 +28,15 @@ public class GhostManager : MonoBehaviour, ISelectable, IStatList
         animator = PlayerID.instance.GetComponent<Animator>();
         partyManager = PlayerID.instance.GetComponent<PartyManager>();
         stats = GetComponent<StatManager>();
+        StartCoroutine(DelayedStartCoroutine());
+    }
+
+    private IEnumerator DelayedStartCoroutine()
+    {
+        yield return new WaitForSeconds(0.1f);
+        int cooldownSpeedBoost = Mathf.FloorToInt(PlayerID.instance.GetComponent<PlayerBuffStats>().GetStats().ComputeValue("Cooldown Speed Boost") - 100f);
+        //stats.ModifyStat("Basic Cooldown", -cooldownSpeedBoost);
+        stats.ModifyStat("Special Cooldown", -cooldownSpeedBoost);
     }
 
     // Update is called once per frame

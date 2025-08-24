@@ -64,14 +64,14 @@ public class OrionUIDriver : MonoBehaviour
         {
             selectedGhostUIManager.setBackgroundColor(ghostColor);
             selectedGhostUIManager.setHealthBarFrameColor(ghostColor);
-            selectedGhostUIManager.setIcon(orionCharacterInfo.characterIcon);
+            selectedGhostUIManager.setIcon(orionCharacterInfo.hudIcon);
             selectedGhostUIManager.setIconFrameColor(ghostColor);
             meterUIManager.setBackgroundColor(ghostColor);
         }
         else
         {
             deselectedGhostUIManager.setBackgroundColor(ghostColor);
-            deselectedGhostUIManager.setIcon(orionCharacterInfo.characterIcon);
+            deselectedGhostUIManager.setIcon(orionCharacterInfo.hudIcon);
             deselectedGhostUIManager.setIconFrameColor(ghostColor);
         }
     }

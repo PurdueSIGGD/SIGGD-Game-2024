@@ -9,6 +9,8 @@ public class PlayerSelectedGhostUIManager : PlayerGhostUIManager
 
     [SerializeField] private Image healthBarFrame;
 
+    [SerializeField] private Image BackgroundFrame2;
+
     private void Awake()
     {
         instance = this;
@@ -35,5 +37,11 @@ public class PlayerSelectedGhostUIManager : PlayerGhostUIManager
     public void setHealthBarFrameColor(Color color)
     {
         setImageColor(healthBarFrame, color, true);
+    }
+
+
+    public void setBackground2Color(Color color)
+    {
+        setImageColor(BackgroundFrame2, color, true);
     }
 }

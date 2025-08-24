@@ -66,14 +66,27 @@ public class LevelSwitching : MonoBehaviour
 
     public void SwitchLevel()
     {
+        StartCoroutine(SwitchLevelCoroutine());
+    }
+
+    private IEnumerator SwitchLevelCoroutine()
+    {
         if (levelCount >= maxLevels)
         {
+            // Fade out screen  TODO: MAKE CUSTOM FOR DEATH RING
+            ScreenFader.instance.FadeOut();
+            yield return new WaitForSeconds(ScreenFader.instance.fadeOutDuration + 0.1f);
+
             SceneManager.LoadScene(homeWorld);
             levelCount = 0;
             nextScene = "";
         }
         else
         {
+            // Fade out screen
+            ScreenFader.instance.FadeOut();
+            yield return new WaitForSeconds(ScreenFader.instance.fadeOutDuration + 0.1f);
+
             if (nextScene == "")
             {
                 SceneManager.LoadScene(GetNextLevel().GetSceneName());

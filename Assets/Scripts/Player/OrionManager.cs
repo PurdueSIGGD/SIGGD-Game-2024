@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class OrionManager : GhostManager
@@ -14,6 +15,15 @@ public class OrionManager : GhostManager
     {
         base.Start();
         heavyDamage.damage = stats.ComputeValue("Heavy Damage");
+        StartCoroutine(DelayedStartCoroutine());
+    }
+
+    private IEnumerator DelayedStartCoroutine()
+    {
+        yield return new WaitForSeconds(0.1f);
+        int cooldownSpeedBoost = Mathf.FloorToInt(PlayerID.instance.GetComponent<PlayerBuffStats>().GetStats().ComputeValue("Cooldown Speed Boost") - 100f);
+        //stats.ModifyStat("Basic Cooldown", -cooldownSpeedBoost);
+        stats.ModifyStat("Dash Cooldown", -cooldownSpeedBoost);
     }
 
     // Update is called once per frame

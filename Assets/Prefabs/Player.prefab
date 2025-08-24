@@ -35225,6 +35225,7 @@ GameObject:
   - component: {fileID: 7301745340384326151}
   - component: {fileID: 5933473747196306455}
   - component: {fileID: 8596380051338084535}
+  - component: {fileID: 3440197112979840949}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -35674,6 +35675,7 @@ MonoBehaviour:
   attackMask:
     serializedVersion: 2
     m_Bits: 2097152
+  vfxSpawnPos: 1
 --- !u!114 &8185085331476045831
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35818,11 +35820,11 @@ MonoBehaviour:
     value: 0.333
   - name: Dodge Chance
     value: 100
-  deathLevel: 
+  deathLevel: HubWorld
   baseDodgeChance: 5
   dodgeIcon: {fileID: 21300000, guid: e2b6bdbec334c0a4697387d7d4bb2a53, type: 3}
   tempoIcon: {fileID: 21300000, guid: 624223a05e012074d9154f1784fe33de, type: 3}
-  selfMedicatedIcon: {fileID: 21300000, guid: e1603c4b4639e64478bc3ddfd992d89d, type: 3}
+  selfMedicatedIcon: {fileID: 21300000, guid: 6bc75842910e4914795b964208046d00, type: 3}
   orionCharacterInfo: {fileID: 11400000, guid: 5d92207d173587c4886414c08aba2501, type: 2}
   dodgeVFX: {fileID: 7966241730260626198, guid: a5295bc6cb8948243b75f99e5a18cc48,
     type: 3}
@@ -35840,9 +35842,61 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adabfe4036ea5c2479b3217078b6c826, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timescale: 0.25
-  realtimeDuration: 4
-  respawnScene: HubWorld
+  timescale: 1
+  realtimeDuration: 5
+  realtimeFadeOutStart: 3.9
+  realtimeFadeOutDuration: 1
+  realtimeDeathRingStart: 0
+  respawnScene: Eva Start Fractal Hub
+--- !u!114 &3440197112979840949
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8252758106455385166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 504714de123b23748b33ef161afd453f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  statList:
+  - name: General Attack Damage Boost
+    value: 1
+  - name: Light Attack Damage Boost
+    value: 1
+  - name: Heavy Attack Damage Boost
+    value: 1
+  - name: Stun Damage Boost
+    value: 1
+  - name: Crit Chance
+    value: 100
+  - name: Crit Damage Boost
+    value: 3
+  - name: Damage Resistance
+    value: 1
+  - name: Melee Damage Resistance
+    value: 1
+  - name: Projectile/Area Damage Resistance
+    value: 1
+  - name: Elite Damage Resistance
+    value: 1
+  - name: Cooldown Speed Boost
+    value: 100
+  - name: Stun Duration Boost
+    value: 1
+  - name: Healing Boost
+    value: 1
+  - name: Spirit Drop Rate Boost
+    value: 1
+  baseCritChance: 20
+  pulseExplosionVFX: {fileID: 7966241730260626198, guid: a5295bc6cb8948243b75f99e5a18cc48,
+    type: 3}
+  critDealtPulseColor: {r: 0.9254902, g: 0.3254902, b: 0.972549, a: 1}
+  critTakenPulseColor: {r: 0.77254903, g: 0, b: 0, a: 1}
+  critIcon: {fileID: 21300000, guid: 479f4995fb0308148b6f772ddf0531ea, type: 3}
+  damageResistanceIcon: {fileID: 21300000, guid: 150239b220dcdfe4c887a06a669c64bc,
+    type: 3}
 --- !u!1 &8764437494633651125
 GameObject:
   m_ObjectHideFlags: 0

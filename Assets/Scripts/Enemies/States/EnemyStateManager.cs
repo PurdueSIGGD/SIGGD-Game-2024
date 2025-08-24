@@ -17,6 +17,7 @@ public class EnemyStateManager : MonoBehaviour
     [HideInInspector] public ActionPool pool; // A pool of attacks to randomly choose from
     [HideInInspector] public Animator animator;
 
+    [SerializeField] public bool isPinkAndProud;
     [SerializeField] public bool isFlyer;
     [SerializeField] protected float aggroRange; // Range for detecting players 
     protected IEnemyStates curState; // Enemy's current State, defaults to idle
@@ -126,7 +127,8 @@ public class EnemyStateManager : MonoBehaviour
         }
         else
         {
-            StunState.EnterState(this, duration);
+            float stunDurationBoost = PlayerID.instance.GetComponent<PlayerBuffStats>().GetStats().ComputeValue("Stun Duration Boost");
+            StunState.EnterState(this, duration * stunDurationBoost);
         }
     }
 

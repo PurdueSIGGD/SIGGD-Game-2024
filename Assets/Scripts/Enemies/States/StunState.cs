@@ -34,7 +34,7 @@ public class StunState : IEnemyStates
         {
             isStunned = false;
             enemy.animator.speed = 1;
-            enemy.SwitchState(enemy.AggroState);
+            enemy.SwitchState(enemy.IdleState);
             Debug.Log(enemy.name + " recovered from stun!");
         }
         else
