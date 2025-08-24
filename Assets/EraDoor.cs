@@ -69,12 +69,12 @@ public class EraDoor : MonoBehaviour
                 ChooseStoryBeats(SaveManager.data.eva, "Eva-Idol", false);
                 break;
             case Era.Feudal:
-                data1 = SaveManager.data.akihito;
-                data2 = SaveManager.data.yume;
+                ChooseStoryBeats(SaveManager.data.akihito, "Akihito-Samurai", true);
+                ChooseStoryBeats(SaveManager.data.yume, "Yume-Seamstress", false);
                 break;
             case Era.Medieval:
-                data1 = SaveManager.data.silas;
-                data2 = SaveManager.data.aegis;
+                ChooseStoryBeats(SaveManager.data.silas, "Silas-PlagueDoc", true);
+                ChooseStoryBeats(SaveManager.data.aegis, "Aegis-King", false);
                 break;
             default:
                 return; // do not inject if Misc
