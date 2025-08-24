@@ -125,6 +125,18 @@ public class PlayerHealth : Health
             {
                 AudioManager.Instance.VABranch.PlayVATrack(PartyManager.instance.selectedGhost + " Significant Damage Taken");
             }
+
+            AudioManager.Instance.SFXBranch.PlaySFXTrack("PlayerTakeDamageSFX");
+
+            // play mortal wound sfx, if appplicable
+            if ((currentHealth + context.damage) / maxHealth > thresholdTwo && currentHealth / maxHealth <= thresholdTwo)
+            {
+                AudioManager.Instance.SFXBranch.PlaySFXTrack("MortalWound2ndSFX");
+            }
+            else if ((currentHealth + context.damage) / maxHealth > thresholdOne && currentHealth / maxHealth <= thresholdOne)
+            {
+                AudioManager.Instance.SFXBranch.PlaySFXTrack("MortalWound1stSFX");
+            }
         }
     }
 
