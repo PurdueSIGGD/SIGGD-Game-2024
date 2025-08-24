@@ -8,6 +8,7 @@ public class MusicManager : MonoBehaviour
     //[SerializeField] private LeveledMusicTrack cyberpunk;
     //[SerializeField] private MusicTrack seamstress;
     [SerializeField] private LeveledMusicTrack cyberpunkLevel;
+    [SerializeField] private LeveledMusicTrack medivalLevel;
     [SerializeField] private MusicTrack hubLevel;
     [SerializeField] private MusicTrack policeChief;
     [SerializeField] private MusicTrack idol;
@@ -35,6 +36,7 @@ public class MusicManager : MonoBehaviour
             case MusicTrackName.HUB:                   return (IMusicTrack) hubLevel;
             case MusicTrackName.POLICE_CHIEF:          return (IMusicTrack) policeChief;
             case MusicTrackName.IDOL:                  return (IMusicTrack) idol;
+            case MusicTrackName.MEDIVAL_LEVEL:         return (IMusicTrack) medivalLevel;
             default:                                   return null;
         }
     }
@@ -64,6 +66,10 @@ public class MusicManager : MonoBehaviour
 
     // Fades into the given track over fadeTime seconds
     private IEnumerator Crossfade(MusicTrackName trackName, float fadeTime) {
+        if (trackName == MusicTrackName.NULL)
+        {
+            GetMusicTrack(currentTrackName).StopTrack();
+        }
         if (fadeTime <= 0) {
             PlayMusicTrack(trackName);
             yield return null;
@@ -110,4 +116,5 @@ public enum MusicTrackName {
     HUB, //               0.000           191.000
     POLICE_CHIEF, //      0.000           48.000
     IDOL, //              0.000           98.000
+    MEDIVAL_LEVEL //      what            bruh I dont know this
 }

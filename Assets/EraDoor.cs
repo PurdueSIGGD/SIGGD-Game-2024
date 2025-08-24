@@ -36,7 +36,8 @@ public class EraDoor : MonoBehaviour
     // 2: Story beat 1
     // 3: Story beat 2
     // 4: Max Trust
-    // 5: Story beat 3
+    // 5: Starting Story beat 3
+    // 6: Story beat 3
 
     private enum storyProgression
     {

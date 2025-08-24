@@ -19,6 +19,8 @@ public class SaveData
     public int[] silasSkillPts = new int[8];
     public int[] aegisSkillPts = new int[8];
 
+    public int death = 0;
+    public int orion = 0; // story progress for Orion/Death
     public NorthData north = new();
     public EvaData eva = new();
     public YumeData yume = new();

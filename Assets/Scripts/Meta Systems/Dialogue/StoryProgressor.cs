@@ -43,6 +43,12 @@ public class StoryProgresser : MonoBehaviour
 
         switch (ghost.ToLower())
         {
+            case "death":
+                SaveManager.data.death = progressTo;
+                break;
+            case "orion":
+                SaveManager.data.orion = progressTo;
+                break;
             case "north":
                 SaveManager.data.north.storyProgress = progressTo;
                 break;

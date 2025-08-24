@@ -34,8 +34,8 @@ public class AggroState : IEnemyStates
         }
 
         // Find enemies
-
-        List<GameObject> enemies = PersistentData.Instance.GetComponent<EnemySpawning>().GetCurrentEnemies();
+        List<GameObject> enemies = new List<GameObject>();
+        if (PersistentData.Instance) enemies = PersistentData.Instance.GetComponent<EnemySpawning>().GetCurrentEnemies();
 
         foreach (GameObject e in enemies)
         {

@@ -31,17 +31,17 @@ PrefabInstance:
     - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
         type: 3}
       propertyPath: levels.Array.size
-      value: 1
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
         type: 3}
       propertyPath: enemies.Array.size
-      value: 5
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
         type: 3}
       propertyPath: specificLevels.Array.size
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
         type: 3}
@@ -75,6 +75,30 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
         type: 3}
+      propertyPath: enemies.Array.data[5].enemy
+      value: 
+      objectReference: {fileID: 5499330591125181409, guid: a9d096ed04322f54a9a2ad5c38bda6b7,
+        type: 3}
+    - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
+        type: 3}
+      propertyPath: enemies.Array.data[6].enemy
+      value: 
+      objectReference: {fileID: 8433722653154054174, guid: d06c5e601569a0147bed12fed6931fa4,
+        type: 3}
+    - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
+        type: 3}
+      propertyPath: enemies.Array.data[7].enemy
+      value: 
+      objectReference: {fileID: 1393067818931581941, guid: 5f09f1f90fa02bd4f80bbae55986caf3,
+        type: 3}
+    - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
+        type: 3}
+      propertyPath: enemies.Array.data[8].enemy
+      value: 
+      objectReference: {fileID: 8652318323731026824, guid: 5e93745cee2dcab449823d9f89516f4d,
+        type: 3}
+    - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
+        type: 3}
       propertyPath: levels.Array.data[0].chance
       value: 1
       objectReference: {fileID: 0}
@@ -86,7 +110,7 @@ PrefabInstance:
     - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
         type: 3}
       propertyPath: levels.Array.data[2].chance
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
         type: 3}
@@ -105,33 +129,123 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
         type: 3}
+      propertyPath: levels.Array.data[6].chance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
+        type: 3}
+      propertyPath: levels.Array.data[7].chance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
+        type: 3}
+      propertyPath: levels.Array.data[8].chance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
+        type: 3}
+      propertyPath: levels.Array.data[9].chance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
+        type: 3}
+      propertyPath: levels.Array.data[10].chance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
+        type: 3}
+      propertyPath: levels.Array.data[11].chance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
+        type: 3}
+      propertyPath: levels.Array.data[12].chance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
+        type: 3}
+      propertyPath: levels.Array.data[13].chance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
+        type: 3}
+      propertyPath: levels.Array.data[14].chance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
+        type: 3}
+      propertyPath: levels.Array.data[15].chance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
+        type: 3}
+      propertyPath: levels.Array.data[16].chance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
+        type: 3}
+      propertyPath: levels.Array.data[17].chance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
+        type: 3}
+      propertyPath: levels.Array.data[18].chance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
+        type: 3}
+      propertyPath: levels.Array.data[19].chance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
+        type: 3}
       propertyPath: levels.Array.data[0].sceneName
       value: Cyberpunk_Rafters
       objectReference: {fileID: 0}
     - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
         type: 3}
       propertyPath: levels.Array.data[1].sceneName
-      value: Cyberpunk_Cavern
+      value: Cyberpunk_Hills
       objectReference: {fileID: 0}
     - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
         type: 3}
       propertyPath: levels.Array.data[2].sceneName
-      value: Cyberpunk_Rafters
+      value: Cyberpunk_Hallway
       objectReference: {fileID: 0}
     - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
         type: 3}
       propertyPath: levels.Array.data[3].sceneName
-      value: Cyberpunk_Corridor
+      value: Cyberpunk_TieredHalls
       objectReference: {fileID: 0}
     - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
         type: 3}
       propertyPath: levels.Array.data[4].sceneName
-      value: CyberpunkRoom1
+      value: Cyberpunk_UnderPlats
       objectReference: {fileID: 0}
     - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
         type: 3}
       propertyPath: levels.Array.data[5].sceneName
+      value: Cyberpunk_Skybar
+      objectReference: {fileID: 0}
+    - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
+        type: 3}
+      propertyPath: levels.Array.data[6].sceneName
       value: Cyberpunk_Corridor
+      objectReference: {fileID: 0}
+    - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
+        type: 3}
+      propertyPath: levels.Array.data[7].sceneName
+      value: Cyberpunk_HoloBounce
+      objectReference: {fileID: 0}
+    - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
+        type: 3}
+      propertyPath: levels.Array.data[8].sceneName
+      value: Cyberpunk_KyleSkillJump
+      objectReference: {fileID: 0}
+    - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
+        type: 3}
+      propertyPath: levels.Array.data[9].sceneName
+      value: Cyberpunk_Hallway1
       objectReference: {fileID: 0}
     - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
         type: 3}
@@ -157,6 +271,56 @@ PrefabInstance:
         type: 3}
       propertyPath: enemies.Array.data[4].endChance
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
+        type: 3}
+      propertyPath: levels.Array.data[10].sceneName
+      value: Cyberpunk_BigJump
+      objectReference: {fileID: 0}
+    - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
+        type: 3}
+      propertyPath: levels.Array.data[11].sceneName
+      value: Cyberpunk_Arena
+      objectReference: {fileID: 0}
+    - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
+        type: 3}
+      propertyPath: levels.Array.data[12].sceneName
+      value: Cyberpunk_AlexSharking
+      objectReference: {fileID: 0}
+    - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
+        type: 3}
+      propertyPath: levels.Array.data[13].sceneName
+      value: Cyberpunk_Pyramid
+      objectReference: {fileID: 0}
+    - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
+        type: 3}
+      propertyPath: levels.Array.data[14].sceneName
+      value: Cyberpunk_Pyramid1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
+        type: 3}
+      propertyPath: levels.Array.data[15].sceneName
+      value: Cyberpunk_Cavern
+      objectReference: {fileID: 0}
+    - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
+        type: 3}
+      propertyPath: levels.Array.data[16].sceneName
+      value: Cyberpunk_Cavern 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
+        type: 3}
+      propertyPath: levels.Array.data[17].sceneName
+      value: CyberpunkRoom1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
+        type: 3}
+      propertyPath: levels.Array.data[18].sceneName
+      value: Cyberpunk_MovingPlats
+      objectReference: {fileID: 0}
+    - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
+        type: 3}
+      propertyPath: levels.Array.data[19].sceneName
+      value: Cyberpunk_Split
       objectReference: {fileID: 0}
     - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
         type: 3}
@@ -186,7 +350,17 @@ PrefabInstance:
     - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
         type: 3}
       propertyPath: specificLevels.Array.data[0].levelNum
-      value: 5
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
+        type: 3}
+      propertyPath: specificLevels.Array.data[1].levelNum
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
+        type: 3}
+      propertyPath: specificLevels.Array.data[2].levelNum
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
         type: 3}
@@ -195,28 +369,58 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
         type: 3}
+      propertyPath: specificLevels.Array.data[1].levels.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
+        type: 3}
+      propertyPath: specificLevels.Array.data[2].levels.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
+        type: 3}
       propertyPath: specificLevels.Array.data[0].levels.Array.data[0].chance
-      value: 100
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
+        type: 3}
+      propertyPath: specificLevels.Array.data[1].levels.Array.data[0].chance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
+        type: 3}
+      propertyPath: specificLevels.Array.data[2].levels.Array.data[0].chance
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
         type: 3}
       propertyPath: specificLevels.Array.data[0].levels.Array.data[0].sceneName
-      value: North First Encounter
+      value: SpiritShopRoom
+      objectReference: {fileID: 0}
+    - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
+        type: 3}
+      propertyPath: specificLevels.Array.data[1].levels.Array.data[0].sceneName
+      value: SpiritShopRoom
+      objectReference: {fileID: 0}
+    - target: {fileID: 2840381153309578769, guid: d14585abf46b0db47a3386cf3b6a395a,
+        type: 3}
+      propertyPath: specificLevels.Array.data[2].levels.Array.data[0].sceneName
+      value: SpiritShopRoom
       objectReference: {fileID: 0}
     - target: {fileID: 7028998140566284846, guid: d14585abf46b0db47a3386cf3b6a395a,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 16.2
+      value: 199.9
       objectReference: {fileID: 0}
     - target: {fileID: 7028998140566284846, guid: d14585abf46b0db47a3386cf3b6a395a,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.84
+      value: -13.7
       objectReference: {fileID: 0}
     - target: {fileID: 7028998140566284846, guid: d14585abf46b0db47a3386cf3b6a395a,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7028998140566284846, guid: d14585abf46b0db47a3386cf3b6a395a,
         type: 3}

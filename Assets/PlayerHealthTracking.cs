@@ -50,7 +50,7 @@ public class PlayerHealthTracking : MonoBehaviour
 
         // set health to maximum if we've just spawned in the hub world
         levelSwitchingScript = FindFirstObjectByType<LevelSwitching>();
-        if (SceneManager.GetActiveScene().name.Equals(levelSwitchingScript.GetHomeWorld()))
+        if (levelSwitchingScript && SceneManager.GetActiveScene().name.Equals(levelSwitchingScript.GetHomeWorld()))
         {
             UpdateTrackedHealth(PlayerID.instance.GetComponent<Health>().GetStats().ComputeValue("Max Health"));
         }

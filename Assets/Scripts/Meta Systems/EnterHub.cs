@@ -11,31 +11,41 @@ public class EnterHub : MonoBehaviour
     [SerializeField] GhostInteract north;
     [SerializeField] ConvoSO northHubEntrance;
     [SerializeField] ConvoSO northMaxTrust;
+    [SerializeField] ConvoSO northStartSB3;
 
     [Header("Eva")]
     [SerializeField] GhostInteract eva;
     [SerializeField] ConvoSO evaHubEntrance;
     [SerializeField] ConvoSO evaMaxTrust;
+    [SerializeField] ConvoSO evaStartSB3;
 
     [Header("Akihito")]
     [SerializeField] GhostInteract akihito;
     [SerializeField] ConvoSO akihitoHubEntrance;
     [SerializeField] ConvoSO akihitoMaxTrust;
+    [SerializeField] ConvoSO akihitoStartSB3;
 
     [Header("Yume")]
     [SerializeField] GhostInteract yume;
     [SerializeField] ConvoSO yumeHubEntrance;
     [SerializeField] ConvoSO yumeMaxTrust;
+    [SerializeField] ConvoSO yumeStartSB3;
 
     [Header("Silas")]
     [SerializeField] GhostInteract silas;
     [SerializeField] ConvoSO silasHubEntrance;
     [SerializeField] ConvoSO silasMaxTrust;
+    [SerializeField] ConvoSO silasStartSB3;
 
     [Header("Aegis")]
     [SerializeField] GhostInteract aegis;
     [SerializeField] ConvoSO aegisHubEntrance;
     [SerializeField] ConvoSO aegisMaxTrust;
+    [SerializeField] ConvoSO aegisStartSB3;
+
+    [Header("Death")]
+    [SerializeField] DialogueTriggerBox death;
+    [SerializeField] ConvoSO deathFirstDeath;
 
     void Awake()
     {
@@ -51,6 +61,36 @@ public class EnterHub : MonoBehaviour
 
     void Start()
     {
+        // Death/Orion
+        if (death && SaveManager.data.death == 1) // First Death encounter
+        {
+            death.gameObject.SetActive(true);
+            death.SetConvo(deathFirstDeath);
+            StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
+            sp.Init(deathFirstDeath.data.convoName, "death", 2, true);
+        }
+        if (death && SaveManager.data.orion == 1) // beating nova point
+        {
+
+        }
+        if (death && SaveManager.data.orion == 2) // beating shigora
+        {
+
+        }
+        if (death && SaveManager.data.orion == 3) // beating caladria
+        {
+
+        }
+        if (death && SaveManager.data.orion == 4) // finishing wheat field? unlock oldrion
+        {
+
+        }
+        if (death && SaveManager.data.orion == 5) // beating oldrion
+        {
+
+        }
+
+
         // North
         if (north && SaveManager.data.north.storyProgress == 0)
         {
@@ -73,6 +113,13 @@ public class EnterHub : MonoBehaviour
             StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
             sp.Init(northMaxTrust.data.convoName, "north", 5, false);
             north.SetConvo(northMaxTrust);
+        }
+        // load North starting story beat 3
+        if (SaveManager.data.north.storyProgress == 5 && SaveManager.data.ghostLevel["North-Police_Chief"] > 9)
+        {
+            StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
+            sp.Init(northStartSB3.data.convoName, "north", 6, false);
+            north.SetConvo(northStartSB3);
         }
 
         // Eva
@@ -98,6 +145,13 @@ public class EnterHub : MonoBehaviour
             sp.Init(evaMaxTrust.data.convoName, "eva", 5, false);
             eva.SetConvo(evaMaxTrust);
         }
+        // load Eva starting story beat 3
+        if (SaveManager.data.eva.storyProgress == 5 && SaveManager.data.ghostLevel["Eva-Idol"] > 9)
+        {
+            StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
+            sp.Init(evaStartSB3.data.convoName, "eva", 6, false);
+            eva.SetConvo(evaStartSB3);
+        }
 
         // Akihito
         if (akihito && SaveManager.data.akihito.storyProgress == 0)
@@ -121,6 +175,13 @@ public class EnterHub : MonoBehaviour
             StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
             sp.Init(akihitoMaxTrust.data.convoName, "akihito", 5, false);
             akihito.SetConvo(akihitoMaxTrust);
+        }
+        // load Akihito starting story beat 3
+        if (SaveManager.data.akihito.storyProgress == 5 && SaveManager.data.ghostLevel["Akihito-Samurai"] > 9)
+        {
+            StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
+            sp.Init(akihitoStartSB3.data.convoName, "akihito", 6, false);
+            akihito.SetConvo(akihitoStartSB3);
         }
 
         // Yume
@@ -146,6 +207,13 @@ public class EnterHub : MonoBehaviour
             sp.Init(yumeMaxTrust.data.convoName, "yume", 5, false);
             yume.SetConvo(yumeMaxTrust);
         }
+        // load Yume starting story beat 3
+        if (SaveManager.data.yume.storyProgress == 5 && SaveManager.data.ghostLevel["Yume-Seamstress"] > 9)
+        {
+            StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
+            sp.Init(yumeStartSB3.data.convoName, "yume", 6, false);
+            yume.SetConvo(yumeStartSB3);
+        }
 
         // Silas
         if (silas && SaveManager.data.silas.storyProgress == 0)
@@ -170,6 +238,13 @@ public class EnterHub : MonoBehaviour
             sp.Init(silasMaxTrust.data.convoName, "silas", 5, false);
             silas.SetConvo(silasMaxTrust);
         }
+        // load Silas starting story beat 3
+        if (SaveManager.data.silas.storyProgress == 5 && SaveManager.data.ghostLevel["Silas-PlagueDoc"] > 9)
+        {
+            StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
+            sp.Init(silasStartSB3.data.convoName, "silas", 6, false);
+            silas.SetConvo(silasStartSB3);
+        }
 
         // Aegis
         if (aegis && SaveManager.data.aegis.storyProgress == 0)
@@ -193,6 +268,13 @@ public class EnterHub : MonoBehaviour
             StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
             sp.Init(aegisMaxTrust.data.convoName, "aegis", 5, false);
             aegis.SetConvo(aegisMaxTrust);
+        }
+        // load Aegis starting story beat 3
+        if (SaveManager.data.aegis.storyProgress == 5 && SaveManager.data.ghostLevel["Aegis-King"] > 9)
+        {
+            StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
+            sp.Init(aegisStartSB3.data.convoName, "aegis", 6, false);
+            aegis.SetConvo(aegisStartSB3);
         }
     }
 }
