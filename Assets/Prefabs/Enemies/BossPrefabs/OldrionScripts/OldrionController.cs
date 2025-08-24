@@ -20,6 +20,8 @@ public class OldrionController : BossController
     [SerializeField] List<float> heavyCooldowns = new List<float>();
     [SerializeField] string dashActionName;
     [SerializeField] List<float> dashCooldowns = new List<float>();
+    [SerializeField] string comboActionName;
+    [SerializeField] List<float> comboCooldowns = new List<float>();
 
     [Header("Spirit Crushing Shenanigans")]
     DropManager dropManager;
@@ -101,6 +103,7 @@ public class OldrionController : BossController
         actionPool.GetActionByName(lightActionName).SetCoolDown(lightCooldowns[phaseIndex]);
         actionPool.GetActionByName(heavyActionName).SetCoolDown(heavyCooldowns[phaseIndex]);
         actionPool.GetActionByName(dashActionName).SetCoolDown(dashCooldowns[phaseIndex]);
+        actionPool.GetActionByName(comboActionName).SetCoolDown(comboCooldowns[phaseIndex]);
     }
     void StartPrismaticSpiritCrush()
     {

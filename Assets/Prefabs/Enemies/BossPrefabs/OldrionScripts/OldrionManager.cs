@@ -6,6 +6,9 @@ using UnityEngine;
 public class OldrionManager : EnemyStateManager
 {
 
+    OldrionComboManager comboManager;
+    bool combo;
+
     [Header("Light vals")]
     [SerializeField] DamageContext lightDamage;
     [SerializeField] float lightDamageVal;
@@ -27,9 +30,15 @@ public class OldrionManager : EnemyStateManager
     [SerializeField] Collider2D dashCollider;
     bool crushing; // mirrors the boolean variable of the same name in oldrionController
 
+    void Start()
+    {
+        base.Start();
+        comboManager = GetComponent<OldrionComboManager>();
+    }
+
     protected override void FixedUpdate()
     {
-        if (crushing)
+        if (crushing || combo)
         {
             SwitchState(BusyState);
         }
@@ -43,6 +52,12 @@ public class OldrionManager : EnemyStateManager
     {
         lightDamage.damage = lightDamageVal;
         GenerateDamageFrame(lightTrigger.position, lightTrigger.lossyScale.x, lightTrigger.lossyScale.y, lightDamage, gameObject);
+    }
+    void OnEnterLight1()
+    {
+        animator.ResetTrigger("light1_recent");
+        if (lastLightAttackPerformed == 1)
+            animator.SetTrigger("light1_recent");
     }
     void OnStartLight1()
     {
@@ -99,15 +114,47 @@ public class OldrionManager : EnemyStateManager
     {
         GenerateDamageFrame(tform.position, tform.lossyScale.x, tform.lossyScale.y, context, this.gameObject);
     }
+    void OnEnterComboSeed()
+    {
+        combo = true;
+        comboManager.StartCombo();
+        PlayNextActionFromCombo();
+    }
+    void OnExitComboSeed()
+    {
+        print("EXIT!");
+        combo = false;
+        OnFinishAnimation();
+    }
+    void PlayNextActionFromCombo()
+    {
+        // manual flip to face player
 
+        if (player.position.x - transform.position.x < 0)
+        {
+            Flip(false);
+        }
+        else
+        {
+            Flip(true);
+        }
+
+        Action nextAction = comboManager.GetNextAction();
+        print(nextAction);
+        print(nextAction.name);
+        nextAction.PlayNoCD(GetComponent<EnemyStateManager>(), 0.0f);
+    }
     protected override void OnFinishAnimation()
     {
-        ComboCheck();
-        base.OnFinishAnimation();
-    }
-    void ComboCheck()
-    {
-        print("what a bum u are >:(");
+        StopAllActions();
+        if (combo)
+        {
+            PlayNextActionFromCombo();
+        }
+        else
+        {
+            base.OnFinishAnimation();
+        }
     }
     protected override void OnDrawGizmos()
     {
@@ -128,6 +175,7 @@ public class OldrionManager : EnemyStateManager
     {
         lightVisual1.SetActive(false);
         lightVisual2.SetActive(false);
+        heavyVisual.SetActive(false);
         rb.velocity = Vector2.zero;
     }
     public void SetEnemyManagerCrushing(bool val)

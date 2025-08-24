@@ -178,6 +178,7 @@ Transform:
   - {fileID: 6452902896263312523}
   - {fileID: 7762960872795652108}
   - {fileID: 2792925636810783855}
+  - {fileID: 5125563314908589775}
   - {fileID: 979453570667923471}
   - {fileID: 706603998105684647}
   - {fileID: 8032115573745365644}
@@ -276,6 +277,11 @@ MonoBehaviour:
   - 10
   - 5
   - 4
+  comboActionName: ComboSeed
+  comboCooldowns:
+  - 15
+  - 12
+  - 10
   fullHealContext:
     healing: 0
     actionID: 17
@@ -330,6 +336,13 @@ MonoBehaviour:
     usesCircleHitbox: 0
     coolDown: 100
     animationClip: {fileID: 7400000, guid: 436192be2f292bb4282d4505067e5581, type: 2}
+  - name: ComboSeed
+    priority: 4
+    ready: 1
+    hitBox: {fileID: 5125563314908589775}
+    usesCircleHitbox: 1
+    coolDown: 10
+    animationClip: {fileID: 7400000, guid: 5cf30f886c0186e40896ab5400f8bd36, type: 2}
   move:
     name: 
     priority: 0
@@ -411,6 +424,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e79124e3e4e46af4db3714621d5901ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  combos:
+  - actionList:
+    - Dash
+    - Heavy
+    - Dash
+    - Heavy
+    - Dash
+    - Heavy
+    index: 0
+  - actionList:
+    - Dash
+    - Light
+    - Light
+    - Light
+    - Light
+    index: 0
+  inCombo: 0
+  comboExitAction:
+    name: EndCombo
+    priority: 0
+    ready: 1
+    hitBox: {fileID: 0}
+    usesCircleHitbox: 0
+    coolDown: 0
+    animationClip: {fileID: 7400000, guid: e1fbc2b893dccf64da1b7666139f9676, type: 2}
+  comboBufferAction:
+    name: ComboBuffer
+    priority: 0
+    ready: 1
+    hitBox: {fileID: 0}
+    usesCircleHitbox: 0
+    coolDown: 0
+    animationClip: {fileID: 7400000, guid: 2bb80e82a9e01314a9abdec605c4489f, type: 2}
 --- !u!50 &7224273156922498524
 Rigidbody2D:
   serializedVersion: 4
@@ -617,6 +663,37 @@ MonoBehaviour:
     chance: 1
     minCount: 50
     maxCount: 60
+--- !u!1 &1540249541911225917
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5125563314908589775}
+  m_Layer: 0
+  m_Name: ComboTriggerBox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5125563314908589775
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1540249541911225917}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 6, y: 6, z: 6}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 2169665675169712656}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2082071942037601673
 GameObject:
   m_ObjectHideFlags: 0
@@ -679,8 +756,8 @@ Transform:
   m_GameObject: {fileID: 2450188906267291067}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.3695, y: -0.1814, z: -0.015039382}
-  m_LocalScale: {x: 17.523987, y: 1.8920771, z: 0.7692308}
+  m_LocalPosition: {x: 0.0193, y: 0.1906, z: -0.015039382}
+  m_LocalScale: {x: 17.6676, y: 2.6360419, z: 0.7692308}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2169665675169712656}

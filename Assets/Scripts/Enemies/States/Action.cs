@@ -29,6 +29,10 @@ public class Action
         enemy.animator.CrossFade(animationClip.name, fadeDuration);
         enemy.pool.DoCoolDown(this);
     }
+    public void PlayNoCD(EnemyStateManager enemy, float fadeDuration = 0.2f)
+    {
+        enemy.animator.Play(animationClip.name);
+    }
 
     /// <summary>
     /// Finds if a Player is in range
