@@ -55,16 +55,21 @@ public class PlayerHealth : Health
 
         healthProportion = currentHealth / maxHealth;
 
+        // Mortal Wound Check
         if (healthProportion <= thresholdTwo)
         {
             Wounded = false;
             MortallyWounded = true;
         }
+
+        // Wound Check
         else if (healthProportion <= thresholdOne)
         {
             Wounded = true;
             MortallyWounded = false;
         }
+
+        // Healthy Check
         else
         {
             Wounded = false;
@@ -72,15 +77,25 @@ public class PlayerHealth : Health
         }
     }
 
+
+
     public override float Heal(HealingContext context, GameObject healer)
     {
         if (MortallyWounded)
         {
             context.healing = Mathf.Clamp(context.healing, 0, thresholdTwo * maxHealth - currentHealth);
+            if (currentHealth == (thresholdTwo * maxHealth))
+            {
+                context.healing = 0f;
+            }
         }
         else if (Wounded)
         {
             context.healing = Mathf.Clamp(context.healing, 0, thresholdOne * maxHealth - currentHealth);
+            if (currentHealth == (thresholdOne * maxHealth))
+            {
+                context.healing = 0f;
+            }
         }
         return base.Heal(context, healer);
     }
@@ -99,23 +114,27 @@ public class PlayerHealth : Health
             }
 
             // if light amount of damage
-            if (context.damage < 25f)
+            if (!context.isCriticalHit)
             {
                 AudioManager.Instance.VABranch.PlayVATrack(PartyManager.instance.selectedGhost + " Light Damage Taken");
                 return;
             }
 
             // if heavy damage taken
-            if (context.damage >= 25f)
+            if (context.isCriticalHit)
             {
                 AudioManager.Instance.VABranch.PlayVATrack(PartyManager.instance.selectedGhost + " Significant Damage Taken");
             }
         }
     }
 
+
+
+    // Dodge Chance Handler
     private void CheckDodgeChance(ref DamageContext context)
     {
         if (!context.victim.CompareTag("Player")) return;
+        if (context.damageTypes.Contains(DamageType.STATUS) || context.damageTypes.Contains(DamageType.ENVIRONMENTAL)) return;
 
         if (Random.Range(1000f, 2000f) > stats.ComputeValue("Dodge Chance")) return;
         context.damage = 0f;

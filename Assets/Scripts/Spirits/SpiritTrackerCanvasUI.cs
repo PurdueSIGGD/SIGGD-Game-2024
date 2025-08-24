@@ -25,7 +25,7 @@ public class SpiritTrackerCanvasUI : MonoBehaviour
 
     void SwitchCounterType(Scene s0, Scene s1)
     {
-        bool fromSaveManager = s1.name.Equals("Eva Start Fractal Hub");
+        bool fromSaveManager = s1.name.Equals("Eva Start Fractal Hub") || s1.name.Equals("HubWorld");
 
         foreach (SpiritCounterUI counter in spiritCounters)
         {

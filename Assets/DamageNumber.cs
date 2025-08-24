@@ -13,6 +13,7 @@ public class DamageNumber : MonoBehaviour
     [SerializeField] private Image messageIcon;
     [SerializeField] private TextMeshProUGUI messageText;
     [SerializeField] private Color damageDealtColor;
+    [SerializeField] private Color critDealtColor;
     [SerializeField] private Color damageTakenColor;
     [SerializeField] private Color healingReceivedColor;
     [SerializeField] private float thickTextOutlineWidth;
@@ -35,6 +36,8 @@ public class DamageNumber : MonoBehaviour
     [SerializeField] private CharacterSO yumeSO;
     [SerializeField] private CharacterSO silasSO;
     [SerializeField] private CharacterSO kingAegisSO;
+
+    [SerializeField] private Sprite critIcon;
 
     private DamageNumberManager manager;
     private GameObject owner;
@@ -204,7 +207,7 @@ public class DamageNumber : MonoBehaviour
         SetManager(manager);
         SetOwner(owner);
         nextColor = color;
-        PlayMessage(value, icon, message, color);
+        PlayMessage(value, icon, message, color, true);
     }
 
 
@@ -231,7 +234,13 @@ public class DamageNumber : MonoBehaviour
             SetColorByGhostAction(context);
             UseDamageDealtSettings();
         }
-        PlayMessage(context.damage);
+        if (context.isCriticalHit)
+        {
+            Color critColor = (context.victim == PlayerID.instance.gameObject) ? damageTakenColor : critDealtColor;
+            PlayMessage(context.damage, critIcon, null, null, "!", critColor, false);
+            return;
+        }
+        PlayMessage(context.damage, context.icon);
     }
 
     
@@ -269,10 +278,10 @@ public class DamageNumber : MonoBehaviour
         PlayMessage(value, icon, message, null, null);
     }
 
-    public void PlayMessage(float value, Sprite icon, string message, Color color)
+    public void PlayMessage(float value, Sprite icon, string message, Color color, bool useMessageSettings)
     {
         nextColor = color;
-        UseMessageSetttings();
+        if (useMessageSettings) UseMessageSetttings();
         PlayMessage(value, icon, message);
     }
 
@@ -313,10 +322,10 @@ public class DamageNumber : MonoBehaviour
         timer = durationTime;
     }
 
-    public void PlayMessage(float value, Sprite icon, string message, string prependMessage, string appendMessage, Color color)
+    public void PlayMessage(float value, Sprite icon, string message, string prependMessage, string appendMessage, Color color, bool useMessageSettings)
     {
         nextColor = color;
-        UseMessageSetttings();
+        if (useMessageSettings) UseMessageSetttings();
         PlayMessage(value, icon, message, prependMessage, appendMessage);
     }
 

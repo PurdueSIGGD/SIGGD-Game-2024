@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -33,7 +34,7 @@ public class Health : MonoBehaviour, IDamageable, IStatList
         context.attacker = attacker;
         context.victim = gameObject;
         context.trueDamage = context.damage;
-        context.damage = Mathf.Clamp(context.damage, 0f, currentHealth);
+        //context.damage = Mathf.Clamp(context.damage, 0f, currentHealth);
         context.invokingScript = this;
 
         // potential alternative implementation of the foreach header:
@@ -45,9 +46,34 @@ public class Health : MonoBehaviour, IDamageable, IStatList
             Debug.Log("After Filter " + filter + ": " + context.damage);
         }
 
-
         // Resistance
         context.damage *= 1.0f - damageResistance;
+
+        // Clamp damage dealt
+        context.damage = Mathf.Clamp(context.damage, 0f, currentHealth);
+
+        // Handle mortal wounds
+        if (gameObject.Equals(PlayerID.instance.gameObject))
+        {
+            float damagedHealth = currentHealth - context.damage;
+            if (currentHealth > (stats.ComputeValue("Wounded Threshold") * stats.ComputeValue("Max Health")) &&
+                damagedHealth <= (stats.ComputeValue("Wounded Threshold") * stats.ComputeValue("Max Health")))
+            {
+                context.isCriticalHit = true;
+                context.damageStrength = DamageStrength.HEAVY;
+            }
+            if (currentHealth > (stats.ComputeValue("Mortal Wound Threshold") * stats.ComputeValue("Max Health")) &&
+                damagedHealth <= (stats.ComputeValue("Mortal Wound Threshold") * stats.ComputeValue("Max Health")))
+            {
+                context.isCriticalHit = true;
+                context.damageStrength = DamageStrength.HEAVY;
+            }
+            if (damagedHealth <= 0f)
+            {
+                context.isCriticalHit = true;
+                context.damageStrength = DamageStrength.HEAVY;
+            }
+        }
 
         Debug.Log("Damaged: " + context.damage);
 
@@ -101,7 +127,7 @@ public class Health : MonoBehaviour, IDamageable, IStatList
         context.healer = healer;
         context.healee = gameObject;
         context.trueHealing = context.healing;
-        context.healing = Mathf.Clamp(context.healing, 0f, missingHealth);
+        //context.healing = Mathf.Clamp(context.healing, 0f, missingHealth);
         context.invokingScript = this;
 
         foreach (GameplayEventHolder.HealingFilterEvent filter in GameplayEventHolder.OnHealingFilter)
@@ -109,8 +135,11 @@ public class Health : MonoBehaviour, IDamageable, IStatList
             filter(ref context);
         }
 
+        // Clamp healing provided
+        context.healing = Mathf.Clamp(context.healing, 0f, missingHealth);
+
         // Increase current health
-        currentHealth += context.healing;
+        if (isAlive) currentHealth += context.healing;
 
         // Trigger events
         GameplayEventHolder.OnHealingDealt?.Invoke(context);

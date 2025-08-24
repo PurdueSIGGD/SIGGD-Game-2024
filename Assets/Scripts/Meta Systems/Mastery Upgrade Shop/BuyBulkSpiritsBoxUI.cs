@@ -8,7 +8,7 @@ public class BuyBulkSpiritsBoxUI : MonoBehaviour
 {
     [SerializeField] public Spirit.SpiritType spiritType;
     [SerializeField] private static int bulkAmount = 1000; // how much to buy
-    [SerializeField] private static int bulkPrice = 50; // Price in Pink spirits
+    [SerializeField] private static int bulkPrice = 300; // Price in Pink spirits
 
     [Header("UI")]
     [SerializeField] private TMP_Text bulkAmountText;
@@ -20,7 +20,7 @@ public class BuyBulkSpiritsBoxUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        bulkAmountText.text = "+" + bulkAmount + " SPIRITS";
+        bulkAmountText.text = "+" + bulkAmount;
         spiritTracker = PersistentData.Instance.GetComponent<SpiritTracker>();
         buySpiritsButton.onClick.AddListener(TryBuySpirits);
         buySpiritsButtonText.text = "" + bulkPrice;

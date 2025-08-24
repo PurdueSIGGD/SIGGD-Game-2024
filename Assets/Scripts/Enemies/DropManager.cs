@@ -36,7 +36,8 @@ public class DropManager : MonoBehaviour
 
                 // Decdie how much to drop
                 r = UnityEngine.Random.value;
-                float dropCount = (int)((drop.maxCount - drop.minCount) * r + drop.minCount);
+                int dropCount = (int)((drop.maxCount - drop.minCount) * r + drop.minCount);
+                dropCount = Mathf.RoundToInt(dropCount * PlayerID.instance.GetComponent<PlayerBuffStats>().GetStats().ComputeValue("Spirit Drop Rate Boost"));
 
                 float xDeviation = -0.0003f;
                 float yDeviation = 0.00003f;

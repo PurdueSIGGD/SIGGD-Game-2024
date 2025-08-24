@@ -8,6 +8,10 @@ public class CharacterSO : ScriptableObject
 
     public Sprite characterIcon;
 
+    public Sprite hudIcon;
+
+    public float hudIconYOffset;
+
     public Color primaryColor;
 
     public Color highlightColor;
@@ -18,12 +22,16 @@ public class CharacterSO : ScriptableObject
 
     public Sprite basicAbilityIcon;
 
+    public PlayerActionInput basicAbilityInput;
+
     public string basicAbilityName;
 
     [TextArea]
     public string basicAbilityDescription;
 
     public Sprite specialAbilityIcon;
+
+    public PlayerActionInput specialAbilityInput;
 
     public string specialAbilityName;
 
@@ -39,4 +47,13 @@ public class CharacterSO : ScriptableObject
     }
 
     public List<ExpressionList> expressionList = new List<ExpressionList>();
+}
+
+public enum PlayerActionInput
+{
+    NONE,
+    LEFT_CLICK,
+    RIGHT_CLICK,
+    LEFT_SHIFT,
+    S,
 }
