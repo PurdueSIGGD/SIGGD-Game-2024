@@ -36,6 +36,13 @@ public class FirstCombatTutorialRoom : MonoBehaviour
 
     private void SetNextRoom()
     {
+        StartCoroutine(DoTheThing());
+    }
+
+    private IEnumerator DoTheThing()
+    {
+        ScreenFader.instance.FadeOut();
+        yield return new WaitForSeconds(ScreenFader.instance.fadeOutDuration + 0.1f);
         SceneManager.LoadScene("Prologue_3");
     }
 }

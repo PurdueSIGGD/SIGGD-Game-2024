@@ -53,6 +53,8 @@ public class YumeSpecial : MonoBehaviour
 
             // fire any events waiting for special ability to activate
             GameplayEventHolder.OnAbilityUsed.Invoke(manager.specialContext);
+
+            AudioManager.Instance.VABranch.PlayVATrack("Yume-Seamstress Thread Throw");
         }
     }
 

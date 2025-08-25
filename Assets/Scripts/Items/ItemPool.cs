@@ -90,6 +90,7 @@ public class ItemPool : MonoBehaviour
             itemList.Remove(item);
             ownedItems.Add(item);
             item.owned = true;
+            PlayerID.instance.GetComponent<ItemBuffs>().EquipItem(item);
         }
         return success;
     }

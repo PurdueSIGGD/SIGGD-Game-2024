@@ -152,7 +152,7 @@ public class Crow : EnemyStateManager
     }
     void RedLightOn(bool val)
     {
-        redLight.SetActive(val);
-        greenLight.SetActive(!val);
+        //redLight.SetActive(val);
+        //greenLight.SetActive(!val);
     }
 }

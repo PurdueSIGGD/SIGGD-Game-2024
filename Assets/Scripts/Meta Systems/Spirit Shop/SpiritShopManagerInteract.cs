@@ -35,7 +35,7 @@ public class SpiriShopManagerInteract : InRangeInteract
         }
         else
         {
-            InteractOption opt1 = new InteractOption("Open Shop", OpenSpiritShopUI);
+            InteractOption opt1 = new InteractOption("Heal", OpenSpiritShopUI);
             InteractOption[] options = { opt1 };
             return options;
         }
@@ -45,6 +45,10 @@ public class SpiriShopManagerInteract : InRangeInteract
     {
         spiritShopManager.OpenShopUI();
         spiritShopManager.turnCompleted = false;
+
+        Health playerHealth = PlayerID.instance.GetComponent<Health>();
+        playerHealth.currentHealth = Mathf.Min((playerHealth.currentHealth + (playerHealth.GetStats().ComputeValue("Max Health") * playerHealth.GetStats().ComputeValue("Mortal Wound Threshold"))),
+                                               playerHealth.GetStats().ComputeValue("Max Health"));
     }
 
     // ==============================

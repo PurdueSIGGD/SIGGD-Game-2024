@@ -47,7 +47,7 @@ public class PlayerDeathManager : MonoBehaviour
     /// </summary>
     public void PlayDeathAnim()
     {
-
+        GetComponent<PartyManager>().SwitchGhostToIndex(-1);
         playerAnim.SetBool("died", true);
         playerAnim.SetTrigger("DED");
         camAnim.SetBool("isDead", true);
@@ -144,6 +144,7 @@ public class PlayerDeathManager : MonoBehaviour
             }
             // make the player die for real if no sacrifices occured here
             gameObject.SetActive(false);
+            AudioManager.Instance.SFXBranch.PlaySFXTrack("RespawnInOblivionSFX");
             SceneManager.LoadScene(respawnScene);
         }
 

@@ -55,5 +55,7 @@ public class PlagueDoctorSpecial : MonoBehaviour
         Vector2 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         Vector2 playerPos = PlayerID.instance.transform.position;
         bottle.GetComponent<Rigidbody2D>().velocity = (mousePos - playerPos).normalized * manager.GetStats().ComputeValue("Special Bomb Speed");
+
+        AudioManager.Instance.VABranch.PlayVATrack("Silas-PlagueDoc Blight Throw");
     }
 }

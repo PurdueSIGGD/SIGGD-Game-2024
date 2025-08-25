@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using static Spirit;
 
@@ -38,9 +39,34 @@ public class SpiritTracker : MonoBehaviour
                 break;
         }
 
+        // play sfx
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("Spirit Collected");
+
         // UI
         SpiritTrackerCanvasUI.Instance?.UpdateCounters();
 
+    }
+
+    public void AddRunSpirits(Spirit.SpiritType spiritType, int spirits)
+    {
+        switch (spiritType)
+        {
+            case Spirit.SpiritType.Blue:
+                blueSpiritsCollected += spirits;
+                break;
+            case Spirit.SpiritType.Red:
+                redSpiritsCollected += spirits;
+                break;
+            case Spirit.SpiritType.Yellow:
+                yellowSpiritsCollected += spirits;
+                break;
+            case Spirit.SpiritType.Pink:
+                pinkSpiritsCollected += spirits;
+                break;
+        }
+
+        // UI
+        SpiritTrackerCanvasUI.Instance?.UpdateCounters();
     }
 
 

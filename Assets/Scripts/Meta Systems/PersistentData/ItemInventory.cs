@@ -14,6 +14,8 @@ public class ItemInventory : MonoBehaviour
     [SerializeField]
     public List<ItemSO> yellowItemPool;
 
+    [HideInInspector] public int battleScarsStacks = 0;
+
     void Start()
     {
         ownedItems = new();
