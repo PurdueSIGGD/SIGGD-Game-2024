@@ -50,16 +50,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Damage
-    value: 20
-  speed: 20
+    value: 4
+  speed: 30
   projectileDamage:
     damageStrength: 1
     damageTypes: 01000000
     actionID: 17
     actionTypes: 07000000
     extraContext: GREG Projectile
-  range: 25
+    ghostID: 0
+  range: 200
   target: Player
+  parried: 0
 --- !u!61 &2646517134290584728
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -152,7 +154,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: a15ba4baf2993b147af8e3c8aac56090, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

@@ -1,18 +1,20 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class KingBasic : MonoBehaviour
 {
     private PlayerStateMachine playerStateMachine;
+    private GameObject shieldCircle;
 
     [HideInInspector] public KingManager manager;
     [HideInInspector] public bool isShielding;
-
-    private GameObject shieldCircle;
+    private Camera mainCamera;
 
     // Start is called before the first frame update
     void Start()
     {
         playerStateMachine = GetComponent<PlayerStateMachine>();
+        mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         isShielding = false;
     }
 
@@ -29,6 +31,14 @@ public class KingBasic : MonoBehaviour
             playerStateMachine.EnableTrigger("OPT");
             return;
         }
+        if (manager.recompenceAvaliable)
+        {
+            playerStateMachine.OnCooldown("recompence_avaliable");
+        }
+        else
+        {
+            playerStateMachine.OffCooldown("recompence_avaliable");
+        }
 
         // Set flag
         isShielding = true;
@@ -43,11 +53,12 @@ public class KingBasic : MonoBehaviour
 
     public void StopHeavyChargeUp()
     {
+        float maxHealth = manager.GetStats().ComputeValue("Shield Max Health");
+
         isShielding = false;
         if (manager.getBasicCooldown() <= 0f) manager.endShieldHealth = manager.currentShieldHealth;
-        float maxCooldown = manager.GetStats().ComputeValue("Shield Max Health") / manager.GetStats().ComputeValue("Shield Health Regeneration Rate");
-        float cooldownMultiplier = (manager.GetStats().ComputeValue("Shield Max Health") - manager.currentShieldHealth - manager.GetStats().ComputeValue("Shield Health Cooldown Threshold"))
-                                   / manager.GetStats().ComputeValue("Shield Max Health");
+        float maxCooldown = maxHealth / manager.GetStats().ComputeValue("Shield Health Regeneration Rate");
+        float cooldownMultiplier = (maxHealth - manager.currentShieldHealth + manager.GetStats().ComputeValue("Shield Health Cooldown Threshold")) / maxHealth;
         manager.setBasicCooldown(maxCooldown * cooldownMultiplier);
 
         // VFX
@@ -59,10 +70,13 @@ public class KingBasic : MonoBehaviour
 
     public void invincibilityFilter(ref DamageContext context)
     {
-        if (context.victim.tag != "Player") return;
+        if (!context.victim.CompareTag("Player")) return;
 
         // Shield damage absorb
         manager.currentShieldHealth = Mathf.Max(manager.currentShieldHealth - context.damage, 0f);
+
+        manager.TakeShieldDamage(Mathf.Max(manager.currentShieldHealth - context.damage, 0f));
+        
         context.damage = 0f;
 
         // Shield destroyed
@@ -93,5 +107,33 @@ public class KingBasic : MonoBehaviour
             // Cancel shield
             GetComponent<PlayerStateMachine>().EnableTrigger("OPT");
         }
+    }
+
+    public void DisableShield(bool disable)
+    {
+        if (disable)
+        {
+            manager.hasShield = false;
+            playerStateMachine.OffCooldown("has_shield");
+        }
+        else 
+        { 
+            manager.hasShield = true;
+            playerStateMachine.OnCooldown("has_shield"); 
+        }
+    }
+
+    // should only be avaliable with Recompence skill
+    private void StartThrowShield()
+    {
+        PlayerID.instance.gameObject.GetComponent<Move>().PlayerStop();
+        Vector2 target = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        GameObject shield = Instantiate(manager.thrownShield, transform.position, transform.rotation);
+        shield.GetComponent<KingThrownShield>().Init(this, (target - (Vector2)transform.position).normalized, manager.GetComponent<Recompence>().ComputeDamage());
+    }
+
+    private void StopThrowShield()
+    {
+        PlayerID.instance.gameObject.GetComponent<Move>().PlayerGo();
     }
 }

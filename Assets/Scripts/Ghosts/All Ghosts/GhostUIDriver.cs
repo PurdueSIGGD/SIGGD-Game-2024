@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GhostUIDriver : MonoBehaviour, ISelectable
@@ -40,22 +41,56 @@ public class GhostUIDriver : MonoBehaviour, ISelectable
     // Update is called once per frame
     protected virtual void Update()
     {
-        updatePartyStatus();
+        UpdatePartyStatus();
     }
 
-    private void updatePartyStatus()
+    public void UpdatePartyStatus()
     {
+
         if (!isInParty && partyManager.IsGhostInParty(ghostIdentity))
         {
+            List<GhostIdentity> ghostPartyList = partyManager.GetGhostPartyList();
+            int count = ghostPartyList.Count;
+
             isInParty = true;
             Color ghostColor = ghostIdentity.GetCharacterInfo().primaryColor;
-            if (partyManager.GetGhostPartyList().Count > 0 && partyManager.GetGhostPartyList()[0].Equals(ghostIdentity)) deselectedGhostUIManager = PlayerGhost1UIManager.instance;
-            if (partyManager.GetGhostPartyList().Count > 1 && partyManager.GetGhostPartyList()[1].Equals(ghostIdentity)) deselectedGhostUIManager = PlayerGhost2UIManager.instance;
+
+            if (count > 0 && ghostPartyList[0].Equals(ghostIdentity)) deselectedGhostUIManager = PlayerGhost1UIManager.instance;
+            if (count > 1 && ghostPartyList[1].Equals(ghostIdentity)) deselectedGhostUIManager = PlayerGhost2UIManager.instance;
+
             deselectedGhostUIManager.gameObject.SetActive(true);
             deselectedGhostUIManager.setBackgroundColor(ghostColor);
-            deselectedGhostUIManager.setIcon(ghostIdentity.GetCharacterInfo().characterIcon);
+            deselectedGhostUIManager.setIcon(ghostIdentity.GetCharacterInfo().hudIcon);
             deselectedGhostUIManager.setIconFrameColor(ghostColor);
             updateAbilityUI(false);
+        }
+        else if (isInParty && !partyManager.IsGhostInParty(ghostIdentity))
+        {
+            List<GhostIdentity> ghostPartyList = partyManager.GetGhostPartyList();
+            int count = ghostPartyList.Count;
+
+            isInParty = false;
+
+            ghostIdentity.TriggerExitPartyBehavior();
+
+            // switch to orion
+            PartyManager.instance.SwitchGhostToIndex(-1);
+
+            // remove from pedestal
+            deselectedGhostUIManager.gameObject.SetActive(false);
+
+            if (count == 1)
+            {
+                // For the other ghost, redraw
+                GhostUIDriver driver = ghostPartyList[0].gameObject.GetComponent<GhostUIDriver>();
+                driver.isInParty = false;
+                driver.deselectedGhostUIManager.gameObject.SetActive(false);
+                driver.UpdatePartyStatus();
+            }
+
+            // visualize orion
+            PartyManagerUI.instance.VisualizeOrion();
+
         }
     }
 
@@ -63,8 +98,9 @@ public class GhostUIDriver : MonoBehaviour, ISelectable
     {
         Color ghostColor = ghostIdentity.GetCharacterInfo().primaryColor;
         selectedGhostUIManager.setBackgroundColor(ghostColor);
+        selectedGhostUIManager.setBackground2Color(ghostColor);
         selectedGhostUIManager.setHealthBarFrameColor(ghostColor);
-        selectedGhostUIManager.setIcon(ghostIdentity.GetCharacterInfo().characterIcon);
+        selectedGhostUIManager.setIcon(ghostIdentity.GetCharacterInfo().hudIcon);
         selectedGhostUIManager.setIconFrameColor(ghostColor);
         meterUIManager.setBackgroundColor(ghostColor);
         updateAbilityUI(true);
@@ -74,7 +110,7 @@ public class GhostUIDriver : MonoBehaviour, ISelectable
     {
         Color ghostColor = ghostIdentity.GetCharacterInfo().primaryColor;
         deselectedGhostUIManager.setBackgroundColor(ghostColor);
-        deselectedGhostUIManager.setIcon(ghostIdentity.GetCharacterInfo().characterIcon);
+        deselectedGhostUIManager.setIcon(ghostIdentity.GetCharacterInfo().hudIcon);
         deselectedGhostUIManager.setIconFrameColor(ghostColor);
         meterUIManager.deactivateWidget();
         updateAbilityUI(false);

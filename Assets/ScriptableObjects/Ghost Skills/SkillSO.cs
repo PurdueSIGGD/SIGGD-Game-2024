@@ -10,4 +10,8 @@ public class SkillSO : ScriptableObject
     public Sprite sprite;
     [TextArea(4,4)] public string description;
     [TextArea(2, 2)] public string descriptionValue;
+    public string levelOneValue;
+    public string levelTwoValue;
+    public string levelThreeValue;
+    public string levelFourValue;
 }

@@ -33,7 +33,7 @@ public class TransparentPlatform : MonoBehaviour
     {
         // TODO: UNCOMMENT THIS!!!!!!!!!!!
         
-        if (coroutine == null && fallAction.ReadValue<float>() != 0 && isColliding)
+        if (coroutine == null && fallAction.ReadValue<float>() != 0)
         {
             coroutine = DisableCollider();
             StartCoroutine(coroutine);
@@ -61,16 +61,24 @@ public class TransparentPlatform : MonoBehaviour
         // ignore collision
         Physics2D.IgnoreCollision(playacol.GetComponent<Collider2D>(), GetComponent<CompositeCollider2D>(), true);
 
-        yield return new WaitUntil(checkIfColliding);
+        // Add Delay Before Reactivation
+        yield return new WaitForSeconds(0.3f);
+
+        // Wait Until Player Presses Button Again
+        yield return new WaitUntil(checkIfDownPress);
+
+        //yield return new WaitUntil(checkIfColliding);
+
+        
 
         // turning back collision
         Physics2D.IgnoreCollision(playacol.GetComponent<Collider2D>(), GetComponent<CompositeCollider2D>(), false);
         coroutine = null;
     }
 
-    private bool checkIfColliding()
+    private bool checkIfDownPress()
     {
-        return rb.velocity.y > 0;
+        return (fallAction.ReadValue<float>() == 0);
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -80,6 +88,7 @@ public class TransparentPlatform : MonoBehaviour
             isColliding = true;
         }
     }
+
     private void OnCollisionExit2D(Collision2D other)
     {
         if (other.gameObject.CompareTag("Player"))

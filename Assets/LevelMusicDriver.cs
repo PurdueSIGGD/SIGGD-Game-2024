@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class LevelMusicDriver : MonoBehaviour
 {
+    [HideInInspector] public static LevelMusicDriver instance;
+
     [SerializeField] private MusicTrackName roomMusicTrack;
     [SerializeField] private float baselineEnergyCrossfadeTime;
     [SerializeField] private float zeroEnergyCrossfadeTime;
@@ -39,6 +41,11 @@ public class LevelMusicDriver : MonoBehaviour
 
 
 
+    private void Awake()
+    {
+        instance = this;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -57,7 +64,7 @@ public class LevelMusicDriver : MonoBehaviour
             audioManager.MusicBranch.PlayMusicTrack(roomMusicTrack);
             return;
         }
-        audioManager.MusicBranch.CrossfadeTo(roomMusicTrack, 3f);
+        audioManager.MusicBranch.CrossfadeTo(roomMusicTrack, 2f);
     }
 
 

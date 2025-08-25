@@ -7,12 +7,15 @@ public class RaycastTracerHandler : MonoBehaviour
     [SerializeField] private float travelSpeed;
     [SerializeField] private float fadeOutDelayTime;
     [SerializeField] private float fadeOutDurationTime;
+    private float timer;
+    private Vector2 startPos;
+    private Vector2 endPos;
+    private float travelTime;
 
     private LineRenderer lineRenderer;
 
     void Awake()
     {
-        //StartCoroutine(fadeOutTracer());
         lineRenderer = GetComponent<LineRenderer>();
         lineRenderer.enabled = false;
     }
@@ -20,7 +23,11 @@ public class RaycastTracerHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (timer > 0)
+        {
+            timer -= Time.deltaTime;
+            lineRenderer.SetPosition(1, Vector2.Lerp(startPos, endPos, (travelTime - timer) / travelTime));
+        }
     }
 
     public void playTracer(Vector2 startPosition, Vector2 endPosition, float travelSpeed, Color startColor, Color endColor)
@@ -29,7 +36,7 @@ public class RaycastTracerHandler : MonoBehaviour
         lineRenderer.enabled = true;
         lineRenderer.startColor = startColor;
         lineRenderer.endColor = endColor;
-        StartCoroutine(extendTracer(startPosition, endPosition));
+        extendTracer(startPosition, endPosition);
         StartCoroutine(fadeOutTracer());
     }
 
@@ -48,19 +55,15 @@ public class RaycastTracerHandler : MonoBehaviour
         StartCoroutine(fadeOutTracer());
     }
 
-    private IEnumerator extendTracer(Vector2 startPosition, Vector2 endPosition)
+    private void extendTracer(Vector2 startPosition, Vector2 endPosition)
     {
         float distance = Vector2.Distance(startPosition, endPosition);
-        float travelTime = distance / travelSpeed;
+        travelTime = distance / travelSpeed;
         lineRenderer.SetPosition(0, startPosition);
         lineRenderer.SetPosition(1, startPosition);
-        int step = 20;
-        for (int i = 0; i < step; i++)
-        {
-            lineRenderer.SetPosition(1, Vector2.Lerp(startPosition, endPosition, (float) i / (float) step));
-            yield return new WaitForSeconds(travelTime / (float) step);
-        }
-        lineRenderer.SetPosition(1, endPosition);
+        startPos = startPosition;
+        endPos = endPosition;
+        timer = travelTime;
     }
 
     private IEnumerator fadeOutTracer()

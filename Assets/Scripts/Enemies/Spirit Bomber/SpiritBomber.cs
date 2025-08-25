@@ -10,8 +10,9 @@ public class SpiritBomber : EnemyStateManager
     [SerializeField] protected Transform bombSpawn;
     [SerializeField] protected Transform bombShoot;
 
-    public void Start()
+    protected override void Start()
     {
+        base.Start();
         GameObject playacol = GameObject.FindWithTag("Player");
         Physics2D.IgnoreCollision(GetComponent<Collider2D>(), playacol.GetComponent<Collider2D>());
     }

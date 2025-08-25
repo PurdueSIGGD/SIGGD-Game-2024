@@ -13,7 +13,17 @@ public class SFXManager : MonoBehaviour
 
     [SerializeField] private AudioLookUpTable lookUpTable;
 
+    public ISFXTrack GetSFXTrack(string trackName)
+    {
+        return lookUpTable.sfxTable[trackName];
+    }
+
     public void PlaySFXTrack(string trackName) {
+        if (!lookUpTable.sfxTable.ContainsKey(trackName))
+        {
+            Debug.LogError("Cannot find VA track recorded under name: " + trackName);
+            return;
+        }
         lookUpTable.sfxTable[trackName].PlayTrack();
     }
 

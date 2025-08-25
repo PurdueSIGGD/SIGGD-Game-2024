@@ -10,6 +10,6 @@ public class ManagePoliceSpecialState : StateMachineBehaviour
     }
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.gameObject.SendMessage("StopSpecialAttack", animator, SendMessageOptions.DontRequireReceiver);
+        animator.gameObject.SendMessage("StopSpecialAttack", null, SendMessageOptions.DontRequireReceiver);
     }
 }

@@ -41,10 +41,11 @@ public class StunMeter : MonoBehaviour, IStatList
         return strength switch
         {
             DamageStrength.MEAGER => 0f,
-            DamageStrength.LIGHT => 35f,
-            DamageStrength.MODERATE => 70f,
-            DamageStrength.HEAVY => 125f,
-            DamageStrength.DEVASTATING => 250f,
+            DamageStrength.MINOR => 20f,
+            DamageStrength.LIGHT => 40f,
+            DamageStrength.MODERATE => 80f,
+            DamageStrength.HEAVY => 120f,
+            DamageStrength.DEVASTATING => 400f,
             _ => 0f,
         };
     }

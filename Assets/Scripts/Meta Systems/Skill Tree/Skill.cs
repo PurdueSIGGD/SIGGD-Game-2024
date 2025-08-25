@@ -7,22 +7,58 @@ public abstract class Skill : MonoBehaviour
 {
     [SerializeField]
     protected SkillSO skillSO;
+    protected int skillIndex;
+    protected string identityName;
+    protected GhostIdentity identity;
 
-    protected int skillPts = 0;
+    private void Awake()
+    {
+        identityName = name;
+        /*Skill[] skills = GetComponent<SkillTree>().GetAllSkills();
+        for(int i = 0; i <skills.Length; i++)
+        {
+            if (skills[i] == this)
+            {
+                skillIndex = i;
+            }
+        }
+        */
+
+        if (identityName.Contains("(Clone)"))
+        {
+            identityName = identityName.Replace("(Clone)", "");
+        }
+
+        if (!SaveManager.data.ghostSkillPts.ContainsKey(identityName))
+        {
+            SaveManager.data.ghostSkillPts.Add(identityName, new int[7]);
+        }
+
+        for (int i = 0; i < SaveManager.data.ghostSkillPts[identityName][skillIndex]; i++)
+        {
+            AddPointTrigger();
+        }
+        
+    }
 
     public void AddPoint()
     {
-        skillPts++;
+        identityName = name;
+        if (identityName.Contains("(Clone)"))
+        {
+            identityName = identityName.Replace("(Clone)", "");
+        }
+        SaveManager.data.ghostSkillPts[identityName][skillIndex]++;
         AddPointTrigger();
     }
     public void RemovePoint()
     {
-        skillPts--;
+        SaveManager.data.ghostSkillPts[identityName][skillIndex]--;
         RemovePointTrigger();
     }
     public void ClearPoints()
     {
-        skillPts = 0;
+        SaveManager.data.ghostSkillPts[identityName][skillIndex] = 0;
         ClearPointsTrigger();
     }
 
@@ -32,12 +68,12 @@ public abstract class Skill : MonoBehaviour
 
     public int GetPoints()
     {
-        return skillPts;
+        return SaveManager.data.ghostSkillPts[identityName][skillIndex];
     }
 
     public string GetName()
     {
-        return skillSO.name;
+        return skillSO.skillName;
     }
 
     public string GetDescription()
@@ -53,5 +89,10 @@ public abstract class Skill : MonoBehaviour
     public string GetDescriptionValue()
     {
         return skillSO.descriptionValue;
+    }
+
+    public void SetSkillIndex(int ind)
+    {
+        skillIndex = ind;
     }
 }

@@ -17,6 +17,7 @@ public class EnemyStateManager : MonoBehaviour
     [HideInInspector] public ActionPool pool; // A pool of attacks to randomly choose from
     [HideInInspector] public Animator animator;
 
+    [SerializeField] public bool isPinkAndProud;
     [SerializeField] public bool isFlyer;
     [SerializeField] protected float aggroRange; // Range for detecting players 
     protected IEnemyStates curState; // Enemy's current State, defaults to idle
@@ -26,6 +27,7 @@ public class EnemyStateManager : MonoBehaviour
     public bool isBeingKnockedBack;
     protected float currentKnockbackDurationTime;
     [SerializeField] protected bool grounded;
+    [SerializeField] float groundedRayCheckLength = 1;
 
     protected virtual void Awake()
     {
@@ -34,22 +36,28 @@ public class EnemyStateManager : MonoBehaviour
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         pool = GetComponent<ActionPool>();
+        pool.enemy = this;
         isBeingKnockedBack = false;
-        
+    }
+
+    protected virtual void Start()
+    {
         SwitchState(IdleState);
     }
 
-    protected void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         if (StunState.isStunned)
         {
             StunState.UpdateState(this, Time.deltaTime);
+            if (isFlyer) rb.gravityScale = 4f;
         }
         else
         {
             curState.UpdateState(this);
+            if (isFlyer) rb.gravityScale = 0f;
         }
-		
+
         UpdateKnockbackTime();
         isGrounded();
     }
@@ -112,13 +120,15 @@ public class EnemyStateManager : MonoBehaviour
     /// <param name="duration"> the duration of the stun </param>
     public void Stun(DamageContext damageContext, float duration = 0f)
     {
+        GameplayEventHolder.OnEntityStunned?.Invoke(gameObject);
         if (duration == 0f)
         {
             StunState.EnterState(this);
         }
         else
         {
-            StunState.EnterState(this, duration);
+            float stunDurationBoost = PlayerID.instance.GetComponent<PlayerBuffStats>().GetStats().ComputeValue("Stun Duration Boost");
+            StunState.EnterState(this, duration * stunDurationBoost);
         }
     }
 
@@ -164,8 +174,8 @@ public class EnemyStateManager : MonoBehaviour
     /// <returns>Returns true if the enemy is on the ground.</returns>
     public bool isGrounded()
     {
-        Debug.DrawRay(transform.position, Vector2.down, Color.blue);
-        return grounded = Physics2D.Raycast(transform.position, Vector2.down, 1f, LayerMask.GetMask("Ground"));
+        Debug.DrawRay(transform.position, Vector2.down * groundedRayCheckLength, Color.blue);
+        return grounded = Physics2D.Raycast(transform.position, Vector2.down, groundedRayCheckLength, LayerMask.GetMask("Ground"));
     }
 
     /// <summary>
@@ -205,8 +215,11 @@ public class EnemyStateManager : MonoBehaviour
         {
             if (hit)
             {
-                if (hit.CompareTag("Player")) PlayerID.instance.GetComponent<PlayerStateMachine>().SetStun(0.2f);
-                hit.GetComponent<Health>().Damage(damageContext, attacker);
+                float dmgDealt = hit.GetComponent<Health>().Damage(damageContext, attacker);
+                if (hit.CompareTag("Player") && dmgDealt > 0 && damageContext.damageStrength > DamageStrength.MEAGER)
+                {
+                    PlayerID.instance.GetComponent<PlayerStateMachine>().SetStun(0.2f);
+                }
             }
         }
         return (hits.Length > 0);
@@ -243,8 +256,11 @@ public class EnemyStateManager : MonoBehaviour
         {
             if (hit)
             {
-                if (hit.CompareTag("Player")) PlayerID.instance.GetComponent<PlayerStateMachine>().SetStun(0.2f);
-                hit.GetComponent<Health>().Damage(damageContext, attacker);
+                float dmgDealt = hit.GetComponent<Health>().Damage(damageContext, attacker);
+                if (hit.CompareTag("Player") && dmgDealt > 0)
+                {
+                    PlayerID.instance.GetComponent<PlayerStateMachine>().SetStun(0.2f);
+                }
             }
         }
         return (hits.Length > 0);
@@ -266,5 +282,10 @@ public class EnemyStateManager : MonoBehaviour
     protected virtual void OnFinishAnimation()
     {
         BusyState.ExitState(this);
+    }
+
+    public float GetGroundedRayCheckLength()
+    {
+        return groundedRayCheckLength;
     }
 }

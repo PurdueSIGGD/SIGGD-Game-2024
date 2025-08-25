@@ -10,13 +10,16 @@ using UnityEngine;
 public class Invisible : MonoBehaviour
 {
     private SpriteRenderer playerSpriteRenderer;
-    public float invisibilityAlpha = 0.5f;  // 0-1 alpha value where 0f is completely invisible, 1f is fully visible
+    public float invisibilityAlpha = 0.25f;  // 0-1 alpha value where 0f is completely invisible, 1f is fully visible
     private void Start()
     {
         playerSpriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         Material playerMaterial = playerSpriteRenderer.material;
         Color playerColor = playerMaterial.GetColor("_BaseColor");
-        
+
+        playerColor.r = 0f;
+        playerColor.g = 1f;
+        playerColor.b = 165f / 255f;
         playerColor.a = invisibilityAlpha;
 
         playerMaterial.SetColor("_BaseColor", playerColor);
@@ -29,6 +32,9 @@ public class Invisible : MonoBehaviour
         Material playerMaterial = playerSpriteRenderer.material;
         Color playerColor = playerMaterial.GetColor("_BaseColor");
 
+        playerColor.r = 1f;
+        playerColor.g = 1f;
+        playerColor.b = 1f;
         playerColor.a = 1f;
 
         playerMaterial.SetColor("_BaseColor", playerColor);

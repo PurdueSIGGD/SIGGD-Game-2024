@@ -7,10 +7,15 @@ public class DropManager : MonoBehaviour
         GameplayEventHolder.OnDeath += DropLoot;
     }
 
+    private void OnDisable()
+    {
+        GameplayEventHolder.OnDeath -= DropLoot;
+    }
+
     private void DropLoot(DamageContext context)
     {
         Debug.Log(context.victim.name + " Died");
-        if(context.victim != context.attacker)
+        if (context.victim != context.attacker)
         {
             GameObject victim = context.victim;
             if (victim == null)
@@ -31,7 +36,8 @@ public class DropManager : MonoBehaviour
 
                 // Decdie how much to drop
                 r = UnityEngine.Random.value;
-                float dropCount = (int)((drop.maxCount - drop.minCount) * r + drop.minCount);
+                int dropCount = (int)((drop.maxCount - drop.minCount) * r + drop.minCount);
+                dropCount = Mathf.RoundToInt(dropCount * PlayerID.instance.GetComponent<PlayerBuffStats>().GetStats().ComputeValue("Spirit Drop Rate Boost"));
 
                 float xDeviation = -0.0003f;
                 float yDeviation = 0.00003f;

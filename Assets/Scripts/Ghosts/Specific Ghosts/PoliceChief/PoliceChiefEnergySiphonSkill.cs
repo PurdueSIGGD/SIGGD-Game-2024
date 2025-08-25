@@ -7,52 +7,53 @@ public class PoliceChiefEnergySiphonSkill : Skill
 {
     private StatManager stats;
     private PoliceChiefManager policeChiefManager;
-    private static float amountCooldownReduction = 0.0f;
-    [SerializeField] float[] pointCooldowns = { 0.0005f, 0.001f, 0.0015f, 0.002f };
+    [SerializeField] float[] values = {0f, 2f, 4f, 6f, 8f };
+    private int pointIndex = 0;
+
+    private float accumulatedCooldownReduction;
+
     private void Start()
     {
-        /*if(GetPoints() > 0)
-        {
-            amountCooldownReduction = pointCooldowns[GetPoints() - 1];
-        }
-        else
-        {
-            amountCooldownReduction = 0.0f;
-        }*/
-
         stats = GetComponent<StatManager>();
         policeChiefManager = GetComponent<PoliceChiefManager>();
+        accumulatedCooldownReduction = 0f;
     }
 
-    private void OnEnable()
+    private void Update()
     {
-        GameplayEventHolder.OnDamageDealt += OnDmg;
-    }
-
-    private void OnDisable()
-    {
-        GameplayEventHolder.OnDamageDealt -= OnDmg;
+        if (accumulatedCooldownReduction > 0f && policeChiefManager.getSpecialCooldown() > 0f)
+        {
+            policeChiefManager.setSpecialCooldown(policeChiefManager.getSpecialCooldown() - accumulatedCooldownReduction);
+            accumulatedCooldownReduction = 0f;
+        }
     }
 
     public override void AddPointTrigger()
     {
-        amountCooldownReduction = pointCooldowns[GetPoints() - 1];
+        pointIndex = GetPoints();
     }
 
     public override void ClearPointsTrigger()
     {
-        amountCooldownReduction = 0.0f;
+        pointIndex = GetPoints();
     }
 
     public override void RemovePointTrigger()
     {
+        pointIndex = GetPoints();
     }
 
-    void OnDmg(DamageContext context)
+    public void ReduceCooldownOnHit()
     {
-        if (context.attacker == PlayerID.instance)
+        if (pointIndex <= 0) return;
+        float cooldownReduction = stats.ComputeValue("Special Cooldown") * (values[pointIndex] / 100f);
+        if (policeChiefManager.getSpecialCooldown() > 0)
         {
-            policeChiefManager.setSpecialCooldown(Mathf.Max(0, policeChiefManager.getSpecialCooldown() - stats.ComputeValue("Special Cooldown") * amountCooldownReduction * context.damage));
+            policeChiefManager.setSpecialCooldown(policeChiefManager.getSpecialCooldown() - cooldownReduction);
+        }
+        else
+        {
+            accumulatedCooldownReduction += cooldownReduction;
         }
     }
 }

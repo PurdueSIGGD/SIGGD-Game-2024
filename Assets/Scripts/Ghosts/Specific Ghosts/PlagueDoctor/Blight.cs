@@ -20,7 +20,7 @@ public class Blight : MonoBehaviour
         Debug.Log(gameObject.name);
         IEnumerator coroutine = DestroyInDuration(duration);
         StartCoroutine(coroutine);
-        IEnumerator dotcoroutine = DOT(0.5f);
+        IEnumerator dotcoroutine = DOT(0.2f);
         StartCoroutine(dotcoroutine);
 
         GameplayEventHolder.OnDamageDealt += Damaged;
@@ -67,7 +67,7 @@ public class Blight : MonoBehaviour
 
     private void Dmg(DamageContext damageContext)
     {
-        gameObject.GetComponentInParent<Health>().Damage(damageContext, gameObject);
+        gameObject.GetComponentInParent<Health>().Damage(damageContext, PlayerID.instance.gameObject);
     }
 
     private IEnumerator FinishDeadly(float waitTime)

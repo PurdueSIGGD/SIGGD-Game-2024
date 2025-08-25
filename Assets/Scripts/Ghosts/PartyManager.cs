@@ -16,6 +16,7 @@ public class PartyManager : MonoBehaviour
 
     [SerializeField] int ghostLimit; // maximum number of ghosts player can wield at one time
     [SerializeField] private bool isStoryRoom;
+    [SerializeField] GameObject[] allGhosts;
 
     private bool isSwappingEnabled = true;
     private bool isSwapping = false;
@@ -24,20 +25,37 @@ public class PartyManager : MonoBehaviour
     private int swapInputBufferGhostIndex = 0;
 
 
-    private Dictionary<string, GhostIdentity> ghostsByName = new();
+    private Dictionary<string, GameObject> ghostsByName = new();
+    private Dictionary<string, GhostIdentity> identitiesByName = new();
 
     // References to fields in SaveData, declared for convenience of a shorter name
     private List<string> ghostsInParty;
     public string selectedGhost = "Orion";
     private int selectedGhostIndex = -1;
 
+    // simple gate for select last posessed ghost
+    bool hasSelectedLastGhost = false;
+
+    private void OnDoorOpen()
+    {
+        //SaveManager.instance.Save();
+    }
+
     private void Awake()
     {
+        //SaveManager.instance.Load();
         instance = this;
 
-        foreach (GhostIdentity ghost in FindObjectsOfType<GhostIdentity>())
+        /*foreach (GhostIdentity ghost in FindObjectsOfType<GhostIdentity>())
         {
             ghostsByName.Add(ghost.name, ghost);
+        }*/
+
+        foreach (GameObject ghost in allGhosts)
+        {
+            GhostIdentity g = ghost.GetComponent<GhostIdentity>();
+            ghostsByName.Add(g.name, ghost);
+            identitiesByName.Add(g.name, g);
         }
 
         if (!isStoryRoom)
@@ -47,16 +65,22 @@ public class PartyManager : MonoBehaviour
         }
         else
         {
-            ghostsInParty = new List<string>();
-            selectedGhost = "Orion";
+            SaveManager.data.ghostsInParty = ghostsInParty = new List<string>();
+            SaveManager.data.selectedGhost = selectedGhost = "Orion";
         }
     }
 
     private void Start()
     {
+        Door.OnDoorOpened += OnDoorOpen;
+
         foreach (string ghost in ghostsInParty)
         {
-            ghostsByName[ghost].TriggerEnterPartyBehavior();
+            Debug.Log("Creating " + ghost);
+            GhostIdentity identity = Instantiate(ghostsByName[ghost], Vector3.zero, new Quaternion()).GetComponent<GhostIdentity>();
+            identity.TriggerEnterPartyBehavior();
+            ghostsByName[ghost] = identity.gameObject;
+            identitiesByName[ghost] = identity;
         }
     }
 
@@ -65,6 +89,16 @@ public class PartyManager : MonoBehaviour
         if (swapInputBuffer > 0f) swapInputBuffer -= Time.deltaTime;
         if (swapRecoveryTimer > 0f && isSwapping) swapRecoveryTimer -= Time.deltaTime;
         if (swapRecoveryTimer <= 0f && isSwapping) isSwapping = false;
+    }
+
+    private void LateUpdate()
+    {
+        // ensures swap only after everything is loaded properly 
+        if (!hasSelectedLastGhost)
+        {
+            SelectLastPosessedGhost();
+            hasSelectedLastGhost = true;
+        }
     }
 
     /// <summary>
@@ -76,6 +110,8 @@ public class PartyManager : MonoBehaviour
         if (ghostsInParty.Count < GHOST_LIMIT && !ghostsInParty.Contains(ghost.name))
         {
             ghostsInParty.Add(ghost.name);
+            identitiesByName[ghost.name] = ghost;
+            ghostsByName[ghost.name] = ghost.gameObject;
             ghost.TriggerEnterPartyBehavior();
 
             Debug.Log("Saving Ghosts");
@@ -84,9 +120,11 @@ public class PartyManager : MonoBehaviour
                 SaveManager.data.ghostsInParty = ghostsInParty;
             }
 
+            ghost.gameObject.GetComponent<GhostUIDriver>().UpdatePartyStatus();
+
             return true;
         }
-        
+
         return false;
     }
 
@@ -97,7 +135,7 @@ public class PartyManager : MonoBehaviour
     public void OnHotbar(InputValue value)
     {
         //Debug.Log("HOTBAR: " + (int)value.Get<float>());
-        int keyValue = (int) value.Get<float>();
+        int keyValue = (int)value.Get<float>();
         if (keyValue != 0)
         {
             // hotkey #2 is 0th ghost index in list
@@ -107,8 +145,8 @@ public class PartyManager : MonoBehaviour
 
     public void OnScrollWheel(InputValue value)
     {
-        Debug.Log("SCROLL WHEEL INPUT: " + value.Get<float>());
-        int scrollWheelValue = (int) value.Get<float>();
+        //Debug.Log("SCROLL WHEEL INPUT: " + value.Get<float>());
+        int scrollWheelValue = (int)value.Get<float>();
         int newIndex = selectedGhostIndex;
         if (scrollWheelValue == 0)
         {
@@ -128,9 +166,67 @@ public class PartyManager : MonoBehaviour
     }
 
     /// <summary>
+    /// If present in the party, autoselects the last possessed ghost as stated in SaveManager.
+    /// </summary>
+    public void SelectLastPosessedGhost()
+    {
+        const int INVALID_INDEX = -9999;
+        string lastGhost = SaveManager.data.selectedGhost;
+        print("LAST GHOST: " + lastGhost);
+        int lastGhostIndex = INVALID_INDEX;
+        for (int i = 0; i < ghostsInParty.Count; i++)
+        {
+            print("GHOST NAMES: " + ghostsInParty[i]);
+            if (ghostsInParty[i].Equals(lastGhost))
+            {
+                lastGhostIndex = i;
+                break;
+            }
+        }
+        if (lastGhostIndex == INVALID_INDEX)
+        {
+            return;
+        }
+        SwitchGhostToIndex(lastGhostIndex);
+    }
+
+    /// <summary>
+    /// Switching ghost functionality
+    /// </summary>
+    /// <param name="index"></param>
+    /// <returns>Name of newly selected ghost, or an error code: "invalid" - bad index arg; "current" - index is current ghost</returns>
+    public string SwitchGhostToIndex(int index)
+    {
+        // handle bad input
+        if (index >= ghostsInParty.Count) return "invalid";
+
+        // Don't swap if ghost is already possessing
+        if (selectedGhostIndex == index) return "current";
+
+        // deselect all ghosts in the list
+        for (int i = 0; i < ghostsInParty.Count; i++)
+        {
+            ghostsByName[ghostsInParty[i]].GetComponent<GhostIdentity>()?.TriggerDeSelectedBehavior();
+        }
+        selectedGhostIndex = index;
+
+        // do not possess if player selected base kit
+        if (index == -1)
+        {
+            selectedGhost = "Orion";
+            return selectedGhost;
+        }
+
+        ghostsByName[ghostsInParty[index]].GetComponent<GhostIdentity>().TriggerSelectedBehavior();
+        selectedGhost = ghostsInParty[index];
+
+        return selectedGhost;
+    }
+
+    /// <summary>
     /// Switches the currently posessing ghost based on hotkey input (1,2,3, etc.)
     /// </summary>
-    /// <param name="inputNum">The index to select from the list(value is either -1(player kit), 0, or 1)</param>
+    /// <param name="inputNum">The index to select from the list</param>
     public void ChangePosessingGhost(int index)
     {
         if (isSwapping) return;
@@ -148,33 +244,14 @@ public class PartyManager : MonoBehaviour
         swapRecoveryTimer = 0.3f;
         isSwapping = true;
 
-        // handle bad input
-        if (index >= ghostsInParty.Count) return;
-
-        // Don't swap if ghost is already possessing
-        if (selectedGhostIndex == index) return;
-        //if (index == -1 && selectedGhostIndex == -1) return;
-
-        // deselect all ghosts in the list
-        for (int i = 0; i < ghostsInParty.Count; i++)
+        string result = SwitchGhostToIndex(index);
+        if (result == "invalid" || result == "current")
         {
-            ghostsByName[ghostsInParty[i]].TriggerDeSelectedBehavior();
-        }
-        selectedGhostIndex = index;
-
-        // do not possess if player selected base kit
-        if (index == -1)
-        {
-            AudioManager.Instance.VABranch.PlayVATrack("Orion On Swap");
-            AudioManager.Instance.SFXBranch.PlaySFXTrack("GhostSwap");
-            selectedGhost = "Orion";
             return;
         }
-
-        ghostsByName[ghostsInParty[index]].TriggerSelectedBehavior();
-        selectedGhost = ghostsInParty[index];
         AudioManager.Instance.VABranch.PlayVATrack(selectedGhost + " On Swap");
         AudioManager.Instance.SFXBranch.PlaySFXTrack("GhostSwap");
+        SaveManager.data.selectedGhost = selectedGhost;
     }
 
     /// <summary>
@@ -183,7 +260,17 @@ public class PartyManager : MonoBehaviour
     /// <param ghostName="ghostIndex"></param>
     public bool RemoveGhostFromParty(GhostIdentity ghost)
     {
-        return ghostsInParty.Remove(ghost.name);
+        bool success = ghostsInParty.Remove(ghost.name);
+
+        ghost.gameObject.GetComponent<GhostUIDriver>().UpdatePartyStatus();
+
+        Debug.Log("Saving Ghosts");
+        if (isStoryRoom)
+        {
+            SaveManager.data.ghostsInParty = ghostsInParty;
+        }
+
+        return success;
     }
 
     /// <summary>
@@ -192,17 +279,22 @@ public class PartyManager : MonoBehaviour
     /// <returns></returns>
     public List<GhostIdentity> GetGhostPartyList()
     {
-        return ghostsInParty.Select(ghostName => ghostsByName[ghostName]).ToList();
+        return ghostsInParty.Select(ghostName => identitiesByName[ghostName]).ToList();
     }
 
     public GhostIdentity GetSelectedGhost()
     {
-        return ghostsByName.GetValueOrDefault(selectedGhost);
+        return identitiesByName.GetValueOrDefault(selectedGhost);
     }
 
     public bool IsGhostInParty(GhostIdentity ghost)
     {
-        return ghostsInParty.Contains(ghost.name);
+        return ghostsInParty.Contains(ghost.name.Replace("(Clone)", ""));
+    }
+
+    public bool IsGhostInParty(string ghostName)
+    {
+        return ghostsInParty.Contains(ghostName.Replace("(Clone)", ""));
     }
 
     /// <summary>
@@ -219,5 +311,14 @@ public class PartyManager : MonoBehaviour
             return;
         }
         isSwappingEnabled = enabled;
+    }
+
+    /// <summary>
+    /// Getter for identities by name
+    /// </summary>
+    /// <returns></returns>
+    public Dictionary<string, GhostIdentity> GetIdentitiesByName()
+    {
+        return identitiesByName;
     }
 }

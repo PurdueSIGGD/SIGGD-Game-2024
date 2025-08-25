@@ -12,22 +12,36 @@ using UnityEngine.InputSystem;
 /// </summary>
 public class ActionPool : MonoBehaviour
 {
+    public EnemyStateManager enemy;
     [SerializeField] protected List<Action> actions;
     public Action move;
     public Action idle;
-    
+
     private float curWeight = 0f;
 
     void Start()
     {
         foreach (Action a in actions)
         {
-            a.ready = true; // default each action is ready on start, subject to change
+            //a.ready = true; // default each action is ready on start, subject to change
             if (a.priority == 0)
             {
-                Debug.LogWarning(a.name + " should have a non-zero priority."); 
+                Debug.LogWarning(a.name + " should have a non-zero priority.");
             }
         }
+    }
+
+    public bool SetActionReady(string name, bool ready)
+    {
+        foreach (Action a in actions)
+        {
+            if (a.name.Equals(name))
+            {
+                a.ready = ready;
+                return true;
+            }
+        }
+        return false;
     }
 
     /// <summary>
@@ -83,5 +97,28 @@ public class ActionPool : MonoBehaviour
             }
         }
         return availableActions;
+    }
+
+    public void DoCoolDown(Action a)
+    {
+        StartCoroutine(CooldownCoroutine(a));
+    }
+
+    private IEnumerator CooldownCoroutine(Action a)
+    {
+        a.ready = false;
+        yield return new WaitForSeconds(a.GetCoolDown());
+        a.ready = true;
+    }
+    public Action GetActionByName(string actionName)
+    {
+        foreach (Action action in actions)
+        {
+            if (action.name.Equals(actionName))
+            {
+                return action;
+            }
+        }
+        return null;
     }
 }

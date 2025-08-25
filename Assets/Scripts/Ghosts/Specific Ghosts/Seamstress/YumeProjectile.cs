@@ -8,16 +8,27 @@ public class YumeProjectile : MonoBehaviour
     float lifeTime; // time after which the projectile should expire
     bool hit = false; // if the projectile has hit an enemy
     GameObject hitTarget;
+    DamageContext context;
 
     // standard projectile fields
     Rigidbody2D rb;
     Vector2 dir;
     float speed;
 
+    // trigger is entered first before the collider
+    // if there is a transparent platform, ignore it beforehand
+    void OnTriggerEnter2D(Collider2D collider)
+    {
+        if (collider.gameObject.CompareTag("Transparent"))
+        {
+            Physics2D.IgnoreCollision(collider.gameObject.GetComponent<CompositeCollider2D>(), GetComponent<BoxCollider2D>(), true);
+        }
+    }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        GameObject hitObject = collision.gameObject;
+        if (hitObject.layer == LayerMask.NameToLayer("Ground"))
         {
             float angle = Vector2.Angle(dir, -collision.contacts[0].normal);
             if (angle > 60)
@@ -27,23 +38,36 @@ public class YumeProjectile : MonoBehaviour
             }
 
             dir = Vector2.Reflect(dir, collision.contacts[0].normal);
+            float directedAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Euler(new Vector3(0, 0, directedAngle));
             if (manager.IncrementRicochet()) // bouncing off surface counts as ricochet too
             {
                 manager.ResetRicochet();
                 Destroy(gameObject);
             }
         }
-        else if (collision.collider.CompareTag("Enemy"))
+        else if (hitObject.CompareTag("Enemy"))
         {
-            hit = true;
-            hitTarget = collision.gameObject;
-            Destroy(gameObject);
+            context.damage = manager.GetStats().ComputeValue("Projectile Damage");
+            //hitObject.GetComponent<Health>().NoContextDamage(context, PlayerID.instance.gameObject);
+            hitObject.GetComponent<Health>().Damage(context, PlayerID.instance.gameObject);
+            if (hitObject.GetComponent<FateboundDebuff>() != null)
+            {
+                Physics2D.IgnoreCollision(collision.collider, GetComponent<BoxCollider2D>());
+            }
+            else
+            {
+                hit = true;
+                hitTarget = collision.gameObject;
+                Destroy(gameObject);
+            }
         }
     }
 
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();   
+        rb = GetComponent<Rigidbody2D>();
+        context = manager.projectileDamageContext;
     }
 
     void Update()
@@ -51,18 +75,20 @@ public class YumeProjectile : MonoBehaviour
         rb.velocity = dir * speed;
         lifeTime -= Time.deltaTime;
 
-        if (lifeTime < 0.1) Destroy(gameObject);
+        if (lifeTime < 0) Destroy(gameObject);
     }
 
     public void Initialize(Vector2 dest, float speed, float range, SeamstressManager manager)
     {
-        lifeTime = range / speed;
+        lifeTime = range / speed * 2.5f;
         dir = (dest - (Vector2)transform.position).normalized;
+        float angle = Mathf.Atan2(dest.y - transform.position.y, dest.x - transform.position.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
         this.speed = speed;
         this.manager = manager;
     }
 
-    public bool HasExpired() { return hit || lifeTime <= 0; }
+    public bool HasExpired() { return hit || lifeTime < 0; }
 
     public GameObject GetHitTarget() { return hitTarget; }
 }

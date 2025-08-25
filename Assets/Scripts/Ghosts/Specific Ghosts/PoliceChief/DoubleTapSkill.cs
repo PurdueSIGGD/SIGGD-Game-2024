@@ -6,52 +6,70 @@ using UnityEngine;
 
 public class DoubleTapSkill : Skill
 {
-    private float chargeTimeChange;
-    private PoliceChiefBasic policeChiefBasic;
-    private bool reduceReady = false;
-    private static int pointindex;
-    private float[] chargeTimeChanging = {0f,0.25f, 0.45f, 0.65f, 0.85f};
+    private Camera mainCamera;
+    private PoliceChiefManager manager;
+    private int pointIndex;
+    [SerializeField] private int[] values = {0, 8, 16, 24, 32};
+    [SerializeField] public DamageContext secondaryShotDamage;
+
     public override void AddPointTrigger()
     {
-        pointindex=GetPoints();
+        pointIndex = GetPoints();
     }
 
     public override void ClearPointsTrigger()
     {
-  
+        pointIndex = GetPoints();
     }
 
     public override void RemovePointTrigger()
     {
-        pointindex = GetPoints();
+        pointIndex = GetPoints();
     }
+
+    
+    private void OnEnable()
+    {
+        GameplayEventHolder.OnAbilityUsed += FireSecondaryShot;
+    }
+
+    private void OnDisable()
+    {
+        GameplayEventHolder.OnAbilityUsed -= FireSecondaryShot;
+    }
+    
 
     // Start is called before the first frame update
     void Start()
     {
-        //pointindex = GetPoints();
-        //AddPoint();
-        PoliceChiefSidearmShot.enemyWasShot += changeChargeTime;
-        policeChiefBasic = PlayerID.instance.GetComponent<PoliceChiefBasic>();
-        chargeTimeChange = 0f;
+        if (pointIndex <= 0) pointIndex = 0;
+        mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+        manager = GetComponent<PoliceChiefManager>();
+    }
 
-    }
-    private void changeChargeTime()
+    public void FireSecondaryShot(ActionContext actionContext)
     {
-        chargeTimeChange = chargeTimeChanging[pointindex];
-        reduceReady = true;
+        if (actionContext.actionID != ActionID.POLICE_CHIEF_BASIC || !actionContext.extraContext.Equals("Full Charge") || pointIndex <= 0) return;
+        StartCoroutine(SecondaryShotCoroutine(actionContext));
     }
-    private void Update()
+
+    private IEnumerator SecondaryShotCoroutine(ActionContext actionContext)
     {
-        if (policeChiefBasic == null)
-        {
-            policeChiefBasic = PlayerID.instance.GetComponent<PoliceChiefBasic>();
-            return;
-        }
-        if (policeChiefBasic.chargingTime > 0 && reduceReady==true)
-        {
-            policeChiefBasic.chargingTime = (policeChiefBasic.chargingTime - (policeChiefBasic.chargingTime * chargeTimeChange));
-            reduceReady = false;
-        }
+        // Secondary shot delay
+        yield return new WaitForSeconds(0.1f);
+
+        // Calculate shot aiming vector
+        Vector2 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 pos = PlayerID.instance.transform.position;
+        Vector2 dir = (mousePos - pos).normalized;
+
+        // Fire shot
+        secondaryShotDamage.damage = values[pointIndex];
+        GameObject sidearmShot = Instantiate(manager.basicShot, Vector3.zero, Quaternion.identity);
+        sidearmShot.GetComponent<PoliceChiefSidearmShot>().fireSidearmShot(manager, pos, dir, true);
+
+        // SFX
+        AudioManager.Instance.SFXBranch.GetSFXTrack("North-Sidearm Attack").SetPitch(0f, 1f);
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("North-Sidearm Attack");
     }
 }

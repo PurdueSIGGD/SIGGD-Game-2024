@@ -14,15 +14,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: Eva
   characterIcon: {fileID: 21300000, guid: 1d7fac1706ecee041a92ce6d11f703b0, type: 3}
-  primaryColor: {r: 0.05307927, g: 0.8037735, b: 0.5936815, a: 1}
+  hudIcon: {fileID: 21300000, guid: f3b9d4bee64708a4293655c412bef81d, type: 3}
+  hudIconYOffset: 0
+  primaryColor: {r: 0, g: 1, b: 0.64705884, a: 1}
+  highlightColor: {r: 0.3820755, g: 1, b: 0.7807365, a: 1}
   fullImage: {fileID: 21300000, guid: fb5e283ec2555894184ac6d6697846bb, type: 3}
   basicAbilityIcon: {fileID: 21300000, guid: 624223a05e012074d9154f1784fe33de, type: 3}
+  basicAbilityInput: 0
   basicAbilityName: Tempo
-  basicAbilityDescription: "Defeating an enemy grants a temporary boost to Eva\u2019s
-    movement speed. The speed boost stacks multiple times.\r\n"
-  specialAbilityIcon: {fileID: 21300000, guid: ddd2631177c3698479462e007749976a, type: 3}
-  specialAbilityName: Holo-jump
-  specialAbilityDescription: Teleport to a targeted position, leaving behind a holographic
-    decoy of Eva that can be destroyed by enemies. While it is active, press [Right
-    Click] again to swap your position with the decoy.
+  basicAbilityDescription: "Defeating an enemy temporarily boosts Eva\u2019s move
+    speed and dodge chance. Effect stacks multiple times."
+  specialAbilityIcon: {fileID: 21300000, guid: 4f3bdb30d3a176540a09784024e7c58a, type: 3}
+  specialAbilityInput: 3
+  specialAbilityName: Dynamic Duo
+  specialAbilityDescription: Teleport to a targeted location, leaving behind a holographic
+    decoy. Press [Left Shift] again to swap positions with the decoy.
   expressionList: []

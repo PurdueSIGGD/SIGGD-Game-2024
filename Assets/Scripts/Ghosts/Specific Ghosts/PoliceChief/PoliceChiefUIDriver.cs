@@ -7,6 +7,9 @@ public class PoliceChiefUIDriver : GhostUIDriver
     private PoliceChiefManager manager;
     private LockedAndLoadedSkill lockedAndLoaded;
 
+    [SerializeField] private Sprite lethalForceIcon;
+    [SerializeField] private Sprite overclockedIcon;
+
     // Start is called before the first frame update
     protected override void Start()
     {
@@ -29,16 +32,32 @@ public class PoliceChiefUIDriver : GhostUIDriver
 
     private void updateBasicAbility()
     {
-        basicAbilityUIManager.setAbilityHighlighted(GetComponent<PoliceChiefPowerSpike>().GetAbleToCrit());
+        basicAbilityUIManager.setAbilityEnabled(manager.basicAmmo > 0);
+        basicAbilityUIManager.setMeterValue(manager.basicAmmo, stats.ComputeValue("Basic Starting Ammo"));
+        basicAbilityUIManager.setChargeWidgetActive(true);
+        basicAbilityUIManager.setChargeValue(manager.basicAmmo, stats.ComputeValue("Basic Starting Ammo"));
+        PoliceChiefLethalForce lethalForce = GetComponent<PoliceChiefLethalForce>();
+        if (lethalForce != null && lethalForce.shotEmpowered)
+        {
+            basicAbilityUIManager.setAbilityHighlighted(true);
+        }
+        else if (lethalForce != null)
+        {
+            basicAbilityUIManager.setAbilityHighlighted(false);
+        }
     }
 
     private void updateSpecialAbility()
     {
         specialAbilityUIManager.setAbilityCooldownTime(manager.getSpecialCooldown(), stats.ComputeValue("Special Cooldown"));
+        
+        // Locked and Loaded
         if (lockedAndLoaded.reservedCount > 0)
         {
+            specialAbilityUIManager.setNumberActive(false);
+            specialAbilityUIManager.setAbilityEnabled(true);
             specialAbilityUIManager.setChargeWidgetActive(true);
-            specialAbilityUIManager.setChargeValue(lockedAndLoaded.reservedCount, lockedAndLoaded.reserveCharges[LockedAndLoadedSkill.pointIndex]);
+            specialAbilityUIManager.setChargeValue(lockedAndLoaded.reservedCount, ((manager.special != null && manager.special.isPrimed) && manager.getSpecialCooldown() <= 0) ? 100f : 0f);
         }
         else
         {
@@ -48,22 +67,74 @@ public class PoliceChiefUIDriver : GhostUIDriver
 
     private void updateSkill1()
     {
-
+        skill1UIManager.setUIActive(false);
+        PoliceChiefLethalForce lethalForce = GetComponent<PoliceChiefLethalForce>();
+        if (lethalForce.GetTotalHits() != -1)
+        {
+            skill1UIManager.setUIActive(true);
+            skill1UIManager.setAbilityEnabled(lethalForce.shotEmpowered);
+            skill1UIManager.setNumberActive(false);
+            skill1UIManager.setChargeWidgetActive(!lethalForce.shotEmpowered);
+            skill1UIManager.setChargeValue(lethalForce.GetTotalHits() - lethalForce.GetConsecutiveHits(), lethalForce.GetTotalHits() - lethalForce.GetConsecutiveHits());
+            skill1UIManager.setMeterValue(lethalForce.GetConsecutiveHits(), lethalForce.GetTotalHits());
+            skill1UIManager.setIcon(lethalForceIcon);
+        }
+        else
+        {
+            OverclockedUIDriver(skill1UIManager);
+        }
     }
 
     private void updateSkill2()
     {
-
+        PoliceChiefLethalForce lethalForce = GetComponent<PoliceChiefLethalForce>();
+        if (lethalForce.GetTotalHits() != -1) OverclockedUIDriver(skill2UIManager);
     }
 
-    private void updateMeter() { 
-        if(GetComponent<PoliceChiefLethalForce>() != null && GetComponent<PoliceChiefLethalForce>().GetTotalHits() != -1)
+    private void OverclockedUIDriver(PlayerAbilityUIManager UIManager)
+    {
+        UIManager.setUIActive(false);
+        PoliceChiefOvercharged overcharged = GetComponent<PoliceChiefOvercharged>();
+        if (manager.special == null) return;
+        if (overcharged.pointIndex > 0 && (manager.special.isCharging || overcharged.isOvercharging))
         {
-            meterUIManager.setMeterColor(Color.red);
-            meterUIManager.setMeterValue(GetComponent<PoliceChiefLethalForce>().GetConsecutiveHits(), GetComponent<PoliceChiefLethalForce>().GetTotalHits());
-            meterUIManager.setBackgroundColor(Color.grey);
-            meterUIManager.setSubMeterValue(0f, 0f);
-            meterUIManager.activateWidget();
+            UIManager.setUIActive(true);
+            UIManager.setAbilityEnabled((manager.special.isCharging) ? false : true);
+            UIManager.setNumberActive(false);
+            UIManager.setChargeWidgetActive(false);
+            UIManager.setMeterValue((manager.special.isCharging) ? 0f : (overcharged.overchargeDuration - overcharged.timer), overcharged.overchargeDuration);
+            UIManager.setIcon(overclockedIcon);
         }
+    }
+
+    private void updateMeter() {
+        // Meter
+        meterUIManager.setMeterValue(manager.basicAmmo, stats.ComputeValue("Basic Starting Ammo"));
+        meterUIManager.setMeterColor(ghostIdentity.GetCharacterInfo().highlightColor);
+
+        // Lethal Force Submeter
+        PoliceChiefLethalForce lethalForce = GetComponent<PoliceChiefLethalForce>();
+        if (lethalForce != null && lethalForce.GetTotalHits() != -1)
+        {
+            meterUIManager.setSubMeterValue(lethalForce.GetConsecutiveHits(), lethalForce.GetTotalHits());
+            if (lethalForce.GetConsecutiveHits() >= lethalForce.GetTotalHits())
+            {
+                meterUIManager.setMeterColor(ghostIdentity.GetCharacterInfo().primaryColor);
+            }
+        }
+        else
+        {
+            meterUIManager.setSubMeterValue(0f, 0f);
+        }
+
+        // Widget active
+        if (manager.basic == null) return;
+        if (manager.basicAmmo < stats.ComputeValue("Basic Starting Ammo") ||
+            (lethalForce != null && lethalForce.GetTotalHits() != -1 && lethalForce.GetConsecutiveHits() > 0))
+        {
+            meterUIManager.activateWidget();
+            return;
+        }
+        meterUIManager.deactivateWidget(0.3f);
     }
 }

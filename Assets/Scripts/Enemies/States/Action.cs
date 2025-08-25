@@ -15,6 +15,7 @@ public class Action
     public float priority;
     public bool ready = true;
     [SerializeField] private Transform hitBox; // The area in which if a player is inside, the action will be performed
+    [SerializeField] bool usesCircleHitbox = false;
     [SerializeField] private float coolDown;
     [SerializeField] private AnimationClip animationClip;
 
@@ -23,10 +24,14 @@ public class Action
     /// </summary>
     /// <param name="animator"> The Enemy's animator component </param>
     /// <param name="fadeDuration"> Optional transition duration for the animation </param>
-    public void Play(Animator animator, float fadeDuration = 0.2f)
+    public void Play(EnemyStateManager enemy, float fadeDuration = 0.2f)
     {
-        animator.CrossFade(animationClip.name, fadeDuration);
-        DoCoolDown();
+        enemy.animator.CrossFade(animationClip.name, fadeDuration);
+        enemy.pool.DoCoolDown(this);
+    }
+    public void PlayNoCD(EnemyStateManager enemy, float fadeDuration = 0.2f)
+    {
+        enemy.animator.Play(animationClip.name);
     }
 
     /// <summary>
@@ -35,7 +40,17 @@ public class Action
     /// <returns> True if there is a player in range </returns>
     public virtual bool InAttackRange()
     {
-        return Physics2D.OverlapBox(hitBox.position, hitBox.lossyScale, 0f, LayerMask.GetMask("Player"));
+        return usesCircleHitbox
+
+                ? Physics2D.OverlapCircle(hitBox.position,
+                    hitBox.lossyScale.x + hitBox.lossyScale.y / 2,
+                    LayerMask.GetMask("Player"))
+
+                : Physics2D.OverlapBox(
+                    hitBox.position,
+                    hitBox.lossyScale, 0f,
+                    LayerMask.GetMask("Player"));
+
     }
 
     public float GetPriority()
@@ -43,13 +58,12 @@ public class Action
         return this.priority;
     }
 
-    /// <summary>
-    /// Make this action go into cooldown
-    /// </summary>
-    private async Task DoCoolDown()
+    public float GetCoolDown()
     {
-        ready = false;
-        await Task.Delay((int)(coolDown * 1000));
-        ready = true;
+        return coolDown;
+    }
+    public void SetCoolDown(float val)
+    {
+        this.coolDown = val;
     }
 }

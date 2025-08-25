@@ -371,9 +371,10 @@ MonoBehaviour:
   pool: {fileID: 0}
   animator: {fileID: 166145500235385066}
   isFlyer: 0
-  aggroRange: 9.92
+  aggroRange: 30
   isBeingKnockedBack: 0
   grounded: 0
+  groundedRayCheckLength: 1
   gunShoot: {fileID: 6754032986899484797}
   rangeOrig: {fileID: 6425544609560146439}
   projectile: {fileID: 1293525611164901038, guid: e64abde8a304ea641afa693f1da4fc8b,
@@ -392,9 +393,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Speed
-    value: 1
+    value: 5
   - name: Idle Speed
-    value: 1
+    value: 3
   - name: Pause Timer Duration Min
     value: 1
   - name: Pause Timer Duration Max
@@ -402,7 +403,9 @@ MonoBehaviour:
   - name: Target Range Min
     value: 3
   - name: Target Range Max
-    value: 10
+    value: 15
+  - name: Enemy Group Aggro Radius
+    value: 30
 --- !u!114 &310345646144262094
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -415,12 +418,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 872d96247465fd541bea93e36537b26f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemy: {fileID: 0}
   actions:
   - name: Shoot
     priority: 3
-    ready: 0
+    ready: 1
     hitBox: {fileID: 6754032986899484797}
-    coolDown: 2
+    coolDown: 2.25
     animationClip: {fileID: 7400000, guid: e06dacd5cab3a6349968796d2cef56de, type: 2}
   move:
     name: 
@@ -450,7 +454,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Max Health
-    value: 75
+    value: 70
   deathLevel: 
 --- !u!114 &5636141568663372118
 MonoBehaviour:
@@ -466,17 +470,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dropTable:
   - obj: {fileID: 4809253014695496824, guid: 4950ea8f40c9d9944b6d20a6150d4cce, type: 3}
-    chance: 0.5
-    minCount: 0
-    maxCount: 3
+    chance: 1
+    minCount: 3
+    maxCount: 4
   - obj: {fileID: 4809253014695496824, guid: fe291ced3ae40fc46a74c816a48d0e61, type: 3}
-    chance: 0.8
-    minCount: 0
-    maxCount: 2
+    chance: 1
+    minCount: 3
+    maxCount: 4
   - obj: {fileID: 4809253014695496824, guid: e8a6431bc0e6c7a4e922f586f4216e97, type: 3}
     chance: 1
-    minCount: 0
-    maxCount: 3
+    minCount: 3
+    maxCount: 4
 --- !u!114 &7839376920908278547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -491,7 +495,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Stun Threshold
-    value: 100
+    value: 60
   currentStun: 0
   maxStun: 0
 --- !u!114 &8681257202382327024
@@ -512,6 +516,7 @@ MonoBehaviour:
     actionID: 17
     actionTypes: 08000000
     extraContext: 
+    ghostID: 0
 --- !u!1001 &4415854243174678356
 PrefabInstance:
   m_ObjectHideFlags: 0

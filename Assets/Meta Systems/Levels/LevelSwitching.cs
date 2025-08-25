@@ -13,6 +13,8 @@ public class LevelSwitching : MonoBehaviour
 
     private int levelCount = 0;
 
+    public static LevelSwitching instance;
+
     public float GetProgress()
     {
         return ((float)levelCount - 1.0f) / (float)maxLevels;
@@ -20,6 +22,7 @@ public class LevelSwitching : MonoBehaviour
 
     private void Start()
     {
+        instance = this;
         GameplayEventHolder.OnDeath += ResetLevelCount;
         Door.OnDoorOpened += SwitchLevel;
     }
@@ -63,14 +66,27 @@ public class LevelSwitching : MonoBehaviour
 
     public void SwitchLevel()
     {
-        if(levelCount >= maxLevels)
+        StartCoroutine(SwitchLevelCoroutine());
+    }
+
+    private IEnumerator SwitchLevelCoroutine()
+    {
+        if (levelCount >= maxLevels)
         {
+            // Fade out screen  TODO: MAKE CUSTOM FOR DEATH RING
+            ScreenFader.instance.FadeOut();
+            yield return new WaitForSeconds(ScreenFader.instance.fadeOutDuration + 0.1f);
+
             SceneManager.LoadScene(homeWorld);
             levelCount = 0;
             nextScene = "";
         }
         else
         {
+            // Fade out screen
+            ScreenFader.instance.FadeOut();
+            yield return new WaitForSeconds(ScreenFader.instance.fadeOutDuration + 0.1f);
+
             if (nextScene == "")
             {
                 SceneManager.LoadScene(GetNextLevel().GetSceneName());
@@ -111,7 +127,7 @@ public class LevelSwitching : MonoBehaviour
         {
             //Debug.Log("Done Loading");
             nextScene = sceneName;
-            GetComponent<EnemySpawning>().StartLevel();
+            GetComponent<EnemySpawning>().StartLevel(nextScene);
             //Debug.Log("Scene Loaded: " + SceneManager.GetSceneByName(nextScene).isLoaded);
         }
     }
@@ -123,5 +139,19 @@ public class LevelSwitching : MonoBehaviour
             //SceneManager.UnloadSceneAsync(nextScene);
             levelCount = 0;
         }
+    }
+    public string GetHomeWorld()
+    {
+        return homeWorld;
+    }
+
+    public int GetMaxLevels()
+    {
+        return this.maxLevels;
+    }
+
+    public void SetMaxLevels(int maxLevels)
+    {
+        this.maxLevels = maxLevels;
     }
 }

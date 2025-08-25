@@ -1,21 +1,27 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class SeamstressManager : GhostManager
 {
+    private YumeSpecial special;
+    private YumeHeavy heavy;
+    [SerializeField] ActionContext onSpoolGained;
+
+    private int spools;
+    private float spoolTimer;
+
     [Header("Projectile")]
     public GameObject projectile;
-    public float maxRicochet;
-    public float flightSpeed;
-    public float chainRange;
-    public float chainedDuration;
+    public DamageContext projectileDamageContext;
 
     private float durationCounter;
     private float ricochetCounter;
 
     [Header("Fatebound Effect")]
+    public ActionContext specialContext;
+    [SerializeField] private DamageContext sharedDmg;
     [SerializeField] private float sharedDmgScaling;
 
     public Queue<GameObject> linkableEnemies;
@@ -24,6 +30,8 @@ public class SeamstressManager : GhostManager
     private ChainedEnemy ptr;
 
     private LineRenderer lineRenderer;
+
+    private string identityName;
 
     // Used to keep track of the all chaind enmeies
     class ChainedEnemy
@@ -34,6 +42,15 @@ public class SeamstressManager : GhostManager
         public ChainedEnemy() { enemy = null; chainedTo = null; }
     }
 
+    void Awake()
+    {
+        identityName = name;
+        if (identityName.Contains("(Clone)"))
+        {
+            identityName = identityName.Replace("(Clone)", "");
+        }
+    }
+
     protected override void Start()
     {
         base.Start();
@@ -41,47 +58,70 @@ public class SeamstressManager : GhostManager
         linkableEnemies = new Queue<GameObject>();
         lineRenderer = GetComponent<LineRenderer>();
 
-        durationCounter = chainedDuration;
+        durationCounter = GetStats().ComputeValue("Fatebound Duration");
+        spools = SaveManager.data.yume.spoolCount;
+
+        int[] points = SaveManager.data.ghostSkillPts[identityName];
+        Skill[] skills = GetComponent<SkillTree>().GetAllSkills();
+        for (int i = 0; i < skills.Length; i++)
+        {
+            for (int j = 0; j < points[i]; j++)
+            {
+                GetComponent<SkillTree>().RemoveSkillPoint(skills[i]);
+            }
+        }
     }
 
     protected override void Update()
     {
         base.Update();
-        if (head.enemy != null) // if linked list isn't empty
-        {
-            durationCounter -= Time.deltaTime;
-            if (durationCounter < 0)
-            {
-                ClearList();
-            }
-
-            // draw a line of connection between each enemy
-            ptr = head;
-            int i = 0;
-            while (ptr.enemy != null)
-            {
-                lineRenderer.SetPosition(i, ptr.enemy.transform.position);
-                i++;
-                ptr = ptr.chainedTo;
-            }
-        }
+        UpdateLinkedEnemies();
     }
 
     public override void Select(GameObject player)
     {
         base.Select(player);
-        YumeSpecial special = PlayerID.instance.AddComponent<YumeSpecial>();
+        special = PlayerID.instance.AddComponent<YumeSpecial>();
         special.manager = this;
+        heavy = PlayerID.instance.AddComponent<YumeHeavy>();
+        heavy.manager = this;
     }
 
     public override void DeSelect(GameObject player)
     {
         if (PlayerID.instance.GetComponent<YumeSpecial>()) Destroy(PlayerID.instance.GetComponent<YumeSpecial>());
+        if (PlayerID.instance.GetComponent<YumeHeavy>()) Destroy(PlayerID.instance.GetComponent<YumeHeavy>());
+        base.DeSelect(player);
+    }
+
+    public int GetSpools()
+    {
+        return spools;
+    }
+
+    public void AddSpools(int nspools)
+    {
+        spools = (int) Math.Clamp(spools + nspools, 0, stats.ComputeValue("Max Spools"));
+        SaveManager.data.yume.spoolCount = spools;
+        if (nspools > 0)
+        {
+            GameplayEventHolder.OnAbilityUsed.Invoke(onSpoolGained);
+        }
+    }
+
+    public void SetWeaveTimer(float time)
+    {
+        spoolTimer = time;
+    }
+
+    public float GetWeaveTimer()
+    {
+        return spoolTimer;
     }
 
     public void ResetDuration()
     {
-        durationCounter = chainedDuration;
+        durationCounter = GetStats().ComputeValue("Fatebound Duration");
     }
 
     public void AddEnemy(GameObject hitTarget)
@@ -105,12 +145,12 @@ public class SeamstressManager : GhostManager
     public Transform FindNextTarget(GameObject cur)
     {
         Transform targetLoc = null;
-        float minDist = chainRange;
+        float minDist = GetStats().ComputeValue("Projectile Enemy Chain Range");
         for (int i = 0; i < linkableEnemies.Count; i++)
         {
             GameObject enemy = linkableEnemies.Dequeue();
 
-            if (enemy.GetInstanceID() == cur.GetInstanceID()) // if checking the currently linked enemy, pass
+            if (enemy == null || enemy.GetInstanceID() == cur.GetInstanceID()) // if checking the currently linked enemy, pass
             {
                 i--;
                 continue; // do not add the removed enemy back to the list, the enemy is already linked
@@ -134,7 +174,8 @@ public class SeamstressManager : GhostManager
     /// effect.
     /// </summary>
     /// <param name="enemyID"> The instance id of the enemy currently being damaged </param>
-    public void DamageLinkedEnemies(int enemyID, DamageContext context)
+    /// <param name="scaleDamageStrength"> Whether to scale the damage strength by sharedDmgScaling </param>
+    public void DamageLinkedEnemies(int enemyID, DamageContext context, bool scaleDamageStrength)
     {
         ptr = head;
 
@@ -142,11 +183,19 @@ public class SeamstressManager : GhostManager
         {
             if (ptr.enemy.GetInstanceID() != enemyID)
             {
-                DamageContext sharedDmg = new DamageContext();
-                sharedDmg.damage = context.damage * sharedDmgScaling;
+                // when damaging an enemy through fatebound effect, only damage, 
+                // damagestrength, and the victim will be set according to the origional damage
+                // action type and damage type will be preset in the editor
+                sharedDmg.damage = context.damage;
+                if (scaleDamageStrength)
+                {
+                    sharedDmg.damage *= sharedDmgScaling;
+                }
                 sharedDmg.damageStrength = context.damageStrength;
+                sharedDmg.victim = ptr.enemy;
 
-                ptr.enemy.GetComponent<Health>().NoContextDamage(sharedDmg, PlayerID.instance.gameObject);
+                //ptr.enemy.GetComponent<Health>().NoContextDamage(sharedDmg, PlayerID.instance.gameObject);
+                ptr.enemy.GetComponent<Health>().Damage(sharedDmg, PlayerID.instance.gameObject);
             }
             ptr = ptr.chainedTo;
         }
@@ -158,21 +207,23 @@ public class SeamstressManager : GhostManager
     /// <param name="enemyID"> The instance id of the enemy being removed </param>
     public void RemoveFromLink(int enemyID)
     {
+
         ptr = head;
 
-        if (ptr.enemy.GetInstanceID() == enemyID)
+        if (ptr.enemy != null && ptr.enemy.GetInstanceID() == enemyID)
         {
             head = head.chainedTo;
             return;
         }
 
-        while(ptr.enemy != null)
+        while (ptr.enemy != null)
         {
             if (ptr.chainedTo.enemy.GetInstanceID() == enemyID)
             {
                 ptr.chainedTo = ptr.chainedTo.chainedTo;
                 return;
             }
+            ptr = ptr.chainedTo;
         }
     }
 
@@ -183,7 +234,7 @@ public class SeamstressManager : GhostManager
     public bool IncrementRicochet()
     {
         ricochetCounter++;
-        return ricochetCounter == maxRicochet;
+        return ricochetCounter == GetStats().ComputeValue("Projectile Ricochet Count");
     }
 
     public void ResetRicochet()
@@ -203,5 +254,29 @@ public class SeamstressManager : GhostManager
         }
         ptr = head = tail = new ChainedEnemy();
         lineRenderer.positionCount = 0;
+    }
+
+    private void UpdateLinkedEnemies()
+    {
+        int i = 0; // used to keep track of each point used in line-render
+        if (head.enemy != null) // if linked list isn't empty
+        {
+            durationCounter -= Time.deltaTime;
+            if (durationCounter < 0)
+            {
+                ClearList();
+            }
+
+            // draw a line of connection between each enemy
+            ptr = head;
+
+            while (ptr.enemy != null)
+            {
+                lineRenderer.SetPosition(i, ptr.enemy.transform.position);
+                i++;
+                ptr = ptr.chainedTo;
+            }
+        }
+        lineRenderer.positionCount = i; // clear any extra points left behind when an enemy dies
     }
 }

@@ -24,6 +24,7 @@ public class GunWithLegs : EnemyStateManager
     //    GenerateDamageFrame(gunKick.position, gunKick.lossyScale.x, gunKick.lossyScale.y, kickDamage, gameObject);
     //}
 
+    // deprecated, as GREG will now only shoot forward, instead of at player's exact position
     protected void OnShootEvent1()
     {
         target = player.position;
@@ -32,7 +33,7 @@ public class GunWithLegs : EnemyStateManager
     // Instantiate projectile prefab and push self back
     protected void OnShootEvent2()
     {
-        Instantiate(projectile, rangeOrig.position, transform.rotation).GetComponent<EnemyProjectile>().Init(target);
+        Instantiate(projectile, rangeOrig.position, transform.rotation).GetComponent<EnemyProjectile>().Init(gameObject, rangeOrig.position + transform.right);
 
         rb.AddForce(transform.right * -3, ForceMode2D.Impulse);
     }
@@ -41,7 +42,6 @@ public class GunWithLegs : EnemyStateManager
     protected override void OnDrawGizmos()
     {
         base.OnDrawGizmos();
-        //Gizmos.DrawWireCube(gunKick.position, gunKick.lossyScale);
         Gizmos.DrawWireCube(gunShoot.position, gunShoot.lossyScale);
         Gizmos.DrawWireSphere(rangeOrig.position, 0.1f);
     }

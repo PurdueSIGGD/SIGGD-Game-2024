@@ -35,6 +35,9 @@ public class PlayerStateMachine : MonoBehaviour
     public bool heavyAttackQueued = false;
     public bool heavyAttackConsumed = false;
 
+    public bool specialQueued = false;
+    public bool specialConsumed = false;
+
     Animator animator; // the animator of the player object
     Rigidbody2D rb; // the rigidbody of the player object
     Camera mainCamera; //the main Camera of the current Scene
@@ -124,18 +127,7 @@ public class PlayerStateMachine : MonoBehaviour
             if (lightAttackConsumed) lightAttackConsumed = false;
         }
 
-        /*
         // Handle heavy attack input buffering
-        if (i_attack)
-        {
-            heavyAttackQueued = lightAttackConsumed;
-        }
-        else
-        {
-            heavyAttackQueued = false;
-        }
-        */
-
         if (i_heavy_attack)
         {
             heavyAttackQueued = !heavyAttackConsumed;
@@ -173,23 +165,7 @@ public class PlayerStateMachine : MonoBehaviour
     {
         if (lightAttackConsumed) return;
         lightAttackConsumed = true;
-
-        /*
-        if (isLightAttack2Ready)
-        {
-            //isLightAttack2Ready = false;
-            //lightAttack2ReadyTime = 0f;
-            SetLightAttack2Ready(false);
-        }
-        else
-        {
-            //lightAttack2ReadyTime = lightAttack2LingerTime;
-            //isLightAttack2Ready = true;
-            SetLightAttack2Ready(true);
-        }
-        */
         SetLightAttack2Ready(!isLightAttack2Ready);
-        Debug.Log("Light Attack Input Consumed");
     }
 
     public void SetLightAttackRecoveryState(bool isRecovering)
@@ -201,13 +177,30 @@ public class PlayerStateMachine : MonoBehaviour
     {
         if (heavyAttackConsumed) return;
         heavyAttackConsumed = true;
-        Debug.Log("Heavy Attack Input Consumed");
     }
 
     void UpdateSpecial()
     {
         bool i_special = specialInput.ReadValue<float>() != 0;
-        animator.SetBool("i_special", i_special);
+
+        // Handle special input buffering
+        if (i_special)
+        {
+            specialQueued = !specialConsumed;
+        }
+        else
+        {
+            specialQueued = false;
+            if (specialConsumed) specialConsumed = false;
+        }
+
+        animator.SetBool("i_special", specialQueued);
+    }
+
+    public void ConsumeSpecialInput()
+    {
+        if (specialConsumed) return;
+        specialConsumed = true;
     }
 
     void UpdateMouseDir()
@@ -245,6 +238,11 @@ public class PlayerStateMachine : MonoBehaviour
         animator.SetTrigger(triggerName);
     }
 
+    public void DisableTrigger(string triggerName)
+    {
+        animator.ResetTrigger(triggerName);
+    }
+
     public void OnCooldown(string cooldownName)
     {
         animator.SetBool(cooldownName, true);
@@ -261,6 +259,7 @@ public class PlayerStateMachine : MonoBehaviour
     /// <param name="duration"></param>
     public void SetStun(float duration)
     {
+        GameplayEventHolder.OnEntityStunned?.Invoke(gameObject);
         StartCoroutine(StunCoroutine(duration));
     }
 

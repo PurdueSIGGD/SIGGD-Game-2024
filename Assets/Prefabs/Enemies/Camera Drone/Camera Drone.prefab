@@ -146,7 +146,7 @@ GameObject:
   - component: {fileID: 7641910748012329919}
   - component: {fileID: 1467948147633493128}
   - component: {fileID: 1603849808541719507}
-  - component: {fileID: 3602954514945515610}
+  - component: {fileID: 314127137844374870}
   - component: {fileID: 8856570929518799469}
   - component: {fileID: 1221538207620342913}
   - component: {fileID: 4086416775877823508}
@@ -170,8 +170,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 5.427471, y: 1.5005159, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 7775618551989780944}
   - {fileID: 3644038881375788147}
@@ -321,9 +321,9 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.375, y: 1.25}
+  m_Size: {x: 2.5, y: 1.5}
   m_EdgeRadius: 0
---- !u!114 &3602954514945515610
+--- !u!114 &314127137844374870
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -337,11 +337,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stats: {fileID: 0}
   pool: {fileID: 0}
-  animator: {fileID: 6400381198355053387}
+  animator: {fileID: 0}
   isFlyer: 1
-  aggroRange: 16.76
+  aggroRange: 15
   isBeingKnockedBack: 0
   grounded: 0
+  groundedRayCheckLength: 1
   alarmTrigger: {fileID: 7775618551989780944}
   enemyToSummon: {fileID: 1487853512614266132, guid: 73f93381fbec0764a90fbc89c20293ff,
     type: 3}
@@ -383,6 +384,8 @@ MonoBehaviour:
     value: 10
   - name: Target Range Max
     value: 10
+  - name: Enemy Group Aggro Radius
+    value: 10
 --- !u!114 &1221538207620342913
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -397,7 +400,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Max Health
-    value: 10
+    value: 30
   deathLevel: 
 --- !u!114 &4086416775877823508
 MonoBehaviour:
@@ -411,11 +414,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20d794b3ea5a6da42ac5b8feade20f68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemy: {fileID: 0}
   actions:
   - name: Call Alarm
     priority: 1
-    ready: 0
+    ready: 1
     hitBox: {fileID: 7775618551989780944}
+    usesCircleHitbox: 0
     coolDown: 5
     animationClip: {fileID: 7400000, guid: 6be99b37274953c40b797d9e1744a2a7, type: 2}
   move:
@@ -423,6 +428,7 @@ MonoBehaviour:
     priority: 0
     ready: 0
     hitBox: {fileID: 0}
+    usesCircleHitbox: 0
     coolDown: 0
     animationClip: {fileID: 7400000, guid: 4739459637a37884c8ebb6a3ce1e90ce, type: 2}
   idle:
@@ -430,6 +436,7 @@ MonoBehaviour:
     priority: 0
     ready: 0
     hitBox: {fileID: 0}
+    usesCircleHitbox: 0
     coolDown: 0
     animationClip: {fileID: 7400000, guid: 468a49c330cf0294486adcfa8c854b6e, type: 2}
 --- !u!114 &5924195418159167760
@@ -450,6 +457,7 @@ MonoBehaviour:
     actionID: 17
     actionTypes: 08000000
     extraContext: 
+    ghostID: 0
 --- !u!114 &3348080620902511625
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -463,18 +471,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dropTable:
-  - obj: {fileID: 4809253014695496824, guid: fe291ced3ae40fc46a74c816a48d0e61, type: 3}
-    chance: 0.5
-    minCount: 0
-    maxCount: 3
   - obj: {fileID: 4809253014695496824, guid: 4950ea8f40c9d9944b6d20a6150d4cce, type: 3}
-    chance: 0.8
-    minCount: 0
-    maxCount: 2
+    chance: 1
+    minCount: 3
+    maxCount: 4
+  - obj: {fileID: 4809253014695496824, guid: fe291ced3ae40fc46a74c816a48d0e61, type: 3}
+    chance: 1
+    minCount: 3
+    maxCount: 4
   - obj: {fileID: 4809253014695496824, guid: e8a6431bc0e6c7a4e922f586f4216e97, type: 3}
     chance: 1
-    minCount: 0
-    maxCount: 2
+    minCount: 3
+    maxCount: 4
 --- !u!114 &3397753109862796679
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -489,7 +497,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Stun Threshold
-    value: 100
+    value: 20
   currentStun: 0
   maxStun: 0
 --- !u!1001 &1498013908851705233

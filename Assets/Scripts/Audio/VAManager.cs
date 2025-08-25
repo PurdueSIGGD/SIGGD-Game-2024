@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class VAManager : MonoBehaviour {
 
+    [SerializeField] private AudioManager audioManager;
     [SerializeField] private AudioLookUpTable lookUpTable;
 
     // Used to avoid voiceline spam
@@ -14,7 +15,8 @@ public class VAManager : MonoBehaviour {
     private const float VOICE_LINE_CHANCE_GAIN_PER_SECOND = 1.0f;
 
     // Start is called before the first frame update    
-    void Start() {
+    void Awake() {
+        audioManager = AudioManager.Instance;
         StartCoroutine(Debug_Culling_Status());
     }
 
@@ -27,6 +29,12 @@ public class VAManager : MonoBehaviour {
     }
 
     public void PlayVATrack(string trackName) {
+        if (!lookUpTable.vaTable.ContainsKey(trackName))
+        {
+            Debug.LogWarning("Cannot find VA track recorded under name: " + trackName);
+            return;
+        }
+
         float temp = UnityEngine.Random.Range(0, 1.0f);
         bool willPlayTrack = globalVoicelineChance > temp;
         if (willPlayTrack) {
@@ -36,12 +44,13 @@ public class VAManager : MonoBehaviour {
                 float trackLength = 0.0f;
                 if (castedTrack is SoundBankVATrack) {
                     SoundBankVATrack recastedTrack = (SoundBankVATrack) castedTrack;
+                    if (recastedTrack.lastSkipped) return;
                     OneShotVATrack reRecastedTrack = (OneShotVATrack) recastedTrack.GetMostRecentTrack();
-                    trackLength = reRecastedTrack.GetTrackLength();
+                    if (reRecastedTrack != null) trackLength = reRecastedTrack.GetTrackLength();
                 }
                 if (castedTrack is OneShotVATrack) {
                     OneShotVATrack recastedTrack = (OneShotVATrack) castedTrack;
-                    trackLength = recastedTrack.GetTrackLength();
+                    if (recastedTrack != null) trackLength = recastedTrack.GetTrackLength();
                 }
                 voicelineCullingTimer = Math.Max(voicelineCullingTimer, trackLength);
                 globalVoicelineChance = 0.0f;
@@ -51,11 +60,25 @@ public class VAManager : MonoBehaviour {
 
     // Don't test for voiceline spam - conversation lines MUST play
     public void PlayConversationLine(string convName, int lineNumber) {
-        lookUpTable.conversationTable[convName].PlayTrack(lineNumber);
+        try
+        {
+            lookUpTable.conversationTable[convName].PlayTrack(lineNumber);
+        } 
+        catch (Exception e)
+        {
+            Debug.LogWarning("Cannot find conversation " + convName + " with line number " + lineNumber);
+        }
     }
 
     public void StopConversationLine(string convName, int lineNumber) {
-        lookUpTable.conversationTable[convName].StopTrack(lineNumber);
+        try
+        {
+            lookUpTable.conversationTable[convName].StopTrack(lineNumber);
+        }
+        catch (Exception e)
+        {
+            Debug.LogWarning("Cannot find conversation " + convName + " with line number " + lineNumber);
+        }
     }
 
     public IEnumerator Debug_Culling_Status() {
@@ -63,7 +86,7 @@ public class VAManager : MonoBehaviour {
             String msg = "";
             msg += "globalVoicelineChance: " + globalVoicelineChance + "\n";
             msg += "voicelineCullingTimer: " + voicelineCullingTimer;
-            Debug.Log(msg);
+            //Debug.Log(msg);
             yield return new WaitForSeconds(1.0f);
         }
     }

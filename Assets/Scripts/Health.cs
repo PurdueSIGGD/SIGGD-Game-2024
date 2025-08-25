@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -13,19 +14,19 @@ public class Health : MonoBehaviour, IDamageable, IStatList
 
     [NonSerialized] public float currentHealth; // Current health of player
     [NonSerialized] public bool isAlive = true; // Checks if player is still alive
-    private StatManager stats;
+    [NonSerialized] private float damageResistance = 0.0f; // 0 to 1, Multiply damage by (1 - resistance) 
+
+    protected StatManager stats;
     [SerializeField] private string deathLevel;
 
     public delegate void DamageFilters(DamageContext context);
 
 
-    // Start is called before the first frame update
     void Start()
     {
         stats = GetComponent<StatManager>();
         currentHealth = stats.ComputeValue("Max Health");
     }
-
 
     public float Damage(DamageContext context, GameObject attacker)
     {
@@ -33,7 +34,7 @@ public class Health : MonoBehaviour, IDamageable, IStatList
         context.attacker = attacker;
         context.victim = gameObject;
         context.trueDamage = context.damage;
-        context.damage = Mathf.Clamp(context.damage, 0f, currentHealth);
+        //context.damage = Mathf.Clamp(context.damage, 0f, currentHealth);
         context.invokingScript = this;
 
         // potential alternative implementation of the foreach header:
@@ -42,7 +43,36 @@ public class Health : MonoBehaviour, IDamageable, IStatList
         foreach (GameplayEventHolder.DamageFilterEvent filter in GameplayEventHolder.OnDamageFilter)
         {
             filter(ref context);
-            Debug.Log("After Filter: " + context.damage);
+            Debug.Log("After Filter " + filter + ": " + context.damage);
+        }
+
+        // Resistance
+        context.damage *= 1.0f - damageResistance;
+
+        // Clamp damage dealt
+        context.damage = Mathf.Clamp(context.damage, 0f, currentHealth);
+
+        // Handle mortal wounds
+        if (gameObject.Equals(PlayerID.instance.gameObject))
+        {
+            float damagedHealth = currentHealth - context.damage;
+            if (currentHealth > (stats.ComputeValue("Wounded Threshold") * stats.ComputeValue("Max Health")) &&
+                damagedHealth <= (stats.ComputeValue("Wounded Threshold") * stats.ComputeValue("Max Health")))
+            {
+                context.isCriticalHit = true;
+                context.damageStrength = DamageStrength.HEAVY;
+            }
+            if (currentHealth > (stats.ComputeValue("Mortal Wound Threshold") * stats.ComputeValue("Max Health")) &&
+                damagedHealth <= (stats.ComputeValue("Mortal Wound Threshold") * stats.ComputeValue("Max Health")))
+            {
+                context.isCriticalHit = true;
+                context.damageStrength = DamageStrength.HEAVY;
+            }
+            if (damagedHealth <= 0f)
+            {
+                context.isCriticalHit = true;
+                context.damageStrength = DamageStrength.HEAVY;
+            }
         }
 
         Debug.Log("Damaged: " + context.damage);
@@ -72,28 +102,32 @@ public class Health : MonoBehaviour, IDamageable, IStatList
     public float NoContextDamage(DamageContext context, GameObject attacker)
     {
         context.attacker = attacker;
+        context.victim = gameObject;
         context.damage = Mathf.Clamp(context.damage, 0f, currentHealth);
 
+        // Resistance
+        context.damage *= 1.0f - damageResistance;
+
         currentHealth -= context.damage;
+
+        AggroEnemy(context.victim);
 
         if (currentHealth <= 0f)
         {
             Kill(context);
         }
 
-        AggroEnemy(context.victim);
-
         return context.damage;
     }
 
-    public float Heal(HealingContext context, GameObject healer)
+    public virtual float Heal(HealingContext context, GameObject healer)
     {
         // Configure healing context
         float missingHealth = stats.ComputeValue("Max Health") - currentHealth;
         context.healer = healer;
         context.healee = gameObject;
         context.trueHealing = context.healing;
-        context.healing = Mathf.Clamp(context.healing, 0f, missingHealth);
+        //context.healing = Mathf.Clamp(context.healing, 0f, missingHealth);
         context.invokingScript = this;
 
         foreach (GameplayEventHolder.HealingFilterEvent filter in GameplayEventHolder.OnHealingFilter)
@@ -101,8 +135,11 @@ public class Health : MonoBehaviour, IDamageable, IStatList
             filter(ref context);
         }
 
+        // Clamp healing provided
+        context.healing = Mathf.Clamp(context.healing, 0f, missingHealth);
+
         // Increase current health
-        currentHealth += context.healing;
+        if (isAlive) currentHealth += context.healing;
 
         // Trigger events
         GameplayEventHolder.OnHealingDealt?.Invoke(context);
@@ -122,6 +159,12 @@ public class Health : MonoBehaviour, IDamageable, IStatList
         //Trigger Events
         GameplayEventHolder.OnDeath?.Invoke(context);
 
+        // go to custom death implementation if dead object is a boss
+        if (context.victim.GetComponent<BossController>() != null)
+        {
+            context.victim.GetComponent<BossController>().StartDefeatSequence();
+            return;
+        }
         StartCoroutine(DeathCoroutine(context));
     }
 
@@ -132,30 +175,9 @@ public class Health : MonoBehaviour, IDamageable, IStatList
             Destroy(gameObject);
             yield break;
         }
-
-        Time.timeScale = 0;
-        gameObject.layer = 0; // I really hope this doesn't collide with anything
-        if (GetComponent<PlayerInput>() != null) GetComponent<PlayerInput>().enabled = false;
-
-        float startTime = Time.unscaledTime;
-        float endTime = startTime + 3;
-
-        Vector3 originalScale = transform.localScale;
-
-        while (Time.unscaledTime < endTime)
-        {
-            float timePercentage = (Time.unscaledTime - startTime) / (endTime - startTime);
-
-            transform.Rotate(0, 0, Time.unscaledDeltaTime * 360);
-            transform.localScale = originalScale * (1 - timePercentage);
-
-            yield return null;
-        }
-
-        gameObject.SetActive(false);
-
-        SceneManager.LoadScene("Eva Fractal Hub");
-        Time.timeScale = 1;
+        PlayerDeathManager playerDeath = gameObject.GetComponent<PlayerDeathManager>();
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("PlayerDiesSFX");
+        playerDeath.PlayDeathAnim();
     }
 
     public StatManager.Stat[] GetStatList()
@@ -170,8 +192,28 @@ public class Health : MonoBehaviour, IDamageable, IStatList
             EnemyStateManager enemy = obj.GetComponent<EnemyStateManager>();
             if (enemy != null && (enemy.GetCurrentState().GetType().Equals(typeof(IdleState)) || enemy.GetCurrentState().GetType().Equals(typeof(MoveState))))
             {
-                enemy.SwitchState(new AggroState());
+                enemy.SwitchState(enemy.AggroState);
             }
         }
+    }
+
+    public float GetDamageResistance()
+    {
+        return damageResistance;
+    }
+
+    public void SetDamageResistance(float damageResistance)
+    {
+        this.damageResistance = Mathf.Clamp(damageResistance, 0.0f, 1.0f);
+    }
+
+    public void ModifyDamageResistance(float delta)
+    {
+        damageResistance = Mathf.Clamp(damageResistance + delta, 0.0f, 1.0f);
+    }
+
+    public StatManager GetStats()
+    {
+        return stats;
     }
 }

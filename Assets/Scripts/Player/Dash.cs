@@ -23,9 +23,12 @@ public class Dash : MonoBehaviour, IStatList
     private OrionManager orionManager;
     private PlayerStateMachine psm;
 
+    private OldFling oldFlingSkill; // Reference to OldFling
+
     [Header("Delegate Override Variables")]
     public SpecialAction specialAction;
     public delegate void SpecialAction(); // delegate to contain any ghost overrides
+
 
     private void Start()
     {
@@ -66,6 +69,7 @@ public class Dash : MonoBehaviour, IStatList
     public void StartDash()
     {
         GetComponent<Move>().PlayerStop();
+        GetComponent<Health>().GetStats().ModifyStat("Dodge Chance", 1000);
         Vector3 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         Vector2 direction = ((Vector2) mousePos - (Vector2) transform.position).normalized;
         if (GetComponent<Animator>().GetBool("p_grounded"))
@@ -85,11 +89,23 @@ public class Dash : MonoBehaviour, IStatList
         Vector2 displacement = direction * stats.ComputeValue("Max Dash Distance");
         this.velocity = displacement / stats.ComputeValue("Dash Time");
         StartCoroutine(DashCoroutine());
+
+        // Old Fling for Aegis - King
+
+        GhostIdentity king = null;
+        PartyManager.instance.GetIdentitiesByName().TryGetValue("Aegis-King", out king);
+
+        if (king != null)
+        {
+            king.GetComponent<OldFling>().AddExtraHealth();
+        }
+
     }
 
     public void StopDash()
     {
         GetComponent<Move>().PlayerGo();
+        GetComponent<Health>().GetStats().ModifyStat("Dodge Chance", -1000);
         if (GetComponent<Animator>().GetBool("p_grounded")) return;
         GetComponent<Move>().ApplyKnockback(rb.velocity.normalized, rb.velocity.magnitude, true);
         GetComponent<Animator>().SetBool("air_light_ready", true);
@@ -100,10 +116,10 @@ public class Dash : MonoBehaviour, IStatList
     {
         isDashing = true;
 
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("Dash");
         yield return new WaitForSeconds(stats.ComputeValue("Dash Time") - 0.05f);
         orionManager.setSpecialCooldown(stats.ComputeValue("Dash Cooldown"));
         yield return new WaitForSeconds(0.05f);
-        AudioManager.Instance.SFXBranch.PlaySFXTrack("Dash");
         AudioManager.Instance.VABranch.PlayVATrack("Orion Dash");
 
         rb.velocity *= stats.ComputeValue("Post Dash Momentum Fraction");

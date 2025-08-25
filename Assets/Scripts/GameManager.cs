@@ -24,10 +24,16 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("TitleScene");
     }
 
-    public void OnGame()
+    public void OnNew()
     {
-        SceneManager.LoadScene("PrePrologue");
+        SaveManager.data = new SaveData();
+        SaveManager.instance.Save();
+        SceneManager.LoadScene("Prologue_1");
+    }
 
+    public void OnContinue()
+    {
+        SceneManager.LoadScene("HubWorld");
     }
 
     public void OnCredit()

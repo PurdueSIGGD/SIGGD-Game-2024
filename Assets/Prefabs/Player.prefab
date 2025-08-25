@@ -90,8 +90,8 @@ Transform:
   m_GameObject: {fileID: 1398568264850401254}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.65, y: 0, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 1}
+  m_LocalPosition: {x: 1.5, y: 0, z: 0}
+  m_LocalScale: {x: 5, y: 3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6481614880432510513}
@@ -10109,6 +10109,58 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!1 &3749238224863162977
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1491888151332225453}
+  - component: {fileID: 219486061075428498}
+  m_Layer: 6
+  m_Name: VFX Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1491888151332225453
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3749238224863162977}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6481614880432510513}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &219486061075428498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3749238224863162977}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58f889470b4ec8448b4298084d1bc4a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerLightAttack1: {fileID: 7966241730260626198, guid: 37284dde1f859994c9b3145b040c0913,
+    type: 3}
+  playerLightAttack2: {fileID: 7966241730260626198, guid: 7d08388adefabb54faa37a410277c815,
+    type: 3}
+  playerHeavyAttack: {fileID: 7966241730260626198, guid: f2c5fe203366aed4ea61a122c7c2664b,
+    type: 3}
+  playerLightAttackUp: {fileID: 7966241730260626198, guid: 109d0d694c13b2240accd60756551b25,
+    type: 3}
 --- !u!1 &4039933941367986174
 GameObject:
   m_ObjectHideFlags: 0
@@ -30091,6 +30143,54 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!1 &7510436821538815477
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 975567485914408393}
+  - component: {fileID: 5895659508162953415}
+  m_Layer: 6
+  m_Name: Damage Number Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &975567485914408393
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7510436821538815477}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6481614880432510513}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5895659508162953415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7510436821538815477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f45c5c1680ef8bb4c851851346ca7366, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageNumber: {fileID: 2757800828608404959, guid: 4b9a528af95ff844b89f991ba48a59cc,
+    type: 3}
+  healingNumber: {fileID: 2757800828608404959, guid: 5474291f69167df468c8f2983bd3aa5c,
+    type: 3}
 --- !u!1 &8038898728028484432
 GameObject:
   m_ObjectHideFlags: 0
@@ -35115,7 +35215,6 @@ GameObject:
   - component: {fileID: 8547351280330222855}
   - component: {fileID: 591852133945516386}
   - component: {fileID: 2579748896217751675}
-  - component: {fileID: 5792560551522244267}
   - component: {fileID: 5130688100074952564}
   - component: {fileID: 584762093013841786}
   - component: {fileID: 8185085331476045831}
@@ -35124,6 +35223,12 @@ GameObject:
   - component: {fileID: 8099870004011389086}
   - component: {fileID: 1325501314099060030}
   - component: {fileID: 7301745340384326151}
+  - component: {fileID: 5933473747196306455}
+  - component: {fileID: 8596380051338084535}
+  - component: {fileID: 3440197112979840949}
+  - component: {fileID: 4006401410313971276}
+  - component: {fileID: 2910134560478045326}
+  - component: {fileID: 1674031420618944405}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -35140,7 +35245,7 @@ Transform:
   m_GameObject: {fileID: 8252758106455385166}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.33, y: 1.65, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -35148,6 +35253,8 @@ Transform:
   - {fileID: 6337371637573212274}
   - {fileID: 8936365801310724329}
   - {fileID: 3568753109793820066}
+  - {fileID: 1491888151332225453}
+  - {fileID: 975567485914408393}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5199045754590476303
@@ -35191,7 +35298,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 375534085, guid: 4fc3b5f8863d60845b08275312c356d9, type: 3}
+  m_Sprite: {fileID: 564845355, guid: 6f9f9d283ccee2f4aa33dfe159144650, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -35296,7 +35403,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 3.5310345, y: 2.7}
+    oldSize: {x: 4.7999997, y: 4.7999997}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -35353,6 +35460,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ghostLimit: 0
   isStoryRoom: 0
+  allGhosts:
+  - {fileID: 981645078808632434, guid: 3d4ea118b0555b54a9d9c729919ffebf, type: 3}
+  - {fileID: 981645078808632434, guid: fdd8ae73b7b34f74fb40fe805250a3aa, type: 3}
+  - {fileID: 8575993293382114818, guid: 5710fded880e06247a23667bd6f26d56, type: 3}
+  - {fileID: 4105203604402636954, guid: c7f5475ff351d944198b6f2953b7cd6e, type: 3}
+  - {fileID: 981645078808632434, guid: e0ec48fa54081d9459b47d6c59b33828, type: 3}
+  - {fileID: 8202687041202382142, guid: 910875b692ef0ee4a9934c2b75b1662d, type: 3}
+  selectedGhost: Orion
 --- !u!114 &3265562016652939407
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35376,6 +35491,8 @@ MonoBehaviour:
   lightAttack2LingerTime: 1.5
   heavyAttackQueued: 0
   heavyAttackConsumed: 0
+  specialQueued: 0
+  specialConsumed: 0
 --- !u!114 &2221814288652233453
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35501,22 +35618,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactRadius: 5
---- !u!114 &5792560551522244267
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8252758106455385166}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a13ad00583bca6b4fa6de9939a968201, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  statList:
-  - name: Max Health
-    value: 100
-  deathLevel: 
 --- !u!114 &5130688100074952564
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35554,7 +35655,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 066d6eb94556a8d4eb54327276580930, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 3
+  range: 2.5
   angle: 80
   lightDamage:
     damageStrength: 1
@@ -35562,6 +35663,7 @@ MonoBehaviour:
     actionID: 1
     actionTypes: 00000000
     extraContext: 
+    ghostID: 0
   statList:
   - name: Damage
     value: 20
@@ -35576,6 +35678,7 @@ MonoBehaviour:
   attackMask:
     serializedVersion: 2
     m_Bits: 2097152
+  vfxSpawnPos: 1
 --- !u!114 &8185085331476045831
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35607,17 +35710,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Heavy Damage
-    value: 60
+    value: 40
+  - name: Super Heavy Damage
+    value: 80
   - name: Accel. while Heavy
     value: 0.5
   - name: Deaccel. while Heavy
-    value: 0.8
+    value: 0.7
   - name: Max Speed while Heavy
-    value: 5
+    value: 4
   - name: Heavy Charge Up Time
-    value: 0.2
+    value: 0.5
   - name: Heavy Primed Autofire Time
-    value: 0.8
+    value: 1
   defaultController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
   ghostController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
   heavyIndicator: {fileID: 1398568264850401254}
@@ -35627,7 +35732,8 @@ MonoBehaviour:
     actionID: 2
     actionTypes: 01000000
     extraContext: Player Heavy
-  offsetX: 1.65
+    ghostID: 0
+  offsetX: 1.5
   isDashEnabled: 1
   isAirbornePostDash: 0
 --- !u!114 &6912038939047199345
@@ -35662,6 +35768,7 @@ MonoBehaviour:
     actionID: 17
     actionTypes: 08000000
     extraContext: 
+    ghostID: 0
   damage: 20
 --- !u!114 &1325501314099060030
 MonoBehaviour:
@@ -35675,12 +35782,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4e5155d49d0fb54c926620c3a33d788, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healPerSpirit: 0.25
+  healPerSpirit: 0.1
+  healPerPinkSpirit: 0.8
   healContext:
-    healing: 0.25
+    healing: 0
     actionID: 17
     actionTypes: 08000000
     extraContext: 
+    ghostID: 0
 --- !u!114 &7301745340384326151
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35691,6 +35800,212 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eaa34baad0a3b6048927eb1a7368f600, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5933473747196306455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8252758106455385166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc353fcbdb963e84d880d2d6cb407830, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  statList:
+  - name: Max Health
+    value: 100
+  - name: Wounded Threshold
+    value: 0.667
+  - name: Mortal Wound Threshold
+    value: 0.333
+  - name: Dodge Chance
+    value: 100
+  deathLevel: HubWorld
+  baseDodgeChance: 5
+  dodgeIcon: {fileID: 21300000, guid: e2b6bdbec334c0a4697387d7d4bb2a53, type: 3}
+  tempoIcon: {fileID: 21300000, guid: 624223a05e012074d9154f1784fe33de, type: 3}
+  selfMedicatedIcon: {fileID: 21300000, guid: 6bc75842910e4914795b964208046d00, type: 3}
+  orionCharacterInfo: {fileID: 11400000, guid: 5d92207d173587c4886414c08aba2501, type: 2}
+  dodgeVFX: {fileID: 7966241730260626198, guid: a5295bc6cb8948243b75f99e5a18cc48,
+    type: 3}
+  evaTempo: {fileID: 0}
+  silasSelfMedicated: {fileID: 0}
+--- !u!114 &8596380051338084535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8252758106455385166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adabfe4036ea5c2479b3217078b6c826, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timescale: 1
+  realtimeDuration: 5
+  realtimeFadeOutStart: 3.9
+  realtimeFadeOutDuration: 1
+  realtimeDeathRingStart: 0
+  respawnScene: HubWorld
+--- !u!114 &3440197112979840949
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8252758106455385166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 504714de123b23748b33ef161afd453f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  statList:
+  - name: General Attack Damage Boost
+    value: 1
+  - name: Light Attack Damage Boost
+    value: 1
+  - name: Heavy Attack Damage Boost
+    value: 1
+  - name: Stun Damage Boost
+    value: 1
+  - name: Stun Duration Boost
+    value: 1
+  - name: Crit Chance
+    value: 100
+  - name: Crit Damage Boost
+    value: 3
+  - name: Damage Resistance
+    value: 1
+  - name: Melee Damage Resistance
+    value: 1
+  - name: Projectile/Area Damage Resistance
+    value: 1
+  - name: Elite Damage Resistance
+    value: 1
+  - name: Critical Health Damage Resistance
+    value: 1
+  - name: Cooldown Speed Boost
+    value: 100
+  - name: Healing Boost
+    value: 1
+  - name: Spirit Drop Rate Boost
+    value: 1
+  baseCritChance: 0
+  pulseExplosionVFX: {fileID: 7966241730260626198, guid: a5295bc6cb8948243b75f99e5a18cc48,
+    type: 3}
+  critDealtPulseColor: {r: 0.9254902, g: 0.3254902, b: 0.972549, a: 1}
+  critTakenPulseColor: {r: 0.77254903, g: 0, b: 0, a: 1}
+  critIcon: {fileID: 21300000, guid: 479f4995fb0308148b6f772ddf0531ea, type: 3}
+  damageResistanceIcon: {fileID: 21300000, guid: 150239b220dcdfe4c887a06a669c64bc,
+    type: 3}
+--- !u!114 &4006401410313971276
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8252758106455385166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5231546b67cf7f04b8c4b3cee74a6e0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hasteLevelBuff: 2
+  lethalityLevelBuff: 5
+  fortitudeLevelBuff: 5
+  dexterityLevelBuff: 1
+  precisionLevelBuff: 1
+  tenacityLevelBuff: 3
+  proficiencyLevelBuff: 2
+  brutalityLevelBuff: 5
+  recoveryLevelBuff: 3
+--- !u!114 &2910134560478045326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8252758106455385166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f950504ecb7cfd24d8d15882c267b7dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  alacrity: {fileID: 11400000, guid: 0a02df939a3de5c43b18b63677e05b50, type: 2}
+  alacrityBuff: 300
+  attunement: {fileID: 11400000, guid: 8ac77df64a69eca49876c1fbb1610b4d, type: 2}
+  attunementBuff: 35
+  impendingDoom: {fileID: 11400000, guid: ee02c5748a510b24094b9b84d787824e, type: 2}
+  impendingDoomBuff: 30
+  relentlessPursuit: {fileID: 11400000, guid: b324e49e295a0a54c9bcaaeeb813c0ae, type: 2}
+  relentlessPursuitBuff: 25
+  slipstream: {fileID: 11400000, guid: aea4fd0278d5d0c4b9855d53c1757578, type: 2}
+  slipstreamBuff: 75
+  tailwind: {fileID: 11400000, guid: 476cf40ad80fdb747809a35b797c0119, type: 2}
+  tailwindBuff: 50
+  uncannyReflexes: {fileID: 11400000, guid: de0a8c58a3c95b2418fa21015e3e0e37, type: 2}
+  uncannyReflexesBuff: 10
+  upRush: {fileID: 11400000, guid: 81ff7befeb0ef5c429e9c829cb056ee9, type: 2}
+  upRushBuff: 50
+  windBreaker: {fileID: 11400000, guid: 5f7d23b6ea524804694a067c6cabfa49, type: 2}
+  windBreakerBuff: 50
+  devastation: {fileID: 11400000, guid: b9be621cf106c954e9f9b6334e3db612, type: 2}
+  devastationBuff: 200
+  executioner: {fileID: 11400000, guid: 4209fbb3d67ab5a4a981818590e1741d, type: 2}
+  executionerBuff: 25
+  faustianBargain: {fileID: 11400000, guid: d3b868773350c99479dfe8a0ab3ed1f9, type: 2}
+  faustianBargainBuff: 40
+  faustianBargainDamage:
+    damageStrength: 3
+    damageTypes: 04000000
+    actionID: 17
+    actionTypes: 08000000
+    extraContext: 
+    ghostID: 0
+  onslaught: {fileID: 11400000, guid: b609395a99fc06249ad62601a61704a7, type: 2}
+  onslaughtBuff: 10
+  opportunist: {fileID: 11400000, guid: 2afd4350c45709945af809ae8baaa6d6, type: 2}
+  opportunistBuff: 75
+  paralyzer: {fileID: 11400000, guid: 6296fb3f45b5aab40b31b05ee02c7207, type: 2}
+  paralyzerBuff: 75
+  recklessRuin: {fileID: 11400000, guid: 973876a0b68a2b2418455cc0fb13384d, type: 2}
+  recklessRuinBuff: 30
+  recklessRuinCurse: 30
+  skirmisher: {fileID: 11400000, guid: 76af299a5d87f894289ac66e278375a2, type: 2}
+  skirmisherBuff: 25
+  vigor: {fileID: 11400000, guid: b136f85500e50ae4e9e9aaab048a6812, type: 2}
+  vigorBuff: 300
+  bane: {fileID: 11400000, guid: 6bb28f6b74703644eb79909efb799729, type: 2}
+  baneBuff: 20
+  battleScars: {fileID: 11400000, guid: 67a877ada2e74cf4f8294bd18f51cde4, type: 2}
+  battleScarsBuff: 2
+  bountifulHarvest: {fileID: 11400000, guid: 33932244a780eb4409e91874795e8bc0, type: 2}
+  bountifulHarvestBuff: 30
+  direStraits: {fileID: 11400000, guid: 82c384bac1a9731428dd8359936e998e, type: 2}
+  direStraitsBuff: 20
+  healingFactor: {fileID: 11400000, guid: e00ed23df8e9eb14aabf5d51e4619a67, type: 2}
+  healingFactorBuff: 40
+  lifeReap: {fileID: 11400000, guid: 09f62a4eb0cc5b240be9c76b710268e6, type: 2}
+  scourge: {fileID: 11400000, guid: b3f0bfbc983b5cc43b73beaa25cca553, type: 2}
+  scourgeBuff: 15
+  resolve: {fileID: 11400000, guid: ee35da0f8e056d144b69f798034fc1b6, type: 2}
+  resolveBuff: 300
+  vitality: {fileID: 11400000, guid: fc1044fe8b2ff6b42805a7bee4b62de8, type: 2}
+  vitalityBuff: 20
+--- !u!114 &1674031420618944405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8252758106455385166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5563024c0e12524d81bc1bb22457658, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &8764437494633651125

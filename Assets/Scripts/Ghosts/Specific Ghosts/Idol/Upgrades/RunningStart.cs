@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class RunningStart : Skill
 {
-    private static int pointindex;
-
-    //void Start()
-    //{
-    //    GameplayEventHolder.OnAbilityUsed += ApplyBuff;
-    //}
+    [SerializeField]
+    List<int> values = new List<int>
+    {
+        0, 1, 2, 3, 4
+    };
+    private int pointindex;
 
     private void OnEnable()
     {
@@ -23,14 +23,16 @@ public class RunningStart : Skill
 
     private void ApplyBuff(ActionContext context)
     {
-        if (context.actionID == ActionID.IDOL_SPECIAL)
+        if (context.actionID == ActionID.IDOL_SPECIAL && pointindex > 0)
         {
             // attempt to grab the Idol passive script
             IdolPassive passive = GetComponent<IdolPassive>();
             if (passive)
             {
-                passive.IncrementTempo(pointindex);
+                passive.IncrementTempo(values[pointindex]);
             }
+            // Activate Feedback Loop manually because the clone doesn't spawn fast enough in the special script
+            GetComponent<FeedbackLoop>().reduceCooldown(true);
         }
     }
 

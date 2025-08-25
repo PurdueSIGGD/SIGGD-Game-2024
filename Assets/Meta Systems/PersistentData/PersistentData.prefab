@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 2063011619854580813}
   - component: {fileID: 1295864056748667176}
   - component: {fileID: 2191272423200367326}
+  - component: {fileID: 2919452401861576699}
+  - component: {fileID: 3315859326983916259}
   m_Layer: 0
   m_Name: PersistentData
   m_TagString: Untagged
@@ -89,9 +91,74 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d62ae0ca06e1f6042b1e81bae41522e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  roomCleared: 0
   startMinEnemiesSpawn: 3
   startMaxEnemiesSpawn: 4
-  endMinEnemiesSpawn: 5
-  endMaxEnemiesSpawn: 6
+  endMinEnemiesSpawn: 10
+  endMaxEnemiesSpawn: 13
   startWaveNum: 1
-  endWaveNum: 3
+  endWaveNum: 2
+  showEnemyThreshold: 3
+  enemyIndicator: {fileID: 4796005695382463095, guid: a2b5bd3d897061f4895d9cfc5dcb2c0c,
+    type: 3}
+  doorIndicator: {fileID: 4796005695382463095, guid: b422fc6518f0c3f4284ccf6a2d8083a8,
+    type: 3}
+  spawnOrb: {fileID: 7951563050262519672, guid: 51f3e66446b7f2d4a95e966db00b3f18,
+    type: 3}
+  bossRoomOverride: 0
+--- !u!114 &2919452401861576699
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5413687969520788832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92852e65bb53a9d4d804ce853e8edca6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3315859326983916259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5413687969520788832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2d4628ee8706ee49ba502678eb7208d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ownedItems: []
+  redItemPool:
+  - {fileID: 11400000, guid: b9be621cf106c954e9f9b6334e3db612, type: 2}
+  - {fileID: 11400000, guid: 4209fbb3d67ab5a4a981818590e1741d, type: 2}
+  - {fileID: 11400000, guid: d3b868773350c99479dfe8a0ab3ed1f9, type: 2}
+  - {fileID: 11400000, guid: b609395a99fc06249ad62601a61704a7, type: 2}
+  - {fileID: 11400000, guid: 2afd4350c45709945af809ae8baaa6d6, type: 2}
+  - {fileID: 11400000, guid: 6296fb3f45b5aab40b31b05ee02c7207, type: 2}
+  - {fileID: 11400000, guid: 973876a0b68a2b2418455cc0fb13384d, type: 2}
+  - {fileID: 11400000, guid: 76af299a5d87f894289ac66e278375a2, type: 2}
+  - {fileID: 11400000, guid: b136f85500e50ae4e9e9aaab048a6812, type: 2}
+  blueItemPool:
+  - {fileID: 11400000, guid: 8ac77df64a69eca49876c1fbb1610b4d, type: 2}
+  - {fileID: 11400000, guid: ee02c5748a510b24094b9b84d787824e, type: 2}
+  - {fileID: 11400000, guid: b324e49e295a0a54c9bcaaeeb813c0ae, type: 2}
+  - {fileID: 11400000, guid: aea4fd0278d5d0c4b9855d53c1757578, type: 2}
+  - {fileID: 11400000, guid: 0a02df939a3de5c43b18b63677e05b50, type: 2}
+  - {fileID: 11400000, guid: 476cf40ad80fdb747809a35b797c0119, type: 2}
+  - {fileID: 11400000, guid: de0a8c58a3c95b2418fa21015e3e0e37, type: 2}
+  - {fileID: 11400000, guid: 81ff7befeb0ef5c429e9c829cb056ee9, type: 2}
+  - {fileID: 11400000, guid: 5f7d23b6ea524804694a067c6cabfa49, type: 2}
+  yellowItemPool:
+  - {fileID: 11400000, guid: 6bb28f6b74703644eb79909efb799729, type: 2}
+  - {fileID: 11400000, guid: 67a877ada2e74cf4f8294bd18f51cde4, type: 2}
+  - {fileID: 11400000, guid: 33932244a780eb4409e91874795e8bc0, type: 2}
+  - {fileID: 11400000, guid: 82c384bac1a9731428dd8359936e998e, type: 2}
+  - {fileID: 11400000, guid: e00ed23df8e9eb14aabf5d51e4619a67, type: 2}
+  - {fileID: 11400000, guid: 09f62a4eb0cc5b240be9c76b710268e6, type: 2}
+  - {fileID: 11400000, guid: b3f0bfbc983b5cc43b73beaa25cca553, type: 2}
+  - {fileID: 11400000, guid: ee35da0f8e056d144b69f798034fc1b6, type: 2}
+  - {fileID: 11400000, guid: fc1044fe8b2ff6b42805a7bee4b62de8, type: 2}
+  battleScarsStacks: 0

@@ -48,6 +48,7 @@ public class EnemyHealth : MonoBehaviour
     private Health health;
     private StunMeter stun;
     private StatManager stat;
+    private EnemyStateManager enemyStateManager;
     private Quaternion UIRotation;
     private Vector3 UIScale;
     private float UIScaleFactor;
@@ -76,6 +77,7 @@ public class EnemyHealth : MonoBehaviour
         health = GetComponentInParent<Health>();
         stun = GetComponentInParent<StunMeter>();
         stat = GetComponentInParent<StatManager>();
+        enemyStateManager = GetComponentInParent<EnemyStateManager>();
         UIRotation = new Quaternion(0f, transform.parent.rotation.y, 0f, 0f);
         UIScale = new Vector3(transform.parent.localScale.x, transform.localScale.y, transform.localScale.z);
         UIScaleFactor = transform.localScale.x;
@@ -101,8 +103,10 @@ public class EnemyHealth : MonoBehaviour
 
         healthMeterSlider.maxValue = maxHealth;
         healthMeterSlider.value = health.currentHealth;
+        if (stun == null || enemyStateManager == null) return;
         stunMeterSlider.maxValue = stat.ComputeValue("Stun Threshold");
-        stunMeterSlider.value = stun.currentStun;
+        stunMeterSlider.value = stat.ComputeValue("Stun Threshold") - stun.currentStun;
+        stunMeterSlider.value = (enemyStateManager.StunState.isStunned) ? stunMeterSlider.maxValue : stunMeterSlider.value;
     }
 
 

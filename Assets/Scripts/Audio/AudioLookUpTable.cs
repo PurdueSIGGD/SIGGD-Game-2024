@@ -16,7 +16,7 @@ public class AudioLookUpTable : MonoBehaviour
     public Dictionary<string, ConversationAudioHolder> conversationTable;
     public Dictionary<string, IVATrack> vaTable;
 
-    void Start()
+    void Awake()
     {
         sfxTable = new Dictionary<string, ISFXTrack>();
         foreach (SFXBank bank in SFXBanks) sfxTable.Add(bank.name, bank.soundBank);
@@ -29,21 +29,6 @@ public class AudioLookUpTable : MonoBehaviour
         vaTable = new Dictionary<string, IVATrack>();
         foreach (VABank bank in VABanks) vaTable.Add(bank.name, bank.soundBankVATrack);
         foreach (VATrack track in VATracks) vaTable.Add(track.name, track.oneShotVATrack);
-
-        foreach (string key in sfxTable.Keys)
-        {
-            Debug.Log(key + ": " + sfxTable[key]);
-        }
-
-        foreach (string key in conversationTable.Keys)
-        {
-            Debug.Log(key + ": " + conversationTable[key]);
-        }
-
-        foreach (string key in vaTable.Keys)
-        {
-            Debug.Log(key + ": " + vaTable[key]);
-        }
     }
 }
 

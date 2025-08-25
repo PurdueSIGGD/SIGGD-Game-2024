@@ -8,18 +8,17 @@ using UnityEngine;
 public class PoisonDebuff : MonoBehaviour
 {
 
-    Health playerHealth;
-    [SerializeField] DamageContext damageContext;
-    [SerializeField] int damage;
-    [SerializeField] float time; // time before debuff ends
+    Health health;
+    [SerializeField] public DamageContext damageContext;
+    [SerializeField] float damage;
     [SerializeField] float interval; // seconds per tick
-    float timer = 0;
+    private float timer = 999f;
+    public float duration = 999f;
 
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(ByeByeCoroutine(time));
-        playerHealth = gameObject.GetComponentInParent<Health>();
+        health = gameObject.GetComponentInParent<Health>();
         timer = interval;
         damageContext.damage = damage;
     }
@@ -27,21 +26,45 @@ public class PoisonDebuff : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        while (timer > 0)
+        if (duration <= 0f)
+        {
+            health = gameObject.GetComponentInParent<Health>();
+            if (health != null)
+            {
+                health.Damage(damageContext, damageContext.attacker);
+            }
+            Destroy(gameObject);
+        }
+        duration -= Time.deltaTime;
+
+        if (timer > 0)
         {
             timer -= Time.deltaTime;
             return;
         }
-        playerHealth = gameObject.GetComponentInParent<Health>();
-        if (playerHealth != null)
+        health = gameObject.GetComponentInParent<Health>();
+        if (health != null)
         {
-            playerHealth.Damage(damageContext, gameObject);
+            health.Damage(damageContext, damageContext.attacker);
         }
         timer = interval;
     }
-    IEnumerator ByeByeCoroutine(float time)
+
+    public void SetAttacker(GameObject attacker)
     {
-        yield return new WaitForSeconds(time);
-        Destroy(gameObject);
+        damageContext.attacker = attacker;
+    }
+
+    public void Init(DamageContext context, float dps, float time, float interval)
+    {
+        damageContext = context;
+        //damageContext.actionID = context.actionID;
+        this.damage = dps * interval;
+        this.interval = interval;
+
+        duration = time;
+        health = gameObject.GetComponentInParent<Health>();
+        timer = 0f;
+        damageContext.damage = damage;
     }
 }
