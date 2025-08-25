@@ -12,7 +12,7 @@ public class MasteryShopInteract : InRangeInteract
 
     protected override InteractOption[] GetMenuOptions()
     {
-        InteractOption opt1 = new InteractOption("Open Shop", upgradeShop.OpenUI);
+        InteractOption opt1 = new InteractOption("Mastery", upgradeShop.OpenUI);
         InteractOption[] options = { opt1 };
         return options;
     }

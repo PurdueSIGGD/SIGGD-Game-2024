@@ -59,7 +59,7 @@ public class PlayerBuffStats : MonoBehaviour, IStatList
         if (!context.attacker.CompareTag("Player")) return;
 
         // General
-        if (stats.ComputeValue("General Attack Damage Boost") > 1f && !context.actionTypes.Contains(ActionType.SKILL))
+        if (stats.ComputeValue("General Attack Damage Boost") > 0f && !context.actionTypes.Contains(ActionType.SKILL))
         {
             context.damage *= stats.ComputeValue("General Attack Damage Boost");
         }
@@ -143,6 +143,14 @@ public class PlayerBuffStats : MonoBehaviour, IStatList
         if (stats.ComputeValue("Elite Damage Resistance") > 1f && context.attacker.GetComponent<EnemyStateManager>() != null && context.attacker.GetComponent<EnemyStateManager>().isPinkAndProud)
         {
             float damageReduction = stats.ComputeValue("Elite Damage Resistance") - 1f;
+            context.damage *= 1f - damageReduction;
+            context.icon = damageResistanceIcon;
+        }
+
+        // Elite Enemy Damage
+        if (stats.ComputeValue("Critical Health Damage Resistance") > 1f && context.attacker.GetComponent<EnemyStateManager>() != null && context.victim.GetComponent<PlayerHealth>().MortallyWounded)
+        {
+            float damageReduction = stats.ComputeValue("Critical Health Damage Resistance") - 1f;
             context.damage *= 1f - damageReduction;
             context.icon = damageResistanceIcon;
         }
