@@ -67,17 +67,19 @@ public class PoliceChiefUIDriver : GhostUIDriver
 
     private void updateSkill1()
     {
-        skill1UIManager.setUIActive(false);
+        //skill1UIManager.setUIActive(false);
         PoliceChiefLethalForce lethalForce = GetComponent<PoliceChiefLethalForce>();
         if (lethalForce.GetTotalHits() != -1)
         {
             skill1UIManager.setUIActive(true);
             skill1UIManager.setAbilityEnabled(lethalForce.shotEmpowered);
-            skill1UIManager.setNumberActive(false);
-            skill1UIManager.setChargeWidgetActive(!lethalForce.shotEmpowered);
-            skill1UIManager.setChargeValue(lethalForce.GetTotalHits() - lethalForce.GetConsecutiveHits(), lethalForce.GetTotalHits() - lethalForce.GetConsecutiveHits());
+            skill1UIManager.setNumberActive(!lethalForce.shotEmpowered);
+            skill1UIManager.setNumberValue(lethalForce.GetTotalHits() - lethalForce.GetConsecutiveHits());
+            skill1UIManager.setChargeWidgetActive(false);
+            //skill1UIManager.setChargeValue(lethalForce.GetTotalHits() - lethalForce.GetConsecutiveHits(), lethalForce.GetTotalHits() - lethalForce.GetConsecutiveHits());
             skill1UIManager.setMeterValue(lethalForce.GetConsecutiveHits(), lethalForce.GetTotalHits());
             skill1UIManager.setIcon(lethalForceIcon);
+            skill1UIManager.setAbilityHighlighted(lethalForce.shotEmpowered);
         }
         else
         {

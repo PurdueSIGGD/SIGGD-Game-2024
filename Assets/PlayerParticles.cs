@@ -10,10 +10,46 @@ public class PlayerParticles : MonoBehaviour
     [SerializeField] ParticleSystem heavyAttack;
     [SerializeField] ParticleSystem lightAttack;
     [SerializeField] ParticleSystem upLightAttack;
+    [SerializeField] ParticleSystem ghostBack;
+    [SerializeField] ParticleSystem ghostFront;
+
+    [SerializeField] GameObject swapPulseVFX;
 
     void Start()
     {
 
+    }
+
+
+
+    // Ghost Selected
+    public void PlayGhostSelected(CharacterSO ghostSO)
+    {
+        /*
+        if (ghostSO.displayName.Equals("Orion"))
+        {
+            ghostBack.gameObject.SetActive(false);
+            ghostFront.gameObject.SetActive(false);
+            return;
+        }
+        */
+
+        GameObject swapPulse = Instantiate(swapPulseVFX, transform.position, Quaternion.identity);
+        swapPulse.GetComponent<RingExplosionHandler>().playRingExplosion(2f, ghostSO.primaryColor);
+
+        ghostBack.Play();
+        ghostFront.Play();
+        ParticleSystem.MainModule ghostBackMain = ghostBack.main;
+        ghostBackMain.startColor = new ParticleSystem.MinMaxGradient(ghostSO.primaryColor, ghostSO.highlightColor);
+        ParticleSystem.MainModule ghostFrontMain = ghostFront.main;
+        ghostFrontMain.startColor = new ParticleSystem.MinMaxGradient(ghostSO.primaryColor, ghostSO.highlightColor);
+        //ghostBack.main = ghostBackMain;
+    }
+
+    public void PlayGhostDeselected(CharacterSO ghostSO)
+    {
+        ghostBack.Stop();
+        ghostFront.Stop();
     }
 
 

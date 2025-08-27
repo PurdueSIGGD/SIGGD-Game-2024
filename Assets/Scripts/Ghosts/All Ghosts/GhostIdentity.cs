@@ -121,6 +121,7 @@ public class GhostIdentity : MonoBehaviour
 
     public void TriggerSelectedBehavior()
     {
+        PlayerID.instance.GetComponent<PlayerParticles>().PlayGhostSelected(characterInfo);
         foreach (ISelectable script in possessingScripts)
         {
             script.Select(PlayerID.instance.gameObject);
@@ -130,6 +131,7 @@ public class GhostIdentity : MonoBehaviour
 
     public void TriggerDeSelectedBehavior()
     {
+        PlayerID.instance.GetComponent<PlayerParticles>().PlayGhostDeselected(characterInfo);
         foreach (ISelectable script in possessingScripts)
         {
             script.DeSelect(PlayerID.instance.gameObject);
