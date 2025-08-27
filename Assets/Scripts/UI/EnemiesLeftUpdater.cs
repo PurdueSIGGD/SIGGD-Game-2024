@@ -9,16 +9,24 @@ using UnityEngine.UI;
 public class EnemiesLeftUpdater : MonoBehaviour
 {
     public static int enemiesLeft = -1;
+    [SerializeField] bool specificDeactive;
 
     void Update()
     {
-        if(enemiesLeft > 0)
+        if (specificDeactive)
         {
-            GetComponent<TextMeshProUGUI>().text = "Enemies Left: " + enemiesLeft.ToString();
+            GetComponent<TextMeshProUGUI>().text = "";
         }
         else
         {
-            GetComponent<TextMeshProUGUI>().text = "";
+            if (enemiesLeft > 0)
+            {
+                GetComponent<TextMeshProUGUI>().text = "Enemies Left: " + enemiesLeft.ToString();
+            }
+            else
+            {
+                GetComponent<TextMeshProUGUI>().text = "";
+            }
         }
     }
 }
