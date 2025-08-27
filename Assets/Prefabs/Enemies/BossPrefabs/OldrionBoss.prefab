@@ -144,7 +144,7 @@ GameObject:
   - component: {fileID: 2169665675169712656}
   - component: {fileID: 7189595280014387387}
   - component: {fileID: 6847619846914996166}
-  - component: {fileID: 6289934732008159226}
+  - component: {fileID: 434777493987715392}
   - component: {fileID: 1396931379856435082}
   - component: {fileID: 7217294121183333833}
   - component: {fileID: 7224273156922498524}
@@ -281,7 +281,7 @@ MonoBehaviour:
   comboCooldowns:
   - 15
   - 12
-  - 10
+  - 8
   fullHealContext:
     healing: 0
     actionID: 17
@@ -301,7 +301,7 @@ MonoBehaviour:
   aoeDamageVal: 50
   spiritTable: {fileID: 6913917037799638827}
   spiritCrushedSpawn: {fileID: 8032115573745365644}
---- !u!114 &6289934732008159226
+--- !u!114 &434777493987715392
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -310,7 +310,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1295997227497143226}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 872d96247465fd541bea93e36537b26f, type: 3}
+  m_Script: {fileID: 11500000, guid: 20d794b3ea5a6da42ac5b8feade20f68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 0}
@@ -323,21 +323,21 @@ MonoBehaviour:
     coolDown: 100
     animationClip: {fileID: 7400000, guid: 66892935d5ce0514cab457bec4fe8457, type: 2}
   - name: Heavy
-    priority: 2
+    priority: 3
     ready: 1
     hitBox: {fileID: 3795081024681060608}
     usesCircleHitbox: 0
     coolDown: 100
     animationClip: {fileID: 7400000, guid: e74bcd4c40c1f034ab01301dd400ceab, type: 2}
   - name: Dash
-    priority: 3
+    priority: 4
     ready: 1
     hitBox: {fileID: 6452902896263312523}
     usesCircleHitbox: 0
     coolDown: 100
     animationClip: {fileID: 7400000, guid: 436192be2f292bb4282d4505067e5581, type: 2}
   - name: ComboSeed
-    priority: 4
+    priority: 5
     ready: 1
     hitBox: {fileID: 5125563314908589775}
     usesCircleHitbox: 1
@@ -345,7 +345,7 @@ MonoBehaviour:
     animationClip: {fileID: 7400000, guid: 5cf30f886c0186e40896ab5400f8bd36, type: 2}
   move:
     name: 
-    priority: 0
+    priority: 2
     ready: 1
     hitBox: {fileID: 0}
     usesCircleHitbox: 0
@@ -374,11 +374,13 @@ MonoBehaviour:
   stats: {fileID: 0}
   pool: {fileID: 0}
   animator: {fileID: 0}
+  isPinkAndProud: 0
   isFlyer: 0
   aggroRange: 15
   isBeingKnockedBack: 0
   grounded: 0
   groundedRayCheckLength: 1.5
+  enableStunning: 0
   lightDamage:
     damageStrength: 0
     damageTypes: 
@@ -398,7 +400,7 @@ MonoBehaviour:
     actionTypes: 
     extraContext: 
     ghostID: 0
-  heavyDamageVal: 75
+  heavyDamageVal: 50
   heavyVisual: {fileID: 2789613090465511290}
   heavyTrigger: {fileID: 3795081024681060608}
   dashDamage:
@@ -438,7 +440,16 @@ MonoBehaviour:
     - Light
     - Light
     - Light
-    - Light
+    index: 0
+  - actionList:
+    - Heavy
+    - Heavy
+    - Heavy
+    index: 0
+  - actionList:
+    - Dash
+    - Dash
+    - Dash
     index: 0
   inCombo: 0
   comboExitAction:
@@ -564,7 +575,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Max Health
-    value: 150
+    value: 500
   deathLevel: 
 --- !u!255 &6446633280205493509
 FixedJoint2D:
@@ -689,7 +700,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 6, y: 6, z: 6}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 2169665675169712656}
