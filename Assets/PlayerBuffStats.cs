@@ -56,7 +56,7 @@ public class PlayerBuffStats : MonoBehaviour, IStatList
     // Attack Damage
     private void BoostAttackDamage(ref DamageContext context)
     {
-        if (!context.attacker.CompareTag("Player")) return;
+        if (!context.attacker || !context.attacker.CompareTag("Player")) return;
 
         // General
         if (stats.ComputeValue("General Attack Damage Boost") > 0f && !context.actionTypes.Contains(ActionType.SKILL))
@@ -88,7 +88,7 @@ public class PlayerBuffStats : MonoBehaviour, IStatList
     // Crit Chance
     private void CheckCritChance(ref DamageContext context)
     {
-        if (!context.attacker.CompareTag("Player")) return;
+        if (!context.attacker || !context.attacker.CompareTag("Player")) return;
         if (context.damageTypes.Contains(DamageType.STATUS) || context.damageTypes.Contains(DamageType.ENVIRONMENTAL)) return;
 
         if (Random.Range(100f, 200f) > stats.ComputeValue("Crit Chance")) return;

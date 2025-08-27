@@ -6,13 +6,15 @@ public class GhostIdentity : MonoBehaviour
     [SerializeField] private CharacterSO characterInfo;
     [SerializeField] private bool isUnlocked;
     [SerializeField] private int exp = 0;
+    [SerializeField] private int expPerSpiritGained = 1;
+    [SerializeField] private int expPerPinkSpiritGained = 3;
     [SerializeField]
     List<int> levelReqs = new List<int>()
-    { 2000, 2000, 2000,
-      2000, 2000, 2000,
-      4000, 4000, 4000,
-      5000, 5000, 5000,
-      5000};
+    { 200, 300, 400,
+      600, 700, 800,
+      1000, 1200, 1400,
+      1600, 2000, 2000,
+      2000};
     private int curLevel;
     private int curExp;
     private GhostData data;
@@ -79,11 +81,11 @@ public class GhostIdentity : MonoBehaviour
     {
         if (type == Spirit.SpiritType.Pink)
         {
-            AddExp(30);
+            AddExp(expPerPinkSpiritGained);
         }
         else
         {
-            AddExp(10);
+            AddExp(expPerSpiritGained);
         }
     }
 
