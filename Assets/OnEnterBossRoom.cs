@@ -17,6 +17,8 @@ public class OnEnterBossRoom : DialogueTriggerBox
 
     void Start()
     {
+        convos = new List<ConvoSO>();
+        activeStoryBeatGhosts = new List<string>();
         switch (era)
         {
             case EraDoor.Era.Cyberpunk:
@@ -65,6 +67,7 @@ public class OnEnterBossRoom : DialogueTriggerBox
         string storyGhost = activeStoryBeatGhosts[rand];
         ConvoSO beforeBossConvo = convos[rand];
 
+        active = true;
         SetConvo(beforeBossConvo);
     }
 }

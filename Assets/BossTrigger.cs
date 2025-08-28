@@ -6,7 +6,7 @@ public class BossTrigger : MonoBehaviour
 {
     [SerializeField] ConvoSO convo;
     [SerializeField] float bossActiveDelay = 1.5f;
-    private BossController boss;
+    [SerializeField] BossController boss;
 
     private void OnEnable()
     {

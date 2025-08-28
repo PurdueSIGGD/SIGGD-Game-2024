@@ -6,11 +6,16 @@ public class OnBossDeath : MonoBehaviour
 {
     [SerializeField] BossController bossToKill;
     [SerializeField] ConvoSO convo;
-
+    private string ghost;
 
     private void OnEnable()
     {
         GameplayEventHolder.OnDeath += CheckBossDeath;
+    }
+
+    public void SetConvo(string ghost)
+    {
+
     }
 
     private void CheckBossDeath(DamageContext context)
