@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3849913598253530088}
   - component: {fileID: 7799528314286550082}
+  - component: {fileID: 1945503303205729015}
   m_Layer: 0
   m_Name: OnEnterBossRoom
   m_TagString: Untagged
@@ -44,3 +45,57 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a80a04678a847a0448f7d4c72bd36a74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  activeOnStart: 1
+  convo: {fileID: 0}
+  era: 0
+  northBeforeConvo: {fileID: 11400000, guid: 79bda8fb6f87b264aa1bd51cc4ae4126, type: 2}
+  evaBeforeConvo: {fileID: 11400000, guid: 94fbeb95761920e418fe43b4a2e47f89, type: 2}
+  akihitoBeforeConvo: {fileID: 11400000, guid: 9e58e2470c13d574ea59f04b65bee16b, type: 2}
+  yumeBeforeConvo: {fileID: 11400000, guid: 344ebc43e7e70e44590c76392660cac0, type: 2}
+  silasBeforeConvo: {fileID: 11400000, guid: bfc9c19654b59f84182a88488525c37e, type: 2}
+  aegisBeforeConvo: {fileID: 11400000, guid: 3db846dbc40180b49998e2af866f7167, type: 2}
+--- !u!61 &1945503303205729015
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4039392321764844744}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
