@@ -5,6 +5,7 @@ using UnityEngine;
 public class OnEnterBossRoom : DialogueTriggerBox
 {
     [SerializeField] EraDoor.Era era;
+    [SerializeField] BossExitDoor exitDoor;
     [SerializeField] ConvoSO northBeforeConvo;
     [SerializeField] ConvoSO evaBeforeConvo;
     [SerializeField] ConvoSO akihitoBeforeConvo;
@@ -24,36 +25,36 @@ public class OnEnterBossRoom : DialogueTriggerBox
             case EraDoor.Era.Cyberpunk:
                 if (PartyManager.instance.IsGhostInParty("North-Police_Chief") && SaveManager.data.north.bossProgress == 0)
                 {
-                    activeStoryBeatGhosts.Add("North-Police_Chief");
+                    activeStoryBeatGhosts.Add("North");
                     convos.Add(northBeforeConvo);
                 }
                 if (PartyManager.instance.IsGhostInParty("Eva-Idol") && SaveManager.data.eva.bossProgress == 0)
                 {
-                    activeStoryBeatGhosts.Add("Eva-Idol");
+                    activeStoryBeatGhosts.Add("Eva");
                     convos.Add(evaBeforeConvo);
                 }
                 break;
             case EraDoor.Era.Feudal:
                 if (PartyManager.instance.IsGhostInParty("Akihito-Samurai") && SaveManager.data.akihito.bossProgress == 0)
                 {
-                    activeStoryBeatGhosts.Add("Akihito-Samurai");
+                    activeStoryBeatGhosts.Add("Akihito");
                     convos.Add(akihitoBeforeConvo);
                 }
                 if (PartyManager.instance.IsGhostInParty("Yume-Seamstress") && SaveManager.data.yume.bossProgress == 0)
                 {
-                    activeStoryBeatGhosts.Add("Yume-Seamstress");
+                    activeStoryBeatGhosts.Add("Yume");
                     convos.Add(yumeBeforeConvo);
                 }
                 break;
             case EraDoor.Era.Medieval:
                 if (PartyManager.instance.IsGhostInParty("Silas-PlagueDoc") && SaveManager.data.silas.bossProgress == 0)
                 {
-                    activeStoryBeatGhosts.Add("Silas-PlagueDoc");
+                    activeStoryBeatGhosts.Add("Silas");
                     convos.Add(silasBeforeConvo);
                 }
                 if (PartyManager.instance.IsGhostInParty("Aegis-King") && SaveManager.data.aegis.bossProgress == 0)
                 {
-                    activeStoryBeatGhosts.Add("Aegis-King");
+                    activeStoryBeatGhosts.Add("Aegis");
                     convos.Add(aegisBeforeConvo);
                 }
                 break;
@@ -69,5 +70,6 @@ public class OnEnterBossRoom : DialogueTriggerBox
 
         active = true;
         SetConvo(beforeBossConvo);
+        exitDoor.SetConvo(storyGhost);
     }
 }

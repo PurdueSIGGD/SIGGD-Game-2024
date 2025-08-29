@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class OnBossDeath : MonoBehaviour
 {
+    [SerializeField] int orionProgressTo;
     [SerializeField] BossController bossToKill;
-    [SerializeField] ConvoSO convo;
+    [SerializeField] ConvoSO convo; // dialogue between orion and boss
     private string ghost;
 
     private void OnEnable()
@@ -13,21 +14,25 @@ public class OnBossDeath : MonoBehaviour
         GameplayEventHolder.OnDeath += CheckBossDeath;
     }
 
-    public void SetConvo(string ghost)
-    {
 
-    }
 
     private void CheckBossDeath(DamageContext context)
     {
         if (context.victim == bossToKill.gameObject)
         {
-            Door.activateDoor(true);
-            if (convo)
-            {
-                DialogueManager dialogueManager = FindAnyObjectByType<DialogueManager>(FindObjectsInactive.Include);
-                dialogueManager.StartDialogue(convo);
-            }
+            StartCoroutine(DelayCheckBossDeath());
+        }
+    }
+    
+    private IEnumerator DelayCheckBossDeath()
+    {
+        yield return new WaitForSeconds(1.5f);
+        SaveManager.data.orion = orionProgressTo;
+        Door.activateDoor(true);
+        if (convo)
+        {
+            DialogueManager dialogueManager = FindAnyObjectByType<DialogueManager>(FindObjectsInactive.Include);
+            dialogueManager.StartDialogue(convo);
         }
     }
 }

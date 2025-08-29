@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3849913598253530088}
   - component: {fileID: 7799528314286550082}
   - component: {fileID: 1945503303205729015}
+  - component: {fileID: 994695596169120237}
   m_Layer: 0
   m_Name: OnEnterBossRoom
   m_TagString: Untagged
@@ -48,6 +49,7 @@ MonoBehaviour:
   activeOnStart: 1
   convo: {fileID: 0}
   era: 0
+  exitDoor: {fileID: 0}
   northBeforeConvo: {fileID: 11400000, guid: 79bda8fb6f87b264aa1bd51cc4ae4126, type: 2}
   evaBeforeConvo: {fileID: 11400000, guid: 94fbeb95761920e418fe43b4a2e47f89, type: 2}
   akihitoBeforeConvo: {fileID: 11400000, guid: 9e58e2470c13d574ea59f04b65bee16b, type: 2}
@@ -99,3 +101,17 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &994695596169120237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4039392321764844744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 743253a2edeeff54ea97fcef2ecb7637, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bossToKill: {fileID: 0}
+  convo: {fileID: 0}
