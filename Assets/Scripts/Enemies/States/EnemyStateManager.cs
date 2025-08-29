@@ -28,6 +28,7 @@ public class EnemyStateManager : MonoBehaviour
     protected float currentKnockbackDurationTime;
     [SerializeField] protected bool grounded;
     [SerializeField] float groundedRayCheckLength = 1;
+    [SerializeField] bool enableStunning = true;
 
     protected virtual void Awake()
     {
@@ -120,6 +121,8 @@ public class EnemyStateManager : MonoBehaviour
     /// <param name="duration"> the duration of the stun </param>
     public void Stun(DamageContext damageContext, float duration = 0f)
     {
+        if (!enableStunning) return;
+
         GameplayEventHolder.OnEntityStunned?.Invoke(gameObject);
         if (duration == 0f)
         {

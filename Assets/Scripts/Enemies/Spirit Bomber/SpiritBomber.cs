@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class SpiritBomber : EnemyStateManager
 {
-    [SerializeField] private GameObject bombPrefab; 
+    [SerializeField] private GameObject bombPrefab;
     [SerializeField] private float bombCooldown; //Cooldown time for bombs
-  //  [SerializeField] private float bombRange; // range of when to throw bombs
+                                                 //  [SerializeField] private float bombRange; // range of when to throw bombs
     [SerializeField] protected Transform bombSpawn;
     [SerializeField] protected Transform bombShoot;
 
@@ -16,20 +16,21 @@ public class SpiritBomber : EnemyStateManager
         GameObject playacol = GameObject.FindWithTag("Player");
         Physics2D.IgnoreCollision(GetComponent<Collider2D>(), playacol.GetComponent<Collider2D>());
     }
-   /* public void Update()
-    {
-            if (Time.time - lastBombTime > bombCooldown)
-            {
-                ThrowBomb();
-            }
-    } */
+    /* public void Update()
+     {
+             if (Time.time - lastBombTime > bombCooldown)
+             {
+                 ThrowBomb();
+             }
+     } */
     //initialize bomb
     protected void ThrowBomb()
-     {
-         GameObject bomb = Instantiate(bombPrefab, bombSpawn.position, transform.rotation);
-         TrackingProjectile trackingProjectile = bomb.GetComponent<TrackingProjectile>();
+    {
+        GameObject bomb = Instantiate(bombPrefab, bombSpawn.position, Quaternion.identity);
+        TrackingProjectile trackingProjectile = bomb.GetComponent<TrackingProjectile>();
+        trackingProjectile.Init(this.gameObject, PlayerID.instance.gameObject.transform.position);
 
-     }
+    }
     protected override void OnDrawGizmos()
     {
         base.OnDrawGizmos();
