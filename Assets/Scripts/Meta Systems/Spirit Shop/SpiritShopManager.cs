@@ -63,12 +63,12 @@ public class SpiritShopManager : MonoBehaviour, IScreenUI
         UpdateSpiritCountText();
 
         gameObject.SetActive(true);
+        turnCompleted = true; // ensure that button does not do anything while in shop
+
     }
 
     public void CloseShopUI()
     {
-        turnCompleted = true;
-
         PersistentData.Instance.GetComponent<EnemySpawning>().EndRoom();
 
         gameObject.SetActive(false);
