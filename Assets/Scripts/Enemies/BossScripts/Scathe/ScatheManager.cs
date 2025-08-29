@@ -16,7 +16,7 @@ public class ScatheManager : EnemyStateManager
     void Start()
     {
         base.Start();
-        MoveState = new YokaiMoveState();
+        MoveState = new ScatheMoveState();
         swipePositions = new(swipePositionsHolder.GetComponentsInChildren<Transform>(includeInactive: false));
         swipePositions.Remove(swipePositionsHolder.transform);
     }
