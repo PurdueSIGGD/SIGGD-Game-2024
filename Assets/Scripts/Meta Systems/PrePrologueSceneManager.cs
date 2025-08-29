@@ -11,12 +11,12 @@ public class PrePrologueSceneManager : MonoBehaviour
     [SerializeField] Image starryBG;
     [SerializeField] TextMeshProUGUI skipText;
     [SerializeField] TextMeshProUGUI dialogue;
-    [SerializeField] string sceneString;
     [SerializeField] TextMeshProUGUI eonsLater;
 
     float titleFadeInSpeed = 0;
     float titleFadeOutSpeed = 0;
     float bgFadeOutSpeed = 0;
+    float skipTextFadeInSpeed = 0;
     float skipTextFadeOutSpeed = 0;
     float dialogueFadeOutSpeed = 0;
     float eonsFadeInSpeed = 0;
@@ -27,6 +27,7 @@ public class PrePrologueSceneManager : MonoBehaviour
         StartCoroutine(StartFadeInTitle());
         StartCoroutine(StartFadeOutTitle());
         StartCoroutine(StartFadeOutBG());
+        StartCoroutine(StartFadeInSkipText());
         StartCoroutine(StartFadeOutSkipText());
         StartCoroutine(StartFadeOutDialogue());
         StartCoroutine(StartFadeInEonsLater());
@@ -35,12 +36,27 @@ public class PrePrologueSceneManager : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            StopCoroutine(LoadIntoPrologueHub());
+            bgFadeOutSpeed = 0.7f;
+            skipTextFadeOutSpeed = 0.7f;
+            dialogueFadeOutSpeed = 0.7f;
+        }
+
+        if (starryBG.color.a <= 0)
+        {
+            SceneManager.LoadScene("Prologue_1");
+        }
+
+
         if (FadeInItem(title, titleFadeInSpeed))
         {
             FadeOutItem(title, titleFadeOutSpeed);
         }
         FadeInItem(eonsLater, eonsFadeInSpeed);
         FadeOutItem(starryBG, bgFadeOutSpeed);
+        FadeInItem(skipText, skipTextFadeInSpeed);
         FadeOutItem(skipText, skipTextFadeOutSpeed);
         FadeOutItem(dialogue, dialogueFadeOutSpeed);
     }
@@ -48,7 +64,7 @@ public class PrePrologueSceneManager : MonoBehaviour
     IEnumerator LoadIntoPrologueHub()
     {
         yield return new WaitForSeconds(69f);
-        SceneManager.LoadScene("Prologue_Hubworld");
+        SceneManager.LoadScene("Prologue_1");
     }
 
     IEnumerator StartFadeInEonsLater()
@@ -75,10 +91,16 @@ public class PrePrologueSceneManager : MonoBehaviour
         bgFadeOutSpeed = 0.35f;
     }
 
-    IEnumerator StartFadeOutSkipText()
+    IEnumerator StartFadeInSkipText()
     {
         yield return new WaitForSeconds(2);
-        skipTextFadeOutSpeed = 0.1f;
+        skipTextFadeInSpeed = 0.5f;
+    }
+
+    IEnumerator StartFadeOutSkipText()
+    {
+        yield return new WaitForSeconds(4);
+        skipTextFadeOutSpeed = 0.8f;
     }
 
     IEnumerator StartFadeOutDialogue()
