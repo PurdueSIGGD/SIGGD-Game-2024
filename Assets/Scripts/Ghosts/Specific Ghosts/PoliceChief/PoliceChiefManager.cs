@@ -78,6 +78,12 @@ public class PoliceChiefManager : GhostManager, ISelectable
         special = PlayerID.instance.AddComponent<PoliceChiefSpecial>();
         special.manager = this;
 
+        if (GetComponent<PoliceChiefLethalForce>().shotEmpowered)
+        {
+            AudioManager.Instance.SFXBranch.PlaySFXTrack("North-Sidearm Primed Loop");
+            PlayerID.instance.GetComponent<PlayerParticles>().PlayGhostEmpowered(GetComponent<GhostIdentity>().GetCharacterInfo().whiteColor, 1f, 1f);
+        }
+
 		base.Select(player);
     }
 
@@ -89,7 +95,13 @@ public class PoliceChiefManager : GhostManager, ISelectable
         if (special) special.endSpecial(false, false);
         if (special) Destroy(special);
 
-		base.DeSelect(player);
+        if (GetComponent<PoliceChiefLethalForce>().shotEmpowered)
+        {
+            AudioManager.Instance.SFXBranch.StopSFXTrack("North-Sidearm Primed Loop");
+            PlayerID.instance.GetComponent<PlayerParticles>().StopGhostEmpowered();
+        }
+
+        base.DeSelect(player);
     }
 
 }

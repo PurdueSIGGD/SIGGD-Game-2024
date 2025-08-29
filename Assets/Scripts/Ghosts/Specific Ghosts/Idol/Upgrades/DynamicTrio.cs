@@ -13,6 +13,8 @@ public class DynamicTrio : Skill
 
     [SerializeField] private float cloneDamageTakenMultiplier;
 
+    [SerializeField] private Sprite damageResistanceIcon;
+
     void Start()
     {
         manager = gameObject.GetComponent<IdolManager>();
@@ -83,11 +85,14 @@ public class DynamicTrio : Skill
         {
             context.victim = decoy;
             decoy.GetComponent<Health>().NoContextDamage(context, context.attacker);
+            GameObject damageImpactVFX = Instantiate(decoy.GetComponent<IdolClone>().pulseVFX, decoy.transform.position, Quaternion.identity);
+            damageImpactVFX.GetComponent<RingExplosionHandler>().playRingExplosion(2f, manager.GetComponent<GhostIdentity>().GetCharacterInfo().whiteColor);
         }
 
         // set remaining damage for the player
         context.victim = PlayerID.instance.gameObject;
         context.damage = originalDamage * (1f - damageTransferPercentage);
+        context.icon = damageResistanceIcon;
     }
 
     private void EvaSelected()

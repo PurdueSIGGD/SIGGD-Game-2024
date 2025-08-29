@@ -1,54 +1,169 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerParticles : MonoBehaviour
 {
 
     [SerializeField] ParticleSystem heavyCharging;
+    [SerializeField] Color heavyChargingColor;
+
     [SerializeField] ParticleSystem heavyPrimed;
+    [SerializeField] Color heavyPrimedColor;
+
     [SerializeField] ParticleSystem heavyAttack;
     [SerializeField] ParticleSystem lightAttack;
     [SerializeField] ParticleSystem upLightAttack;
+
     [SerializeField] ParticleSystem ghostBack;
     [SerializeField] ParticleSystem ghostFront;
 
-    [SerializeField] GameObject swapPulseVFX;
+    [SerializeField] ParticleSystem ghostEmpowered;
+    [SerializeField] float minEmpoweredEmission;
+    [SerializeField] float maxEmpoweredEmission;
+
+    [SerializeField] ParticleSystem ghostGoodBuff;
+    [SerializeField] float minGoodBuffEmission;
+    [SerializeField] float maxGoodBuffEmission;
+
+    [SerializeField] ParticleSystem ghostBadBuff;
+    [SerializeField] float minBadBuffEmission;
+    [SerializeField] float maxBadBuffEmission;
+
+    [SerializeField] GameObject pulseVFX;
+
+    //private Color heavyChargingColor;
+    //private Color heavyChargingColor;
+    private CharacterSO selectedGhostSO;
 
     void Start()
     {
-
+        //baseHeavyChargingColor = heavyCharging.main.startColor.color;
     }
 
 
 
-    // Ghost Selected
+    // Ghost Swap
     public void PlayGhostSelected(CharacterSO ghostSO)
     {
-        /*
-        if (ghostSO.displayName.Equals("Orion"))
-        {
-            ghostBack.gameObject.SetActive(false);
-            ghostFront.gameObject.SetActive(false);
-            return;
-        }
-        */
+        // Update selected Ghost
+        selectedGhostSO = ghostSO;
 
-        GameObject swapPulse = Instantiate(swapPulseVFX, transform.position, Quaternion.identity);
+        // Update heavy attack color
+        ParticleSystem.MainModule heavyChargingMain = heavyCharging.main;
+        if (ghostSO.displayName.Equals("North") ||
+            ghostSO.displayName.Equals("Akihito") ||
+            ghostSO.displayName.Equals("King Aegis"))
+        {
+            heavyChargingMain.startColor = new ParticleSystem.MinMaxGradient(ghostSO.primaryColor);
+        }
+
+        // Pulse VFX
+        GameObject swapPulse = Instantiate(pulseVFX, transform.position, Quaternion.identity);
         swapPulse.GetComponent<RingExplosionHandler>().playRingExplosion(2f, ghostSO.primaryColor);
 
+        // Particle VFX
         ghostBack.Play();
         ghostFront.Play();
         ParticleSystem.MainModule ghostBackMain = ghostBack.main;
         ghostBackMain.startColor = new ParticleSystem.MinMaxGradient(ghostSO.primaryColor, ghostSO.highlightColor);
         ParticleSystem.MainModule ghostFrontMain = ghostFront.main;
         ghostFrontMain.startColor = new ParticleSystem.MinMaxGradient(ghostSO.primaryColor, ghostSO.highlightColor);
-        //ghostBack.main = ghostBackMain;
     }
 
     public void PlayGhostDeselected(CharacterSO ghostSO)
     {
+        selectedGhostSO = null;
+        ParticleSystem.MainModule heavyChargingMain = heavyCharging.main;
+        heavyChargingMain.startColor = new ParticleSystem.MinMaxGradient(heavyChargingColor);
         ghostBack.Stop();
+        ghostFront.Stop();
+    }
+
+
+
+    // Ghost Empowered
+    public void PlayGhostEmpowered(Color color, float currentValue, float maxValue)
+    {
+        float valueScale = currentValue / maxValue;
+        ParticleSystem.EmissionModule emmisionModule = ghostEmpowered.emission;
+        emmisionModule.rateOverTime = new ParticleSystem.MinMaxCurve(Mathf.Lerp(minEmpoweredEmission, maxEmpoweredEmission, valueScale));
+        ParticleSystem.MainModule ghostEmpoweredMain = ghostEmpowered.main;
+        ghostEmpoweredMain.startColor = new ParticleSystem.MinMaxGradient(color);
+        ghostEmpowered.Play();
+    }
+
+    public void StopGhostEmpowered()
+    {
+        ghostEmpowered.Stop();
+    }
+
+
+
+    // Ghost Good Buff
+    public void PlayGhostGoodBuff(Color color, float currentValue, float maxValue)
+    {
+        float valueScale = currentValue / maxValue;
+        ParticleSystem.EmissionModule emmisionModule = ghostGoodBuff.emission;
+        emmisionModule.rateOverTime = new ParticleSystem.MinMaxCurve(Mathf.Lerp(minGoodBuffEmission, maxGoodBuffEmission, valueScale));
+        ParticleSystem.MainModule ghostGoodBuffMain = ghostGoodBuff.main;
+        ghostGoodBuffMain.startColor = new ParticleSystem.MinMaxGradient(color);
+        ghostGoodBuff.Play();
+    }
+
+    public void StopGhostGoodBuff()
+    {
+        ghostGoodBuff.Stop();
+    }
+
+
+
+    // Ghost Bad Buff
+    public void PlayGhostBadBuff(Color color, float currentValue, float maxValue)
+    {
+        float valueScale = currentValue / maxValue;
+        ParticleSystem.EmissionModule emmisionModule = ghostBadBuff.emission;
+        emmisionModule.rateOverTime = new ParticleSystem.MinMaxCurve(Mathf.Lerp(minBadBuffEmission, maxBadBuffEmission, valueScale));
+        ParticleSystem.MainModule ghostBadBuffMain = ghostBadBuff.main;
+        ghostBadBuffMain.startColor = new ParticleSystem.MinMaxGradient(color);
+        ghostBadBuff.Play();
+    }
+
+    public void StopGhostBadBuff()
+    {
+        ghostBadBuff.Stop();
+    }
+
+
+
+    // Orion Dash
+    public void PlayOrionDash(Color color)
+    {
+        ParticleSystem.MainModule ghostFrontMain = ghostFront.main;
+        ghostFrontMain.startColor = new ParticleSystem.MinMaxGradient(color);
+        ghostFront.Play();
+    }
+
+    public void StopOrionDash()
+    {
+        ghostFront.Stop();
+    }
+
+
+
+    // Orion Glide
+    public void PlayOrionGlide(Color color)
+    {
+        if (selectedGhostSO != null) return;
+        ParticleSystem.MainModule ghostFrontMain = ghostFront.main;
+        ghostFrontMain.startColor = new ParticleSystem.MinMaxGradient(color);
+        ghostFront.Play();
+    }
+
+    public void StopOrionGlide()
+    {
+        if (selectedGhostSO != null) return;
         ghostFront.Stop();
     }
 
@@ -67,6 +182,8 @@ public class PlayerParticles : MonoBehaviour
 
     public void StartHeavyPrimed()
     {
+        GameObject swapPulse = Instantiate(pulseVFX, transform.position, Quaternion.identity);
+        swapPulse.GetComponent<RingExplosionHandler>().playRingExplosion(2f, heavyPrimedColor);
         heavyPrimed.Play();
     }
 
@@ -120,6 +237,8 @@ public class PlayerParticles : MonoBehaviour
 
     public void StartSidearmPrimed()
     {
+        GameObject swapPulse = Instantiate(pulseVFX, transform.position, Quaternion.identity);
+        swapPulse.GetComponent<RingExplosionHandler>().playRingExplosion(2f, heavyPrimedColor);
         heavyPrimed.Play();
     }
 
@@ -143,6 +262,8 @@ public class PlayerParticles : MonoBehaviour
 
     public void StartSpecialPrimed()
     {
+        GameObject swapPulse = Instantiate(pulseVFX, transform.position, Quaternion.identity);
+        swapPulse.GetComponent<RingExplosionHandler>().playRingExplosion(2f, heavyPrimedColor);
         heavyPrimed.Play();
     }
 
