@@ -14,6 +14,11 @@ public class OnBossDeath : MonoBehaviour
         GameplayEventHolder.OnDeath += CheckBossDeath;
     }
 
+    private void OnDisable()
+    {
+        GameplayEventHolder.OnDeath -= CheckBossDeath;
+    }
+
 
 
     private void CheckBossDeath(DamageContext context)
@@ -27,7 +32,10 @@ public class OnBossDeath : MonoBehaviour
     private IEnumerator DelayCheckBossDeath()
     {
         yield return new WaitForSeconds(1.5f);
-        SaveManager.data.orion = orionProgressTo;
+        if (SaveManager.data.orion < orionProgressTo) // do not let story progress go backwards, i.e. death convo must not repeat
+        {
+            SaveManager.data.orion = orionProgressTo;
+        }
         Door.activateDoor(true);
         if (convo)
         {

@@ -27,15 +27,25 @@ public class BossExitDoor : Door
         {
             case "North":
                 convo = north;
+                SaveManager.data.north.bossProgress = 1;
                 break;
             case "Eva":
                 convo = eva;
+                SaveManager.data.eva.bossProgress = 1;
                 break;
             case "Akihito":
-                convo = akihito;
+                convo = akihito; 
+                SaveManager.data.akihito.bossProgress = 1;
                 break;
             case "Yume":
                 convo = yume;
+                SaveManager.data.yume.bossProgress = 1;
+                break;
+            case "Silas":
+                SaveManager.data.silas.bossProgress = 1;
+                break;
+            case "Aegis":
+                SaveManager.data.aegis.bossProgress = 1;
                 break;
             default:
                 Debug.LogWarning("Cannot recognize ghost " + ghost);
@@ -52,12 +62,18 @@ public class BossExitDoor : Door
             dialogueManager.StartDialogue(convo);
             doorLock = convo.data.convoName;
         }
+        else
+        {
+            SaveManager.instance.Save();
+            StartCoroutine(FadeToHub());
+        }
     }
 
     private void OnFinishGhostDialogue(string key)
     {
         if (key.Equals(doorLock)) 
         {
+            SaveManager.instance.Save();
             StartCoroutine(FadeToHub());
         }
     }
