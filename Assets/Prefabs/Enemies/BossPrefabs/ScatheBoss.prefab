@@ -304,7 +304,7 @@ MonoBehaviour:
   isBeingKnockedBack: 0
   grounded: 0
   groundedRayCheckLength: 1
-  enableStunning: 1
+  enableStunning: 0
   detectionRadius: 67
   hitAndRunPrefab: {fileID: 5601539080535503312, guid: 6a78f323f92462840ae0bd602c297594,
     type: 3}
@@ -330,14 +330,14 @@ MonoBehaviour:
     ready: 1
     hitBox: {fileID: 5222879963389426892}
     usesCircleHitbox: 1
-    coolDown: 7
+    coolDown: 6
     animationClip: {fileID: 7400000, guid: 50235f5f8c173974b96d2d711766e3bb, type: 2}
   - name: Swipe
     priority: 1
     ready: 1
     hitBox: {fileID: 5222879963389426892}
     usesCircleHitbox: 1
-    coolDown: 2
+    coolDown: 1
     animationClip: {fileID: 7400000, guid: ffb6b2f56c95d2543bf9a051d080d1ba, type: 2}
   move:
     name: 
@@ -371,15 +371,15 @@ MonoBehaviour:
   - name: HEIGHT_OFFSET
     value: 0.5
   - name: FLIGHT_FORCE
-    value: 3
+    value: 0.5
   - name: CATCHUP_FACTOR
-    value: 0.1
+    value: 0.01
   - name: REPELL_FACTOR
-    value: 0
+    value: 0.01
   - name: MIN_REPELL
     value: 0
   - name: RANDOM_FACTOR
-    value: 0.15
+    value: 0.01
   - name: Idle Speed
     value: 0
   - name: Speed
@@ -408,7 +408,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Max Health
-    value: 750
+    value: 1200
   deathLevel: 
 --- !u!50 &6047329085431722034
 Rigidbody2D:
@@ -422,7 +422,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 8
+  m_Mass: 3
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0
