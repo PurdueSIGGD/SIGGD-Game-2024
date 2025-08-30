@@ -52,6 +52,7 @@ public class EraDoor : MonoBehaviour
 
     void DoorOpened()
     {
+        LevelSwitching.instance.ResetLevel();
         LevelSwitching.instance.SetMaxLevels(maxLevels);
         InjectStoryBeat();
         LevelSwitching.levels = levels;
