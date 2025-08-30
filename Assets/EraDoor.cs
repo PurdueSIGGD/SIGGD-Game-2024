@@ -111,6 +111,8 @@ public class EraDoor : MonoBehaviour
             return;
         }
 
+        if (!PartyManager.instance.IsGhostInParty(name)) return;
+
         if ((data.storyProgress == (int)storyProgression.Hub_First_Entrance || // story beat 1
              data.storyProgress == (int)storyProgression.Story_Beat_1) &&
              SaveManager.data.ghostLevel[name] >= 3)
@@ -126,6 +128,8 @@ public class EraDoor : MonoBehaviour
 
     private void InputThirdStoryBeat(GhostData data, string name)
     {
+        if (!PartyManager.instance.IsGhostInParty(name)) return;
+
         string truncName = name.Split('-')[0];
         if (data.storyProgress >= (int)storyProgression.Story_Beat_3 && // story beat 3
             SaveManager.data.ghostLevel[name] >= 11)
