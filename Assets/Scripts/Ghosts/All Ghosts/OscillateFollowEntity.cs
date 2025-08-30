@@ -87,7 +87,7 @@ public class OscillateFollowEntity : MonoBehaviour, IParty
     {
         this.target = null;
         this.rb.velocity = new Vector2(0, 0);
-        gameObject.transform.localScale = new Vector3(0, 0, 0);
+        //gameObject.transform.localScale = new Vector3(0, 0, 0);
     }
 
 }

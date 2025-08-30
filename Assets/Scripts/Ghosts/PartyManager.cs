@@ -114,7 +114,10 @@ public class PartyManager : MonoBehaviour
             ghostsByName[ghost.name] = ghost.gameObject;
             ghost.TriggerEnterPartyBehavior();
 
-            Debug.Log("Saving Ghosts");
+            // try removing indicator, if any
+            GhostInteract ghostInteract = ghost.GetComponent<GhostInteract>();
+            if (ghostInteract) ghostInteract.DisableIndicator();
+
             if (isStoryRoom)
             {
                 SaveManager.data.ghostsInParty = ghostsInParty;
@@ -300,6 +303,14 @@ public class PartyManager : MonoBehaviour
     public bool RemoveGhostFromParty(GhostIdentity ghost)
     {
         bool success = ghostsInParty.Remove(ghost.name);
+
+        // re-add dialogue interaction indiactor, if any
+        if (ghost && success)
+        {
+            GhostInteract ghostInteract = ghost.GetComponent<GhostInteract>();
+            ghostInteract.EnableIndiactor(); 
+            if (isStoryRoom) ghostInteract.ReturnGhostToOrigPos();
+        }
 
         ghost.gameObject.GetComponent<GhostUIDriver>().UpdatePartyStatus();
 
