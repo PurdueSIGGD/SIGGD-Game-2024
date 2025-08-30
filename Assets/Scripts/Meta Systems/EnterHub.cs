@@ -83,23 +83,23 @@ public class EnterHub : MonoBehaviour
         if (death && SaveManager.data.orion == 1) // beating nova point
         {
             death.gameObject.SetActive(true);
-            death.SetConvo(deathFirstDeath);
+            death.SetConvo(deathNovaPoint);
             StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
             sp.Init(deathNovaPoint.data.convoName, "orion", 2, true);
         }
         if (death && SaveManager.data.orion == 3) // beating shigora
         {
             death.gameObject.SetActive(true);
-            death.SetConvo(deathFirstDeath);
+            death.SetConvo(deathShigora);
             StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
             sp.Init(deathShigora.data.convoName, "orion", 4, true);
         }
         if (death && SaveManager.data.orion == 5) // beating caladria
         {
             death.gameObject.SetActive(true);
-            death.SetConvo(deathFirstDeath);
+            death.SetConvo(deathCaladria);
             StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
-            sp.Init(deathNovaPoint.data.convoName, "orion", 6, true);
+            sp.Init(deathCaladria.data.convoName, "orion", 6, true);
         }
 
 

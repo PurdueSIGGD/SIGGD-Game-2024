@@ -19,7 +19,7 @@ public class Door : MonoBehaviour
     private GameObject interactMenu;
     private PlayerID player;
     private SpriteRenderer spriteRenderer;
-
+    private bool transporting;
 
     void Start()
     {
@@ -38,6 +38,17 @@ public class Door : MonoBehaviour
 
         // disable teleport when door not active
         if (player.CompareTag("Player") && (active || specificActive))
+        {
+            CreateInteractMenu();
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        GameObject player = collision.gameObject;
+
+        // disable teleport when door not active
+        if (interactMenu == null && player.CompareTag("Player") && (active || specificActive))
         {
             CreateInteractMenu();
         }
@@ -67,11 +78,15 @@ public class Door : MonoBehaviour
         interactMenu = WI.CreateInteractMenu(menuPos, opt1);
     }
 
-    private void CallDoorOpened()
+    protected virtual void CallDoorOpened()
     {
-        Door.activateDoor(false);
-        SendMessage("DoorOpened");
-        OnDoorOpened?.Invoke();
+        if (!transporting)
+        {
+            Door.activateDoor(false);
+            SendMessage("DoorOpened");
+            OnDoorOpened?.Invoke();
+            transporting = true;
+        }
     }
 
     private void TeleportPlayer()

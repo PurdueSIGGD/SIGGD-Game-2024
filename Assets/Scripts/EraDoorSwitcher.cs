@@ -8,23 +8,39 @@ public class EraDoorSwitcher : MonoBehaviour
     [SerializeField] Sprite incomplete;
     [SerializeField] Sprite complete;
     [SerializeField] SpriteRenderer spriteRenderer;
+    [SerializeField] GameObject baseToAppear;
 
     // Start is called before the first frame update
-    void Start()
+    void Update()
     {
         if (SaveManager.data.orion + 1 < orionNumber)
         {
-            gameObject.SetActive(false);
+            if (baseToAppear != null)
+            {
+                baseToAppear.SetActive(false);
+            }
+            gameObject.GetComponentInChildren<SpriteRenderer>().enabled = false;
+            //gameObject.SetActive(false);
             //spriteRenderer.enabled = false;
         }
         else if (SaveManager.data.orion >= orionNumber)
         {
+            if (baseToAppear != null)
+            {
+                baseToAppear.SetActive(true);
+            }
+            gameObject.GetComponentInChildren<SpriteRenderer>().enabled = true;
             gameObject.SetActive(true);
             //spriteRenderer.enabled = true;
             spriteRenderer.sprite = complete;
         }
         else
         {
+            if (baseToAppear != null)
+            {
+                baseToAppear.SetActive(true);
+            }
+            gameObject.GetComponentInChildren<SpriteRenderer>().enabled = true;
             gameObject.SetActive(true);
             //spriteRenderer.enabled = true;
             spriteRenderer.sprite = incomplete;

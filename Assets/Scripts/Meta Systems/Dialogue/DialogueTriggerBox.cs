@@ -6,7 +6,7 @@ public class DialogueTriggerBox : MonoBehaviour
 {
     [SerializeField] bool activeOnStart;
     [SerializeField] ConvoSO convo;
-    private bool active;
+    protected bool active;
     private bool colliding;
 
     void Start()

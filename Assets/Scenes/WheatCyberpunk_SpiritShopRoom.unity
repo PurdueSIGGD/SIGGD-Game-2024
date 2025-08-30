@@ -188,7 +188,7 @@ PrefabInstance:
     - target: {fileID: 1878781487552890633, guid: 00ef337d94b07b9429cff6c9b343f6b8,
         type: 3}
       propertyPath: maxLevels
-      value: 11
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1878781487552890633, guid: 00ef337d94b07b9429cff6c9b343f6b8,
         type: 3}
@@ -741,7 +741,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactRange: 5
   menuOffset: {x: 0, y: 1.64, z: 0}
-  spiritShopManager: {fileID: 0}
+  spiritShopManager: {fileID: 651420996}
 --- !u!212 &467931949
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -971,6 +971,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3601758232506679644, guid: 39c14e8a58fe62e4abd3676292cc3919,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3650883820971461647, guid: 39c14e8a58fe62e4abd3676292cc3919,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3650883820971461647, guid: 39c14e8a58fe62e4abd3676292cc3919,
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1328,6 +1338,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 237a6ea2716afe94eb00d6a716857713, type: 3}
+--- !u!114 &651420996 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 900742606410262795, guid: 237a6ea2716afe94eb00d6a716857713,
+    type: 3}
+  m_PrefabInstance: {fileID: 651420995}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 057d069fda3cb8748a9dc3cfa2138e58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &706469658
 GameObject:
   m_ObjectHideFlags: 0
@@ -1562,7 +1584,7 @@ PrefabInstance:
     - target: {fileID: 7571713822331994719, guid: 4dcc6deff0c55f94692575e46c929d6d,
         type: 3}
       propertyPath: roomMusicTrack
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
