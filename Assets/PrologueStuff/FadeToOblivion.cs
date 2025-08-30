@@ -22,8 +22,10 @@ public class FadeToOblivion : MonoBehaviour
 
     private IEnumerator DoTheThing()
     {
-        ScreenFader.instance.FadeOut();
-        yield return new WaitForSeconds(ScreenFader.instance.fadeOutDuration + 0.1f);
+        ScreenFader.instance.FadeOut(0, 2);
+        yield return new WaitForSeconds(4.5f);
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("HeavyAttack");
+        yield return new WaitForSeconds(ScreenFader.instance.fadeOutDuration + 3.5f);
         SceneManager.LoadScene("MidPrologue");
     }
 }

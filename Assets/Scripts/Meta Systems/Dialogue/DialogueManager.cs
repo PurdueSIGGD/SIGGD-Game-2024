@@ -105,6 +105,7 @@ public class DialogueManager : MonoBehaviour, IScreenUI
 
         if (currentLine == conversation.data.lines.Length)
         {
+            AudioManager.Instance.VABranch.StopConversationLine(conversation.data.convoName, currentLine - 1);
             EndDialogue();
             return;
         }
