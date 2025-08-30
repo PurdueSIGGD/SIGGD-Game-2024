@@ -156,7 +156,7 @@ public class OldrionController : BossController
         else if (currentPhase == 3)
         {
             dialogueManager.StartDialogue(phase3Convo);
-            yield return new WaitUntil(GetHasFinishedPhase3Convo);
+            yield return new WaitUntil(() => hasFinishedPhase3Convo == true);
         }
 
         print("UNC: yet... after all your trials... all your efforts");
@@ -248,20 +248,10 @@ public class OldrionController : BossController
         }
     }
 
-    private bool GetHasFinishedPhase2Convo()
-    {
-        return hasFinishedPhase2Convo;
-    }
-
-    private bool GetHasFinishedPhase3Convo()
-    {
-        return hasFinishedPhase3Convo;
-    }
-
     private IEnumerator ThenTheThing()
     {
         ScreenFader.instance.FadeOut(1, 2);
-        yield return new WaitForSeconds(ScreenFader.instance.fadeOutDuration + 0.1f);
+        yield return new WaitForSeconds(ScreenFader.instance.fadeOutDuration + 8f);
         SceneManager.LoadScene("Epilogue");
     }
 }
