@@ -82,7 +82,7 @@ public class BossController : MonoBehaviour
         }
     }
 
-    public void EnableAI()
+    public virtual void EnableAI()
     {
         startSpawn = true;
     }
