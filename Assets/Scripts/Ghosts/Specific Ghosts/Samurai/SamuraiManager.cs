@@ -48,11 +48,13 @@ public class SamuraiManager : GhostManager, ISelectable
     private void OnEnable()
     {
         GameplayEventHolder.OnDamageDealt += WrathOnDamage;
+        GameplayEventHolder.OnDeath += OnKillVoiceline;
     }
 
     private void OnDisable()
     {
         GameplayEventHolder.OnDamageDealt -= WrathOnDamage;
+        GameplayEventHolder.OnDeath -= OnKillVoiceline;
     }
 
     protected override void Start()
@@ -142,6 +144,7 @@ public class SamuraiManager : GhostManager, ISelectable
             if (wrathPercent < 1f && wrathPercent + wrathGained >= 1f)
             {
                 AudioManager.Instance.SFXBranch.PlaySFXTrack("Akihito-Wrath Max");
+                AudioManager.Instance.VABranch.PlayVATrack("Akihito-Samurai Max Wrath");
             }
             else
             {
@@ -170,6 +173,15 @@ public class SamuraiManager : GhostManager, ISelectable
 
             wrathPercent = Mathf.Max(wrathPercent - wrathLost, 0f);
             roninsResolve.RemoveBoosts(wrathPercent);
+        }
+    }
+
+
+    private void OnKillVoiceline(DamageContext context)
+    {
+        if (context.attacker.CompareTag("Player") && context.actionID == ActionID.SAMURAI_BASIC)
+        {
+            AudioManager.Instance.VABranch.PlayVATrack("Akihito-Samurai Wrath On Kill");
         }
     }
 }

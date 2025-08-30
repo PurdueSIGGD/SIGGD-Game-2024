@@ -82,6 +82,7 @@ public class PoliceChiefSpecial : MonoBehaviour
 
         // SFX
         AudioManager.Instance.SFXBranch.PlaySFXTrack("North-Railgun Charging");
+        AudioManager.Instance.VABranch.PlayVATrack("North-Police_Chief Railgun Charging Up");
     }
 
     void StopSpecialChargeUp()
@@ -106,6 +107,14 @@ public class PoliceChiefSpecial : MonoBehaviour
         AudioManager.Instance.SFXBranch.PlaySFXTrack("North-Railgun Primed");
         AudioManager.Instance.SFXBranch.GetSFXTrack("North-Railgun Primed Loop").SetPitch(0f, 1f);
         AudioManager.Instance.SFXBranch.PlaySFXTrack("North-Railgun Primed Loop");
+        if (overcharged.pointIndex > 0)
+        {
+            AudioManager.Instance.VABranch.PlayVATrack("North-Police_Chief Overcharging");
+        }
+        else
+        {
+            AudioManager.Instance.VABranch.PlayVATrack("North-Police_Chief Railgun Full Charge");
+        }
 
         if (overcharged.pointIndex > 0) overcharged.StartOvercharging();
     }

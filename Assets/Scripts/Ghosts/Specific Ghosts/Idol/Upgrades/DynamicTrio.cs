@@ -64,12 +64,17 @@ public class DynamicTrio : Skill
 
     public void TransferDamage(ref DamageContext context)
     {
-        if (context.victim != PlayerID.instance.gameObject)
+        if (context.victim != PlayerID.instance.gameObject || context.damage <= 0f)
         {
             return;
         }
 
         if (manager.clones.Count == 0)
+        {
+            return;
+        }
+
+        if (pointIndex <= 0)
         {
             return;
         }

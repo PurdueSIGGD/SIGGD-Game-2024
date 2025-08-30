@@ -138,6 +138,7 @@ public class WrathHeavyAttack : MonoBehaviour
         chargingTime = manager.GetStats().ComputeValue("Heavy Charge Up Time");
         isCharging = true;
         AudioManager.Instance.SFXBranch.PlaySFXTrack("HeavyAttackWindUp");
+        AudioManager.Instance.VABranch.PlayVATrack("Akihito-Samurai Wrath Charging Up");
         manager.decaying = false;
         manager.resetDecay = true;
         primedHeavyDamage = 0;

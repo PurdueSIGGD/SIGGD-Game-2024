@@ -91,6 +91,7 @@ public class PoliceChiefLethalForce : Skill
                     shotEmpowered = true;
                     AudioManager.Instance.SFXBranch.PlaySFXTrack("North-Sidearm Primed Loop");
                     PlayerID.instance.GetComponent<PlayerParticles>().PlayGhostEmpowered(GetComponent<GhostIdentity>().GetCharacterInfo().whiteColor, 1f, 1f);
+                    AudioManager.Instance.VABranch.PlayVATrack("North-Police_Chief Lethal Force");
                 }
             } else if (!context.actionTypes.Contains(ActionType.SKILL))
             {
