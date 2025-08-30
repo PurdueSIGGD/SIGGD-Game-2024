@@ -21,6 +21,8 @@ public class MusicManager : MonoBehaviour
     [SerializeField] private MusicTrack doctor;
     [SerializeField] private MusicTrack king;
     [SerializeField] private MusicTrack death;
+    [SerializeField] private MusicTrack oldrionPhase13;
+    [SerializeField] private MusicTrack oldrionphase4;
 
     private MusicTrackName currentTrackName;
 
@@ -55,6 +57,8 @@ public class MusicManager : MonoBehaviour
             case MusicTrackName.DOCTOR:                return (IMusicTrack) doctor;
             case MusicTrackName.KING:                  return (IMusicTrack) king;
             case MusicTrackName.DEATH_THEME:           return (IMusicTrack) death;
+            case MusicTrackName.OLDRION_FIRST:         return (IMusicTrack) oldrionPhase13;
+            case MusicTrackName.OLDRION_FINAL:         return (IMusicTrack) oldrionphase4;
             default:                                   return null;
         }
     }
@@ -143,5 +147,7 @@ public enum MusicTrackName {
     SAMURAI, //              0.000           98.000
     DOCTOR, //              0.000           98.000
     KING, //              0.000           98.000
-    DEATH_THEME //        0.000           51.000
+    DEATH_THEME, //        0.000           51.000
+    OLDRION_FIRST,
+    OLDRION_FINAL
 }
