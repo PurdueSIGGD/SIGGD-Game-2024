@@ -10,7 +10,7 @@ public class EraDoorSwitcher : MonoBehaviour
     [SerializeField] SpriteRenderer spriteRenderer;
 
     // Start is called before the first frame update
-    void Start()
+    void Update()
     {
         if (SaveManager.data.orion + 1 < orionNumber)
         {

@@ -19,7 +19,7 @@ public class Door : MonoBehaviour
     private GameObject interactMenu;
     private PlayerID player;
     private SpriteRenderer spriteRenderer;
-
+    private bool transporting;
 
     void Start()
     {
@@ -69,9 +69,13 @@ public class Door : MonoBehaviour
 
     private void CallDoorOpened()
     {
-        Door.activateDoor(false);
-        SendMessage("DoorOpened");
-        OnDoorOpened?.Invoke();
+        if (!transporting)
+        {
+            Door.activateDoor(false);
+            SendMessage("DoorOpened");
+            OnDoorOpened?.Invoke();
+            transporting = true;
+        }
     }
 
     private void TeleportPlayer()
