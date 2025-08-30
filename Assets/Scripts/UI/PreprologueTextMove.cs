@@ -7,6 +7,8 @@ public class PreprologueTextMove : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI dialogue;
 
+    private RectTransform rectTransform;
+
     private bool start = false;
     public float waitTime;
     public float travelSpeed;
@@ -14,14 +16,15 @@ public class PreprologueTextMove : MonoBehaviour
     private void Start()
     {
         StartCoroutine(Waiting());
+        rectTransform = dialogue.GetComponent<RectTransform>();
     }
 
     void Update()
     {
         if (start)
         {
-            dialogue.transform.position = new Vector2(dialogue.transform.position.x,
-                        dialogue.transform.position.y + travelSpeed * Time.deltaTime);
+            rectTransform.position = new Vector2(rectTransform.position.x,
+                        rectTransform.position.y + travelSpeed * Time.deltaTime);
         }
     }
 

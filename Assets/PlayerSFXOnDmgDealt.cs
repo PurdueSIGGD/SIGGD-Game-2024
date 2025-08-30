@@ -24,7 +24,7 @@ public class PlayerSFXOnDmgDealt : MonoBehaviour
             {
                 AudioManager.Instance.SFXBranch.PlaySFXTrack("EnemyHitSFX");
             }
-            else if (context.damageStrength >= DamageStrength.HEAVY)
+            if (context.damageStrength >= DamageStrength.HEAVY)
             {
                 AudioManager.Instance.SFXBranch.PlaySFXTrack("MeatyEnemyDamageSFX");
             }

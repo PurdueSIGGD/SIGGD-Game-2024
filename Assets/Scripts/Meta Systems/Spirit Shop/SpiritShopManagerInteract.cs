@@ -44,14 +44,11 @@ public class SpiriShopManagerInteract : InRangeInteract
     private void OpenSpiritShopUI()
     {
         spiritShopManager.OpenShopUI();
-        spiritShopManager.turnCompleted = false;
 
         Health playerHealth = PlayerID.instance.GetComponent<Health>();
         playerHealth.currentHealth = Mathf.Min((playerHealth.currentHealth + (playerHealth.GetStats().ComputeValue("Max Health") * playerHealth.GetStats().ComputeValue("Mortal Wound Threshold"))),
                                                playerHealth.GetStats().ComputeValue("Max Health"));
+        CloseMenu();
     }
 
-    // ==============================
-    //        Other Functions
-    // ==============================
 }

@@ -9,18 +9,27 @@ using UnityEngine.UI;
 public class LevelProgressUpdater : MonoBehaviour
 {
     public static float progress = -1f;
+    [SerializeField] bool specificDeactive = false;
 
     void Update()
     {
-        if (progress > 0 && EnemiesLeftUpdater.enemiesLeft <= 0)
-        {
-            GetComponent<Slider>().value = progress;
-            Show();
-        }
-        else
+        if (specificDeactive)
         {
             GetComponent<Slider>().value = 0;
             Hide();
+        }
+        else
+        {
+            if (progress > 0 && EnemiesLeftUpdater.enemiesLeft <= 0)
+            {
+                GetComponent<Slider>().value = progress;
+                Show();
+            }
+            else
+            {
+                GetComponent<Slider>().value = 0;
+                Hide();
+            }
         }
     }
 

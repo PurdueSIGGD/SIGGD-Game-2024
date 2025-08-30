@@ -7,6 +7,7 @@ public class NoboruController : BossController
     EnemyStateManager enemyStateManager;
     Animator anim;
     [SerializeField] float deathTimer;
+    [SerializeField] NoboruManager manager;
 
     public void Start()
     {
@@ -14,6 +15,13 @@ public class NoboruController : BossController
         enemyStateManager = GetComponent<EnemyStateManager>();
         anim = GetComponent<Animator>();
     }
+
+    public override void EnableAI()
+    {
+        base.EnableAI();
+        manager.enabled = true;
+    }
+
     public void SpawnYokai(GameObject yokaiPrefab, GameObject enemy)
     {
         SpawnEnemyAtRandomPoint(enemy, yokaiPrefab);

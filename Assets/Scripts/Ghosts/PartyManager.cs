@@ -148,6 +148,7 @@ public class PartyManager : MonoBehaviour
         //Debug.Log("SCROLL WHEEL INPUT: " + value.Get<float>());
         int scrollWheelValue = (int)value.Get<float>();
         int newIndex = selectedGhostIndex;
+        /*
         if (scrollWheelValue == 0)
         {
             return;
@@ -162,6 +163,44 @@ public class PartyManager : MonoBehaviour
             newIndex = selectedGhostIndex + 1;
             if (newIndex > ghostsInParty.Count - 1) newIndex = -1;
         }
+        ChangePosessingGhost(newIndex);
+        */
+
+        // Invalid swap input
+        if (scrollWheelValue == 0)
+        {
+            return;
+        }
+
+        // Swap to Orion
+        else if (scrollWheelValue < 0)
+        {
+            newIndex = -1;
+        }
+
+        // Swap ghosts
+        else if (scrollWheelValue > 0)
+        {
+            // Swap to ghost 2
+            if (selectedGhostIndex == 0)
+            {
+                newIndex = 1;
+            }
+
+            // Swap to ghost 1
+            else if (selectedGhostIndex == 1 || selectedGhostIndex == -1)
+            {
+                newIndex = 0;
+            }
+
+            // Enforce party size
+            if (newIndex >= ghostsInParty.Count)
+            {
+                newIndex = ghostsInParty.Count - 1;
+            }
+        }
+
+        // Swap
         ChangePosessingGhost(newIndex);
     }
 

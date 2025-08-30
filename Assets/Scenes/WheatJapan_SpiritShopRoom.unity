@@ -1157,7 +1157,7 @@ PrefabInstance:
     - target: {fileID: 1878781487552890633, guid: a34b6ea0631928e418c53b34f1354fe5,
         type: 3}
       propertyPath: maxLevels
-      value: 11
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1878781487552890633, guid: a34b6ea0631928e418c53b34f1354fe5,
         type: 3}
@@ -1406,7 +1406,7 @@ PrefabInstance:
     - target: {fileID: 7571713822331994719, guid: 4dcc6deff0c55f94692575e46c929d6d,
         type: 3}
       propertyPath: roomMusicTrack
-      value: 2
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1580,6 +1580,7 @@ GameObject:
   - component: {fileID: 1175390129}
   - component: {fileID: 1175390128}
   - component: {fileID: 1175390127}
+  - component: {fileID: 1175390130}
   m_Layer: 7
   m_Name: SpiritShopStatue (1)
   m_TagString: Untagged
@@ -1669,6 +1670,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &1175390130
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1175390126}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 128e3e003afc38b4d9baff7b42b4b135, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!4 &1201796980 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4110798391085700997, guid: 9d9ed0a7273e542448b2496428c1af4c,

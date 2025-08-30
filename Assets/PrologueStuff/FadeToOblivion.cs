@@ -24,6 +24,6 @@ public class FadeToOblivion : MonoBehaviour
     {
         ScreenFader.instance.FadeOut();
         yield return new WaitForSeconds(ScreenFader.instance.fadeOutDuration + 0.1f);
-        SceneManager.LoadScene("PrePrologue");
+        SceneManager.LoadScene("MidPrologue");
     }
 }

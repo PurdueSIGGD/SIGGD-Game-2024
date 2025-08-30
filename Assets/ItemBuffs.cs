@@ -266,7 +266,7 @@ public class ItemBuffs : MonoBehaviour
         if (item.displayName.Equals("Reckless Ruin"))
         {
             stats.ModifyStat("Crit Chance", recklessRuinBuff);
-            stats.ModifyStat("General Attack Damage Boost", recklessRuinCurse);
+            stats.ModifyStat("General Attack Damage Boost", -recklessRuinCurse);
         }
 
         if (item.displayName.Equals("Skirmisher"))

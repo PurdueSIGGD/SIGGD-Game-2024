@@ -115,7 +115,7 @@ public class OniController : MonoBehaviour
         List<GameObject> potentialTargets = new();
         foreach (Collider2D collision in collisions)
         {
-            if (!collision.gameObject.name.Contains("Oni"))
+            if (!collision.gameObject.name.Contains("Oni") && !collision.gameObject.name.Contains("Noboru"))
             {
                 potentialTargets.Add(collision.gameObject);
             }

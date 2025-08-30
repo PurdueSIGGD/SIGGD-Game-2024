@@ -20,6 +20,11 @@ public class LevelSwitching : MonoBehaviour
         return ((float)levelCount - 1.0f) / (float)maxLevels;
     }
 
+    public void ResetLevel()
+    {
+        levelCount = 0;
+    }
+
     private void Start()
     {
         instance = this;

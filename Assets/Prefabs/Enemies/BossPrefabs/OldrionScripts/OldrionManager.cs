@@ -47,6 +47,11 @@ public class OldrionManager : EnemyStateManager
             base.FixedUpdate();
         }
     }
+    public override bool HasLineOfSight(bool tracking)
+    {
+        // override L.O.S. calculation to be really super generous to the mage rather than require direct L.O.S.
+        return Physics2D.OverlapCircle(transform.position, 100, LayerMask.GetMask("Player"));
+    }
 
     void LightDamageFrame()
     {

@@ -147,8 +147,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
         type: 3}
+      propertyPath: enemies.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
+        type: 3}
       propertyPath: specificLevels.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
         type: 3}
@@ -188,7 +193,7 @@ PrefabInstance:
     - target: {fileID: 87829732643394533, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
         type: 3}
       propertyPath: specificLevels.Array.data[1].levels.Array.data[0].sceneName
-      value: DeathFinalConvo
+      value: Oldrion_Boss
       objectReference: {fileID: 0}
     - target: {fileID: 429391655631069524, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
         type: 3}
@@ -284,7 +289,7 @@ PrefabInstance:
     - target: {fileID: 5699921865032349298, guid: a77a3e6d11ea3db4a98af3cbc7a50580,
         type: 3}
       propertyPath: m_Name
-      value: CyberpunkEraDoor
+      value: WheatEraDoor
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1356,6 +1361,7 @@ GameObject:
   - component: {fileID: 809205629}
   - component: {fileID: 809205628}
   - component: {fileID: 809205627}
+  - component: {fileID: 809205630}
   m_Layer: 7
   m_Name: SpiritShopStatue (1)
   m_TagString: Untagged
@@ -1445,6 +1451,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &809205630
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 809205626}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 128e3e003afc38b4d9baff7b42b4b135, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -1594,7 +1621,7 @@ PrefabInstance:
     - target: {fileID: 7571713822331994719, guid: 4dcc6deff0c55f94692575e46c929d6d,
         type: 3}
       propertyPath: roomMusicTrack
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
