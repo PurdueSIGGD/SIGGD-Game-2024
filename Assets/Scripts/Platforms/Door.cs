@@ -14,7 +14,7 @@ public class Door : MonoBehaviour
     [SerializeField] private GameObject dest;
     public static bool active;
     [SerializeField] private Vector3 menuOffset;
-    [SerializeField] private bool specificActive;
+    [SerializeField] public bool specificActive;
 
     private GameObject interactMenu;
     private PlayerID player;

@@ -19,6 +19,7 @@ public class EraDoorSwitcher : MonoBehaviour
             {
                 baseToAppear.SetActive(false);
             }
+            GetComponent<Door>().specificActive = false;
             gameObject.GetComponentInChildren<SpriteRenderer>().enabled = false;
             //gameObject.SetActive(false);
             //spriteRenderer.enabled = false;
@@ -29,6 +30,7 @@ public class EraDoorSwitcher : MonoBehaviour
             {
                 baseToAppear.SetActive(true);
             }
+            GetComponent<Door>().specificActive = true;
             gameObject.GetComponentInChildren<SpriteRenderer>().enabled = true;
             gameObject.SetActive(true);
             //spriteRenderer.enabled = true;
@@ -40,6 +42,7 @@ public class EraDoorSwitcher : MonoBehaviour
             {
                 baseToAppear.SetActive(true);
             }
+            GetComponent<Door>().specificActive = true;
             gameObject.GetComponentInChildren<SpriteRenderer>().enabled = true;
             gameObject.SetActive(true);
             //spriteRenderer.enabled = true;
