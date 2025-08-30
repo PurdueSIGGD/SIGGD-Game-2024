@@ -140,14 +140,16 @@ public class EraDoor : MonoBehaviour
 
     private void InputFinalBoss()
     {
-        if(PartyManager.instance.IsGhostInParty("Aegis-King"))
-        {
-            specificLevels.Add(new(new Level[] { new("Aegis Oldrion_BossFight", 1) }, 1));
-        }
-        else
-        {
-            specificLevels.Add(new(new Level[] { new("Oldrion_BossFight", 1) }, 1));
-        }
+        specificLevels.Add(new(new Level[] { new("Oldrion_BossFight", 1) }, 1));
+
+        //if (PartyManager.instance.IsGhostInParty("Aegis-King"))
+        //{
+        //    specificLevels.Add(new(new Level[] { new("Aegis Oldrion_BossFight", 1) }, 1));
+        //}
+        //else
+        //{
+        //    specificLevels.Add(new(new Level[] { new("Oldrion_BossFight", 1) }, 1));
+        //}
     }
 
 

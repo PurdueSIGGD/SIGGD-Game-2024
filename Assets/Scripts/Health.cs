@@ -28,7 +28,7 @@ public class Health : MonoBehaviour, IDamageable, IStatList
         currentHealth = stats.ComputeValue("Max Health");
     }
 
-    public float Damage(DamageContext context, GameObject attacker)
+    public virtual float Damage(DamageContext context, GameObject attacker)
     {
         // Configure damage context
         context.attacker = attacker;
@@ -99,7 +99,7 @@ public class Health : MonoBehaviour, IDamageable, IStatList
     /// processed by any damage filters, useful certain damage like Yume's
     /// fatebound effect
     /// </summary>
-    public float NoContextDamage(DamageContext context, GameObject attacker)
+    public virtual float NoContextDamage(DamageContext context, GameObject attacker)
     {
         context.attacker = attacker;
         context.victim = gameObject;
