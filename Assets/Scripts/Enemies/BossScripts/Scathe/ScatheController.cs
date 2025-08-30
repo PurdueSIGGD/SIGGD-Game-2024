@@ -9,6 +9,7 @@ public class ScatheController : BossController
     Rigidbody2D rb;
     Animator anim;
     [SerializeField] float deathTimer;
+    [SerializeField] ScatheManager manager;
 
     public void Start()
     {
@@ -32,6 +33,12 @@ public class ScatheController : BossController
         enemyStateManager.enabled = false;
         anim.SetTrigger("dead");
         StartCoroutine(DefeatCoroutine());
+    }
+
+    public override void EnableAI()
+    {
+        base.EnableAI();
+        manager.enabled = true;
     }
     IEnumerator DefeatCoroutine()
     {
