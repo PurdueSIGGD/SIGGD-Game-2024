@@ -22,6 +22,17 @@ public class TrackingProjectile : EnemyProjectile
         Vector3 directionToTarget = (player.position - transform.position).normalized;
         rb.velocity = directionToTarget * speed;
     }
+    void Update()
+    {
+        if (PlayerID.instance.gameObject.transform.position.x - transform.position.x < 0)
+        {
+            transform.localScale = new Vector3(0.7f, transform.localScale.y, transform.localScale.z);
+        }
+        else
+        {
+            transform.localScale = new Vector3(-0.7f, transform.localScale.y, transform.localScale.z);
+        }
+    }
 
     void FixedUpdate()
     {   // Stops tracking within certain distance of player
@@ -42,14 +53,6 @@ public class TrackingProjectile : EnemyProjectile
             Quaternion rotation = Quaternion.LookRotation(directionToTarget);
             rb.MoveRotation(Quaternion.RotateTowards(transform.rotation, rotation, trackingStrength));
             rb.velocity = directionToTarget * speed;
-            if (player.position.x - transform.position.x < 0)
-            {
-                sprite.flipX = false;
-            }
-            else
-            {
-                sprite.flipX = true;
-            }
         }
     }
 

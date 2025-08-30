@@ -48,6 +48,11 @@ public class OldrionController : BossController
         UpdateCooldowns();
         GETANGRY();
     }
+    void Update()
+    {
+        bossHealth.isAlive = !IsDefeated();
+        base.Update();
+    }
 
     public void GETANGRY()
     {
@@ -129,6 +134,8 @@ public class OldrionController : BossController
 
         print("UNC: it was  ALL  FOR  NAUGHT!!!");
         print("UNC: RAHHHHHH");
+
+        //
 
         anim.SetTrigger("crush");
     }
