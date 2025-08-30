@@ -113,6 +113,7 @@ public class PoliceChiefOvercharged : Skill
 
         // SFX
         AudioManager.Instance.SFXBranch.PlaySFXTrack("North-Misfire");
+        AudioManager.Instance.VABranch.PlayVATrack("North-Police_Chief Overcharged Failure");
 
         playerStateMachine.EnableTrigger("OPT");
         StopOvercharging();

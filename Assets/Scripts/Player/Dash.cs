@@ -70,6 +70,7 @@ public class Dash : MonoBehaviour, IStatList
     {
         GetComponent<Move>().PlayerStop();
         GetComponent<Health>().GetStats().ModifyStat("Dodge Chance", 1000);
+
         Vector3 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         Vector2 direction = ((Vector2) mousePos - (Vector2) transform.position).normalized;
         if (GetComponent<Animator>().GetBool("p_grounded"))
@@ -91,7 +92,6 @@ public class Dash : MonoBehaviour, IStatList
         StartCoroutine(DashCoroutine());
 
         // Old Fling for Aegis - King
-
         GhostIdentity king = null;
         PartyManager.instance.GetIdentitiesByName().TryGetValue("Aegis-King", out king);
 
@@ -100,6 +100,8 @@ public class Dash : MonoBehaviour, IStatList
             king.GetComponent<OldFling>().AddExtraHealth();
         }
 
+        // VFX
+        GetComponent<PlayerParticles>().PlayOrionDash(orionManager.orionSO.whiteColor);
     }
 
     public void StopDash()
@@ -125,6 +127,10 @@ public class Dash : MonoBehaviour, IStatList
         rb.velocity *= stats.ComputeValue("Post Dash Momentum Fraction");
         psm.EnableTrigger("OPT");
         isDashing = false;
+
+        // VFX
+        yield return new WaitForSeconds(0.25f);
+        GetComponent<PlayerParticles>().StopOrionDash();
     }
 
     public StatManager.Stat[] GetStatList()

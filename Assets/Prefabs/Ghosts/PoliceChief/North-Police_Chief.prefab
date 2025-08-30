@@ -155,7 +155,9 @@ MonoBehaviour:
   characterInfo: {fileID: 11400000, guid: 82f9561b0030f9b4282a3072b0d5656d, type: 2}
   isUnlocked: 0
   exp: 0
-  levelReqs: d0070000d0070000d0070000d0070000d0070000d0070000a00f0000a00f0000a00f000088130000881300008813000088130000
+  expPerSpiritGained: 1
+  expPerPinkSpiritGained: 2
+  levelReqs: 0a000000c80000002c0100009001000058020000bc02000020030000e80300004c040000b0040000dc050000dc050000dc050000dc050000
 --- !u!114 &584133115329307738
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -189,11 +191,11 @@ MonoBehaviour:
   - name: Basic Cooldown
     value: 1
   - name: Basic Damage
-    value: 18
+    value: 20
   - name: Basic Heavy Damage
-    value: 18
+    value: 20
   - name: Basic Super Heavy Damage
-    value: 36
+    value: 35
   - name: Basic Travel Distance
     value: 25
   - name: Basic Charge Up Time
