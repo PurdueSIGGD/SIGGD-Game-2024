@@ -89,6 +89,7 @@ public class OldrionController : BossController
 
         if (currentPhase > FINAL_PHASE - 1)
         {
+            Debug.Log("final phase");
             AudioManager.Instance.GetComponentInChildren<MusicManager>().CrossfadeTo(MusicTrackName.OLDRION_FINAL, 0.5f);
         }
 
