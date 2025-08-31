@@ -24,6 +24,8 @@ public class SeamstressManager : GhostManager
     [SerializeField] private DamageContext sharedDmg;
     [SerializeField] private float sharedDmgScaling;
 
+    [SerializeField] public GameObject fateboundVFX;
+
     public Queue<GameObject> linkableEnemies;
     private ChainedEnemy head; // will usually be the first enemy hit by Yume's projectile
     private ChainedEnemy tail; // should always point to the end of the list
@@ -60,6 +62,7 @@ public class SeamstressManager : GhostManager
 
         durationCounter = GetStats().ComputeValue("Fatebound Duration");
         spools = SaveManager.data.yume.spoolCount;
+        if (spools > 0) PlayerParticles.instance.PlaySpoolBuff(spools, stats.ComputeValue("Max Spools"));
 
         int[] points = SaveManager.data.ghostSkillPts[identityName];
         Skill[] skills = GetComponent<SkillTree>().GetAllSkills();
@@ -72,8 +75,32 @@ public class SeamstressManager : GhostManager
         }
     }
 
+
+
+    private void OnEnable()
+    {
+        GameplayEventHolder.OnDamageDealt += SpoolAttack;
+    }
+
+    private void OnDisable()
+    {
+        GameplayEventHolder.OnDamageDealt -= SpoolAttack;
+    }
+
+
+
     protected override void Update()
     {
+        // Spools full tracker
+        if (spools >= stats.ComputeValue("Max Spools") && special != null)
+        {
+            PlayerID.instance.GetComponent<PlayerStateMachine>().OnCooldown("full_spools");
+        }
+        if (spools < stats.ComputeValue("Max Spools") && special != null)
+        {
+            PlayerID.instance.GetComponent<PlayerStateMachine>().OffCooldown("full_spools");
+        }
+
         base.Update();
         UpdateLinkedEnemies();
     }
@@ -106,6 +133,12 @@ public class SeamstressManager : GhostManager
         if (nspools > 0)
         {
             GameplayEventHolder.OnAbilityUsed.Invoke(onSpoolGained);
+            PlayerParticles.instance.PlaySpoolPulse();
+        }
+        PlayerParticles.instance.PlaySpoolBuff(spools, stats.ComputeValue("Max Spools"));
+        if (spools <= 0)
+        {
+            PlayerParticles.instance.StopSpoolBuff();
         }
     }
 
@@ -278,5 +311,28 @@ public class SeamstressManager : GhostManager
             }
         }
         lineRenderer.positionCount = i; // clear any extra points left behind when an enemy dies
+    }
+
+
+
+
+
+    void SpoolAttack(DamageContext damageContext)
+    {
+        //Debug.Log("attacker correct: " + (damageContext.attacker == PlayerID.instance.gameObject));
+        //Debug.Log("actionID correct: " + (damageContext.actionID == ActionID.PLAYER_HEAVY_ATTACK));
+        //Debug.Log("manager nullcheck: " + manager == null);
+        //Debug.Log("manager: " + GetSpoolManager());
+        //Debug.Log("actionID: " + damageContext.actionID);
+        if (damageContext.attacker == PlayerID.instance.gameObject &&
+            //damageContext.actionID == ActionID.PLAYER_HEAVY_ATTACK &&
+            damageContext.actionTypes.Contains(ActionType.HEAVY_ATTACK) &&
+            !damageContext.actionTypes.Contains(ActionType.SKILL) &&
+            spools >= stats.ComputeValue("Heavy Attack Spools Needed"))
+        {
+            damageContext.victim.GetComponent<EnemyStateManager>().Stun(damageContext, stats.ComputeValue("Spool Heavy Attack Stun"));
+            //Debug.Log("Subtracted " + -(int) manager.GetStats().ComputeValue("Heavy Attack Spools Needed") + " Spools");
+            AddSpools(-(int) stats.ComputeValue("Heavy Attack Spools Needed"));
+        }
     }
 }

@@ -84,7 +84,7 @@ public class KingManager : GhostManager, ISelectable
 
     private void rechargeShieldHealth()
     {
-        if ((basic != null && basic.isShielding) || currentShieldHealth >= stats.ComputeValue("Shield Max Health"))
+        if ((basic != null && basic.isShielding) || currentShieldHealth >= stats.ComputeValue("Shield Max Health") || !hasShield)
         {
             //psm.OffCooldown("c_basic");
             return;

@@ -24,6 +24,10 @@ public class RadientWellEffect : MonoBehaviour
         0, 7, 14, 21, 28
     };
 
+    [SerializeField] private float lingeringBuffDuration = 3f;
+    private float lingeringTimer = 0f;
+    private bool isLingering = false;
+
     private int skillPts;
     private bool buffActive;
     private GameObject player;
@@ -57,6 +61,17 @@ public class RadientWellEffect : MonoBehaviour
             Destroy(gameObject);
         }
         duration -= Time.deltaTime;
+
+        if (isLingering)
+        {
+            lingeringTimer -= Time.deltaTime;
+            if (lingeringTimer <= 0f)
+            {
+                lingeringTimer = 0f;
+                isLingering = false;
+                if (buffActive) RemoveBuff();
+            }
+        }
     }
 
     public void Init(int skillPts)
@@ -67,9 +82,16 @@ public class RadientWellEffect : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         // if it's actually the player in the well, and not a clone
-        if (collision.gameObject == player && !buffActive)
+        if (collision.gameObject == player)
         {
-            ApplyBuff();
+            if (!buffActive)
+            {
+                ApplyBuff();
+            }
+            else if (isLingering)
+            {
+                isLingering = false;
+            }
         }
     }
 
@@ -77,7 +99,9 @@ public class RadientWellEffect : MonoBehaviour
     {
         if (buffActive)
         {
-            RemoveBuff();
+            lingeringTimer = lingeringBuffDuration;
+            isLingering = true;
+            //RemoveBuff();
         }
     }
 
@@ -100,6 +124,9 @@ public class RadientWellEffect : MonoBehaviour
         stats.ModifyStat("General Attack Damage Boost", values[skillPts]);
 
         stats.ModifyStat("Damage Resistance", values[skillPts]);
+
+        // VFX
+        PlayerParticles.instance.PlayRadiantWellBuff();
     }
 
     private void RemoveBuff()
@@ -119,6 +146,9 @@ public class RadientWellEffect : MonoBehaviour
         stats.ModifyStat("General Attack Damage Boost", -values[skillPts]);
 
         stats.ModifyStat("Damage Resistance", -values[skillPts]);
+
+        // VFX
+        PlayerParticles.instance.StopRadiantWellBuff();
     }
 
     /*

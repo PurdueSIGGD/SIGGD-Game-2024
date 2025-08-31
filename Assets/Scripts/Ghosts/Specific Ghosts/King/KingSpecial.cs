@@ -20,6 +20,11 @@ public class KingSpecial : MonoBehaviour, ISpecialMove
         isInvincibilityActive = false;
     }
 
+    private void OnDisable()
+    {
+        if (GameplayEventHolder.OnDamageFilter.Contains(invincibilityFilter)) GameplayEventHolder.OnDamageFilter.Remove(invincibilityFilter);
+    }
+
     // Update is called once per frame
     void Update()
     {

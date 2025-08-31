@@ -32,6 +32,14 @@ public class PlayerParticles : MonoBehaviour
     [SerializeField] float minBadBuffEmission;
     [SerializeField] float maxBadBuffEmission;
 
+    [SerializeField] ParticleSystem radiantWellBuff;
+    [SerializeField] Color radiantWellColor;
+
+    [SerializeField] ParticleSystem spoolBuff;
+    [SerializeField] float minSpoolBuffEmission;
+    [SerializeField] float maxSpoolBuffEmission;
+    [SerializeField] Color spoolBuffColor;
+
     [SerializeField] GameObject pulseVFX;
 
     //private Color heavyChargingColor;
@@ -141,6 +149,51 @@ public class PlayerParticles : MonoBehaviour
     public void StopGhostBadBuff()
     {
         if (ghostBadBuff.isPlaying) ghostBadBuff.Stop();
+    }
+
+
+
+    // Aegis Radiant Well
+    public void PlayRadiantWellBuff()
+    {
+        GameObject swapPulse = Instantiate(pulseVFX, transform.position, Quaternion.identity);
+        swapPulse.GetComponent<RingExplosionHandler>().playRingExplosion(2f, radiantWellColor);
+        if (!radiantWellBuff.isPlaying)
+        {
+            radiantWellBuff.Play();
+        }
+    }
+
+    public void StopRadiantWellBuff()
+    {
+        if (radiantWellBuff.isPlaying)
+        {
+            GameObject swapPulse = Instantiate(pulseVFX, transform.position, Quaternion.identity);
+            swapPulse.GetComponent<RingExplosionHandler>().playRingExplosion(2f, radiantWellColor);
+            radiantWellBuff.Stop();
+        }
+    }
+
+
+
+    // Yume Spools
+    public void PlaySpoolBuff(float currentValue, float maxValue)
+    {
+        float valueScale = currentValue / maxValue;
+        ParticleSystem.EmissionModule emmisionModule = spoolBuff.emission;
+        emmisionModule.rateOverTime = new ParticleSystem.MinMaxCurve(Mathf.Lerp(minSpoolBuffEmission, maxSpoolBuffEmission, valueScale));
+        if (!spoolBuff.isPlaying) spoolBuff.Play();
+    }
+
+    public void StopSpoolBuff()
+    {
+        if (spoolBuff.isPlaying) spoolBuff.Stop();
+    }
+
+    public void PlaySpoolPulse()
+    {
+        GameObject swapPulse = Instantiate(pulseVFX, transform.position, Quaternion.identity);
+        swapPulse.GetComponent<RingExplosionHandler>().playRingExplosion(2f, spoolBuffColor);
     }
 
 
