@@ -29,6 +29,8 @@ public class IdolSpecial : MonoBehaviour
     // list of avaliable audio banks to play on holo jumping
     public List<string> avaliableHoloJumpVA = new List<string>() { "Eva-Idol Holo Jump Activate" };
 
+    [HideInInspector] public bool isInvincible = false;
+
 
     void Start()
     {
@@ -36,6 +38,11 @@ public class IdolSpecial : MonoBehaviour
         psm = GetComponent<PlayerStateMachine>();
         swapClone = manager.clones.Count > 0 ? manager.clones[0] : null;
         cloneAlive = (swapClone != null);
+    }
+
+    private void OnDestroy()
+    {
+        if (isInvincible) GetComponent<Health>().GetStats().ModifyStat("Dodge Chance", -1000);
     }
 
     void Update()
@@ -86,6 +93,9 @@ public class IdolSpecial : MonoBehaviour
     /// </summary>
     private IEnumerator DashCoroutine()
     {
+        GetComponent<PartyManager>().SetSwappingEnabled(false);
+        psm.ConsumeSpecialInput();
+
         Vector3 dest;
 
         // calculate desired teleport position based on mouse location
@@ -184,6 +194,9 @@ public class IdolSpecial : MonoBehaviour
             swapClone = manager.clones[0];
         }
 
+        GetComponent<PartyManager>().SetSwappingEnabled(false);
+        psm.ConsumeSpecialInput();
+
         //play audio
         AudioManager.Instance.VABranch.PlayVATrack("Eva-Idol Holo Jump Switch");
 
@@ -227,9 +240,11 @@ public class IdolSpecial : MonoBehaviour
     IEnumerator ImmuneTimer(float time)
     {
         //GameplayEventHolder.OnDamageFilter.Add(HoloJumpImmuneFilter);
+        isInvincible = true;
         GetComponent<Health>().GetStats().ModifyStat("Dodge Chance", 1000);
         yield return new WaitForSeconds(time);
         GetComponent<Health>().GetStats().ModifyStat("Dodge Chance", -1000);
+        isInvincible = false;
         //GameplayEventHolder.OnDamageFilter.Remove(HoloJumpImmuneFilter);
     }
 

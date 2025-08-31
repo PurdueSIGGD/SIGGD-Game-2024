@@ -325,7 +325,7 @@ MonoBehaviour:
   exp: 0
   expPerSpiritGained: 1
   expPerPinkSpiritGained: 3
-  levelReqs: 0a000000c80000002c0100009001000058020000bc02000020030000e80300004c040000b0040000dc050000dc050000dc050000dc050000
+  levelReqs: 0a000000c80000002c0100009001000058020000bc02000020030000e80300004c040000b0040000dc050000d0070000d0070000d0070000
 --- !u!114 &425421172213063471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -359,9 +359,9 @@ MonoBehaviour:
   - name: Basic Cooldown
     value: 10
   - name: Shield Max Health
-    value: 25
+    value: 50
   - name: Shield Health Regeneration Rate
-    value: 3.125
+    value: 5
   - name: Shield Health Cooldown Threshold
     value: 0
   - name: Shield Break Explosion Radius
@@ -373,19 +373,19 @@ MonoBehaviour:
   - name: Shield Break Minimum Upward Knockback Strength
     value: 5
   - name: Shield Break Stun Duration
-    value: 0.2
+    value: 0.8
   - name: Special Cooldown
-    value: 8
+    value: 12
   - name: Special Explosion Radius
     value: 6
   - name: Special Damage
-    value: 10
+    value: 20
   - name: Special Knockback Strength
     value: 20
   - name: Special Minimum Upward Knockback Strength
     value: 15
   - name: Special Stun Duration
-    value: 0.2
+    value: 2.5
   - name: Special Invincibility Duration
     value: 0.8
   defaultController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
@@ -398,7 +398,7 @@ MonoBehaviour:
     extraContext: 
     ghostID: 0
   specialDamage:
-    damageStrength: 1
+    damageStrength: 2
     damageTypes: 02000000
     actionID: 16
     actionTypes: 03000000
@@ -455,6 +455,7 @@ MonoBehaviour:
   skill1UIManager: {fileID: 0}
   skill2UIManager: {fileID: 0}
   meterUIManager: {fileID: 0}
+  divineSmiteIcon: {fileID: 21300000, guid: 89b7cd098a980cb4fb878725366bdceb, type: 3}
 --- !u!114 &9034026866145772273
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -515,6 +516,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: ade94862dbae6e14ebb09d008b70bb8d, type: 2}
+  values:
+  - 0
+  - 8
+  - 16
+  - 24
+  - 32
+  pointIndex: 0
+  thornDamage:
+    damageStrength: 0
+    damageTypes: 03000000
+    actionID: 15
+    actionTypes: 0200000004000000
+    extraContext: Thorns
+    ghostID: 6
+  defenseIcon: {fileID: 21300000, guid: 150239b220dcdfe4c887a06a669c64bc, type: 3}
+  thornsPulseVFX: {fileID: 7966241730260626198, guid: a5295bc6cb8948243b75f99e5a18cc48,
+    type: 3}
 --- !u!114 &4703010170985794943
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -542,6 +560,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: 10871f32fa678d3449929d863ea3f6d0, type: 2}
+  values:
+  - 0
+  - 10
+  - 20
+  - 30
+  - 40
+  pointIndex: 0
+  pulseVFX: {fileID: 7966241730260626198, guid: a5295bc6cb8948243b75f99e5a18cc48,
+    type: 3}
 --- !u!114 &316518946103298912
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -555,8 +582,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: e38ac9036d0cf1e4daa57576ff8cf247, type: 2}
-  dmgNeeded: 200300005802000090010000c8000000
-  damageBoost: 2
+  pointIndex: 0
+  dmgNeeded: 00000000d0070000a406000078050000e8030000
+  damageBoost: 5
+  knockbackBoost: 1.5
+  radiusBoost: 1.5
+  damageProgress: 0
 --- !u!114 &132559621038013658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -570,6 +601,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: d01eb6fe966783e45aba180295715cf3, type: 2}
+  values: 0000000014000000280000003c00000050000000
+  pointIndex: 0
 --- !u!1 &4168595070812540214
 GameObject:
   m_ObjectHideFlags: 0

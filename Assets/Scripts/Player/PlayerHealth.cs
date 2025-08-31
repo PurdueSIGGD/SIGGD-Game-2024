@@ -117,7 +117,6 @@ public class PlayerHealth : Health
             if (!context.isCriticalHit)
             {
                 AudioManager.Instance.VABranch.PlayVATrack(PartyManager.instance.selectedGhost + " Light Damage Taken");
-                return;
             }
 
             // if heavy damage taken
@@ -125,7 +124,7 @@ public class PlayerHealth : Health
             {
                 AudioManager.Instance.VABranch.PlayVATrack(PartyManager.instance.selectedGhost + " Significant Damage Taken");
             }
-
+            
             AudioManager.Instance.SFXBranch.PlaySFXTrack("PlayerTakeDamageSFX");
 
             // play mortal wound sfx, if appplicable
@@ -150,6 +149,7 @@ public class PlayerHealth : Health
 
         if (Random.Range(1000f, 2000f) > stats.ComputeValue("Dodge Chance")) return;
         context.damage = 0f;
+        context.icon = null;
 
         // Eva Tempo Dodge Effect
         GhostIdentity selectedGhost = GetComponent<PartyManager>().GetSelectedGhost();
@@ -171,6 +171,7 @@ public class PlayerHealth : Health
         }
 
         // Standard Dodge Effect
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("AirAttack");
         DamageNumberManager.instance.PlayMessage(gameObject, 0f, dodgeIcon, "Dodged!", orionCharacterInfo.highlightColor);
         GameObject dodgePulseVFX = Instantiate(dodgeVFX, gameObject.transform);
         dodgePulseVFX.GetComponent<RingExplosionHandler>().playRingExplosion(2f, orionCharacterInfo.highlightColor);

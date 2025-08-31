@@ -7,6 +7,7 @@ public class ManageIdleState : StateMachineBehaviour
 {
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        PlayerID.instance.GetComponent<PartyManager>().SetSwappingEnabled(true);
         animator.ResetTrigger("OPT");
         animator.SetTrigger("ATK");
         animator.SetTrigger("SPEC");

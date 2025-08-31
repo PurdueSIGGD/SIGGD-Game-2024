@@ -29,14 +29,15 @@ public class SilasUIDriver : GhostUIDriver
 
     private void updateBasicAbility()
     {
-        basicAbilityUIManager.setNumberActive(false);
 
         // Apothecary casting
         if (manager.basic != null && manager.basic.isHealing)
         {
             basicAbilityUIManager.setAbilityEnabled(true);
+            basicAbilityUIManager.setNumberActive(false);
             basicAbilityUIManager.setMeterValue((stats.ComputeValue("Basic Cast Time") - manager.basic.timer), stats.ComputeValue("Basic Cast Time"));
             basicAbilityUIManager.setChargeWidgetActive(false);
+            basicAbilityUIManager.setAbilityHighlighted(false);
             return;
         }
 
@@ -44,16 +45,21 @@ public class SilasUIDriver : GhostUIDriver
         if (manager.healReady)
         {
             basicAbilityUIManager.setAbilityEnabled(true);
+            basicAbilityUIManager.setNumberActive(false);
             basicAbilityUIManager.setMeterValue(1f, 1f);
             basicAbilityUIManager.setChargeWidgetActive(false);
+            basicAbilityUIManager.setAbilityHighlighted(true);
             return;
         }
 
         // Apothecary charging
         basicAbilityUIManager.setAbilityEnabled(false);
+        basicAbilityUIManager.setNumberActive(true);
+        basicAbilityUIManager.setNumberValue(stats.ComputeValue("Basic Ingredient Cost") - manager.ingredientsCollected);
         basicAbilityUIManager.setMeterValue(manager.ingredientsCollected, stats.ComputeValue("Basic Ingredient Cost"));
-        basicAbilityUIManager.setChargeWidgetActive(true);
-        basicAbilityUIManager.setChargeValue(stats.ComputeValue("Basic Ingredient Cost") - manager.ingredientsCollected, stats.ComputeValue("Basic Ingredient Cost") - manager.ingredientsCollected);
+        basicAbilityUIManager.setChargeWidgetActive(false);
+        basicAbilityUIManager.setAbilityHighlighted(false);
+        //basicAbilityUIManager.setChargeValue(stats.ComputeValue("Basic Ingredient Cost") - manager.ingredientsCollected, stats.ComputeValue("Basic Ingredient Cost") - manager.ingredientsCollected);
     }
 
     private void updateSpecialAbility()

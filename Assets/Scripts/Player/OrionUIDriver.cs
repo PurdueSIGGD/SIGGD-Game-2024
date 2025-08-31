@@ -93,7 +93,7 @@ public class OrionUIDriver : MonoBehaviour
         basicAbilityUIManager.setChargeWidgetActive(false);
         basicAbilityUIManager.setNumberActive(false);
 
-        basicAbilityUIManager.setAbilityEnabled(manager.isDashEnabled, true);
+        if (manager != null) basicAbilityUIManager.setAbilityEnabled(manager.isDashEnabled, true);
         basicAbilityUIManager.setMeterValue((stats.ComputeValue("Dash Cooldown") - manager.getSpecialCooldown()), stats.ComputeValue("Dash Cooldown"));
 
 

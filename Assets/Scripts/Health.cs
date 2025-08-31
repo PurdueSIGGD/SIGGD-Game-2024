@@ -47,7 +47,12 @@ public class Health : MonoBehaviour, IDamageable, IStatList
         }
 
         // Resistance
-        context.damage *= 1.0f - damageResistance;
+        /*
+        if (damageResistance > 0f && context.damage > 0f)
+        {
+            context.damage *= 1.0f - damageResistance;
+        }
+        */
 
         // Clamp damage dealt
         context.damage = Mathf.Clamp(context.damage, 0f, currentHealth);

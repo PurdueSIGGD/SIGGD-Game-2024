@@ -188,13 +188,13 @@ public class IdolPassive : MonoBehaviour
         // Voice Lines
         if (tempoStacks + stacks < manager.GetStats().ComputeValue("TEMPO_MAX_STACKS"))
         {
-            AudioManager.Instance.VABranch.PlayVATrack("Eva-Idol Activate Tempo");
+            if (active) AudioManager.Instance.VABranch.PlayVATrack("Eva-Idol Activate Tempo");
         }
         else if (tempoStacks < manager.GetStats().ComputeValue("TEMPO_MAX_STACKS"))
         {
             // play audio, if has upgrade, choose from 1 random voice bank to play
             string chosenBank = avaliableHoloJumpVA[Random.Range(0, avaliableHoloJumpVA.Count)];
-            AudioManager.Instance.VABranch.PlayVATrack(chosenBank);
+            if (active) AudioManager.Instance.VABranch.PlayVATrack(chosenBank);
         }
 
         // increment tempo stacks by stacks

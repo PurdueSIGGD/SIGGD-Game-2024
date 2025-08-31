@@ -76,6 +76,7 @@ public class DeathRingVFX : MonoBehaviour
             SceneManager.GetActiveScene().name.Equals("HubWorld"))
         {
             PlayReviveAnimation();
+            AudioManager.Instance.SFXBranch.PlaySFXTrack("RespawnInOblivionSFX");
         }
     }
 
