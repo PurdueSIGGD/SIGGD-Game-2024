@@ -156,6 +156,8 @@ public class OldrionController : BossController
         else if (currentPhase == 3)
         {
             dialogueManager.StartDialogue(phase3Convo);
+            bossHealth.GetStats().ModifyStat("Max Health", -50);
+            PartyManager.instance.RemoveAllGhost();
             yield return new WaitUntil(() => hasFinishedPhase3Convo == true);
         }
 
