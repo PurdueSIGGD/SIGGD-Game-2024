@@ -18,6 +18,7 @@ public class StoryProgresser : MonoBehaviour
     {
         DialogueManager.onFinishDialogue -= ProgressStory;
         DialogueManager.onFinishDialogue -= StartBossAI;
+        if (autoProgress) Door.OnDoorOpened -= AutoProgressStory;
     }
 
     public void Init(string requiredDialogue, string ghost, int progressTo, bool autoProgress = false)

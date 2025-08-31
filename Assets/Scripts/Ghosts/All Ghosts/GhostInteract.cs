@@ -11,10 +11,21 @@ public class GhostInteract : InRangeInteract, IParty
     private ConvoSO hubConvo;
     [SerializeField] private bool isFirstInteraction;
     [SerializeField] private bool isNPC;
+    private GameObject interactionIndicator;
+    private Vector2 origPos;
 
-    public void SetConvo(ConvoSO convo)
+    void Awake()
     {
-        // TODO also spawn in indicators
+        origPos = transform.position;
+    }
+
+
+    public void SetConvo(ConvoSO convo, GameObject indicator = null)
+    {
+        if (indicator)
+        {
+            interactionIndicator = Instantiate(indicator, transform.position, transform.rotation);
+        }
 
         hubConvo = convo;
     }
@@ -68,6 +79,8 @@ public class GhostInteract : InRangeInteract, IParty
         CloseMenu();
         DialogueManager dialogueManager = FindAnyObjectByType<DialogueManager>(FindObjectsInactive.Include);
         dialogueManager.StartDialogue(hubConvo);
+
+        if (interactionIndicator) Destroy(interactionIndicator);
     }
 
     private void ViewSkillTree()
@@ -88,5 +101,21 @@ public class GhostInteract : InRangeInteract, IParty
 
     public void ExitParty(GameObject player)
     {
+        enabled = true;
+    }
+
+    public void EnableIndiactor()
+    {
+        if (interactionIndicator) interactionIndicator.SetActive(true);
+    }
+
+    public void DisableIndicator()
+    {
+        if (interactionIndicator) interactionIndicator.SetActive(false);
+    }
+
+    public void ReturnGhostToOrigPos()
+    {
+        transform.position = origPos;
     }
 }

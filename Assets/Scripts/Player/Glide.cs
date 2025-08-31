@@ -53,7 +53,7 @@ public class Glide : MonoBehaviour, IStatList
         isFalling = true;
         rb.gravityScale = 0;
         AudioManager.Instance.SFXBranch.PlaySFXTrack("Glide");
-        GetComponent<PlayerParticles>().PlayOrionGlide(GetComponent<OrionManager>().orionSO.highlightColor);
+        GetComponent<PlayerParticles>().PlayOrionGlide(GetComponent<OrionManager>().orionSO.primaryColor, GetComponent<OrionManager>().orionSO.whiteColor);
     }
 
     public void StopGlide()

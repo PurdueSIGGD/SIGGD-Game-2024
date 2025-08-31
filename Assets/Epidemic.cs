@@ -9,7 +9,7 @@ public class Epidemic : Skill
     {
         0f, 1f, 2f, 3f, 4f
     };
-    private int pointIndex;
+    public int pointIndex;
 
     [SerializeField] public DamageContext blastDamage;
 
@@ -101,6 +101,9 @@ public class Epidemic : Skill
         CameraShake.instance.Shake(0.15f, 10f, 0f, 10f, new Vector2(Random.Range(-0.5f, 0.5f), 1f));
         GameObject explosion = Instantiate(manager.bombExplosionVFX, position, Quaternion.identity);
         explosion.GetComponent<RingExplosionHandler>().playRingExplosion(manager.GetStats().ComputeValue("Blight Epidemic Blast Radius"), manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
+
+        // SFX
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("Silas-Epidemic");
 
         // Spawn Noxious Fumes poison cloud
         manager.GetComponent<NoxiousFumes>().SpawnPoisonCloud(position, manager.GetStats().ComputeValue("Blight Epidemic Blast Radius"), values[pointIndex]);

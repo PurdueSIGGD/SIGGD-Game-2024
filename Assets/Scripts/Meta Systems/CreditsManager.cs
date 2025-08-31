@@ -9,7 +9,7 @@ public class CreditsManager : MonoBehaviour
     [SerializeField] SpriteRenderer blackBG;
     [SerializeField] SpriteRenderer logo;
     [SerializeField] TextMeshProUGUI spaceEscapeText;
-    [SerializeField] GameObject credits;
+    [SerializeField] RectTransform credits;
     [SerializeField] float fadeOutSpeed;
     [SerializeField] float fadeInSpeed;
     [SerializeField] float scrollSpeed;
@@ -87,11 +87,11 @@ public class CreditsManager : MonoBehaviour
     /// </summary>
     void StartScrolling()
     {
-        credits.transform.position = new Vector2(credits.transform.position.x,
-                        credits.transform.position.y + scrollSpeed * Time.deltaTime);
+        credits.position = new Vector2(credits.position.x,
+                        credits.position.y + scrollSpeed * Time.deltaTime);
 
         // TODO: when it reaches someplace, turn scrolling off and fade in
-        if (credits.transform.localPosition.y >= 14000)
+        if (credits.localPosition.y >= 11000)
         {
             isScrolling = false;
             fadeInBG = true;

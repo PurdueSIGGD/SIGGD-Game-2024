@@ -39,6 +39,10 @@ public class PlagueDocApothecary : MonoBehaviour
                 GameObject explosion = Instantiate(manager.bombExplosionVFX, transform.position, Quaternion.identity);
                 explosion.GetComponent<RingExplosionHandler>().playRingExplosion(2.5f, manager.GetComponent<GhostIdentity>().GetCharacterInfo().highlightColor);
 
+                // SFX
+                AudioManager.Instance.SFXBranch.PlaySFXTrack("Silas-Apothecary Use");
+                AudioManager.Instance.VABranch.PlayVATrack("Silas-PlagueDoc Apothecary");
+
                 // Apply Self-medicated Buff
                 SelfMedicated selfMedicated = manager.GetComponent<SelfMedicated>();
                 if (selfMedicated.isBuffed)
@@ -58,6 +62,7 @@ public class PlagueDocApothecary : MonoBehaviour
 
     void StartCrouch()
     {
+        GetComponent<PartyManager>().SetSwappingEnabled(false);
         GetComponent<Move>().PlayerStop();
         timer = manager.GetStats().ComputeValue("Basic Cast Time");
         isHealing = true;
@@ -66,6 +71,7 @@ public class PlagueDocApothecary : MonoBehaviour
 
     void StopCrouch()
     {
+        GetComponent<PartyManager>().SetSwappingEnabled(true);
         GetComponent<Move>().PlayerGo();
         isHealing = false;
         Debug.Log("Exiting Apothecary");

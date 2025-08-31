@@ -16,6 +16,17 @@ public class Knight : EnemyStateManager
         base.Start();
         swordDamage.damage = damageVal;
     }
+
+    private void OnEnable()
+    {
+        GameplayEventHolder.OnEntityStunned += OnKnightStunned;
+    }
+
+    private void OnDisable()
+    {
+        GameplayEventHolder.OnEntityStunned -= OnKnightStunned;
+    }
+
     // Check for collision in swing range to deal damage
     protected void OnSlashEvent()
     {
@@ -25,6 +36,14 @@ public class Knight : EnemyStateManager
     protected void OnEndSlash()
     {
         swingVisual.SetActive(false);
+    }
+
+    private void OnKnightStunned(GameObject stunnedEntity)
+    {
+        if (stunnedEntity == gameObject)
+        {
+            swingVisual.SetActive(false);
+        }
     }
 
     // Draws the Enemy attack range in the editor

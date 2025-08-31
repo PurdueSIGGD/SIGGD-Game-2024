@@ -33,6 +33,8 @@ public class PlagueDocIngredientPickup : MonoBehaviour
             manager.SetIngredientsCollected(manager.ingredientsCollected + 1);
             AudioManager.Instance.SFXBranch.GetSFXTrack("North-Ricochet").SetPitch(Mathf.Max(manager.ingredientsCollected - 1, 0), Mathf.Max(manager.GetStats().ComputeValue("Basic Ingredient Cost") - 1, 0));
             AudioManager.Instance.SFXBranch.PlaySFXTrack("North-Ricochet");
+            AudioManager.Instance.VABranch.PlayVATrack("Silas-PlagueDoc Ingredient");
+            if (manager.GetComponent<Bloodletting>().pointIndex > 0) AudioManager.Instance.VABranch.PlayVATrack("Silas-PlagueDoc Bloodletting");
             Destroy(gameObject);
         }
     }

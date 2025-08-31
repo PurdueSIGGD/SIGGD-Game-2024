@@ -74,6 +74,7 @@ public class PoliceChiefSpecial : MonoBehaviour
     // Charge Up
     void StartSpecialChargeUp()
     {
+        GetComponent<PartyManager>().SetSwappingEnabled(false);
         chargingTime = manager.GetStats().ComputeValue("Special Charge Up Time");
         isCharging = true;
         camAnim.SetBool("pullBack", true);
@@ -100,6 +101,7 @@ public class PoliceChiefSpecial : MonoBehaviour
     // Primed
     void StartSpecialPrimed()
     {
+        GetComponent<PartyManager>().SetSwappingEnabled(false);
         isPrimed = true;
         manager.specialDamage.extraContext = "";
 
@@ -132,7 +134,9 @@ public class PoliceChiefSpecial : MonoBehaviour
     // Railgun Attack
     public void StartSpecialAttack()
     {
+        GetComponent<PartyManager>().SetSwappingEnabled(false);
         playerStateMachine.ConsumeLightAttackInput();
+        playerStateMachine.ConsumeSpecialInput();
         camAnim.SetBool("pullBack", true);
         GetComponent<Move>().PlayerStop();
 
@@ -154,6 +158,7 @@ public class PoliceChiefSpecial : MonoBehaviour
 
     void StopSpecialAttack()
     {
+        GetComponent<PartyManager>().SetSwappingEnabled(false);
         KillSpecial();
     }
 
@@ -177,6 +182,7 @@ public class PoliceChiefSpecial : MonoBehaviour
         {
             camAnim.SetBool("pullBack", false);
             GetComponent<Move>().PlayerGo();
+            GetComponent<PartyManager>().SetSwappingEnabled(true);
         }
         if (startCooldown)
         {

@@ -22,17 +22,6 @@ public class PlagueDoctorSpecial : MonoBehaviour
     {
         if (manager != null)
         {
-            /*
-            if (manager.getSpecialCooldown() > 0)
-            {
-                psm.OnCooldown("c_special");
-            }
-            else
-            {
-                psm.OffCooldown("c_special");
-            }
-            */
-
             if (manager.specialCharges <= 0)
             {
                 psm.OnCooldown("c_special");
@@ -48,7 +37,7 @@ public class PlagueDoctorSpecial : MonoBehaviour
 
     public void StartDash()
     {
-        //manager.startSpecialCooldown();
+        GetComponent<PartyManager>().SetSwappingEnabled(false);
         manager.specialCharges--;
         GameObject bottle = Instantiate(manager.blightPotion, transform.position, transform.rotation);
         bottle.GetComponent<Bottle>().manager = manager;
@@ -56,6 +45,12 @@ public class PlagueDoctorSpecial : MonoBehaviour
         Vector2 playerPos = PlayerID.instance.transform.position;
         bottle.GetComponent<Rigidbody2D>().velocity = (mousePos - playerPos).normalized * manager.GetStats().ComputeValue("Special Bomb Speed");
 
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("Silas-Bottle Throw");
         AudioManager.Instance.VABranch.PlayVATrack("Silas-PlagueDoc Blight Throw");
+    }
+
+    public void StopDash()
+    {
+        GetComponent<PartyManager>().SetSwappingEnabled(true);
     }
 }

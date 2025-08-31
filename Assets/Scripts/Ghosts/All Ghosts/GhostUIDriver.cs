@@ -89,7 +89,7 @@ public class GhostUIDriver : MonoBehaviour, ISelectable
             }
 
             // visualize orion
-            PartyManagerUI.instance.VisualizeOrion();
+            if(PartyManagerUI.instance) PartyManagerUI.instance.VisualizeOrion();
 
         }
     }

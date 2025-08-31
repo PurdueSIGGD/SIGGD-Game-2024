@@ -68,6 +68,8 @@ public class PoliceChiefBasic : MonoBehaviour
     // Charge Up
     public void StartSidearmChargeUp()
     {
+        GetComponent<PartyManager>().SetSwappingEnabled(false);
+
         chargingTime = manager.GetStats().ComputeValue("Basic Charge Up Time");
         isCharging = true;
         SetSidearmDamage(2);
@@ -93,6 +95,8 @@ public class PoliceChiefBasic : MonoBehaviour
     // Primed
     public void StartSidearmPrimed()
     {
+        GetComponent<PartyManager>().SetSwappingEnabled(false);
+
         primedTime = manager.GetStats().ComputeValue("Basic Primed Autofire Time");
         isPrimed = true;
         SetSidearmDamage(3);
@@ -124,6 +128,7 @@ public class PoliceChiefBasic : MonoBehaviour
     // Sidearm Attack
     public void FireSidearm()
     {
+        GetComponent<PartyManager>().SetSwappingEnabled(false);
         playerStateMachine.ConsumeLightAttackInput();
         if (manager.basicAmmo <= 1) playerStateMachine.ConsumeHeavyAttackInput();
         GetComponent<Move>().PlayerStop();
@@ -150,6 +155,7 @@ public class PoliceChiefBasic : MonoBehaviour
     {
         SetSidearmDamage(1);
         GetComponent<Move>().PlayerGo();
+        GetComponent<PartyManager>().SetSwappingEnabled(true);
     }
 
     public void AddAmmo(int ammo)

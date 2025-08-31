@@ -10,6 +10,14 @@ public class CircleAreaHandler : MonoBehaviour
     [SerializeField] private float fadeOutDelayTime;
     [SerializeField] private float fadeOutDurationTime;
 
+    private float startInitialScale;
+    private float startFinalScale;
+    private float startTimer = -1f;
+
+    private float endInitialScale;
+    private float endFinalScale;
+    private float endTimer = -1f;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -19,7 +27,27 @@ public class CircleAreaHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (startTimer > 0f)
+        {
+            startTimer -= Time.deltaTime;
+            float currentScale = Mathf.Lerp(startInitialScale, startFinalScale, (startDurationTime - startTimer) / startDurationTime);
+            transform.localScale = new Vector3(currentScale, currentScale, 1f);
+            if (startTimer <= 0f)
+            {
+                startTimer = -1f;
+            }
+        }
+
+        if (endTimer > 0f)
+        {
+            endTimer -= Time.deltaTime;
+            float currentScale = Mathf.Lerp(endInitialScale, endFinalScale, (endDurationTime - endTimer) / endDurationTime);
+            transform.localScale = new Vector3(currentScale, currentScale, 1f);
+            if (endTimer <= 0f)
+            {
+                Destroy(gameObject);
+            }
+        }
     }
 
     /// <summary>
@@ -30,7 +58,7 @@ public class CircleAreaHandler : MonoBehaviour
     public void playCircleStart(float circleRadius, Color color)
     {
         gameObject.SetActive(true);
-        StartCoroutine(animateCircleStart(circleRadius, color));
+        animateCircleStart(circleRadius, color);
     }
 
     /// <summary>
@@ -42,16 +70,17 @@ public class CircleAreaHandler : MonoBehaviour
     public void playCircleStart(float circleRadius, Color color, float alpha)
     {
         gameObject.SetActive(true);
-        StartCoroutine(animateCircleStart(circleRadius, color, alpha));
+        animateCircleStart(circleRadius, color, alpha);
     }
 
-    private IEnumerator animateCircleStart(float circleRadius, Color color)
+    private void animateCircleStart(float circleRadius, Color color)
     {
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.color = new Color(color.r, color.g, color.b, spriteRenderer.color.a);
-        float initialScale = 0.05f;
-        float finalScale = circleRadius * 2f;
-        transform.localScale = new Vector3(initialScale, initialScale, 1f);
+        startInitialScale = 0.05f;
+        startFinalScale = circleRadius * 2f;
+        transform.localScale = new Vector3(startInitialScale, startInitialScale, 1f);
+        /*
         int step = 20;
         for (int i = 0; i < step; i++)
         {
@@ -59,15 +88,18 @@ public class CircleAreaHandler : MonoBehaviour
             transform.localScale = new Vector3(currentScale, currentScale, 1f);
             yield return new WaitForSeconds(startDurationTime / (float) step);
         }
+        */
+        startTimer = startDurationTime;
     }
 
-    private IEnumerator animateCircleStart(float circleRadius, Color color, float alpha)
+    private void animateCircleStart(float circleRadius, Color color, float alpha)
     {
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.color = new Color(color.r, color.g, color.b, alpha);
-        float initialScale = 0.05f;
-        float finalScale = circleRadius * 2f;
-        transform.localScale = new Vector3(initialScale, initialScale, 1f);
+        startInitialScale = 0.05f;
+        startFinalScale = circleRadius * 2f;
+        transform.localScale = new Vector3(startInitialScale, startInitialScale, 1f);
+        /*
         int step = 20;
         for (int i = 0; i < step; i++)
         {
@@ -75,6 +107,8 @@ public class CircleAreaHandler : MonoBehaviour
             transform.localScale = new Vector3(currentScale, currentScale, 1f);
             yield return new WaitForSeconds(startDurationTime / (float)step);
         }
+        */
+        startTimer = startDurationTime;
     }
 
     /// <summary>
@@ -82,16 +116,17 @@ public class CircleAreaHandler : MonoBehaviour
     /// </summary>
     public void playCircleEnd()
     {
-        StartCoroutine(animateCircleEnd());
+        animateCircleEnd();
         StartCoroutine(fadeOutCircle());
     }
 
-    private IEnumerator animateCircleEnd()
+    private void animateCircleEnd()
     {
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
-        float initialScale = transform.localScale.x;
-        float finalScale = initialScale * endFinalScaleMultiplier;
-        transform.localScale = new Vector3(initialScale, initialScale, 1f);
+        endInitialScale = transform.localScale.x;
+        endFinalScale = endInitialScale * endFinalScaleMultiplier;
+        transform.localScale = new Vector3(endInitialScale, endInitialScale, 1f);
+        /*
         int step = 20;
         for (int i = 0; i < step; i++)
         {
@@ -100,6 +135,8 @@ public class CircleAreaHandler : MonoBehaviour
             yield return new WaitForSeconds(startDurationTime / (float) step);
         }
         Destroy(gameObject);
+        */
+        endTimer = endDurationTime;
     }
 
     private IEnumerator fadeOutCircle()
