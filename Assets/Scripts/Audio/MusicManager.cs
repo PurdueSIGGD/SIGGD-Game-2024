@@ -23,6 +23,7 @@ public class MusicManager : MonoBehaviour
     [SerializeField] private MusicTrack death;
     [SerializeField] private MusicTrack oldrionPhase13;
     [SerializeField] private MusicTrack oldrionphase4;
+    [SerializeField] private MusicTrack evaSong;
 
     private MusicTrackName currentTrackName;
 
@@ -59,6 +60,7 @@ public class MusicManager : MonoBehaviour
             case MusicTrackName.DEATH_THEME:           return (IMusicTrack) death;
             case MusicTrackName.OLDRION_FIRST:         return (IMusicTrack) oldrionPhase13;
             case MusicTrackName.OLDRION_FINAL:         return (IMusicTrack) oldrionphase4;
+            case MusicTrackName.EVA_SONG:              return (IMusicTrack) evaSong;
             default:                                   return null;
         }
     }
@@ -91,6 +93,7 @@ public class MusicManager : MonoBehaviour
         if (trackName == MusicTrackName.NULL)
         {
             GetMusicTrack(currentTrackName).StopTrack();
+            yield break;
         }
         if (fadeTime <= 0) {
             PlayMusicTrack(trackName);
@@ -149,5 +152,6 @@ public enum MusicTrackName {
     KING, //              0.000           98.000
     DEATH_THEME, //        0.000           51.000
     OLDRION_FIRST,
-    OLDRION_FINAL
+    OLDRION_FINAL,
+    EVA_SONG
 }

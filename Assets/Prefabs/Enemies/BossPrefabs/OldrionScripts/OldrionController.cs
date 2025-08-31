@@ -71,6 +71,8 @@ public class OldrionController : BossController
     public override void EnableAI()
     {
         base.EnableAI();
+        Debug.Log("Enabled AI");
+        AudioManager.Instance.GetComponentInChildren<MusicManager>().CrossfadeTo(MusicTrackName.OLDRION_FIRST, 0.5f);
         manager.enabled = true;
         comboManager.enabled = true;
     }
@@ -84,6 +86,12 @@ public class OldrionController : BossController
         }
 
         currentPhase++;
+
+        if (currentPhase > FINAL_PHASE - 1)
+        {
+            AudioManager.Instance.GetComponentInChildren<MusicManager>().CrossfadeTo(MusicTrackName.OLDRION_FINAL, 0.5f);
+        }
+
         if (ShouldBossBeDefeated())
         {
             base.DefeatSequence();
@@ -156,6 +164,8 @@ public class OldrionController : BossController
         else if (currentPhase == 3)
         {
             dialogueManager.StartDialogue(phase3Convo);
+            bossHealth.GetStats().ModifyStat("Max Health", -50);
+            PartyManager.instance.RemoveAllGhost();
             yield return new WaitUntil(() => hasFinishedPhase3Convo == true);
         }
 
