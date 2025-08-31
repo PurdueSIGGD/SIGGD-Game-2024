@@ -20,8 +20,8 @@ public class NoboruController : BossController
     {
         base.EnableAI();
         manager.enabled = true;
+        AudioManager.Instance.GetComponentInChildren<MusicManager>().CrossfadeTo(MusicTrackName.NOBORU_THEME, 0.5f);
     }
-
     public void SpawnYokai(GameObject yokaiPrefab, GameObject enemy)
     {
         SpawnEnemyAtRandomPoint(enemy, yokaiPrefab);

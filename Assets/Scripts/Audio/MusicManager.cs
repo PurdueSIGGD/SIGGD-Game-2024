@@ -93,6 +93,7 @@ public class MusicManager : MonoBehaviour
         if (trackName == MusicTrackName.NULL)
         {
             GetMusicTrack(currentTrackName).StopTrack();
+            yield break;
         }
         if (fadeTime <= 0) {
             PlayMusicTrack(trackName);
