@@ -48,18 +48,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   context:
-    damageStrength: 2
+    damageStrength: 1
     damageTypes: 01000000
     actionID: 17
-    actionTypes: 01000000
+    actionTypes: 0100000004000000
     extraContext: 
-  damage: 10
+    ghostID: 6
   deaccelZone: 8
-  minSpeed: 13
-  deaccel: 17
-  accel: 7
-  returningAccel: 20
+  minSpeed: 0
+  deaccel: 400
+  accel: 40
+  returningAccel: 40
   pickUpImmunityTime: 0.05
+  initialSpeed: 40
+  ricochetSpeed: 40
+  impactVFX: {fileID: 7966241730260626198, guid: a5295bc6cb8948243b75f99e5a18cc48,
+    type: 3}
+  knockbackStrength: 5
+  returnKnockbackStrength: 15
+  minimumUpwardKnockback: 5
 --- !u!50 &914289800608148761
 Rigidbody2D:
   serializedVersion: 4
@@ -130,7 +137,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.1, y: 0.6}
+  m_Size: {x: 1.1, y: 0.4}
   m_EdgeRadius: 0
 --- !u!1 &7845674635853120280
 GameObject:
@@ -159,7 +166,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 0.3, z: 1}
+  m_LocalScale: {x: 0.8, y: 0.2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4615997154307733864}
@@ -205,8 +212,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: c4658aba8aaa57f46bdb7f1b59937590, type: 3}
-  m_Color: {r: 1, g: 0.67058825, b: 0, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 9571889f8d6e17041ab2d26d7f19280b, type: 3}
+  m_Color: {r: 1, g: 0.84313726, b: 0, a: 0.39215687}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

@@ -53,10 +53,10 @@ public class KingUIDriver : GhostUIDriver
             return;
         }
         skill1UIManager.setUIActive(true);
+        skill1UIManager.setIcon(divineSmiteIcon);
         skill1UIManager.setAbilityEnabled(smite.isSpecialPowered());
         skill1UIManager.setMeterValue(smite.damageProgress, smite.dmgNeeded[smite.pointIndex]);
         skill1UIManager.setNumberActive(!smite.isSpecialPowered());
-        //skill1UIManager.setNumberValue(smite.damageProgress);
         skill1UIManager.setNumberValue(Mathf.FloorToInt((smite.damageProgress / smite.dmgNeeded[smite.pointIndex]) * 100f));
         skill1UIManager.setChargeWidgetActive(false);
         skill1UIManager.setAbilityHighlighted(smite.isSpecialPowered());
@@ -70,17 +70,17 @@ public class KingUIDriver : GhostUIDriver
     private void updateMeter()
     {
         //Sub meter
-        /*
-        float maxCooldown = (manager.GetStats().ComputeValue("Shield Max Health") - stats.ComputeValue("Shield Health Cooldown Threshold")) / manager.GetStats().ComputeValue("Shield Health Regeneration Rate");
-        meterUIManager.setSubMeterValue((maxCooldown) - manager.getBasicCooldown(), (maxCooldown));
-        meterUIManager.setSubMeterColor(ghostIdentity.GetCharacterInfo().primaryColor);
-        if (manager.getBasicCooldown() > 0f) meterUIManager.resetSubMeterColor();
-        */
         meterUIManager.setSubMeterValue(0f, 1f);
+        if (manager.recompenceAvaliable)
+        {
+            float throwCost = GetComponent<Recompence>().shieldHealthCost;
+            meterUIManager.resetSubMeterColor();
+            if (manager.currentShieldHealth <= throwCost) meterUIManager.setSubMeterColor(ghostIdentity.GetCharacterInfo().primaryColor);
+            meterUIManager.setSubMeterValue(throwCost, manager.GetStats().ComputeValue("Shield Max Health"));
+        }
 
         //Meter
         meterUIManager.setMeterValue(manager.currentShieldHealth, stats.ComputeValue("Shield Max Health"));
-        //if (manager.getBasicCooldown() <= 0f) meterUIManager.setMeterValue(manager.currentShieldHealth, stats.ComputeValue("Shield Max Health"));
         meterUIManager.setMeterColor((manager.getBasicCooldown() <= 0f && manager.hasShield) ? ghostIdentity.GetCharacterInfo().primaryColor : ghostIdentity.GetCharacterInfo().whiteColor);
 
         //Widget active

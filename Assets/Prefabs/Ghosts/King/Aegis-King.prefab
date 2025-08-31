@@ -157,7 +157,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6,
     type: 3}
   m_Color: {r: 1, g: 0.9372549, b: 0.60784316, a: 0.5882353}
@@ -375,7 +375,7 @@ MonoBehaviour:
   - name: Shield Break Stun Duration
     value: 0.8
   - name: Special Cooldown
-    value: 12
+    value: 15
   - name: Special Explosion Radius
     value: 6
   - name: Special Damage
@@ -387,7 +387,7 @@ MonoBehaviour:
   - name: Special Stun Duration
     value: 2.5
   - name: Special Invincibility Duration
-    value: 0.8
+    value: 1.5
   defaultController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
   ghostController: {fileID: 9100000, guid: 46f9e2905c1205144afa58418a4214c5, type: 2}
   shieldBreakDamage:
@@ -396,14 +396,14 @@ MonoBehaviour:
     actionID: 15
     actionTypes: 0100000002000000
     extraContext: 
-    ghostID: 0
+    ghostID: 6
   specialDamage:
     damageStrength: 2
     damageTypes: 02000000
     actionID: 16
     actionTypes: 03000000
     extraContext: 
-    ghostID: 0
+    ghostID: 6
   shieldCircleVFX: {fileID: 4293710092863350538, guid: 881280630d925cc4f918efa96024a814,
     type: 3}
   shieldExplosionVFX: {fileID: 7966241730260626198, guid: a5295bc6cb8948243b75f99e5a18cc48,
@@ -503,6 +503,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: 1753adb17a168184f9d9b1a637964163, type: 2}
+  values: 00000000080000000c0000001000000014000000
+  shieldHealthCost: 25
 --- !u!114 &534967436660533357
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -563,9 +565,9 @@ MonoBehaviour:
   values:
   - 0
   - 10
-  - 20
-  - 30
-  - 40
+  - 16
+  - 22
+  - 28
   pointIndex: 0
   pulseVFX: {fileID: 7966241730260626198, guid: a5295bc6cb8948243b75f99e5a18cc48,
     type: 3}
@@ -583,7 +585,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: e38ac9036d0cf1e4daa57576ff8cf247, type: 2}
   pointIndex: 0
-  dmgNeeded: 00000000d0070000a406000078050000e8030000
+  dmgNeeded: 3f420f00b80b0000c4090000d0070000dc050000
   damageBoost: 5
   knockbackBoost: 1.5
   radiusBoost: 1.5

@@ -32,6 +32,9 @@ public class PlayerParticles : MonoBehaviour
     [SerializeField] float minBadBuffEmission;
     [SerializeField] float maxBadBuffEmission;
 
+    [SerializeField] ParticleSystem radiantWellBuff;
+    [SerializeField] Color radiantWellColor;
+
     [SerializeField] GameObject pulseVFX;
 
     //private Color heavyChargingColor;
@@ -141,6 +144,29 @@ public class PlayerParticles : MonoBehaviour
     public void StopGhostBadBuff()
     {
         if (ghostBadBuff.isPlaying) ghostBadBuff.Stop();
+    }
+
+
+
+    // Aegis Radiant Well
+    public void PlayRadiantWellBuff()
+    {
+        GameObject swapPulse = Instantiate(pulseVFX, transform.position, Quaternion.identity);
+        swapPulse.GetComponent<RingExplosionHandler>().playRingExplosion(2f, radiantWellColor);
+        if (!radiantWellBuff.isPlaying)
+        {
+            radiantWellBuff.Play();
+        }
+    }
+
+    public void StopRadiantWellBuff()
+    {
+        if (radiantWellBuff.isPlaying)
+        {
+            GameObject swapPulse = Instantiate(pulseVFX, transform.position, Quaternion.identity);
+            swapPulse.GetComponent<RingExplosionHandler>().playRingExplosion(2f, radiantWellColor);
+            radiantWellBuff.Stop();
+        }
     }
 
 

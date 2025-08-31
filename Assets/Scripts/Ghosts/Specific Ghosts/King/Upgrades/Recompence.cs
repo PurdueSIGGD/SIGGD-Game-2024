@@ -6,40 +6,45 @@ public class Recompence : Skill
 {
     private KingManager manager;
     private KingBasic basic;
-    private static int pointindex;
+    private int pointIndex;
+
+    [SerializeField]
+    List<int> values = new List<int>
+    {
+        0, 10, 16, 22, 28
+    };
+
+    [SerializeField] public float shieldHealthCost;
+
 
     void Start()
     {
         manager = GetComponent<KingManager>();
         basic = manager.basic;
+        manager.recompenceAvaliable = (pointIndex > 0);
     }
 
     public float ComputeDamage()
     {
-        return (pointindex + 1) * (manager.GetStats().ComputeValue("Shield Max Health") - manager.currentShieldHealth);
+        //return (pointIndex + 1) * (manager.GetStats().ComputeValue("Shield Max Health") - manager.currentShieldHealth);
+        return values[pointIndex];
     }
 
     public override void AddPointTrigger()
     {
-        pointindex = GetPoints();
-        if (pointindex > 0)
-        {
-            manager.recompenceAvaliable = true;
-        }
+        pointIndex = GetPoints();
+        if (manager != null) manager.recompenceAvaliable = (pointIndex > 0);
     }
 
     public override void ClearPointsTrigger()
     {
-        pointindex = GetPoints();
-        manager.recompenceAvaliable = false;
+        pointIndex = GetPoints();
+        if (manager != null) manager.recompenceAvaliable = (pointIndex > 0);
     }
 
     public override void RemovePointTrigger()
     {
-        pointindex = GetPoints();
-        if (pointindex > 0)
-        {
-            manager.recompenceAvaliable = true;
-        }
+        pointIndex = GetPoints();
+        if (manager != null) manager.recompenceAvaliable = (pointIndex > 0);
     }
 }
