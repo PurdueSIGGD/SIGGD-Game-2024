@@ -127,7 +127,7 @@ Transform:
   m_GameObject: {fileID: 5176752134188796304}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.84, z: -0.08319282}
+  m_LocalPosition: {x: 0.84, y: -0.57, z: -0.08319282}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -158,7 +158,7 @@ Transform:
   m_GameObject: {fileID: 6046816053600295553}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4.98, y: 3, z: -0.016707346}
+  m_LocalPosition: {x: 5.82, y: 0.5899999, z: -0.016707346}
   m_LocalScale: {x: 10.22, y: 7.06, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -269,9 +269,9 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 1392257323, guid: 57b2d90e7fabc7f4d8148d4b10e6014f, type: 3}
-  m_Color: {r: 1, g: 1, b: 0, a: 1}
-  m_FlipX: 1
+  m_Sprite: {fileID: -1936476703, guid: f8d1813b827388c498bf0e7cac559653, type: 3}
+  m_Color: {r: 1, g: 0.81026864, b: 0, a: 1}
+  m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1, y: 1}
@@ -339,18 +339,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.025545627, y: -0.15752995}
+  m_Offset: {x: -0.22453386, y: -0.6576888}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.35, y: 0.35}
-    oldSize: {x: 4.5, y: 4.5}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 4.000977, y: 4}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.4087262, y: 1.6726954}
+  m_Size: {x: 1.2201418, y: 1.73829}
   m_EdgeRadius: 0
 --- !u!114 &7309237145670244999
 MonoBehaviour:
@@ -367,11 +367,13 @@ MonoBehaviour:
   stats: {fileID: 0}
   pool: {fileID: 0}
   animator: {fileID: 0}
+  isPinkAndProud: 0
   isFlyer: 0
   aggroRange: 10.5
   isBeingKnockedBack: 0
   grounded: 0
   groundedRayCheckLength: 1.3
+  enableStunning: 1
   bombPrefab: {fileID: 2721583823844912661, guid: bae46657d5d6ae642959461414e19afb,
     type: 3}
   bombCooldown: 4

@@ -7,6 +7,8 @@ public class OnGuardDeath : MonoBehaviour
 {
     [SerializeField] string nextSceneName;
     [SerializeField] GameObject poorGuy;
+
+    bool activatedDoor;
     
     void OnEnable()
     {
@@ -20,8 +22,9 @@ public class OnGuardDeath : MonoBehaviour
 
     void Update()
     {
-        if (poorGuy == null)
+        if (poorGuy == null && !activatedDoor)
         {
+            activatedDoor = true;
             Door.activateDoor(true);
         }    
     }

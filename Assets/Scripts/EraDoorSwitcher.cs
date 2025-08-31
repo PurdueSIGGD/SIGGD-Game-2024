@@ -20,6 +20,7 @@ public class EraDoorSwitcher : MonoBehaviour
                 baseToAppear.SetActive(false);
             }
             gameObject.GetComponentInChildren<SpriteRenderer>().enabled = false;
+            GetComponent<Door>().specificActive = false;
             //gameObject.SetActive(false);
             //spriteRenderer.enabled = false;
         }
@@ -30,7 +31,7 @@ public class EraDoorSwitcher : MonoBehaviour
                 baseToAppear.SetActive(true);
             }
             gameObject.GetComponentInChildren<SpriteRenderer>().enabled = true;
-            gameObject.SetActive(true);
+            GetComponent<Door>().specificActive = true;
             //spriteRenderer.enabled = true;
             spriteRenderer.sprite = complete;
         }
@@ -41,7 +42,7 @@ public class EraDoorSwitcher : MonoBehaviour
                 baseToAppear.SetActive(true);
             }
             gameObject.GetComponentInChildren<SpriteRenderer>().enabled = true;
-            gameObject.SetActive(true);
+            GetComponent<Door>().specificActive = true;
             //spriteRenderer.enabled = true;
             spriteRenderer.sprite = incomplete;
         }
