@@ -69,6 +69,11 @@ public class IrisController : BossController
         visualManager.SetVisualState(damageState);
     }
 
+    public override void EnableAI()
+    {
+        base.EnableAI();
+        AudioManager.Instance.GetComponentInChildren<MusicManager>().CrossfadeTo(MusicTrackName.IRIS_THEME, 0.5f);
+    }
     public void ActivateShield()
     {
         ToggleShield(true);

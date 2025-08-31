@@ -38,6 +38,7 @@ public class ScatheController : BossController
     public override void EnableAI()
     {
         base.EnableAI();
+        AudioManager.Instance.GetComponentInChildren<MusicManager>().CrossfadeTo(MusicTrackName.SCATHE_THEME, 0.5f);
         manager.enabled = true;
     }
     IEnumerator DefeatCoroutine()
