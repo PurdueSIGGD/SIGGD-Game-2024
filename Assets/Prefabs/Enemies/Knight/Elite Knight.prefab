@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 9074761656079202644}
   - component: {fileID: 2071007487395054228}
   - component: {fileID: 6674311171928497452}
+  - component: {fileID: 5873580787636412358}
   m_Layer: 21
   m_Name: Elite Knight
   m_TagString: Enemy
@@ -291,6 +292,7 @@ MonoBehaviour:
   isBeingKnockedBack: 0
   grounded: 1
   groundedRayCheckLength: 1.5
+  enableStunning: 1
   swordTrigger: {fileID: 7053703775646020486}
   swordDamage:
     damageStrength: 0
@@ -333,6 +335,25 @@ MonoBehaviour:
   statList: []
   currentStun: 0
   maxStun: 140
+--- !u!114 &5873580787636412358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1393067818931581941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67f2b5dc03552c4bb7d2e37dbcb7033, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageContext:
+    damageStrength: 4
+    damageTypes: 04000000
+    actionID: 17
+    actionTypes: 08000000
+    extraContext: 
+    ghostID: 0
 --- !u!1 &4069545103417393013
 GameObject:
   m_ObjectHideFlags: 0
