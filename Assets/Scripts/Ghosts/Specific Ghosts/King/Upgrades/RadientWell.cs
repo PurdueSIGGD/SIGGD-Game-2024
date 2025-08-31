@@ -36,6 +36,9 @@ public class RadientWell : Skill
         {
             Instantiate(wellObj, playerPos, transform.rotation);
         }
+
+        // SFX
+        AudioManager.Instance.VABranch.PlayVATrack("Aegis-King Radiant Well");
     }
     
     public override void AddPointTrigger() { }

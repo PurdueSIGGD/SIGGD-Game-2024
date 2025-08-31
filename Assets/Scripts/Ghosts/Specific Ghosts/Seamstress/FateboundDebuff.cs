@@ -8,6 +8,7 @@ using UnityEngine;
 public class FateboundDebuff : MonoBehaviour
 {
     public SeamstressManager manager;
+    public GameObject fateboundVFX;
 
     void OnEnable()
     {
@@ -23,6 +24,7 @@ public class FateboundDebuff : MonoBehaviour
 
     public void RemoveShareDamage()
     {
+        Destroy(fateboundVFX);
         GameplayEventHolder.OnDamageDealt -= ShareDamage;
         GameplayEventHolder.OnDeath -= PreserveConnection;
     }

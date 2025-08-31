@@ -69,7 +69,7 @@ public class RadientWellEffect : MonoBehaviour
             {
                 lingeringTimer = 0f;
                 isLingering = false;
-                RemoveBuff();
+                if (buffActive) RemoveBuff();
             }
         }
     }

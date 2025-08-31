@@ -168,7 +168,7 @@ public class KingBasic : MonoBehaviour
     {
         // VFX
         CameraShake.instance.Shake(0.25f, 10f, 0f, 10f, new Vector2(Random.Range(-0.5f, 0.5f), 1f));
-        GameObject shieldExplosion = Instantiate(manager.shieldExplosionVFX, position, Quaternion.identity, gameObject.transform);
+        GameObject shieldExplosion = Instantiate(manager.shieldExplosionVFX, position, Quaternion.identity);
         shieldExplosion.GetComponent<RingExplosionHandler>().playRingExplosion(manager.GetStats().ComputeValue("Shield Break Explosion Radius"), manager.GetComponent<GhostIdentity>().GetCharacterInfo().highlightColor);
 
         // SFX

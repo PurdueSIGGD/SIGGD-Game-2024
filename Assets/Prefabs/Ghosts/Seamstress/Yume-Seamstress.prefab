@@ -154,7 +154,7 @@ MonoBehaviour:
   isUnlocked: 0
   exp: 0
   expPerSpiritGained: 1
-  expPerPinkSpiritGained: 3
+  expPerPinkSpiritGained: 2
   levelReqs: 0a000000c80000002c0100009001000058020000bc02000020030000e80300004c040000b0040000dc050000d0070000d0070000d0070000
 --- !u!114 &584133115329307738
 MonoBehaviour:
@@ -189,29 +189,29 @@ MonoBehaviour:
   - name: Special Cooldown
     value: 0.5
   - name: Projectile Damage
-    value: 10
+    value: 5
   - name: Projectile Ricochet Count
     value: 4
-  - name: 'Projectile Ricochet Maximum Normal Angle '
-    value: 60
+  - name: Projectile Ricochet Maximum Normal Angle
+    value: 5
   - name: Projectile Enemy Chain Range
     value: 15
   - name: Projectile Maximum Chain Target Count
     value: 4
   - name: Projectile Flight Speed
-    value: 30
+    value: 40
   - name: Fatebound Duration
-    value: 5
-  - name: Max Spools
     value: 6
+  - name: Max Spools
+    value: 4
   - name: Initial Spool Buffer
-    value: 1
+    value: 0.75
   - name: Concurrent Spool Buffer
-    value: 0.8
+    value: 0.5
   - name: Heavy Attack Spools Needed
     value: 1
   - name: Special Attack Spools Needed
-    value: 2
+    value: 1
   - name: Spool Heavy Attack Stun
     value: 2
 --- !u!114 &504260248778479986
@@ -236,12 +236,12 @@ MonoBehaviour:
   projectile: {fileID: 7891332324626441984, guid: f3b339b45781d2541b8cac7e219b9f59,
     type: 3}
   projectileDamageContext:
-    damageStrength: 0
+    damageStrength: 5
     damageTypes: 01000000
     actionID: 12
     actionTypes: 03000000
     extraContext: 
-    ghostID: 0
+    ghostID: 4
   specialContext:
     actionID: 12
     actionTypes: 03000000
@@ -252,8 +252,10 @@ MonoBehaviour:
     actionID: 12
     actionTypes: 03000000
     extraContext: 
-    ghostID: 0
-  sharedDmgScaling: 0.6
+    ghostID: 4
+  sharedDmgScaling: 0.5
+  fateboundVFX: {fileID: 2256473387614676204, guid: 596a2e1d2706241469df9df679f150e3,
+    type: 3}
 --- !u!120 &6265072175092927981
 LineRenderer:
   serializedVersion: 2
@@ -304,8 +306,8 @@ LineRenderer:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0.04393387
-        value: 0.16065907
+        time: 0.0296669
+        value: 0.057952166
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -317,9 +319,9 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0.6981132, g: 0, b: 0.22315201, a: 1}
-      key1: {r: 0.6981132, g: 0, b: 0.22315201, a: 1}
-      key2: {r: 1, g: 1, b: 1, a: 0}
+      key0: {r: 0.7176471, g: 0.47843137, b: 0.6666667, a: 1}
+      key1: {r: 0.7176471, g: 0.47843137, b: 0.6666667, a: 1}
+      key2: {r: 0.6981132, g: 0, b: 0.22315201, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}

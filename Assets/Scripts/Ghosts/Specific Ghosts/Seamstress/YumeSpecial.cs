@@ -25,7 +25,7 @@ public class YumeSpecial : MonoBehaviour
     {
         if (manager != null)
         {
-            if (manager.getSpecialCooldown() > 0)
+            if (manager.getSpecialCooldown() > 0 || manager.GetSpools() <= 0)
             {
                 psm.OnCooldown("c_special");
             }
@@ -40,6 +40,9 @@ public class YumeSpecial : MonoBehaviour
     {
         if (manager.GetSpools() >= manager.GetStats().ComputeValue("Special Attack Spools Needed"))
         {
+            GetComponent<PlayerStateMachine>().ConsumeSpecialInput();
+            GetComponent<PartyManager>().SetSwappingEnabled(false);
+
             // whenever ability fires, grab a copy of all enemies at play in a queue
             foreach (GameObject enemy in enemySpawning.GetCurrentEnemies())
             {
@@ -71,8 +74,9 @@ public class YumeSpecial : MonoBehaviour
         {
             // then add the hit enemy to linked list
             manager.AddEnemy(hitTarget);
-            FateboundDebuff debuff =  hitTarget.AddComponent<FateboundDebuff>();
+            FateboundDebuff debuff = hitTarget.AddComponent<FateboundDebuff>();
             debuff.manager = manager;
+            debuff.fateboundVFX = Instantiate(manager.fateboundVFX, hitTarget.transform);
 
             // find next target position and fire
             Transform targetPos = manager.FindNextTarget(hitTarget);
