@@ -143,6 +143,7 @@ public class GhostIdentity : MonoBehaviour
         exp += amount;
         while (exp >= GetRequiredExp() && skillTree.GetLevel() <= levelReqs.Count)
         {
+            if (skillTree.GetLevel() == 10 && data.storyProgress < 5) return; // disable unlock sacrifice until max trust
             exp = exp - GetRequiredExp();
             skillTree.LevelUp();
         }
