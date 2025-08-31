@@ -402,6 +402,7 @@ GameObject:
   - component: {fileID: 5307358471673918345}
   - component: {fileID: 8622436743220164519}
   - component: {fileID: 2566697049522167657}
+  - component: {fileID: -2596427538271585068}
   m_Layer: 21
   m_Name: EliteCrow
   m_TagString: Enemy
@@ -575,6 +576,7 @@ MonoBehaviour:
   isBeingKnockedBack: 0
   grounded: 0
   groundedRayCheckLength: 1
+  enableStunning: 1
   detectionRadius: 13
   crowDive: {fileID: 4386996987313725797}
   diveDamage:
@@ -734,6 +736,25 @@ MonoBehaviour:
   statList: []
   currentStun: 0
   maxStun: 90
+--- !u!114 &-2596427538271585068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6632946035724622827}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67f2b5dc03552c4bb7d2e37dbcb7033, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageContext:
+    damageStrength: 4
+    damageTypes: 04000000
+    actionID: 17
+    actionTypes: 08000000
+    extraContext: 
+    ghostID: 0
 --- !u!1 &7746024752065460808
 GameObject:
   m_ObjectHideFlags: 0
