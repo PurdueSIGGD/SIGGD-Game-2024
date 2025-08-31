@@ -27,7 +27,7 @@ public class MidPrologue : MonoBehaviour
 
     private IEnumerator ThenTheThing()
     {
-        ScreenFader.instance.FadeOut();
+        ScreenFader.instance.FadeOut(1, 3);
         yield return new WaitForSeconds(ScreenFader.instance.fadeOutDuration + 0.1f);
         SceneManager.LoadScene("Prologue_HubWorld");
     }

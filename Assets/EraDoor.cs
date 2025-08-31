@@ -47,7 +47,8 @@ public class EraDoor : MonoBehaviour
         Story_Beat_1 = 2,
         Story_Beat_2 = 3,
         Max_Trust = 4,
-        Story_Beat_3 = 5
+        Story_Beat_3_Start = 5,
+        Story_Beat_3 = 6
     }
 
     void DoorOpened()
@@ -140,14 +141,7 @@ public class EraDoor : MonoBehaviour
 
     private void InputFinalBoss()
     {
-        if(PartyManager.instance.IsGhostInParty("Aegis-King"))
-        {
-            specificLevels.Add(new(new Level[] { new("Aegis Oldrion_BossFight", 1) }, 1));
-        }
-        else
-        {
-            specificLevels.Add(new(new Level[] { new("Oldrion_BossFight", 1) }, 1));
-        }
+        specificLevels.Add(new(new Level[] { new("Oldrion_BossFight", 1) }, 1));
     }
 
 
