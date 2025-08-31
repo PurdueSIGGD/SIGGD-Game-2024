@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class Epilogue : MonoBehaviour
 {
     [SerializeField] ConvoSO convo;
+    [SerializeField] string moveTo;
 
     private void Start()
     {
@@ -32,8 +33,8 @@ public class Epilogue : MonoBehaviour
 
     private IEnumerator ThenTheThing()
     {
-        ScreenFader.instance.FadeOut(1, 2);
+        ScreenFader.instance.FadeOut(2, 3);
         yield return new WaitForSeconds(ScreenFader.instance.fadeOutDuration + 0.1f);
-        SceneManager.LoadScene("Credits");
+        SceneManager.LoadScene(moveTo);
     }
 }

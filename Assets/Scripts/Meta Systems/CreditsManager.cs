@@ -6,6 +6,7 @@ using TMPro;
 
 public class CreditsManager : MonoBehaviour
 {
+    [SerializeField] string moveTo = "TitleScene";
     [SerializeField] SpriteRenderer blackBG;
     [SerializeField] SpriteRenderer logo;
     [SerializeField] TextMeshProUGUI spaceEscapeText;
@@ -51,7 +52,7 @@ public class CreditsManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            SceneManager.LoadScene("TitleScene");
+            SceneManager.LoadScene(moveTo);
         }
         
         if (logoFadeOut && !done2 && startTime + logoHoldTime <= Time.time)
@@ -187,6 +188,6 @@ public class CreditsManager : MonoBehaviour
     IEnumerator LogoAfterPause()
     {
         yield return new WaitForSeconds(logoAfterPause);
-        SceneManager.LoadScene("TitleScene");
+        SceneManager.LoadScene(moveTo);
     }
 }
