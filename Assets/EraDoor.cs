@@ -132,7 +132,7 @@ public class EraDoor : MonoBehaviour
         if (!PartyManager.instance.IsGhostInParty(name)) return;
 
         string truncName = name.Split('-')[0];
-        if (data.storyProgress >= (int)storyProgression.Story_Beat_3 && // story beat 3
+        if (data.storyProgress == (int)storyProgression.Story_Beat_3 && // story beat 3
             SaveManager.data.ghostLevel[name] >= 11)
         {
             specificLevels.Add(new(new Level[] { new(truncName + " Story Beat Three", 1) }, 5));
