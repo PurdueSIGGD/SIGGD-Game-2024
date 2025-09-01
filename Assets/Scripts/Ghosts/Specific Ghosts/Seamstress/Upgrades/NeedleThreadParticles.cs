@@ -107,6 +107,7 @@ public class NeedleThreadParticles : MonoBehaviour
             {
                 particles[i].startColor = new Color(0, 0, 0, 0); // hide that particle after "collision"
                 collidedParticles[i] = true;
+                AudioManager.Instance.SFXBranch.PlaySFXTrack("Yume-Needle");
                 targets[i].GetComponent<Health>().Damage(needleDamage, PlayerID.instance.gameObject);
                 if (!targets[i].gameObject.GetComponent<NeedleAndThreadDebuff>()) // GetComponent check should only run once thanks to collidedParticles[]
                 {

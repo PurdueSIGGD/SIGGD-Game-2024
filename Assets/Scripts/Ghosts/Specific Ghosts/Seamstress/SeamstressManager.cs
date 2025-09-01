@@ -336,6 +336,7 @@ public class SeamstressManager : GhostManager
             pulse.GetComponent<RingExplosionHandler>().playRingExplosion(2f, GetComponent<GhostIdentity>().GetCharacterInfo().whiteColor);
             GameObject stunDebuff = Instantiate(yumeStunDebuff, damageContext.victim.transform);
             stunDebuff.GetComponent<YumeStunDebuff>().StartDebuff(stats.ComputeValue("Spool Heavy Attack Stun"));
+            AudioManager.Instance.SFXBranch.PlaySFXTrack("Yume-Stun Damage");
         }
     }
 }

@@ -41,7 +41,13 @@ public class YumeHeavy : MonoBehaviour
             manager.SetWeaveTimer(0);
             if (manager.GetSpools() >= manager.GetStats().ComputeValue("Max Spools"))
             {
+                AudioManager.Instance.SFXBranch.PlaySFXTrack("Yume-Max Spools");
                 GetComponent<PlayerStateMachine>().EnableTrigger("OPT");
+            }
+            else
+            {
+                AudioManager.Instance.SFXBranch.GetSFXTrack("Yume-Gained Spool").SetPitch(manager.GetSpools(), manager.GetStats().ComputeValue("Max Spools"));
+                AudioManager.Instance.SFXBranch.PlaySFXTrack("Yume-Gained Spool");
             }
         }
     }

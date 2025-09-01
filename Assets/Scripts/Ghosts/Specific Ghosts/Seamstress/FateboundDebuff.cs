@@ -34,6 +34,7 @@ public class FateboundDebuff : MonoBehaviour
         if (context.victim == gameObject && context.actionID != ActionID.SEAMSTRESS_SPECIAL /*!context.damageTypes.Contains(DamageType.STATUS)*/)
         {
             manager.DamageLinkedEnemies(gameObject.GetInstanceID(), context, true);
+            AudioManager.Instance.SFXBranch.PlaySFXTrack("Yume-Fatebound Damage");
         }
     }
 
