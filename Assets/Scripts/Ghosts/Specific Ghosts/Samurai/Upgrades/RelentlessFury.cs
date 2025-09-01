@@ -63,7 +63,7 @@ public class RelentlessFury : Skill
     {
         if (samuraiManager.selected && pointIndex > 0 &&
             context.actionID == ActionID.SAMURAI_SPECIAL &&
-            context.extraContext.Equals("Parry Success"))
+            context.extraContext != null && context.extraContext.Equals("Parry Success"))
         {
             if (!GameplayEventHolder.OnDamageFilter.Contains(BuffLightAttack))
             {
