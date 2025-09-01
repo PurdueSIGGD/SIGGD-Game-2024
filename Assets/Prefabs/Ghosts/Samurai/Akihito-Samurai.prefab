@@ -280,6 +280,7 @@ GameObject:
   - component: {fileID: 7591434726526564384}
   - component: {fileID: 6412266853432260435}
   - component: {fileID: 1809617064450391629}
+  - component: {fileID: 7541212193019346481}
   m_Layer: 17
   m_Name: Akihito-Samurai
   m_TagString: Ghost
@@ -556,7 +557,7 @@ MonoBehaviour:
   - {fileID: 7591434726526564384}
   - {fileID: 3432727028805303405}
   - {fileID: 1809617064450391629}
-  - {fileID: 832341494916618284}
+  - {fileID: 7541212193019346481}
   startAtLevel: 0
 --- !u!114 &832341494916618284
 MonoBehaviour:
@@ -722,3 +723,26 @@ MonoBehaviour:
   skillSO: {fileID: 11400000, guid: 0179f79cebe153a448ea40fb58ee955a, type: 2}
   values: 0000000009000000120000001b00000024000000
   pointIndex: 0
+--- !u!114 &7541212193019346481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8575993293382114818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6962af3d31f7a2d4097ba0cee8be86cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillSO: {fileID: 11400000, guid: 70b8c8334e7e17d49b7e2e7b68780800, type: 2}
+  context:
+    damageStrength: 4
+    damageTypes: 02000000
+    actionID: 0
+    actionTypes: 05000000
+    extraContext: 
+    ghostID: 3
+  explosionRadius: 25
+  vfx: {fileID: 7966241730260626198, guid: a5295bc6cb8948243b75f99e5a18cc48, type: 3}
+  track: 

@@ -49,7 +49,7 @@ public class DoubleTapSkill : Skill
 
     public void FireSecondaryShot(ActionContext actionContext)
     {
-        if (actionContext.actionID != ActionID.POLICE_CHIEF_BASIC || !actionContext.extraContext.Equals("Full Charge") || pointIndex <= 0) return;
+        if (actionContext.actionID != ActionID.POLICE_CHIEF_BASIC || (actionContext.extraContext != null && !actionContext.extraContext.Equals("Full Charge")) || pointIndex <= 0) return;
         StartCoroutine(SecondaryShotCoroutine(actionContext));
     }
 

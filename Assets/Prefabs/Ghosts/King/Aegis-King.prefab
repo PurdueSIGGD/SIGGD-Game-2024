@@ -195,6 +195,7 @@ GameObject:
   - component: {fileID: 7590514469965165979}
   - component: {fileID: 316518946103298912}
   - component: {fileID: 132559621038013658}
+  - component: {fileID: 1340773170313455759}
   m_Layer: 17
   m_Name: Aegis-King
   m_TagString: Ghost
@@ -475,7 +476,7 @@ MonoBehaviour:
   - {fileID: 316518946103298912}
   - {fileID: 4703010170985794943}
   - {fileID: 8690753536578335436}
-  - {fileID: 1138551263187270770}
+  - {fileID: 1340773170313455759}
   startAtLevel: 9
 --- !u!114 &1138551263187270770
 MonoBehaviour:
@@ -605,6 +606,29 @@ MonoBehaviour:
   skillSO: {fileID: 11400000, guid: d01eb6fe966783e45aba180295715cf3, type: 2}
   values: 0000000014000000280000003c00000050000000
   pointIndex: 0
+--- !u!114 &1340773170313455759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4105203604402636954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6962af3d31f7a2d4097ba0cee8be86cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillSO: {fileID: 11400000, guid: 333ca12e36d17e24d91ffcc358409175, type: 2}
+  context:
+    damageStrength: 4
+    damageTypes: 02000000
+    actionID: 0
+    actionTypes: 05000000
+    extraContext: 
+    ghostID: 6
+  explosionRadius: 25
+  vfx: {fileID: 7966241730260626198, guid: a5295bc6cb8948243b75f99e5a18cc48, type: 3}
+  track: 
 --- !u!1 &4168595070812540214
 GameObject:
   m_ObjectHideFlags: 0

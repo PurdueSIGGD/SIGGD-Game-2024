@@ -80,7 +80,7 @@ public class PoliceChiefLethalForce : Skill
     {
         if (numHits != -1 && context.attacker == PlayerID.instance.gameObject && context.actionID == ActionID.POLICE_CHIEF_BASIC)
         {
-            if (context.extraContext.Equals("Power Spike Explosion")) return;
+            if (context.extraContext != null && context.extraContext.Equals("Power Spike Explosion")) return;
             if (consecutiveHits < numHits)
             {
                 consecutiveHits += 1;

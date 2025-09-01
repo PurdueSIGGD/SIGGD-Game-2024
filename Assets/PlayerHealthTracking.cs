@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,31 +11,8 @@ public class PlayerHealthTracking : MonoBehaviour
 
     static float trackedHealth;
     LevelSwitching levelSwitchingScript;
-
-    // NOTE: redundant code for current implementation of health tracking but may be useful later so I'm leaving it here
-
-    // void OnEnable()
-    // {
-    //     GameplayEventHolder.OnDeath += PlayerDeathHealthFunction;
-    // }
-    // void OnDisable()
-    // {
-    //     GameplayEventHolder.OnDeath -= PlayerDeathHealthFunction;
-    // }
-
-    // /// <summary>
-    // /// On death, sets player tracked health to max health so that, on next player instantiation,
-    // /// sets player health to it's maximum via the value in 'static float health' through the Start function.
-    // /// </summary>
-    // /// <param name="context"></param>
-    // private void PlayerDeathHealthFunction(DamageContext context)
-    // {
-    //     if (context.victim != gameObject)
-    //     {
-    //         return;
-    //     }
-    //     UpdateTrackedHealth(PlayerID.instance.GetComponent<Health>().GetStats().ComputeValue("Max Health"));
-    // }
+    StatManager stats;
+    PlayerHealth health;
 
     void UpdateTrackedHealth(float value)
     {
@@ -42,28 +20,38 @@ public class PlayerHealthTracking : MonoBehaviour
     }
     void Start()
     {
+        stats = PlayerID.instance.GetComponent<StatManager>();
+        health = PlayerID.instance.GetComponent<PlayerHealth>();
+
         // initialize trackedHealth's static value if it hadn't been initialized previously
         if (trackedHealth == 0)
         {
-            UpdateTrackedHealth(PlayerID.instance.GetComponent<Health>().currentHealth);
+            UpdateTrackedHealth(health.currentHealth / stats.ComputeValue("Max Health"));
         }
 
         // set health to maximum if we've just spawned in the hub world
         levelSwitchingScript = FindFirstObjectByType<LevelSwitching>();
         if (levelSwitchingScript && SceneManager.GetActiveScene().name.Equals(levelSwitchingScript.GetHomeWorld()))
         {
-            UpdateTrackedHealth(PlayerID.instance.GetComponent<Health>().GetStats().ComputeValue("Max Health"));
+            UpdateTrackedHealth(1);
         }
 
-        // update player's current health to match the trackedHealth value
-        PlayerID.instance.GetComponent<Health>().currentHealth = trackedHealth;
+        StartCoroutine(DelayedStart());
 
         // when door is opened (aka begin changing to next room), make trackedHealth equal to the player's health
         // before exiting the room so that trackedHealth can be used in the next room to update the health 
         Door.OnDoorOpened += TrackPlayerHealth;
     }
+
+    IEnumerator DelayedStart()
+    {
+        yield return new WaitForSeconds(0.05f);
+        // update player's current health to match the trackedHealth value
+        health.currentHealth = stats.ComputeValue("Max Health") * trackedHealth;
+    }
+
     private void TrackPlayerHealth()
     {
-        UpdateTrackedHealth(PlayerID.instance.GetComponent<Health>().currentHealth);
+        UpdateTrackedHealth(health.currentHealth / stats.ComputeValue("Max Health"));
     }
 }
