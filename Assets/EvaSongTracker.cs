@@ -26,6 +26,7 @@ public class EvaSongTracker : MonoBehaviour
     private IEnumerator ActivateCoroutine(float time)
     {
         yield return new WaitForSeconds(time);
+        triggerBox.active = true;
         triggerBox.enabled = true;
         AudioManager.Instance.GetComponentInChildren<MusicManager>().CrossfadeTo(MusicTrackName.IDOL, 2f);
     }
