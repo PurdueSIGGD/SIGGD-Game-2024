@@ -123,14 +123,14 @@ public class EnterHub : MonoBehaviour
             north.SetConvo(northHubEntrance, newInteractionIndicator);
         }
         // load North max trust convo
-        if (SaveManager.data.north.storyProgress == 4 && SaveManager.data.ghostLevel["North-Police_Chief"] > 10)
+        if (SaveManager.data.north.storyProgress == 4 && SaveManager.data.ghostLevel["North-Police_Chief"] >= 9)
         {
             StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
             sp.Init(northMaxTrust.data.convoName, "north", 5, false);
             north.SetConvo(northMaxTrust, newInteractionIndicator);
         }
         // load North starting story beat 3
-        if (SaveManager.data.north.storyProgress == 5 && SaveManager.data.ghostLevel["North-Police_Chief"] > 11)
+        if (SaveManager.data.north.storyProgress == 5 && SaveManager.data.ghostLevel["North-Police_Chief"] >= 11)
         {
             StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
             sp.Init(northStartSB3.data.convoName, "north", 6, false);
@@ -154,14 +154,14 @@ public class EnterHub : MonoBehaviour
             eva.SetConvo(evaHubEntrance, newInteractionIndicator);
         }
         // load Eva max trust convo
-        if (SaveManager.data.eva.storyProgress == 4 && SaveManager.data.ghostLevel["Eva-Idol"] > 10)
+        if (SaveManager.data.eva.storyProgress == 4 && SaveManager.data.ghostLevel["Eva-Idol"] >= 9)
         {
             StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
             sp.Init(evaMaxTrust.data.convoName, "eva", 5, false);
             eva.SetConvo(evaMaxTrust, newInteractionIndicator);
         }
         // load Eva starting story beat 3
-        if (SaveManager.data.eva.storyProgress == 5 && SaveManager.data.ghostLevel["Eva-Idol"] > 11)
+        if (SaveManager.data.eva.storyProgress == 5 && SaveManager.data.ghostLevel["Eva-Idol"] >= 11)
         {
             StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
             sp.Init(evaStartSB3.data.convoName, "eva", 6, false);
@@ -185,14 +185,14 @@ public class EnterHub : MonoBehaviour
             akihito.SetConvo(akihitoHubEntrance, newInteractionIndicator);
         }
         // load Akihito max trust convo
-        if (SaveManager.data.akihito.storyProgress == 4 && SaveManager.data.ghostLevel["Akihito-Samurai"] > 10)
+        if (SaveManager.data.akihito.storyProgress == 4 && SaveManager.data.ghostLevel["Akihito-Samurai"] >= 9)
         {
             StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
             sp.Init(akihitoMaxTrust.data.convoName, "akihito", 5, false);
             akihito.SetConvo(akihitoMaxTrust, newInteractionIndicator);
         }
         // load Akihito starting story beat 3
-        if (SaveManager.data.akihito.storyProgress == 5 && SaveManager.data.ghostLevel["Akihito-Samurai"] > 11)
+        if (SaveManager.data.akihito.storyProgress == 5 && SaveManager.data.ghostLevel["Akihito-Samurai"] >= 11)
         {
             StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
             sp.Init(akihitoStartSB3.data.convoName, "akihito", 6, false);
@@ -216,14 +216,14 @@ public class EnterHub : MonoBehaviour
             yume.SetConvo(yumeHubEntrance, newInteractionIndicator);
         }
         // load Yume max trust convo
-        if (SaveManager.data.yume.storyProgress == 4 && SaveManager.data.ghostLevel["Yume-Seamstress"] > 10)
+        if (SaveManager.data.yume.storyProgress == 4 && SaveManager.data.ghostLevel["Yume-Seamstress"] >= 9)
         {
             StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
             sp.Init(yumeMaxTrust.data.convoName, "yume", 5, false);
             yume.SetConvo(yumeMaxTrust, newInteractionIndicator);
         }
         // load Yume starting story beat 3
-        if (SaveManager.data.yume.storyProgress == 5 && SaveManager.data.ghostLevel["Yume-Seamstress"] > 11)
+        if (SaveManager.data.yume.storyProgress == 5 && SaveManager.data.ghostLevel["Yume-Seamstress"] >= 11)
         {
             StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
             sp.Init(yumeStartSB3.data.convoName, "yume", 6, false);
@@ -247,14 +247,14 @@ public class EnterHub : MonoBehaviour
             silas.SetConvo(silasHubEntrance, newInteractionIndicator);
         }
         // load Silas max trust convo
-        if (SaveManager.data.silas.storyProgress == 4 && SaveManager.data.ghostLevel["Silas-PlagueDoc"] > 10)
+        if (SaveManager.data.silas.storyProgress == 4 && SaveManager.data.ghostLevel["Silas-PlagueDoc"] >= 9)
         {
             StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
             sp.Init(silasMaxTrust.data.convoName, "silas", 5, false);
             silas.SetConvo(silasMaxTrust, newInteractionIndicator);
         }
         // load Silas starting story beat 3
-        if (SaveManager.data.silas.storyProgress == 5 && SaveManager.data.ghostLevel["Silas-PlagueDoc"] > 11)
+        if (SaveManager.data.silas.storyProgress == 5 && SaveManager.data.ghostLevel["Silas-PlagueDoc"] >= 11)
         {
             StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
             sp.Init(silasStartSB3.data.convoName, "silas", 6, false);
@@ -278,14 +278,14 @@ public class EnterHub : MonoBehaviour
             aegis.SetConvo(aegisHubEntrance, newInteractionIndicator);
         }
         // load Aegis max trust convo
-        if (SaveManager.data.aegis.storyProgress == 4 && SaveManager.data.ghostLevel["Aegis-King"] > 10)
+        if (SaveManager.data.aegis.storyProgress == 4 && SaveManager.data.ghostLevel["Aegis-King"] >= 9)
         {
             StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
             sp.Init(aegisMaxTrust.data.convoName, "aegis", 5, false);
             aegis.SetConvo(aegisMaxTrust, newInteractionIndicator);
         }
         // load Aegis starting story beat 3
-        if (SaveManager.data.aegis.storyProgress == 5 && SaveManager.data.ghostLevel["Aegis-King"] > 11)
+        if (SaveManager.data.aegis.storyProgress == 5 && SaveManager.data.ghostLevel["Aegis-King"] >= 11)
         {
             StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
             sp.Init(aegisStartSB3.data.convoName, "aegis", 6, false);
