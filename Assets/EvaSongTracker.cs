@@ -14,13 +14,18 @@ public class EvaSongTracker : MonoBehaviour
         DialogueManager.onFinishDialogue += TrySing;
     }
 
+    private void OnDisable()
+    {
+        DialogueManager.onFinishDialogue -= TrySing;
+    }
+
     public void TrySing(string key)
     {
         if (key == dialogue)
         {
             AudioManager.Instance.GetComponentInChildren<MusicManager>().CrossfadeTo(MusicTrackName.EVA_SONG, 0.5f);
+            StartCoroutine(ActivateCoroutine(94));
         }
-        StartCoroutine(ActivateCoroutine(94));
     }
 
     private IEnumerator ActivateCoroutine(float time)
