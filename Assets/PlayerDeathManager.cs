@@ -162,9 +162,17 @@ public class PlayerDeathManager : MonoBehaviour
         // camAnim.SetBool("isDead", false);
         // Time.timeScale = 1;
         print("AND THEY SACRIFICE... THE GHOOOST!!!");
-        //
-        // TODO: IMPLEMENT SACRIFICE CALL THROUGH GHOST MANAGER HERE!!!
-        //
+        ScreenFader.instance.FadeIn();
+        DeathRingVFX.instance.PlaySacReviveAnimation();
+        ghost.GetComponent<Sacrifice>().DoSac(); 
+        
+        playerAnim.SetBool("died", false);
+        playerAnim.SetTrigger("toIdle");
+
+        PlayerID.instance.GetComponent<Collider2D>().enabled = true;
+        GetComponent<Rigidbody2D>().gravityScale = 4f;
+        GetComponent<PlayerHealth>().isAlive = true;
+        gameObject.transform.position -= new Vector3(0f, 0f, 10f);
         return;
     }
 }

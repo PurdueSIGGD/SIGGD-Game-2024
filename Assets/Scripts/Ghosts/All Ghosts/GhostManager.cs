@@ -114,13 +114,18 @@ public class GhostManager : MonoBehaviour, ISelectable, IStatList
         return currentBasicCooldown;
     }
 
-    public void SetSacrificeReady(bool sacrificeReady)
-    {
-        this.sacrificeReady = sacrificeReady;
-    }
+    //public void SetSacrificeReady(bool sacrificeReady)
+    //{
+    //    this.sacrificeReady = sacrificeReady;
+    //}
     public bool GetSacrificeReady()
     {
-        return sacrificeReady;
+        Sacrifice sac = GetComponent<Sacrifice>();
+        if (sac && sac.GetPoints() > 0)
+        {
+            return true;
+        }
+        return false;
     }
 
 
