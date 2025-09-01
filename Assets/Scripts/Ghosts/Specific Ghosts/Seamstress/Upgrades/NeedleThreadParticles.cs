@@ -25,6 +25,11 @@ public class NeedleThreadParticles : MonoBehaviour
     [SerializeField] ParticleSystemForceField forceField;
     [SerializeField] float lockOnTime = 1;
 
+    [SerializeField] private GameObject debuffVFX;
+
+    [SerializeField] private DamageContext needleDamage;
+    [SerializeField] private float damage;
+
     public void Init(Collider2D[] targets, int debuffStrength, float debuffDuration)
     {
         this.targets = targets;
@@ -39,6 +44,8 @@ public class NeedleThreadParticles : MonoBehaviour
         particles = new ParticleSystem.Particle[targets.Length];
         collidedParticles = new bool[targets.Length];
         deviationStrength = new Vector2[targets.Length];
+
+        needleDamage.damage = damage;
 
         EmitNeedles(targets);
     }
@@ -88,16 +95,25 @@ public class NeedleThreadParticles : MonoBehaviour
         {
             if (collidedParticles[i]) continue; // if this particle has already "collided" with an enemy, do not do anything with it
 
+            if (targets[i] == null)
+            {
+                particles[i].startColor = new Color(0, 0, 0, 0); // hide that particle after "collision"
+                continue;
+            }
+
             // if particle "collides" with its target enemy
             Vector2 dist = targets[i].transform.position - particles[i].position;
             if (dist.sqrMagnitude <= 0.1f) 
             {
                 particles[i].startColor = new Color(0, 0, 0, 0); // hide that particle after "collision"
                 collidedParticles[i] = true;
+                targets[i].GetComponent<Health>().Damage(needleDamage, PlayerID.instance.gameObject);
                 if (!targets[i].gameObject.GetComponent<NeedleAndThreadDebuff>()) // GetComponent check should only run once thanks to collidedParticles[]
                 {
                     NeedleAndThreadDebuff debuff = targets[i].gameObject.AddComponent<NeedleAndThreadDebuff>();
                     debuff.Init(debuffStrength, debuffDuration); // TODO hook up to NeedleAndThread skill
+                    GameObject needleDebuffVFX = Instantiate(debuffVFX, targets[i].gameObject.transform);
+                    Destroy(needleDebuffVFX, debuffDuration);
                 }
                 continue;
             }

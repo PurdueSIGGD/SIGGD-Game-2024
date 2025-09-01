@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class SeamstressManager : GhostManager
 {
@@ -25,6 +26,9 @@ public class SeamstressManager : GhostManager
     [SerializeField] private float sharedDmgScaling;
 
     [SerializeField] public GameObject fateboundVFX;
+
+    [SerializeField] public GameObject yumeStunDebuff;
+    [SerializeField] private GameObject pulseVFX;
 
     public Queue<GameObject> linkableEnemies;
     private ChainedEnemy head; // will usually be the first enemy hit by Yume's projectile
@@ -172,6 +176,8 @@ public class SeamstressManager : GhostManager
         }
         int count = ++lineRenderer.positionCount;
         lineRenderer.SetPosition(count - 1, hitTarget.transform.position);
+
+        GetComponent<WarpAndWeft>().DamageFateboundEnemies(hitTarget);
     }
 
     // should find the next closest enemy to the one given
@@ -212,7 +218,7 @@ public class SeamstressManager : GhostManager
     {
         ptr = head;
 
-        while (ptr.enemy != null)
+        while (ptr != null && ptr.enemy != null)
         {
             if (ptr.enemy.GetInstanceID() != enemyID)
             {
@@ -319,20 +325,17 @@ public class SeamstressManager : GhostManager
 
     void SpoolAttack(DamageContext damageContext)
     {
-        //Debug.Log("attacker correct: " + (damageContext.attacker == PlayerID.instance.gameObject));
-        //Debug.Log("actionID correct: " + (damageContext.actionID == ActionID.PLAYER_HEAVY_ATTACK));
-        //Debug.Log("manager nullcheck: " + manager == null);
-        //Debug.Log("manager: " + GetSpoolManager());
-        //Debug.Log("actionID: " + damageContext.actionID);
         if (damageContext.attacker == PlayerID.instance.gameObject &&
-            //damageContext.actionID == ActionID.PLAYER_HEAVY_ATTACK &&
             damageContext.actionTypes.Contains(ActionType.HEAVY_ATTACK) &&
             !damageContext.actionTypes.Contains(ActionType.SKILL) &&
             spools >= stats.ComputeValue("Heavy Attack Spools Needed"))
         {
-            damageContext.victim.GetComponent<EnemyStateManager>().Stun(damageContext, stats.ComputeValue("Spool Heavy Attack Stun"));
-            //Debug.Log("Subtracted " + -(int) manager.GetStats().ComputeValue("Heavy Attack Spools Needed") + " Spools");
+            if (damageContext.victim.GetComponentInChildren<YumeStunDebuff>() != null || damageContext.victim.GetComponent<Health>().currentHealth <= 0f) return;
             AddSpools(-(int) stats.ComputeValue("Heavy Attack Spools Needed"));
+            GameObject pulse = Instantiate(pulseVFX, damageContext.victim.transform.position, Quaternion.identity);
+            pulse.GetComponent<RingExplosionHandler>().playRingExplosion(2f, GetComponent<GhostIdentity>().GetCharacterInfo().whiteColor);
+            GameObject stunDebuff = Instantiate(yumeStunDebuff, damageContext.victim.transform);
+            stunDebuff.GetComponent<YumeStunDebuff>().StartDebuff(stats.ComputeValue("Spool Heavy Attack Stun"));
         }
     }
 }

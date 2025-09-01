@@ -193,7 +193,7 @@ public class PlayerParticles : MonoBehaviour
     public void PlaySpoolPulse()
     {
         GameObject swapPulse = Instantiate(pulseVFX, transform.position, Quaternion.identity);
-        swapPulse.GetComponent<RingExplosionHandler>().playRingExplosion(2f, spoolBuffColor);
+        swapPulse.GetComponent<RingExplosionHandler>().playRingExplosion(2.5f, spoolBuffColor);
     }
 
 

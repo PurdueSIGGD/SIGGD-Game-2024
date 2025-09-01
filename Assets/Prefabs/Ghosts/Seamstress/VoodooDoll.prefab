@@ -201,7 +201,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 8.419946, y: 1.83, z: 0}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 0.8}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 2}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6754032986899484797}
@@ -251,8 +251,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -1613202199, guid: 10e1cde3ff05d9d48b84df807ef4dda2, type: 3}
-  m_Color: {r: 0.4528302, g: 0.23495902, b: 0.23495902, a: 1}
+  m_Sprite: {fileID: 1940677505, guid: c9de750ec2ee5b643b48e1c3c221a374, type: 3}
+  m_Color: {r: 0.75055903, g: 0.22395861, b: 0.8792453, a: 1}
   m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
@@ -325,7 +325,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 6.2, y: 8.1}
+    oldSize: {x: 4.000977, y: 4}
     newSize: {x: 6.2, y: 8.1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -370,11 +370,13 @@ MonoBehaviour:
   stats: {fileID: 0}
   pool: {fileID: 0}
   animator: {fileID: 166145500235385066}
+  isPinkAndProud: 0
   isFlyer: 0
   aggroRange: 0
   isBeingKnockedBack: 0
   grounded: 0
   groundedRayCheckLength: 1
+  enableStunning: 1
   gunShoot: {fileID: 6754032986899484797}
   rangeOrig: {fileID: 6425544609560146439}
   projectile: {fileID: 1293525611164901038, guid: e64abde8a304ea641afa693f1da4fc8b,
@@ -519,7 +521,7 @@ MonoBehaviour:
     actionID: 17
     actionTypes: 08000000
     extraContext: 
-    raycastHitPosition: {x: 0, y: 0}
+    ghostID: 0
 --- !u!1001 &4415854243174678356
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -60,6 +60,7 @@ public class EvaData : GhostData
 public class YumeData : GhostData
 {
     public int spoolCount;
+    public int scrapSaverCount;
 }
 
 [Serializable]
