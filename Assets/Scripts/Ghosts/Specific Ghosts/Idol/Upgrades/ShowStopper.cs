@@ -17,16 +17,6 @@ public class ShowStopper : Sacrifice
         expired = false;
     }
 
-    //private void OnEnable()
-    //{
-    //    GameplayEventHolder.OnDamageFilter.Add(ShowStop);
-    //}
-
-    //private void OnDisable()
-    //{
-    //    GameplayEventHolder.OnDamageFilter.Remove(ShowStop);
-    //}
-
     void ShowStop(ref DamageContext context)
     {
         if (expired) { return; }

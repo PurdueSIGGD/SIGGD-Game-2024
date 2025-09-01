@@ -165,7 +165,7 @@ public class PoliceChiefSpecial : MonoBehaviour
     public void KillSpecial()
     {
         bool startCooldown = !(manager.getSpecialCooldown() > 0); // if cooldown already exists, don't restart it
-        if (manager.getSpecialCooldown() > 0 || manager.specialDamage.extraContext.Equals("Reserve Shot")) lockedAndLoaded.ConsumeReserveCharge();
+        if (manager.getSpecialCooldown() > 0 || (manager.specialDamage.extraContext != null && manager.specialDamage.extraContext.Equals("Reserve Shot"))) lockedAndLoaded.ConsumeReserveCharge();
         bool loop = (lockedAndLoaded.reservedCount > 0 && PlayerID.instance.GetComponent<Animator>().GetBool("i_special")); // if has reserve, and still holding down right click
 
         endSpecial(startCooldown, loop);

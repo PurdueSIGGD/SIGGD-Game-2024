@@ -23,6 +23,7 @@ public class PlayerDeathManager : MonoBehaviour
     [SerializeField] float realtimeDeathRingStart;
     [SerializeField]
     string respawnScene = "Hubworld";
+    [SerializeField] TimeFreezeManager timeFreezeManager;
 
     float endTime;
     float fadeOutTime;
@@ -162,6 +163,7 @@ public class PlayerDeathManager : MonoBehaviour
         // camAnim.SetBool("isDead", false);
         // Time.timeScale = 1;
         print("AND THEY SACRIFICE... THE GHOOOST!!!");
+
         ScreenFader.instance.FadeIn();
         DeathRingVFX.instance.PlaySacReviveAnimation();
         ghost.GetComponent<Sacrifice>().DoSac(); 

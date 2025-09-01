@@ -280,6 +280,7 @@ GameObject:
   - component: {fileID: 9164366307553013209}
   - component: {fileID: 8613045302450623860}
   - component: {fileID: 1087986608393877240}
+  - component: {fileID: 217690103638931818}
   m_Layer: 17
   m_Name: Silas-PlagueDoc
   m_TagString: Ghost
@@ -593,7 +594,7 @@ MonoBehaviour:
   - {fileID: 8613045302450623860}
   - {fileID: 9164366307553013209}
   - {fileID: 1087986608393877240}
-  - {fileID: 8120697266993777728}
+  - {fileID: 217690103638931818}
   startAtLevel: 0
 --- !u!114 &8120697266993777728
 MonoBehaviour:
@@ -722,3 +723,26 @@ MonoBehaviour:
   buffDuration: 0
   timer: 0
   isBuffed: 0
+--- !u!114 &217690103638931818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8202687041202382142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6962af3d31f7a2d4097ba0cee8be86cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillSO: {fileID: 11400000, guid: de22ff26f77cfd0439628fb834ccda42, type: 2}
+  context:
+    damageStrength: 4
+    damageTypes: 02000000
+    actionID: 0
+    actionTypes: 05000000
+    extraContext: 
+    ghostID: 5
+  explosionRadius: 25
+  vfx: {fileID: 7966241730260626198, guid: a5295bc6cb8948243b75f99e5a18cc48, type: 3}
+  track: 

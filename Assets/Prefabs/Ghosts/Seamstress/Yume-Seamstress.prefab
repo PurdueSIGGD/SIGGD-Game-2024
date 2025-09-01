@@ -26,6 +26,7 @@ GameObject:
   - component: {fileID: 5549542019633540654}
   - component: {fileID: 1610780681476371705}
   - component: {fileID: 4137901329299474049}
+  - component: {fileID: 7607372533015679158}
   m_Layer: 17
   m_Name: Yume-Seamstress
   m_TagString: Ghost
@@ -402,7 +403,7 @@ MonoBehaviour:
   - {fileID: 1610780681476371705}
   - {fileID: 5409127624454326957}
   - {fileID: 5549542019633540654}
-  - {fileID: 670032466409933237}
+  - {fileID: 7607372533015679158}
   startAtLevel: 9
 --- !u!114 &670032466409933237
 MonoBehaviour:
@@ -538,6 +539,29 @@ MonoBehaviour:
     type: 3}
   effectiveRadius: 15
   debuffDuration: 6
+--- !u!114 &7607372533015679158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981645078808632434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6962af3d31f7a2d4097ba0cee8be86cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillSO: {fileID: 11400000, guid: 50d1b22d1e874f74ab9c9db926442d90, type: 2}
+  context:
+    damageStrength: 4
+    damageTypes: 02000000
+    actionID: 0
+    actionTypes: 05000000
+    extraContext: 
+    ghostID: 4
+  explosionRadius: 25
+  vfx: {fileID: 7966241730260626198, guid: a5295bc6cb8948243b75f99e5a18cc48, type: 3}
+  track: 
 --- !u!1 &4936111184687609786
 GameObject:
   m_ObjectHideFlags: 0

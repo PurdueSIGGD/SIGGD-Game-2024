@@ -18,7 +18,7 @@ public class RadientWell : Skill
 
     private void SummonWell(ActionContext context)
     {
-        if (GetPoints() <= 0 || context.actionID != ActionID.KING_SPECIAL || !context.extraContext.Equals("Activated"))
+        if (GetPoints() <= 0 || context.actionID != ActionID.KING_SPECIAL || (context.extraContext != null && !context.extraContext.Equals("Activated")))
         {
             return;
         }

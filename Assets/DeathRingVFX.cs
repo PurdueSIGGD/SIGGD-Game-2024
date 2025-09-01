@@ -223,6 +223,7 @@ public class DeathRingVFX : MonoBehaviour
         reviveSpinDuration = 1.5f;
         reviveSpinCoefficient = -10f;
         reviveSpinDegree = 7;
+        pulseColor.a = 0;
         StartReviveSpin();
         DropChromaticAbberation();
         PlayerID.instance.gameObject.GetComponent<SpriteRenderer>().enabled = false;
