@@ -68,4 +68,9 @@ public class YokaiTotem : MonoBehaviour
             context.damage = context.damage * multiplier;
         }
     }
+
+    private void OnDisable()
+    {
+        if (GameplayEventHolder.OnDamageFilter.Contains(DamageMultiplier)) GameplayEventHolder.OnDamageFilter.Remove(DamageMultiplier);
+    }
 }

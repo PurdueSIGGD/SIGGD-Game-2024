@@ -29,6 +29,8 @@ public class PinCushion : Skill
             dollRef.AddComponent<FateboundDebuff>().manager = manager;
 
             manager.AddEnemy(dollRef);
+
+            AudioManager.Instance.VABranch.PlayVATrack("Yume-Seamstress Pin Cushion");
         }
     }
 

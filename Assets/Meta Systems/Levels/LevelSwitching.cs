@@ -82,6 +82,7 @@ public class LevelSwitching : MonoBehaviour
             ScreenFader.instance.FadeOut();
             yield return new WaitForSeconds(ScreenFader.instance.fadeOutDuration + 0.1f);
 
+            PersistentData.Instance.GetComponent<SpiritTracker>().SaveSpiritCounts();
             SceneManager.LoadScene(homeWorld);
             levelCount = 0;
             nextScene = "";

@@ -88,6 +88,8 @@ public class UnraveledFate : Skill
         manager.DamageLinkedEnemies(enemyID, damage, false);
         GameObject pulse = Instantiate(pulseVFX, position, Quaternion.identity);
         pulse.GetComponent<RingExplosionHandler>().playRingExplosion(3f, colorVFX);
+
+        AudioManager.Instance.VABranch.PlayVATrack("Yume-Seamstress Unraveled Fate");
     }
 
     public override void AddPointTrigger()

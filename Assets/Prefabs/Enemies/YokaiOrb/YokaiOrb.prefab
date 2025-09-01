@@ -5034,6 +5034,8 @@ GameObject:
   - component: {fileID: 7121970231918410658}
   - component: {fileID: 7618341576990429218}
   - component: {fileID: 505081720793511435}
+  - component: {fileID: 1424352318710044774}
+  - component: {fileID: 9064728346207494044}
   m_Layer: 21
   m_Name: YokaiOrb
   m_TagString: Enemy
@@ -5096,6 +5098,7 @@ MonoBehaviour:
   isBeingKnockedBack: 0
   grounded: 0
   groundedRayCheckLength: 1
+  enableStunning: 1
   detectionRadius: 15
 --- !u!114 &3615774407264337951
 MonoBehaviour:
@@ -5175,7 +5178,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Max Health
-    value: 88
+    value: 30
   deathLevel: 
 --- !u!58 &7121970231918410658
 CircleCollider2D:
@@ -5263,6 +5266,42 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1424352318710044774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7951563050262519672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0e77295dfdabb743aaa34d7c0307bf8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  statList:
+  - name: Stun Threshold
+    value: 10
+  currentStun: 0
+  maxStun: 0
+--- !u!114 &9064728346207494044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7951563050262519672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67f2b5dc03552c4bb7d2e37dbcb7033, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageContext:
+    damageStrength: 4
+    damageTypes: 
+    actionID: 17
+    actionTypes: 
+    extraContext: 
+    ghostID: 0
 --- !u!1 &7952990555029689288
 GameObject:
   m_ObjectHideFlags: 0

@@ -78,6 +78,7 @@ public class YumeSpecial : MonoBehaviour
             debuff.manager = manager;
             debuff.fateboundVFX = Instantiate(manager.fateboundVFX, hitTarget.transform);
             AudioManager.Instance.SFXBranch.PlaySFXTrack("Yume-Fatebound Applied");
+            AudioManager.Instance.VABranch.PlayVATrack("Yume-Seamstress Fatebound Hit");
 
             // find next target position and fire
             Transform targetPos = manager.FindNextTarget(hitTarget);

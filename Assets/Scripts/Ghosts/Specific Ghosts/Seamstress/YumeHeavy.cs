@@ -41,6 +41,7 @@ public class YumeHeavy : MonoBehaviour
             manager.SetWeaveTimer(0);
             if (manager.GetSpools() >= manager.GetStats().ComputeValue("Max Spools"))
             {
+                AudioManager.Instance.VABranch.PlayVATrack("Yume-Seamstress Spirit Loom Max Spools");
                 AudioManager.Instance.SFXBranch.PlaySFXTrack("Yume-Max Spools");
                 GetComponent<PlayerStateMachine>().EnableTrigger("OPT");
             }
@@ -57,6 +58,8 @@ public class YumeHeavy : MonoBehaviour
         GetComponent<Move>().PlayerStop();
         GetComponent<PartyManager>().SetSwappingEnabled(false);
         weaving = true;
+
+        AudioManager.Instance.VABranch.PlayVATrack("Yume-Seamstress Spirit Loom Activation");
     }
 
     void StopCrouch()

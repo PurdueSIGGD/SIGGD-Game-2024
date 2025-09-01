@@ -337,6 +337,7 @@ public class SeamstressManager : GhostManager
             GameObject stunDebuff = Instantiate(yumeStunDebuff, damageContext.victim.transform);
             stunDebuff.GetComponent<YumeStunDebuff>().StartDebuff(stats.ComputeValue("Spool Heavy Attack Stun"));
             AudioManager.Instance.SFXBranch.PlaySFXTrack("Yume-Stun Damage");
+            AudioManager.Instance.VABranch.PlayVATrack("Yume-Seamstress Heavy Stun");
         }
     }
 }

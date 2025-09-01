@@ -60,6 +60,10 @@ public class ScrapSaver : Skill
         numEnemiesDefeated++;
         SaveManager.data.yume.scrapSaverCount = numEnemiesDefeated;
 
+        AudioManager.Instance.SFXBranch.GetSFXTrack("Yume-Gained Spool").SetPitch(manager.GetSpools(), manager.GetStats().ComputeValue("Max Spools"));
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("Yume-Gained Spool");
+        AudioManager.Instance.VABranch.PlayVATrack("Yume-Seamstress Recovered Wares");
+
         if (numEnemiesDefeated >= CalculateNumEnemiesNeeded())
         {
             GetComponent<YumeUIDriver>().skill1UIManager.pingAbility();

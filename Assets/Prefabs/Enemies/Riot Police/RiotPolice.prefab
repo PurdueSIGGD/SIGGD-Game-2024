@@ -243,6 +243,7 @@ MonoBehaviour:
   isBeingKnockedBack: 0
   grounded: 0
   groundedRayCheckLength: 1
+  enableStunning: 1
   batonTrigger: {fileID: 3561678645181035360}
   batonDamage:
     damageStrength: 1
@@ -284,7 +285,7 @@ MonoBehaviour:
   idle:
     name: 
     priority: 0
-    ready: 0
+    ready: 1
     hitBox: {fileID: 0}
     usesCircleHitbox: 0
     coolDown: 0

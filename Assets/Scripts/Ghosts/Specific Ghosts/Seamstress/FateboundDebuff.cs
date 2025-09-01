@@ -34,7 +34,6 @@ public class FateboundDebuff : MonoBehaviour
         if (context.victim == gameObject && context.actionID != ActionID.SEAMSTRESS_SPECIAL /*!context.damageTypes.Contains(DamageType.STATUS)*/)
         {
             manager.DamageLinkedEnemies(gameObject.GetInstanceID(), context, true);
-            AudioManager.Instance.SFXBranch.PlaySFXTrack("Yume-Fatebound Damage");
         }
     }
 
@@ -42,6 +41,8 @@ public class FateboundDebuff : MonoBehaviour
     {
         if (context.victim == gameObject)
         {
+            AudioManager.Instance.VABranch.PlayVATrack("Yume-Seamstress Fatebound Kill");
+            AudioManager.Instance.SFXBranch.PlaySFXTrack("Yume-Fatebound Damage");
 
             // Handle Scrap Saver Skill
             manager.gameObject.GetComponent<ScrapSaver>().HandleEnemyDefeated();
