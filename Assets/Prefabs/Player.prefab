@@ -4883,7 +4883,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e847cdc8ceec25a409309df1ec0c92f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frameBackground: {fileID: 2054440930657273465}
+  frameBackground: {fileID: 4048277219307304075}
   meterSlider: {fileID: 3130972113960896804}
   meterBackground: {fileID: 5622629787806766125}
   meterBar: {fileID: 6263354460675667777}
@@ -59466,6 +59466,7 @@ GameObject:
   - component: {fileID: 2910134560478045326}
   - component: {fileID: 1674031420618944405}
   - component: {fileID: 993272100350156924}
+  - component: {fileID: 5628641787627220858}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -60110,6 +60111,7 @@ MonoBehaviour:
   realtimeFadeOutDuration: 1
   realtimeDeathRingStart: 0
   respawnScene: HubWorld
+  timeFreezeManager: {fileID: 5628641787627220858}
 --- !u!114 &3440197112979840949
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60277,6 +60279,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8eabf06b28ce8dc4cbabec68adb8813f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5628641787627220858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8252758106455385166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94b5828d9949f954d9301d18a500e024, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &8475902772068394930

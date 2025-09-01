@@ -1,4 +1,5 @@
 #define DEBUG_LOG
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -13,6 +14,7 @@ public class EntanglingWeaves : Skill
     private void Start()
     {
         stats = gameObject.GetComponent<StatManager>();
+        BuffStunDuration();
     }
 
     private void BuffStunDuration()
@@ -24,7 +26,7 @@ public class EntanglingWeaves : Skill
         {
             return;
         }
-
+        
         // Calculate stat modifier and set stat
 
         float extraStun = 0.3f * GetPoints(); // calculate bonus stun time
@@ -41,16 +43,16 @@ public class EntanglingWeaves : Skill
 
     public override void AddPointTrigger()
     {
-        BuffStunDuration();
+        if (stats != null) BuffStunDuration();
     }
 
     public override void ClearPointsTrigger()
     {
-        BuffStunDuration();
+        if (stats != null) BuffStunDuration();
     }
 
     public override void RemovePointTrigger()
     {
-        BuffStunDuration();
+        if (stats != null) BuffStunDuration();
     }
 }

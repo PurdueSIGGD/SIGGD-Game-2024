@@ -35,6 +35,7 @@ public class NeedleAndThreadDebuff : MonoBehaviour
         {
             stats.ModifyStat("Speed", intensity);
             stats.ModifyStat("Idle Speed", intensity);
+            if (gameObject.GetComponentInParent<EnemyStateManager>().isFlyer) stats.ModifyStat("FLIGHT_FORCE", intensity);
         }
     }
 }

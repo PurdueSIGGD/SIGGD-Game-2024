@@ -31,9 +31,10 @@ public class FateboundDebuff : MonoBehaviour
 
     private void ShareDamage(DamageContext context)
     {
-        if (context.victim == gameObject && !context.damageTypes.Contains(DamageType.STATUS))
+        if (context.victim == gameObject && context.actionID != ActionID.SEAMSTRESS_SPECIAL /*!context.damageTypes.Contains(DamageType.STATUS)*/)
         {
             manager.DamageLinkedEnemies(gameObject.GetInstanceID(), context, true);
+            AudioManager.Instance.SFXBranch.PlaySFXTrack("Yume-Fatebound Damage");
         }
     }
 
@@ -47,7 +48,7 @@ public class FateboundDebuff : MonoBehaviour
 
             RemoveShareDamage();
 
-            manager.gameObject.GetComponent<UnraveledFate>().DamageFateboundEnemies(gameObject.GetInstanceID());
+            manager.gameObject.GetComponent<UnraveledFate>().DamageFateboundEnemies(gameObject.GetInstanceID(), gameObject.transform.position);
 
             manager.RemoveFromLink(gameObject.GetInstanceID());
 

@@ -1,5 +1,6 @@
 //#define DEBUG_LOG
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 /// <summary>
@@ -152,7 +153,7 @@ public class ShieldOfThorns : Skill
 
     private void OnKillVoiceLine(DamageContext context)
     {
-        if (context.victim.CompareTag("Enemy") && context.extraContext.Equals("Thorns"))
+        if (context.victim != null && context.victim.CompareTag("Enemy") && context.extraContext != null && context.extraContext.Equals("Thorns"))
         {
             AudioManager.Instance.VABranch.PlayVATrack("Aegis-King Thorns");
         }

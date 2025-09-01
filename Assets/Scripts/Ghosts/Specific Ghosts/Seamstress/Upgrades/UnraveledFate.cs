@@ -13,6 +13,18 @@ public class UnraveledFate : Skill
 
     private SeamstressManager manager;
 
+    [SerializeField]
+    private List<float> values = new List<float>
+    {
+        0, 10, 20, 30, 40
+    };
+
+    [SerializeField] private DamageContext damage;
+
+    [SerializeField] private GameObject unraveledFateVFX;
+    [SerializeField] private GameObject pulseVFX;
+    [SerializeField] private Color colorVFX;
+
     private SeamstressManager GetManager()
     {
         if (manager == null)
@@ -34,27 +46,48 @@ public class UnraveledFate : Skill
     /// Damages fatebound enemies, called in seamstress manager when fatebound enemy dies
     /// </summary>
     /// <param name="enemyID"> The instance id of the enemy that was defeated </param>
-    public void DamageFateboundEnemies(int enemyID)
+    public void DamageFateboundEnemies(int enemyID, Vector3 position)
     {
         if (GetPoints() <= 0) { return; }
 
         if (!GetManager()) { return; }
 
-        int damageAmount = (GetPoints() - 1) * 10 + 15;
+        StartCoroutine(DamageDelay(enemyID, position));
 
-        DamageContext damage = new DamageContext();
-        damage.damage = damageAmount;
-        damage.damageStrength = DamageStrength.MEAGER;
-        damage.damageTypes = new List<DamageType>() { DamageType.PROJECTILE };
-        damage.actionID = ActionID.MISCELLANEOUS;
-        damage.actionTypes = new List<ActionType>() { ActionType.SKILL };
+        //int damageAmount = (GetPoints() - 1) * 10 + 15;
+        //int 
 
-        manager.DamageLinkedEnemies(enemyID, damage, false);
+        ////float damageAmount = values[GetPoints()];
+
+        //DamageContext damage = new DamageContext();
+
+        ////damage.damage = damageAmount;
+
+        //damage.damageStrength = DamageStrength.MEAGER;
+        //damage.damageTypes = new List<DamageType>() { DamageType.PROJECTILE };
+        //damage.actionID = ActionID.MISCELLANEOUS;
+        //damage.actionTypes = new List<ActionType>() { ActionType.SKILL };
+
+        //manager.DamageLinkedEnemies(enemyID, damage, false);
 
 #if DEBUG_LOG
-        Debug.Log("Unraveled Fate: Damaged fatebound enemies by " + damageAmount);
+        //Debug.Log("Unraveled Fate: Damaged fatebound enemies by " + damageAmount);
 #endif
 
+    }
+
+    private IEnumerator DamageDelay(int enemyID, Vector3 position)
+    {
+        GameObject unraveledFate = Instantiate(unraveledFateVFX, position, Quaternion.identity);
+        float damageAmount = values[GetPoints()];
+        damage.damage = damageAmount;
+
+        yield return new WaitForSeconds(0.5f);
+
+        Destroy(unraveledFate);
+        manager.DamageLinkedEnemies(enemyID, damage, false);
+        GameObject pulse = Instantiate(pulseVFX, position, Quaternion.identity);
+        pulse.GetComponent<RingExplosionHandler>().playRingExplosion(3f, colorVFX);
     }
 
     public override void AddPointTrigger()

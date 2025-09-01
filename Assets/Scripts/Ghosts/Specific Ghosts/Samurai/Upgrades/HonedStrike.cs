@@ -34,7 +34,7 @@ public class HonedStrike : Skill
     private void BuffDashSpeed(ActionContext context)
     {
         if (pointIndex > 0 && context.actionID == ActionID.SAMURAI_SPECIAL && 
-            !buffApplied && context.extraContext.Equals("Parry Success"))
+            !buffApplied && (context.extraContext != null && context.extraContext.Equals("Parry Success")))
         {
             manager.GetStats().ModifyStat("Heavy Attack Minimum Travel Distance", Mathf.CeilToInt(values[pointIndex]));
             manager.GetStats().ModifyStat("Heavy Attack Maximum Travel Distance", Mathf.CeilToInt(values[pointIndex]));

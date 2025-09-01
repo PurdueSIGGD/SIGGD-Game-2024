@@ -20,7 +20,7 @@ public class NeedleAndThread : Skill
 
     private void ShootNeedlesOnGainSpools(ActionContext context)
     {
-        if (context.actionID == ActionID.SEAMSTRESS_BASIC && context.extraContext.Equals("Gained Spool"))
+        if (context.actionID == ActionID.SEAMSTRESS_BASIC && context.extraContext != null && context.extraContext.Equals("Gained Spool"))
         {
             Vector2 playerPos = PlayerID.instance.transform.position;
             NeedleThreadParticles threadParticles = Instantiate(NeedleAndThreadParticleSystem, playerPos, transform.rotation).GetComponent<NeedleThreadParticles>();
