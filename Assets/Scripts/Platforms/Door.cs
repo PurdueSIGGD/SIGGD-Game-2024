@@ -66,6 +66,14 @@ public class Door : MonoBehaviour
         active = nactive;
         Debug.Log("Open door");
         instance.Activate(nactive);
+
+        if (nactive)
+        {
+            foreach (DialogueTriggerBox trigger in GameObject.FindObjectsOfType<DialogueTriggerBox>())
+            {
+                trigger.active = true;
+            }
+        }
     }
 
     private void CreateInteractMenu()
