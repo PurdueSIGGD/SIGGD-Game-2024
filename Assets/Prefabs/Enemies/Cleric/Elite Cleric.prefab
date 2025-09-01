@@ -252,7 +252,7 @@ MonoBehaviour:
     actionTypes: 
     extraContext: 
     ghostID: 0
-  swingDamage: 13
+  swingDamage: 12
   swingVisual: {fileID: 7349316861952782752}
   channelTriggerBox: {fileID: 1986142665454310588}
   maxChannelRadius: 20
@@ -309,7 +309,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Max Health
-    value: 110
+    value: 200
   deathLevel: 
 --- !u!114 &7495209999528494521
 MonoBehaviour:
@@ -353,8 +353,8 @@ MonoBehaviour:
   dropTable:
   - obj: {fileID: 4809253014695496824, guid: 17b983b8188a0f44e81ad10e1be8af57, type: 3}
     chance: 1
-    minCount: 3
-    maxCount: 6
+    minCount: 10
+    maxCount: 20
 --- !u!114 &6735388324279797009
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -367,9 +367,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0e77295dfdabb743aaa34d7c0307bf8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statList: []
+  statList:
+  - name: Stun Threshold
+    value: 100
   currentStun: 0
-  maxStun: 80
+  maxStun: 0
 --- !u!114 &7211627615410600123
 MonoBehaviour:
   m_ObjectHideFlags: 0
