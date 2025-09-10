@@ -19,6 +19,8 @@ public class Parallax : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        cam = Camera.main.GetComponent<Camera>();
+
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         width = spriteRenderer.bounds.size.x * 0.5f;
         Assert.IsTrue(cam.orthographic == true);

@@ -32,8 +32,8 @@ public class Bottle : MonoBehaviour, IStatList
         {
             enemy.transform.gameObject.GetComponent<Health>().Damage(manager.bombDamage, PlayerID.instance.gameObject);
             if (enemy.gameObject == null) continue;
-            enemy.transform.gameObject.GetComponent<EnemyStateManager>().ApplyKnockback(Vector3.up, 3f, 0.3f);
-            enemy.transform.gameObject.GetComponent<EnemyStateManager>().ApplyKnockback(enemy.transform.position - transform.position, 2f, 0.3f);
+            enemy.transform.gameObject.GetComponent<EnemyStateManager>()?.ApplyKnockback(Vector3.up, 3f, 0.3f);
+            enemy.transform.gameObject.GetComponent<EnemyStateManager>()?.ApplyKnockback(enemy.transform.position - transform.position, 2f, 0.3f);
             if (enemy.GetComponentInChildren<BlightDebuff>() == null)
             {
                 GameObject blight = Instantiate(manager.blightDebuff, enemy.transform);
@@ -49,8 +49,8 @@ public class Bottle : MonoBehaviour, IStatList
         Collider2D playerHit = Physics2D.OverlapCircle(transform.position, manager.GetStats().ComputeValue("Special Bomb Radius"), LayerMask.GetMask("Player"));
         if (playerHit != null)
         {
-            playerHit.transform.gameObject.GetComponent<Move>().ApplyKnockback(Vector3.up, 3f, false);
-            playerHit.transform.gameObject.GetComponent<Move>().ApplyKnockback(playerHit.transform.position - transform.position, 2f, false);
+            playerHit.transform.gameObject.GetComponent<Move>()?.ApplyKnockback(Vector3.up, 3f, false);
+            playerHit.transform.gameObject.GetComponent<Move>()?.ApplyKnockback(playerHit.transform.position - transform.position, 2f, false);
 
             // Apply Self-medicated Buff
             SelfMedicated selfMedicated = manager.GetComponent<SelfMedicated>();
@@ -68,6 +68,14 @@ public class Bottle : MonoBehaviour, IStatList
         CameraShake.instance.Shake(0.15f, 10f, 0f, 10f, new Vector2(Random.Range(-0.5f, 0.5f), 1f));
         GameObject explosion = Instantiate(manager.bombExplosionVFX, transform.position, Quaternion.identity);
         explosion.GetComponent<RingExplosionHandler>().playRingExplosion(manager.GetStats().ComputeValue("Special Bomb Radius"), manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
+
+        // SFX
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("Silas-Bottle Bomb");
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("Silas-Poison Cloud");
+        AudioManager.Instance.VABranch.PlayVATrack("Silas-PlagueDoc Blight On Hit");
+        if (manager.GetComponent<Brimstone>().pointIndex > 0) AudioManager.Instance.VABranch.PlayVATrack("Silas-PlagueDoc Brimstone");
+        if (manager.GetComponent<Quicksilver>().pointIndex > 0) AudioManager.Instance.VABranch.PlayVATrack("Silas-PlagueDoc Quicksilver");
+        if (manager.GetComponent<NoxiousFumes>().pointIndex > 0) AudioManager.Instance.VABranch.PlayVATrack("Silas-PlagueDoc Noxious Fumes");
 
         // Spawn Noxious Fumes poison cloud
         manager.GetComponent<NoxiousFumes>().SpawnPoisonCloud(transform.position, manager.GetStats().ComputeValue("Special Bomb Radius"), manager.GetStats().ComputeValue("Blight Duration"));
@@ -134,6 +142,15 @@ public class Bottle : MonoBehaviour, IStatList
         CameraShake.instance.Shake(0.075f, 10f, 0f, 10f, new Vector2(Random.Range(-0.5f, 0.5f), 1f));
         GameObject explosion = Instantiate(manager.bombExplosionVFX, transform.position, Quaternion.identity);
         explosion.GetComponent<RingExplosionHandler>().playRingExplosion(manager.GetStats().ComputeValue("Special Minibomb Radius"), manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
+
+        // SFX
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("Silas-Mini Poison Cloud");
+        /*
+        AudioManager.Instance.VABranch.PlayVATrack("Silas-PlagueDoc Blight On Hit");
+        if (manager.GetComponent<Brimstone>().pointIndex > 0) AudioManager.Instance.VABranch.PlayVATrack("Silas-PlagueDoc Brimstone");
+        if (manager.GetComponent<Quicksilver>().pointIndex > 0) AudioManager.Instance.VABranch.PlayVATrack("Silas-PlagueDoc Quicksilver");
+        if (manager.GetComponent<NoxiousFumes>().pointIndex > 0) AudioManager.Instance.VABranch.PlayVATrack("Silas-PlagueDoc Noxious Fumes");
+        */
 
         // Spawn Noxious Fumes poison cloud
         manager.GetComponent<NoxiousFumes>().SpawnPoisonCloud(transform.position, manager.GetStats().ComputeValue("Special Minibomb Radius"), manager.GetStats().ComputeValue("Blight Duration"));

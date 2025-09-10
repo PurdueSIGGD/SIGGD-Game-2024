@@ -7,12 +7,20 @@ public class NoboruController : BossController
     EnemyStateManager enemyStateManager;
     Animator anim;
     [SerializeField] float deathTimer;
+    [SerializeField] NoboruManager manager;
 
     public void Start()
     {
         base.Start();
         enemyStateManager = GetComponent<EnemyStateManager>();
         anim = GetComponent<Animator>();
+    }
+
+    public override void EnableAI()
+    {
+        base.EnableAI();
+        manager.enabled = true;
+        AudioManager.Instance.GetComponentInChildren<MusicManager>().CrossfadeTo(MusicTrackName.NOBORU_THEME, 0.5f);
     }
     public void SpawnYokai(GameObject yokaiPrefab, GameObject enemy)
     {

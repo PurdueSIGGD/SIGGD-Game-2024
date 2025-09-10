@@ -49,15 +49,15 @@ public class ShieldPolice : EnemyStateManager
     }
     public void ShieldUpDamageFilter(ref DamageContext context)
     {
-        if (context.victim != this.gameObject)
-        {
-            return;
-        }
-        if (context.raycastHitPosition == Vector2.zero)
+        if (context.victim == null || context.victim != this.gameObject)
         {
             return;
         }
         float horizontalDifference = context.raycastHitPosition.x - gameObject.transform.position.x;
+        if (context.raycastHitPosition == Vector2.zero)
+        {
+            horizontalDifference = context.attacker.transform.position.x - gameObject.transform.position.x;
+        }
         float direction = transform.rotation.y == 0 ? 1 : -1;
         float netHitDirection = horizontalDifference * direction; // positive number if hit from the front, negative if hit from behind
         if (netHitDirection > 0)

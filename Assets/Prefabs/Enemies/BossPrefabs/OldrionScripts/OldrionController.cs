@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class OldrionController : BossController
 {
@@ -9,6 +10,14 @@ public class OldrionController : BossController
     Animator anim;
     ActionPool actionPool;
     [SerializeField] float deathTimer;
+    [SerializeField] OldrionManager manager;
+    [SerializeField] OldrionComboManager comboManager;
+    [SerializeField] DialogueManager dialogueManager;
+    [SerializeField] ConvoSO phase2Convo;
+    [SerializeField] ConvoSO phase3Convo;
+    [SerializeField] ConvoSO defeatDialogue;
+    bool hasFinishedPhase2Convo;
+    bool hasFinishedPhase3Convo;
 
     [Header("Fight State Params")]
     [SerializeField] int currentPhase; // 1, 2, or 3
@@ -46,13 +55,28 @@ public class OldrionController : BossController
 
         currentPhase = 1;
         UpdateCooldowns();
-        GETANGRY();
+        //GETANGRY();
+    }
+    void Update()
+    {
+        bossHealth.isAlive = !IsDefeated();
+        base.Update();
     }
 
     public void GETANGRY()
     {
         enemyStateManager.enabled = true;
     }
+
+    public override void EnableAI()
+    {
+        base.EnableAI();
+        Debug.Log("Enabled AI");
+        AudioManager.Instance.GetComponentInChildren<MusicManager>().CrossfadeTo(MusicTrackName.OLDRION_FIRST, 0.5f);
+        manager.enabled = true;
+        comboManager.enabled = true;
+    }
+
 
     public override void DefeatSequence()
     {
@@ -62,6 +86,13 @@ public class OldrionController : BossController
         }
 
         currentPhase++;
+
+        if (currentPhase > FINAL_PHASE - 1)
+        {
+            Debug.Log("final phase");
+            AudioManager.Instance.GetComponentInChildren<MusicManager>().CrossfadeTo(MusicTrackName.OLDRION_FINAL, 0.5f);
+        }
+
         if (ShouldBossBeDefeated())
         {
             base.DefeatSequence();
@@ -88,6 +119,7 @@ public class OldrionController : BossController
         EndBossRoom();
 
         // TRIGGER FINAL CUTSCENE STUFF HERE!!!
+        dialogueManager.StartDialogue(defeatDialogue);
     }
     bool ShouldBossBeDefeated()
     {
@@ -124,11 +156,27 @@ public class OldrionController : BossController
         print("UNC: heh... you're pretty strong...");
         yield return new WaitForSeconds(1f);
 
+        // start mid fight dialogue
+        if (currentPhase == 2)
+        {
+            dialogueManager.StartDialogue(phase2Convo);
+            yield return new WaitUntil(() => hasFinishedPhase2Convo == true);
+        }
+        else if (currentPhase == 3)
+        {
+            dialogueManager.StartDialogue(phase3Convo);
+            bossHealth.GetStats().ModifyStat("Max Health", -50);
+            PartyManager.instance.RemoveAllGhost();
+            yield return new WaitUntil(() => hasFinishedPhase3Convo == true);
+        }
+
         print("UNC: yet... after all your trials... all your efforts");
         yield return new WaitForSeconds(1f);
 
         print("UNC: it was  ALL  FOR  NAUGHT!!!");
         print("UNC: RAHHHHHH");
+
+        //
 
         anim.SetTrigger("crush");
     }
@@ -181,5 +229,40 @@ public class OldrionController : BossController
                 xDeviation = -xDeviation;
             }
         }
+    }
+
+    private void OnEnable()
+    {
+        DialogueManager.onFinishDialogue += OnFinishDialogueDoThingy;
+    }
+
+    private void OnDisable()
+    {
+        DialogueManager.onFinishDialogue -= OnFinishDialogueDoThingy;
+    }
+
+    private void OnFinishDialogueDoThingy(string key)
+    {
+        if (key.Equals(phase2Convo.data.convoName))
+        {
+            hasFinishedPhase2Convo = true;
+        }
+
+        if (key.Equals(phase3Convo.data.convoName))
+        {
+            hasFinishedPhase3Convo = true;
+        }
+
+        if (key.Equals(defeatDialogue.data.convoName))
+        {
+            StartCoroutine(ThenTheThing());
+        }
+    }
+
+    private IEnumerator ThenTheThing()
+    {
+        ScreenFader.instance.FadeOut(1, 2);
+        yield return new WaitForSeconds(ScreenFader.instance.fadeOutDuration + 8f);
+        SceneManager.LoadScene("Epilogue");
     }
 }

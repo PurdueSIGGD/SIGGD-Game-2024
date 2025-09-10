@@ -11,6 +11,9 @@ public class MusicManager : MonoBehaviour
     [SerializeField] private LeveledMusicTrack feudalLevel;
     [SerializeField] private LeveledMusicTrack medivalLevel;
     [SerializeField] private MusicTrack hubLevel;
+    [SerializeField] private MusicTrack irisTheme;
+    [SerializeField] private MusicTrack noboruTheme;
+    [SerializeField] private MusicTrack scatheTheme;
     [SerializeField] private MusicTrack policeChief;
     [SerializeField] private MusicTrack idol;
     [SerializeField] private MusicTrack seamstress;
@@ -18,6 +21,9 @@ public class MusicManager : MonoBehaviour
     [SerializeField] private MusicTrack doctor;
     [SerializeField] private MusicTrack king;
     [SerializeField] private MusicTrack death;
+    [SerializeField] private MusicTrack oldrionPhase13;
+    [SerializeField] private MusicTrack oldrionphase4;
+    [SerializeField] private MusicTrack evaSong;
 
     private MusicTrackName currentTrackName;
 
@@ -43,12 +49,18 @@ public class MusicManager : MonoBehaviour
             case MusicTrackName.POLICE_CHIEF:          return (IMusicTrack) policeChief;
             case MusicTrackName.IDOL:                  return (IMusicTrack) idol;
             case MusicTrackName.MEDIVAL_LEVEL:         return (IMusicTrack) medivalLevel;
-            case MusicTrackName.FEUDAL_LEVEL:         return (IMusicTrack) feudalLevel;
+            case MusicTrackName.FEUDAL_LEVEL:          return (IMusicTrack) feudalLevel;
             case MusicTrackName.SEAMSTRESS:            return (IMusicTrack) seamstress;
+            case MusicTrackName.IRIS_THEME:            return (IMusicTrack) irisTheme;
+            case MusicTrackName.NOBORU_THEME:          return (IMusicTrack) noboruTheme;
+            case MusicTrackName.SCATHE_THEME:          return (IMusicTrack) scatheTheme;
             case MusicTrackName.SAMURAI:               return (IMusicTrack) samurai;
             case MusicTrackName.DOCTOR:                return (IMusicTrack) doctor;
-            case MusicTrackName.KING:                  return (IMusicTrack)king;
+            case MusicTrackName.KING:                  return (IMusicTrack) king;
             case MusicTrackName.DEATH_THEME:           return (IMusicTrack) death;
+            case MusicTrackName.OLDRION_FIRST:         return (IMusicTrack) oldrionPhase13;
+            case MusicTrackName.OLDRION_FINAL:         return (IMusicTrack) oldrionphase4;
+            case MusicTrackName.EVA_SONG:              return (IMusicTrack) evaSong;
             default:                                   return null;
         }
     }
@@ -81,6 +93,7 @@ public class MusicManager : MonoBehaviour
         if (trackName == MusicTrackName.NULL)
         {
             GetMusicTrack(currentTrackName).StopTrack();
+            yield break;
         }
         if (fadeTime <= 0) {
             PlayMusicTrack(trackName);
@@ -130,9 +143,15 @@ public enum MusicTrackName {
     IDOL, //              0.000           98.000
     MEDIVAL_LEVEL, //      what            bruh I dont know this
     FEUDAL_LEVEL, //      what            bruh I dont know this
+    IRIS_THEME,
+    NOBORU_THEME,
+    SCATHE_THEME,
     SEAMSTRESS, //              0.000           98.000
     SAMURAI, //              0.000           98.000
     DOCTOR, //              0.000           98.000
     KING, //              0.000           98.000
-    DEATH_THEME //        0.000           51.000
+    DEATH_THEME, //        0.000           51.000
+    OLDRION_FIRST,
+    OLDRION_FINAL,
+    EVA_SONG
 }

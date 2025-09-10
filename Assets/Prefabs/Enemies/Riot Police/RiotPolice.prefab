@@ -237,11 +237,13 @@ MonoBehaviour:
   stats: {fileID: 0}
   pool: {fileID: 0}
   animator: {fileID: 8056966106870366120}
+  isPinkAndProud: 0
   isFlyer: 0
   aggroRange: 14
   isBeingKnockedBack: 0
   grounded: 0
   groundedRayCheckLength: 1
+  enableStunning: 1
   batonTrigger: {fileID: 3561678645181035360}
   batonDamage:
     damageStrength: 1
@@ -283,7 +285,7 @@ MonoBehaviour:
   idle:
     name: 
     priority: 0
-    ready: 0
+    ready: 1
     hitBox: {fileID: 0}
     usesCircleHitbox: 0
     coolDown: 0
@@ -304,7 +306,7 @@ MonoBehaviour:
   - name: Speed
     value: 7
   - name: Damage
-    value: 12
+    value: 10
   - name: Idle Speed
     value: 4
   - name: Pause Timer Duration Min
@@ -348,15 +350,15 @@ MonoBehaviour:
   dropTable:
   - obj: {fileID: 4809253014695496824, guid: 4950ea8f40c9d9944b6d20a6150d4cce, type: 3}
     chance: 1
-    minCount: 3
+    minCount: 1
     maxCount: 4
   - obj: {fileID: 4809253014695496824, guid: fe291ced3ae40fc46a74c816a48d0e61, type: 3}
     chance: 1
-    minCount: 3
+    minCount: 1
     maxCount: 4
   - obj: {fileID: 4809253014695496824, guid: e8a6431bc0e6c7a4e922f586f4216e97, type: 3}
     chance: 1
-    minCount: 3
+    minCount: 1
     maxCount: 4
 --- !u!114 &4140335944560281344
 MonoBehaviour:

@@ -43,6 +43,16 @@ public class PoliceChiefManager : GhostManager, ISelectable
 
     }
 
+    private void OnEnable()
+    {
+        GameplayEventHolder.OnDeath += OnKillVoiceLines;
+    }
+
+    private void OnDisable()
+    {
+        GameplayEventHolder.OnDeath -= OnKillVoiceLines;
+    }
+
     protected override void Start()
     {
         base.Start();
@@ -78,6 +88,12 @@ public class PoliceChiefManager : GhostManager, ISelectable
         special = PlayerID.instance.AddComponent<PoliceChiefSpecial>();
         special.manager = this;
 
+        if (GetComponent<PoliceChiefLethalForce>().shotEmpowered)
+        {
+            AudioManager.Instance.SFXBranch.PlaySFXTrack("North-Sidearm Primed Loop");
+            PlayerID.instance.GetComponent<PlayerParticles>().PlayGhostEmpowered(GetComponent<GhostIdentity>().GetCharacterInfo().whiteColor, 1f, 1f);
+        }
+
 		base.Select(player);
     }
 
@@ -89,7 +105,32 @@ public class PoliceChiefManager : GhostManager, ISelectable
         if (special) special.endSpecial(false, false);
         if (special) Destroy(special);
 
-		base.DeSelect(player);
+        if (GetComponent<PoliceChiefLethalForce>().shotEmpowered)
+        {
+            AudioManager.Instance.SFXBranch.StopSFXTrack("North-Sidearm Primed Loop");
+            PlayerID.instance.GetComponent<PlayerParticles>().StopGhostEmpowered();
+        }
+
+        base.DeSelect(player);
     }
+
+
+
+    
+    private void OnKillVoiceLines(DamageContext context)
+    {
+        if (context.victim.CompareTag("Enemy") && context.actionID == ActionID.POLICE_CHIEF_SPECIAL)
+        {
+            AudioManager.Instance.VABranch.PlayVATrack("North-Police_Chief Railgun On Kill");
+            return;
+        }
+
+        if (context.victim.CompareTag("Enemy") && context.actionID == ActionID.POLICE_CHIEF_BASIC)
+        {
+            AudioManager.Instance.VABranch.PlayVATrack("North-Police_Chief Sidearm On Kill");
+            return;
+        }
+    }
+    
 
 }

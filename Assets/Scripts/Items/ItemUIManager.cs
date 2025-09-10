@@ -32,6 +32,12 @@ public class ItemUIManager : MonoBehaviour
         spiritTracker = PersistentData.Instance.GetComponent<SpiritTracker>();
     }
 
+    private void OnDisable()
+    {
+        rerollButton.onClick.RemoveListener(RerollButtonOnClick);
+        buyButton.onClick.RemoveListener(BuyButtonOnClick);
+    }
+
     /// <summary>
     /// Update the appearance of the item box with item's information
     /// </summary>

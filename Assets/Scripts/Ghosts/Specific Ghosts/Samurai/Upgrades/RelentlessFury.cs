@@ -63,13 +63,16 @@ public class RelentlessFury : Skill
     {
         if (samuraiManager.selected && pointIndex > 0 &&
             context.actionID == ActionID.SAMURAI_SPECIAL &&
-            context.extraContext.Equals("Parry Success"))
+            context.extraContext != null && context.extraContext.Equals("Parry Success"))
         {
             if (!GameplayEventHolder.OnDamageFilter.Contains(BuffLightAttack))
             {
                 GameplayEventHolder.OnDamageFilter.Add(BuffLightAttack);
             }
             buffStacks = Mathf.Min(buffStacks + parryStacksGained, maxStacks);
+
+            // VFX
+            PlayerParticles.instance.PlayGhostBadBuff(GetComponent<GhostIdentity>().GetCharacterInfo().highlightColor, 0.5f, 1f);
         }
     }
 
@@ -78,11 +81,10 @@ public class RelentlessFury : Skill
     private void BuffLightAttack(ref DamageContext damageContext)
     {
         if (damageContext.attacker.CompareTag("Player") &&
+            samuraiManager.selected &&
             (damageContext.actionTypes.Contains(ActionType.LIGHT_ATTACK) &&
              !damageContext.actionTypes.Contains(ActionType.SKILL)))
         {
-            // play audio
-            //AudioManager.Instance.VABranch.PlayVATrack("Eva-Idol Fade Out Hit");
 
             // buff damage
             damageContext.damage += values[pointIndex];
@@ -106,6 +108,9 @@ public class RelentlessFury : Skill
         {
             GameplayEventHolder.OnDamageFilter.Remove(BuffLightAttack);
         }
+
+        // VFX
+        PlayerParticles.instance.StopGhostBadBuff();
     }
 
 

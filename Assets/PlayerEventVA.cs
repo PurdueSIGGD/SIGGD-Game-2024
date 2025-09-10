@@ -9,6 +9,11 @@ public class PlayerEventVA : MonoBehaviour
         GameplayEventHolder.OnDeath += PlayOnKillVA;
     }
 
+    private void OnDisable()
+    {
+        GameplayEventHolder.OnDeath -= PlayOnKillVA;
+    }
+
     private void PlayOnKillVA(DamageContext context)
     {
         // if player killed entity

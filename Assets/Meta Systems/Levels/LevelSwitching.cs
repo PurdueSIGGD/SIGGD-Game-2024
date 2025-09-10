@@ -20,6 +20,11 @@ public class LevelSwitching : MonoBehaviour
         return ((float)levelCount - 1.0f) / (float)maxLevels;
     }
 
+    public void ResetLevel()
+    {
+        levelCount = 0;
+    }
+
     private void Start()
     {
         instance = this;
@@ -77,6 +82,7 @@ public class LevelSwitching : MonoBehaviour
             ScreenFader.instance.FadeOut();
             yield return new WaitForSeconds(ScreenFader.instance.fadeOutDuration + 0.1f);
 
+            PersistentData.Instance.GetComponent<SpiritTracker>().SaveSpiritCounts();
             SceneManager.LoadScene(homeWorld);
             levelCount = 0;
             nextScene = "";

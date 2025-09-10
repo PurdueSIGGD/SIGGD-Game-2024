@@ -135,9 +135,11 @@ public class WrathHeavyAttack : MonoBehaviour
     public void StartHeavyChargeUp()
     {
         psm.SetLightAttack2Ready(true);
+        GetComponent<PartyManager>().SetSwappingEnabled(false);
         chargingTime = manager.GetStats().ComputeValue("Heavy Charge Up Time");
         isCharging = true;
         AudioManager.Instance.SFXBranch.PlaySFXTrack("HeavyAttackWindUp");
+        AudioManager.Instance.VABranch.PlayVATrack("Akihito-Samurai Wrath Charging Up");
         manager.decaying = false;
         manager.resetDecay = true;
         primedHeavyDamage = 0;
@@ -155,6 +157,7 @@ public class WrathHeavyAttack : MonoBehaviour
 
     public void StartHeavyPrimed()
     {
+        GetComponent<PartyManager>().SetSwappingEnabled(false);
         primedTime = manager.GetStats().ComputeValue("Heavy Primed Autofire Time");
         isPrimed = true;
         AudioManager.Instance.SFXBranch.PlaySFXTrack("HeavyAttackPrimed");
@@ -178,6 +181,7 @@ public class WrathHeavyAttack : MonoBehaviour
     public void StartHeavyAttack()
     {
         psm.ConsumeHeavyAttackInput();
+        GetComponent<PartyManager>().SetSwappingEnabled(false);
         AudioManager.Instance.VABranch.PlayVATrack(PartyManager.instance.selectedGhost + " Heavy Attack");
 
         psm.SetLightAttack2Ready(true);
@@ -213,7 +217,6 @@ public class WrathHeavyAttack : MonoBehaviour
             float onHitDist = manager.GetStats().ComputeValue("Heavy Attack On-hit Final Travel Distance");
             desiredDashDist = Mathf.Abs(displacement) + onHitDist;
             desiredDashDest = enemyHit.point + new Vector2(onHitDist * Mathf.Sign(displacement) * -1, 0);
-            //targetedEnemyDest = enemyHit.point + new Vector2(1f * Mathf.Sign(displacement), 0);
         }
 
         // Guaranteed distance floor (make sure dash distance can't be reduced too much by enemy hit modifier)
@@ -272,6 +275,7 @@ public class WrathHeavyAttack : MonoBehaviour
 
     public void StopSamuraiHeavySlash()
     {
+        GetComponent<PartyManager>().SetSwappingEnabled(true);
         gameObject.GetComponent<StatManager>().ModifyStat("Max Running Speed", 30);
         gameObject.GetComponent<StatManager>().ModifyStat("Running Accel.", 30);
         gameObject.GetComponent<Move>().UpdateRun();

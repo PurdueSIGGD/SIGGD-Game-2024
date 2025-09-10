@@ -20,6 +20,11 @@ public class KingSpecial : MonoBehaviour, ISpecialMove
         isInvincibilityActive = false;
     }
 
+    private void OnDisable()
+    {
+        if (GameplayEventHolder.OnDamageFilter.Contains(invincibilityFilter)) GameplayEventHolder.OnDamageFilter.Remove(invincibilityFilter);
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -43,15 +48,35 @@ public class KingSpecial : MonoBehaviour, ISpecialMove
 
     private IEnumerator specialAbilityCoroutine()
     {
+        GetComponent<PartyManager>().SetSwappingEnabled(false);
+
         // Set flags and inits
         isCasting = true;
         isInvincibilityActive = true;
         float castTime = 0.15f;
 
+        bool isDivineSmite = manager.GetComponent<DivineSmite>().isSpecialPowered();
+        float radiusMultiplier = (isDivineSmite ? manager.GetComponent<DivineSmite>().radiusBoost : 1f);
+
         // VFX
-        CameraShake.instance.Shake(0.2f, 10f, 0f, 10f, new Vector2(Random.Range(-0.5f, 0.5f), 1f));
+        CameraShake.instance.Shake(((isDivineSmite) ? 2f : 0.5f), 10f, 0f, 10f, new Vector2(Random.Range(-0.5f, 0.5f), 1f));
         GameObject ringExplosion = Instantiate(manager.specialExplosionVFX, transform.position, Quaternion.identity);
-        ringExplosion.GetComponent<RingExplosionHandler>().playRingExplosion(manager.GetStats().ComputeValue("Special Explosion Radius"), manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
+        ringExplosion.GetComponent<RingExplosionHandler>().playRingExplosion(manager.GetStats().ComputeValue("Special Explosion Radius") * radiusMultiplier, ((isDivineSmite) ? manager.GetComponent<GhostIdentity>().GetCharacterInfo().highlightColor : manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor));
+        PlayerParticles.instance.PlayGhostGoodBuff(manager.GetComponent<GhostIdentity>().GetCharacterInfo().highlightColor, 1f, 1f);
+
+        // SFX
+        if (isDivineSmite)
+        {
+            AudioManager.Instance.SFXBranch.PlaySFXTrack("Aegis-Divine Smite");
+            AudioManager.Instance.VABranch.PlayVATrack("Aegis-King Divine Smite");
+        }
+        else
+        {
+            AudioManager.Instance.SFXBranch.PlaySFXTrack("Aegis-Special");
+            AudioManager.Instance.VABranch.PlayVATrack("Aegis-King Divine Intervention");
+        }
+        //AudioManager.Instance.SFXBranch.PlaySFXTrack("Aegis-Special");
+        //AudioManager.Instance.VABranch.PlayVATrack("Aegis-King Divine Intervention");
 
         // Minor vertical mid-air boost for juice
         if (!GetComponent<Animator>().GetBool("p_grounded"))
@@ -64,18 +89,19 @@ public class KingSpecial : MonoBehaviour, ISpecialMove
         GameplayEventHolder.OnDamageFilter.Add(invincibilityFilter);
 
         // Affect enemies
-        Collider2D[] enemies = Physics2D.OverlapCircleAll(transform.position, manager.GetStats().ComputeValue("Special Explosion Radius"), LayerMask.GetMask("Enemy"));
+        Collider2D[] enemies = Physics2D.OverlapCircleAll(transform.position, manager.GetStats().ComputeValue("Special Explosion Radius") * radiusMultiplier, LayerMask.GetMask("Enemy"));
         foreach (Collider2D enemy in enemies)
         {
             enemy.gameObject.GetComponent<Health>().Damage(manager.specialDamage, gameObject);
             enemy.gameObject.GetComponent<EnemyStateManager>().Stun(manager.specialDamage, manager.GetStats().ComputeValue("Special Stun Duration"));
 
             // Deal knockback
+            float knockbackMultiplier = (isDivineSmite ? manager.GetComponent<DivineSmite>().knockbackBoost : 1f);
             Vector2 enemyDirection = (enemy.transform.position - transform.position).normalized;
             Vector3 knockbackDirection = new Vector2(enemyDirection.x, Mathf.Max(enemyDirection.y, 0f)).normalized; // Enemies under player will be knocked laterally, not down
-            float knockbackStrength = manager.GetStats().ComputeValue("Special Knockback Strength");
+            float knockbackStrength = manager.GetStats().ComputeValue("Special Knockback Strength") * knockbackMultiplier;
             Vector2 knockbackVector = knockbackDirection * knockbackStrength;
-            float extraUpwardKnockback = Mathf.Max(manager.GetStats().ComputeValue("Special Minimum Upward Knockback Strength") - knockbackVector.y, 0f); // Enemies are guaranteed to be knocked up some amount
+            float extraUpwardKnockback = Mathf.Max((manager.GetStats().ComputeValue("Special Minimum Upward Knockback Strength") * knockbackMultiplier) - knockbackVector.y, 0f); // Enemies are guaranteed to be knocked up some amount
             enemy.gameObject.GetComponent<EnemyStateManager>().ApplyKnockback(knockbackDirection, knockbackStrength); // Base knockback
             enemy.gameObject.GetComponent<EnemyStateManager>().ApplyKnockback(Vector2.up, extraUpwardKnockback); // Extra knock up
         }
@@ -107,6 +133,7 @@ public class KingSpecial : MonoBehaviour, ISpecialMove
             playerStateMachine.EnableTrigger("OPT");
             manager.startSpecialCooldown();
             isCasting = false;
+            GetComponent<PartyManager>().SetSwappingEnabled(true);
         }
 
         // Stop special invincibility
@@ -114,6 +141,7 @@ public class KingSpecial : MonoBehaviour, ISpecialMove
         {
             GameplayEventHolder.OnDamageFilter.Remove(invincibilityFilter);
             isInvincibilityActive = false;
+            PlayerParticles.instance.StopGhostGoodBuff();
         }
     }
 
@@ -122,6 +150,8 @@ public class KingSpecial : MonoBehaviour, ISpecialMove
         if (context.victim.tag == "Player")
         {
             context.damage = 0f;
+            context.icon = null;
+            DamageNumberManager.instance.PlayMessage(this.gameObject, 0f, manager.GetComponent<GhostIdentity>().GetCharacterInfo().specialAbilityIcon, "Blocked!", manager.GetComponent<GhostIdentity>().GetCharacterInfo().highlightColor);
         }
     }
 

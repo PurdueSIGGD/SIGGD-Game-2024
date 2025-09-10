@@ -14,12 +14,12 @@ public class Door : MonoBehaviour
     [SerializeField] private GameObject dest;
     public static bool active;
     [SerializeField] private Vector3 menuOffset;
-    [SerializeField] private bool specificActive;
+    [SerializeField] public bool specificActive;
 
     private GameObject interactMenu;
     private PlayerID player;
     private SpriteRenderer spriteRenderer;
-
+    private bool transporting;
 
     void Start()
     {
@@ -43,6 +43,17 @@ public class Door : MonoBehaviour
         }
     }
 
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        GameObject player = collision.gameObject;
+
+        // disable teleport when door not active
+        if (interactMenu == null && player.CompareTag("Player") && (active || specificActive))
+        {
+            CreateInteractMenu();
+        }
+    }
+
     private void OnTriggerExit2D(Collider2D collision)
     {
         Destroy(interactMenu);
@@ -55,6 +66,14 @@ public class Door : MonoBehaviour
         active = nactive;
         Debug.Log("Open door");
         instance.Activate(nactive);
+
+        if (nactive)
+        {
+            foreach (DialogueTriggerBox trigger in GameObject.FindObjectsOfType<DialogueTriggerBox>())
+            {
+                trigger.active = true;
+            }
+        }
     }
 
     private void CreateInteractMenu()
@@ -67,11 +86,15 @@ public class Door : MonoBehaviour
         interactMenu = WI.CreateInteractMenu(menuPos, opt1);
     }
 
-    private void CallDoorOpened()
+    protected virtual void CallDoorOpened()
     {
-        Door.activateDoor(false);
-        SendMessage("DoorOpened");
-        OnDoorOpened?.Invoke();
+        if (!transporting)
+        {
+            Door.activateDoor(false);
+            SendMessage("DoorOpened");
+            OnDoorOpened?.Invoke();
+            transporting = true;
+        }
     }
 
     private void TeleportPlayer()

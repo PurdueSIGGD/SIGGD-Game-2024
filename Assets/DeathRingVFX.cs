@@ -76,6 +76,7 @@ public class DeathRingVFX : MonoBehaviour
             SceneManager.GetActiveScene().name.Equals("HubWorld"))
         {
             PlayReviveAnimation();
+            AudioManager.Instance.SFXBranch.PlaySFXTrack("RespawnInOblivionSFX");
         }
     }
 
@@ -213,7 +214,21 @@ public class DeathRingVFX : MonoBehaviour
         PlayerID.instance.gameObject.GetComponent<Move>().PlayerStop();
     }
 
-
+    public void PlaySacReviveAnimation()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer.enabled = true;
+        spriteRenderer.color = fullyFadedColor;
+        ScreenFader.instance.FadeIn(1.5f, 1f);
+        reviveSpinDuration = 1.5f;
+        reviveSpinCoefficient = -10f;
+        reviveSpinDegree = 7;
+        pulseColor.a = 0;
+        StartReviveSpin();
+        DropChromaticAbberation();
+        PlayerID.instance.gameObject.GetComponent<SpriteRenderer>().enabled = false;
+        PlayerID.instance.gameObject.GetComponent<Move>().PlayerStop();
+    }
 
 
 

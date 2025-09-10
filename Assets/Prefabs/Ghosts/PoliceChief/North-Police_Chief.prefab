@@ -26,6 +26,7 @@ GameObject:
   - component: {fileID: 3756874392414048416}
   - component: {fileID: 572864510421831245}
   - component: {fileID: 2084270038230117945}
+  - component: {fileID: 7473397996155381841}
   m_Layer: 17
   m_Name: North-Police_Chief
   m_TagString: Ghost
@@ -155,7 +156,9 @@ MonoBehaviour:
   characterInfo: {fileID: 11400000, guid: 82f9561b0030f9b4282a3072b0d5656d, type: 2}
   isUnlocked: 0
   exp: 0
-  levelReqs: d0070000d0070000d0070000d0070000d0070000d0070000a00f0000a00f0000a00f000088130000881300008813000088130000
+  expPerSpiritGained: 1
+  expPerPinkSpiritGained: 2
+  levelReqs: 0a000000c80000002c0100009001000020030000e8030000b0040000080700003408000060090000b80b0000a00f0000a00f0000a00f0000
 --- !u!114 &584133115329307738
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -189,11 +192,11 @@ MonoBehaviour:
   - name: Basic Cooldown
     value: 1
   - name: Basic Damage
-    value: 18
+    value: 20
   - name: Basic Heavy Damage
-    value: 18
+    value: 20
   - name: Basic Super Heavy Damage
-    value: 36
+    value: 35
   - name: Basic Travel Distance
     value: 25
   - name: Basic Charge Up Time
@@ -290,7 +293,7 @@ MonoBehaviour:
   - {fileID: 3756874392414048416}
   - {fileID: 572864510421831245}
   - {fileID: 6532718052842151599}
-  - {fileID: 589596433784939328}
+  - {fileID: 7473397996155381841}
   startAtLevel: 0
 --- !u!114 &2380614975374285945
 MonoBehaviour:
@@ -474,6 +477,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   directionalIndicator: {fileID: 4796005695382463095, guid: beaff2e9da4acc947ba7a52a72eb88a6,
     type: 3}
+--- !u!114 &7473397996155381841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981645078808632434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6962af3d31f7a2d4097ba0cee8be86cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillSO: {fileID: 11400000, guid: b376729423862ab4c87266f31d8a51ef, type: 2}
+  context:
+    damageStrength: 4
+    damageTypes: 02000000
+    actionID: 0
+    actionTypes: 05000000
+    extraContext: 
+    ghostID: 1
+  explosionRadius: 25
+  vfx: {fileID: 7966241730260626198, guid: a5295bc6cb8948243b75f99e5a18cc48, type: 3}
+  track: 
 --- !u!1 &4441818572976834460
 GameObject:
   m_ObjectHideFlags: 0

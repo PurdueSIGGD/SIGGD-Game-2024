@@ -74,6 +74,7 @@ public class PoliceChiefSpecial : MonoBehaviour
     // Charge Up
     void StartSpecialChargeUp()
     {
+        GetComponent<PartyManager>().SetSwappingEnabled(false);
         chargingTime = manager.GetStats().ComputeValue("Special Charge Up Time");
         isCharging = true;
         camAnim.SetBool("pullBack", true);
@@ -82,6 +83,7 @@ public class PoliceChiefSpecial : MonoBehaviour
 
         // SFX
         AudioManager.Instance.SFXBranch.PlaySFXTrack("North-Railgun Charging");
+        AudioManager.Instance.VABranch.PlayVATrack("North-Police_Chief Railgun Charging Up");
     }
 
     void StopSpecialChargeUp()
@@ -99,6 +101,7 @@ public class PoliceChiefSpecial : MonoBehaviour
     // Primed
     void StartSpecialPrimed()
     {
+        GetComponent<PartyManager>().SetSwappingEnabled(false);
         isPrimed = true;
         manager.specialDamage.extraContext = "";
 
@@ -106,6 +109,14 @@ public class PoliceChiefSpecial : MonoBehaviour
         AudioManager.Instance.SFXBranch.PlaySFXTrack("North-Railgun Primed");
         AudioManager.Instance.SFXBranch.GetSFXTrack("North-Railgun Primed Loop").SetPitch(0f, 1f);
         AudioManager.Instance.SFXBranch.PlaySFXTrack("North-Railgun Primed Loop");
+        if (overcharged.pointIndex > 0)
+        {
+            AudioManager.Instance.VABranch.PlayVATrack("North-Police_Chief Overcharging");
+        }
+        else
+        {
+            AudioManager.Instance.VABranch.PlayVATrack("North-Police_Chief Railgun Full Charge");
+        }
 
         if (overcharged.pointIndex > 0) overcharged.StartOvercharging();
     }
@@ -123,7 +134,9 @@ public class PoliceChiefSpecial : MonoBehaviour
     // Railgun Attack
     public void StartSpecialAttack()
     {
+        GetComponent<PartyManager>().SetSwappingEnabled(false);
         playerStateMachine.ConsumeLightAttackInput();
+        playerStateMachine.ConsumeSpecialInput();
         camAnim.SetBool("pullBack", true);
         GetComponent<Move>().PlayerStop();
 
@@ -145,13 +158,14 @@ public class PoliceChiefSpecial : MonoBehaviour
 
     void StopSpecialAttack()
     {
+        GetComponent<PartyManager>().SetSwappingEnabled(false);
         KillSpecial();
     }
 
     public void KillSpecial()
     {
         bool startCooldown = !(manager.getSpecialCooldown() > 0); // if cooldown already exists, don't restart it
-        if (manager.getSpecialCooldown() > 0 || manager.specialDamage.extraContext.Equals("Reserve Shot")) lockedAndLoaded.ConsumeReserveCharge();
+        if (manager.getSpecialCooldown() > 0 || (manager.specialDamage.extraContext != null && manager.specialDamage.extraContext.Equals("Reserve Shot"))) lockedAndLoaded.ConsumeReserveCharge();
         bool loop = (lockedAndLoaded.reservedCount > 0 && PlayerID.instance.GetComponent<Animator>().GetBool("i_special")); // if has reserve, and still holding down right click
 
         endSpecial(startCooldown, loop);
@@ -168,6 +182,7 @@ public class PoliceChiefSpecial : MonoBehaviour
         {
             camAnim.SetBool("pullBack", false);
             GetComponent<Move>().PlayerGo();
+            GetComponent<PartyManager>().SetSwappingEnabled(true);
         }
         if (startCooldown)
         {

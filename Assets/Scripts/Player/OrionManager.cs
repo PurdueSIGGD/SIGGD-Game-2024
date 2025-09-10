@@ -7,6 +7,8 @@ public class OrionManager : GhostManager
     [SerializeField] public DamageContext heavyDamage;
     [SerializeField] public float offsetX;
 
+    [SerializeField] public CharacterSO orionSO;
+
     [HideInInspector] public bool isDashEnabled = true;
     [HideInInspector] public bool isAirbornePostDash = false;
 

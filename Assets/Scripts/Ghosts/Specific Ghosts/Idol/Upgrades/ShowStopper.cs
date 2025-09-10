@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShowStopper : Skill
+public class ShowStopper : Sacrifice
 {
     [SerializeField] float healthRestored = 30f;
     [SerializeField] float timeStopDuration = 5f;
@@ -11,42 +11,39 @@ public class ShowStopper : Skill
 
     TimeFreezeManager freezeManager;
 
-    private static int pointIndex;
-
     void Start()
     {
         freezeManager = GetComponent<TimeFreezeManager>();
         expired = false;
     }
 
-    private void OnEnable()
-    {
-        GameplayEventHolder.OnDamageFilter.Add(ShowStop);
-    }
-
-    private void OnDisable()
-    {
-        GameplayEventHolder.OnDamageFilter.Remove(ShowStop);
-    }
-
     void ShowStop(ref DamageContext context)
     {
-        if (pointIndex == 0 || expired) { return; }
+        if (expired) { return; }
 
         if (context.victim.CompareTag("Player"))
         {
+            PartyManager.instance.ChangePosessingGhost(-1);
+
             Health health = context.victim.GetComponent<Health>();
             if (context.damage >= health.currentHealth)
             {
                 // play audio
                 AudioManager.Instance.VABranch.PlayVATrack("Eva-Idol Show Stopper Before");
 
-                context.damage = 0f;
-                health.currentHealth = healthRestored;
-                expired = true;
-                TimeFreeze();
+                //context.damage = 0f;
+                //health.currentHealth = healthRestored;
+                //expired = true;
+                //TimeFreeze();
             }
         }
+    }
+
+    public override void DoSac()
+    {
+        base.DoSac();
+        AudioManager.Instance.VABranch.PlayVATrack("Eva-Idol Show Stopper Before");
+        TimeFreeze();
     }
 
     void TimeFreeze()
@@ -66,16 +63,13 @@ public class ShowStopper : Skill
 
     public override void AddPointTrigger()
     {
-        pointIndex = GetPoints();
     }
 
     public override void ClearPointsTrigger()
     {
-        pointIndex = GetPoints();
     }
 
     public override void RemovePointTrigger()
     {
-        pointIndex = GetPoints();
     }
 }

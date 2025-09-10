@@ -1,9 +1,18 @@
 
+using System.Collections.Generic;
 using UnityEngine;
 
 public class WarpAndWeft : Skill
 {
     [SerializeField] DamageContext warpDmgContext;
+
+    [SerializeField]
+    private List<float> values = new List<float>
+    {
+        0, 10, 20, 30, 40
+    };
+
+    [SerializeField] private GameObject pulseVFX;
 
     void OnEnable()
     {
@@ -19,8 +28,21 @@ public class WarpAndWeft : Skill
     {
         if (GetPoints() > 0 && stunnedEntity.GetComponent<FateboundDebuff>() != null)
         {
-            warpDmgContext.damage = GetPoints() * 10;
-            stunnedEntity.GetComponent<Health>().NoContextDamage(warpDmgContext, PlayerID.instance.gameObject);
+            warpDmgContext.damage = values[GetPoints()];
+            stunnedEntity.GetComponent<Health>().Damage(warpDmgContext, PlayerID.instance.gameObject);
+            GameObject pulse = Instantiate(pulseVFX, transform.position, Quaternion.identity);
+            pulse.GetComponent<RingExplosionHandler>().playRingExplosion(3f, GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
+        }
+    }
+
+    public void DamageFateboundEnemies(GameObject fateboundEnemy)
+    {
+        if (GetPoints() > 0 && fateboundEnemy.GetComponent<EnemyStateManager>().StunState.isStunned)
+        {
+            warpDmgContext.damage = values[GetPoints()];
+            fateboundEnemy.GetComponent<Health>().Damage(warpDmgContext, PlayerID.instance.gameObject);
+            GameObject pulse = Instantiate(pulseVFX, transform.position, Quaternion.identity);
+            pulse.GetComponent<RingExplosionHandler>().playRingExplosion(3f, GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
         }
     }
 

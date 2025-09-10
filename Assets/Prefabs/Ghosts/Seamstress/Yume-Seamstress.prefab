@@ -25,6 +25,8 @@ GameObject:
   - component: {fileID: 5409127624454326957}
   - component: {fileID: 5549542019633540654}
   - component: {fileID: 1610780681476371705}
+  - component: {fileID: 4137901329299474049}
+  - component: {fileID: 7607372533015679158}
   m_Layer: 17
   m_Name: Yume-Seamstress
   m_TagString: Ghost
@@ -153,7 +155,9 @@ MonoBehaviour:
   characterInfo: {fileID: 11400000, guid: d6a4c90d3488ecb40b9460e34601cb53, type: 2}
   isUnlocked: 0
   exp: 0
-  levelReqs: d0070000d0070000d0070000d0070000d0070000d0070000a00f0000a00f0000a00f000088130000881300008813000088130000
+  expPerSpiritGained: 1
+  expPerPinkSpiritGained: 2
+  levelReqs: 0a000000c80000002c0100009001000020030000e8030000b0040000080700003408000060090000b80b0000a00f0000a00f0000a00f0000
 --- !u!114 &584133115329307738
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,31 +191,31 @@ MonoBehaviour:
   - name: Special Cooldown
     value: 0.5
   - name: Projectile Damage
-    value: 10
-  - name: Projectile Ricochet Count
-    value: 4
-  - name: 'Projectile Ricochet Maximum Normal Angle '
-    value: 60
-  - name: Projectile Enemy Chain Range
-    value: 15
-  - name: Projectile Maximum Chain Target Count
-    value: 4
-  - name: Projectile Flight Speed
-    value: 30
-  - name: Fatebound Duration
     value: 5
+  - name: Projectile Ricochet Count
+    value: 3
+  - name: Projectile Ricochet Maximum Normal Angle
+    value: 5
+  - name: Projectile Enemy Chain Range
+    value: 25
+  - name: Projectile Maximum Chain Target Count
+    value: 3
+  - name: Projectile Flight Speed
+    value: 50
+  - name: Fatebound Duration
+    value: 999
   - name: Max Spools
-    value: 6
+    value: 4
   - name: Initial Spool Buffer
-    value: 1
+    value: 0.75
   - name: Concurrent Spool Buffer
-    value: 0.8
+    value: 0.375
   - name: Heavy Attack Spools Needed
     value: 1
   - name: Special Attack Spools Needed
-    value: 2
+    value: 1
   - name: Spool Heavy Attack Stun
-    value: 2
+    value: 1.5
 --- !u!114 &504260248778479986
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -228,9 +232,9 @@ MonoBehaviour:
   defaultController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
   ghostController: {fileID: 9100000, guid: b2df4cc609beea44285ab4d10e80ffae, type: 2}
   onSpoolGained:
-    actionID: 0
-    actionTypes: 
-    extraContext: 
+    actionID: 11
+    actionTypes: 02000000
+    extraContext: Gained Spool
   projectile: {fileID: 7891332324626441984, guid: f3b339b45781d2541b8cac7e219b9f59,
     type: 3}
   projectileDamageContext:
@@ -239,7 +243,7 @@ MonoBehaviour:
     actionID: 12
     actionTypes: 03000000
     extraContext: 
-    ghostID: 0
+    ghostID: 4
   specialContext:
     actionID: 12
     actionTypes: 03000000
@@ -250,8 +254,14 @@ MonoBehaviour:
     actionID: 12
     actionTypes: 03000000
     extraContext: 
-    ghostID: 0
-  sharedDmgScaling: 0.6
+    ghostID: 4
+  sharedDmgScaling: 0.5
+  fateboundVFX: {fileID: 2256473387614676204, guid: 596a2e1d2706241469df9df679f150e3,
+    type: 3}
+  yumeStunDebuff: {fileID: 4451078953279709777, guid: a2c226034dc0a9449bde8c4e5deafe2f,
+    type: 3}
+  pulseVFX: {fileID: 7966241730260626198, guid: a5295bc6cb8948243b75f99e5a18cc48,
+    type: 3}
 --- !u!120 &6265072175092927981
 LineRenderer:
   serializedVersion: 2
@@ -302,8 +312,8 @@ LineRenderer:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0.04393387
-        value: 0.16065907
+        time: 0.0296669
+        value: 0.057952166
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -315,9 +325,9 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0.6981132, g: 0, b: 0.22315201, a: 1}
-      key1: {r: 0.6981132, g: 0, b: 0.22315201, a: 1}
-      key2: {r: 1, g: 1, b: 1, a: 0}
+      key0: {r: 0.7176471, g: 0.47843137, b: 0.6666667, a: 1}
+      key1: {r: 0.7176471, g: 0.47843137, b: 0.6666667, a: 1}
+      key2: {r: 0.6981132, g: 0, b: 0.22315201, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
@@ -373,6 +383,7 @@ MonoBehaviour:
   skill1UIManager: {fileID: 0}
   skill2UIManager: {fileID: 0}
   meterUIManager: {fileID: 0}
+  scrapSaverIcon: {fileID: 21300000, guid: db686b152c3fe7a4cad62e73c697f449, type: 3}
 --- !u!114 &6038404173171518364
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -388,11 +399,11 @@ MonoBehaviour:
   skills:
   - {fileID: 5978596217540347318}
   - {fileID: 6929056156911069088}
-  - {fileID: 670032466409933237}
+  - {fileID: 4137901329299474049}
   - {fileID: 1610780681476371705}
   - {fileID: 5409127624454326957}
   - {fileID: 5549542019633540654}
-  - {fileID: 670032466409933237}
+  - {fileID: 7607372533015679158}
   startAtLevel: 9
 --- !u!114 &670032466409933237
 MonoBehaviour:
@@ -420,6 +431,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: 1db5f989da2802d4d86ae150ab0f9f74, type: 2}
+  numEnemiesDefeated: 0
+  values: 0000000005000000040000000300000002000000
+  pointIndex: 0
+  isSaving: 0
 --- !u!114 &6929056156911069088
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -446,6 +461,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: bdad5160f0c1fc44395601583cd8beea, type: 2}
+  values:
+  - 0
+  - 10
+  - 20
+  - 30
+  - 40
+  damage:
+    damageStrength: 0
+    damageTypes: 03000000
+    actionID: 17
+    actionTypes: 04000000
+    extraContext: 
+    ghostID: 4
+  unraveledFateVFX: {fileID: 4451078953279709777, guid: 18dde293f3c55e44a98895f262461ce8,
+    type: 3}
+  pulseVFX: {fileID: 7966241730260626198, guid: a5295bc6cb8948243b75f99e5a18cc48,
+    type: 3}
+  colorVFX: {r: 0.5921569, g: 0.19607843, b: 0.21960784, a: 1}
 --- !u!114 &5549542019633540654
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -477,10 +510,58 @@ MonoBehaviour:
   warpDmgContext:
     damageStrength: 0
     damageTypes: 03000000
-    actionID: 12
-    actionTypes: 08000000
+    actionID: 17
+    actionTypes: 0400000003000000
     extraContext: 
-    ghostID: 0
+    ghostID: 4
+  values:
+  - 0
+  - 10
+  - 20
+  - 30
+  - 40
+  pulseVFX: {fileID: 7966241730260626198, guid: a5295bc6cb8948243b75f99e5a18cc48,
+    type: 3}
+--- !u!114 &4137901329299474049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981645078808632434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a5634e4460f5c64aa2d46cd1616a0d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillSO: {fileID: 11400000, guid: d3bba513ba7b93641a6033c2f8ebbb23, type: 2}
+  NeedleAndThreadParticleSystem: {fileID: 6594238110341857679, guid: 196d5cda3e0460441a12fa256c699df1,
+    type: 3}
+  effectiveRadius: 15
+  debuffDuration: 6
+--- !u!114 &7607372533015679158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 981645078808632434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6962af3d31f7a2d4097ba0cee8be86cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillSO: {fileID: 11400000, guid: 50d1b22d1e874f74ab9c9db926442d90, type: 2}
+  context:
+    damageStrength: 4
+    damageTypes: 02000000
+    actionID: 0
+    actionTypes: 05000000
+    extraContext: 
+    ghostID: 4
+  explosionRadius: 25
+  vfx: {fileID: 7966241730260626198, guid: a5295bc6cb8948243b75f99e5a18cc48, type: 3}
+  track: 
 --- !u!1 &4936111184687609786
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,7 +8,7 @@ public class BuyBulkSpiritsBoxUI : MonoBehaviour
 {
     [SerializeField] public Spirit.SpiritType spiritType;
     [SerializeField] private static int bulkAmount = 1000; // how much to buy
-    [SerializeField] private static int bulkPrice = 300; // Price in Pink spirits
+    [SerializeField] private static int bulkPrice = 500; // Price in Pink spirits
 
     [Header("UI")]
     [SerializeField] private TMP_Text bulkAmountText;

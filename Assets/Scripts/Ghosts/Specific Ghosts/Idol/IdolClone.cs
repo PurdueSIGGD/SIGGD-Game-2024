@@ -15,14 +15,19 @@ public class IdolClone : MonoBehaviour
     [SerializeField] DamageContext expireContext = new DamageContext();
     private GameObject player;
 
+    [SerializeField] public ParticleSystem teleportVFX;
+    [SerializeField] public GameObject pulseVFX;
+
     void OnEnable()
     {
         GameplayEventHolder.OnDeath += CloneDeath;
+        GameplayEventHolder.OnDamageDealt += CloneDamageTaken;
     }
 
     private void OnDisable()
     {
         GameplayEventHolder.OnDeath -= CloneDeath;
+        GameplayEventHolder.OnDamageDealt -= CloneDamageTaken;
     }
 
     void Update()
@@ -58,6 +63,7 @@ public class IdolClone : MonoBehaviour
         this.duration = duration;
         this.inactiveModifier = inactiveModifier;
         this.manager = manager;
+        teleportVFX.Play();
     }
 
     /// <summary>
@@ -104,12 +110,16 @@ public class IdolClone : MonoBehaviour
         {
             manager.clones.Remove(gameObject);
         }
-
-        // play audio, if has upgrade, choose from 1 random voice bank to play
-        string chosenBank = manager.passive.avaliableCloneLostVA[Random.Range(0, manager.passive.avaliableCloneLostVA.Count)];
-        AudioManager.Instance.VABranch.PlayVATrack(chosenBank);
+        if (manager.clones.Count > 0) manager.clones[0].GetComponent<IdolClone>().teleportVFX.Play();
 
         // SFX
         AudioManager.Instance.SFXBranch.PlaySFXTrack("Eva-Nova Pop");
+    }
+
+    private void CloneDamageTaken(DamageContext context)
+    {
+        if (context.victim != gameObject) return;
+        GameObject damageImpactVFX = Instantiate(pulseVFX, transform.position, Quaternion.identity);
+        damageImpactVFX.GetComponent<RingExplosionHandler>().playRingExplosion(2f, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
     }
 }

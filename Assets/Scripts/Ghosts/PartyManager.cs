@@ -114,7 +114,10 @@ public class PartyManager : MonoBehaviour
             ghostsByName[ghost.name] = ghost.gameObject;
             ghost.TriggerEnterPartyBehavior();
 
-            Debug.Log("Saving Ghosts");
+            // try removing indicator, if any
+            GhostInteract ghostInteract = ghost.GetComponent<GhostInteract>();
+            if (ghostInteract) ghostInteract.DisableIndicator();
+
             if (isStoryRoom)
             {
                 SaveManager.data.ghostsInParty = ghostsInParty;
@@ -148,6 +151,7 @@ public class PartyManager : MonoBehaviour
         //Debug.Log("SCROLL WHEEL INPUT: " + value.Get<float>());
         int scrollWheelValue = (int)value.Get<float>();
         int newIndex = selectedGhostIndex;
+        /*
         if (scrollWheelValue == 0)
         {
             return;
@@ -162,6 +166,44 @@ public class PartyManager : MonoBehaviour
             newIndex = selectedGhostIndex + 1;
             if (newIndex > ghostsInParty.Count - 1) newIndex = -1;
         }
+        ChangePosessingGhost(newIndex);
+        */
+
+        // Invalid swap input
+        if (scrollWheelValue == 0)
+        {
+            return;
+        }
+
+        // Swap to Orion
+        else if (scrollWheelValue < 0)
+        {
+            newIndex = -1;
+        }
+
+        // Swap ghosts
+        else if (scrollWheelValue > 0)
+        {
+            // Swap to ghost 2
+            if (selectedGhostIndex == 0)
+            {
+                newIndex = 1;
+            }
+
+            // Swap to ghost 1
+            else if (selectedGhostIndex == 1 || selectedGhostIndex == -1)
+            {
+                newIndex = 0;
+            }
+
+            // Enforce party size
+            if (newIndex >= ghostsInParty.Count)
+            {
+                newIndex = ghostsInParty.Count - 1;
+            }
+        }
+
+        // Swap
         ChangePosessingGhost(newIndex);
     }
 
@@ -260,7 +302,21 @@ public class PartyManager : MonoBehaviour
     /// <param ghostName="ghostIndex"></param>
     public bool RemoveGhostFromParty(GhostIdentity ghost)
     {
-        bool success = ghostsInParty.Remove(ghost.name);
+        string identityName = ghost.name;
+        if (identityName.Contains("(Clone)"))
+        {
+            identityName = identityName.Replace("(Clone)", "");
+        }
+        bool success = ghostsInParty.Remove(identityName);
+
+        // re-add dialogue interaction indiactor, if any
+        if (ghost && success)
+        {
+            GhostInteract ghostInteract = ghost.GetComponent<GhostInteract>();
+            ghostInteract.EnableIndiactor();
+            if (isStoryRoom) ghostInteract.ReturnGhostToOrigPos();
+            else Destroy(ghostInteract.GetComponent<GhostInteract>());
+        }
 
         ghost.gameObject.GetComponent<GhostUIDriver>().UpdatePartyStatus();
 
@@ -320,5 +376,13 @@ public class PartyManager : MonoBehaviour
     public Dictionary<string, GhostIdentity> GetIdentitiesByName()
     {
         return identitiesByName;
+    }
+
+    public void RemoveAllGhost()
+    {
+        while (ghostsInParty.Count > 0)
+        {
+            RemoveGhostFromParty(GetIdentitiesByName()[ghostsInParty[0]]);
+        }
     }
 }

@@ -88,6 +88,7 @@ public class PartyManagerUI : MonoBehaviour
             if (ghost != null && ghost.IsUnlocked())
             {
                 ghostUis[i].gameObject.SetActive(true);
+                ghost.AddExp(0);
                 ghostUis[i].Visualize(ghost);
             }
             else

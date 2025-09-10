@@ -29,7 +29,7 @@ public class IdolPassive : MonoBehaviour
     private StatManager playerStats;
     [HideInInspector] public IdolManager manager;
 
-    private IdolTempoParticles particlesVFX;
+    //private IdolTempoParticles particlesVFX;
 
     // list of avaliable audio banks to play on max tempo
     public List<string> avaliableHoloJumpVA = new List<string>() { "Eva-Idol Max Tempo" };
@@ -50,12 +50,12 @@ public class IdolPassive : MonoBehaviour
     void Start()
     {
         playerStats = PlayerID.instance.gameObject.GetComponent<StatManager>(); // yoink
-        particlesVFX = Instantiate(tempoParticlesVFX, PlayerID.instance.gameObject.transform).GetComponent<IdolTempoParticles>();
-        particlesVFX.gameObject.SetActive(false);
+        //particlesVFX = Instantiate(tempoParticlesVFX, PlayerID.instance.gameObject.transform).GetComponent<IdolTempoParticles>();
+        //particlesVFX.gameObject.SetActive(false);
         tempoStacks = 0;
 
         PlayerID.instance.gameObject.GetComponent<PlayerHealth>().evaTempo = this;
-
+        
         /*
         tempoStacks = SaveManager.data.eva.tempoCount;
         if (tempoStacks > 0)
@@ -117,7 +117,7 @@ public class IdolPassive : MonoBehaviour
         if (tempoStacks <= 0) return;
         GameObject teleportPulseVfX = Instantiate(manager.tempoPulseVFX, PlayerID.instance.transform.position, Quaternion.identity);
         teleportPulseVfX.GetComponent<RingExplosionHandler>().playRingExplosion(1.5f, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
-        particlesVFX.gameObject.SetActive(true);
+        PlayerID.instance.GetComponent<PlayerParticles>().PlayGhostEmpowered(manager.GetComponent<GhostIdentity>().GetCharacterInfo().highlightColor, tempoStacks, manager.GetStats().ComputeValue("TEMPO_MAX_STACKS"));
     }
     /// <summary>
     /// Called by IdolManager on swap away from Idol, BEFORE manager.active is set false
@@ -133,7 +133,7 @@ public class IdolPassive : MonoBehaviour
         Debug.Log("TEMPO AWAH DOWN");
 
         // VFX
-        particlesVFX.gameObject.SetActive(false);
+        PlayerID.instance.GetComponent<PlayerParticles>().StopGhostEmpowered();
     }
 
     /// <summary>
@@ -188,13 +188,13 @@ public class IdolPassive : MonoBehaviour
         // Voice Lines
         if (tempoStacks + stacks < manager.GetStats().ComputeValue("TEMPO_MAX_STACKS"))
         {
-            AudioManager.Instance.VABranch.PlayVATrack("Eva-Idol Activate Tempo");
+            if (active) AudioManager.Instance.VABranch.PlayVATrack("Eva-Idol Activate Tempo");
         }
         else if (tempoStacks < manager.GetStats().ComputeValue("TEMPO_MAX_STACKS"))
         {
             // play audio, if has upgrade, choose from 1 random voice bank to play
             string chosenBank = avaliableHoloJumpVA[Random.Range(0, avaliableHoloJumpVA.Count)];
-            AudioManager.Instance.VABranch.PlayVATrack(chosenBank);
+            if (active) AudioManager.Instance.VABranch.PlayVATrack(chosenBank);
         }
 
         // increment tempo stacks by stacks
@@ -221,9 +221,8 @@ public class IdolPassive : MonoBehaviour
         {
             GameObject teleportPulseVfX = Instantiate(manager.tempoPulseVFX, PlayerID.instance.transform.position, Quaternion.identity);
             teleportPulseVfX.GetComponent<RingExplosionHandler>().playRingExplosion(1.5f, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
-            particlesVFX.gameObject.SetActive(true);
+            PlayerID.instance.GetComponent<PlayerParticles>().PlayGhostEmpowered(manager.GetComponent<GhostIdentity>().GetCharacterInfo().highlightColor, tempoStacks, manager.GetStats().ComputeValue("TEMPO_MAX_STACKS"));
         }
-        particlesVFX.SetIntensity(tempoStacks, manager.GetStats().ComputeValue("TEMPO_MAX_STACKS"));
 
         // Ability UI Ping
         if (tempoStacks > 0) GetComponent<IdolUIDriver>().basicAbilityUIManager.pingAbility();
@@ -256,8 +255,7 @@ public class IdolPassive : MonoBehaviour
         uptempo = false;
 
         // VFX
-        particlesVFX.gameObject.SetActive(false);
-        particlesVFX.SetIntensity(tempoStacks, manager.GetStats().ComputeValue("TEMPO_MAX_STACKS"));
+        if (active) PlayerID.instance.GetComponent<PlayerParticles>().StopGhostEmpowered();
 
         // SFX
         AudioManager.Instance.SFXBranch.PlaySFXTrack("Eva-Tempo Lost");

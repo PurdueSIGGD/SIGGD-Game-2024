@@ -80,15 +80,18 @@ public class PoliceChiefLethalForce : Skill
     {
         if (numHits != -1 && context.attacker == PlayerID.instance.gameObject && context.actionID == ActionID.POLICE_CHIEF_BASIC)
         {
-            if (context.extraContext.Equals("Power Spike Explosion")) return;
+            if (context.extraContext != null && context.extraContext.Equals("Power Spike Explosion")) return;
             if (consecutiveHits < numHits)
             {
                 consecutiveHits += 1;
                 timer = -1.0f;
                 if (consecutiveHits >= numHits)
                 {
+                    // Empower Shot
                     shotEmpowered = true;
                     AudioManager.Instance.SFXBranch.PlaySFXTrack("North-Sidearm Primed Loop");
+                    PlayerID.instance.GetComponent<PlayerParticles>().PlayGhostEmpowered(GetComponent<GhostIdentity>().GetCharacterInfo().whiteColor, 1f, 1f);
+                    AudioManager.Instance.VABranch.PlayVATrack("North-Police_Chief Lethal Force");
                 }
             } else if (!context.actionTypes.Contains(ActionType.SKILL))
             {
@@ -108,6 +111,7 @@ public class PoliceChiefLethalForce : Skill
                 timer = -1f;
                 recoveryTimer = 0.1f;
                 AudioManager.Instance.SFXBranch.StopSFXTrack("North-Sidearm Primed Loop");
+                PlayerID.instance.GetComponent<PlayerParticles>().StopGhostEmpowered();
             }
             else
             {

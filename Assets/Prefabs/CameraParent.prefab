@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4930100841822483526}
   - component: {fileID: 2168471944259882336}
-  - component: {fileID: 1878193339596825892}
   - component: {fileID: 808360785981958673}
   m_Layer: 0
   m_Name: FaderCamera
@@ -85,14 +84,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &1878193339596825892
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2859726269878235051}
-  m_Enabled: 1
 --- !u!114 &808360785981958673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,7 +178,7 @@ MonoBehaviour:
   playerTransform: {fileID: 0}
   targetOffset: {x: 0, y: 1}
   aimPullStrength: 0.3
-  aimPullXDistance: 13
+  aimPullXDistance: 15
   aimPullYDistance: 7
 --- !u!1 &5623182151607784792
 GameObject:

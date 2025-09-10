@@ -11,12 +11,12 @@ public class YumeHeavy : MonoBehaviour
 
     void OnEnable()
     {
-        GameplayEventHolder.OnDamageDealt += OnPlayerDamage;
+        //GameplayEventHolder.OnDamageDealt += OnPlayerDamage;
     }
 
     void OnDisable()
     {
-        GameplayEventHolder.OnDamageDealt -= OnPlayerDamage;
+        //GameplayEventHolder.OnDamageDealt -= OnPlayerDamage;
     }
 
     // Update is called once per frame
@@ -39,18 +39,33 @@ public class YumeHeavy : MonoBehaviour
             concurrentSpools++;
             Debug.Log("spool Gain " + manager.GetSpools());
             manager.SetWeaveTimer(0);
+            if (manager.GetSpools() >= manager.GetStats().ComputeValue("Max Spools"))
+            {
+                AudioManager.Instance.VABranch.PlayVATrack("Yume-Seamstress Spirit Loom Max Spools");
+                AudioManager.Instance.SFXBranch.PlaySFXTrack("Yume-Max Spools");
+                GetComponent<PlayerStateMachine>().EnableTrigger("OPT");
+            }
+            else
+            {
+                AudioManager.Instance.SFXBranch.GetSFXTrack("Yume-Gained Spool").SetPitch(manager.GetSpools(), manager.GetStats().ComputeValue("Max Spools"));
+                AudioManager.Instance.SFXBranch.PlaySFXTrack("Yume-Gained Spool");
+            }
         }
     }
 
     void StartCrouch()
     {
         GetComponent<Move>().PlayerStop();
+        GetComponent<PartyManager>().SetSwappingEnabled(false);
         weaving = true;
+
+        AudioManager.Instance.VABranch.PlayVATrack("Yume-Seamstress Spirit Loom Activation");
     }
 
     void StopCrouch()
     {
         GetComponent<Move>().PlayerGo();
+        GetComponent<PartyManager>().SetSwappingEnabled(true);
         weaving = false;
         Debug.Log("Exiting Yume");
     }
@@ -60,6 +75,7 @@ public class YumeHeavy : MonoBehaviour
         return manager.GetSpools();
     }
 
+    /*
     void OnPlayerDamage(DamageContext damageContext)
     {
         Debug.Log("attacker correct: " + (damageContext.attacker == PlayerID.instance.gameObject));
@@ -76,4 +92,5 @@ public class YumeHeavy : MonoBehaviour
             manager.AddSpools(-(int)manager.GetStats().ComputeValue("Heavy Attack Spools Needed"));
         }
     }
+    */
 }

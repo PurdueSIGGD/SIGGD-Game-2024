@@ -48,11 +48,13 @@ public class SamuraiManager : GhostManager, ISelectable
     private void OnEnable()
     {
         GameplayEventHolder.OnDamageDealt += WrathOnDamage;
+        GameplayEventHolder.OnDeath += OnKillVoiceline;
     }
 
     private void OnDisable()
     {
         GameplayEventHolder.OnDamageDealt -= WrathOnDamage;
+        GameplayEventHolder.OnDeath -= OnKillVoiceline;
     }
 
     protected override void Start()
@@ -96,6 +98,14 @@ public class SamuraiManager : GhostManager, ISelectable
             decaying = false;
             roninsResolve.RemoveBoosts(wrathPercent);
         }
+
+        // Wrath VFX
+        if (selected)
+        {
+            if (wrathPercent >= 1f) PlayerParticles.instance.PlayGhostEmpowered(GetComponent<GhostIdentity>().GetCharacterInfo().highlightColor, wrathPercent, 1f);
+            else if (wrathPercent > 0f) PlayerParticles.instance.PlayGhostEmpowered(GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor, wrathPercent, 1f);
+            else PlayerParticles.instance.StopGhostEmpowered();
+        }
     }
 
     public override void Select(GameObject player)
@@ -111,6 +121,8 @@ public class SamuraiManager : GhostManager, ISelectable
 
         roninsResolve.ActivateBoosts();
 
+        if (GetComponent<RelentlessFury>().buffStacks > 0) PlayerParticles.instance.PlayGhostBadBuff(GetComponent<GhostIdentity>().GetCharacterInfo().highlightColor, 0.5f, 1f);
+
         base.Select(player);
     }
 
@@ -123,6 +135,11 @@ public class SamuraiManager : GhostManager, ISelectable
         if (!PlayerID.instance.GetComponent<HeavyAttack>()) PlayerID.instance.AddComponent<HeavyAttack>();
 
         if (special) Destroy(special);
+
+        // VFX
+        PlayerParticles.instance.StopGhostEmpowered();
+        PlayerParticles.instance.StopGhostGoodBuff();
+        PlayerParticles.instance.StopGhostBadBuff();
 
         base.DeSelect(player);
     }
@@ -138,10 +155,17 @@ public class SamuraiManager : GhostManager, ISelectable
             float wrathGained = stats.ComputeValue("Wrath Percent Gain Per Damage Dealt") * context.damage / 100f;
             wrathGained = GetComponent<Vengeance>().CalculateBoostedWrathGain(context, wrathGained);
 
-            // SFX
+            // SFX & VFX
             if (wrathPercent < 1f && wrathPercent + wrathGained >= 1f)
             {
                 AudioManager.Instance.SFXBranch.PlaySFXTrack("Akihito-Wrath Max");
+                if (selected)
+                {
+                    GameObject maxWrathPulse = Instantiate(parrySuccessVFX, PlayerID.instance.transform.position, Quaternion.identity);
+                    maxWrathPulse.GetComponent<RingExplosionHandler>().playRingExplosion(2f, GetComponent<GhostIdentity>().GetCharacterInfo().highlightColor);
+                    AudioManager.Instance.VABranch.PlayVATrack("Akihito-Samurai Max Wrath");
+                    if (roninsResolve.pointIndex > 0) AudioManager.Instance.VABranch.PlayVATrack("Akihito-Samurai Ronins Resolve");
+                }
             }
             else
             {
@@ -170,6 +194,25 @@ public class SamuraiManager : GhostManager, ISelectable
 
             wrathPercent = Mathf.Max(wrathPercent - wrathLost, 0f);
             roninsResolve.RemoveBoosts(wrathPercent);
+        }
+    }
+
+
+    private void OnKillVoiceline(DamageContext context)
+    {
+        if (context.attacker.CompareTag("Player") && context.actionID == ActionID.SAMURAI_BASIC)
+        {
+            AudioManager.Instance.VABranch.PlayVATrack("Akihito-Samurai Wrath On Kill");
+        }
+
+        if (context.attacker.CompareTag("Player") && selected && PlayerHealth.instance.MortallyWounded)
+        {
+            AudioManager.Instance.VABranch.PlayVATrack("Akihito-Samurai Unwavering Will");
+        }
+
+        if (context.attacker.CompareTag("Player") && selected && GetComponent<RelentlessFury>().buffStacks > 0)
+        {
+            AudioManager.Instance.VABranch.PlayVATrack("Akihito-Samurai Relentless Fury");
         }
     }
 }

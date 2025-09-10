@@ -38,7 +38,8 @@ public class MoveState : IEnemyStates
     // Moves the Enemy body towards the player
     protected virtual void Move(EnemyStateManager enemy)
     {
-        if (player.position.x - enemy.transform.position.x < 0)
+        float diff = player.position.x - enemy.transform.position.x;
+        if (diff < 0)
         {
             enemy.Flip(false);
         }
@@ -49,7 +50,8 @@ public class MoveState : IEnemyStates
 
         if (!enemy.isBeingKnockedBack)
         {
-            RaycastHit2D hit = Physics2D.Raycast(enemy.transform.position, Vector2.down * enemy.GetGroundedRayCheckLength(), LayerMask.GetMask("Ground"));
+            RaycastHit2D hit = Physics2D.BoxCast(new Vector2(enemy.transform.position.x + Mathf.Sign(diff), enemy.transform.position.y),
+                                                 new Vector2(0.5f, 2f), 0f, Vector2.down, enemy.GetGroundedRayCheckLength(), LayerMask.GetMask("Ground"));
             if (!hit)
             {
                 rb.velocity = new Vector2(0, rb.velocity.y);

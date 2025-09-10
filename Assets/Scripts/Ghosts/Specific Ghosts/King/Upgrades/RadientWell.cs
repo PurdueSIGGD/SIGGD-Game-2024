@@ -18,7 +18,7 @@ public class RadientWell : Skill
 
     private void SummonWell(ActionContext context)
     {
-        if (GetPoints() <= 0 || context.actionID != ActionID.KING_SPECIAL || !context.extraContext.Equals("Activated"))
+        if (GetPoints() <= 0 || context.actionID != ActionID.KING_SPECIAL || (context.extraContext != null && !context.extraContext.Equals("Activated")))
         {
             return;
         }
@@ -36,6 +36,9 @@ public class RadientWell : Skill
         {
             Instantiate(wellObj, playerPos, transform.rotation);
         }
+
+        // SFX
+        AudioManager.Instance.VABranch.PlayVATrack("Aegis-King Radiant Well");
     }
     
     public override void AddPointTrigger() { }

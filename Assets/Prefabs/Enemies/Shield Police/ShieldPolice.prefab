@@ -231,6 +231,7 @@ GameObject:
   - component: {fileID: 8825911081079385304}
   - component: {fileID: 8596127092615386582}
   - component: {fileID: 5617972319319629920}
+  - component: {fileID: 7208191976245686750}
   m_Layer: 21
   m_Name: ShieldPolice
   m_TagString: Enemy
@@ -418,11 +419,13 @@ MonoBehaviour:
   stats: {fileID: 0}
   pool: {fileID: 0}
   animator: {fileID: 9133294469049910592}
+  isPinkAndProud: 0
   isFlyer: 0
   aggroRange: 15
   isBeingKnockedBack: 0
   grounded: 0
   groundedRayCheckLength: 1
+  enableStunning: 1
   batonTrigger: {fileID: 7835333299776145468}
   batonDamage:
     damageStrength: 1
@@ -430,8 +433,8 @@ MonoBehaviour:
     actionID: 17
     actionTypes: 07000000
     extraContext: Shield Police Baton
-    raycastHitPosition: {x: 0, y: 0}
-  batonDamageVal: 15
+    ghostID: 0
+  batonDamageVal: 10
   chargeTrigger: {fileID: 5532669551329529462}
   chargeDamage:
     damageStrength: 4
@@ -439,8 +442,8 @@ MonoBehaviour:
     actionID: 17
     actionTypes: 07000000
     extraContext: shield bash
-    raycastHitPosition: {x: 0, y: 0}
-  chargeDamageVal: 30
+    ghostID: 0
+  chargeDamageVal: 20
   chargeSpeed: 50
   isCharging: 0
   shieldUp: 0
@@ -481,7 +484,7 @@ MonoBehaviour:
   - name: Speed
     value: 4
   - name: Enemy Group Aggro Radius
-    value: 10
+    value: 20
   - name: Target Range Min
     value: 3
   - name: Target Range Max
@@ -508,12 +511,14 @@ MonoBehaviour:
     priority: 1
     ready: 1
     hitBox: {fileID: 7835333299776145468}
-    coolDown: 3
+    usesCircleHitbox: 0
+    coolDown: 2
     animationClip: {fileID: 7400000, guid: e1d9d9dad2b0cbc459e43540f42e4eb2, type: 2}
   - name: Shield Up
     priority: 10
     ready: 1
     hitBox: {fileID: 5532669551329529462}
+    usesCircleHitbox: 0
     coolDown: 7
     animationClip: {fileID: 7400000, guid: 79f9c5db5e98ac54dbab2223f89f251b, type: 2}
   move:
@@ -521,6 +526,7 @@ MonoBehaviour:
     priority: 0
     ready: 0
     hitBox: {fileID: 0}
+    usesCircleHitbox: 0
     coolDown: 0
     animationClip: {fileID: 7400000, guid: ba7699e38c76f1d4795bcb3af0b15454, type: 2}
   idle:
@@ -528,6 +534,7 @@ MonoBehaviour:
     priority: 0
     ready: 0
     hitBox: {fileID: 0}
+    usesCircleHitbox: 0
     coolDown: 0
     animationClip: {fileID: 7400000, guid: bc4a8229d1d0f3244bdb56bfc380f945, type: 2}
 --- !u!114 &8596127092615386582
@@ -544,7 +551,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Max Health
-    value: 125
+    value: 120
   deathLevel: 
 --- !u!114 &5617972319319629920
 MonoBehaviour:
@@ -562,15 +569,34 @@ MonoBehaviour:
   - obj: {fileID: 4809253014695496824, guid: 4950ea8f40c9d9944b6d20a6150d4cce, type: 3}
     chance: 1
     minCount: 2
-    maxCount: 5
+    maxCount: 6
   - obj: {fileID: 4809253014695496824, guid: fe291ced3ae40fc46a74c816a48d0e61, type: 3}
     chance: 1
     minCount: 2
-    maxCount: 5
+    maxCount: 6
   - obj: {fileID: 4809253014695496824, guid: e8a6431bc0e6c7a4e922f586f4216e97, type: 3}
     chance: 1
     minCount: 2
-    maxCount: 5
+    maxCount: 6
+--- !u!114 &7208191976245686750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5499330591125181409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67f2b5dc03552c4bb7d2e37dbcb7033, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageContext:
+    damageStrength: 4
+    damageTypes: 04000000
+    actionID: 17
+    actionTypes: 
+    extraContext: 
+    ghostID: 0
 --- !u!1 &7241042388776439341
 GameObject:
   m_ObjectHideFlags: 0

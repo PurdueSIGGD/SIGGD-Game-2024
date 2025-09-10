@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 7990850349161753078}
   - component: {fileID: 9084521854579274038}
   - component: {fileID: 978341307812496434}
+  - component: {fileID: 92204585056363256}
   m_Layer: 21
   m_Name: Mage
   m_TagString: Enemy
@@ -210,6 +211,7 @@ MonoBehaviour:
   isBeingKnockedBack: 0
   grounded: 1
   groundedRayCheckLength: 1
+  enableStunning: 0
   lightningDamage:
     damageStrength: 2
     damageTypes: 02000000
@@ -316,7 +318,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0e77295dfdabb743aaa34d7c0307bf8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statList: []
+  statList:
+  - name: Stun Threshold
+    value: 60
   currentStun: 0
   maxStun: 0
 --- !u!114 &978341307812496434
@@ -333,17 +337,36 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dropTable:
   - obj: {fileID: 4809253014695496824, guid: fe291ced3ae40fc46a74c816a48d0e61, type: 3}
-    chance: 0.6
-    minCount: 1
-    maxCount: 6
+    chance: 1
+    minCount: 7
+    maxCount: 18
   - obj: {fileID: 4809253014695496824, guid: 4950ea8f40c9d9944b6d20a6150d4cce, type: 3}
-    chance: 0.4
-    minCount: 1
-    maxCount: 6
+    chance: 1
+    minCount: 7
+    maxCount: 18
   - obj: {fileID: 4809253014695496824, guid: e8a6431bc0e6c7a4e922f586f4216e97, type: 3}
-    chance: 0.9
-    minCount: 1
-    maxCount: 6
+    chance: 1
+    minCount: 7
+    maxCount: 18
+--- !u!114 &92204585056363256
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 228210843640184050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67f2b5dc03552c4bb7d2e37dbcb7033, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageContext:
+    damageStrength: 4
+    damageTypes: 04000000
+    actionID: 17
+    actionTypes: 08000000
+    extraContext: 
+    ghostID: 0
 --- !u!1 &1991568027994458898
 GameObject:
   m_ObjectHideFlags: 0

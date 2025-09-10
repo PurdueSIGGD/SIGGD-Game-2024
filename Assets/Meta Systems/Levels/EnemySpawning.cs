@@ -69,10 +69,14 @@ public class EnemySpawning : MonoBehaviour
                 {
                     SpawnEnemyWave();
                     waveNumber += 1;
+                    //VO
+                    WorldBossVoiceLines.Instance.PlayOnNewWave();
                 }
                 else
                 {
                     EndRoom();
+                    //VO
+                    WorldBossVoiceLines.Instance.PlayOnClearRoom();
                 }
             }
         }

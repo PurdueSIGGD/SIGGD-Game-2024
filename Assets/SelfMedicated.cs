@@ -55,6 +55,11 @@ public class SelfMedicated : Skill
         isBuffed = true;
         timer = duration;
         buffDuration = duration;
+
+        //VFX
+        PlayerParticles.instance.PlayGhostEmpowered(GetComponent<GhostIdentity>().GetCharacterInfo().highlightColor, 1f, 1f);
+
+        AudioManager.Instance.VABranch.PlayVATrack("Silas-PlagueDoc Self-medicated");
     }
 
     public void AddBuffTime(float time)
@@ -80,6 +85,9 @@ public class SelfMedicated : Skill
         PlayerID.instance.GetComponent<StatManager>().ModifyStat("Dodge Chance", -(values[pointIndex] * 10));
         isBuffed = false;
         timer = 0f;
+
+        // VFX
+        PlayerParticles.instance.StopGhostEmpowered();
     }
 
 

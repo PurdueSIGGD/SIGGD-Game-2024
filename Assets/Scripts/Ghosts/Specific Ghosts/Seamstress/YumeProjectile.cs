@@ -31,7 +31,7 @@ public class YumeProjectile : MonoBehaviour
         if (hitObject.layer == LayerMask.NameToLayer("Ground"))
         {
             float angle = Vector2.Angle(dir, -collision.contacts[0].normal);
-            if (angle > 60)
+            if (angle <= manager.GetStats().ComputeValue("Projectile Ricochet Maximum Normal Angle"))
             {
                 hit = true; // trigger HasExpired
                 Destroy(gameObject);

@@ -23,7 +23,7 @@ public class StunState : IEnemyStates
         Debug.Log(enemy.name + " stunned! stun test");
         isStunned = true;
         if (!enemy.isBeingKnockedBack && (enemy.isFlyer || enemy.isGrounded())) rb.velocity = new Vector2(0, rb.velocity.y);
-        this.stunDuration = stunDuration;
+        this.stunDuration = (this.stunDuration > stunDuration) ? this.stunDuration : stunDuration;
         enemy.animator.speed = 0;
     }
 

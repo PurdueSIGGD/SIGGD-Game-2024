@@ -10,7 +10,7 @@ public class Bloodletting : Skill
     {
         0, 1, 2, 3, 4
     };
-    private int pointIndex;
+    public int pointIndex;
 
     [SerializeField] private float lowChanceMultiplier;
 

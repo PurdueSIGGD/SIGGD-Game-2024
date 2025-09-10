@@ -47,11 +47,13 @@ public class EraDoor : MonoBehaviour
         Story_Beat_1 = 2,
         Story_Beat_2 = 3,
         Max_Trust = 4,
-        Story_Beat_3 = 5
+        Story_Beat_3_Start = 5,
+        Story_Beat_3 = 6
     }
 
     void DoorOpened()
     {
+        LevelSwitching.instance.ResetLevel();
         LevelSwitching.instance.SetMaxLevels(maxLevels);
         InjectStoryBeat();
         LevelSwitching.levels = levels;
@@ -109,59 +111,8 @@ public class EraDoor : MonoBehaviour
             specificLevels.Add(new(new Level[] { new(truncName + " First Encounter", 1) }, firstEncounterLoc));
             return;
         }
-        else if (!PartyManager.instance.IsGhostInParty(name)) // if not time for first encounter and not in party
-        {
-            // inject the standard boss room and return
-            specificLevels.Add(new(new Level[] { new("Cyberpunk_Boss", 1) },
-                PersistentData.Instance.GetComponent<LevelSwitching>().GetMaxLevels()));
-            return;
-        }
 
-        if (era == Era.Cyberpunk)
-        {
-            if (data.bossProgress == 0)
-            {
-                // inject ghost specific boss room
-                specificLevels.Add(new(new Level[] { new(truncName + " Cyberpunk_Boss", 1) },
-                    PersistentData.Instance.GetComponent<LevelSwitching>().GetMaxLevels()));
-            }
-            else
-            {
-                // inject standard boss room
-                specificLevels.Add(new(new Level[] { new("Cyberpunk_Boss", 1) },
-                    PersistentData.Instance.GetComponent<LevelSwitching>().GetMaxLevels()));
-            }
-        }
-        else if (era == Era.Feudal)
-        {
-            if (data.bossProgress == 0)
-            {
-                // inject ghost specific boss room
-                specificLevels.Add(new(new Level[] { new(truncName + " Japan_Boss", 1) },
-                    PersistentData.Instance.GetComponent<LevelSwitching>().GetMaxLevels()));
-            }
-            else
-            {
-                // inject standard boss room
-                specificLevels.Add(new(new Level[] { new("Japan_Boss", 1) },
-                    PersistentData.Instance.GetComponent<LevelSwitching>().GetMaxLevels()));
-            }
-        }
-        else if (era == Era.Medieval)
-        {
-            if (data.bossProgress == 0)
-            {
-                // inject ghost specific boss room
-                specificLevels.Add(new(new Level[] { new(truncName + " Medieval_Boss", 1) },
-                    PersistentData.Instance.GetComponent<LevelSwitching>().GetMaxLevels()));
-            }
-            else
-            {
-                // inject standard boss room
-                specificLevels.Add(new(new Level[] { new("Medieval_Boss", 1) },
-                    PersistentData.Instance.GetComponent<LevelSwitching>().GetMaxLevels()));
-            }
-        }
+        if (!PartyManager.instance.IsGhostInParty(name)) return;
 
         if ((data.storyProgress == (int)storyProgression.Hub_First_Entrance || // story beat 1
              data.storyProgress == (int)storyProgression.Story_Beat_1) &&
@@ -178,8 +129,10 @@ public class EraDoor : MonoBehaviour
 
     private void InputThirdStoryBeat(GhostData data, string name)
     {
+        if (!PartyManager.instance.IsGhostInParty(name)) return;
+
         string truncName = name.Split('-')[0];
-        if (data.storyProgress >= (int)storyProgression.Story_Beat_3 && // story beat 3
+        if (data.storyProgress == (int)storyProgression.Story_Beat_3 && // story beat 3
             SaveManager.data.ghostLevel[name] >= 11)
         {
             specificLevels.Add(new(new Level[] { new(truncName + " Story Beat Three", 1) }, 5));
@@ -188,14 +141,7 @@ public class EraDoor : MonoBehaviour
 
     private void InputFinalBoss()
     {
-        if(PartyManager.instance.IsGhostInParty("Aegis-King"))
-        {
-            specificLevels.Add(new(new Level[] { new("Aegis Oldrion_BossFight", 1) }, 1));
-        }
-        else
-        {
-            specificLevels.Add(new(new Level[] { new("Oldrion_BossFight", 1) }, 1));
-        }
+        specificLevels.Add(new(new Level[] { new("Oldrion_BossFight", 1) }, 1));
     }
 
 

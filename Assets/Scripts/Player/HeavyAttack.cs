@@ -53,6 +53,7 @@ public class HeavyAttack : MonoBehaviour, IStatList
 
     public void StartHeavyChargeUp()
     {
+        GetComponent<PartyManager>().SetSwappingEnabled(false);
         playerStateMachine.SetLightAttack2Ready(true);
         chargingTime = manager.GetStats().ComputeValue("Heavy Charge Up Time");
         isCharging = true;
@@ -69,6 +70,7 @@ public class HeavyAttack : MonoBehaviour, IStatList
 
     public void StartHeavyPrimed()
     {
+        GetComponent<PartyManager>().SetSwappingEnabled(false);
         primedTime = manager.GetStats().ComputeValue("Heavy Primed Autofire Time");
         isPrimed = true;
         AudioManager.Instance.SFXBranch.PlaySFXTrack("HeavyAttackPrimed");
@@ -85,6 +87,7 @@ public class HeavyAttack : MonoBehaviour, IStatList
     public void StartHeavyAttack()
     {
         //playerStateMachine.ConsumeHeavyAttackInput();
+        GetComponent<PartyManager>().SetSwappingEnabled(false);
         AudioManager.Instance.VABranch.PlayVATrack(PartyManager.instance.selectedGhost + " Heavy Attack");
     }
 
@@ -110,6 +113,7 @@ public class HeavyAttack : MonoBehaviour, IStatList
                 }
             }
         }
+        GetComponent<PartyManager>().SetSwappingEnabled(true);
     }
 
     public void StopHeavyAttack()

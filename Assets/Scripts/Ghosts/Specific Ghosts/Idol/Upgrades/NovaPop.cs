@@ -38,7 +38,7 @@ public class NovaPop : Skill
         GameplayEventHolder.OnDeath -= ExplodeOnDeath;
     }
 
-        public void ExplodeOnDeath(DamageContext context)
+    public void ExplodeOnDeath(DamageContext context)
     {
         if (context.victim.CompareTag("Idol_Clone") && pointIndex > 0)
         {
@@ -53,6 +53,8 @@ public class NovaPop : Skill
                     explosionContext.damage = stat.ComputeValue("Nova Pop Damage");
                     hit.transform.gameObject.GetComponent<Health>().Damage(explosionContext, playerRef);
                     hit.GetComponent<EnemyStateManager>().Stun(stunContext, values[pointIndex]);
+
+                    AudioManager.Instance.VABranch.PlayVATrack("Eva-Idol Nova Pop");
                 }
             }
         }
@@ -77,12 +79,12 @@ public class NovaPop : Skill
     private void EvaSelected()
     {
         if (pointIndex <= 0) return;
-        manager.passive.avaliableCloneLostVA.Add("Eva-Idol Nova Pop");
+        //manager.passive.avaliableCloneLostVA.Add("Eva-Idol Nova Pop");
     }
 
     private void EvaDeselected()
     {
         if (pointIndex <= 0) return;
-        manager.passive.avaliableCloneLostVA.Remove("Eva-Idol Nova Pop");
+        //manager.passive.avaliableCloneLostVA.Remove("Eva-Idol Nova Pop");
     }
 }

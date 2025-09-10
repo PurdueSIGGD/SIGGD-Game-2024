@@ -8,6 +8,7 @@ using UnityEngine;
 public class FateboundDebuff : MonoBehaviour
 {
     public SeamstressManager manager;
+    public GameObject fateboundVFX;
 
     void OnEnable()
     {
@@ -23,13 +24,14 @@ public class FateboundDebuff : MonoBehaviour
 
     public void RemoveShareDamage()
     {
+        Destroy(fateboundVFX);
         GameplayEventHolder.OnDamageDealt -= ShareDamage;
         GameplayEventHolder.OnDeath -= PreserveConnection;
     }
 
     private void ShareDamage(DamageContext context)
     {
-        if (context.victim == gameObject && !context.damageTypes.Contains(DamageType.STATUS))
+        if (context.victim == gameObject && context.actionID != ActionID.SEAMSTRESS_SPECIAL /*!context.damageTypes.Contains(DamageType.STATUS)*/)
         {
             manager.DamageLinkedEnemies(gameObject.GetInstanceID(), context, true);
         }
@@ -39,13 +41,15 @@ public class FateboundDebuff : MonoBehaviour
     {
         if (context.victim == gameObject)
         {
+            AudioManager.Instance.VABranch.PlayVATrack("Yume-Seamstress Fatebound Kill");
+            AudioManager.Instance.SFXBranch.PlaySFXTrack("Yume-Fatebound Damage");
 
             // Handle Scrap Saver Skill
             manager.gameObject.GetComponent<ScrapSaver>().HandleEnemyDefeated();
 
             RemoveShareDamage();
 
-            manager.gameObject.GetComponent<UnraveledFate>().DamageFateboundEnemies(gameObject.GetInstanceID());
+            manager.gameObject.GetComponent<UnraveledFate>().DamageFateboundEnemies(gameObject.GetInstanceID(), gameObject.transform.position);
 
             manager.RemoveFromLink(gameObject.GetInstanceID());
 
