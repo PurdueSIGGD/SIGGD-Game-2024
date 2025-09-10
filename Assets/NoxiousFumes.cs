@@ -9,7 +9,7 @@ public class NoxiousFumes : Skill
     {
         0f, 1f, 2f, 3f, 4f
     };
-    private int pointIndex;
+    public int pointIndex;
 
     [SerializeField] public GameObject poisonCloud;
 

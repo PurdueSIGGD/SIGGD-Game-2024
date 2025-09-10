@@ -59,9 +59,12 @@ public class SamuraiRetribution : MonoBehaviour
 
         parrySuccess = false;
         parrying = true;
+
+        GetComponent<PartyManager>().SetSwappingEnabled(false);
         gameObject.GetComponent<StatManager>().ModifyStat("Max Running Speed", -1 * Mathf.CeilToInt(manager.GetStats().ComputeValue("Parry Slow Percent")));
         gameObject.GetComponent<StatManager>().ModifyStat("Running Accel.", -1 * Mathf.CeilToInt(manager.GetStats().ComputeValue("Parry Slow Percent")));
         gameObject.GetComponent<Move>().UpdateRun();
+        GetComponent<Health>().GetStats().ModifyStat("Dodge Chance", -1000);
 
         // VFX
         Vector3 vfx1Position = gameObject.transform.position + new Vector3(1f * Mathf.Sign(gameObject.transform.rotation.y), 0f, 0f);
@@ -109,13 +112,20 @@ public class SamuraiRetribution : MonoBehaviour
             manager.setSpecialCooldown(manager.GetStats().ComputeValue("Parry Success Special Cooldown"));
             manager.GetComponent<SamuraiUIDriver>().specialAbilityUIManager.pingAbility();
         }
+        else
+        {
+            AudioManager.Instance.VABranch.PlayVATrack("Akihito-Samurai Retribution Failure");
+        }
         parryChaining = parrySuccess;
 
         parrying = false;
         parrySuccess = false;
+
+        GetComponent<PartyManager>().SetSwappingEnabled(true);
         gameObject.GetComponent<StatManager>().ModifyStat("Max Running Speed", Mathf.CeilToInt(manager.GetStats().ComputeValue("Parry Slow Percent")));
         gameObject.GetComponent<StatManager>().ModifyStat("Running Accel.", Mathf.CeilToInt(manager.GetStats().ComputeValue("Parry Slow Percent")));
         gameObject.GetComponent<Move>().UpdateRun();
+        GetComponent<Health>().GetStats().ModifyStat("Dodge Chance", 1000);
     }
     
     public void ParryingFilter(ref DamageContext context)
@@ -135,6 +145,7 @@ public class SamuraiRetribution : MonoBehaviour
             context.attacker.GetComponent<Health>().Damage(newContext, gameObject);
 
             context.damage = 0;
+            context.icon = null;
             NotifyParrySuccess(context.victim.transform.position + (Vector3.Normalize(context.attacker.transform.position - context.victim.transform.position) * 1.5f));
         }
     }
@@ -155,6 +166,7 @@ public class SamuraiRetribution : MonoBehaviour
         surfaceExplosion.GetComponent<RingExplosionHandler>().playRingExplosion(1.5f, manager.GetComponent<GhostIdentity>().GetCharacterInfo().highlightColor);
 
         // SFX
+        AudioManager.Instance.VABranch.PlayVATrack("Akihito-Samurai Retribution On Hit");
         AudioManager.Instance.SFXBranch.GetSFXTrack("Akihito-Relentless Fury").SetPitch(parrySFXPitch, 1f);
         AudioManager.Instance.SFXBranch.GetSFXTrack("Akihito-Relentless Fury 2").SetPitch(parrySFXPitch, 1f);
         AudioManager.Instance.SFXBranch.GetSFXTrack("Akihito-Relentless Fury 3").SetPitch(parrySFXPitch, 1f);

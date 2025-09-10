@@ -81,7 +81,7 @@ public class IdolManager : GhostManager, ISelectable
         if (clones.Count > 0 && clones[0].GetComponent<IdolClone>().duration <= 3f && !cloneLowDuration)
         {
             cloneLowDuration = true;
-            PlayerID.instance.GetComponent<PlayerParticles>().PlayGhostGoodBuff(GetComponent<GhostIdentity>().GetCharacterInfo().whiteColor, 1f, 1f);
+            if (active) PlayerID.instance.GetComponent<PlayerParticles>().PlayGhostGoodBuff(GetComponent<GhostIdentity>().GetCharacterInfo().whiteColor, 1f, 1f);
         }
 
         // Clones Ended

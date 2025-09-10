@@ -180,7 +180,7 @@ public class PlayerInWorldMeterUIManager : MonoBehaviour
     /// <param name="color">The color for the background frame. The alpha value is ignored.</param>
     public void setBackgroundColor(Color color)
     {
-        setImageColor(frameBackground, color, true);
+        //setImageColor(frameBackground, color, true);
     }
 
     /// <summary>

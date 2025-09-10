@@ -46,7 +46,7 @@ public class KingManager : GhostManager, ISelectable
         specialDamage.damage = stats.ComputeValue("Special Damage");
 
         currentShieldHealth = stats.ComputeValue("Shield Max Health");
-        currentShieldHealth += gameObject.GetComponent<RulersResilience>().GetExtraShieldHealth();
+        //currentShieldHealth += gameObject.GetComponent<RulersResilience>().GetExtraShieldHealth();
             
         endShieldHealth = 0f;
         selected = false;
@@ -84,13 +84,13 @@ public class KingManager : GhostManager, ISelectable
 
     private void rechargeShieldHealth()
     {
-        if ((basic != null && basic.isShielding) || currentShieldHealth >= stats.ComputeValue("Shield Max Health"))
+        if ((basic != null && basic.isShielding) || currentShieldHealth >= stats.ComputeValue("Shield Max Health") || !hasShield)
         {
-            psm.OffCooldown("c_basic");
+            //psm.OffCooldown("c_basic");
             return;
         }
         currentShieldHealth = Mathf.Clamp((currentShieldHealth + (stats.ComputeValue("Shield Health Regeneration Rate") * Time.deltaTime)), 0f, stats.ComputeValue("Shield Max Health"));
-        psm.OnCooldown("c_basic");
+        //psm.OnCooldown("c_basic");
     }
 
     public void TakeShieldDamage(float damage)
@@ -121,6 +121,9 @@ public class KingManager : GhostManager, ISelectable
 
         special?.endSpecial(true, true);
         if (special) Destroy(special);
+
+        PlayerParticles.instance.StopGhostBadBuff();
+        PlayerParticles.instance.StopGhostEmpowered();
 
         base.DeSelect(player);
     }

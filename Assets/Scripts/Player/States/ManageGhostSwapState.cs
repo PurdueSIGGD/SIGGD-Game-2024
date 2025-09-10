@@ -6,6 +6,8 @@ public class ManageGhostSwapState : StateMachineBehaviour
 {
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        PlayerID.instance.GetComponent<Glide>().StopGlide();
+        PlayerID.instance.GetComponent<FastFall>().StopFastFall(true);
         animator.ResetTrigger("OPT");
         animator.SetTrigger("ATK");
         animator.SetTrigger("SPEC");

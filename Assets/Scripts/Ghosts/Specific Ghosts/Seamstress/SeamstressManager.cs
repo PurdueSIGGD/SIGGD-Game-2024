@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class SeamstressManager : GhostManager
 {
@@ -23,6 +24,11 @@ public class SeamstressManager : GhostManager
     public ActionContext specialContext;
     [SerializeField] private DamageContext sharedDmg;
     [SerializeField] private float sharedDmgScaling;
+
+    [SerializeField] public GameObject fateboundVFX;
+
+    [SerializeField] public GameObject yumeStunDebuff;
+    [SerializeField] private GameObject pulseVFX;
 
     public Queue<GameObject> linkableEnemies;
     private ChainedEnemy head; // will usually be the first enemy hit by Yume's projectile
@@ -60,6 +66,7 @@ public class SeamstressManager : GhostManager
 
         durationCounter = GetStats().ComputeValue("Fatebound Duration");
         spools = SaveManager.data.yume.spoolCount;
+        if (spools > 0) PlayerParticles.instance.PlaySpoolBuff(spools, stats.ComputeValue("Max Spools"));
 
         int[] points = SaveManager.data.ghostSkillPts[identityName];
         Skill[] skills = GetComponent<SkillTree>().GetAllSkills();
@@ -72,8 +79,32 @@ public class SeamstressManager : GhostManager
         }
     }
 
+
+
+    private void OnEnable()
+    {
+        GameplayEventHolder.OnDamageDealt += SpoolAttack;
+    }
+
+    private void OnDisable()
+    {
+        GameplayEventHolder.OnDamageDealt -= SpoolAttack;
+    }
+
+
+
     protected override void Update()
     {
+        // Spools full tracker
+        if (spools >= stats.ComputeValue("Max Spools") && special != null)
+        {
+            PlayerID.instance.GetComponent<PlayerStateMachine>().OnCooldown("full_spools");
+        }
+        if (spools < stats.ComputeValue("Max Spools") && special != null)
+        {
+            PlayerID.instance.GetComponent<PlayerStateMachine>().OffCooldown("full_spools");
+        }
+
         base.Update();
         UpdateLinkedEnemies();
     }
@@ -106,6 +137,12 @@ public class SeamstressManager : GhostManager
         if (nspools > 0)
         {
             GameplayEventHolder.OnAbilityUsed.Invoke(onSpoolGained);
+            PlayerParticles.instance.PlaySpoolPulse();
+        }
+        PlayerParticles.instance.PlaySpoolBuff(spools, stats.ComputeValue("Max Spools"));
+        if (spools <= 0)
+        {
+            PlayerParticles.instance.StopSpoolBuff();
         }
     }
 
@@ -139,6 +176,8 @@ public class SeamstressManager : GhostManager
         }
         int count = ++lineRenderer.positionCount;
         lineRenderer.SetPosition(count - 1, hitTarget.transform.position);
+
+        GetComponent<WarpAndWeft>().DamageFateboundEnemies(hitTarget);
     }
 
     // should find the next closest enemy to the one given
@@ -179,7 +218,7 @@ public class SeamstressManager : GhostManager
     {
         ptr = head;
 
-        while (ptr.enemy != null)
+        while (ptr != null && ptr.enemy != null)
         {
             if (ptr.enemy.GetInstanceID() != enemyID)
             {
@@ -278,5 +317,27 @@ public class SeamstressManager : GhostManager
             }
         }
         lineRenderer.positionCount = i; // clear any extra points left behind when an enemy dies
+    }
+
+
+
+
+
+    void SpoolAttack(DamageContext damageContext)
+    {
+        if (damageContext.attacker == PlayerID.instance.gameObject &&
+            damageContext.actionTypes.Contains(ActionType.HEAVY_ATTACK) &&
+            !damageContext.actionTypes.Contains(ActionType.SKILL) &&
+            spools >= stats.ComputeValue("Heavy Attack Spools Needed"))
+        {
+            if (damageContext.victim.GetComponentInChildren<YumeStunDebuff>() != null || damageContext.victim.GetComponent<Health>().currentHealth <= 0f) return;
+            AddSpools(-(int) stats.ComputeValue("Heavy Attack Spools Needed"));
+            GameObject pulse = Instantiate(pulseVFX, damageContext.victim.transform.position, Quaternion.identity);
+            pulse.GetComponent<RingExplosionHandler>().playRingExplosion(2f, GetComponent<GhostIdentity>().GetCharacterInfo().whiteColor);
+            GameObject stunDebuff = Instantiate(yumeStunDebuff, damageContext.victim.transform);
+            stunDebuff.GetComponent<YumeStunDebuff>().StartDebuff(stats.ComputeValue("Spool Heavy Attack Stun"));
+            AudioManager.Instance.SFXBranch.PlaySFXTrack("Yume-Stun Damage");
+            AudioManager.Instance.VABranch.PlayVATrack("Yume-Seamstress Heavy Stun");
+        }
     }
 }

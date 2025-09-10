@@ -29,7 +29,7 @@ public class BleedingEdge : Skill
     private void ApplyDOT(DamageContext context)
     {
         if (pointIndex > 0 &&
-            (context.actionID == ActionID.SAMURAI_SPECIAL || (context.actionID == ActionID.SAMURAI_BASIC && context.extraContext.Equals("Full Charge"))) &&
+            (context.actionID == ActionID.SAMURAI_SPECIAL || (context.actionID == ActionID.SAMURAI_BASIC && (context.extraContext != null && context.extraContext.Equals("Full Charge")))) &&
             !context.damageTypes.Contains(DamageType.STATUS))
         {
             poisonDamage.attacker = context.attacker;

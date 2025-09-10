@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class KingThrownShield : MonoBehaviour
 {
@@ -18,6 +20,15 @@ public class KingThrownShield : MonoBehaviour
     [SerializeField] private float returningAccel;
     [Header("Time before shield can be picked up (unless returning)")]
     [SerializeField] private float pickUpImmunityTime;
+
+    [SerializeField] private float initialSpeed;
+    [SerializeField] private float ricochetSpeed;
+
+    [SerializeField] private GameObject impactVFX;
+
+    [SerializeField] private float knockbackStrength;
+    [SerializeField] private float returnKnockbackStrength;
+    [SerializeField] private float minimumUpwardKnockback;
 
     private KingBasic basic;
     private GameObject player;
@@ -40,7 +51,8 @@ public class KingThrownShield : MonoBehaviour
         this.dir = dir;
         UpdateOrientation();
         context.damage = dmg;
-        rb.velocity = minSpeed * dir;
+        //rb.velocity = minSpeed * dir;
+        rb.velocity = initialSpeed * dir;
         returning = false;
     }
 
@@ -50,18 +62,21 @@ public class KingThrownShield : MonoBehaviour
         {
             if (Vector2.Distance(transform.position, orig) > deaccelZone) // if in deaccel zone
             {
+                TryDestroyShield();
                 rb.velocity -= deaccel * Time.deltaTime * dir;
 
                 // if velocity is already below the minimum speed, begin the return process
                 if (rb.velocity.magnitude <= minSpeed)
                 {
-                    BeginReturn();
+                    BeginReturn(-1f);
                 }
             }
+            /*
             else // before reaching the deaccel zone, accelerate continuously
             {
                 rb.velocity += accel * Time.deltaTime * dir;
             }
+            */
         }
         else // if attempting to return to king, accelerate indefinitely
         {
@@ -78,6 +93,11 @@ public class KingThrownShield : MonoBehaviour
         if ((collider.CompareTag("Enemy")))
         {
             DamageHitEnemy(collider.gameObject);
+            TryDestroyShield();
+            AudioManager.Instance.SFXBranch.PlaySFXTrack("Aegis-Shield Throw Impact");
+            CameraShake.instance.Shake(0.15f, 10f, 0f, 10f, new Vector2(Random.Range(-0.5f, 0.5f), 1f));
+            GameObject shieldImpact = Instantiate(impactVFX, transform.position, Quaternion.identity);
+            shieldImpact.GetComponent<RingExplosionHandler>().playRingExplosion(1.5f, basic.manager.GetComponent<GhostIdentity>().GetCharacterInfo().highlightColor);
         }
         if (!returning) // if the shield is still shooting outwards
         {
@@ -90,10 +110,15 @@ public class KingThrownShield : MonoBehaviour
                 }
             }
             // if not player, the shield should only be able to collide with environment or enemy
-            else
+            else if (LayerMask.LayerToName(collider.gameObject.layer).Equals("Ground"))
             {
                 // in either case, always begin the return process
-                BeginReturn();
+                TryDestroyShield();
+                AudioManager.Instance.SFXBranch.PlaySFXTrack("Aegis-Shield Throw Impact");
+                CameraShake.instance.Shake(0.15f, 10f, 0f, 10f, new Vector2(Random.Range(-0.5f, 0.5f), 1f));
+                GameObject shieldImpact = Instantiate(impactVFX, transform.position, Quaternion.identity);
+                shieldImpact.GetComponent<RingExplosionHandler>().playRingExplosion(1.5f, basic.manager.GetComponent<GhostIdentity>().GetCharacterInfo().highlightColor);
+                BeginReturn(ricochetSpeed);
             }
         }
         else // if the shield is now returning
@@ -106,9 +131,10 @@ public class KingThrownShield : MonoBehaviour
         }
     }
 
-    private void BeginReturn()
+    private void BeginReturn(float ricochetSpeed)
     {
         if (returning) return;
+        TryDestroyShield();
         returning = true;
         Vector2 diff = player.transform.position - transform.position;
         // if shield is already next to player, simply pick it immediately
@@ -118,7 +144,7 @@ public class KingThrownShield : MonoBehaviour
             PickUpShield();
         }
         dir = diff.normalized;
-        rb.velocity = minSpeed * dir;
+        rb.velocity = ((ricochetSpeed < 0f) ? minSpeed : ricochetSpeed) * dir;
     }
 
     private void DamageHitEnemy(GameObject enemy)
@@ -131,6 +157,14 @@ public class KingThrownShield : MonoBehaviour
         {
             health.Damage(context, player);
         }
+
+        // Deal knockback
+        Vector2 enemyDirection = (enemy.transform.position - transform.position).normalized;
+        Vector3 knockbackDirection = new Vector2(enemyDirection.x, enemyDirection.y).normalized;
+        Vector2 knockbackVector = knockbackDirection * ((returning) ? returnKnockbackStrength : knockbackStrength);
+        float extraUpwardKnockback = Mathf.Max(minimumUpwardKnockback - knockbackVector.y, 0f); // Enemies are guaranteed to be knocked up some amount
+        enemy.gameObject.GetComponent<EnemyStateManager>().ApplyKnockback(knockbackDirection, knockbackStrength); // Base knockback
+        enemy.gameObject.GetComponent<EnemyStateManager>().ApplyKnockback(Vector2.up, extraUpwardKnockback); // Extra knock up
     }
 
     private void UpdateOrientation()
@@ -143,5 +177,15 @@ public class KingThrownShield : MonoBehaviour
     {
         basic.DisableShield(false);
         Destroy(gameObject);
+    }
+
+    private void TryDestroyShield()
+    {
+        if (basic.manager.currentShieldHealth <= 0f)
+        {
+            basic.DestroyShield(transform.position);
+            basic.manager.setBasicCooldown(basic.manager.GetStats().ComputeValue("Basic Cooldown"));
+            PickUpShield();
+        }
     }
 }

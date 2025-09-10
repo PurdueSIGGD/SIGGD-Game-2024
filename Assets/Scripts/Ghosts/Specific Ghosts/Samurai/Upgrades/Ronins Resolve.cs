@@ -16,13 +16,14 @@ public class RoninsResolve : Skill
     private const string RUNNING_ACCEL_STAT = "Running Accel.";
     private const string GLIDE_SPEED_STAT = "Max Glide Speed";
     private const string GLIDE_ACCEL_STAT = "Glide Accel.";
+    private const string DAMAGE_RESISTANCE_STAT = "Damage Resistance";
 
     [SerializeField]
     List<int> values = new List<int>
     {
         0, 15, 30, 45, 60
     };
-    private int pointIndex = 0;
+    public int pointIndex = 0;
 
     private SamuraiManager manager;
     private StatManager playerStats;
@@ -142,7 +143,8 @@ public class RoninsResolve : Skill
         playerStats.ModifyStat(RUNNING_ACCEL_STAT, buff);
         playerStats.ModifyStat(GLIDE_SPEED_STAT, buff);
         playerStats.ModifyStat(GLIDE_ACCEL_STAT, buff);
-        playerHealth.ModifyDamageResistance((float) (buff) / 100f);
+        //playerHealth.ModifyDamageResistance((float) (buff) / 100f);
+        playerStats.ModifyStat(DAMAGE_RESISTANCE_STAT, buff);
     }
 
     private void DebuffStats(int debuff)
@@ -151,7 +153,8 @@ public class RoninsResolve : Skill
         playerStats.ModifyStat(RUNNING_ACCEL_STAT, -debuff);
         playerStats.ModifyStat(GLIDE_SPEED_STAT, -debuff);
         playerStats.ModifyStat(GLIDE_ACCEL_STAT, -debuff);
-        playerHealth.ModifyDamageResistance(-((float) (debuff) / 100f));
+        //playerHealth.ModifyDamageResistance(-((float) (debuff) / 100f));
+        playerStats.ModifyStat(DAMAGE_RESISTANCE_STAT, -debuff);
     }
 
 

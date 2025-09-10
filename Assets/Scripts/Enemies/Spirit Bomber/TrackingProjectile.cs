@@ -50,8 +50,8 @@ public class TrackingProjectile : EnemyProjectile
         if (tracking)
         {
             Vector3 directionToTarget = (player.position - transform.position).normalized;
-            Quaternion rotation = Quaternion.LookRotation(directionToTarget);
-            rb.MoveRotation(Quaternion.RotateTowards(transform.rotation, rotation, trackingStrength));
+            //Quaternion rotation = Quaternion.LookRotation(directionToTarget);
+            //rb.MoveRotation(Quaternion.RotateTowards(transform.rotation, rotation, trackingStrength));
             rb.velocity = directionToTarget * speed;
         }
     }

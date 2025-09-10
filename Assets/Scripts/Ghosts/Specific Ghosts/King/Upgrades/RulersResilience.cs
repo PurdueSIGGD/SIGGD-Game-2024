@@ -12,8 +12,25 @@ public class RulersResilience : Skill
 
     private const string SHIELD_MAX_HEALTH = "Shield Max Health";
 
+    [SerializeField]
+    List<int> values = new List<int>
+    {
+        0, 10, 20, 30, 40
+    };
+    public int pointIndex;
+
+    private int buffValue = 0;
+
     private KingManager manager;
 
+
+    private void Start()
+    {
+        manager = GetComponent<KingManager>();
+        manager.currentShieldHealth = GetComponent<StatManager>().ComputeValue(SHIELD_MAX_HEALTH);
+    }
+
+    /*
     private KingManager GetManager()
     {
         if (manager == null)
@@ -23,7 +40,9 @@ public class RulersResilience : Skill
 
         return manager;
     }
+    */
 
+    /*
     public int GetExtraShieldHealth()
     {
 
@@ -33,34 +52,58 @@ public class RulersResilience : Skill
 
         return extraHealth;
     }
+    */
 
 
     public override void AddPointTrigger() {
         // In Party?
 
+        /*
         if (GetManager() == null || GetManager().GetStats() == null)
         {
             return;
         }
-        manager.currentShieldHealth = GetManager().GetStats().ComputeValue(SHIELD_MAX_HEALTH) + GetExtraShieldHealth();
+        */
+        //manager.currentShieldHealth = GetManager().GetStats().ComputeValue(SHIELD_MAX_HEALTH) + GetExtraShieldHealth();
+
+        pointIndex = GetPoints();
+        GetComponent<StatManager>().ModifyStat(SHIELD_MAX_HEALTH, values[pointIndex] - buffValue);
+        buffValue = values[pointIndex];
+        if (manager != null) manager.currentShieldHealth = GetComponent<StatManager>().ComputeValue(SHIELD_MAX_HEALTH);
     }
+
     public override void ClearPointsTrigger() {
         // In Party?
 
+        /*
         if (GetManager() == null || GetManager().GetStats() == null)
         {
             return;
         }
-        manager.currentShieldHealth = GetManager().GetStats().ComputeValue(SHIELD_MAX_HEALTH) + GetExtraShieldHealth();
+        */
+        //manager.currentShieldHealth = GetManager().GetStats().ComputeValue(SHIELD_MAX_HEALTH) + GetExtraShieldHealth();
+
+        pointIndex = GetPoints();
+        GetComponent<StatManager>().ModifyStat(SHIELD_MAX_HEALTH, values[pointIndex] - buffValue);
+        buffValue = values[pointIndex];
+        if (manager != null) manager.currentShieldHealth = GetComponent<StatManager>().ComputeValue(SHIELD_MAX_HEALTH);
     }
+
     public override void RemovePointTrigger() {
         // In Party?
 
+        /*
         if (GetManager() == null || GetManager().GetStats() == null)
         {
             return;
         }
-        manager.currentShieldHealth = GetManager().GetStats().ComputeValue(SHIELD_MAX_HEALTH) + GetExtraShieldHealth();
+        */
+        //manager.currentShieldHealth = GetManager().GetStats().ComputeValue(SHIELD_MAX_HEALTH) + GetExtraShieldHealth();
+
+        pointIndex = GetPoints();
+        GetComponent<StatManager>().ModifyStat(SHIELD_MAX_HEALTH, values[pointIndex] - buffValue);
+        buffValue = values[pointIndex];
+        if (manager != null) manager.currentShieldHealth = GetComponent<StatManager>().ComputeValue(SHIELD_MAX_HEALTH);
     }
 
 }

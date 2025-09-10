@@ -157,7 +157,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6,
     type: 3}
   m_Color: {r: 1, g: 0.7254902, b: 0.6, a: 0.5882353}
@@ -280,6 +280,7 @@ GameObject:
   - component: {fileID: 9164366307553013209}
   - component: {fileID: 8613045302450623860}
   - component: {fileID: 1087986608393877240}
+  - component: {fileID: 217690103638931818}
   m_Layer: 17
   m_Name: Silas-PlagueDoc
   m_TagString: Ghost
@@ -409,8 +410,8 @@ MonoBehaviour:
   isUnlocked: 0
   exp: 0
   expPerSpiritGained: 1
-  expPerPinkSpiritGained: 3
-  levelReqs: 0a000000c80000002c0100009001000058020000bc02000020030000e80300004c040000b0040000dc050000dc050000dc050000dc050000
+  expPerPinkSpiritGained: 2
+  levelReqs: 0a000000c80000002c0100009001000020030000e8030000b0040000080700003408000060090000b80b0000a00f0000a00f0000a00f0000
 --- !u!114 &5527549834993910565
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -427,11 +428,11 @@ MonoBehaviour:
   - name: Basic Cooldown
     value: 1
   - name: Basic Ingredient Drop Chance
-    value: 60
+    value: 50
   - name: Basic Bonus Ingredient Drop Chance
     value: 20
   - name: Basic Ingredient Cost
-    value: 30
+    value: 20
   - name: Basic Cast Time
     value: 0.75
   - name: Basic Healing
@@ -593,7 +594,7 @@ MonoBehaviour:
   - {fileID: 8613045302450623860}
   - {fileID: 9164366307553013209}
   - {fileID: 1087986608393877240}
-  - {fileID: 8120697266993777728}
+  - {fileID: 217690103638931818}
   startAtLevel: 0
 --- !u!114 &8120697266993777728
 MonoBehaviour:
@@ -622,6 +623,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: 5ed8899fcb9f4424a90e108d725cd291, type: 2}
   values: 0000000014000000280000003c00000050000000
+  pointIndex: 0
 --- !u!114 &1641617525109024155
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -636,6 +638,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: d81b09c5b9b153f49a9e75b1eb4c9976, type: 2}
   values: 0000000014000000280000003c00000050000000
+  pointIndex: 0
 --- !u!114 &827586359058410053
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -649,7 +652,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: 33b36582baf4f2c4bb0ac4cadb9826aa, type: 2}
-  values: 00000000060000000b0000001000000015000000
+  values: 00000000070000000e000000150000001c000000
+  pointIndex: 0
   lowChanceMultiplier: 0.5
 --- !u!114 &9164366307553013209
 MonoBehaviour:
@@ -670,6 +674,7 @@ MonoBehaviour:
   - 1.4
   - 2.1
   - 2.8
+  pointIndex: 0
   poisonCloud: {fileID: 5415055795623798678, guid: 849f686edad280f468e64aebf2a93e61,
     type: 3}
 --- !u!114 &8613045302450623860
@@ -691,6 +696,7 @@ MonoBehaviour:
   - 2.5
   - 3.5
   - 4.5
+  pointIndex: 0
   blastDamage:
     damageStrength: 0
     damageTypes: 0200000003000000
@@ -717,3 +723,26 @@ MonoBehaviour:
   buffDuration: 0
   timer: 0
   isBuffed: 0
+--- !u!114 &217690103638931818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8202687041202382142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6962af3d31f7a2d4097ba0cee8be86cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillSO: {fileID: 11400000, guid: de22ff26f77cfd0439628fb834ccda42, type: 2}
+  context:
+    damageStrength: 4
+    damageTypes: 02000000
+    actionID: 0
+    actionTypes: 05000000
+    extraContext: 
+    ghostID: 5
+  explosionRadius: 25
+  vfx: {fileID: 7966241730260626198, guid: a5295bc6cb8948243b75f99e5a18cc48, type: 3}
+  track: 

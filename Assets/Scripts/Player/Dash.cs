@@ -68,6 +68,8 @@ public class Dash : MonoBehaviour, IStatList
     //</summary>
     public void StartDash()
     {
+        psm.ConsumeSpecialInput();
+        GetComponent<PartyManager>().SetSwappingEnabled(false);
         GetComponent<Move>().PlayerStop();
         GetComponent<Health>().GetStats().ModifyStat("Dodge Chance", 1000);
 
@@ -101,7 +103,7 @@ public class Dash : MonoBehaviour, IStatList
         }
 
         // VFX
-        GetComponent<PlayerParticles>().PlayOrionDash(orionManager.orionSO.whiteColor);
+        GetComponent<PlayerParticles>().PlayOrionDash(orionManager.orionSO.whiteColor, orionManager.orionSO.primaryColor);
     }
 
     public void StopDash()
@@ -109,9 +111,10 @@ public class Dash : MonoBehaviour, IStatList
         GetComponent<Move>().PlayerGo();
         GetComponent<Health>().GetStats().ModifyStat("Dodge Chance", -1000);
         if (GetComponent<Animator>().GetBool("p_grounded")) return;
-        GetComponent<Move>().ApplyKnockback(rb.velocity.normalized, rb.velocity.magnitude, true);
+        GetComponent<Move>()?.ApplyKnockback(rb.velocity.normalized, rb.velocity.magnitude, true);
         GetComponent<Animator>().SetBool("air_light_ready", true);
         orionManager.isAirbornePostDash = true;
+        GetComponent<PartyManager>().SetSwappingEnabled(true);
     }
 
     private IEnumerator DashCoroutine()

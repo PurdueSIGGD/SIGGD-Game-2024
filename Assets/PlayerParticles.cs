@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PlayerParticles : MonoBehaviour
 {
+    [HideInInspector] public static PlayerParticles instance;
 
     [SerializeField] ParticleSystem heavyCharging;
     [SerializeField] Color heavyChargingColor;
@@ -31,11 +32,26 @@ public class PlayerParticles : MonoBehaviour
     [SerializeField] float minBadBuffEmission;
     [SerializeField] float maxBadBuffEmission;
 
+    [SerializeField] ParticleSystem radiantWellBuff;
+    [SerializeField] Color radiantWellColor;
+
+    [SerializeField] ParticleSystem spoolBuff;
+    [SerializeField] float minSpoolBuffEmission;
+    [SerializeField] float maxSpoolBuffEmission;
+    [SerializeField] Color spoolBuffColor;
+
     [SerializeField] GameObject pulseVFX;
 
     //private Color heavyChargingColor;
     //private Color heavyChargingColor;
     private CharacterSO selectedGhostSO;
+
+
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     void Start()
     {
@@ -91,12 +107,12 @@ public class PlayerParticles : MonoBehaviour
         emmisionModule.rateOverTime = new ParticleSystem.MinMaxCurve(Mathf.Lerp(minEmpoweredEmission, maxEmpoweredEmission, valueScale));
         ParticleSystem.MainModule ghostEmpoweredMain = ghostEmpowered.main;
         ghostEmpoweredMain.startColor = new ParticleSystem.MinMaxGradient(color);
-        ghostEmpowered.Play();
+        if (!ghostEmpowered.isPlaying) ghostEmpowered.Play();
     }
 
     public void StopGhostEmpowered()
     {
-        ghostEmpowered.Stop();
+        if (ghostEmpowered.isPlaying) ghostEmpowered.Stop();
     }
 
 
@@ -109,12 +125,12 @@ public class PlayerParticles : MonoBehaviour
         emmisionModule.rateOverTime = new ParticleSystem.MinMaxCurve(Mathf.Lerp(minGoodBuffEmission, maxGoodBuffEmission, valueScale));
         ParticleSystem.MainModule ghostGoodBuffMain = ghostGoodBuff.main;
         ghostGoodBuffMain.startColor = new ParticleSystem.MinMaxGradient(color);
-        ghostGoodBuff.Play();
+        if (!ghostGoodBuff.isPlaying) ghostGoodBuff.Play();
     }
 
     public void StopGhostGoodBuff()
     {
-        ghostGoodBuff.Stop();
+        if (ghostGoodBuff.isPlaying) ghostGoodBuff.Stop();
     }
 
 
@@ -127,21 +143,66 @@ public class PlayerParticles : MonoBehaviour
         emmisionModule.rateOverTime = new ParticleSystem.MinMaxCurve(Mathf.Lerp(minBadBuffEmission, maxBadBuffEmission, valueScale));
         ParticleSystem.MainModule ghostBadBuffMain = ghostBadBuff.main;
         ghostBadBuffMain.startColor = new ParticleSystem.MinMaxGradient(color);
-        ghostBadBuff.Play();
+        if (!ghostBadBuff.isPlaying) ghostBadBuff.Play();
     }
 
     public void StopGhostBadBuff()
     {
-        ghostBadBuff.Stop();
+        if (ghostBadBuff.isPlaying) ghostBadBuff.Stop();
+    }
+
+
+
+    // Aegis Radiant Well
+    public void PlayRadiantWellBuff()
+    {
+        GameObject swapPulse = Instantiate(pulseVFX, transform.position, Quaternion.identity);
+        swapPulse.GetComponent<RingExplosionHandler>().playRingExplosion(2f, radiantWellColor);
+        if (!radiantWellBuff.isPlaying)
+        {
+            radiantWellBuff.Play();
+        }
+    }
+
+    public void StopRadiantWellBuff()
+    {
+        if (radiantWellBuff.isPlaying)
+        {
+            GameObject swapPulse = Instantiate(pulseVFX, transform.position, Quaternion.identity);
+            swapPulse.GetComponent<RingExplosionHandler>().playRingExplosion(2f, radiantWellColor);
+            radiantWellBuff.Stop();
+        }
+    }
+
+
+
+    // Yume Spools
+    public void PlaySpoolBuff(float currentValue, float maxValue)
+    {
+        float valueScale = currentValue / maxValue;
+        ParticleSystem.EmissionModule emmisionModule = spoolBuff.emission;
+        emmisionModule.rateOverTime = new ParticleSystem.MinMaxCurve(Mathf.Lerp(minSpoolBuffEmission, maxSpoolBuffEmission, valueScale));
+        if (!spoolBuff.isPlaying) spoolBuff.Play();
+    }
+
+    public void StopSpoolBuff()
+    {
+        if (spoolBuff.isPlaying) spoolBuff.Stop();
+    }
+
+    public void PlaySpoolPulse()
+    {
+        GameObject swapPulse = Instantiate(pulseVFX, transform.position, Quaternion.identity);
+        swapPulse.GetComponent<RingExplosionHandler>().playRingExplosion(2.5f, spoolBuffColor);
     }
 
 
 
     // Orion Dash
-    public void PlayOrionDash(Color color)
+    public void PlayOrionDash(Color primaryColor, Color secondaryColor)
     {
         ParticleSystem.MainModule ghostFrontMain = ghostFront.main;
-        ghostFrontMain.startColor = new ParticleSystem.MinMaxGradient(color);
+        ghostFrontMain.startColor = new ParticleSystem.MinMaxGradient(primaryColor, secondaryColor);
         ghostFront.Play();
     }
 
@@ -153,11 +214,11 @@ public class PlayerParticles : MonoBehaviour
 
 
     // Orion Glide
-    public void PlayOrionGlide(Color color)
+    public void PlayOrionGlide(Color primaryColor, Color secondaryColor)
     {
         if (selectedGhostSO != null) return;
         ParticleSystem.MainModule ghostFrontMain = ghostFront.main;
-        ghostFrontMain.startColor = new ParticleSystem.MinMaxGradient(color);
+        ghostFrontMain.startColor = new ParticleSystem.MinMaxGradient(primaryColor, secondaryColor);
         ghostFront.Play();
     }
 
@@ -172,6 +233,7 @@ public class PlayerParticles : MonoBehaviour
     // Heavy Attack
     public void StartHeavyChargeUp()
     {
+        if (selectedGhostSO != null && selectedGhostSO.displayName.Equals("King Aegis")) return;
         heavyCharging.Play();
     }
 

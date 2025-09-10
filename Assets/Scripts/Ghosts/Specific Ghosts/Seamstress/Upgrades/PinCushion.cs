@@ -18,7 +18,7 @@ public class PinCushion : Skill
 
     public void SummonDoll(ActionContext context)
     {
-        if (GetPoints() > 0 && context.actionID == ActionID.SEAMSTRESS_SPECIAL && context.extraContext.Equals(""))
+        if (GetPoints() > 0 && context.actionID == ActionID.SEAMSTRESS_SPECIAL && context.extraContext != null && context.extraContext.Equals(""))
         {
             Vector2 summonOrigin = PlayerID.instance.transform.position;
             Vector2 projectForce = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position).normalized * 450;
@@ -29,6 +29,8 @@ public class PinCushion : Skill
             dollRef.AddComponent<FateboundDebuff>().manager = manager;
 
             manager.AddEnemy(dollRef);
+
+            AudioManager.Instance.VABranch.PlayVATrack("Yume-Seamstress Pin Cushion");
         }
     }
 

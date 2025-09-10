@@ -50,6 +50,7 @@ GameObject:
   - component: {fileID: 7495209999528494521}
   - component: {fileID: 8675166827137029948}
   - component: {fileID: 998639061161291738}
+  - component: {fileID: 3342256117467447547}
   m_Layer: 21
   m_Name: Cleric
   m_TagString: Enemy
@@ -242,6 +243,7 @@ MonoBehaviour:
   isBeingKnockedBack: 0
   grounded: 1
   groundedRayCheckLength: 1
+  enableStunning: 1
   swingContactBox: {fileID: 6722717173434858109}
   swingContext:
     damageStrength: 0
@@ -314,7 +316,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Max Health
-    value: 90
+    value: 100
   deathLevel: 
 --- !u!114 &7495209999528494521
 MonoBehaviour:
@@ -357,17 +359,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dropTable:
   - obj: {fileID: 4809253014695496824, guid: fe291ced3ae40fc46a74c816a48d0e61, type: 3}
-    chance: 0.25
-    minCount: 0
-    maxCount: 1
+    chance: 1
+    minCount: 3
+    maxCount: 6
   - obj: {fileID: 4809253014695496824, guid: 4950ea8f40c9d9944b6d20a6150d4cce, type: 3}
-    chance: 0.8
-    minCount: 0
-    maxCount: 1
+    chance: 1
+    minCount: 3
+    maxCount: 6
   - obj: {fileID: 4809253014695496824, guid: e8a6431bc0e6c7a4e922f586f4216e97, type: 3}
     chance: 1
     minCount: 3
-    maxCount: 5
+    maxCount: 6
 --- !u!114 &998639061161291738
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -380,9 +382,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0e77295dfdabb743aaa34d7c0307bf8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statList: []
+  statList:
+  - name: Stun Threshold
+    value: 60
   currentStun: 0
-  maxStun: 60
+  maxStun: 0
+--- !u!114 &3342256117467447547
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4188048675522988209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67f2b5dc03552c4bb7d2e37dbcb7033, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageContext:
+    damageStrength: 4
+    damageTypes: 04000000
+    actionID: 17
+    actionTypes: 08000000
+    extraContext: 
+    ghostID: 0
 --- !u!1 &6998591465528712762
 GameObject:
   m_ObjectHideFlags: 0

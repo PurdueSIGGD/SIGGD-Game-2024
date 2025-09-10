@@ -27,6 +27,15 @@ public class UnwaveringWill : Skill
         health = PlayerHealth.instance;
     }
 
+    private void Update()
+    {
+        if (manager.selected && pointIndex > 0)
+        {
+            if (health.MortallyWounded) PlayerParticles.instance.PlayGhostGoodBuff(GetComponent<GhostIdentity>().GetCharacterInfo().highlightColor, 0.5f, 1f);
+            else PlayerParticles.instance.StopGhostGoodBuff();
+        }
+    }
+
 
     private void OnEnable()
     {

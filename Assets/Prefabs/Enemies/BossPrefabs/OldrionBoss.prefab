@@ -25,8 +25,8 @@ Transform:
   m_GameObject: {fileID: 971983805762785105}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.6, y: 0.13, z: 0}
-  m_LocalScale: {x: 2.7, y: 1.6, z: 1}
+  m_LocalPosition: {x: 1.55, y: 0.13, z: 0}
+  m_LocalScale: {x: 2.79, y: 1.6, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2169665675169712656}
@@ -150,9 +150,9 @@ GameObject:
   - component: {fileID: 7224273156922498524}
   - component: {fileID: 4019251736707956395}
   - component: {fileID: 2598229957650020600}
-  - component: {fileID: 8221348414415400579}
   - component: {fileID: 6446633280205493509}
   - component: {fileID: 446782750685312013}
+  - component: {fileID: 3789075244505709990}
   m_Layer: 21
   m_Name: OldrionBoss
   m_TagString: Enemy
@@ -261,6 +261,12 @@ MonoBehaviour:
     extraContext: Kill all enemies context
     ghostID: 0
   deathTimer: 3
+  manager: {fileID: 1396931379856435082}
+  comboManager: {fileID: 7217294121183333833}
+  dialogueManager: {fileID: 0}
+  phase2Convo: {fileID: 11400000, guid: b3ab852d2812f164ca02196cd949fcac, type: 2}
+  phase3Convo: {fileID: 11400000, guid: 21f0a0d1761caad49a509ffc891b3c06, type: 2}
+  defeatDialogue: {fileID: 11400000, guid: a46471ab19390db41a64c0b49960e946, type: 2}
   currentPhase: 1
   lightActionName: Light
   lightCooldowns:
@@ -366,7 +372,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1295997227497143226}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 425dcd645b2ebd64786f1db8a510420c, type: 3}
   m_Name: 
@@ -421,7 +427,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1295997227497143226}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e79124e3e4e46af4db3714621d5901ee, type: 3}
   m_Name: 
@@ -561,22 +567,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &8221348414415400579
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1295997227497143226}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a13ad00583bca6b4fa6de9939a968201, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  statList:
-  - name: Max Health
-    value: 500
-  deathLevel: 
 --- !u!255 &6446633280205493509
 FixedJoint2D:
   m_ObjectHideFlags: 0
@@ -593,7 +583,7 @@ FixedJoint2D:
   m_BreakAction: 0
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: -1.3642856, y: -0.004616633}
+  m_ConnectedAnchor: {x: 1.3642855, y: -0.004617251}
   m_DampingRatio: 0
   m_Frequency: 0
 --- !u!114 &446782750685312013
@@ -610,7 +600,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Speed
-    value: 7
+    value: 9
   - name: Damage
     value: 12
   - name: Idle Speed
@@ -625,6 +615,23 @@ MonoBehaviour:
     value: 30
   - name: Enemy Group Aggro Radius
     value: 20
+--- !u!114 &3789075244505709990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1295997227497143226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5642d899c1362e4889785f6c83c64ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  statList:
+  - name: Max Health
+    value: 2000
+  deathLevel: 
+  manager: {fileID: 1396931379856435082}
 --- !u!1 &1382645093885138787
 GameObject:
   m_ObjectHideFlags: 0

@@ -36,11 +36,13 @@ public class SilasManager : GhostManager
     private void OnEnable()
     {
         GameplayEventHolder.OnDeath += DropOnKill;
+        GameplayEventHolder.OnDeath += OnKillVoiceLines;
     }
 
     private void OnDisable()
     {
         GameplayEventHolder.OnDeath -= DropOnKill;
+        GameplayEventHolder.OnDeath -= OnKillVoiceLines;
     }
 
 
@@ -193,6 +195,15 @@ public class SilasManager : GhostManager
             Random.Range(0f, 100f) <= stats.ComputeValue("Basic Bonus Ingredient Drop Chance"))
         {
             DropIngredient(context.victim.transform.position);
+        }
+    }
+
+    private void OnKillVoiceLines(DamageContext context)
+    {
+        if (context.victim.CompareTag("Enemy") && context.victim.GetComponentInChildren<BlightDebuff>() != null && isSelected)
+        {
+            AudioManager.Instance.VABranch.PlayVATrack("Silas-PlagueDoc Blight On Kill");
+            if (GetComponent<Epidemic>().pointIndex > 0) AudioManager.Instance.VABranch.PlayVATrack("Silas-PlagueDoc Epidemic");
         }
     }
 }

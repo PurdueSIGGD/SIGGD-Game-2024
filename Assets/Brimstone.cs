@@ -9,7 +9,7 @@ public class Brimstone : Skill
     {
         0, 1, 2, 3, 4
     };
-    private int pointIndex;
+    public int pointIndex;
 
     private int buffValue = 0;
 
