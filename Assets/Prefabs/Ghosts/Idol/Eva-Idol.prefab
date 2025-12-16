@@ -191,7 +191,7 @@ MonoBehaviour:
   - name: Basic Cooldown
     value: 1
   - name: Special Cooldown
-    value: 6
+    value: 10
   - name: HOLOJUMP_MAX_DISTANCE
     value: 200
   - name: HOLOJUMP_CLONE_SWAP_INTERVAL
@@ -199,23 +199,23 @@ MonoBehaviour:
   - name: HOLOJUMP_IMMUNE_SECONDS
     value: 0.25
   - name: HOLOJUMP_DURATION_SECONDS
-    value: 12
+    value: 10
   - name: HOLOJUMP_DURATION_INACTIVE_MODIFIER
     value: 1
   - name: TEMPO_BUFF_PERCENT_INT
     value: 6
   - name: TEMPO_DODGE_PERCENT_INT
-    value: 4
+    value: 2
   - name: TEMPO_MAX_STACKS
     value: 9
   - name: TEMPO_INACTIVE_DURATION_MODIFIER
     value: 1
   - name: TEMPO_BASE_DURATION
-    value: 5
+    value: 6
   - name: TEMPO_STACKS_PER_KILL
     value: 1
   - name: TEMPO_DAMAGE_DURATION_GAIN
-    value: 0.33
+    value: 0.4
   - name: Nova Pop Damage
     value: 10
   - name: Dynamic Trio Clone Health
@@ -360,10 +360,10 @@ MonoBehaviour:
   invisibilityDuration: 3.5
   values:
   - 0
-  - 25
-  - 50
-  - 75
-  - 100
+  - 30
+  - 60
+  - 90
+  - 120
 --- !u!114 &2247047511266038100
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -413,10 +413,10 @@ MonoBehaviour:
   radius: 6
   values:
   - 0
-  - 1
-  - 1.7
-  - 2.4
-  - 3.1
+  - 1.5
+  - 2.5
+  - 3.5
+  - 4.5
 --- !u!114 &219043313411044668
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -431,7 +431,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: 47d10ae9d4bb8664591d154467935b21, type: 2}
   values: 000000000a000000140000001e00000028000000
-  damageTickSpeed: 0.2
+  damageTickSpeed: 0.3
   manager: {fileID: 0}
   fieldVisual: {fileID: 1539173856502906608, guid: 677f9ddb74eb33a41ab8c747775a259c,
     type: 3}
@@ -458,10 +458,10 @@ MonoBehaviour:
   skillSO: {fileID: 11400000, guid: 83559512b00d5424bb5f00c82f5c9074, type: 2}
   values:
   - 0
-  - 4
-  - 8
-  - 12
-  - 16
+  - 5
+  - 10
+  - 15
+  - 20
   cloneDamageTakenMultiplier: 4
   damageResistanceIcon: {fileID: 21300000, guid: 150239b220dcdfe4c887a06a669c64bc,
     type: 3}
