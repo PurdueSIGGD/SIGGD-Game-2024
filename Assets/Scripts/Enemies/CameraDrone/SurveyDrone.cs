@@ -12,6 +12,8 @@ public class SurveyDrone : EnemyStateManager
     private Vector2 closestPoint;
     private float closestDistance = float.MaxValue;
     private float spawningTimer = 0;
+    private bool hasTarget = false;
+    private int enemiesSpawned = 0;
 
     private EnemySpawning enemySpawning;
 
@@ -31,7 +33,58 @@ public class SurveyDrone : EnemyStateManager
 
     protected void ApproachSpawnPoint()
     {
+        if (!hasTarget)
+        {
+            // find the closest spawn point respecting min player distance and min travel distance
+            foreach (GameObject spawnPoint in spawnPoints)
+            {
+                // ray cast to see if each point is reachable
+                Vector2 targetLoc = spawnPoint.transform.position;
+                Debug.DrawRay(transform.position, (targetLoc - (Vector2)transform.position), Color.red, 1f);
+                Vector2 line = (targetLoc - (Vector2)transform.position);
+                RaycastHit2D hit = Physics2D.Raycast(transform.position, line.normalized, line.magnitude, LayerMask.GetMask("Ground"));
+                if (!hit)
+                {
+                    float dist = (targetLoc - (Vector2)transform.position).magnitude;
+                    float playerDist = (targetLoc - (Vector2)(player.transform.position)).magnitude;
+                    if (dist <= closestDistance && playerDist >= stats.ComputeValue("Min Call Player Distance") && dist >= stats.ComputeValue("Min Call Travel Distance"))
+                    {
+                        closestPoint = targetLoc;
+                        closestDistance = dist;
+                        hasTarget = true;
+                    }
+                }
+            }
+            if (closestDistance == float.MaxValue)
+            {
+                // find the closest spawn point respecting only min player distance
+                foreach (GameObject spawnPoint in spawnPoints)
+                {
+                    // ray cast to see if each point is reachable
+                    Vector2 targetLoc = spawnPoint.transform.position;
+                    Debug.DrawRay(transform.position, (targetLoc - (Vector2)transform.position), Color.red, 1f);
+                    Vector2 line = (targetLoc - (Vector2)transform.position);
+                    RaycastHit2D hit = Physics2D.Raycast(transform.position, line.normalized, line.magnitude, LayerMask.GetMask("Ground"));
+                    if (!hit)
+                    {
+                        float dist = (targetLoc - (Vector2)transform.position).magnitude;
+                        float playerDist = (targetLoc - (Vector2)(player.transform.position)).magnitude;
+                        if (dist <= closestDistance && playerDist >= stats.ComputeValue("Min Call Player Distance"))
+                        {
+                            closestPoint = targetLoc;
+                            closestDistance = dist;
+                            hasTarget = true;
+                        }
+                    }
+                }
+            }
+        }
+        else
+        {
+            closestDistance = (closestPoint - (Vector2)transform.position).magnitude;
+        }
         // find the closest spawn point
+        /*
         foreach (GameObject spawnPoint in spawnPoints)
         {
             // ray cast to see if each point is reachable
@@ -42,13 +95,15 @@ public class SurveyDrone : EnemyStateManager
             if (!hit)
             {
                 float dist = (targetLoc - (Vector2)transform.position).magnitude;
-                if (dist <= closestDistance)
+                if (dist <= closestDistance && dist >= stats.ComputeValue("Min Call Travel Distance"))
                 {
                     closestPoint = targetLoc;
                     closestDistance = dist;
+                    hasTarget = true;
                 }
             }
         }
+        */
 
         // if reached spawn point, start spawning
         // if not a single spawn point is reachable, fugg it, I'm laying my egg right here
@@ -76,12 +131,25 @@ public class SurveyDrone : EnemyStateManager
         if (spawningTimer < 0)
         {
             spawningTimer = stats.ComputeValue("Spawn Interval");
+            /*
+            hasTarget = false;
             Vector3 dest = transform.position; // + new Vector3(transform.right.x * transform.lossyScale.x, -transform.lossyScale.y, 0);
             GameObject nenemy = Instantiate(enemyToSummon, dest, transform.rotation);
             enemySpawning.RegisterNewEnemy(nenemy);
             Destroy(nenemy.GetComponent<DropTable>());
+            */
         }
 
+    }
+
+    protected void SpawnEnemy()
+    {
+        hasTarget = false;
+        Vector3 dest = transform.position; // + new Vector3(transform.right.x * transform.lossyScale.x, -transform.lossyScale.y, 0);
+        GameObject nenemy = Instantiate(enemyToSummon, dest, transform.rotation);
+        enemySpawning.RegisterNewEnemy(nenemy);
+        if (enemiesSpawned > 3) Destroy(nenemy.GetComponent<DropTable>());
+        enemiesSpawned++;
     }
 
     protected override void OnDrawGizmos()
@@ -89,40 +157,40 @@ public class SurveyDrone : EnemyStateManager
         base.OnDrawGizmos();
         Gizmos.DrawWireCube(alarmTrigger.position, alarmTrigger.lossyScale);
     }
-    //public override bool HasLineOfSight(bool tracking)
+    //public override bool haslineofsight(bool tracking)
     //{
     //    bool hit_player = false;
 
-    //    Vector2 dir = transform.TransformDirection(Vector2.right);
-    //    float maxDistance = detectionRadius;
+    //    vector2 dir = transform.transformdirection(vector2.right);
+    //    float maxdistance = detectionradius;
 
 
     //    // track player if player is being tracked
     //    if (tracking)
     //    {
-    //        maxDistance = maxDistance * 1.2f;
-    //        float maxTrackDistance = maxDistance * 2;
+    //        maxdistance = maxdistance * 1.2f;
+    //        float maxtrackdistance = maxdistance * 2;
 
     //        dir = player.position - transform.position;
 
-    //        RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, maxTrackDistance, LayerMask.GetMask("Player", "Ground"));
-    //        //Debug.DrawRay(transform.position, dir);
-    //        if (hit && hit.collider.gameObject.CompareTag("Player"))
+    //        raycasthit2d hit = physics2d.raycast(transform.position, dir, maxtrackdistance, layermask.getmask("player", "ground"));
+    //        //debug.drawray(transform.position, dir);
+    //        if (hit && hit.collider.gameobject.comparetag("player"))
     //        {
     //            hit_player = true;
     //        }
     //    }
 
     //    // if not tracking player
-    //    // casts numRays rays in a circle to seek player
-    //    int numRays = 16;
-    //    for (float deg = 0; deg < (360 * Mathf.Deg2Rad); deg += 360 / numRays * Mathf.Deg2Rad)
+    //    // casts numrays rays in a circle to seek player
+    //    int numrays = 16;
+    //    for (float deg = 0; deg < (360 * mathf.deg2rad); deg += 360 / numrays * mathf.deg2rad)
     //    {
     //        // calculate unit vector direction based on angle
-    //        dir = new Vector2(Mathf.Cos(deg), Mathf.Sin(deg));
-    //        RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, maxDistance, LayerMask.GetMask("Player", "Ground"));
-    //        Debug.DrawRay(transform.position, dir * maxDistance);
-    //        if (hit && hit.collider.gameObject.CompareTag("Player"))
+    //        dir = new vector2(mathf.cos(deg), mathf.sin(deg));
+    //        raycasthit2d hit = physics2d.raycast(transform.position, dir, maxdistance, layermask.getmask("player", "ground"));
+    //        debug.drawray(transform.position, dir * maxdistance);
+    //        if (hit && hit.collider.gameobject.comparetag("player"))
     //        {
     //            hit_player = true;
     //        }

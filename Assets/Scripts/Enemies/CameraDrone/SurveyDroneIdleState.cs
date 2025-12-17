@@ -8,6 +8,6 @@ public class SurveyDroneIdleState : IdleState
     {
         base.EnterState(enemy);
         enemy.pool.SetActionReady("CallAlarm", false);
-        enemy.pool.SetActionReady("Move to Spawn Point", true);
+        //enemy.pool.SetActionReady("Move to Spawn Point", true);
     }
 }

@@ -7,10 +7,13 @@ public class CameraDrone : EnemyStateManager
     [SerializeField] protected GameObject enemyToSummon;
     [SerializeField] float detectionRadius = 1;
 
+    private EnemySpawning enemySpawning;
+
     protected override void Start()
     {
         base.Start();
         MoveState = new CameraDroneMoveState();
+        enemySpawning = PersistentData.Instance.GetComponent<EnemySpawning>();
         detectionRadius = stats.ComputeValue("DETECTION_RADIUS");
         print("START AH: " + detectionRadius);
     }
@@ -19,8 +22,18 @@ public class CameraDrone : EnemyStateManager
     /// </summary>
     protected void OnCallAlarm()
     {
+        /*
         Vector3 dest = transform.position; // + new Vector3(transform.right.x * transform.lossyScale.x, -transform.lossyScale.y, 0);
         GameObject nenemy = Instantiate(enemyToSummon, dest, transform.rotation);
+        Destroy(nenemy.GetComponent<DropTable>());
+        */
+    }
+
+    protected void SpawnEnemy()
+    {
+        Vector3 dest = transform.position; // + new Vector3(transform.right.x * transform.lossyScale.x, -transform.lossyScale.y, 0);
+        GameObject nenemy = Instantiate(enemyToSummon, dest, transform.rotation);
+        enemySpawning.RegisterNewEnemy(nenemy);
         Destroy(nenemy.GetComponent<DropTable>());
     }
 

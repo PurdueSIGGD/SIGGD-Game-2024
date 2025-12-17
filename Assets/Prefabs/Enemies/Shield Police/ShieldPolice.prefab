@@ -232,6 +232,7 @@ GameObject:
   - component: {fileID: 8596127092615386582}
   - component: {fileID: 5617972319319629920}
   - component: {fileID: 7208191976245686750}
+  - component: {fileID: 7209850533637579200}
   m_Layer: 21
   m_Name: ShieldPolice
   m_TagString: Enemy
@@ -437,8 +438,8 @@ MonoBehaviour:
   batonDamageVal: 10
   chargeTrigger: {fileID: 5532669551329529462}
   chargeDamage:
-    damageStrength: 4
-    damageTypes: 
+    damageStrength: 3
+    damageTypes: 00000000
     actionID: 17
     actionTypes: 07000000
     extraContext: shield bash
@@ -447,6 +448,8 @@ MonoBehaviour:
   chargeSpeed: 50
   isCharging: 0
   shieldUp: 0
+  blockIcon: {fileID: 21300000, guid: 150239b220dcdfe4c887a06a669c64bc, type: 3}
+  blockMessageColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!255 &2153542378424773396
 FixedJoint2D:
   m_ObjectHideFlags: 0
@@ -597,6 +600,24 @@ MonoBehaviour:
     actionTypes: 
     extraContext: 
     ghostID: 0
+--- !u!114 &7209850533637579200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5499330591125181409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0e77295dfdabb743aaa34d7c0307bf8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  statList:
+  - name: Stun Threshold
+    value: 160
+  stunDuration: 0.6
+  currentStun: 0
+  maxStun: 0
 --- !u!1 &7241042388776439341
 GameObject:
   m_ObjectHideFlags: 0

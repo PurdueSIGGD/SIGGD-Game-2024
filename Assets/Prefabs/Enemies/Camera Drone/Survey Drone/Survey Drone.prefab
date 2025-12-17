@@ -361,11 +361,15 @@ MonoBehaviour:
   - name: Target Range Max
     value: 10
   - name: Enemy Group Aggro Radius
-    value: 10
+    value: 4
   - name: Speed
-    value: 5
+    value: 8
   - name: Spawn Interval
-    value: 6
+    value: 0
+  - name: Min Call Player Distance
+    value: 10
+  - name: Min Call Travel Distance
+    value: 3
 --- !u!114 &1221538207620342913
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -380,7 +384,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Max Health
-    value: 15
+    value: 40
   deathLevel: 
 --- !u!114 &5924195418159167760
 MonoBehaviour:
@@ -443,10 +447,11 @@ MonoBehaviour:
   animator: {fileID: 0}
   isPinkAndProud: 0
   isFlyer: 1
-  aggroRange: 15
+  aggroRange: 8
   isBeingKnockedBack: 0
   grounded: 0
   groundedRayCheckLength: 1
+  enableStunning: 1
   alarmTrigger: {fileID: 7775618551989780944}
   enemyToSummon: {fileID: 1393067818931581941, guid: 040374e0994a9d3488cf595921dd96e5,
     type: 3}
@@ -465,6 +470,7 @@ MonoBehaviour:
   statList:
   - name: Stun Threshold
     value: 20
+  stunDuration: 2
   currentStun: 0
   maxStun: 0
 --- !u!114 &2640131324163235134
@@ -486,8 +492,8 @@ MonoBehaviour:
     ready: 1
     hitBox: {fileID: 7775618551989780944}
     usesCircleHitbox: 0
-    coolDown: 1
-    animationClip: {fileID: 7400000, guid: 6b68d26f5a238b64ebe47ec9e04e22b5, type: 2}
+    coolDown: 7
+    animationClip: {fileID: 7400000, guid: 4d58ca8632224584d8e48a3162619489, type: 2}
   move:
     name: 
     priority: 0

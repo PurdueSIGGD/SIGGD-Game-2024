@@ -313,6 +313,7 @@ MonoBehaviour:
   isBeingKnockedBack: 0
   grounded: 0
   groundedRayCheckLength: 1
+  enableStunning: 1
   kaboomTrigger: {fileID: 2932781976428712665}
   kaboomDamage:
     damageStrength: 3
@@ -375,7 +376,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Max Health
-    value: 15
+    value: 20
   deathLevel: 
 --- !u!114 &947338785010040998
 MonoBehaviour:
@@ -462,7 +463,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Stun Threshold
-    value: 10
+    value: 20
+  stunDuration: 0.6
   currentStun: 0
   maxStun: 0
 --- !u!1 &4301427481350538189

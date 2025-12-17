@@ -462,11 +462,11 @@ MonoBehaviour:
   - name: Heavy Attack Minimum Damage
     value: 20
   - name: Heavy Attack Maximum Damage
-    value: 50
+    value: 60
   - name: Primed Attack Extra Minimum Damage
-    value: 20
+    value: 15
   - name: Primed Attack Extra Maximum Damage
-    value: 50
+    value: 45
   - name: Heavy Attack Minimum Travel Distance
     value: 3
   - name: Heavy Attack Maximum Travel Distance
@@ -482,7 +482,7 @@ MonoBehaviour:
   - name: Heavy Attack Cooldown Time
     value: 1
   - name: Wrath Percent Gain Per Damage Dealt
-    value: 0.6
+    value: 0.5
   - name: Wrath Percent Loss Per Damage Taken
     value: 1000
   - name: Wrath Decay Buffer
@@ -502,7 +502,7 @@ MonoBehaviour:
   - name: Parry Slow Percent
     value: 80
   - name: Special Cooldown
-    value: 6
+    value: 8
   defaultController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
   ghostController: {fileID: 9100000, guid: f32f8db40ef7cc14b84350e7507f9eb9, type: 2}
   heavyDamageContext:
@@ -614,8 +614,8 @@ MonoBehaviour:
     actionTypes: 04000000
     extraContext: 
     ghostID: 3
-  duration: 1.6
-  interval: 0.2
+  duration: 2
+  interval: 0.3
   values:
   - 0
   - 5
@@ -637,12 +637,12 @@ MonoBehaviour:
   skillSO: {fileID: 11400000, guid: 9f3693c9f43a9f3459fa01e57dc9b995, type: 2}
   values:
   - 0
-  - 4
-  - 8
-  - 12
-  - 16
-  parryStacksGained: 3
-  maxStacks: 3
+  - 15
+  - 25
+  - 35
+  - 45
+  parryStacksGained: 1
+  maxStacks: 1
   buffStacks: 0
 --- !u!114 &3968104243975458799
 MonoBehaviour:
@@ -684,10 +684,10 @@ MonoBehaviour:
     ghostID: 3
   values:
   - 0
-  - 0.005
   - 0.01
-  - 0.015
   - 0.02
+  - 0.03
+  - 0.04
 --- !u!114 &6412266853432260435
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -721,7 +721,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: 0179f79cebe153a448ea40fb58ee955a, type: 2}
-  values: 0000000009000000120000001b00000024000000
+  values: 000000000a000000140000001e00000028000000
   pointIndex: 0
 --- !u!114 &7541212193019346481
 MonoBehaviour:

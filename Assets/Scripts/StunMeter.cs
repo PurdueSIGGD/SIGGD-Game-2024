@@ -13,6 +13,7 @@ using UnityEngine;
 public class StunMeter : MonoBehaviour, IStatList
 {
     [SerializeField] public StatManager.Stat[] statList;
+    [SerializeField] private float stunDuration = 0.6f;
 
     public float currentStun;
     public float maxStun;
@@ -52,14 +53,14 @@ public class StunMeter : MonoBehaviour, IStatList
 
     public void Damage(DamageContext context)
     {
-        if (context.victim != gameObject) return;
+        if (context.victim != gameObject || context.damage <= 0f) return;
         float stun = ComputeStunBuildUp(context.damageStrength);
         currentStun -= stun;
 
         if (currentStun <= 0)
         {
             currentStun = maxStun = stats.ComputeValue("Stun Threshold");
-            esm.Stun(context, 0.6f);
+            esm.Stun(context, stunDuration);
         }
     }
 

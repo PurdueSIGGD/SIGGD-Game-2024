@@ -344,6 +344,7 @@ MonoBehaviour:
   isBeingKnockedBack: 0
   grounded: 0
   groundedRayCheckLength: 1
+  enableStunning: 1
   alarmTrigger: {fileID: 7775618551989780944}
   enemyToSummon: {fileID: 1487853512614266132, guid: 73f93381fbec0764a90fbc89c20293ff,
     type: 3}
@@ -401,7 +402,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Max Health
-    value: 30
+    value: 40
   deathLevel: 
 --- !u!114 &4086416775877823508
 MonoBehaviour:
@@ -499,6 +500,7 @@ MonoBehaviour:
   statList:
   - name: Stun Threshold
     value: 20
+  stunDuration: 2
   currentStun: 0
   maxStun: 0
 --- !u!1001 &1498013908851705233

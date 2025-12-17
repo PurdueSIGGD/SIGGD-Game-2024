@@ -27,6 +27,9 @@ public class ShieldPolice : EnemyStateManager
     [SerializeField] protected bool isCharging;
     [SerializeField] bool shieldUp;
 
+    [SerializeField] protected Sprite blockIcon;
+    [SerializeField] protected Color blockMessageColor;
+
     void OnDestroy()
     {
         GameplayEventHolder.OnDamageFilter.Remove(ShieldUpDamageFilter);
@@ -46,6 +49,7 @@ public class ShieldPolice : EnemyStateManager
     void ShieldHit()
     {
         print("CCCLANK chhhhhHHHH (the real sound of a kopesh hitting a shield)");
+        DamageNumberManager.instance.PlayMessage(this.gameObject, 0f, blockIcon, "Blocked!", blockMessageColor);
     }
     public void ShieldUpDamageFilter(ref DamageContext context)
     {
