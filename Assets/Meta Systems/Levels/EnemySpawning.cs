@@ -124,14 +124,14 @@ public class EnemySpawning : MonoBehaviour
     public void SpawnEnemy(Vector2 spawnPosition, GameObject enemy = null, GameObject orb = null)
     {
         // create the appropriate orb and add it to the list
-        GameObject orbToSpawn = orb != null ? orb : spawnOrb;
+        GameObject orbToSpawn = (orb != null) ? orb : spawnOrb;
         GameObject newEnemySpawnOrb = Instantiate(orbToSpawn, spawnPosition, Quaternion.identity);
         currentSpawnOrbs.Add(newEnemySpawnOrb);
 
         // apply the appropriate enemy prefab to the newly created orb
-        GameObject enemyToSpawn = enemy != null ? enemy : GetNextEnemy();
+        GameObject enemyToSpawn = (enemy != null) ? enemy : GetNextEnemy();
         newEnemySpawnOrb.GetComponent<EnemySpawnOrb>().Initialize(
-            GetNextEnemy(),
+            enemyToSpawn,
             RegisterNewEnemy,
             currentSpawnOrbs.Remove
         );

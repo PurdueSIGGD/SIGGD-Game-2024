@@ -10,6 +10,8 @@ public class SpiritBomber : EnemyStateManager
     [SerializeField] protected Transform bombSpawn;
     [SerializeField] protected Transform bombShoot;
 
+    protected Vector3 throwPosition = Vector3.zero;
+
     protected override void Start()
     {
         base.Start();
@@ -24,11 +26,17 @@ public class SpiritBomber : EnemyStateManager
              }
      } */
     //initialize bomb
+
+    protected void StartThrow()
+    {
+        throwPosition = PlayerID.instance.transform.position;
+    }
+
     protected void ThrowBomb()
     {
         GameObject bomb = Instantiate(bombPrefab, bombSpawn.position, Quaternion.identity);
-        TrackingProjectile trackingProjectile = bomb.GetComponent<TrackingProjectile>();
-        trackingProjectile.Init(this.gameObject, PlayerID.instance.gameObject.transform.position);
+        EnemyProjectile trackingProjectile = bomb.GetComponent<EnemyProjectile>();
+        trackingProjectile.Init(this.gameObject, throwPosition);
 
     }
     protected override void OnDrawGizmos()

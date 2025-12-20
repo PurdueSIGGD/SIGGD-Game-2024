@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 /// <summary>
@@ -11,6 +12,9 @@ public class EnemyProjectile : MonoBehaviour, IStatList
     [SerializeField] protected float speed; // Speed of the projectile
     [SerializeField] public DamageContext projectileDamage; // Damage of the projectile
     [SerializeField] protected float range = Screen.width; // Range of the projectile, defaults to the bounds of the camera.
+    [SerializeField] bool terrainCollision = true;
+    [SerializeField] bool rotateWithVelocity = false;
+    [SerializeField] Vector3 rotationOffset = Vector3.zero;
 
     public string target = "Player";
 
@@ -47,6 +51,11 @@ public class EnemyProjectile : MonoBehaviour, IStatList
         this.parent = parent;
         dir = (target - transform.position).normalized;
         bounds = dir * range + transform.position;
+        float yDir = dir.normalized.y;
+        //float zRot = Mathf.Sign(yDir) * Mathf.Lerp(0f, 90f, Mathf.Abs(yDir));
+        float zRot = Mathf.Lerp(0f, 90f, Mathf.Abs(yDir));
+        Vector3 vectorRotation = (rotateWithVelocity) ? new Vector3(0f, 0f, zRot) : Vector3.zero;
+        transform.rotation = new Quaternion(vectorRotation.x, vectorRotation.y, vectorRotation.z, 0f);
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -68,7 +77,7 @@ public class EnemyProjectile : MonoBehaviour, IStatList
             return;
         }
 
-        if (/*collision.gameObject.CompareTag(target) || collision.gameObject.CompareTag("Idol_Clone") ||*/ collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        if (/*collision.gameObject.CompareTag(target) || collision.gameObject.CompareTag("Idol_Clone") ||*/ collision.gameObject.layer == LayerMask.NameToLayer("Ground") && terrainCollision)
             Destroy(gameObject);
     }
 
@@ -108,5 +117,15 @@ public class EnemyProjectile : MonoBehaviour, IStatList
     public StatManager GetStats()
     {
         return statManager;
+    }
+
+    public float GetSpeed()
+    {
+        return speed;
+    }
+
+    public void SetSpeed(float speed)
+    {
+        this.speed = speed;
     }
 }

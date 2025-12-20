@@ -186,35 +186,75 @@ MonoBehaviour:
       chance: 1
     levelNum: 29
   enemies:
-  - enemy: {fileID: 5758368328312758866, guid: c951616ad3a6e144c924fdd5c6e233ba, type: 3}
-    chanceRanges:
-    - start: 0
-      startChance: 7
-      endChance: 10
   - enemy: {fileID: 7597283847596822443, guid: 3dfd01b268b53f64f92303a3beca2629, type: 3}
     chanceRanges:
     - start: 0
-      startChance: 0
-      endChance: 0
-    - start: 0.1
-      startChance: 5
-      endChance: 7
-  - enemy: {fileID: 7082360647951944938, guid: f89113fcc3f72c740a515ecdb1000ff0, type: 3}
+      startChance: 0.75
+      endChance: 0.25
+  - enemy: {fileID: 7597283847596822443, guid: 676f04a2724af954692fb5d4ef4244bf, type: 3}
+    chanceRanges:
+    - start: 0
+      startChance: 0.5
+      endChance: 0.25
+  - enemy: {fileID: 5758368328312758866, guid: c951616ad3a6e144c924fdd5c6e233ba, type: 3}
     chanceRanges:
     - start: 0
       startChance: 0
-      endChance: 0
-    - start: 0.3
-      startChance: 2
-      endChance: 3
+      endChance: 0.1
+    - start: 0.12
+      startChance: 0.25
+      endChance: 1
+  - enemy: {fileID: 5758368328312758866, guid: b7a7658b79d9e3147a08cd027a932370, type: 3}
+    chanceRanges:
+    - start: 0
+      startChance: 1
+      endChance: 1
+    - start: 0.2
+      startChance: 1
+      endChance: 1
   - enemy: {fileID: 534547673104865347, guid: a7d2dc837e6c9d1458a16e97c1e260bd, type: 3}
     chanceRanges:
     - start: 0
       startChance: 0
       endChance: 0
-    - start: 0.5
-      startChance: 5
-      endChance: 10
+    - start: 7
+      startChance: 0.1
+      endChance: 0.1
+  - enemy: {fileID: 7082360647951944938, guid: f89113fcc3f72c740a515ecdb1000ff0, type: 3}
+    chanceRanges:
+    - start: 0
+      startChance: 0
+      endChance: 0
+    - start: 3
+      startChance: 1
+      endChance: 2
+  - enemy: {fileID: 5758368328312758866, guid: c917db3c38e69554b853c61570261279, type: 3}
+    chanceRanges:
+    - start: 0
+      startChance: 0
+      endChance: 0
+    - start: 5
+      startChance: 0.1
+      endChance: 1.2
+    - start: 20
+      startChance: 2
+      endChance: 4
+  - enemy: {fileID: 7597283847596822443, guid: f5f3834f10af6164591157fbcf91275b, type: 3}
+    chanceRanges:
+    - start: 0
+      startChance: 0
+      endChance: 0
+    - start: 7
+      startChance: 2
+      endChance: 7
+  - enemy: {fileID: 7597283847596822443, guid: 167beebf7908f97439a94caf567910b9, type: 3}
+    chanceRanges:
+    - start: 0
+      startChance: 0
+      endChance: 0
+    - start: 7
+      startChance: 0.4
+      endChance: 0.8
   era: 1
   ghostOneFirstEncounterLoc: 3
   ghostOneStoryBeatOne: 3

@@ -127,7 +127,7 @@ Transform:
   m_GameObject: {fileID: 5176752134188796304}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.48, y: -0.5, z: -0.08319282}
+  m_LocalPosition: {x: 0.6, y: -0.48, z: -0.08319282}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -158,8 +158,8 @@ Transform:
   m_GameObject: {fileID: 6046816053600295553}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5, y: 0.7900001, z: -0.016707346}
-  m_LocalScale: {x: 10.0427065, y: 7.06, z: 1}
+  m_LocalPosition: {x: 5.05, y: 0.7900001, z: -0.016707346}
+  m_LocalScale: {x: 10.051015, y: 7.06, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2836107229570927023}
@@ -185,7 +185,7 @@ GameObject:
   - component: {fileID: 716166490802671628}
   - component: {fileID: 3094740750142253474}
   m_Layer: 21
-  m_Name: SpiritBomber
+  m_Name: SpiritLauncher
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -272,7 +272,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -1936476703, guid: f8d1813b827388c498bf0e7cac559653, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.8117647, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -376,7 +376,7 @@ MonoBehaviour:
   grounded: 0
   groundedRayCheckLength: 1.6
   enableStunning: 1
-  bombPrefab: {fileID: 2721583823844912661, guid: bae46657d5d6ae642959461414e19afb,
+  bombPrefab: {fileID: 5156741841575326909, guid: 919e7c8998366064b80ba095f0d1c19c,
     type: 3}
   bombCooldown: 4
   bombSpawn: {fileID: 6433846695187082099}

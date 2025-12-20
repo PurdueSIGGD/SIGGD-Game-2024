@@ -10,11 +10,11 @@ public class YokaiPosessionScript : MonoBehaviour
     [SerializeField] GameObject parentEnemyPrefab;
     [SerializeField] GameObject yokaiOrbPrefab;
 
-    void Awake()
+    void OnEnable()
     {
         GameplayEventHolder.OnDeath += OnDeath;
     }
-    void OnDestroy()
+    void OnDisable()
     {
         GameplayEventHolder.OnDeath -= OnDeath;
     }

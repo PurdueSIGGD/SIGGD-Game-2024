@@ -101,8 +101,8 @@ public class PoliceChiefRailgunShot : MonoBehaviour
         // Damage and stun enemies that have not yet been hit
         if (damagedEnemies.Contains(enemyHit.transform.gameObject)) yield break;
         damagedEnemies.Add(enemyHit.transform.gameObject);
-        enemyHit.transform.gameObject.GetComponent<Health>().Damage(manager.specialDamage, PlayerID.instance.gameObject);
-        enemyHit.transform.gameObject.GetComponent<EnemyStateManager>().Stun(manager.specialDamage, manager.GetStats().ComputeValue("Special Stun Time"));
+        enemyHit.transform.gameObject.GetComponent<Health>()?.Damage(manager.specialDamage, PlayerID.instance.gameObject);
+        enemyHit.transform.gameObject.GetComponent<EnemyStateManager>()?.Stun(manager.specialDamage, manager.GetStats().ComputeValue("Special Stun Time"));
 
         // Energy Siphon CD reduction
         if (!allDamagedEnemies.Contains(enemyHit.transform.gameObject))

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class EnemySpawnOrb : MonoBehaviour
 {
-    GameObject enemyPrefab;
+    [SerializeField] GameObject enemyPrefab;
     [SerializeField] Color orbColor;
     [SerializeField] SpriteRenderer renderer;
     [SerializeField] ParticleSystem particleSystem;

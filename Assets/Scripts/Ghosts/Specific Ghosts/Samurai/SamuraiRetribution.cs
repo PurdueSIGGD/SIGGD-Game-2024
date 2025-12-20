@@ -98,6 +98,9 @@ public class SamuraiRetribution : MonoBehaviour
                     projectile.target = "Enemy";
                     projectile.SwitchDirections();
                     projectile.SetParried(true);
+                    float projectileSpeed = Mathf.Max((projectile.GetSpeed() * manager.GetStats().ComputeValue("Parry Projectile Speed Modifier")),
+                                                      manager.GetStats().ComputeValue("Parry Projectile Min Speed"));
+                    projectile.SetSpeed(projectileSpeed);
                     NotifyParrySuccess(coll2d.transform.position);
                 }
             }
@@ -139,9 +142,12 @@ public class SamuraiRetribution : MonoBehaviour
                                 + manager.GetStats().ComputeValue("Melee Parry Base Damage");
 
             EnemyStateManager esm = context.attacker.GetComponent<EnemyStateManager>();
-            esm.Stun(newContext, manager.GetStats().ComputeValue("Melee Parry Stun Time"));
-            esm.ApplyKnockback(Vector3.up, 6f, 0.3f);
-            esm.ApplyKnockback(context.attacker.transform.position - context.victim.transform.position, 3.8f, 0.3f);
+            if (esm != null)
+            {
+                esm.Stun(newContext, manager.GetStats().ComputeValue("Melee Parry Stun Time"));
+                esm.ApplyKnockback(Vector3.up, 6f, 0.3f);
+                esm.ApplyKnockback(context.attacker.transform.position - context.victim.transform.position, 3.8f, 0.3f);
+            }
             context.attacker.GetComponent<Health>().Damage(newContext, gameObject);
 
             context.damage = 0;
