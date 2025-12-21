@@ -36,7 +36,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 1.63}
+  m_AnchoredPosition: {x: -0.37, y: 0.85}
   m_SizeDelta: {x: 4, y: 2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &1920737223245581896
@@ -127,7 +127,7 @@ Transform:
   m_GameObject: {fileID: 5176752134188796304}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.84, y: -0.57, z: -0.08319282}
+  m_LocalPosition: {x: 0.48, y: -0.5, z: -0.08319282}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -158,8 +158,8 @@ Transform:
   m_GameObject: {fileID: 6046816053600295553}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.82, y: 0.5899999, z: -0.016707346}
-  m_LocalScale: {x: 10.22, y: 7.06, z: 1}
+  m_LocalPosition: {x: 5, y: 0.7900001, z: -0.016707346}
+  m_LocalScale: {x: 10.0427065, y: 7.06, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2836107229570927023}
@@ -181,9 +181,8 @@ GameObject:
   - component: {fileID: 8825120488058023643}
   - component: {fileID: -4835992007435321160}
   - component: {fileID: 3218064792512490133}
-  - component: {fileID: 10587920754946119}
-  - component: {fileID: 8402980381744890554}
-  - component: {fileID: -7868951753672410804}
+  - component: {fileID: 716166490802671628}
+  - component: {fileID: 3094740750142253474}
   m_Layer: 21
   m_Name: SpiritBomberPossessed
   m_TagString: Enemy
@@ -202,12 +201,12 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6433846695187082099}
   - {fileID: 2041526589549026373}
   - {fileID: 2433666517616207615}
-  - {fileID: 6219145960711714464}
+  - {fileID: 6498551910296059863}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &-6297545820584830320
@@ -273,7 +272,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -1936476703, guid: f8d1813b827388c498bf0e7cac559653, type: 3}
-  m_Color: {r: 1, g: 0.81026864, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -295,8 +294,8 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 2
-  m_LinearDrag: 0
+  m_Mass: 1
+  m_LinearDrag: 1
   m_AngularDrag: 0.05
   m_GravityScale: 4
   m_Material: {fileID: 0}
@@ -342,7 +341,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.22453386, y: -0.6576888}
+  m_Offset: {x: -0.29943585, y: -0.7147933}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -353,7 +352,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.2201418, y: 1.73829}
+  m_Size: {x: 1.4493489, y: 1.639929}
   m_EdgeRadius: 0
 --- !u!114 &7309237145670244999
 MonoBehaviour:
@@ -372,10 +371,10 @@ MonoBehaviour:
   animator: {fileID: 0}
   isPinkAndProud: 0
   isFlyer: 0
-  aggroRange: 20
+  aggroRange: 15
   isBeingKnockedBack: 0
   grounded: 0
-  groundedRayCheckLength: 1.3
+  groundedRayCheckLength: 1.6
   enableStunning: 1
   bombPrefab: {fileID: 2721583823844912661, guid: bae46657d5d6ae642959461414e19afb,
     type: 3}
@@ -400,7 +399,7 @@ MonoBehaviour:
   - name: Speed
     value: 3
   - name: Enemy Group Aggro Radius
-    value: 3
+    value: 10
   - name: Target Range Min
     value: 3
   - name: Target Range Max
@@ -462,32 +461,7 @@ MonoBehaviour:
     usesCircleHitbox: 0
     coolDown: 0
     animationClip: {fileID: 7400000, guid: 49f75cb2c74221c42bed7ab6414fd87f, type: 2}
---- !u!114 &10587920754946119
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7597283847596822443}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2caedd7880af52f4d89d2cfdf945a215, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dropTable:
-  - obj: {fileID: 4809253014695496824, guid: fe291ced3ae40fc46a74c816a48d0e61, type: 3}
-    chance: 1
-    minCount: 2
-    maxCount: 5
-  - obj: {fileID: 4809253014695496824, guid: 4950ea8f40c9d9944b6d20a6150d4cce, type: 3}
-    chance: 1
-    minCount: 2
-    maxCount: 5
-  - obj: {fileID: 4809253014695496824, guid: e8a6431bc0e6c7a4e922f586f4216e97, type: 3}
-    chance: 1
-    minCount: 2
-    maxCount: 5
---- !u!114 &8402980381744890554
+--- !u!114 &716166490802671628
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -506,7 +480,7 @@ MonoBehaviour:
     actionTypes: 
     extraContext: 
     ghostID: 0
---- !u!114 &-7868951753672410804
+--- !u!114 &3094740750142253474
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -521,6 +495,7 @@ MonoBehaviour:
   statList:
   - name: Stun Threshold
     value: 60
+  stunDuration: 0.6
   currentStun: 0
   maxStun: 0
 --- !u!1001 &3695147616567067761
@@ -677,7 +652,7 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 3695147616567067761}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &6966910000461067449
+--- !u!1001 &7840425547434704334
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -687,9 +662,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1164196210051250773, guid: d1b2bbb4ebd568b48b31667d0493b48e,
         type: 3}
-      propertyPath: parentEnemyPrefab
+      propertyPath: yokaiOrbPrefab
       value: 
-      objectReference: {fileID: 7597283847596822443}
+      objectReference: {fileID: 7951563050262519672, guid: 53024970a81699f4d99616d710602312,
+        type: 3}
     - target: {fileID: 1712006515183212596, guid: d1b2bbb4ebd568b48b31667d0493b48e,
         type: 3}
       propertyPath: m_Name
@@ -750,9 +726,9 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d1b2bbb4ebd568b48b31667d0493b48e, type: 3}
---- !u!4 &6219145960711714464 stripped
+--- !u!4 &6498551910296059863 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3954644217902383641, guid: d1b2bbb4ebd568b48b31667d0493b48e,
     type: 3}
-  m_PrefabInstance: {fileID: 6966910000461067449}
+  m_PrefabInstance: {fileID: 7840425547434704334}
   m_PrefabAsset: {fileID: 0}

@@ -4,14 +4,32 @@ using UnityEngine;
 
 public class YokaiOrbManager : EnemyStateManager
 {
+    [SerializeField] private float spawnTime;
+    [SerializeField] private GameObject enemyToSpawn;
+    [SerializeField] private float enemySpawnSelfDamage;
+    [SerializeField] private DamageContext enemySpawnSelfDamageContext;
+
     [Header("Custom Crow Tracking")]
     [SerializeField] float detectionRadius;
+
+    private EnemySpawning enemySpawning;
 
     void Start()
     {
         base.Start();
         MoveState = new YokaiMoveState(true);
+        enemySpawning = PersistentData.Instance.GetComponent<EnemySpawning>();
+        StartCoroutine(SpawnEnemy());
     }
+
+
+
+    public void SetEnemyToSpawn(GameObject enemyToSpawn)
+    {
+        this.enemyToSpawn = enemyToSpawn;
+    }
+
+
 
     public override bool HasLineOfSight(bool tracking)
     {
@@ -52,6 +70,19 @@ public class YokaiOrbManager : EnemyStateManager
         }
         return hit_player;
     }
+
+
+
+    private IEnumerator SpawnEnemy()
+    {
+        yield return new WaitForSeconds(spawnTime);
+        GameObject nenemy = Instantiate(enemyToSpawn, transform.position, transform.rotation);
+        enemySpawning.RegisterNewEnemy(nenemy);
+        enemySpawnSelfDamageContext.damage = enemySpawnSelfDamage;
+        GetComponent<Health>().Damage(enemySpawnSelfDamageContext, gameObject);
+    }
+
+
 
     protected override void OnDrawGizmos()
     {

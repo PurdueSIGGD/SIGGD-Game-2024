@@ -17,6 +17,7 @@ public class Ronin : EnemyStateManager
     [SerializeField] float dashDamageVal;
     [SerializeField] protected float dashSpeed;
     [SerializeField] protected bool isDashing;
+    [SerializeField] protected bool canDashSwing = false;
 
     void SwingSword()
     {
@@ -42,7 +43,7 @@ public class Ronin : EnemyStateManager
     {
         rb.velocity = Vector2.zero;
         dashCollider.enabled = false;
-        animator.ResetTrigger("dash_hit");
+        if (canDashSwing) animator.ResetTrigger("dash_hit");
         isDashing = false;
     }
     public void OnDashHit(Collider2D col)
@@ -53,7 +54,7 @@ public class Ronin : EnemyStateManager
             dashDamage.damage = dashDamageVal;
             col.gameObject.GetComponent<Health>().Damage(dashDamage, gameObject);
             EndDash();
-            animator.SetTrigger("dash_hit");
+            if (canDashSwing) animator.SetTrigger("dash_hit");
         }
     }
     protected override void OnFinishAnimation()

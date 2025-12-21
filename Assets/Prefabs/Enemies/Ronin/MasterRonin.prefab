@@ -172,7 +172,7 @@ GameObject:
   - component: {fileID: 5436494508425736163}
   - component: {fileID: -5486637794773673572}
   m_Layer: 21
-  m_Name: Ronin
+  m_Name: MasterRonin
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -188,7 +188,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.33, y: 0.33, z: 0.33}
+  m_LocalScale: {x: 0.35, y: 0.35, z: 0.35}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 7565977893133872963}
@@ -207,7 +207,7 @@ Animator:
   m_GameObject: {fileID: 5758368328312758866}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 8d00c571c2465274db517c5cf9ea913c, type: 2}
+  m_Controller: {fileID: 9100000, guid: 13edaf9079071ec49b66cfc8714dcdf7, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -259,7 +259,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2077229447, guid: 0f80a601fd2907145ac8c668ebcfd413, type: 3}
+  m_Sprite: {fileID: 1656363928, guid: e1af30a3cf8566f4583e8e5f30180a85, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
   m_FlipY: 0
@@ -290,7 +290,7 @@ MonoBehaviour:
   aggroRange: 14
   isBeingKnockedBack: 0
   grounded: 0
-  groundedRayCheckLength: 1
+  groundedRayCheckLength: 1.2
   enableStunning: 1
   swordTrigger: {fileID: 7565977893133872963}
   swordDamage:
@@ -300,7 +300,7 @@ MonoBehaviour:
     actionTypes: 07000000
     extraContext: Ronin sword attack
     ghostID: 0
-  swordDamageVal: 10
+  swordDamageVal: 6
   dashCollider: {fileID: 3546262199324420215}
   dashTrigger: {fileID: 7986608270766379654}
   dashDamage:
@@ -313,6 +313,7 @@ MonoBehaviour:
   dashDamageVal: 10
   dashSpeed: 50
   isDashing: 0
+  canDashSwing: 1
 --- !u!114 &565511163646216881
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -333,14 +334,14 @@ MonoBehaviour:
     hitBox: {fileID: 7565977893133872963}
     usesCircleHitbox: 0
     coolDown: 2
-    animationClip: {fileID: 7400000, guid: 430d6a0c8d9e0024d86bc9f882250f00, type: 2}
+    animationClip: {fileID: 7400000, guid: e72a3f4899b0d9d43b8aa497541706fe, type: 2}
   - name: Dash
     priority: 1
     ready: 1
     hitBox: {fileID: 7986608270766379654}
     usesCircleHitbox: 0
     coolDown: 7
-    animationClip: {fileID: 7400000, guid: b0416459c1ed4dc42b945020e1868e92, type: 2}
+    animationClip: {fileID: 7400000, guid: 9f3f32fe3465a2b458508fe77c4d2871, type: 2}
   move:
     name: Move
     priority: 1
@@ -348,7 +349,7 @@ MonoBehaviour:
     hitBox: {fileID: 0}
     usesCircleHitbox: 0
     coolDown: 0
-    animationClip: {fileID: 7400000, guid: 93629f04252375b45b0f4f4f69a87aeb, type: 2}
+    animationClip: {fileID: 7400000, guid: 98e3bab3f6b91aa4987dfff7a09ebc56, type: 2}
   idle:
     name: Idle
     priority: 1
@@ -356,7 +357,7 @@ MonoBehaviour:
     hitBox: {fileID: 0}
     usesCircleHitbox: 0
     coolDown: 0
-    animationClip: {fileID: 7400000, guid: ae88520d4a0e56a4fbe68e90bfa9385c, type: 2}
+    animationClip: {fileID: 7400000, guid: 7cb4904ceb0968749a08978329eac08e, type: 2}
 --- !u!50 &978463440714845906
 Rigidbody2D:
   serializedVersion: 4
@@ -443,9 +444,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Idle Speed
-    value: 5
+    value: 3
   - name: Speed
-    value: 8
+    value: 5
   - name: Enemy Group Aggro Radius
     value: 20
   - name: Target Range Min
@@ -470,7 +471,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Max Health
-    value: 120
+    value: 140
   deathLevel: 
 --- !u!114 &3047485959818697918
 MonoBehaviour:
@@ -487,16 +488,16 @@ MonoBehaviour:
   dropTable:
   - obj: {fileID: 4809253014695496824, guid: 4950ea8f40c9d9944b6d20a6150d4cce, type: 3}
     chance: 1
-    minCount: 2
-    maxCount: 5
+    minCount: 3
+    maxCount: 7
   - obj: {fileID: 4809253014695496824, guid: fe291ced3ae40fc46a74c816a48d0e61, type: 3}
     chance: 1
-    minCount: 2
-    maxCount: 5
+    minCount: 3
+    maxCount: 7
   - obj: {fileID: 4809253014695496824, guid: e8a6431bc0e6c7a4e922f586f4216e97, type: 3}
     chance: 1
-    minCount: 2
-    maxCount: 5
+    minCount: 3
+    maxCount: 7
 --- !u!255 &1015405886979419828
 FixedJoint2D:
   m_ObjectHideFlags: 0
@@ -513,7 +514,7 @@ FixedJoint2D:
   m_BreakAction: 0
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: -0.42, y: 0.10571428}
+  m_ConnectedAnchor: {x: -0.42, y: 0.105714284}
   m_DampingRatio: 0
   m_Frequency: 0
 --- !u!114 &5436494508425736163
@@ -549,7 +550,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Stun Threshold
-    value: 100
+    value: 160
   stunDuration: 0.6
   currentStun: 0
   maxStun: 0
@@ -787,7 +788,7 @@ PrefabInstance:
     - target: {fileID: 1599626218514645716, guid: f82d61c6f20788c41b3b1bf12452e612,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 1.0330048
+      value: 1.2319946
       objectReference: {fileID: 0}
     - target: {fileID: 1599626218514645716, guid: f82d61c6f20788c41b3b1bf12452e612,
         type: 3}

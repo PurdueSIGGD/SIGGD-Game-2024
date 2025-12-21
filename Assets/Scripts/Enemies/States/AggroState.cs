@@ -45,6 +45,7 @@ public class AggroState : IEnemyStates
 
             if (otherEnemy == null) { continue; }
             if (otherEnemy.Equals(enemy)) { continue; }
+            if (otherEnemy.GetCurrentState() == null) { continue; }
 
             if (!otherEnemy.GetCurrentState().Equals(otherEnemy.IdleState))
             {

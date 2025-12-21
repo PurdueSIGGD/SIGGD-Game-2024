@@ -88,13 +88,15 @@ public class Health : MonoBehaviour, IDamageable, IStatList
         // Trigger events
         GameplayEventHolder.OnDamageDealt?.Invoke(context);
 
+        AggroEnemy(context.victim);
+
         // Kill entity
         if (currentHealth <= 0f)
         {
             Kill(context);
         }
 
-        AggroEnemy(context.victim);
+        //AggroEnemy(context.victim);
 
         return context.damage;
     }
@@ -195,6 +197,7 @@ public class Health : MonoBehaviour, IDamageable, IStatList
         if (obj.CompareTag("Enemy"))
         {
             EnemyStateManager enemy = obj.GetComponent<EnemyStateManager>();
+            //if (enemy.GetCurrentState() == null) return;
             if (enemy != null && (enemy.GetCurrentState().GetType().Equals(typeof(IdleState)) || enemy.GetCurrentState().GetType().Equals(typeof(MoveState))))
             {
                 enemy.SwitchState(enemy.AggroState);

@@ -167,7 +167,6 @@ GameObject:
   - component: {fileID: 1673412003558067465}
   - component: {fileID: 488377544483923326}
   - component: {fileID: 963103238379512714}
-  - component: {fileID: 3047485959818697918}
   - component: {fileID: 1015405886979419828}
   - component: {fileID: 5436494508425736163}
   - component: {fileID: -5486637794773673572}
@@ -340,7 +339,7 @@ MonoBehaviour:
     ready: 1
     hitBox: {fileID: 7986608270766379654}
     usesCircleHitbox: 0
-    coolDown: 5
+    coolDown: 7
     animationClip: {fileID: 7400000, guid: b0416459c1ed4dc42b945020e1868e92, type: 2}
   move:
     name: Move
@@ -473,31 +472,6 @@ MonoBehaviour:
   - name: Max Health
     value: 120
   deathLevel: 
---- !u!114 &3047485959818697918
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5758368328312758866}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2caedd7880af52f4d89d2cfdf945a215, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dropTable:
-  - obj: {fileID: 4809253014695496824, guid: 4950ea8f40c9d9944b6d20a6150d4cce, type: 3}
-    chance: 1
-    minCount: 2
-    maxCount: 5
-  - obj: {fileID: 4809253014695496824, guid: fe291ced3ae40fc46a74c816a48d0e61, type: 3}
-    chance: 1
-    minCount: 2
-    maxCount: 5
-  - obj: {fileID: 4809253014695496824, guid: e8a6431bc0e6c7a4e922f586f4216e97, type: 3}
-    chance: 1
-    minCount: 2
-    maxCount: 5
 --- !u!255 &1015405886979419828
 FixedJoint2D:
   m_ObjectHideFlags: 0
@@ -849,6 +823,12 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2725159293832616438}
     m_Modifications:
+    - target: {fileID: 1164196210051250773, guid: d1b2bbb4ebd568b48b31667d0493b48e,
+        type: 3}
+      propertyPath: yokaiOrbPrefab
+      value: 
+      objectReference: {fileID: 7951563050262519672, guid: d6a1ff686b73e28489c260c2112ca321,
+        type: 3}
     - target: {fileID: 1164196210051250773, guid: d1b2bbb4ebd568b48b31667d0493b48e,
         type: 3}
       propertyPath: parentEnemyPrefab
