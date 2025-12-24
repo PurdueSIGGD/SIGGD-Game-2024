@@ -1,47 +1,15 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 /// <summary>
 /// This script is only used to clear specific values on entering hub world
 /// </summary>
 public class EnterHub : MonoBehaviour
 {
-    [Header("North")]
-    [SerializeField] GhostInteract north;
-    [SerializeField] ConvoSO northHubEntrance;
-    [SerializeField] ConvoSO northMaxTrust;
-    [SerializeField] ConvoSO northStartSB3;
-
-    [Header("Eva")]
-    [SerializeField] GhostInteract eva;
-    [SerializeField] ConvoSO evaHubEntrance;
-    [SerializeField] ConvoSO evaMaxTrust;
-    [SerializeField] ConvoSO evaStartSB3;
-
-    [Header("Akihito")]
-    [SerializeField] GhostInteract akihito;
-    [SerializeField] ConvoSO akihitoHubEntrance;
-    [SerializeField] ConvoSO akihitoMaxTrust;
-    [SerializeField] ConvoSO akihitoStartSB3;
-
-    [Header("Yume")]
-    [SerializeField] GhostInteract yume;
-    [SerializeField] ConvoSO yumeHubEntrance;
-    [SerializeField] ConvoSO yumeMaxTrust;
-    [SerializeField] ConvoSO yumeStartSB3;
-
-    [Header("Silas")]
-    [SerializeField] GhostInteract silas;
-    [SerializeField] ConvoSO silasHubEntrance;
-    [SerializeField] ConvoSO silasMaxTrust;
-    [SerializeField] ConvoSO silasStartSB3;
-
-    [Header("Aegis")]
-    [SerializeField] GhostInteract aegis;
-    [SerializeField] ConvoSO aegisHubEntrance;
-    [SerializeField] ConvoSO aegisMaxTrust;
-    [SerializeField] ConvoSO aegisStartSB3;
+    [Header("Ghosts")]
+    [SerializeField] List<GhostHubInfo> ghostHubInfos;
 
     [Header("Death")]
     [SerializeField] DialogueTriggerBox death;
@@ -53,6 +21,11 @@ public class EnterHub : MonoBehaviour
     [Header("Generic")]
     [SerializeField] GameObject newInteractionIndicator;
 
+    [Header("Ghost To Ghost Convo")]
+    [Tooltip("Out of 100"), SerializeField] float triggerChance;
+
+    HashSet<string> avaliableGhostToGhostConvo;
+
     void Awake()
     {
         SaveManager.data.eva.tempoCount = 0;
@@ -63,19 +36,87 @@ public class EnterHub : MonoBehaviour
 
         PersistentData.Instance.GetComponent<SpiritTracker>().ClearSpirits();
         PersistentData.Instance.GetComponent<ItemInventory>().ReturnItemsToPool();
-    }
 
-    // orion = 0: new game
-    // orion = 1: beated nova point
-    // orion = 2: talked to death about nova point
-    // orion = 3: beated shigora
-    // orion = 4: talked to death about shigora
-    // orion = 5: beated caladria
-    // orion = 6: talked to death about caladria
+        avaliableGhostToGhostConvo = new();
+    }
 
     void Start()
     {
-        // Death/Orion
+        LoadDeathEncounter();
+        LoadConversation();
+        GenerateGhostToGhost();
+    }
+
+    private void GenerateGhostToGhost()
+    {
+        if (Random.Range(0, 100) >= triggerChance) return;
+
+        // pick from a ghost that doesn't currently have an active convo
+
+    }
+
+    private void LoadConversation()
+    {
+        foreach (GhostHubInfo ghostInfo in ghostHubInfos)
+        {
+            GhostData saveData = GetGhostSaveData(ghostInfo.nickname);
+            GameObject ghost = ghostInfo.interact.gameObject;
+            string fullname = ghostInfo.fullname;
+            string nickname = ghostInfo.nickname;
+            GhostInteract interact = ghostInfo.interact;
+            ConvoSO hubEntrance = ghostInfo.hubEntrance;
+            ConvoSO maxTrust = ghostInfo.maxTrust;
+            ConvoSO startSB3 = ghostInfo.startSB3;
+
+            if (saveData.storyProgress == 0)
+            {
+                ghost.SetActive(false);
+                continue;
+            }
+            else
+            {
+                ghost.GetComponent<GhostIdentity>().UnlockGhost();
+            }
+
+            // on hub enter convo
+            if (saveData.storyProgress == 1)
+            {
+                StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
+                sp.Init(hubEntrance.data.convoName, nickname, 2, true);
+                interact.SetConvo(hubEntrance, newInteractionIndicator);
+                continue;
+            }
+            // max trust convo
+            if (saveData.storyProgress == 4 && SaveManager.data.ghostLevel[fullname] >= 9)
+            {
+                StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
+                sp.Init(maxTrust.data.convoName, nickname, 5, false);
+                interact.SetConvo(maxTrust, newInteractionIndicator);
+                continue;
+            }
+            // starting story beat 3
+            if (saveData.storyProgress == 5 && SaveManager.data.ghostLevel[fullname] >= 11)
+            {
+                StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
+                sp.Init(startSB3.data.convoName, nickname, 6, false);
+                interact.SetConvo(startSB3, newInteractionIndicator);
+                continue;
+            }
+
+            avaliableGhostToGhostConvo.Add(nickname);
+        }
+    }
+
+    private void LoadDeathEncounter()
+    {
+        // orion = 0: new game
+        // orion = 1: beated nova point
+        // orion = 2: talked to death about nova point
+        // orion = 3: beated shigora
+        // orion = 4: talked to death about shigora
+        // orion = 5: beated caladria
+        // orion = 6: talked to death about caladria
+
         if (death && SaveManager.data.death == 1) // First Death encounter
         {
             death.gameObject.SetActive(true);
@@ -104,192 +145,30 @@ public class EnterHub : MonoBehaviour
             StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
             sp.Init(deathCaladria.data.convoName, "orion", 6, true);
         }
-
-
-        // North
-        if (north && SaveManager.data.north.storyProgress == 0)
-        {
-            north.gameObject.SetActive(false);
-        }
-        else
-        {
-            north.GetComponent<GhostIdentity>().UnlockGhost();
-        }
-        // load North on hub enter convo
-        if (north && SaveManager.data.north.storyProgress == 1)
-        {
-            StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
-            sp.Init(northHubEntrance.data.convoName, "north", 2, true);
-            north.SetConvo(northHubEntrance, newInteractionIndicator);
-        }
-        // load North max trust convo
-        if (SaveManager.data.north.storyProgress == 4 && SaveManager.data.ghostLevel["North-Police_Chief"] >= 9)
-        {
-            StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
-            sp.Init(northMaxTrust.data.convoName, "north", 5, false);
-            north.SetConvo(northMaxTrust, newInteractionIndicator);
-        }
-        // load North starting story beat 3
-        if (SaveManager.data.north.storyProgress == 5 && SaveManager.data.ghostLevel["North-Police_Chief"] >= 11)
-        {
-            StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
-            sp.Init(northStartSB3.data.convoName, "north", 6, false);
-            north.SetConvo(northStartSB3, newInteractionIndicator);
-        }
-
-        // Eva
-        if (eva && SaveManager.data.eva.storyProgress == 0)
-        {
-            eva.gameObject.SetActive(false);
-        }
-        else
-        {
-            eva.GetComponent<GhostIdentity>().UnlockGhost();
-        }
-        // load Eva on hub enter convo
-        if (eva && SaveManager.data.eva.storyProgress == 1)
-        {
-            StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
-            sp.Init(evaHubEntrance.data.convoName, "eva", 2, true);
-            eva.SetConvo(evaHubEntrance, newInteractionIndicator);
-        }
-        // load Eva max trust convo
-        if (SaveManager.data.eva.storyProgress == 4 && SaveManager.data.ghostLevel["Eva-Idol"] >= 9)
-        {
-            StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
-            sp.Init(evaMaxTrust.data.convoName, "eva", 5, false);
-            eva.SetConvo(evaMaxTrust, newInteractionIndicator);
-        }
-        // load Eva starting story beat 3
-        if (SaveManager.data.eva.storyProgress == 5 && SaveManager.data.ghostLevel["Eva-Idol"] >= 11)
-        {
-            StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
-            sp.Init(evaStartSB3.data.convoName, "eva", 6, false);
-            eva.SetConvo(evaStartSB3, newInteractionIndicator);
-        }
-
-        // Akihito
-        if (akihito && SaveManager.data.akihito.storyProgress == 0)
-        {
-            akihito.gameObject.SetActive(false);
-        }
-        else
-        {
-            akihito.GetComponent<GhostIdentity>().UnlockGhost();
-        }
-        // load Akihito on hub enter convo
-        if (SaveManager.data.akihito.storyProgress == 1)
-        {
-            StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
-            sp.Init(akihitoHubEntrance.data.convoName, "akihito", 2, true);
-            akihito.SetConvo(akihitoHubEntrance, newInteractionIndicator);
-        }
-        // load Akihito max trust convo
-        if (SaveManager.data.akihito.storyProgress == 4 && SaveManager.data.ghostLevel["Akihito-Samurai"] >= 9)
-        {
-            StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
-            sp.Init(akihitoMaxTrust.data.convoName, "akihito", 5, false);
-            akihito.SetConvo(akihitoMaxTrust, newInteractionIndicator);
-        }
-        // load Akihito starting story beat 3
-        if (SaveManager.data.akihito.storyProgress == 5 && SaveManager.data.ghostLevel["Akihito-Samurai"] >= 11)
-        {
-            StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
-            sp.Init(akihitoStartSB3.data.convoName, "akihito", 6, false);
-            akihito.SetConvo(akihitoStartSB3, newInteractionIndicator);
-        }
-
-        // Yume
-        if (yume && SaveManager.data.yume.storyProgress == 0)
-        {
-            yume.gameObject.SetActive(false);
-        }
-        else
-        {
-            yume.GetComponent<GhostIdentity>().UnlockGhost();
-        }
-        // load Yume on hub enter convo
-        if (yume && SaveManager.data.yume.storyProgress == 1)
-        {
-            StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
-            sp.Init(yumeHubEntrance.data.convoName, "yume", 2, true);
-            yume.SetConvo(yumeHubEntrance, newInteractionIndicator);
-        }
-        // load Yume max trust convo
-        if (SaveManager.data.yume.storyProgress == 4 && SaveManager.data.ghostLevel["Yume-Seamstress"] >= 9)
-        {
-            StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
-            sp.Init(yumeMaxTrust.data.convoName, "yume", 5, false);
-            yume.SetConvo(yumeMaxTrust, newInteractionIndicator);
-        }
-        // load Yume starting story beat 3
-        if (SaveManager.data.yume.storyProgress == 5 && SaveManager.data.ghostLevel["Yume-Seamstress"] >= 11)
-        {
-            StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
-            sp.Init(yumeStartSB3.data.convoName, "yume", 6, false);
-            yume.SetConvo(yumeStartSB3, newInteractionIndicator);
-        }
-
-        // Silas
-        if (silas && SaveManager.data.silas.storyProgress == 0)
-        {
-            silas.gameObject.SetActive(false);
-        }
-        else
-        {
-            silas.GetComponent<GhostIdentity>().UnlockGhost();
-        }
-        // load Silas on hub enter convo
-        if (SaveManager.data.silas.storyProgress == 1)
-        {
-            StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
-            sp.Init(silasHubEntrance.data.convoName, "silas", 2, true);
-            silas.SetConvo(silasHubEntrance, newInteractionIndicator);
-        }
-        // load Silas max trust convo
-        if (SaveManager.data.silas.storyProgress == 4 && SaveManager.data.ghostLevel["Silas-PlagueDoc"] >= 9)
-        {
-            StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
-            sp.Init(silasMaxTrust.data.convoName, "silas", 5, false);
-            silas.SetConvo(silasMaxTrust, newInteractionIndicator);
-        }
-        // load Silas starting story beat 3
-        if (SaveManager.data.silas.storyProgress == 5 && SaveManager.data.ghostLevel["Silas-PlagueDoc"] >= 11)
-        {
-            StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
-            sp.Init(silasStartSB3.data.convoName, "silas", 6, false);
-            silas.SetConvo(silasStartSB3, newInteractionIndicator);
-        }
-
-        // Aegis
-        if (aegis && SaveManager.data.aegis.storyProgress == 0)
-        {
-            aegis.gameObject.SetActive(false);
-        }
-        else
-        {
-            aegis.GetComponent<GhostIdentity>().UnlockGhost();
-        }
-        // load Aegis on hub enter convo
-        if (SaveManager.data.aegis.storyProgress == 1)
-        {
-            StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
-            sp.Init(aegisHubEntrance.data.convoName, "aegis", 2, true);
-            aegis.SetConvo(aegisHubEntrance, newInteractionIndicator);
-        }
-        // load Aegis max trust convo
-        if (SaveManager.data.aegis.storyProgress == 4 && SaveManager.data.ghostLevel["Aegis-King"] >= 9)
-        {
-            StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
-            sp.Init(aegisMaxTrust.data.convoName, "aegis", 5, false);
-            aegis.SetConvo(aegisMaxTrust, newInteractionIndicator);
-        }
-        // load Aegis starting story beat 3
-        if (SaveManager.data.aegis.storyProgress == 5 && SaveManager.data.ghostLevel["Aegis-King"] >= 11)
-        {
-            StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
-            sp.Init(aegisStartSB3.data.convoName, "aegis", 6, false);
-            aegis.SetConvo(aegisStartSB3, newInteractionIndicator);
-        }
     }
+
+    private GhostData GetGhostSaveData(string name)
+    {
+        return name switch
+        {
+            "north" => SaveManager.data.north,
+            "eva" => SaveManager.data.eva,
+            "akihito" => SaveManager.data.akihito,
+            "yume" => SaveManager.data.yume,
+            "silas" => SaveManager.data.silas,
+            "aegis" => SaveManager.data.aegis,
+            _ => null
+        };
+    }
+}
+
+[Serializable]
+struct GhostHubInfo
+{
+    public string fullname;
+    public string nickname;
+    public GhostInteract interact;
+    public ConvoSO hubEntrance;
+    public ConvoSO maxTrust;
+    public ConvoSO startSB3;
 }

@@ -1,4 +1,3 @@
-using System.Linq.Expressions;
 using UnityEngine;
 
 public class GhostInteract : InRangeInteract, IParty
