@@ -51,7 +51,7 @@ public class GhostInteract : InRangeInteract, IParty
             InteractOption opt3 = new InteractOption("View Skill Tree", ViewSkillTree);
             options = new InteractOption[]{ opt1, opt2, opt3 };
         }
-        else{
+        else {
             options = new InteractOption[] { opt1 };
         }
         

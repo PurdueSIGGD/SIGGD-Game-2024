@@ -18,6 +18,8 @@ public class CharacterSO : ScriptableObject
 
     public Color whiteColor;
 
+    [Tooltip("Color for floating ghost sprite")] public Color InWorldColor;
+
     public Sprite fullImage;
 
     [Header("Abilities")]

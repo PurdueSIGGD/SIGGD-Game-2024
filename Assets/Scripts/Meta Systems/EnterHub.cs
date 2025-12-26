@@ -23,6 +23,7 @@ public class EnterHub : MonoBehaviour
 
     [Header("Ghost To Ghost Convo")]
     [Tooltip("Out of 100"), SerializeField] float triggerChance;
+    [SerializeField] GhostInteract g2gConvoInteractable;
 
     HashSet<string> avaliableGhostToGhostConvo;
 
@@ -53,6 +54,10 @@ public class EnterHub : MonoBehaviour
 
         // pick from a ghost that doesn't currently have an active convo
 
+
+        // enable convo
+        g2gConvoInteractable.gameObject.SetActive(true);
+        //g2gConvoInteractable.SetConvo();
     }
 
     private void LoadConversation()

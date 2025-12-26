@@ -24,6 +24,14 @@ public class ConvoJsonWizard : ScriptableWizard
             lines = new List<LineJson>()
         };
 
+        Regex speakerTitlePattern = new(@"(\w+)\s*v\s*(\w+)");
+        Match match = speakerTitlePattern.Match(convoName);
+
+        if (match.Success)
+        {
+            conversationJson.speakers = new string[2] { match.Groups[1].Value, match.Groups[2].Value };
+        }
+
         String linePattern = @"(?=\[)";
         string[] lines = Regex.Split(text, linePattern);
 
@@ -32,7 +40,7 @@ public class ConvoJsonWizard : ScriptableWizard
             string line = lines[i];
             
             Regex convoPattern = new(@"\[([^\]]+)\]\s(.+)");
-            Match match = convoPattern.Match(line);
+            match = convoPattern.Match(line);
 
             if (match.Success)
             {
@@ -64,13 +72,14 @@ public class ConvoJsonWizard : ScriptableWizard
         ConvoSO so = ScriptableObject.CreateInstance<ConvoSO>();
         so.data = convoData;
 
-        AssetDatabase.CreateAsset(so, $"Assets/ScriptableObjects/Conversations/{convoData.convoName}.asset");
+        AssetDatabase.CreateAsset(so, $"Assets/ScriptableObjects/Conversations/Ghost To Ghost/{convoData.convoName}.asset");
     }
 
     [Serializable]
     class ConversationJson
     {
         public string convoName;
+        public string[] speakers;
         public List<LineJson> lines;
     }
 
