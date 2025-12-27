@@ -18,7 +18,6 @@ public class MageLightningAttack : MonoBehaviour
     bool followPlayer;
     bool lightningActive;
 
-
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -51,7 +50,29 @@ public class MageLightningAttack : MonoBehaviour
 
         transform.position = attackPosition;  // update position
 
-        UpdateSpriteSize();  // update the sprite size
+        UpdateSpriteSize();  // update the sprite 
+    }
+
+    /// <summary>
+    /// trigger lightning attack sequence independent of parent mage's state
+    /// </summary>
+    public void StartIndependentSequence(float followTimeSec, float warningTimeSec, float lightningTimeSec)
+    {
+        StartCoroutine(LightningSequenceCoroutine(followTimeSec, warningTimeSec, lightningTimeSec));
+    }
+    IEnumerator LightningSequenceCoroutine(float followTimeSec, float warningTimeSec, float lightningTimeSec)
+    {
+        // follow phase
+        yield return new WaitForSeconds(followTimeSec);
+        StopFollow();
+
+        // warning phase
+        yield return new WaitForSeconds(warningTimeSec);
+        LightningPhase();
+
+        // lightning phase
+        yield return new WaitForSeconds(lightningTimeSec);
+        Fizzle();
     }
 
     public void StopFollow()
@@ -91,6 +112,7 @@ public class MageLightningAttack : MonoBehaviour
     /// to keep going depending on what stage it is currently at.
     /// 
     /// It's like sending your kid off to college.
+    /// EDIT: (5 months later) what are you even talking about vro
     /// </summary>
     public void MageDeathHandler()
     {
