@@ -75,15 +75,7 @@ public class PoliceChiefManager : GhostManager, ISelectable
             }
         }
 
-        LevelSwitching levelSwitchingScript = FindFirstObjectByType<LevelSwitching>();
-        if (!SceneManager.GetActiveScene().name.Equals(levelSwitchingScript.GetHomeWorld()))
-        {
-            setSpecialEnergy(SaveManager.data.north.specialEnergy);
-        }
-        else
-        {
-            resetSpecialEnergy();
-        }
+        initializeSpecialEnergy();
     }
 
     protected override void Update()
@@ -132,6 +124,19 @@ public class PoliceChiefManager : GhostManager, ISelectable
 
 
 
+
+    private void initializeSpecialEnergy()
+    {
+        LevelSwitching levelSwitchingScript = FindFirstObjectByType<LevelSwitching>();
+        if (!SceneManager.GetActiveScene().name.Equals(levelSwitchingScript.GetHomeWorld()))
+        {
+            setSpecialEnergy(SaveManager.data.north.specialEnergy);
+        }
+        else
+        {
+            resetSpecialEnergy();
+        }
+    }
 
     public void resetSpecialEnergy()
     {

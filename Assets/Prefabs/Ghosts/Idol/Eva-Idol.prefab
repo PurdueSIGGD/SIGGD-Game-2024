@@ -192,6 +192,8 @@ MonoBehaviour:
     value: 1
   - name: Special Cooldown
     value: 10
+  - name: Special Energy Cost
+    value: 325
   - name: HOLOJUMP_MAX_DISTANCE
     value: 200
   - name: HOLOJUMP_CLONE_SWAP_INTERVAL
@@ -209,7 +211,7 @@ MonoBehaviour:
   - name: TEMPO_MAX_STACKS
     value: 9
   - name: TEMPO_INACTIVE_DURATION_MODIFIER
-    value: 1
+    value: 4
   - name: TEMPO_BASE_DURATION
     value: 6
   - name: TEMPO_STACKS_PER_KILL
@@ -222,6 +224,7 @@ MonoBehaviour:
     value: 10
   defaultController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
   ghostController: {fileID: 9100000, guid: 5779acd767093ee419301b684e1317dd, type: 2}
+  currentSpecialEnergy: 0
   special: {fileID: 0}
   passive: {fileID: 0}
   onDashContext:
@@ -251,6 +254,7 @@ MonoBehaviour:
   evaDeselectedEvent:
     m_PersistentCalls:
       m_Calls: []
+  isFightOver: 0
 --- !u!114 &-6798671931701359635
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -379,10 +383,10 @@ MonoBehaviour:
   skillSO: {fileID: 11400000, guid: 7fbbc74c58fea6546b74b8d2dfaabbb4, type: 2}
   values:
   - 0
-  - 2.5
-  - 5
-  - 7.5
-  - 10
+  - 0.5
+  - 1
+  - 1.5
+  - 2
 --- !u!114 &9025963487758876621
 MonoBehaviour:
   m_ObjectHideFlags: 0

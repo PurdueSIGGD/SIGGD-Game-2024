@@ -75,7 +75,8 @@ public class IdolPassive : MonoBehaviour
             float maxDuration = manager.GetStats().ComputeValue("TEMPO_BASE_DURATION");
 
             // decrement duration at a modified rate if Idol is not active
-            tick = active ? Time.deltaTime : Time.deltaTime * inactiveModifier;
+            //tick = active ? Time.deltaTime : Time.deltaTime * inactiveModifier;
+            tick = manager.isFightOver ? Time.deltaTime * inactiveModifier : Time.deltaTime;
             SaveManager.data.eva.remainingTempoDuration = duration -= tick;
 
             // reset duration if player scored a kill

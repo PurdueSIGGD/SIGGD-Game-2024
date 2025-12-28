@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class IdolManager : GhostManager, ISelectable
 {
@@ -25,6 +26,8 @@ public class IdolManager : GhostManager, ISelectable
 
     public UnityEvent evaSelectedEvent;
     public UnityEvent evaDeselectedEvent;
+
+    public bool isFightOver = false;
 
     private GhostIdentity identity;
     string identityName;
@@ -49,6 +52,16 @@ public class IdolManager : GhostManager, ISelectable
         //}
     }
 
+    private void OnEnable()
+    {
+        GameplayEventHolder.OnDamageDealt += OnDamageSpecialEnergyGain;
+    }
+
+    private void OnDisable()
+    {
+        GameplayEventHolder.OnDamageDealt -= OnDamageSpecialEnergyGain;
+    }
+
     protected override void Start()
     {
         base.Start();
@@ -64,6 +77,8 @@ public class IdolManager : GhostManager, ISelectable
                 GetComponent<SkillTree>().RemoveSkillPoint(skills[i]);
             }
         }
+
+        initializeSpecialEnergy();
     }
 
     protected override void Update()
@@ -90,7 +105,8 @@ public class IdolManager : GhostManager, ISelectable
             clonesActive = false;
             cloneLowDuration = false;
             PlayerID.instance.GetComponent<PlayerParticles>().StopGhostGoodBuff();
-            startSpecialCooldown();
+            //startSpecialCooldown();
+            resetSpecialEnergy();
 
             // play audio, if has upgrade, choose from 1 random voice bank to play
             string chosenBank = passive.avaliableCloneLostVA[Random.Range(0, passive.avaliableCloneLostVA.Count)];
@@ -134,5 +150,72 @@ public class IdolManager : GhostManager, ISelectable
         if (PlayerID.instance.GetComponent<IdolSpecial>()) Destroy(PlayerID.instance.GetComponent<IdolSpecial>());
         base.DeSelect(player);
         evaDeselectedEvent?.Invoke();
+    }
+
+    public void FightEnd()
+    {
+        isFightOver = true;
+        for (int i = (clones.Count - 1); i >= 0; i--)
+        {
+            GameObject clone = clones[i];
+            if (clone == null) continue;
+            clone.GetComponent<IdolClone>().DeallocateDecoy();
+        }
+    }
+
+
+
+
+
+    private void initializeSpecialEnergy()
+    {
+        LevelSwitching levelSwitchingScript = FindFirstObjectByType<LevelSwitching>();
+        if (!SceneManager.GetActiveScene().name.Equals(levelSwitchingScript.GetHomeWorld()))
+        {
+            setSpecialEnergy(SaveManager.data.eva.specialEnergy);
+        }
+        else
+        {
+            resetSpecialEnergy();
+        }
+    }
+
+    public void resetSpecialEnergy()
+    {
+        currentSpecialEnergy = 0f;
+        SaveManager.data.eva.specialEnergy = currentSpecialEnergy;
+        setSpecialReady(false);
+    }
+
+    public void setSpecialEnergy(float energy)
+    {
+        currentSpecialEnergy = energy;
+        currentSpecialEnergy = Mathf.Min(currentSpecialEnergy, stats.ComputeValue("Special Energy Cost"));
+        SaveManager.data.eva.specialEnergy = currentSpecialEnergy;
+        setSpecialReady(currentSpecialEnergy >= stats.ComputeValue("Special Energy Cost"));
+    }
+
+    public void addSpecialEnergy(float energy)
+    {
+        setSpecialEnergy(getSpecialEnergy() + energy);
+    }
+
+    public float getSpecialEnergy()
+    {
+        return currentSpecialEnergy;
+    }
+
+    private void OnDamageSpecialEnergyGain(DamageContext context)
+    {
+        SpecialEnergyPool specialEnergyPool = context.victim.GetComponent<SpecialEnergyPool>();
+        Health victimHealth = context.victim.GetComponent<Health>();
+        if (specialEnergyPool == null || victimHealth == null) return;
+        if (context.attacker != PlayerID.instance.gameObject) return;
+        if (context.actionTypes.Contains(ActionType.SPECIAL_ABILITY)) return;
+
+        float maxHealth = victimHealth.GetStats().ComputeValue("Max Health");
+        float percentHealthDamaged = context.damage / maxHealth;
+        Debug.Log("Current Energy: " + currentSpecialEnergy + "  |  Earned Energy: " + (specialEnergyPool.energyPool * percentHealthDamaged));
+        addSpecialEnergy(specialEnergyPool.energyPool * percentHealthDamaged);
     }
 }
