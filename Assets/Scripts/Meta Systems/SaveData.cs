@@ -41,12 +41,14 @@ public class GhostData
     public int storyProgress = 0; // progress through the ghost's story
     public int bossProgress = 0; // if the ghost has encountered their boss before
     public int xp = 0;
+    public float specialEnergy = 0f;
 }
 
 [Serializable]
 public class NorthData : GhostData
 {
     public int reserveSpecialCharges;
+    public int lethalForceProgress;
 }
 
 [Serializable]

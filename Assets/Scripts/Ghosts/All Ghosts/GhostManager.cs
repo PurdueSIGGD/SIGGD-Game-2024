@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GhostManager : MonoBehaviour, ISelectable, IStatList
 {
@@ -17,10 +18,23 @@ public class GhostManager : MonoBehaviour, ISelectable, IStatList
     private bool basicReady = true;
 
     private float currentSpecialCooldown = 0f;
-    private bool specialReady = true;
+    private bool specialReady = false;
+    public float currentSpecialEnergy = 0f;
 
 
     private bool sacrificeReady = false;
+
+    /*
+    private void OnEnable()
+    {
+        GameplayEventHolder.OnDamageDealt += OnDamageSpecialEnergyGain;
+    }
+
+    private void OnDisable()
+    {
+        GameplayEventHolder.OnDamageDealt -= OnDamageSpecialEnergyGain;
+    }
+    */
 
     // Start is called before the first frame update
     protected virtual void Start()
@@ -60,6 +74,8 @@ public class GhostManager : MonoBehaviour, ISelectable, IStatList
 
 
 
+
+
     public void startSpecialCooldown()
     {
         currentSpecialCooldown = stats.ComputeValue("Special Cooldown");
@@ -68,16 +84,17 @@ public class GhostManager : MonoBehaviour, ISelectable, IStatList
 
     private void updateSpecialCooldown()
     {
-        if (specialReady) return;
+        //if (specialReady) return;
+        if (currentSpecialCooldown <= 0f) return;
         currentSpecialCooldown -= Time.deltaTime;
-        specialReady = (currentSpecialCooldown <= 0f);
+        //specialReady = (currentSpecialCooldown <= 0f);
         currentSpecialCooldown = Mathf.Max(currentSpecialCooldown, 0f);
     }
 
     public void setSpecialCooldown(float cooldown)
     {
         currentSpecialCooldown = cooldown;
-        specialReady = (currentSpecialCooldown <= 0f);
+        //specialReady = (currentSpecialCooldown <= 0f);
         currentSpecialCooldown = Mathf.Max(currentSpecialCooldown, 0f);
     }
 
@@ -85,6 +102,68 @@ public class GhostManager : MonoBehaviour, ISelectable, IStatList
     {
         return currentSpecialCooldown;
     }
+
+
+
+
+
+    /*
+    public void resetSpecialEnergy()
+    {
+        currentSpecialEnergy = 0f;
+        specialReady = false;
+    }
+
+    /*
+    private void updateSpecialEnergy()
+    {
+        if (specialReady) return;
+        currentSpecialEnergy -= Time.deltaTime;
+        specialReady = (currentSpecialCooldown <= 0f);
+        currentSpecialCooldown = Mathf.Max(currentSpecialCooldown, 0f);
+    }
+    */
+
+    /*
+    public void addSpecialEnergy(float energy)
+    {
+        currentSpecialEnergy += energy;
+        currentSpecialEnergy = Mathf.Min(currentSpecialEnergy, stats.ComputeValue("Special Energy Cost"));
+        SaveManager.data.north.specialEnergy = currentSpecialEnergy;
+        specialReady = (currentSpecialEnergy >= stats.ComputeValue("Special Energy Cost"));
+    }
+
+    public float getSpecialEnergy()
+    {
+        return currentSpecialEnergy;
+    }
+    */
+
+    public bool getSpecialReady()
+    {
+        return specialReady;
+    }
+
+    public void setSpecialReady(bool ready)
+    {
+        specialReady = ready;
+    }
+
+    /*
+    private void OnDamageSpecialEnergyGain(DamageContext context)
+    {
+        SpecialEnergyPool specialEnergyPool = context.victim.GetComponent<SpecialEnergyPool>();
+        Health victimHealth = context.victim.GetComponent<Health>();
+        if (specialEnergyPool == null || victimHealth == null || context.attacker != PlayerID.instance.gameObject) return;
+
+        float maxHealth = victimHealth.GetStats().ComputeValue("Max Health");
+        float percentHealthDamaged = context.damage / maxHealth;
+        Debug.Log("Current Energy: " + currentSpecialEnergy + "  |  Earned Energy: " + (specialEnergyPool.energyPool * percentHealthDamaged));
+        addSpecialEnergy(specialEnergyPool.energyPool * percentHealthDamaged);
+    }
+    */
+
+
 
 
 

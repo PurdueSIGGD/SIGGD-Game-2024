@@ -49,15 +49,17 @@ public class PoliceChiefUIDriver : GhostUIDriver
 
     private void updateSpecialAbility()
     {
-        specialAbilityUIManager.setAbilityCooldownTime(manager.getSpecialCooldown(), stats.ComputeValue("Special Cooldown"));
+        //specialAbilityUIManager.setAbilityCooldownTime(manager.getSpecialCooldown(), stats.ComputeValue("Special Cooldown"));
+        specialAbilityUIManager.setAbilityEnergy(manager.getSpecialEnergy(), stats.ComputeValue("Special Energy Cost"));
         
         // Locked and Loaded
         if (lockedAndLoaded.reservedCount > 0)
         {
-            specialAbilityUIManager.setNumberActive(false);
-            specialAbilityUIManager.setAbilityEnabled(true);
+            //specialAbilityUIManager.setNumberActive(false);
+            //specialAbilityUIManager.setAbilityEnabled(true);
             specialAbilityUIManager.setChargeWidgetActive(true);
-            specialAbilityUIManager.setChargeValue(lockedAndLoaded.reservedCount, ((manager.special != null && manager.special.isPrimed) && manager.getSpecialCooldown() <= 0) ? 100f : 0f);
+            //specialAbilityUIManager.setChargeValue(lockedAndLoaded.reservedCount, ((manager.special != null && manager.special.isPrimed) && manager.getSpecialCooldown() <= 0) ? 100f : 0f);
+            specialAbilityUIManager.setChargeValue(lockedAndLoaded.reservedCount, (manager.getSpecialEnergy() >= stats.ComputeValue("Special Energy Cost")) ? 100f : 0f);
         }
         else
         {
@@ -132,7 +134,8 @@ public class PoliceChiefUIDriver : GhostUIDriver
         // Widget active
         if (manager.basic == null) return;
         if (manager.basicAmmo < stats.ComputeValue("Basic Starting Ammo") ||
-            (lethalForce != null && lethalForce.GetTotalHits() != -1 && lethalForce.GetConsecutiveHits() > 0))
+            (lethalForce != null && lethalForce.GetTotalHits() != -1 && lethalForce.GetConsecutiveHits() > 0) ||
+            (manager.basic.isCharging || manager.basic.isPrimed))
         {
             meterUIManager.activateWidget();
             return;

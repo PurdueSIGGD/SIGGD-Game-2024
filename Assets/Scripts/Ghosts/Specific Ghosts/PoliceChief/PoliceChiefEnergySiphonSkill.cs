@@ -21,9 +21,16 @@ public class PoliceChiefEnergySiphonSkill : Skill
 
     private void Update()
     {
+        /*
         if (accumulatedCooldownReduction > 0f && policeChiefManager.getSpecialCooldown() > 0f)
         {
             policeChiefManager.setSpecialCooldown(policeChiefManager.getSpecialCooldown() - accumulatedCooldownReduction);
+            accumulatedCooldownReduction = 0f;
+        }
+        */
+        if (accumulatedCooldownReduction > 0f && (policeChiefManager.special == null || !policeChiefManager.special.isFiring))
+        {
+            policeChiefManager.addSpecialEnergy(accumulatedCooldownReduction);
             accumulatedCooldownReduction = 0f;
         }
     }
@@ -46,6 +53,7 @@ public class PoliceChiefEnergySiphonSkill : Skill
     public void ReduceCooldownOnHit()
     {
         if (pointIndex <= 0) return;
+        /*
         float cooldownReduction = stats.ComputeValue("Special Cooldown") * (values[pointIndex] / 100f);
         if (policeChiefManager.getSpecialCooldown() > 0)
         {
@@ -55,5 +63,19 @@ public class PoliceChiefEnergySiphonSkill : Skill
         {
             accumulatedCooldownReduction += cooldownReduction;
         }
+        */
+
+        float cooldownReduction = stats.ComputeValue("Special Energy Cost") * (values[pointIndex] / 100f);
+        accumulatedCooldownReduction += cooldownReduction;
+        /*
+        if (!policeChiefManager.getSpecialReady())
+        {
+            policeChiefManager.addSpecialEnergy(cooldownReduction);
+        }
+        else
+        {
+            accumulatedCooldownReduction += cooldownReduction;
+        }
+        */
     }
 }

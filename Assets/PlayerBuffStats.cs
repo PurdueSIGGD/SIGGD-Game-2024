@@ -91,7 +91,7 @@ public class PlayerBuffStats : MonoBehaviour, IStatList
         if (!context.attacker || !context.attacker.CompareTag("Player")) return;
         if (context.damageTypes.Contains(DamageType.STATUS) || context.damageTypes.Contains(DamageType.ENVIRONMENTAL)) return;
 
-        if (Random.Range(100f, 200f) > stats.ComputeValue("Crit Chance")) return;
+        if (Random.Range(100f, 200f) > stats.ComputeValue("Crit Chance") && !context.isCriticalHit) return;
         context.damage *= stats.ComputeValue("Crit Damage Boost");
         if (context.damageStrength == DamageStrength.MINOR) context.damageStrength = DamageStrength.LIGHT;
         else if (context.damageStrength == DamageStrength.LIGHT) context.damageStrength = DamageStrength.MODERATE;

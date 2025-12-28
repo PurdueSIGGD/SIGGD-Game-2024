@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PoliceChiefLethalForce : Skill
 {
@@ -16,6 +17,8 @@ public class PoliceChiefLethalForce : Skill
     [NonSerialized] public bool shotEmpowered = false;
     private PoliceChiefManager manager;
 
+    LevelSwitching levelSwitchingScript;
+
     private void Start()
     {
         /*if(GetPoints() > 0)
@@ -27,12 +30,45 @@ public class PoliceChiefLethalForce : Skill
             numHits = -1;
         }*/
         manager = GetComponent<PoliceChiefManager>();
-        AudioManager.Instance.SFXBranch.StopSFXTrack("North-Sidearm Primed Loop");
+        //AudioManager.Instance.SFXBranch.StopSFXTrack("North-Sidearm Primed Loop");
+
+        if (numHits == -1)
+        {
+            SaveManager.data.north.lethalForceProgress = 0;
+            return;
+        }
+
+        levelSwitchingScript = FindFirstObjectByType<LevelSwitching>();
+        if (SceneManager.GetActiveScene().name.Equals(levelSwitchingScript.GetHomeWorld()))
+        {
+            //reservedCount = reserveCharges[pointIndex];
+            //SaveManager.data.north.reserveSpecialCharges = reservedCount;
+            consecutiveHits = 0;
+            SaveManager.data.north.lethalForceProgress = consecutiveHits;
+        }
+        else
+        {
+            consecutiveHits = SaveManager.data.north.lethalForceProgress;
+        }
+
+        if (consecutiveHits < numHits)
+        {
+            AudioManager.Instance.SFXBranch.StopSFXTrack("North-Sidearm Primed Loop");
+        }
+        else
+        {
+            shotEmpowered = true;
+            if (PlayerID.instance.gameObject.GetComponent<PartyManager>().GetSelectedGhost().Equals(GetComponent<GhostIdentity>()))
+            {
+                PlayerID.instance.GetComponent<PlayerParticles>().PlayGhostEmpowered(GetComponent<GhostIdentity>().GetCharacterInfo().whiteColor, 1f, 1f);
+            }
+        }
     }
 
     private void OnEnable()
     {
-        GameplayEventHolder.OnDamageFilter.Add(OnDamage);
+        //GameplayEventHolder.OnDamageFilter.Add(OnDamage);
+        GameplayEventHolder.OnDamageFilter.Insert(0, OnDamage);
         GameplayEventHolder.OnAbilityUsed += OnAbilityUse;
     }
 
@@ -49,6 +85,7 @@ public class PoliceChiefLethalForce : Skill
             if (timer <= 0) {
                 timer = -1f;
                 consecutiveHits = 0;
+                SaveManager.data.north.lethalForceProgress = consecutiveHits;
             }
         }
 
@@ -59,6 +96,7 @@ public class PoliceChiefLethalForce : Skill
             {
                 recoveryTimer = -1f;
                 consecutiveHits = 0;
+                SaveManager.data.north.lethalForceProgress = consecutiveHits;
             }
         }
     }
@@ -84,6 +122,7 @@ public class PoliceChiefLethalForce : Skill
             if (consecutiveHits < numHits)
             {
                 consecutiveHits += 1;
+                SaveManager.data.north.lethalForceProgress = consecutiveHits;
                 timer = -1.0f;
                 if (consecutiveHits >= numHits)
                 {
@@ -95,8 +134,9 @@ public class PoliceChiefLethalForce : Skill
                 }
             } else if (!context.actionTypes.Contains(ActionType.SKILL))
             {
-                context.damage += bonusDamage;
-                context.damageStrength = DamageStrength.HEAVY;
+                //context.damage += bonusDamage;
+                //context.damageStrength = DamageStrength.HEAVY;
+                context.isCriticalHit = true;
             }
         }
     }

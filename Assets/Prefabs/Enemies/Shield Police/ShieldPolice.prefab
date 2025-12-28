@@ -233,6 +233,7 @@ GameObject:
   - component: {fileID: 5617972319319629920}
   - component: {fileID: 7208191976245686750}
   - component: {fileID: 7209850533637579200}
+  - component: {fileID: 4390561250213528761}
   m_Layer: 21
   m_Name: ShieldPolice
   m_TagString: Enemy
@@ -618,6 +619,19 @@ MonoBehaviour:
   stunDuration: 0.6
   currentStun: 0
   maxStun: 0
+--- !u!114 &4390561250213528761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5499330591125181409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6835c333b8099247acf0cab08ba2fb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  energyPool: 120
 --- !u!1 &7241042388776439341
 GameObject:
   m_ObjectHideFlags: 0

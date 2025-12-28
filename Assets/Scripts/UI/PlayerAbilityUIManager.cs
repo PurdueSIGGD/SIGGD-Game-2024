@@ -151,6 +151,26 @@ public class PlayerAbilityUIManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Set the ability's current ability energy. If at full energy, the ability appears enabled and its meter is filled. If not, the ability appears disabled, and its meter and central number shows the ability energy percentage.
+    /// </summary>
+    /// <param name="currentEnergy">The current ability energy of this ability.</param>
+    /// <param name="totalEnergyCost">The total ability energy cost of this ability.</param>
+    public void setAbilityEnergy(float currentEnergy, float totalEnergyCost)
+    {
+        if (currentEnergy >= totalEnergyCost)
+        {
+            setAbilityEnabled(true, true);
+            setNumberActive(false);
+            setMeterValue(1f, 1f);
+            return;
+        }
+        setAbilityEnabled(false);
+        setNumberActive(true);
+        setNumberValue(Mathf.FloorToInt((currentEnergy / totalEnergyCost) * 100f));
+        setMeterValue(currentEnergy, totalEnergyCost);
+    }
+
+    /// <summary>
     /// Set the color of the ability widget frame.
     /// </summary>
     /// <param name="color">The color for the frame. The alpha value is ignored.</param>

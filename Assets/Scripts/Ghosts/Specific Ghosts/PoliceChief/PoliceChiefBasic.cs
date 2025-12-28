@@ -17,10 +17,10 @@ public class PoliceChiefBasic : MonoBehaviour
 
     [HideInInspector] public PoliceChiefManager manager;
 
-    private bool isCharging = false;
+    public bool isCharging = false;
     public float chargingTime = 0f;
-    private bool isPrimed = false;
-    private float primedTime = 0f;
+    public bool isPrimed = false;
+    public float primedTime = 0f;
     private float chargetimeChanger;
 
 
