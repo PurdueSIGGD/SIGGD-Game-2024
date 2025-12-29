@@ -9,17 +9,23 @@ using UnityEngine;
 public class Mage : EnemyStateManager
 {
 
-    private GameObject lightningObject;   // reference to the MageLightningAttack GameObject itself
+    private GameObject lightningObject;
+    // reference to the MageLightningAttack GameObject itself
     private MageLightningAttack lightningScript;
 
     [Header("Lightning Attack")]
 
     //[SerializeField] private float lightningDamage = 25;
     [SerializeField] private DamageContext lightningDamage;
-    [SerializeField] private float lightningRadius;   // the size of the ACTUAL lightning attack
+    [SerializeField] private float lightningRadius;
+    // the size of the ACTUAL lightning attack
     [SerializeField] private GameObject lightningPrefab;
     [SerializeField] GameObject chargeTriggerBox;
-    [SerializeField] bool isCharging;
+
+    [SerializeField] float followTimeSec = 0.5f;
+    [SerializeField] float warningTimeSec = 1f;
+    [SerializeField] float lightningTimeSec = 0.33f;
+    [SerializeField] bool async; // if true, lightning attack sequence is decoupled from mage casting animation events
 
     public void Update()
     {
@@ -44,23 +50,28 @@ public class Mage : EnemyStateManager
 
         lightningDamage.damage = stats.ComputeValue("Damage");
         lightningScript.Initialize(player.position, lightningRadius, lightningDamage, gameObject);
-
-        isCharging = true;
+        if (async)
+        {
+            lightningScript.StartIndependentSequence(followTimeSec, warningTimeSec, lightningTimeSec);
+        }
     }
 
     public void StopFollow()
     {
+        if (async) return;
         lightningScript.StopFollow();
     }
 
     public void ActivateLightning()
     {
+        if (async) return;
         lightningScript.LightningPhase();
     }
 
     public void EndLightning()
     {
-        isCharging = false;
+        if (async) return;
+
         lightningScript.Fizzle();
         lightningObject = null;
         lightningScript = null;
@@ -80,7 +91,7 @@ public class Mage : EnemyStateManager
     }
     void OnDestroy()
     {
-        if (lightningScript)
+        if (lightningScript && !async)
         {
             lightningScript.MageDeathHandler();
         }

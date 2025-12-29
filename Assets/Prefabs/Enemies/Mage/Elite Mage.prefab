@@ -211,7 +211,7 @@ MonoBehaviour:
   isBeingKnockedBack: 0
   grounded: 1
   groundedRayCheckLength: 1
-  enableStunning: 0
+  enableStunning: 1
   lightningDamage:
     damageStrength: 2
     damageTypes: 02000000
@@ -223,7 +223,10 @@ MonoBehaviour:
   lightningPrefab: {fileID: 3530741045561927567, guid: 3fbf525f0e6c1a04e8dc4d84879763fc,
     type: 3}
   chargeTriggerBox: {fileID: 2179027480825402844}
-  isCharging: 0
+  followTimeSec: 0.5
+  warningTimeSec: 1
+  lightningTimeSec: 0.33
+  async: 1
 --- !u!114 &4299196913714008640
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -321,6 +324,7 @@ MonoBehaviour:
   statList:
   - name: Stun Threshold
     value: 240
+  stunDuration: 0.6
   currentStun: 0
   maxStun: 0
 --- !u!114 &9003631183128878019
