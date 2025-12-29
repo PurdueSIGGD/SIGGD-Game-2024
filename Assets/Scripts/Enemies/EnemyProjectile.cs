@@ -64,7 +64,6 @@ public class EnemyProjectile : MonoBehaviour, IStatList
     }
     public void ProcessCollision(GameObject other)
     {
-        print("WOW: " + other.name + " " + other.CompareTag("Enemy") + " " + parried);
         if (other.CompareTag("Enemy") && parried)
         {
             DamageTarget(other, PlayerID.instance.gameObject);
