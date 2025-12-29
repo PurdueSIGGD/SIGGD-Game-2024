@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6589951119973307837}
   - component: {fileID: 1515455339930968285}
-  m_Layer: 0
+  m_Layer: 22
   m_Name: Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4282476057480851080}
   - component: {fileID: 8954398705041451734}
-  m_Layer: 0
+  m_Layer: 22
   m_Name: AegisMaxxing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -177,7 +177,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5204260840131910411}
-  m_Layer: 0
+  m_Layer: 22
   m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -211,7 +211,10 @@ GameObject:
   m_Component:
   - component: {fileID: 5110610035445344921}
   - component: {fileID: 2187747980422381704}
-  m_Layer: 0
+  - component: {fileID: 1038890374219024133}
+  - component: {fileID: 7618888718712664624}
+  - component: {fileID: 5331313414825707369}
+  m_Layer: 22
   m_Name: FireBall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -246,6 +249,117 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c247a4e3fd5ef21468706ada34a8a754, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  statList: []
+  speed: 10
+  projectileDamage:
+    damageStrength: 0
+    damageTypes: 
+    actionID: 0
+    actionTypes: 
+    extraContext: 
+    ghostID: 0
+  range: 640
+  terrainCollision: 1
+  rotateWithVelocity: 0
+  rotationOffset: {x: 0, y: 0, z: 0}
+  target: 
+  parried: 0
   speedPerSec: 0.2
   poisonDebuffPrefab: {fileID: 7565183235025711588, guid: e8aa912d65ec96c43ac28ce27387314e,
     type: 3}
+--- !u!50 &1038890374219024133
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7853376000210057257}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!58 &7618888718712664624
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7853376000210057257}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
+--- !u!114 &5331313414825707369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7853376000210057257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2289d2031ac5b264da946f8e5cf6f8a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  statList: []
+  speed: 0
+  projectileDamage:
+    damageStrength: 0
+    damageTypes: 
+    actionID: 0
+    actionTypes: 
+    extraContext: 
+    ghostID: 0
+  range: 288
+  terrainCollision: 1
+  rotateWithVelocity: 0
+  rotationOffset: {x: 0, y: 0, z: 0}
+  target: Player
+  parried: 0
+  trackingStrength: 0
+  trackingDistance: 0
+  explosionDeceleration: 0
+  explosionWindUpTime: 0
+  explosionRadius: 0
+  explodeMarker: {fileID: 0}
+  explodeVisual: {fileID: 0}

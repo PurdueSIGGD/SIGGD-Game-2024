@@ -2,15 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MageFireBallAttack : MonoBehaviour
+public class MageFireBallAttack : EnemyProjectile
 {
-    GameObject target;
-    GameObject attacker;
-    Rigidbody2D rb;
-    float speed;
+    GameObject targetObject;
     [SerializeField] float speedPerSec; // speed to multiply every second to excitedly ramp up speed with time
     float trackIntensity; // 0 to 1 range float
-    DamageContext fireDamageImpact;
     DamageContext fireDamageTick;
     float damageTickIntervalSec;
     float damageTickDurationSec;
@@ -27,20 +23,20 @@ public class MageFireBallAttack : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
 
-        this.target = target;
-        this.attacker = attacker;
-        this.fireDamageImpact = fireDamageImpact;
+        this.targetObject = target;
+        this.projectileDamage = fireDamageImpact;
         this.fireDamageTick = fireDamageTick;
         this.speed = baseSpeed;
         this.trackIntensity = Mathf.Clamp01(trackIntensity);
         this.damageTickIntervalSec = damageTickIntervalSec;
         this.damageTickDurationSec = damageTickDurationSec;
 
+        base.Init(attacker, target.transform.position);
         speed = baseSpeed;
+        base.projectileDamage = fireDamageImpact;
     }
     void FixedUpdate()
     {
-        Track();
         MultiplicativeSpeedUp();
     }
 
@@ -49,33 +45,31 @@ public class MageFireBallAttack : MonoBehaviour
         speed = speed * (1 + speedPerSec * Time.deltaTime);
     }
 
-    void Track()
+    protected override void Move()
     {
-        if (target == null) return;
-
-        Vector3 goalDirection = (target.transform.position - transform.position).normalized;
-        Vector3 realDirection = Vector2.Lerp(rb.velocity.normalized, goalDirection, trackIntensity); // Move partially towards goalDirection according to trackIntensity
-        rb.velocity = realDirection.normalized * speed; // set new velocity
-    }
-
-    void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject == target)
+        if (target != null && !parried) // only run tracking logic if target exists and projectile hasn't been parried yet
         {
-            OnHit(collision.gameObject);
+            Vector3 goalDirection = (targetObject.transform.position - transform.position).normalized;
+            Vector3 realDirection = Vector2.Lerp(rb.velocity.normalized, goalDirection, trackIntensity); // Move partially towards goalDirection according to trackIntensity
+            dir = realDirection.normalized;
         }
+        rb.velocity = dir * speed; // set new velocity
     }
-
-    void OnHit(GameObject target)
+    protected override void DamageTarget(GameObject target, GameObject attacker)
     {
+        // reconfigure damage ownership
+        projectileDamage.attacker = attacker;
+        projectileDamage.victim = target;
+        fireDamageTick.attacker = attacker;
+        fireDamageTick.victim = target;
+
         Health targetHealth = target.GetComponent<Health>();
         if (targetHealth != null)
         {
-            targetHealth.Damage(fireDamageImpact, attacker);
+            targetHealth.Damage(projectileDamage, attacker);
             PoisonDebuff myFire = Instantiate(poisonDebuffPrefab, target.transform).GetComponent<PoisonDebuff>();
             myFire.Init(fireDamageTick, fireDamageTick.damage, damageTickDurationSec, damageTickIntervalSec);
             myFire.SetAttacker(attacker);
         }
-        Destroy(gameObject);
     }
 }
