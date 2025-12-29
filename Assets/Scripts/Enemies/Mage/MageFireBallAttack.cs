@@ -9,37 +9,37 @@ public class MageFireBallAttack : EnemyProjectile
     GameObject targetObject;
     [SerializeField] GameObject visual;
     [SerializeField] float speedPerSec; // speed to multiply every second to excitedly ramp up speed with time
-    float trackIntensity; // 0 to 1 range float
-    DamageContext fireDamageTick;
-    float damageTickIntervalSec;
-    float damageTickDurationSec;
+    [SerializeField] float maxDuration; // max duration before self-destruct
+    [Header("FireBall Damage")]
+    [SerializeField] float impactDamage;
+    [SerializeField] private DamageContext fireDamageTick;
+    [SerializeField] float tickDamage;
+    [Header("FireBall Settings")]
+    [SerializeField] float trackIntensity;
+    [SerializeField] float damageTickIntervalSec;
+    [SerializeField] float damageTickDurationSec;
     [SerializeField] GameObject poisonDebuffPrefab;
 
     public void Initialize(GameObject target,
-                            GameObject attacker,
-                            DamageContext fireDamageImpact,
-                            DamageContext fireDamageTick,
-                            float baseSpeed,
-                            float trackIntensity,
-                            float damageTickIntervalSec,
-                            float damageTickDurationSec)
+                            GameObject attacker)
     {
-        base.Init(attacker, target.transform.position);
-        this.targetObject = target;
-        this.projectileDamage = fireDamageImpact;
-        print(projectileDamage);
-        this.fireDamageTick = fireDamageTick;
-        this.speed = baseSpeed;
-        this.trackIntensity = Mathf.Clamp01(trackIntensity);
-        this.damageTickIntervalSec = damageTickIntervalSec;
-        this.damageTickDurationSec = damageTickDurationSec;
-        speed = baseSpeed;
-
-
+        Init(attacker, target.transform.position);
+        targetObject = target;
+        trackIntensity = Mathf.Clamp01(trackIntensity);
+        projectileDamage.damage = impactDamage;
+        fireDamageTick.damage = tickDamage;
+    }
+    void Update()
+    {
+        maxDuration -= Time.deltaTime;
+        if (maxDuration <= 0f)
+        {
+            Destroy(gameObject);
+        }
     }
     new void FixedUpdate()
     {
-        base.FixedUpdate();
+        Move();
         MultiplicativeSpeedUp();
     }
 
@@ -73,10 +73,18 @@ public class MageFireBallAttack : EnemyProjectile
         Health targetHealth = target.GetComponent<Health>();
         if (targetHealth != null)
         {
-            targetHealth.Damage(projectileDamage, attacker);
-            PoisonDebuff myFire = Instantiate(poisonDebuffPrefab, target.transform).GetComponent<PoisonDebuff>();
-            myFire.Init(fireDamageTick, fireDamageTick.damage, damageTickDurationSec, damageTickIntervalSec);
-            myFire.SetAttacker(attacker);
+            float result = targetHealth.Damage(projectileDamage, attacker);
+            if (result > 0.001f)
+            {
+                PoisonDebuff myFire = Instantiate(poisonDebuffPrefab, target.transform).GetComponent<PoisonDebuff>();
+                myFire.Init(fireDamageTick, fireDamageTick.damage, damageTickDurationSec, damageTickIntervalSec);
+                myFire.SetAttacker(attacker);
+            }
+
         }
+    }
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        base.ProcessCollision(collision.gameObject);
     }
 }

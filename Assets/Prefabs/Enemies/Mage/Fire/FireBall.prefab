@@ -5227,22 +5227,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   statList: []
-  speed: 20
+  speed: 2
   projectileDamage:
-    damageStrength: 0
+    damageStrength: 2
     damageTypes: 01000000
-    actionID: 0
-    actionTypes: 
-    extraContext: 
+    actionID: 17
+    actionTypes: 07000000
+    extraContext: FIREBALL
     ghostID: 0
   range: 640
-  terrainCollision: 1
+  terrainCollision: 0
   rotateWithVelocity: 0
   rotationOffset: {x: 0, y: 0, z: 0}
   target: Player
   parried: 0
   visual: {fileID: 7164489880985614582}
-  speedPerSec: 1
+  speedPerSec: 2
+  maxDuration: 7
+  impactDamage: 5
+  fireDamageTick:
+    damageStrength: 0
+    damageTypes: 03000000
+    actionID: 0
+    actionTypes: 07000000
+    extraContext: AHHHHHHHH
+    ghostID: 0
+  tickDamage: 1
+  trackIntensity: 0.1
+  damageTickIntervalSec: 0.2
+  damageTickDurationSec: 2
   poisonDebuffPrefab: {fileID: 7565183235025711588, guid: e8aa912d65ec96c43ac28ce27387314e,
     type: 3}
 --- !u!50 &1038890374219024133
@@ -5267,7 +5280,7 @@ Rigidbody2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 2097160
+    m_Bits: 8
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -5301,7 +5314,7 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}

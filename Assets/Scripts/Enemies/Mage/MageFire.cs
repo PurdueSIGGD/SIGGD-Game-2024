@@ -10,23 +10,6 @@ public class MageFire : EnemyStateManager
 {
     [SerializeField] private GameObject fireballPrefab;
     [SerializeField] GameObject lineOfSightTriggerBox;
-    [Header("FireBall Damage")]
-    [SerializeField] private DamageContext fireDamageImpact;
-    [SerializeField] float impactDamage;
-    [SerializeField] private DamageContext fireDamageTick;
-    [SerializeField] float tickDamage;
-    [Header("FireBall Settings")]
-    [SerializeField] float baseSpeed;
-    [SerializeField] float trackIntensity;
-    [SerializeField] float damageTickIntervalSec;
-    [SerializeField] float damageTickDurationSec;
-
-    new void Awake()
-    {
-        base.Awake();
-        fireDamageImpact.damage = impactDamage;
-        fireDamageTick.damage = tickDamage;
-    }
 
     public void Update()
     {
@@ -46,8 +29,7 @@ public class MageFire : EnemyStateManager
     public void FireFireBall()
     {
         MageFireBallAttack ball = Instantiate(fireballPrefab, transform.position, Quaternion.identity).GetComponent<MageFireBallAttack>();
-        ball.Initialize(player.gameObject, this.gameObject, fireDamageImpact, fireDamageTick, baseSpeed,
-            trackIntensity, damageTickIntervalSec, damageTickDurationSec);
+        ball.Initialize(player.gameObject, this.gameObject);
     }
     public override bool HasLineOfSight(bool tracking)
     {
