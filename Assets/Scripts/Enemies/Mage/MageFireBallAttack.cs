@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class MageFireBallAttack : EnemyProjectile
 {
+
+    [Header("Fireball Script Misc. Params")]
     GameObject targetObject;
+    [SerializeField] GameObject visual;
     [SerializeField] float speedPerSec; // speed to multiply every second to excitedly ramp up speed with time
     float trackIntensity; // 0 to 1 range float
     DamageContext fireDamageTick;
@@ -21,22 +24,22 @@ public class MageFireBallAttack : EnemyProjectile
                             float damageTickIntervalSec,
                             float damageTickDurationSec)
     {
-        rb = GetComponent<Rigidbody2D>();
-
+        base.Init(attacker, target.transform.position);
         this.targetObject = target;
         this.projectileDamage = fireDamageImpact;
+        print(projectileDamage);
         this.fireDamageTick = fireDamageTick;
         this.speed = baseSpeed;
         this.trackIntensity = Mathf.Clamp01(trackIntensity);
         this.damageTickIntervalSec = damageTickIntervalSec;
         this.damageTickDurationSec = damageTickDurationSec;
-
-        base.Init(attacker, target.transform.position);
         speed = baseSpeed;
-        base.projectileDamage = fireDamageImpact;
+
+
     }
-    void FixedUpdate()
+    new void FixedUpdate()
     {
+        base.FixedUpdate();
         MultiplicativeSpeedUp();
     }
 
@@ -51,9 +54,13 @@ public class MageFireBallAttack : EnemyProjectile
         {
             Vector3 goalDirection = (targetObject.transform.position - transform.position).normalized;
             Vector3 realDirection = Vector2.Lerp(rb.velocity.normalized, goalDirection, trackIntensity); // Move partially towards goalDirection according to trackIntensity
+            realDirection += new Vector3(Random.Range(-0.01f, 0.01f), Random.Range(-0.01f, 0.01f), 0); // noise machine
             dir = realDirection.normalized;
         }
         rb.velocity = dir * speed; // set new velocity
+
+        // update visual rotation
+        visual.transform.rotation = Quaternion.LookRotation(Vector3.forward, rb.velocity.normalized);
     }
     protected override void DamageTarget(GameObject target, GameObject attacker)
     {

@@ -35,7 +35,7 @@ public class EnemyProjectile : MonoBehaviour, IStatList
         projectileDamage.damage = statManager.ComputeValue("Damage");
     }
 
-    void FixedUpdate()
+    public void FixedUpdate()
     {
         Move();
         CheckOutOfBounds();
@@ -62,7 +62,7 @@ public class EnemyProjectile : MonoBehaviour, IStatList
     {
         if (collision.gameObject.CompareTag("Enemy") && parried)
         {
-            DamageTarget(PlayerID.instance.gameObject, collision.gameObject);
+            DamageTarget(collision.gameObject, PlayerID.instance.gameObject);
             Destroy(gameObject);
             return;
         }
