@@ -39,7 +39,7 @@ public class SaveData
     //      new("akihito_yume"), new("akihito_silas"), new("akihito_aegis"),
     //      new("yume_silas"), new("yume_aegis"), new("silas_aegis")
     //    };
-    public int[][] GhostToGhostProgress = new int[6][]
+    public int[][] ghostToGhostProgress = new int[6][]
     {
         new int[6], // north
         new int[6], // eva
@@ -54,7 +54,7 @@ public class SaveData
 [Serializable]
 public class GhostData
 {
-    public const int INDEX = 0;
+    public int index = 0;
     public int storyProgress = 0; // progress through the ghost's story
     public int bossProgress = 0; // if the ghost has encountered their boss before
     public int xp = 0;
@@ -63,14 +63,14 @@ public class GhostData
 [Serializable]
 public class NorthData : GhostData
 {
-    public new const int INDEX = 0;
+    public new int index = 0;
     public int reserveSpecialCharges;
 }
 
 [Serializable]
 public class EvaData : GhostData
 {
-    public new const int INDEX = 1;
+    public new int index = 1;
     public int tempoCount;
     public float remainingTempoDuration;
 }
@@ -78,13 +78,13 @@ public class EvaData : GhostData
 [Serializable]
 public class AkihitoData : GhostData
 {
-    public new const int INDEX = 2;
+    public new int index = 2;
 }
 
 [Serializable]
 public class YumeData : GhostData
 {
-    public new const int INDEX = 3;
+    public new int index = 3;
     public int spoolCount;
     public int scrapSaverCount;
 }
@@ -92,14 +92,14 @@ public class YumeData : GhostData
 [Serializable]
 public class SilasData : GhostData
 {
-    public new const int INDEX = 4;
+    public new int index = 4;
     public int ingredientsCollected;
 }
 
 [Serializable]
 public class AegisData : GhostData
 {
-    public new const int INDEX = 5;
+    public new int index = 5;
     public float damageDealtTillSmite = 0;
     public float damageBlockTillSmite = 0;
 }

@@ -25,7 +25,7 @@ public class EnterHub : MonoBehaviour
     [Tooltip("Out of 100"), SerializeField] float triggerChance;
     [SerializeField] GhostInteract g2gConvoInteractable;
 
-    HashSet<string> avaliableGhostToGhostConvo;
+    List<string> avaliableGhostToGhostConvo;
 
     void Awake()
     {
@@ -50,10 +50,24 @@ public class EnterHub : MonoBehaviour
 
     private void GenerateGhostToGhost()
     {
-        if (Random.Range(0, 100) >= triggerChance) return;
+        int numGhostsAvaliable = avaliableGhostToGhostConvo.Count;
+        if (numGhostsAvaliable < 2 || Random.Range(0, 100) >= triggerChance) return;
 
-        // pick from a ghost that doesn't currently have an active convo
+        // pick a random index and search through the list from there, so to pick a random ghost convo
+        int i, startingIndex;
+        i = startingIndex = Random.Range(0, numGhostsAvaliable);
+        do
+        {
+            for (int j = i + 1; j < numGhostsAvaliable; j ++)
+            {
+                int ghost1Index = GetGhostSaveData(avaliableGhostToGhostConvo[i]).index;
+                int ghost2Index = GetGhostSaveData(avaliableGhostToGhostConvo[j]).index;
+                // 0 means first meet, 1/2 means hub, 3 means completed
+                int relationshipLvl = SaveManager.data.ghostToGhostProgress[ghost1Index][ghost2Index]; 
+            }
 
+            if (++i == numGhostsAvaliable) i = 0; // wrap around if reach end of list
+        } while (i != startingIndex);
 
         // enable convo
         g2gConvoInteractable.gameObject.SetActive(true);
