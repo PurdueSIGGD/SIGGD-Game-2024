@@ -35,7 +35,8 @@ public class SamuraiUIDriver : GhostUIDriver
 
     private void updateSpecialAbility()
     {
-        specialAbilityUIManager.setAbilityCooldownTime(manager.getSpecialCooldown(), stats.ComputeValue("Special Cooldown"));
+        //specialAbilityUIManager.setAbilityCooldownTime(manager.getSpecialCooldown(), stats.ComputeValue("Special Cooldown"));
+        specialAbilityUIManager.setAbilityEnergy(manager.getSpecialEnergy(), stats.ComputeValue("Special Energy Cost"));
     }
 
     private void updateSkill1()
@@ -63,18 +64,22 @@ public class SamuraiUIDriver : GhostUIDriver
         {
             meterUIManager.setMeterColor(ghostIdentity.GetCharacterInfo().highlightColor);
         }
+        /*
         WrathHeavyAttack wrath = PlayerID.instance.GetComponent<WrathHeavyAttack>();
         if (wrath != null && (wrath.isCharging || wrath.isPrimed))
         {
             meterUIManager.setMeterColor(ghostIdentity.GetCharacterInfo().highlightColor);
         }
+        */
 
         // Honed Strike submeter
         meterUIManager.setSubMeterValue(0f, 1f);
         HonedStrike honedStrike = GetComponent<HonedStrike>();
         meterUIManager.setSubMeterValue(((honedStrike.buffApplied) ? 1f : 0f), 1f);
 
-        if (manager.wrathPercent > 0f || honedStrike.buffApplied)
+        WrathHeavyAttack wrath = PlayerID.instance.GetComponent<WrathHeavyAttack>();
+        if (manager.wrathPercent > 0f || honedStrike.buffApplied ||
+            (wrath != null && (wrath.isCharging || wrath.isPrimed)))
         {
             meterUIManager.activateWidget();
             return;

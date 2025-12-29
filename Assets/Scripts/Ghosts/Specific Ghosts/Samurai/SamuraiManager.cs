@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SamuraiManager : GhostManager, ISelectable
 {
@@ -49,12 +50,14 @@ public class SamuraiManager : GhostManager, ISelectable
     {
         GameplayEventHolder.OnDamageDealt += WrathOnDamage;
         GameplayEventHolder.OnDeath += OnKillVoiceline;
+        GameplayEventHolder.OnDamageDealt += OnDamageSpecialEnergyGain;
     }
 
     private void OnDisable()
     {
         GameplayEventHolder.OnDamageDealt -= WrathOnDamage;
         GameplayEventHolder.OnDeath -= OnKillVoiceline;
+        GameplayEventHolder.OnDamageDealt -= OnDamageSpecialEnergyGain;
     }
 
     protected override void Start()
@@ -70,6 +73,8 @@ public class SamuraiManager : GhostManager, ISelectable
             }
         }
         roninsResolve = GetComponent<RoninsResolve>();
+
+        initializeSpecialEnergy();
     }
 
     // Update is called once per frame
@@ -196,6 +201,65 @@ public class SamuraiManager : GhostManager, ISelectable
             roninsResolve.RemoveBoosts(wrathPercent);
         }
     }
+
+
+
+
+
+    private void initializeSpecialEnergy()
+    {
+        LevelSwitching levelSwitchingScript = FindFirstObjectByType<LevelSwitching>();
+        if (!SceneManager.GetActiveScene().name.Equals(levelSwitchingScript.GetHomeWorld()))
+        {
+            setSpecialEnergy(SaveManager.data.akihito.specialEnergy);
+        }
+        else
+        {
+            resetSpecialEnergy();
+        }
+    }
+
+    public void resetSpecialEnergy()
+    {
+        currentSpecialEnergy = 0f;
+        SaveManager.data.akihito.specialEnergy = currentSpecialEnergy;
+        setSpecialReady(false);
+    }
+
+    public void setSpecialEnergy(float energy)
+    {
+        currentSpecialEnergy = energy;
+        currentSpecialEnergy = Mathf.Min(currentSpecialEnergy, stats.ComputeValue("Special Energy Cost"));
+        SaveManager.data.akihito.specialEnergy = currentSpecialEnergy;
+        setSpecialReady(currentSpecialEnergy >= stats.ComputeValue("Special Energy Cost"));
+    }
+
+    public void addSpecialEnergy(float energy)
+    {
+        setSpecialEnergy(getSpecialEnergy() + energy);
+    }
+
+    public float getSpecialEnergy()
+    {
+        return currentSpecialEnergy;
+    }
+
+    private void OnDamageSpecialEnergyGain(DamageContext context)
+    {
+        SpecialEnergyPool specialEnergyPool = context.victim.GetComponent<SpecialEnergyPool>();
+        Health victimHealth = context.victim.GetComponent<Health>();
+        if (specialEnergyPool == null || victimHealth == null) return;
+        if (context.attacker != PlayerID.instance.gameObject) return;
+        if (context.actionTypes.Contains(ActionType.SPECIAL_ABILITY)) return;
+
+        float maxHealth = victimHealth.GetStats().ComputeValue("Max Health");
+        float percentHealthDamaged = context.damage / maxHealth;
+        Debug.Log("Current Energy: " + currentSpecialEnergy + "  |  Earned Energy: " + (specialEnergyPool.energyPool * percentHealthDamaged));
+        addSpecialEnergy(specialEnergyPool.energyPool * percentHealthDamaged);
+    }
+
+
+
 
 
     private void OnKillVoiceline(DamageContext context)
