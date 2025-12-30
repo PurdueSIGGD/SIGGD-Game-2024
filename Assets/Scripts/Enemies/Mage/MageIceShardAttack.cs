@@ -25,7 +25,7 @@ public class MageIceShardAttack : EnemyProjectile
             chargeTimeSec -= Time.deltaTime;
         else
         {
-            SetLaunch(true);
+            Launch();
         }
     }
     new void FixedUpdate()
@@ -39,9 +39,10 @@ public class MageIceShardAttack : EnemyProjectile
             base.FixedUpdate();
         }
     }
-    void SetLaunch(bool val)
+    void Launch()
     {
-        launched = val;
+        launched = true;
+        transform.parent = null;
     }
     void Track()
     {
