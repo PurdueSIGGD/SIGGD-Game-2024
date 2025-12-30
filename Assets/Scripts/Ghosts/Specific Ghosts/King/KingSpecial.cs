@@ -10,26 +10,29 @@ public class KingSpecial : MonoBehaviour, ISpecialMove
 
     [HideInInspector] public KingManager manager;
     [HideInInspector] public bool isCasting;
-    [HideInInspector] public bool isInvincibilityActive;
+    //[HideInInspector] public bool isInvincibilityActive;
 
     // Start is called before the first frame update
     void Start()
     {
         playerStateMachine = GetComponent<PlayerStateMachine>();
         isCasting = false;
-        isInvincibilityActive = false;
+        //isInvincibilityActive = false;
     }
 
+    /*
     private void OnDisable()
     {
         if (GameplayEventHolder.OnDamageFilter.Contains(invincibilityFilter)) GameplayEventHolder.OnDamageFilter.Remove(invincibilityFilter);
     }
+    */
 
     // Update is called once per frame
     void Update()
     {
         if (manager != null)
         {
+            /*
             if (manager.getSpecialCooldown() > 0)
             {
                 playerStateMachine.OnCooldown("c_special");
@@ -37,6 +40,15 @@ public class KingSpecial : MonoBehaviour, ISpecialMove
             else
             {
                 playerStateMachine.OffCooldown("c_special");
+            }
+            */
+            if (manager.getSpecialReady())
+            {
+                playerStateMachine.OffCooldown("c_special");
+            }
+            else
+            {
+                playerStateMachine.OnCooldown("c_special");
             }
         }
     }
@@ -52,7 +64,7 @@ public class KingSpecial : MonoBehaviour, ISpecialMove
 
         // Set flags and inits
         isCasting = true;
-        isInvincibilityActive = true;
+        //isInvincibilityActive = true;
         float castTime = 0.15f;
 
         bool isDivineSmite = manager.GetComponent<DivineSmite>().isSpecialPowered();
@@ -86,13 +98,15 @@ public class KingSpecial : MonoBehaviour, ISpecialMove
         }
 
         // Start invincibility
-        GameplayEventHolder.OnDamageFilter.Add(invincibilityFilter);
+        //GameplayEventHolder.OnDamageFilter.Add(invincibilityFilter);
+        manager.StartInvincibility(manager.GetStats().ComputeValue("Special Invincibility Duration"), manager.GetComponent<GhostIdentity>().GetCharacterInfo().specialAbilityIcon);
 
         // Affect enemies
         Collider2D[] enemies = Physics2D.OverlapCircleAll(transform.position, manager.GetStats().ComputeValue("Special Explosion Radius") * radiusMultiplier, LayerMask.GetMask("Enemy"));
         foreach (Collider2D enemy in enemies)
         {
             enemy.gameObject.GetComponent<Health>().Damage(manager.specialDamage, gameObject);
+            if (enemy.gameObject.GetComponent<EnemyStateManager>() == null) continue;
             enemy.gameObject.GetComponent<EnemyStateManager>().Stun(manager.specialDamage, manager.GetStats().ComputeValue("Special Stun Duration"));
 
             // Deal knockback
@@ -116,8 +130,8 @@ public class KingSpecial : MonoBehaviour, ISpecialMove
         endSpecial(true, false);
 
         // End invincibility
-        yield return new WaitForSeconds(Mathf.Max((manager.GetStats().ComputeValue("Special Invincibility Duration") - castTime), 0f));
-        endSpecial(false, true);
+        //yield return new WaitForSeconds(Mathf.Max((manager.GetStats().ComputeValue("Special Invincibility Duration") - castTime), 0f));
+        //endSpecial(false, true);
     }
 
     /// <summary>
@@ -131,29 +145,34 @@ public class KingSpecial : MonoBehaviour, ISpecialMove
         if (isCasting && stopCasting)
         {
             playerStateMachine.EnableTrigger("OPT");
-            manager.startSpecialCooldown();
+            //manager.startSpecialCooldown();
+            manager.resetSpecialEnergy();
             isCasting = false;
             GetComponent<PartyManager>().SetSwappingEnabled(true);
         }
 
         // Stop special invincibility
+        /*
         if (isInvincibilityActive && stopInvincibility)
         {
             GameplayEventHolder.OnDamageFilter.Remove(invincibilityFilter);
             isInvincibilityActive = false;
             PlayerParticles.instance.StopGhostGoodBuff();
         }
+        */
     }
 
+    /*
     public void invincibilityFilter(ref DamageContext context)
     {
         if (context.victim.tag == "Player")
         {
             context.damage = 0f;
             context.icon = null;
-            DamageNumberManager.instance.PlayMessage(this.gameObject, 0f, manager.GetComponent<GhostIdentity>().GetCharacterInfo().specialAbilityIcon, "Blocked!", manager.GetComponent<GhostIdentity>().GetCharacterInfo().highlightColor);
+            DamageNumberManager.instance.PlayMessage(this.gameObject, 0f, manager.GetComponent<GhostIdentity>().GetCharacterInfo().specialAbilityIcon, "Invincible!", manager.GetComponent<GhostIdentity>().GetCharacterInfo().highlightColor);
         }
     }
+    */
 
     public bool GetBool()
     {

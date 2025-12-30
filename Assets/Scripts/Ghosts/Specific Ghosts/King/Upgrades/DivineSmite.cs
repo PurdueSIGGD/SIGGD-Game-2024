@@ -9,6 +9,7 @@ public class DivineSmite : Skill
     public int pointIndex;
     private bool divineSmitePowered = false;
     [SerializeField] public int[] dmgNeeded = {0, 800, 600, 400, 200};
+    [SerializeField] private float damageBlockedChargeMultiplier = 4f;
     [SerializeField] private float damageBoost = 2f;
     [SerializeField] public float knockbackBoost = 1.25f;
     [SerializeField] public float radiusBoost = 1.5f;
@@ -52,12 +53,14 @@ public class DivineSmite : Skill
     {
         if (pointIndex > 0 && !divineSmitePowered)
         {
+            dmg *= damageBlockedChargeMultiplier;
             SaveManager.data.aegis.damageDealtTillSmite += dmg;
             damageProgress = SaveManager.data.aegis.damageDealtTillSmite;
             if (damageProgress >= dmgNeeded[pointIndex])
             {
                 AudioManager.Instance.SFXBranch.PlaySFXTrack("Aegis-Divine Smite");
-                manager.setSpecialCooldown(0f);
+                //manager.setSpecialCooldown(0f);
+                manager.setSpecialEnergy(manager.GetStats().ComputeValue("Special Energy Cost"));
                 divineSmitePowered = true;
                 SaveManager.data.aegis.damageDealtTillSmite = dmgNeeded[pointIndex];
                 damageProgress = SaveManager.data.aegis.damageDealtTillSmite;
@@ -94,7 +97,8 @@ public class DivineSmite : Skill
             if (damageProgress >= dmgNeeded[pointIndex])
             {
                 AudioManager.Instance.SFXBranch.PlaySFXTrack("Aegis-Divine Smite");
-                manager.setSpecialCooldown(0f);
+                //manager.setSpecialCooldown(0f);
+                manager.setSpecialEnergy(manager.GetStats().ComputeValue("Special Energy Cost"));
                 divineSmitePowered = true;
                 SaveManager.data.aegis.damageDealtTillSmite = dmgNeeded[pointIndex];
                 damageProgress = SaveManager.data.aegis.damageDealtTillSmite;

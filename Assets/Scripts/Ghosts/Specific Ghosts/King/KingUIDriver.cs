@@ -32,7 +32,7 @@ public class KingUIDriver : GhostUIDriver
     private void updateBasicAbility()
     {
         basicAbilityUIManager.setAbilityEnabled(manager.getBasicCooldown() <= 0f && manager.hasShield, true);
-        basicAbilityUIManager.setNumberActive(manager.getBasicCooldown() > 0f);
+        basicAbilityUIManager.setNumberActive(manager.getBasicCooldown() > 0.3f);
         basicAbilityUIManager.setNumberValue(manager.getBasicCooldown());
         basicAbilityUIManager.setMeterValue(manager.currentShieldHealth, stats.ComputeValue("Shield Max Health"));
         basicAbilityUIManager.setChargeWidgetActive(true);
@@ -41,7 +41,8 @@ public class KingUIDriver : GhostUIDriver
 
     private void updateSpecialAbility()
     {
-        specialAbilityUIManager.setAbilityCooldownTime(manager.getSpecialCooldown(), stats.ComputeValue("Special Cooldown"));
+        //specialAbilityUIManager.setAbilityCooldownTime(manager.getSpecialCooldown(), stats.ComputeValue("Special Cooldown"));
+        specialAbilityUIManager.setAbilityEnergy(manager.getSpecialEnergy(), stats.ComputeValue("Special Energy Cost"));
         specialAbilityUIManager.setAbilityHighlighted(GetComponent<DivineSmite>().isSpecialPowered());
     }
 
@@ -80,8 +81,12 @@ public class KingUIDriver : GhostUIDriver
         }
 
         //Meter
+        bool isShieldHealthSufficient = GetComponent<ShieldOfThorns>().isShieldHealthSufficient;
         meterUIManager.setMeterValue(manager.currentShieldHealth, stats.ComputeValue("Shield Max Health"));
-        meterUIManager.setMeterColor((manager.getBasicCooldown() <= 0f && manager.hasShield) ? ghostIdentity.GetCharacterInfo().primaryColor : ghostIdentity.GetCharacterInfo().whiteColor);
+        meterUIManager.setMeterColor(ghostIdentity.GetCharacterInfo().primaryColor);
+        if (isShieldHealthSufficient) meterUIManager.setMeterColor(ghostIdentity.GetCharacterInfo().highlightColor);
+        if (manager.getBasicCooldown() > 0f || !manager.hasShield) meterUIManager.setMeterColor(ghostIdentity.GetCharacterInfo().whiteColor);
+        //meterUIManager.setMeterColor((manager.getBasicCooldown() <= 0f && manager.hasShield) ? ghostIdentity.GetCharacterInfo().primaryColor : ghostIdentity.GetCharacterInfo().whiteColor);
 
         //Widget active
         if (manager.basic == null) return;

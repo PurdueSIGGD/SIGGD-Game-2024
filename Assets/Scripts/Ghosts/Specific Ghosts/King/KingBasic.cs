@@ -69,6 +69,7 @@ public class KingBasic : MonoBehaviour
 
         // Start player effects
         GameplayEventHolder.OnDamageFilter.Add(invincibilityFilter);
+        GetComponent<Health>().GetStats().ModifyStat("Dodge Chance", -1000);
     }
 
     public void StopHeavyChargeUp()
@@ -84,7 +85,8 @@ public class KingBasic : MonoBehaviour
         //manager.setBasicCooldown(maxCooldown * cooldownMultiplier);
 
         float maxCooldown = manager.GetStats().ComputeValue("Basic Cooldown");
-        manager.setBasicCooldown((manager.currentShieldHealth <= 0f) ? maxCooldown : 0.5f);
+        float reactivationCooldown = manager.GetStats().ComputeValue("Basic Reactivation Cooldown");
+        manager.setBasicCooldown((manager.currentShieldHealth <= 0f) ? maxCooldown : reactivationCooldown);
 
         // VFX
         if (shieldCircle != null) shieldCircle.GetComponent<CircleAreaHandler>().playCircleEnd();
@@ -95,6 +97,7 @@ public class KingBasic : MonoBehaviour
 
         // End effects
         GameplayEventHolder.OnDamageFilter.Remove(invincibilityFilter);
+        GetComponent<Health>().GetStats().ModifyStat("Dodge Chance", 1000);
 
         GetComponent<PartyManager>().SetSwappingEnabled(true);
     }
@@ -105,7 +108,6 @@ public class KingBasic : MonoBehaviour
 
         // Shield damage absorb
         manager.currentShieldHealth = Mathf.Max(manager.currentShieldHealth - context.damage, 0f);
-
         manager.TakeShieldDamage(context.damage);
         
         context.damage = 0f;
@@ -116,7 +118,7 @@ public class KingBasic : MonoBehaviour
         // VFX
         CameraShake.instance.Shake(0.2f, 10f, 0f, 10f, new Vector2(Random.Range(-0.5f, 0.5f), 1f));
         GameObject surfaceExplosion = Instantiate(manager.shieldExplosionVFX, transform);
-        surfaceExplosion.GetComponent<RingExplosionHandler>().playRingExplosion(1.7f, manager.GetComponent<GhostIdentity>().GetCharacterInfo().highlightColor);
+        surfaceExplosion.GetComponent<RingExplosionHandler>().playRingExplosion(2f, manager.GetComponent<GhostIdentity>().GetCharacterInfo().highlightColor);
 
         // SFX
         AudioManager.Instance.SFXBranch.GetSFXTrack("Aegis-Shield On Damage").SetPitch(manager.GetStats().ComputeValue("Shield Max Health") - manager.currentShieldHealth, manager.GetStats().ComputeValue("Shield Max Health"));
@@ -175,11 +177,18 @@ public class KingBasic : MonoBehaviour
         AudioManager.Instance.SFXBranch.PlaySFXTrack("Aegis-Shield Break");
         AudioManager.Instance.VABranch.PlayVATrack("Aegis-King Shield Destroyed");
 
+        // Start invincibility
+        if (Vector3.Distance(transform.position, position) <= manager.GetStats().ComputeValue("Shield Break Explosion Radius"))
+        {
+            manager.StartInvincibility(manager.GetStats().ComputeValue("Shield Break Invincibility Duration"), manager.GetComponent<GhostIdentity>().GetCharacterInfo().basicAbilityIcon);
+        }
+
         // Affect enemies
         Collider2D[] enemies = Physics2D.OverlapCircleAll(position, manager.GetStats().ComputeValue("Shield Break Explosion Radius"), LayerMask.GetMask("Enemy"));
         foreach (Collider2D enemy in enemies)
         {
             enemy.gameObject.GetComponent<Health>().Damage(manager.shieldBreakDamage, gameObject);
+            if (enemy.gameObject.GetComponent<EnemyStateManager>() == null) continue;
             enemy.gameObject.GetComponent<EnemyStateManager>().Stun(manager.shieldBreakDamage, manager.GetStats().ComputeValue("Shield Break Stun Duration"));
 
             // Deal knockback
