@@ -10,6 +10,21 @@ public class MageIce : EnemyStateManager
     [SerializeField] float iceAttackIntervalSec;
     [SerializeField] GameObject lineOfSightTriggerBox;
 
+    void Update()
+    {
+        // manually flip the mage to face the player
+        if (player != null)
+        {
+            if (player.position.x - transform.position.x < 0)
+            {
+                Flip(false);
+            }
+            else
+            {
+                Flip(true);
+            }
+        }
+    }
     public void IceAttack()
     {
         Transform[] icePositions = icePositionsParent.GetComponentsInChildren<Transform>();
@@ -19,6 +34,9 @@ public class MageIce : EnemyStateManager
     {
         foreach (Transform icePos in icePositions)
         {
+            if (icePos.gameObject == icePositionsParent)
+                continue;
+
             MageIceShardAttack ice = Instantiate(iceShardPrefab, icePos.position, Quaternion.identity).GetComponent<MageIceShardAttack>();
             ice.Initialize(player.gameObject, this.gameObject);
             yield return new WaitForSeconds(iceAttackIntervalSec);
