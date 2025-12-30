@@ -53,7 +53,7 @@ public class MageIceShardAttack : EnemyProjectile
             transform.rotation = Quaternion.LookRotation(Vector3.forward, dir);
         }
     }
-    public void OnTriggerEnter2D(Collider2D collision)
+    public void OnTriggerStay2D(Collider2D collision)
     {
         if (launched)
             base.ProcessCollision(collision.gameObject);
