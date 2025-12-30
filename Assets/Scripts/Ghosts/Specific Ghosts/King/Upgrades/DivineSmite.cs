@@ -90,7 +90,7 @@ public class DivineSmite : Skill
             return;
         }
 
-        if (context.attacker != null && context.attacker.CompareTag("Player") && pointIndex > 0 && !divineSmitePowered)
+        if (context.attacker != null && context.attacker.CompareTag("Player") && context.actionID != ActionID.KING_SPECIAL && pointIndex > 0 && !divineSmitePowered)
         {
             SaveManager.data.aegis.damageDealtTillSmite += context.damage;
             damageProgress = SaveManager.data.aegis.damageDealtTillSmite;
