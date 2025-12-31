@@ -36,7 +36,8 @@ public class PlayerHealthTracking : MonoBehaviour
             UpdateTrackedHealth(1);
         }
 
-        StartCoroutine(DelayedStart());
+        //StartCoroutine(DelayedStart());
+        health.currentHealth = stats.ComputeValue("Max Health") * trackedHealth;
 
         // when door is opened (aka begin changing to next room), make trackedHealth equal to the player's health
         // before exiting the room so that trackedHealth can be used in the next room to update the health 

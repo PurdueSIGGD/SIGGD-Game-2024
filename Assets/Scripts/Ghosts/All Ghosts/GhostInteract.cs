@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Linq.Expressions;
 using UnityEngine;
 
@@ -63,7 +64,25 @@ public class GhostInteract : InRangeInteract, IParty
     {
         CloseMenu();
         PartyManager partyManger = PlayerID.instance.GetComponent<PartyManager>();
-        partyManger.TryAddGhostToParty(this.GetComponent<GhostIdentity>());
+        bool success = partyManger.TryAddGhostToParty(this.GetComponent<GhostIdentity>());
+        if (success)
+        {
+            return;
+        }
+        ReplaceGhostBehaviour.Instance.Choose();
+        ReplaceGhostBehaviour.Instance.ghostReplacedDelegate = () =>
+        {
+            partyManger.TryAddGhostToParty(this.GetComponent<GhostIdentity>());
+            Debug.Log("Replaced ghost in party");
+            StartCoroutine(SetUIActive(0.01f));
+        };
+    }
+
+    private IEnumerator SetUIActive(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+        PlayerGhost1UIManager.instance.gameObject.SetActive(true);
+        PlayerGhost2UIManager.instance.gameObject.SetActive(true);
     }
 
     private void FirstInteraction()

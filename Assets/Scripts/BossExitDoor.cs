@@ -65,6 +65,7 @@ public class BossExitDoor : Door
         else
         {
             SaveManager.instance.Save();
+            PersistentData.Instance.GetComponent<SpiritTracker>().SaveSpiritCountsNoUI();
             StartCoroutine(FadeToHub());
         }
     }

@@ -46,7 +46,16 @@ public class GhostUIDriver : MonoBehaviour, ISelectable
 
     public void UpdatePartyStatus()
     {
-
+        if (partyManager == null)
+        {
+            Debug.Log("Party manager null ig?");
+            partyManager = PartyManager.instance;
+        }
+        if (ghostIdentity == null)
+        {
+            Debug.Log("ghost identity null ig?");
+            ghostIdentity = GetComponent<GhostIdentity>();
+        }
         if (!isInParty && partyManager.IsGhostInParty(ghostIdentity))
         {
             List<GhostIdentity> ghostPartyList = partyManager.GetGhostPartyList();
