@@ -47,8 +47,18 @@ public class Spirit : MonoBehaviour
 
     private void FixedUpdate()
     {
+
         if (isLaunching)
         {
+            if (rb.velocity.x > 0f)
+            {
+                transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+            }
+            else
+            {
+                transform.rotation = Quaternion.Euler(0f, 180f, 0f);
+            }
+
             rb.velocity -= rb.velocity.normalized * launchDeceleration * Time.fixedDeltaTime; // Launching deceleration
 
             launchTimer -= Time.deltaTime;
@@ -68,6 +78,15 @@ public class Spirit : MonoBehaviour
 
         if (isBeingCollected)
         {
+            if (rb.velocity.x > 0f)
+            {
+                transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+            }
+            else
+            {
+                transform.rotation = Quaternion.Euler(0f, 180f, 0f);
+            }
+
             Vector2 CollectionDir = (PlayerID.instance.gameObject.transform.position - transform.position).normalized;
             rb.velocity += CollectionDir * collectionAcceleration * Time.fixedDeltaTime; // Collection Acceleration
             if (collectionRange < maxCollectionRange) collectionRange += collectionRangeIncreaseRate * Time.fixedDeltaTime; // Collection Range Increase
@@ -80,6 +99,15 @@ public class Spirit : MonoBehaviour
         }
         else if (rb.velocity.magnitude > 0.1f) // Base behavior: Decelerate to a stop
         {
+            if (rb.velocity.x > 0f)
+            {
+                transform.rotation = Quaternion.Euler(0f, 180f, 0f);
+            }
+            else
+            {
+                transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+            }
+
             rb.velocity -= rb.velocity.normalized * launchDeceleration * Time.fixedDeltaTime;
             if (rb.velocity.magnitude <= 0.1f) rb.velocity = Vector2.zero;
         }
