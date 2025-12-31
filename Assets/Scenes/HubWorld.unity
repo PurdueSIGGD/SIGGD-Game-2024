@@ -68494,6 +68494,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 76b9e740d729c384899729fc3d28aec8, type: 3}
+--- !u!212 &107356753 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 3052785048301477056, guid: d8ae51031d5e50d43b81279feaef6d48,
+    type: 3}
+  m_PrefabInstance: {fileID: 815331646821089064}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &151827858
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -137124,6 +137130,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eae8f9653188d9f45824a0d369ba8ac5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!212 &1133809350 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 5181675246355417508, guid: d8ae51031d5e50d43b81279feaef6d48,
+    type: 3}
+  m_PrefabInstance: {fileID: 815331646821089064}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1225862120
 GameObject:
   m_ObjectHideFlags: 0
@@ -138042,6 +138054,18 @@ Transform:
   - {fileID: 316214658}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1712438155 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2807538204893769202, guid: d8ae51031d5e50d43b81279feaef6d48,
+    type: 3}
+  m_PrefabInstance: {fileID: 815331646821089064}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eae8f9653188d9f45824a0d369ba8ac5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &1725781233 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 9023537236421700488, guid: 00ef337d94b07b9429cff6c9b343f6b8,
@@ -202914,6 +202938,21 @@ PrefabInstance:
       objectReference: {fileID: 1548112082}
     - target: {fileID: 2452415339178365437, guid: 9084c5da18ca3d848aa6446c9a28eadc,
         type: 3}
+      propertyPath: g2gConvoInteractable
+      value: 
+      objectReference: {fileID: 1712438155}
+    - target: {fileID: 2452415339178365437, guid: 9084c5da18ca3d848aa6446c9a28eadc,
+        type: 3}
+      propertyPath: g2gGhostIcons.Array.data[0]
+      value: 
+      objectReference: {fileID: 107356753}
+    - target: {fileID: 2452415339178365437, guid: 9084c5da18ca3d848aa6446c9a28eadc,
+        type: 3}
+      propertyPath: g2gGhostIcons.Array.data[1]
+      value: 
+      objectReference: {fileID: 1133809350}
+    - target: {fileID: 2452415339178365437, guid: 9084c5da18ca3d848aa6446c9a28eadc,
+        type: 3}
       propertyPath: ghostHubInfos.Array.data[0].interact
       value: 
       objectReference: {fileID: 1337865179}
@@ -203318,7 +203357,7 @@ PrefabInstance:
     - target: {fileID: 2905334097505762094, guid: fd518db5063097f408986d06c55a4f3a,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -549.998
+      value: -549.99805
       objectReference: {fileID: 0}
     - target: {fileID: 2905334097505762094, guid: fd518db5063097f408986d06c55a4f3a,
         type: 3}

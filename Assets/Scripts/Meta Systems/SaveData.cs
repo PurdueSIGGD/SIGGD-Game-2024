@@ -1,4 +1,3 @@
-using JetBrains.Annotations;
 using System;
 using System.Collections.Generic;
 
@@ -33,28 +32,22 @@ public class SaveData
 
     public MasteryUpgradeData masteryUpgrades = new();
 
-    //public List<GhostToGhostProgressSaveData> ghostToGhostProgress = new() 
-    //    { new("eva_north"), new("eva_akihito"), new("eva_yume"), new("eva_silas"), new("eva_aegis"), 
-    //      new("north_akihito"), new("north_yume"), new("north_silas"), new("north_aegis"),
-    //      new("akihito_yume"), new("akihito_silas"), new("akihito_aegis"),
-    //      new("yume_silas"), new("yume_aegis"), new("silas_aegis")
-    //    };
-    public int[][] ghostToGhostProgress = new int[6][]
+    public List<GhostToGhostProgressSaveData> ghostToGhostProgress = new()
     {
-        new int[6], // north
-        new int[6], // eva
-        new int[6], // akihito
-        new int[6], // yume
-        new int[6], // silas
-        new int[6]  // aegis
+        new("north"), // north
+        new("eva"), // eva
+        new("akihito"), // akihito
+        new("yume"), // yume
+        new("silas"), // silas
+        new("aegis")  // aegis
     };
 }
 
 
 [Serializable]
-public class GhostData
+public abstract class GhostData
 {
-    public int index = 0;
+    public abstract int Index { get; }
     public int storyProgress = 0; // progress through the ghost's story
     public int bossProgress = 0; // if the ghost has encountered their boss before
     public int xp = 0;
@@ -63,14 +56,14 @@ public class GhostData
 [Serializable]
 public class NorthData : GhostData
 {
-    public new int index = 0;
+    public override int Index => 0;
     public int reserveSpecialCharges;
 }
 
 [Serializable]
 public class EvaData : GhostData
 {
-    public new int index = 1;
+    public override int Index => 1;
     public int tempoCount;
     public float remainingTempoDuration;
 }
@@ -78,13 +71,13 @@ public class EvaData : GhostData
 [Serializable]
 public class AkihitoData : GhostData
 {
-    public new int index = 2;
+    public override int Index => 2;
 }
 
 [Serializable]
 public class YumeData : GhostData
 {
-    public new int index = 3;
+    public override int Index => 3;
     public int spoolCount;
     public int scrapSaverCount;
 }
@@ -92,14 +85,14 @@ public class YumeData : GhostData
 [Serializable]
 public class SilasData : GhostData
 {
-    public new int index = 4;
+    public override int Index => 4;
     public int ingredientsCollected;
 }
 
 [Serializable]
 public class AegisData : GhostData
 {
-    public new int index = 5;
+    public override int Index => 5;
     public float damageDealtTillSmite = 0;
     public float damageBlockTillSmite = 0;
 }
@@ -114,4 +107,17 @@ public class MasteryUpgradeData
          0,    0,    0,      // Tier 2
          0,    0,    0       // Tier 3
     };
+}
+
+[Serializable]
+public class GhostToGhostProgressSaveData // new class to bypass serialization limit
+{
+    public string name;
+    public int[] row;
+
+    public GhostToGhostProgressSaveData(string name)
+    {
+        row = new int[6];
+        this.name = name;
+    }
 }

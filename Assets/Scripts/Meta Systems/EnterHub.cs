@@ -24,8 +24,10 @@ public class EnterHub : MonoBehaviour
     [Header("Ghost To Ghost Convo")]
     [Tooltip("Out of 100"), SerializeField] float triggerChance;
     [SerializeField] GhostInteract g2gConvoInteractable;
+    [SerializeField] SpriteRenderer[] g2gGhostIcons;
+    [SerializeField] GhostToGhostConvoHolder[] ghostToGhostConvos;
 
-    List<string> avaliableGhostToGhostConvo;
+    List<GhostHubInfo> avaliableGhostToGhostConvo;
 
     void Awake()
     {
@@ -45,33 +47,81 @@ public class EnterHub : MonoBehaviour
     {
         LoadDeathEncounter();
         LoadConversation();
-        GenerateGhostToGhost();
+        LoadGhostToGhost();
     }
 
-    private void GenerateGhostToGhost()
+    private void LoadGhostToGhost()
     {
+        g2gConvoInteractable.gameObject.SetActive(false);
         int numGhostsAvaliable = avaliableGhostToGhostConvo.Count;
         if (numGhostsAvaliable < 2 || Random.Range(0, 100) >= triggerChance) return;
 
-        // pick a random index and search through the list from there, so to pick a random ghost convo
-        int i, startingIndex;
-        i = startingIndex = Random.Range(0, numGhostsAvaliable);
-        do
+
+        int i, j;
+        i = j = Random.Range(0, numGhostsAvaliable);
+        while (j == i) j = Random.Range(0, numGhostsAvaliable);
+        int ghost1Index = GetGhostSaveData(avaliableGhostToGhostConvo[i].nickname).Index;
+        int ghost2Index = GetGhostSaveData(avaliableGhostToGhostConvo[j].nickname).Index;
+        if (ghost1Index > ghost2Index)
         {
-            for (int j = i + 1; j < numGhostsAvaliable; j ++)
-            {
-                int ghost1Index = GetGhostSaveData(avaliableGhostToGhostConvo[i]).index;
-                int ghost2Index = GetGhostSaveData(avaliableGhostToGhostConvo[j]).index;
-                // 0 means first meet, 1/2 means hub, 3 means completed
-                int relationshipLvl = SaveManager.data.ghostToGhostProgress[ghost1Index][ghost2Index]; 
-            }
+            // swap so that lower index is always first, saves work in editor
+            (ghost2Index, ghost1Index) = (ghost1Index, ghost2Index);
+        }
+        int relationshipLvl = SaveManager.data.ghostToGhostProgress[ghost1Index].row[ghost2Index];
+        ConvoSO selectedConvo = relationshipLvl == 0 ?
+            ghostToGhostConvos[ghost1Index].convoRow[ghost2Index].firstMeet :
+            ghostToGhostConvos[ghost1Index].convoRow[ghost2Index].StdConvo;
 
-            if (++i == numGhostsAvaliable) i = 0; // wrap around if reach end of list
-        } while (i != startingIndex);
-
-        // enable convo
         g2gConvoInteractable.gameObject.SetActive(true);
-        //g2gConvoInteractable.SetConvo();
+        g2gConvoInteractable.SetConvo(selectedConvo);
+
+        SaveManager.data.ghostToGhostProgress[ghost1Index].row[ghost2Index] = 1;
+
+        // hide the actual ghosts in scene
+        avaliableGhostToGhostConvo[i].interact.gameObject.SetActive(false);
+        avaliableGhostToGhostConvo[j].interact.gameObject.SetActive(false);
+        g2gGhostIcons[0].color = avaliableGhostToGhostConvo[i].displayColor;
+        g2gGhostIcons[1].color = avaliableGhostToGhostConvo[j].displayColor;
+
+
+
+        // below is implementation if we don't want hub convos to repeat, which I changed my mind on last sec
+
+        // pick a random index and search through the list from there, so to pick a random ghost convo
+        //int i, startingIndex;
+        //ConvoSO selectedConvo = null;
+        //i = startingIndex = Random.Range(0, numGhostsAvaliable);
+        //do
+        //{
+        //    for (int j = i + 1; j < numGhostsAvaliable; j ++)
+        //    {
+        //        if (i == j)
+        //        {
+        //            Debug.LogError("Impossible, shouldn't be checking same ghost against itself");
+        //            continue;
+        //        }
+
+        //        int ghost1Index = GetGhostSaveData(avaliableGhostToGhostConvo[i]).Index;
+        //        int ghost2Index = GetGhostSaveData(avaliableGhostToGhostConvo[j]).Index;
+        //        if (ghost2Index > ghost1Index)
+        //        {
+        //            // swap so that lower index is always first, saves work in editor
+        //            (ghost2Index, ghost1Index) = (ghost1Index, ghost2Index);
+        //        }
+
+        //        int relationshipLvl = SaveManager.data.ghostToGhostProgress[ghost1Index][ghost2Index];
+        //        //if (relationshipLvl == 3) continue;
+        //        selectedConvo = relationshipLvl == 0 ?
+        //            ghostToGhostConvos[ghost1Index].convoRow[ghost2Index].firstMeet :
+        //            ghostToGhostConvos[ghost1Index].convoRow[ghost2Index].StdConvo;
+
+        //        g2gConvoInteractable.gameObject.SetActive(true);
+        //        g2gConvoInteractable.SetConvo(selectedConvo);
+        //    }
+
+        //    if (++i == numGhostsAvaliable) i = 0; // wrap around if reach end of list
+
+        //} while (i != startingIndex);
     }
 
     private void LoadConversation()
@@ -122,7 +172,7 @@ public class EnterHub : MonoBehaviour
                 continue;
             }
 
-            avaliableGhostToGhostConvo.Add(nickname);
+            avaliableGhostToGhostConvo.Add(ghostInfo);
         }
     }
 
@@ -186,8 +236,25 @@ struct GhostHubInfo
 {
     public string fullname;
     public string nickname;
+    public Color displayColor;
     public GhostInteract interact;
     public ConvoSO hubEntrance;
     public ConvoSO maxTrust;
     public ConvoSO startSB3;
+}
+
+// Separate class to bypass Unity's serialization limit of nested arrays
+[Serializable]
+class GhostToGhostConvoHolder
+{
+    public GhostToGhostConvo[] convoRow = new GhostToGhostConvo[6];
+}
+
+[Serializable]
+class GhostToGhostConvo
+{
+    public ConvoSO firstMeet;
+    [HideInInspector] public ConvoSO StdConvo => stdConvo[Random.Range(0, stdConvo.Length)];
+
+    [SerializeField] ConvoSO[] stdConvo;
 }
