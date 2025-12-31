@@ -38,7 +38,9 @@ public class MoveState : IEnemyStates
     // Moves the Enemy body towards the player
     protected virtual void Move(EnemyStateManager enemy)
     {
-        float diff = player.position.x - enemy.transform.position.x;
+        Transform currentTarget = player;
+        if (!enemy.IsCurrentTargetPlayer()) currentTarget = enemy.GetCurrentTarget().transform;
+        float diff = currentTarget.position.x - enemy.transform.position.x;
         if (diff < 0)
         {
             enemy.Flip(false);

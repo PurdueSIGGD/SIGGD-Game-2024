@@ -138,7 +138,7 @@ public class ShieldPolice : EnemyStateManager
             return;
         }
 
-        if (!collider.gameObject.CompareTag("Player"))
+        if (!(collider.gameObject.CompareTag("Player") || collider.gameObject.CompareTag("Idol_Clone")))
         {
             SetCharging(false);
             return;
