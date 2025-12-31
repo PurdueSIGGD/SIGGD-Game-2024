@@ -35,7 +35,7 @@ public class EnemyProjectile : MonoBehaviour, IStatList
         projectileDamage.damage = statManager.ComputeValue("Damage");
     }
 
-    void FixedUpdate()
+    public void FixedUpdate()
     {
         Move();
         CheckOutOfBounds();
@@ -60,29 +60,36 @@ public class EnemyProjectile : MonoBehaviour, IStatList
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Enemy") && parried)
+        ProcessCollision(collision.gameObject);
+    }
+    public void ProcessCollision(GameObject other)
+    {
+        if (other.CompareTag("Enemy") && parried)
         {
-            projectileDamage.attacker = PlayerID.instance.gameObject;
-            projectileDamage.victim = collision.gameObject;
-            collision.gameObject.GetComponent<Health>().Damage(projectileDamage, PlayerID.instance.gameObject);
+            DamageTarget(other, PlayerID.instance.gameObject);
             Destroy(gameObject);
             return;
         }
 
-        if (collision.gameObject.CompareTag(target) || collision.gameObject.CompareTag("Idol_Clone"))
+        if (other.CompareTag(target) || other.CompareTag("Idol_Clone"))
         {
-            projectileDamage.victim = collision.gameObject;
-            collision.gameObject.GetComponent<Health>().Damage(projectileDamage, parent);
+            DamageTarget(other, parent);
             Destroy(gameObject);
             return;
         }
 
-        if (/*collision.gameObject.CompareTag(target) || collision.gameObject.CompareTag("Idol_Clone") ||*/ collision.gameObject.layer == LayerMask.NameToLayer("Ground") && terrainCollision)
+        if (/*collision.gameObject.CompareTag(target) || collision.gameObject.CompareTag("Idol_Clone") ||*/ other.layer == LayerMask.NameToLayer("Ground") && terrainCollision)
             Destroy(gameObject);
+    }
+    protected virtual void DamageTarget(GameObject target, GameObject attacker)
+    {
+        projectileDamage.attacker = attacker;
+        projectileDamage.victim = target;
+        target.GetComponent<Health>().Damage(projectileDamage, attacker);
     }
 
     // Moves the projectile according to speed.
-    protected void Move()
+    protected virtual void Move()
     {
         rb.velocity = dir * speed;
     }
