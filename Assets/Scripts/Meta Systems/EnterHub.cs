@@ -26,6 +26,7 @@ public class EnterHub : MonoBehaviour
     [SerializeField] GhostInteract g2gConvoInteractable;
     [SerializeField] SpriteRenderer[] g2gGhostIcons;
     [SerializeField] GhostToGhostConvoHolder[] ghostToGhostConvos;
+    [SerializeField] bool showIndicatorWhenConvoActive;
 
     List<GhostHubInfo> avaliableGhostToGhostConvo;
 
@@ -105,7 +106,15 @@ public class EnterHub : MonoBehaviour
         {
             GhostToGhostConvo convoData = ghostToGhostConvos[ghost1Index].convoRow[ghost2Index];
             // relationshipLevl should only be 1 or 2 here, subtract 1 gives either first or second hub convo
-            selectedConvo = convoData.stdConvo[relationshipLvl - 1];
+            try 
+            {
+                selectedConvo = convoData.stdConvo[relationshipLvl - 1];
+            }
+            catch (IndexOutOfRangeException)
+            {
+                // should just be triggered if we modified save file to 2 when only 1 convo is avaliable
+                selectedConvo = convoData.stdConvo[0];
+            }
 
             // some only have 1 have hub convo, which should max out relationship immediately
             if (convoData.stdConvo.Length == 1)
@@ -120,7 +129,8 @@ public class EnterHub : MonoBehaviour
 
         // set convo
         g2gConvoInteractable.gameObject.SetActive(true);
-        g2gConvoInteractable.SetConvo(selectedConvo);
+        if (showIndicatorWhenConvoActive) g2gConvoInteractable.SetConvo(selectedConvo, newInteractionIndicator);
+        else g2gConvoInteractable.SetConvo(selectedConvo);
 
         // update ghosts in scene
         avaliableGhostToGhostConvo[x].interact.gameObject.SetActive(false);
