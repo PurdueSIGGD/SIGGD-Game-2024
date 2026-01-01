@@ -30,6 +30,12 @@ public class EnemyStateManager : MonoBehaviour
     [SerializeField] float groundedRayCheckLength = 1;
     [SerializeField] bool enableStunning = true;
 
+    [Header("Executive Veto")]
+    [SerializeField] bool disableNormalStates = false;
+    // disables normal states such as Move, Idle, Aggro, etc.
+    // if this is on, it means that enemy behavior is being fully controlled by 
+    // external scripts, only allowing stun states and other uses of enemyStateMachine
+
     protected virtual void Awake()
     {
         player = PlayerID.instance.gameObject.transform;
@@ -55,7 +61,10 @@ public class EnemyStateManager : MonoBehaviour
         }
         else
         {
-            curState.UpdateState(this);
+            if (!disableNormalStates)
+            {
+                curState.UpdateState(this);
+            }
             if (isFlyer) rb.gravityScale = 0f;
         }
 

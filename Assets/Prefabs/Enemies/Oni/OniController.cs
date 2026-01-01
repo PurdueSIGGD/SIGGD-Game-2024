@@ -33,6 +33,11 @@ public class OniController : MonoBehaviour
     [SerializeField] GameObject gashVisual;
     bool gashable;
 
+    [Header("Jank Stun Implementation")]
+    bool stunned;
+    EnemyStateManager esm;
+
+
     [Header("Heal params")]
     [SerializeField] HealingContext healingContext;
 
@@ -46,6 +51,7 @@ public class OniController : MonoBehaviour
     }
     void Start()
     {
+        esm = GetComponent<EnemyStateManager>();
         health = GetComponent<Health>();
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
@@ -54,6 +60,17 @@ public class OniController : MonoBehaviour
 
     void Update()
     {
+        if (esm.GetCurrentState() is StunState)
+        {
+            stunned = true;
+            return;
+        }
+        if (stunned && !(esm.GetCurrentState() is StunState))
+        {
+            stunned = false;
+            return;
+        }
+
         Move(targetObj);
         if (targetObj == null)
             SetTarget(ScanForTargets());
@@ -67,6 +84,7 @@ public class OniController : MonoBehaviour
     {
         anim.SetBool("trackable", trackable);
         anim.SetBool("gashable", gashable);
+        anim.SetBool("stunned", stunned);
     }
     public void OnDeath(DamageContext context)
     {
