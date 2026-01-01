@@ -153,7 +153,7 @@ public class DialogueManager : MonoBehaviour, IScreenUI
 
         onFinishDialogue?.Invoke(conversation.data.convoName);
 
-        PlayerID.instance.UnfreezePlayer();
+        PlayerID.instance?.UnfreezePlayer();
     }
 
     /// <summary>
@@ -185,7 +185,7 @@ public class DialogueManager : MonoBehaviour, IScreenUI
             ToggleVisibility();
             NextDialogue();
 
-            PlayerID.instance.FreezePlayer();
+            PlayerID.instance?.FreezePlayer();
         }
     }
 
