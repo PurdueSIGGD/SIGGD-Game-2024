@@ -210,9 +210,15 @@ public class EnemySpawning : MonoBehaviour
         {
             Instantiate(doorIndicator, door.transform.position, Quaternion.identity);
         }
+
         IdolManager idolManager = FindObjectOfType<IdolManager>();
         if (idolManager == null) return;
         idolManager.FightEnd();
+
+        foreach (PoliceChiefAmmoPickup ammoPickup in FindObjectsOfType<PoliceChiefAmmoPickup>())
+        {
+            ammoPickup.StartCollection();
+        }
     }
 
     /// <summary>
