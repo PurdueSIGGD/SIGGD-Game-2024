@@ -32,6 +32,11 @@ public class PoliceChiefAmmoPickup : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (manager.autoRecoverAmmo && !isCollecting)
+        {
+            StartCollection();
+        }
+
         if (isLaunching)
         {
             launchTimer -= Time.deltaTime;
@@ -65,8 +70,13 @@ public class PoliceChiefAmmoPickup : MonoBehaviour
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (isLaunching || isCollecting) return;
-        if (!(collision.transform.gameObject == player || collision.CompareTag("Boundary"))) return;
-        StartCollection();
+        if (collision.transform.gameObject == player) StartCollection();
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (isCollecting) return;
+        if (collision.gameObject.CompareTag("Boundary")) StartCollection();
     }
 
     public void StartCollection()

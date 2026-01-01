@@ -24,6 +24,7 @@ public class SilasManager : GhostManager
     [HideInInspector] public PlagueDocApothecary basic;
     [HideInInspector] public int ingredientsCollected = 0;
     [HideInInspector] public bool healReady = false;
+    [HideInInspector] public bool autoCollectIngredients = false;
 
     [HideInInspector] public bool isSelected = false;
 
@@ -158,6 +159,11 @@ public class SilasManager : GhostManager
         }
 
         base.DeSelect(player);
+    }
+
+    public void FightEnd()
+    {
+        autoCollectIngredients = true;
     }
 
 

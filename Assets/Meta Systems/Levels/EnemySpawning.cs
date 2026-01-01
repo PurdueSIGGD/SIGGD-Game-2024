@@ -212,13 +212,13 @@ public class EnemySpawning : MonoBehaviour
         }
 
         IdolManager idolManager = FindObjectOfType<IdolManager>();
-        if (idolManager == null) return;
-        idolManager.FightEnd();
+        if (idolManager != null) idolManager.FightEnd();
 
-        foreach (PoliceChiefAmmoPickup ammoPickup in FindObjectsOfType<PoliceChiefAmmoPickup>())
-        {
-            ammoPickup.StartCollection();
-        }
+        PoliceChiefManager policeChiefManager = FindObjectOfType<PoliceChiefManager>();
+        if (policeChiefManager != null) policeChiefManager.FightEnd();
+
+        SilasManager silasManager = FindObjectOfType<SilasManager>();
+        if (silasManager != null) silasManager.FightEnd();
     }
 
     /// <summary>

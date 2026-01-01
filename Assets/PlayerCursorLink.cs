@@ -9,7 +9,7 @@ public class PlayerCursorLink : MonoBehaviour
     private PlayerCursorManager playerCursorManager;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         playerCursor = Instantiate(playerCursorPrefab);
         playerCursorManager = playerCursor.GetComponent<PlayerCursorManager>();
