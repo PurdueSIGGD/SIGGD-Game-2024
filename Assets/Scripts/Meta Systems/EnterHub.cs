@@ -56,72 +56,77 @@ public class EnterHub : MonoBehaviour
         int numGhostsAvaliable = avaliableGhostToGhostConvo.Count;
         if (numGhostsAvaliable < 2 || Random.Range(0, 100) >= triggerChance) return;
 
+        List<(int, int)> ghostPairs = new List<(int, int)>();
+        int ghost1Index;
+        int ghost2Index;
 
-        int i, j;
-        i = j = Random.Range(0, numGhostsAvaliable);
-        while (j == i) j = Random.Range(0, numGhostsAvaliable);
-        int ghost1Index = GetGhostSaveData(avaliableGhostToGhostConvo[i].nickname).Index;
-        int ghost2Index = GetGhostSaveData(avaliableGhostToGhostConvo[j].nickname).Index;
-        if (ghost1Index > ghost2Index)
+        // sift through the list for any ghosts with convo avaliable
+        for (int i = 0; i < numGhostsAvaliable; i++)
         {
-            // swap so that lower index is always first, saves work in editor
+            for (int j = i + 1; j < numGhostsAvaliable; j++)
+            {
+                ghost1Index = GetGhostSaveData(avaliableGhostToGhostConvo[i].nickname).Index;
+                ghost2Index = GetGhostSaveData(avaliableGhostToGhostConvo[j].nickname).Index;
+
+                // swap so that lower index is always first, saves work in editor
+                if (ghost2Index < ghost1Index)
+                {
+                    (ghost2Index, ghost1Index) = (ghost1Index, ghost2Index);
+                }
+
+                // if has convo avaliable
+                if (SaveManager.data.ghostToGhostProgress[ghost1Index].row[ghost2Index] < 3)
+                {
+                    ghostPairs.Add((i, j));
+                }
+            }
+        }
+
+        if (ghostPairs.Count == 0) return;
+
+        (int x, int y) = ghostPairs[Random.Range(0, ghostPairs.Count)];
+        ghost1Index = GetGhostSaveData(avaliableGhostToGhostConvo[x].nickname).Index;
+        ghost2Index = GetGhostSaveData(avaliableGhostToGhostConvo[y].nickname).Index;
+
+        if (ghost2Index < ghost1Index)
+        {
             (ghost2Index, ghost1Index) = (ghost1Index, ghost2Index);
         }
-        int relationshipLvl = SaveManager.data.ghostToGhostProgress[ghost1Index].row[ghost2Index];
-        ConvoSO selectedConvo = relationshipLvl == 0 ?
-            ghostToGhostConvos[ghost1Index].convoRow[ghost2Index].firstMeet :
-            ghostToGhostConvos[ghost1Index].convoRow[ghost2Index].StdConvo;
 
+        // now that we have ghosts, we can pick convo based on relationship level and update relation
+        int relationshipLvl = SaveManager.data.ghostToGhostProgress[ghost1Index].row[ghost2Index];
+        ConvoSO selectedConvo;
+        if (relationshipLvl == 0) // if haven't met yet
+        {
+            selectedConvo = ghostToGhostConvos[ghost1Index].convoRow[ghost2Index].firstMeet;
+            SaveManager.data.ghostToGhostProgress[ghost1Index].row[ghost2Index]++;
+        }
+        else // could have one or two avaliable hub convos
+        {
+            GhostToGhostConvo convoData = ghostToGhostConvos[ghost1Index].convoRow[ghost2Index];
+            // relationshipLevl should only be 1 or 2 here, subtract 1 gives either first or second hub convo
+            selectedConvo = convoData.stdConvo[relationshipLvl - 1];
+
+            // some only have 1 have hub convo, which should max out relationship immediately
+            if (convoData.stdConvo.Length == 1)
+            {
+                SaveManager.data.ghostToGhostProgress[ghost1Index].row[ghost2Index] = 3;
+            }
+            else
+            {
+                SaveManager.data.ghostToGhostProgress[ghost1Index].row[ghost2Index]++;
+            }
+        }
+
+        // set convo
         g2gConvoInteractable.gameObject.SetActive(true);
         g2gConvoInteractable.SetConvo(selectedConvo);
 
-        SaveManager.data.ghostToGhostProgress[ghost1Index].row[ghost2Index] = 1;
-
-        // hide the actual ghosts in scene
-        avaliableGhostToGhostConvo[i].interact.gameObject.SetActive(false);
-        avaliableGhostToGhostConvo[j].interact.gameObject.SetActive(false);
-        g2gGhostIcons[0].color = avaliableGhostToGhostConvo[i].displayColor;
-        g2gGhostIcons[1].color = avaliableGhostToGhostConvo[j].displayColor;
-
-
-
-        // below is implementation if we don't want hub convos to repeat, which I changed my mind on last sec
-
-        // pick a random index and search through the list from there, so to pick a random ghost convo
-        //int i, startingIndex;
-        //ConvoSO selectedConvo = null;
-        //i = startingIndex = Random.Range(0, numGhostsAvaliable);
-        //do
-        //{
-        //    for (int j = i + 1; j < numGhostsAvaliable; j ++)
-        //    {
-        //        if (i == j)
-        //        {
-        //            Debug.LogError("Impossible, shouldn't be checking same ghost against itself");
-        //            continue;
-        //        }
-
-        //        int ghost1Index = GetGhostSaveData(avaliableGhostToGhostConvo[i]).Index;
-        //        int ghost2Index = GetGhostSaveData(avaliableGhostToGhostConvo[j]).Index;
-        //        if (ghost2Index > ghost1Index)
-        //        {
-        //            // swap so that lower index is always first, saves work in editor
-        //            (ghost2Index, ghost1Index) = (ghost1Index, ghost2Index);
-        //        }
-
-        //        int relationshipLvl = SaveManager.data.ghostToGhostProgress[ghost1Index][ghost2Index];
-        //        //if (relationshipLvl == 3) continue;
-        //        selectedConvo = relationshipLvl == 0 ?
-        //            ghostToGhostConvos[ghost1Index].convoRow[ghost2Index].firstMeet :
-        //            ghostToGhostConvos[ghost1Index].convoRow[ghost2Index].StdConvo;
-
-        //        g2gConvoInteractable.gameObject.SetActive(true);
-        //        g2gConvoInteractable.SetConvo(selectedConvo);
-        //    }
-
-        //    if (++i == numGhostsAvaliable) i = 0; // wrap around if reach end of list
-
-        //} while (i != startingIndex);
+        // update ghosts in scene
+        avaliableGhostToGhostConvo[x].interact.gameObject.SetActive(false);
+        avaliableGhostToGhostConvo[y].interact.gameObject.SetActive(false);
+        g2gGhostIcons[0].color = avaliableGhostToGhostConvo[x].displayColor;
+        g2gGhostIcons[1].color = avaliableGhostToGhostConvo[y].displayColor;
     }
 
     private void LoadConversation()
@@ -254,7 +259,5 @@ class GhostToGhostConvoHolder
 class GhostToGhostConvo
 {
     public ConvoSO firstMeet;
-    [HideInInspector] public ConvoSO StdConvo => stdConvo[Random.Range(0, stdConvo.Length)];
-
-    [SerializeField] ConvoSO[] stdConvo;
+    public ConvoSO[] stdConvo;
 }
