@@ -16,6 +16,9 @@ public class OldrionController : BossController
     [SerializeField] ConvoSO phase2Convo;
     [SerializeField] ConvoSO phase3Convo;
     [SerializeField] ConvoSO defeatDialogue;
+    [SerializeField] GameObject defeatCutscene;
+
+    [SerializeField] float delayBeforeDefeatDialogue;
     bool hasFinishedPhase2Convo;
     bool hasFinishedPhase3Convo;
 
@@ -119,7 +122,7 @@ public class OldrionController : BossController
         EndBossRoom();
 
         // TRIGGER FINAL CUTSCENE STUFF HERE!!!
-        dialogueManager.StartDialogue(defeatDialogue);
+        StartCoroutine(StartDefeatDialogue());
     }
     bool ShouldBossBeDefeated()
     {
@@ -257,6 +260,16 @@ public class OldrionController : BossController
         {
             StartCoroutine(ThenTheThing());
         }
+    }
+
+    private IEnumerator StartDefeatDialogue()
+    {
+        ScreenFader.instance.FadeOut(1, 2);
+        ScreenFader.instance.FadeIn(3, 1);
+        yield return new WaitForSeconds(delayBeforeDefeatDialogue);
+        
+        defeatCutscene.SetActive(true);
+        dialogueManager.StartDialogue(defeatDialogue);
     }
 
     private IEnumerator ThenTheThing()
