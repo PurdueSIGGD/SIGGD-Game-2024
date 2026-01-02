@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
+using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -16,7 +16,8 @@ public class OldrionController : BossController
     [SerializeField] ConvoSO phase2Convo;
     [SerializeField] ConvoSO phase3Convo;
     [SerializeField] ConvoSO defeatDialogue;
-    [SerializeField] GameObject defeatCutscene;
+    [SerializeField] Image defeatCutsceneBckground;
+    [SerializeField] Image defeatCutscene;
 
     [SerializeField] float delayBeforeDefeatDialogue;
     bool hasFinishedPhase2Convo;
@@ -103,6 +104,7 @@ public class OldrionController : BossController
             enemyStateManager.StopAllActions();
             enemyStateManager.enabled = false;
             anim.SetTrigger("dead");
+            StartCoroutine(StartDefeatDialogue());
             StartCoroutine(DefeatCoroutine());
         }
         else
@@ -122,7 +124,7 @@ public class OldrionController : BossController
         EndBossRoom();
 
         // TRIGGER FINAL CUTSCENE STUFF HERE!!!
-        StartCoroutine(StartDefeatDialogue());
+        //StartCoroutine(StartDefeatDialogue());
     }
     bool ShouldBossBeDefeated()
     {
@@ -264,18 +266,41 @@ public class OldrionController : BossController
 
     private IEnumerator StartDefeatDialogue()
     {
-        ScreenFader.instance.FadeOut(1, 2);
-        ScreenFader.instance.FadeIn(3, 1);
+        PlayerID.instance.FreezePlayer();
+        ScreenFader.instance.FadeOut(0, 1);
+        ScreenFader.instance.FadeIn(1.5f, 1);
         yield return new WaitForSeconds(delayBeforeDefeatDialogue);
-        
-        defeatCutscene.SetActive(true);
+
+        StartCoroutine(FadeInPainting());
+        dialogueManager.showPortraitandBackground = false;
         dialogueManager.StartDialogue(defeatDialogue);
+    }
+
+    private IEnumerator FadeInPainting()
+    {
+        defeatCutsceneBckground.enabled = true;
+        defeatCutscene.enabled = true;
+
+        float t = 0;
+        Color c = defeatCutscene.color;
+        while (t < 2f) 
+        {
+            c = defeatCutscene.color;
+            t += Time.deltaTime;
+            c.a += Mathf.Lerp(0, 1, t / 10f);
+            defeatCutscene.color = c;
+
+            yield return null;
+        }
+        c.a = 1;
+        defeatCutscene.color = c;
     }
 
     private IEnumerator ThenTheThing()
     {
+        dialogueManager.showPortraitandBackground = true;
         ScreenFader.instance.FadeOut(1, 2);
-        yield return new WaitForSeconds(ScreenFader.instance.fadeOutDuration + 8f);
+        yield return new WaitForSeconds(ScreenFader.instance.fadeOutDuration);
         SceneManager.LoadScene("Epilogue");
     }
 }
