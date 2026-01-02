@@ -46,7 +46,7 @@ public class LightAttack : MonoBehaviour, IStatList
         playerStateMachine = GetComponent<PlayerStateMachine>();
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
-        lightDamage.damage = stats.ComputeValue("Damage") * 1000;
+        lightDamage.damage = stats.ComputeValue("Damage");
         skyLightAttackVelocity = Vector2.zero;
     }
 
