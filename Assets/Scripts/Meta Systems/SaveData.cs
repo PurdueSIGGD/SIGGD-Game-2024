@@ -75,6 +75,7 @@ public class AkihitoData : GhostData
 public class SilasData : GhostData
 {
     public int ingredientsCollected;
+    public int specialCharges;
 }
 
 [Serializable]

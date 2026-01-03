@@ -62,7 +62,7 @@ public class PoisonCloud : MonoBehaviour
 
         //VFX
         circleArea = Instantiate(circleVFX, transform.position, Quaternion.identity);
-        circleArea.GetComponent<CircleAreaHandler>().playCircleStart(radius, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor, 0.025f);
+        circleArea.GetComponent<CircleAreaHandler>().playCircleStart(radius, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor, 0.04f);
 
         ParticleSystem.ShapeModule shape = cloudParticleSystem.shape;
         shape.scale *= radius;

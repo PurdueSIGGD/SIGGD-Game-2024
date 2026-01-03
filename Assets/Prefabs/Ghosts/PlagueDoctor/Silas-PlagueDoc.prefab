@@ -432,19 +432,21 @@ MonoBehaviour:
   - name: Basic Bonus Ingredient Drop Chance
     value: 20
   - name: Basic Ingredient Cost
-    value: 20
+    value: 15
   - name: Basic Cast Time
     value: 0.75
   - name: Basic Healing
     value: 10
   - name: Special Cooldown
     value: 10
+  - name: Special Energy Cost
+    value: 450
   - name: Special Max Charges
     value: 2
   - name: Special Bomb Speed
     value: 30
   - name: Special Bomb Damage
-    value: 10
+    value: 5
   - name: Special Bomb Radius
     value: 4
   - name: Special Minibomb Count
@@ -452,7 +454,7 @@ MonoBehaviour:
   - name: Special Minibomb Speed
     value: 10
   - name: Special Minibomb Damage
-    value: 3
+    value: 2
   - name: Special Minibomb Radius
     value: 2.5
   - name: Special Minibomb Min Fuse Time
@@ -460,13 +462,13 @@ MonoBehaviour:
   - name: Special Minibomb Max Fuse Time
     value: 1
   - name: Blight Duration
-    value: 4
+    value: 5
   - name: Blight DPS
     value: 3
   - name: Blight Slow
     value: 30
   - name: Blight Empowered DPS
-    value: 18
+    value: 15
   - name: Blight Empowered Slow
     value: 60
   - name: Blight Empowered Duration
@@ -474,13 +476,14 @@ MonoBehaviour:
   - name: Blight Max Quicksilver Damage Percent
     value: 100
   - name: Blight Max Quicksilver Time
-    value: 3.5
+    value: 4.5
   - name: Blight Epidemic Blast Radius
     value: 4
   - name: Blight Epidemic Blast Damage
-    value: 10
+    value: 5
   defaultController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
   ghostController: {fileID: 9100000, guid: afe4d43a7f12e7b41a5ccdc9be4eeae1, type: 2}
+  currentSpecialEnergy: 0
   blightPotion: {fileID: 4699030029396985124, guid: e2fab6792587ec249a70e1b7a5314fc9,
     type: 3}
   blightMinibomb: {fileID: 4699030029396985124, guid: ef4551b616e067d43a01319e2ee45b40,
@@ -523,6 +526,7 @@ MonoBehaviour:
   basic: {fileID: 0}
   ingredientsCollected: 0
   healReady: 0
+  autoCollectIngredients: 0
   isSelected: 0
   identityName: 
 --- !u!114 &3640821941058779060
@@ -637,7 +641,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: d81b09c5b9b153f49a9e75b1eb4c9976, type: 2}
-  values: 0000000014000000280000003c00000050000000
+  values: 0000000050000000a0000000f000000040010000
   pointIndex: 0
 --- !u!114 &827586359058410053
 MonoBehaviour:
@@ -652,7 +656,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: 33b36582baf4f2c4bb0ac4cadb9826aa, type: 2}
-  values: 00000000070000000e000000150000001c000000
+  values: 000000000a000000140000001e00000028000000
   pointIndex: 0
   lowChanceMultiplier: 0.5
 --- !u!114 &9164366307553013209
@@ -693,9 +697,9 @@ MonoBehaviour:
   values:
   - 0
   - 1.5
-  - 2.5
-  - 3.5
-  - 4.5
+  - 2.2
+  - 2.9
+  - 3.6
   pointIndex: 0
   blastDamage:
     damageStrength: 0
@@ -718,8 +722,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: 05c7a1dd2e327f442868f7ca8c9c7be8, type: 2}
   values: 000000000f00000019000000230000002d000000
-  blightBuffDuration: 4
-  apothecaryBuffDuration: 8
+  blightBuffDuration: 5
+  apothecaryBuffDuration: 5
   buffDuration: 0
   timer: 0
   isBuffed: 0

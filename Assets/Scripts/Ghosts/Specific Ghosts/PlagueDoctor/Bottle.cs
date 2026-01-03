@@ -106,8 +106,8 @@ public class Bottle : MonoBehaviour, IStatList
         foreach (Collider2D enemy in enemiesHit)
         {
             enemy.transform.gameObject.GetComponent<Health>().Damage(manager.miniBombDamage, PlayerID.instance.gameObject);
-            enemy.transform.gameObject.GetComponent<EnemyStateManager>().ApplyKnockback(Vector3.up, 1.5f, 0.3f);
-            enemy.transform.gameObject.GetComponent<EnemyStateManager>().ApplyKnockback(enemy.transform.position - transform.position, 1f, 0.3f);
+            enemy.transform.gameObject.GetComponent<EnemyStateManager>()?.ApplyKnockback(Vector3.up, 1.5f, 0.3f);
+            enemy.transform.gameObject.GetComponent<EnemyStateManager>()?.ApplyKnockback(enemy.transform.position - transform.position, 1f, 0.3f);
             if (enemy.GetComponentInChildren<BlightDebuff>() == null)
             {
                 GameObject blight = Instantiate(manager.blightDebuff, enemy.transform);
@@ -123,8 +123,8 @@ public class Bottle : MonoBehaviour, IStatList
         Collider2D playerHit = Physics2D.OverlapCircle(transform.position, manager.GetStats().ComputeValue("Special Minibomb Radius"), LayerMask.GetMask("Player"));
         if (playerHit != null)
         {
-            playerHit.transform.gameObject.GetComponent<Move>().ApplyKnockback(Vector3.up, 1.5f, false);
-            playerHit.transform.gameObject.GetComponent<Move>().ApplyKnockback(playerHit.transform.position - transform.position, 1f, false);
+            playerHit.transform.gameObject.GetComponent<Move>()?.ApplyKnockback(Vector3.up, 1.5f, false);
+            playerHit.transform.gameObject.GetComponent<Move>()?.ApplyKnockback(playerHit.transform.position - transform.position, 1f, false);
 
             // Apply Self-medicated Buff
             SelfMedicated selfMedicated = manager.GetComponent<SelfMedicated>();

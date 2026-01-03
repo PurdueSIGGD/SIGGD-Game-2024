@@ -65,8 +65,8 @@ public class Epidemic : Skill
             //if (enemy.transform.gameObject.Equals(context.victim)) continue;
             enemy.transform.gameObject.GetComponent<Health>().Damage(blastDamage, PlayerID.instance.gameObject);
             if (enemy.gameObject == null) continue;
-            enemy.transform.gameObject.GetComponent<EnemyStateManager>().ApplyKnockback(Vector3.up, 3f, 0.3f);
-            enemy.transform.gameObject.GetComponent<EnemyStateManager>().ApplyKnockback(enemy.transform.position - position, 2f, 0.3f);
+            enemy.transform.gameObject.GetComponent<EnemyStateManager>()?.ApplyKnockback(Vector3.up, 3f, 0.3f);
+            enemy.transform.gameObject.GetComponent<EnemyStateManager>()?.ApplyKnockback(enemy.transform.position - position, 2f, 0.3f);
             if (enemy.GetComponentInChildren<BlightDebuff>() == null)
             {
                 GameObject blight = Instantiate(manager.blightDebuff, enemy.transform);
@@ -82,8 +82,8 @@ public class Epidemic : Skill
         Collider2D playerHit = Physics2D.OverlapCircle(position, manager.GetStats().ComputeValue("Blight Epidemic Blast Radius"), LayerMask.GetMask("Player"));
         if (playerHit != null)
         {
-            playerHit.transform.gameObject.GetComponent<Move>().ApplyKnockback(Vector3.up, 3f, false);
-            playerHit.transform.gameObject.GetComponent<Move>().ApplyKnockback(playerHit.transform.position - position, 2f, false);
+            playerHit.transform.gameObject.GetComponent<Move>()?.ApplyKnockback(Vector3.up, 3f, false);
+            playerHit.transform.gameObject.GetComponent<Move>()?.ApplyKnockback(playerHit.transform.position - position, 2f, false);
 
             // Apply Self-medicated Buff
             SelfMedicated selfMedicated = GetComponent<SelfMedicated>();

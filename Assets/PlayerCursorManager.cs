@@ -40,9 +40,9 @@ public class PlayerCursorManager : MonoBehaviour
         Vector3 endPos = playerPos + (playerToMouseDir * defaultLength);
         float playerToEndDist = Vector2.Distance(playerPos, endPos);
 
-        RaycastHit2D hit = Physics2D.Raycast(playerPos, playerToMouseDir, 200f, LayerMask.GetMask("Enemy", "Ground"));
-        Vector3 hitPos = (hit) ? (hit.point) : (playerPos + (playerToMouseDir * 200f));
-        float playerToHitDist = Vector2.Distance(playerPos, hitPos);
+        //RaycastHit2D hit = Physics2D.Raycast(playerPos, playerToMouseDir, 200f, LayerMask.GetMask("Enemy", "Ground"));
+        //Vector3 hitPos = (hit) ? (hit.point) : (playerPos + (playerToMouseDir * 200f));
+        //float playerToHitDist = Vector2.Distance(playerPos, hitPos);
 
         transform.position = mousePos;
 
@@ -51,10 +51,12 @@ public class PlayerCursorManager : MonoBehaviour
             lineRenderer.SetPosition(i, playerPos + (playerToMouseDir * playerToEndDist * ((float) i / ((float) (lineRenderer.positionCount - 1f)))));
         }
 
+        /*
         for (int i = 0; i < northLineRenderer.positionCount; i++)
         {
             northLineRenderer.SetPosition(i, playerPos + (playerToMouseDir * playerToHitDist * ((float)i / ((float)(lineRenderer.positionCount - 1f)))));
         }
+        */
     }
 
     public void SetActiveGhost(GhostIdentity activeGhostIdentity)
@@ -62,7 +64,7 @@ public class PlayerCursorManager : MonoBehaviour
         activeGhost = activeGhostIdentity;
         cursorRenderer.color = (activeGhost == null) ? defaultCursorColor : activeGhost.GetCharacterInfo().primaryColor;
         Color lineColor = (activeGhost == null) ? defaultCursorColor : activeGhost.GetCharacterInfo().primaryColor;
-        lineColor = new Color(lineColor.r, lineColor.g, lineColor.b, (100f / 255f));
+        lineColor = new Color(lineColor.r, lineColor.g, lineColor.b, (150f / 255f));
         lineRenderer.endColor = lineColor;
         lineColor = new Color(lineColor.r, lineColor.g, lineColor.b, 0f);
         lineRenderer.startColor = lineColor;

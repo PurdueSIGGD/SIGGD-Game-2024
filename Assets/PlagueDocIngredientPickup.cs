@@ -8,6 +8,7 @@ public class PlagueDocIngredientPickup : MonoBehaviour
     [SerializeField] private float launchDuration;
     [SerializeField] private float collectionAcceleration;
     [SerializeField] private float collectionJerkPerFrame;
+    [SerializeField] private float topSpeed;
     [SerializeField] private float collectionRadius;
     [SerializeField] private LayerMask collectionCollisionExclusionLayerMask;
 
@@ -53,7 +54,14 @@ public class PlagueDocIngredientPickup : MonoBehaviour
             collectionAcceleration *= collectionJerkPerFrame;
             float frameAcceleration = collectionAcceleration * Time.deltaTime;
             Vector2 pickUpToPlayerDir = Vector3.Normalize(player.transform.position - transform.position);
-            rb.velocity += (frameAcceleration * pickUpToPlayerDir);
+            if (rb.velocity.magnitude >= topSpeed)
+            {
+                rb.velocity = pickUpToPlayerDir * topSpeed;
+            }
+            else
+            {
+                rb.velocity += (frameAcceleration * pickUpToPlayerDir);
+            }
 
             if (Vector2.Distance(player.transform.position, transform.position) <= collectionRadius)
             {

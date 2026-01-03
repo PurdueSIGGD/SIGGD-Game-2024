@@ -38,12 +38,14 @@ public class SilasManager : GhostManager
     {
         GameplayEventHolder.OnDeath += DropOnKill;
         GameplayEventHolder.OnDeath += OnKillVoiceLines;
+        GameplayEventHolder.OnDamageDealt += OnDamageSpecialEnergyGain;
     }
 
     private void OnDisable()
     {
         GameplayEventHolder.OnDeath -= DropOnKill;
         GameplayEventHolder.OnDeath -= OnKillVoiceLines;
+        GameplayEventHolder.OnDamageDealt -= OnDamageSpecialEnergyGain;
     }
 
 
@@ -77,7 +79,7 @@ public class SilasManager : GhostManager
         bombDamage.damage = stats.ComputeValue("Special Bomb Damage");
         miniBombDamage.damage = stats.ComputeValue("Special Minibomb Damage");
         blightDamage.damage = 1f;
-        specialCharges = Mathf.FloorToInt(stats.ComputeValue("Special Max Charges"));
+        //specialCharges = Mathf.FloorToInt(stats.ComputeValue("Special Max Charges"));
         basicHealing.healing = stats.ComputeValue("Basic Healing");
 
         // Apply saved ingredients
@@ -98,22 +100,27 @@ public class SilasManager : GhostManager
                 GetComponent<SkillTree>().RemoveSkillPoint(skills[i]);
             }
         }
+
+        initializeSpecialEnergy();
     }
+
+
 
     protected override void Update()
     {
         // Apothecary ready tracker
-        if (ingredientsCollected >= stats.ComputeValue("Basic Ingredient Cost") && basic != null)
+        if (ingredientsCollected >= stats.ComputeValue("Basic Ingredient Cost"))
         {
-            PlayerID.instance.GetComponent<PlayerStateMachine>().OnCooldown("heal_ready");
+            if (basic != null) PlayerID.instance.GetComponent<PlayerStateMachine>().OnCooldown("heal_ready");
             healReady = true;
         }
-        if (ingredientsCollected < stats.ComputeValue("Basic Ingredient Cost") && basic != null)
+        if (ingredientsCollected < stats.ComputeValue("Basic Ingredient Cost"))
         {
-            PlayerID.instance.GetComponent<PlayerStateMachine>().OffCooldown("heal_ready");
+            if (basic != null) PlayerID.instance.GetComponent<PlayerStateMachine>().OffCooldown("heal_ready");
             healReady = false;
         }
 
+        /*
         // Special cooldown/charge cycler
         if (!isCooldownActive && specialCharges < stats.ComputeValue("Special Max Charges"))
         {
@@ -126,6 +133,7 @@ public class SilasManager : GhostManager
             isCooldownActive = false;
             specialCharges++;
         }
+        */
 
         base.Update();
     }
@@ -165,6 +173,97 @@ public class SilasManager : GhostManager
     {
         autoCollectIngredients = true;
     }
+
+
+
+
+
+    private void initializeSpecialEnergy()
+    {
+        LevelSwitching levelSwitchingScript = FindFirstObjectByType<LevelSwitching>();
+        if (!SceneManager.GetActiveScene().name.Equals(levelSwitchingScript.GetHomeWorld()))
+        {
+            setSpecialEnergy(SaveManager.data.silas.specialEnergy, false);
+            setSpecialCharges(SaveManager.data.silas.specialCharges);
+        }
+        else
+        {
+            resetSpecialEnergy();
+            setSpecialCharges(0);
+        }
+    }
+
+    public void resetSpecialEnergy()
+    {
+        currentSpecialEnergy = 0f;
+        SaveManager.data.silas.specialEnergy = currentSpecialEnergy;
+        setSpecialReady(specialCharges > 0f);
+    }
+    
+    public void setSpecialEnergy(float energy)
+    {
+        setSpecialEnergy(energy, true);
+    }
+
+    public void setSpecialEnergy(float energy, bool cycleCharges)
+    {
+        currentSpecialEnergy = energy;
+        currentSpecialEnergy = Mathf.Min(currentSpecialEnergy, stats.ComputeValue("Special Energy Cost"));
+        SaveManager.data.silas.specialEnergy = currentSpecialEnergy;
+        if (currentSpecialEnergy >= stats.ComputeValue("Special Energy Cost") && cycleCharges)
+        {
+            addSpecialCharge();
+            if (specialCharges < stats.ComputeValue("Special Max Charges")) resetSpecialEnergy();
+        }
+        setSpecialReady(specialCharges > 0f);
+    }
+
+    public void addSpecialEnergy(float energy)
+    {
+        setSpecialEnergy(getSpecialEnergy() + energy);
+    }
+
+    public float getSpecialEnergy()
+    {
+        return currentSpecialEnergy;
+    }
+
+    private void OnDamageSpecialEnergyGain(DamageContext context)
+    {
+        SpecialEnergyPool specialEnergyPool = context.victim.GetComponent<SpecialEnergyPool>();
+        Health victimHealth = context.victim.GetComponent<Health>();
+        if (specialEnergyPool == null || victimHealth == null) return;
+        if (context.attacker != PlayerID.instance.gameObject) return;
+        //if (context.actionTypes.Contains(ActionType.SPECIAL_ABILITY)) return;
+
+        float maxHealth = victimHealth.GetStats().ComputeValue("Max Health");
+        float percentHealthDamaged = context.damage / maxHealth;
+        Debug.Log("Current Energy: " + currentSpecialEnergy + "  |  Earned Energy: " + (specialEnergyPool.energyPool * percentHealthDamaged));
+        addSpecialEnergy(specialEnergyPool.energyPool * percentHealthDamaged);
+    }
+
+    public void addSpecialCharge()
+    {
+        specialCharges = Mathf.Min(Mathf.FloorToInt(stats.ComputeValue("Special Max Charges")), (specialCharges + 1));
+        SaveManager.data.silas.specialCharges = specialCharges;
+        setSpecialReady(specialCharges > 0f);
+    }
+
+    public void consumeSpecialCharge()
+    {
+        specialCharges = Mathf.Max(0, (specialCharges - 1));
+        SaveManager.data.silas.specialCharges = specialCharges;
+        setSpecialReady(specialCharges > 0f);
+    }
+
+    public void setSpecialCharges(int charges)
+    {
+        specialCharges = charges; //Mathf.Clamp(charges, 0, Mathf.FloorToInt(stats.ComputeValue("Special Max Charges")));
+        SaveManager.data.silas.specialCharges = specialCharges;
+        setSpecialReady(specialCharges > 0f);
+    }
+
+
 
 
 
