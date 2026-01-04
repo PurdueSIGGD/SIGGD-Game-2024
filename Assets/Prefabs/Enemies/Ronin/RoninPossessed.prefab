@@ -337,6 +337,7 @@ MonoBehaviour:
     hitBox: {fileID: 7565977893133872963}
     usesCircleHitbox: 0
     coolDown: 2
+    respectHitboxOnCooldown: 1
     animationClip: {fileID: 7400000, guid: 430d6a0c8d9e0024d86bc9f882250f00, type: 2}
   - name: Dash
     priority: 1
@@ -344,6 +345,7 @@ MonoBehaviour:
     hitBox: {fileID: 7986608270766379654}
     usesCircleHitbox: 0
     coolDown: 7
+    respectHitboxOnCooldown: 0
     animationClip: {fileID: 7400000, guid: b0416459c1ed4dc42b945020e1868e92, type: 2}
   move:
     name: Move
@@ -352,6 +354,7 @@ MonoBehaviour:
     hitBox: {fileID: 0}
     usesCircleHitbox: 0
     coolDown: 0
+    respectHitboxOnCooldown: 1
     animationClip: {fileID: 7400000, guid: 93629f04252375b45b0f4f4f69a87aeb, type: 2}
   idle:
     name: Idle
@@ -360,6 +363,7 @@ MonoBehaviour:
     hitBox: {fileID: 0}
     usesCircleHitbox: 0
     coolDown: 0
+    respectHitboxOnCooldown: 1
     animationClip: {fileID: 7400000, guid: ae88520d4a0e56a4fbe68e90bfa9385c, type: 2}
 --- !u!50 &978463440714845906
 Rigidbody2D:

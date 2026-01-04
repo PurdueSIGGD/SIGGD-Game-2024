@@ -122,6 +122,17 @@ public class EnemyStateManager : MonoBehaviour
             dir = target.position - transform.position;
             maxDistance = maxDistance * 1.5f;
         }
+
+        RaycastHit2D oniHit = Physics2D.Raycast(transform.position, dir, maxDistance, LayerMask.GetMask("Enemy", "Ground"));
+        if (oniHit)
+        {
+            if (oniHit.collider.gameObject.name.Contains("Oni"))
+            {
+                currentTarget = oniHit.collider.gameObject;
+                return true;
+            }
+        }
+
         RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, maxDistance, LayerMask.GetMask("Player", "Idol_Clone", "Ground"));
         Debug.DrawRay(transform.position, dir);
         if (hit)
