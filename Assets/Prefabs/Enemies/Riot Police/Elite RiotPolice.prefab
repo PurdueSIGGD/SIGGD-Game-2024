@@ -245,6 +245,8 @@ MonoBehaviour:
   grounded: 0
   groundedRayCheckLength: 2
   enableStunning: 1
+  disableNormalStates: 0
+  currentTarget: {fileID: 0}
   batonTrigger: {fileID: 3561678645181035360}
   batonDamage:
     damageStrength: 3
@@ -351,8 +353,8 @@ MonoBehaviour:
   dropTable:
   - obj: {fileID: 4809253014695496824, guid: 17b983b8188a0f44e81ad10e1be8af57, type: 3}
     chance: 1
-    minCount: 8
-    maxCount: 13
+    minCount: 6
+    maxCount: 10
 --- !u!114 &4140335944560281344
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -29,7 +29,7 @@ public class EnemyStateManager : MonoBehaviour
     protected float currentKnockbackDurationTime;
     [SerializeField] protected bool grounded;
     [SerializeField] float groundedRayCheckLength = 1;
-    [SerializeField] bool enableStunning = true;
+    [SerializeField] protected bool enableStunning = true;
 
     [Header("Executive Veto")]
     [SerializeField] bool disableNormalStates = false;
@@ -146,7 +146,7 @@ public class EnemyStateManager : MonoBehaviour
     /// </summary>
     /// <param name="damageContext"> the damage context that resulted in the stun </param>
     /// <param name="duration"> the duration of the stun </param>
-    public void Stun(DamageContext damageContext, float duration = 0f)
+    public virtual void Stun(DamageContext damageContext, float duration = 0f)
     {
         if (!enableStunning) return;
 

@@ -378,6 +378,8 @@ MonoBehaviour:
   grounded: 0
   groundedRayCheckLength: 2
   enableStunning: 1
+  disableNormalStates: 0
+  currentTarget: {fileID: 0}
   gunShoot: {fileID: 6754032986899484797}
   rangeOrig: {fileID: 6425544609560146439}
   projectile: {fileID: 1293525611164901038, guid: f0c47052c4af0e8499f3c2474fe06ea3,
@@ -477,8 +479,8 @@ MonoBehaviour:
   dropTable:
   - obj: {fileID: 4809253014695496824, guid: 17b983b8188a0f44e81ad10e1be8af57, type: 3}
     chance: 1
-    minCount: 8
-    maxCount: 13
+    minCount: 6
+    maxCount: 10
 --- !u!114 &7839376920908278547
 MonoBehaviour:
   m_ObjectHideFlags: 0
