@@ -1,10 +1,6 @@
 using System;
 using System.Collections;
-using System.Runtime.CompilerServices;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
-using static GameplayEventHolder;
 
 [DisallowMultipleComponent]
 public class Health : MonoBehaviour, IDamageable, IStatList

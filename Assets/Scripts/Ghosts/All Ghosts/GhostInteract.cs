@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Linq.Expressions;
 using UnityEngine;
 
 public class GhostInteract : InRangeInteract, IParty
@@ -53,7 +51,7 @@ public class GhostInteract : InRangeInteract, IParty
             InteractOption opt3 = new InteractOption("View Skill Tree", ViewSkillTree);
             options = new InteractOption[]{ opt1, opt2, opt3 };
         }
-        else{
+        else {
             options = new InteractOption[] { opt1 };
         }
         
@@ -64,25 +62,7 @@ public class GhostInteract : InRangeInteract, IParty
     {
         CloseMenu();
         PartyManager partyManger = PlayerID.instance.GetComponent<PartyManager>();
-        bool success = partyManger.TryAddGhostToParty(this.GetComponent<GhostIdentity>());
-        if (success)
-        {
-            return;
-        }
-        ReplaceGhostBehaviour.Instance.Choose();
-        ReplaceGhostBehaviour.Instance.ghostReplacedDelegate = () =>
-        {
-            partyManger.TryAddGhostToParty(this.GetComponent<GhostIdentity>());
-            Debug.Log("Replaced ghost in party");
-            StartCoroutine(SetUIActive(0.01f));
-        };
-    }
-
-    private IEnumerator SetUIActive(float waitTime)
-    {
-        yield return new WaitForSeconds(waitTime);
-        PlayerGhost1UIManager.instance.gameObject.SetActive(true);
-        PlayerGhost2UIManager.instance.gameObject.SetActive(true);
+        partyManger.TryAddGhostToParty(this.GetComponent<GhostIdentity>());
     }
 
     private void FirstInteraction()

@@ -1,0 +1,219 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2578524717829408569
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3778421346043044455}
+  - component: {fileID: 1954469228264277949}
+  - component: {fileID: 2452415339178365437}
+  m_Layer: 0
+  m_Name: World
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3778421346043044455
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2578524717829408569}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1954469228264277949
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2578524717829408569}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 773581fc9d97c564e9b071ffe1710051, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasTemplate: {fileID: 173620052857844640, guid: 8484b74a54cb5e1428abf15b6c6f2f19,
+    type: 3}
+  buttonTemplate: {fileID: 304880850428973808, guid: 065184a8e11832b4b893c4afe07f547d,
+    type: 3}
+--- !u!114 &2452415339178365437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2578524717829408569}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 464232b9d8370224cb6e92633d8d143e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ghostHubInfos:
+  - fullname: North-Police_Chief
+    nickname: north
+    displayColor: {r: 0.45882356, g: 0.56078434, b: 0.6784314, a: 1}
+    interact: {fileID: 0}
+    hubEntrance: {fileID: 11400000, guid: 949e424eb95a2324f8fdafc3256c22ac, type: 2}
+    maxTrust: {fileID: 11400000, guid: 5e63b0536f3093b4d8c6ee3d6abf46b1, type: 2}
+    startSB3: {fileID: 11400000, guid: 9e3cf5f5b31889245a927a8b24fa6717, type: 2}
+  - fullname: Eva-Idol
+    nickname: eva
+    displayColor: {r: 0.34901962, g: 0.7176471, b: 0.60784316, a: 1}
+    interact: {fileID: 0}
+    hubEntrance: {fileID: 11400000, guid: 94c09f8885b1d0147a3eea8f2eb27376, type: 2}
+    maxTrust: {fileID: 11400000, guid: 46cb845206bc66743bb168d22c28f24f, type: 2}
+    startSB3: {fileID: 11400000, guid: a917bda79e9d19d488bf7e663f2d023e, type: 2}
+  - fullname: Akihito-Samurai
+    nickname: akihito
+    displayColor: {r: 0.69803923, g: 0.48235297, b: 0.4431373, a: 1}
+    interact: {fileID: 0}
+    hubEntrance: {fileID: 11400000, guid: 352985178756d9743b27a34896f0f2b5, type: 2}
+    maxTrust: {fileID: 11400000, guid: 00abc7369044a9943b7c393bd76ad9b3, type: 2}
+    startSB3: {fileID: 11400000, guid: 3489490fc9c69874bacc7adf7a799c22, type: 2}
+  - fullname: Yume-Seamstress
+    nickname: yume
+    displayColor: {r: 0.7058824, g: 0.6039216, b: 0.6862745, a: 1}
+    interact: {fileID: 0}
+    hubEntrance: {fileID: 11400000, guid: 31432cfbfcae8c94397b624115908c73, type: 2}
+    maxTrust: {fileID: 11400000, guid: 493e16a2583224c45badb67ec4e71bad, type: 2}
+    startSB3: {fileID: 11400000, guid: 65f290615e7d2694d986b7dd07f6c6af, type: 2}
+  - fullname: Silas-PlagueDoc
+    nickname: silas
+    displayColor: {r: 0.7137255, g: 0.57254905, b: 0.4901961, a: 1}
+    interact: {fileID: 0}
+    hubEntrance: {fileID: 11400000, guid: a4e952a245f62a140ac480bdfa9e1a7f, type: 2}
+    maxTrust: {fileID: 11400000, guid: 3c13cf1a90278ec48abe3d5f79e877ba, type: 2}
+    startSB3: {fileID: 11400000, guid: 837ba980ae1b4e84c873313203989321, type: 2}
+  - fullname: Aegis-King
+    nickname: aegis
+    displayColor: {r: 0.7176471, g: 0.6862745, b: 0.5019608, a: 1}
+    interact: {fileID: 0}
+    hubEntrance: {fileID: 11400000, guid: 597843af472270c43862e48f39745a54, type: 2}
+    maxTrust: {fileID: 11400000, guid: cb9573fe2e86a924cb2e378dde68f844, type: 2}
+    startSB3: {fileID: 11400000, guid: 90e6763764dde1d4090f313a976bffac, type: 2}
+  death: {fileID: 0}
+  deathFirstDeath: {fileID: 11400000, guid: f6c634cf50cced242b501d39d9174b9c, type: 2}
+  deathNovaPoint: {fileID: 11400000, guid: 66e8c8a96a1c7b44eaeccf0a121aad4f, type: 2}
+  deathShigora: {fileID: 11400000, guid: ea379e936eb867142bb7024db557101f, type: 2}
+  deathCaladria: {fileID: 11400000, guid: 59a5209f63ed5b74c96e3ed668863473, type: 2}
+  newInteractionIndicator: {fileID: 4796005695382463095, guid: 4a2c1e1c2f127c6489173c2ca054e154,
+    type: 3}
+  triggerChance: 100
+  g2gConvoInteractable: {fileID: 0}
+  g2gGhostIcons:
+  - {fileID: 0}
+  - {fileID: 0}
+  ghostToGhostConvos:
+  - convoRow:
+    - firstMeet: {fileID: 0}
+      stdConvo: []
+    - firstMeet: {fileID: 11400000, guid: de5a9ca0e90672f46b2037a3b07c5765, type: 2}
+      stdConvo:
+      - {fileID: 11400000, guid: 7b237acb72e546646ac241f9d02feb75, type: 2}
+    - firstMeet: {fileID: 11400000, guid: f4b1d58e8fa9ee841b94e5b2ad25a185, type: 2}
+      stdConvo:
+      - {fileID: 11400000, guid: 2ae259fcade9f1d408bf069317a0e880, type: 2}
+    - firstMeet: {fileID: 11400000, guid: 4d8ec46eb00c78d4e877c347805c07fb, type: 2}
+      stdConvo:
+      - {fileID: 11400000, guid: 26000188e2b9a5c46a9687646a6d3168, type: 2}
+    - firstMeet: {fileID: 11400000, guid: dad472142dec58443ab614717c926fb7, type: 2}
+      stdConvo:
+      - {fileID: 11400000, guid: 4acb1a4bf1d3a3541ae18e08d14a00e4, type: 2}
+      - {fileID: 11400000, guid: a2de7c834dbe5924998f4289d11a05bd, type: 2}
+    - firstMeet: {fileID: 11400000, guid: 28b6d9cdfb15b3f4e87c94112d74c404, type: 2}
+      stdConvo:
+      - {fileID: 11400000, guid: 1045d40ca1078be4cb15c0811a7f296d, type: 2}
+  - convoRow:
+    - firstMeet: {fileID: 0}
+      stdConvo: []
+    - firstMeet: {fileID: 0}
+      stdConvo: []
+    - firstMeet: {fileID: 11400000, guid: 3b471aaa79dcfdf4882bcd8f58740839, type: 2}
+      stdConvo:
+      - {fileID: 11400000, guid: aeb19298017e9ae4da8d9d0fdcaf5057, type: 2}
+      - {fileID: 11400000, guid: a1c734621045b854f99e58a1cf52cea1, type: 2}
+    - firstMeet: {fileID: 11400000, guid: b6a5d866ece9dc44096960f5421c6dd5, type: 2}
+      stdConvo:
+      - {fileID: 11400000, guid: 727191f93ae0b434f8f89f6efc35f1ef, type: 2}
+      - {fileID: 11400000, guid: 418586f78d758a941aa97506db4b3f45, type: 2}
+    - firstMeet: {fileID: 11400000, guid: 5044baa9645699b4f8980ecaa67849d3, type: 2}
+      stdConvo:
+      - {fileID: 11400000, guid: 59f2d572b15b8094ba72fde90fb4d111, type: 2}
+    - firstMeet: {fileID: 11400000, guid: ea9f8bad545e878468b5c7e01d8e894c, type: 2}
+      stdConvo:
+      - {fileID: 11400000, guid: de3cf1f36ba4e4145a79ec29ba7c96d5, type: 2}
+      - {fileID: 11400000, guid: bca18b589fbd64c42bcc51acfeed4b4f, type: 2}
+  - convoRow:
+    - firstMeet: {fileID: 0}
+      stdConvo: []
+    - firstMeet: {fileID: 0}
+      stdConvo: []
+    - firstMeet: {fileID: 0}
+      stdConvo: []
+    - firstMeet: {fileID: 11400000, guid: dbaab1119ec8f6c428ba40463ec5c095, type: 2}
+      stdConvo:
+      - {fileID: 11400000, guid: ef432a48bb0cd554fbf36227562ff612, type: 2}
+    - firstMeet: {fileID: 11400000, guid: 159dea94d9533e240ae177091d72d77e, type: 2}
+      stdConvo:
+      - {fileID: 11400000, guid: 0a5e60b8b4e1bb74cb6fddc0f5276a5f, type: 2}
+    - firstMeet: {fileID: 11400000, guid: faf7bf858377ccc4f9fe65228595956a, type: 2}
+      stdConvo:
+      - {fileID: 11400000, guid: 68b69fef63202eb48ad800e646d9c922, type: 2}
+  - convoRow:
+    - firstMeet: {fileID: 0}
+      stdConvo: []
+    - firstMeet: {fileID: 0}
+      stdConvo: []
+    - firstMeet: {fileID: 0}
+      stdConvo: []
+    - firstMeet: {fileID: 0}
+      stdConvo: []
+    - firstMeet: {fileID: 11400000, guid: 52058823acd3fab478dd98a4717882ee, type: 2}
+      stdConvo:
+      - {fileID: 11400000, guid: 291f9998a4acaff4ca0aa6dd0a245330, type: 2}
+    - firstMeet: {fileID: 11400000, guid: 5803e2b0fc2dd7346a3943426211d71c, type: 2}
+      stdConvo:
+      - {fileID: 11400000, guid: b15dca505be206d4cb916ce82af7dbce, type: 2}
+  - convoRow:
+    - firstMeet: {fileID: 0}
+      stdConvo: []
+    - firstMeet: {fileID: 0}
+      stdConvo: []
+    - firstMeet: {fileID: 0}
+      stdConvo: []
+    - firstMeet: {fileID: 0}
+      stdConvo: []
+    - firstMeet: {fileID: 0}
+      stdConvo: []
+    - firstMeet: {fileID: 11400000, guid: baddd19c8d3d4bd4a8dbad0328b30e41, type: 2}
+      stdConvo:
+      - {fileID: 11400000, guid: 04430784aaf38cd4c8533618caab54c2, type: 2}
+  - convoRow:
+    - firstMeet: {fileID: 0}
+      stdConvo: []
+    - firstMeet: {fileID: 0}
+      stdConvo: []
+    - firstMeet: {fileID: 0}
+      stdConvo: []
+    - firstMeet: {fileID: 0}
+      stdConvo: []
+    - firstMeet: {fileID: 0}
+      stdConvo: []
+    - firstMeet: {fileID: 0}
+      stdConvo: []
+    - firstMeet: {fileID: 0}
+      stdConvo: []
+  showIndicatorWhenConvoActive: 1

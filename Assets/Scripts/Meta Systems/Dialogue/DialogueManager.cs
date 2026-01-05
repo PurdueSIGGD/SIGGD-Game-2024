@@ -35,6 +35,10 @@ public class DialogueManager : MonoBehaviour, IScreenUI
 
     [SerializeField] private Image characterImage; // Set this to character imaeg (who is speaking)
 
+    [SerializeField] private GameObject background;
+
+    [HideInInspector] public bool showPortraitandBackground;
+
     // ==============================
     //        Other Variables
     // ==============================
@@ -89,6 +93,7 @@ public class DialogueManager : MonoBehaviour, IScreenUI
         characterNameText.text = "";
         characterImage.sprite = null;
 
+        showPortraitandBackground = true;
         ToggleVisibility();
     }
 
@@ -116,8 +121,11 @@ public class DialogueManager : MonoBehaviour, IScreenUI
         // Set name
         string character = conversation.data.lines[currentLine].character;
         characterNameText.text = characterMap[character].displayName;
-        characterImage.sprite = characterMap[character].fullImage;
-        characterImage.enabled = (characterImage.sprite != null);
+        if (showPortraitandBackground)
+        {
+            characterImage.sprite = characterMap[character].fullImage;
+            characterImage.enabled = (characterImage.sprite != null);
+        }
         if (characterNameText.text.Equals("Oldrion")) characterNameText.text = "Orion"; // oldrion isn't really it cant hurt u
         if (characterNameText.text.Equals("Boss Oldrion"))
         {
@@ -153,7 +161,7 @@ public class DialogueManager : MonoBehaviour, IScreenUI
 
         onFinishDialogue?.Invoke(conversation.data.convoName);
 
-        PlayerID.instance.UnfreezePlayer();
+        PlayerID.instance?.UnfreezePlayer();
     }
 
     /// <summary>
@@ -165,6 +173,16 @@ public class DialogueManager : MonoBehaviour, IScreenUI
         //dialogueBox.SetActive(isRunning);
         //nextButton.gameObject.SetActive(isRunning);
         this.gameObject.SetActive(isRunning);
+        if (!showPortraitandBackground)
+        {
+            characterImage.enabled = false;
+            background.SetActive(false);
+        }
+        else
+        {
+            characterImage.enabled = isRunning;
+            background.SetActive(isRunning);
+        }
     }
 
     // ==============================
@@ -185,7 +203,7 @@ public class DialogueManager : MonoBehaviour, IScreenUI
             ToggleVisibility();
             NextDialogue();
 
-            PlayerID.instance.FreezePlayer();
+            PlayerID.instance?.FreezePlayer();
         }
     }
 

@@ -55,6 +55,7 @@ public class PlayerID : MonoBehaviour
     public void FreezePlayerMouse()
     {
         input.actions.FindAction("Attack").Disable();
+        input.actions.FindAction("HeavyAttack").Disable();
         input.actions.FindAction("Special").Disable();
     }
 
@@ -72,6 +73,7 @@ public class PlayerID : MonoBehaviour
     public void UnfreezePlayerMouse()
     {
         input.actions.FindAction("Attack").Enable();
+        input.actions.FindAction("HeavyAttack").Enable();
         input.actions.FindAction("Special").Enable();
     }
 }
