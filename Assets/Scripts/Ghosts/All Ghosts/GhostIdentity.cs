@@ -100,6 +100,7 @@ public class GhostIdentity : MonoBehaviour
 
     public void TriggerEnterPartyBehavior()
     {
+        partyScripts = this.GetComponents<IParty>();
         foreach (IParty script in partyScripts)
         {
             script.EnterParty(PlayerID.instance.gameObject);

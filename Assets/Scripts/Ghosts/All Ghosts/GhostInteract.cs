@@ -62,7 +62,16 @@ public class GhostInteract : InRangeInteract, IParty
     {
         CloseMenu();
         PartyManager partyManger = PlayerID.instance.GetComponent<PartyManager>();
-        partyManger.TryAddGhostToParty(this.GetComponent<GhostIdentity>());
+        bool success = partyManger.TryAddGhostToParty(this.GetComponent<GhostIdentity>());
+        if (success)
+        {
+            return;
+        }
+        ReplaceGhostBehaviour.Instance.Choose();
+        ReplaceGhostBehaviour.Instance.ghostReplacedDelegate += () =>
+        {
+            partyManger.TryAddGhostToParty(this.GetComponent<GhostIdentity>());
+        };
     }
 
     private void FirstInteraction()
