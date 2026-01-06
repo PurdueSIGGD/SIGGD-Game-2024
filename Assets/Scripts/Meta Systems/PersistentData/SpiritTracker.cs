@@ -11,6 +11,13 @@ public class SpiritTracker : MonoBehaviour
     public int yellowSpiritsCollected = 0;
     public int pinkSpiritsCollected = 0;
 
+    [SerializeField] public GameObject blueSpiritPrefab;
+    [SerializeField] public GameObject redSpiritPrefab;
+    [SerializeField] public GameObject yellowSpiritPrefab;
+    [SerializeField] public GameObject pinkSpiritPrefab;
+
+
+
     private void OnEnable()
     {
         Spirit.SpiritCollected += CollectSpirit;

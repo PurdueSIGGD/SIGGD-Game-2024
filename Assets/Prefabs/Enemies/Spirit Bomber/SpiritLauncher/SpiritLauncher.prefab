@@ -158,8 +158,8 @@ Transform:
   m_GameObject: {fileID: 6046816053600295553}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.05, y: 0.7900001, z: -0.016707346}
-  m_LocalScale: {x: 10.051015, y: 7.06, z: 1}
+  m_LocalPosition: {x: 6.43, y: 0.7900001, z: -0.016707346}
+  m_LocalScale: {x: 12.754524, y: 7.6798687, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2836107229570927023}
@@ -202,7 +202,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6433846695187082099}
@@ -381,7 +381,7 @@ MonoBehaviour:
   currentTarget: {fileID: 0}
   bombPrefab: {fileID: 5156741841575326909, guid: 919e7c8998366064b80ba095f0d1c19c,
     type: 3}
-  bombCooldown: 4
+  bombCooldown: 2.5
   bombSpawn: {fileID: 6433846695187082099}
   bombShoot: {fileID: 2041526589549026373}
 --- !u!114 &8825120488058023643
@@ -425,7 +425,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Max Health
-    value: 80
+    value: 55
   deathLevel: 
 --- !u!114 &3218064792512490133
 MonoBehaviour:
@@ -446,7 +446,7 @@ MonoBehaviour:
     ready: 1
     hitBox: {fileID: 2041526589549026373}
     usesCircleHitbox: 0
-    coolDown: 4
+    coolDown: 2.5
     respectHitboxOnCooldown: 1
     animationClip: {fileID: 7400000, guid: 83b19612ab1e0d442a748c2cfd9220d9, type: 2}
   move:
@@ -541,7 +541,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6835c333b8099247acf0cab08ba2fb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  energyPool: 60
+  energyPool: 45
 --- !u!1001 &3695147616567067761
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 /// <summary>
@@ -13,7 +14,6 @@ public class TrackingProjectile : EnemyProjectile
     [SerializeField] float trackingDistance; // A larger value will lead the projectile to loose tracking earlier
     private float hangTime = 0;
     private bool tracking = true;
-    protected Transform player;
     private float baseScale;
     [SerializeField] float explosionDeceleration;
     [SerializeField] float explosionWindUpTime;
@@ -29,14 +29,14 @@ public class TrackingProjectile : EnemyProjectile
     {
         base.Start();
         sprite = GetComponent<SpriteRenderer>();
-        player = PlayerID.instance.transform;
-        Vector3 directionToTarget = (player.position - transform.position).normalized;
-        rb.velocity = directionToTarget * speed;
+        //player = PlayerID.instance.transform;
+        //Vector3 directionToTarget = (player.position - transform.position).normalized;
+        //rb.velocity = Vector2.right * speed;
         baseScale = transform.localScale.x;
     }
     void Update()
     {
-        if (PlayerID.instance.gameObject.transform.position.x - transform.position.x < 0)
+        if (targetTransform != null && targetTransform.position.x - transform.position.x < 0)
         {
             transform.localScale = new Vector3(baseScale, baseScale, baseScale);
         }
@@ -48,20 +48,27 @@ public class TrackingProjectile : EnemyProjectile
 
     void FixedUpdate()
     {   // Stops tracking within certain distance of player
-        if (Vector3.Distance(transform.position, player.position) <= trackingDistance && tracking)
+        Move();
+        if (tracking && targetTransform == null)
         {
             InitiateExplosion();
         }
-        Move();
+        else if (tracking && Vector3.Distance(transform.position, targetTransform.position) <= trackingDistance)
+        {
+            InitiateExplosion();
+        }
+        //Move();
         CheckOutOfBounds(Time.deltaTime);
     }
+
+
 
     // Moves the projectile
     public new void Move()
     {
-        if (tracking)
+        if (tracking && targetTransform != null)
         {
-            Vector3 directionToTarget = (player.position - transform.position).normalized;
+            Vector3 directionToTarget = (targetTransform.position - transform.position).normalized;
             //Quaternion rotation = Quaternion.LookRotation(directionToTarget);
             //rb.MoveRotation(Quaternion.RotateTowards(transform.rotation, rotation, trackingStrength));
             rb.velocity = directionToTarget * speed;
@@ -115,6 +122,7 @@ public class TrackingProjectile : EnemyProjectile
 
     private void InitiateExplosion()
     {
+        if (isInitializing) return;
         tracking = false;
         StartCoroutine(Flicker());
         hangTime = 0f;

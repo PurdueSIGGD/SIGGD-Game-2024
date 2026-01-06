@@ -74,6 +74,13 @@ public class YokaiMoveState : MoveState
         Vector2 random_vector = new Vector2(Random.value * 2 - 1, Random.value * 2 - 1);
         rb.AddForce(randomFactor * random_vector.normalized, ForceMode2D.Impulse);
 
+        // CHECK MAX SPEED
+        float maxSpeed = 9f;
+        if (rb.velocity.magnitude > maxSpeed)
+        {
+            rb.velocity = rb.velocity.normalized * maxSpeed;
+        }
+
         if (flipEnabled)
         {
             if (player.position.x - enemy.transform.position.x < 0)

@@ -223,8 +223,9 @@ public class DamageNumber : MonoBehaviour
     public void HandleDamageEvent(DamageContext context)
     {
         if (context.victim != owner) return;
-        if (context.victim != PlayerID.instance.gameObject && context.attacker != PlayerID.instance.gameObject) return;
-        if (context.victim == PlayerID.instance.gameObject)
+        //if (context.victim != PlayerID.instance.gameObject && context.attacker != PlayerID.instance.gameObject) return;
+        if (context.victim == context.attacker) return;
+        if (context.attacker != PlayerID.instance.gameObject)
         {
             nextColor = damageTakenColor;
             UseDamageTakenSettings();
@@ -234,7 +235,7 @@ public class DamageNumber : MonoBehaviour
             SetColorByGhostAction(context);
             UseDamageDealtSettings();
         }
-        if (context.isCriticalHit)
+        if (context.isCriticalHit && context.damage > 0f)
         {
             Color critColor = (context.victim == PlayerID.instance.gameObject) ? damageTakenColor : critDealtColor;
             PlayMessage(context.damage, critIcon, null, null, "!", critColor, false);

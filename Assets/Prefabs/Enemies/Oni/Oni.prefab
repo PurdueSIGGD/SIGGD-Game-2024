@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 3960645561574825237}
   - component: {fileID: 8107464034576554881}
   - component: {fileID: 1911940432690280110}
+  - component: {fileID: 1268936484672544354}
   m_Layer: 21
   m_Name: Oni
   m_TagString: Enemy
@@ -130,8 +131,8 @@ MonoBehaviour:
   maxSpeed: 6
   speedInc: 3
   gashingMaxSpeed: 11
-  visionRadius: 50
-  trackMaxDistance: 60
+  visionRadius: 100
+  trackMaxDistance: 110
   damageContext:
     damageStrength: 1
     damageTypes: 00000000
@@ -247,7 +248,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Max Health
-    value: 200
+    value: 300
   deathLevel: 
 --- !u!114 &1988035873964899389
 MonoBehaviour:
@@ -5184,6 +5185,19 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
+--- !u!114 &1268936484672544354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 534547673104865347}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6835c333b8099247acf0cab08ba2fb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  energyPool: 200
 --- !u!1 &3894776992277477274
 GameObject:
   m_ObjectHideFlags: 0

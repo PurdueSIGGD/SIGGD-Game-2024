@@ -27,6 +27,10 @@ public class EnemyProjectile : MonoBehaviour, IStatList
     private Collider2D col;
     public bool parried;
 
+    protected Transform targetTransform;
+
+    protected bool isInitializing = true;
+
     protected virtual void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -46,8 +50,9 @@ public class EnemyProjectile : MonoBehaviour, IStatList
     /// </summary>
     /// <param name="target"> transform of the target object </param>
     /// <param name="damage"> damage of the projectile </param>
-    public void Init(GameObject parent, Vector3 target)
+    public virtual void Init(GameObject parent, Vector3 target)
     {
+        isInitializing = true;
         this.parent = parent;
         dir = (target - transform.position).normalized;
         bounds = dir * range + transform.position;
@@ -56,6 +61,13 @@ public class EnemyProjectile : MonoBehaviour, IStatList
         float zRot = Mathf.Lerp(0f, 90f, Mathf.Abs(yDir));
         Vector3 vectorRotation = (rotateWithVelocity) ? new Vector3(0f, 0f, zRot) : Vector3.zero;
         transform.rotation = new Quaternion(vectorRotation.x, vectorRotation.y, vectorRotation.z, 0f);
+        isInitializing = false;
+    }
+
+    public virtual void Init(GameObject parent, Vector3 target, Transform targetTransform)
+    {
+        this.targetTransform = targetTransform;
+        Init(parent, target);
     }
 
     void OnCollisionEnter2D(Collision2D collision)
