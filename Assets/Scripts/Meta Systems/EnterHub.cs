@@ -133,8 +133,16 @@ public class EnterHub : MonoBehaviour
         else g2gConvoInteractable.SetConvo(selectedConvo);
 
         // update ghosts in scene
-        avaliableGhostToGhostConvo[x].interact.gameObject.SetActive(false);
-        avaliableGhostToGhostConvo[y].interact.gameObject.SetActive(false);
+        avaliableGhostToGhostConvo[x].interact.enabled = false;
+        foreach (SpriteRenderer sprite in avaliableGhostToGhostConvo[x].interact.GetComponentsInChildren<SpriteRenderer>())
+        {
+            sprite.enabled = false;
+        }
+        avaliableGhostToGhostConvo[y].interact.enabled = false;
+        foreach (SpriteRenderer sprite in avaliableGhostToGhostConvo[y].interact.GetComponentsInChildren<SpriteRenderer>())
+        {
+            sprite.enabled = false;
+        }
         g2gGhostIcons[0].color = avaliableGhostToGhostConvo[x].displayColor;
         g2gGhostIcons[1].color = avaliableGhostToGhostConvo[y].displayColor;
     }
