@@ -19,7 +19,7 @@ public class Door : MonoBehaviour
     private GameObject interactMenu;
     private PlayerID player;
     private SpriteRenderer spriteRenderer;
-    private bool transporting;
+    protected bool transporting;
 
     void Start()
     {
