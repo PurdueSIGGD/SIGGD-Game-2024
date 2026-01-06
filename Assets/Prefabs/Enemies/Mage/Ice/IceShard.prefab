@@ -5061,7 +5061,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: a15ba4baf2993b147af8e3c8aac56090, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5105,6 +5105,7 @@ GameObject:
   - component: {fileID: 5915260820778701637}
   - component: {fileID: 1314663050367898930}
   - component: {fileID: 6374088244713468663}
+  - component: {fileID: 5579343513772070867}
   m_Layer: 22
   m_Name: IceShard
   m_TagString: Untagged
@@ -5140,7 +5141,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c56b18418bf187408f1b7f761a2b874, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statList: []
+  statList:
+  - name: Damage
+    value: 3
   speed: 40
   projectileDamage:
     damageStrength: 0
@@ -5150,13 +5153,16 @@ MonoBehaviour:
     extraContext: 
     ghostID: 0
   range: 288
-  terrainCollision: 0
+  terrainCollision: 1
   rotateWithVelocity: 0
   rotationOffset: {x: 0, y: 0, z: 0}
   target: Player
   parried: 0
-  damage: 2
-  chargeTimeSec: 2
+  damage: 3
+  chargeTimeSec: 1.5
+  launchedCollisionExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 6291456
 --- !u!50 &1314663050367898930
 Rigidbody2D:
   serializedVersion: 4
@@ -5169,7 +5175,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 0.0001
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0
@@ -5199,7 +5205,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 6291520
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -5213,10 +5219,10 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.00014525652, y: 0.14101174}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -5227,5 +5233,18 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.040499717, y: 0.39371264}
+  m_Size: {x: 0.2, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &5579343513772070867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7157577621072571158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83a0782e8961e074bbf391401404ae17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  statList: []

@@ -10,11 +10,17 @@ public class Knight : EnemyStateManager
     [SerializeField] float damageVal;
     [SerializeField] GameObject swingVisual;
 
+    [Header("Basic Attack")]
+    [SerializeField] protected Transform basicTrigger;
+    [SerializeField] protected DamageContext basicDamage;
+    [SerializeField] float basicDamageVal;
+
 
     protected override void Start()
     {
         base.Start();
         swordDamage.damage = damageVal;
+        basicDamage.damage = basicDamageVal;
     }
 
     private void OnEnable()
@@ -27,12 +33,24 @@ public class Knight : EnemyStateManager
         GameplayEventHolder.OnEntityStunned -= OnKnightStunned;
     }
 
+    protected void OnStartSlash()
+    {
+        swingVisual.SetActive(true);
+    }
+
     // Check for collision in swing range to deal damage
     protected void OnSlashEvent()
     {
         GenerateDamageFrame(swordTrigger.position, swordTrigger.lossyScale.x, swordTrigger.lossyScale.y, swordDamage, gameObject);
         swingVisual.SetActive(true);
     }
+
+    protected void OnBasicEvent()
+    {
+        GenerateDamageFrame(basicTrigger.position, basicTrigger.lossyScale.x, basicTrigger.lossyScale.y, basicDamage, gameObject);
+        swingVisual.SetActive(true);
+    }
+
     protected void OnEndSlash()
     {
         swingVisual.SetActive(false);

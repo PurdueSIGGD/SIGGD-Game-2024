@@ -74,7 +74,7 @@ public class EnemyProjectile : MonoBehaviour, IStatList
     {
         ProcessCollision(collision.gameObject);
     }
-    public void ProcessCollision(GameObject other)
+    public virtual void ProcessCollision(GameObject other)
     {
         if (other.CompareTag("Enemy") && parried)
         {
