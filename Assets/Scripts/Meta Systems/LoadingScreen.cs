@@ -16,6 +16,8 @@ public class LoadingScreen : MonoBehaviour
     private bool readyToProgress;
     private float waitTime;
 
+    private float startFlashingTime;
+
     IEnumerator Start()
     {
         if (PlayerID.instance) PlayerID.instance.FreezePlayer();
@@ -36,6 +38,7 @@ public class LoadingScreen : MonoBehaviour
     private void AllowPlayerContinue()
     {
         readyToProgress = true;
+        startFlashingTime = Time.time;
         InputSystem.onAnyButtonPress.CallOnce(ctrl =>
         {
             OnDoorOpened?.Invoke();
@@ -52,7 +55,7 @@ public class LoadingScreen : MonoBehaviour
         }
         if (readyToProgress) 
         {
-            float alpha = Mathf.Sin(Time.time) + 0.5f;
+            float alpha = -Mathf.Cos(Time.time - startFlashingTime) + 0.5f;
             readyText.color = new Color(readyText.color.r, readyText.color.g, readyText.color.b, alpha);
         }
     }
