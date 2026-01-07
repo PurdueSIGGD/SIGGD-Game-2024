@@ -38,7 +38,6 @@ public class LoadingScreen : MonoBehaviour
         readyToProgress = true;
         InputSystem.onAnyButtonPress.CallOnce(ctrl =>
         {
-            Debug.Log($"Button pressed: {ctrl.name}");
             OnDoorOpened?.Invoke();
             AudioManager.Instance.SetEnergyLevel(0f);
             AudioManager.Instance.SetMusicVolume(origAudioVolume);

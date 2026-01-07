@@ -7,7 +7,7 @@ public class DoorToLoadScreen : Door
 {
     [SerializeField] string loadingSceneName = "LoadingScreen";
 
-    protected override void CallDoorOpened()
+    public override void Teleport()
     {
         if (!transporting)
         {

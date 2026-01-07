@@ -120,7 +120,7 @@ public class Door : MonoBehaviour
         ableToTeleport = false;
     }
 
-    public void Teleport()
+    public virtual void Teleport()
     {
        if (!transporting)
         {
