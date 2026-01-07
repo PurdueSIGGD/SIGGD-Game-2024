@@ -15,11 +15,18 @@ public class Door : MonoBehaviour
     public static bool active;
     [SerializeField] private Vector3 menuOffset;
     [SerializeField] public bool specificActive;
+    [SerializeField] private bool ableToTeleport = true;
 
     private GameObject interactMenu;
     private PlayerID player;
     private SpriteRenderer spriteRenderer;
     private bool transporting;
+
+
+    private void Awake()
+    {
+        ableToTeleport = true;
+    }
 
     void Start()
     {
@@ -90,10 +97,10 @@ public class Door : MonoBehaviour
     {
         if (!transporting)
         {
-            Door.activateDoor(false);
             SendMessage("DoorOpened");
-            OnDoorOpened?.Invoke();
-            transporting = true;
+            if (ableToTeleport) {
+                Teleport();
+            }
         }
     }
 
@@ -139,6 +146,21 @@ public class Door : MonoBehaviour
         if (spriteRenderer != null)
         {
             spriteRenderer.enabled = nbool;
+        }
+    }
+
+    public void DontTeleport()
+    {
+        ableToTeleport = false;
+    }
+
+    public void Teleport()
+    {
+       if (!transporting)
+        {
+            Door.activateDoor(false);
+            OnDoorOpened?.Invoke();
+            transporting = true;
         }
     }
 

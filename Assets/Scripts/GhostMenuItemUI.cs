@@ -9,13 +9,13 @@ public class GhostMenuItemUI : MonoBehaviour, IPointerClickHandler
     [SerializeField] public TextMeshProUGUI levelComponent;
     [SerializeField] public Image imageComponent;
     [SerializeField] public GameObject unusedIndicator;
-    [SerializeField] public TextMeshProUGUI expText;
     [SerializeField] public Image expBar;
     [SerializeField] public Slider expSlider;
 
     public GhostIdentity identity;
     private PartyManagerUI partyUI;
     private PartyManager partyManager;
+    private SkillTree skillTree;
 
     private void Start()
     {
@@ -33,14 +33,13 @@ public class GhostMenuItemUI : MonoBehaviour, IPointerClickHandler
     {
         identity = ghost;
         CharacterSO info = ghost.GetCharacterInfo();
-        imageComponent.sprite = info.hudIcon;
+        imageComponent.sprite = info.hudIconNoFire;
         levelComponent.text = ghost.GetComponent<SkillTree>().GetLevel().ToString();
 
-        expText.text = Mathf.Min(ghost.GetExp(), ghost.GetRequiredExp()) + " / " + ghost.GetRequiredExp();
         expBar.color = info.primaryColor;
         expSlider.value = ghost.GetExp() / (float)ghost.GetRequiredExp();
 
-        SkillTree skillTree = ghost.GetComponent<SkillTree>();
+        skillTree = ghost.GetComponent<SkillTree>();
 
         for (int i = 0; i < 3; i++)
         {
@@ -53,7 +52,32 @@ public class GhostMenuItemUI : MonoBehaviour, IPointerClickHandler
         }
     }
 
+    public void FixedUpdate()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            if (skillTree.GetTierPoints(i) > 0)
+            {
+                unusedIndicator.SetActive(true);
+                return;
+            }
+        }
+        unusedIndicator.SetActive(false);
+    }
+
     public void OnPointerClick(PointerEventData eventData)
+    {
+        /*if (partyUI.GetSelectedGhost() == this)
+        {
+            partyUI.VisualizeOrion();
+        }
+        else
+        {
+            partyUI.VisualizeDetails(this, identity);
+        }*/
+    }
+
+    public void Selected()
     {
         if (partyUI.GetSelectedGhost() == this)
         {
