@@ -35,6 +35,7 @@ public class Door : MonoBehaviour
     void OnTriggerEnter2D(Collider2D collision)
     {
         GameObject player = collision.gameObject;
+        PlayerID.instance.FreezePlayerMouse();
 
         // disable teleport when door not active
         if (player.CompareTag("Player") && (active || specificActive))
@@ -58,6 +59,7 @@ public class Door : MonoBehaviour
     {
         Destroy(interactMenu);
         interactMenu = null;
+        PlayerID.instance.UnfreezePlayerMouse();
     }
 
     // Unlock the door to allow entry to the next room
@@ -84,6 +86,7 @@ public class Door : MonoBehaviour
         Vector3 menuPos = this.transform.position + menuOffset;
 
         interactMenu = WI.CreateInteractMenu(menuPos, opt1);
+        PlayerID.instance.FreezePlayerMouse();
     }
 
     protected virtual void CallDoorOpened()
@@ -94,43 +97,6 @@ public class Door : MonoBehaviour
             SendMessage("DoorOpened");
             OnDoorOpened?.Invoke();
             transporting = true;
-        }
-    }
-
-    private void TeleportPlayer()
-    {
-        RaycastHit2D hit;
-        Vector2 pos = new Vector2(0, 0);
-
-        if (dest)
-        {
-            pos = dest.transform.position;
-        }
-        else
-        {
-            // if no pre-determined destination, raycast to the right to find the closest
-            // door as destination
-            Vector3 rayOrig = new Vector3(transform.position.x + transform.lossyScale.x,
-                                          transform.position.y, transform.position.z);
-            hit = Physics2D.Raycast(rayOrig, transform.right, Mathf.Infinity);
-            if (hit)
-            {
-                pos = hit.transform.position;
-            }
-            else
-            {
-                Debug.LogWarning(gameObject.name + " cannot find suitable destination");
-            }
-        }
-        // raycast down so the player is spawned on the floor
-        hit = Physics2D.Raycast(pos, -transform.up, Mathf.Infinity, LayerMask.GetMask("Ground"));
-        if (hit)
-        {
-            player.transform.position = hit.point;
-        }
-        else
-        {
-            Debug.LogWarning("Please ensure " + gameObject.name + " is placed over a platform");
         }
     }
 
