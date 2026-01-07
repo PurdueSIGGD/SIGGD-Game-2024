@@ -126,21 +126,13 @@ public class PartyManagerUI : MonoBehaviour
 
         VisualizeOrion();
 
-        PlayerSelectedGhostUIManager.instance.gameObject.SetActive(false);
-        PlayerGhost1UIManager.instance.gameObject.SetActive(false);
-        PlayerGhost2UIManager.instance.gameObject.SetActive(false);
-        SpiritTrackerCanvasUI.Instance.gameObject.SetActive(false);
+        if (PlayerUIVisibility.instance) PlayerUIVisibility.instance.HidePlayerUI();
     }
 
     public void ClosePartyMenu()
     {
         gameObject.SetActive(false);
-        PlayerSelectedGhostUIManager.instance.gameObject.SetActive(true);
-        if (PartyManager.instance.GetGhostPartyList().Count >= 1)
-            PlayerGhost1UIManager.instance.gameObject.SetActive(true);
-        if (PartyManager.instance.GetGhostPartyList().Count >= 2)
-            PlayerGhost2UIManager.instance.gameObject.SetActive(true);
-        SpiritTrackerCanvasUI.Instance.gameObject.SetActive(true);
+        if (PlayerUIVisibility.instance) PlayerUIVisibility.instance.ShowPlayerUI();
     }
 
     public void SwitchGhostPartyStatus()

@@ -59520,6 +59520,7 @@ GameObject:
   - component: {fileID: 1674031420618944405}
   - component: {fileID: 993272100350156924}
   - component: {fileID: 5628641787627220858}
+  - component: {fileID: 7923429943484761402}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -60038,6 +60039,7 @@ MonoBehaviour:
     value: 1
   defaultController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
   ghostController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
+  currentSpecialEnergy: 0
   heavyIndicator: {fileID: 1398568264850401254}
   heavyDamage:
     damageStrength: 3
@@ -60345,6 +60347,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 94b5828d9949f954d9301d18a500e024, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7923429943484761402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8252758106455385166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffc37ea0ab324044f94326f8dc59adde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &8475902772068394930

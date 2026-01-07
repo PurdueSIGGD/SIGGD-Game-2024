@@ -42,7 +42,6 @@ public class Door : MonoBehaviour
     void OnTriggerEnter2D(Collider2D collision)
     {
         GameObject player = collision.gameObject;
-        PlayerID.instance.FreezePlayerMouse();
 
         // disable teleport when door not active
         if (player.CompareTag("Player") && (active || specificActive))
@@ -64,9 +63,13 @@ public class Door : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        Destroy(interactMenu);
-        interactMenu = null;
-        PlayerID.instance.UnfreezePlayerMouse();
+        GameObject player = collision.gameObject;
+        if (interactMenu != null && player.CompareTag("Player") && (active || specificActive))
+        {
+            Destroy(interactMenu);
+            interactMenu = null;
+            PlayerID.instance.UnfreezePlayerMouse();
+        }
     }
 
     // Unlock the door to allow entry to the next room
