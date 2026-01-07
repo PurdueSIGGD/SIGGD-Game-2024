@@ -76,7 +76,10 @@ public class OldFling : Skill
 
         if (manager.getBasicCooldown() > 0f)
         {
-            float cooldownReduction = manager.GetStats().ComputeValue("Basic Cooldown") * (values[pointIndex] / manager.GetStats().ComputeValue("Shield Max Health"));
+            //float cooldownReduction = manager.GetStats().ComputeValue("Basic Cooldown") * (values[pointIndex] / manager.GetStats().ComputeValue("Shield Max Health"));
+            //manager.setBasicCooldown(manager.getBasicCooldown() - cooldownReduction);
+
+            float cooldownReduction = values[pointIndex] / manager.GetStats().ComputeValue("Shield Health Regeneration Rate");
             manager.setBasicCooldown(manager.getBasicCooldown() - cooldownReduction);
         }
 

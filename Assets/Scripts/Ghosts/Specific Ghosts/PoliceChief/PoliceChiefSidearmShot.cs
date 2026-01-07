@@ -108,6 +108,7 @@ public class PoliceChiefSidearmShot : MonoBehaviour
                 Collider2D[] enemiesHit = Physics2D.OverlapCircleAll(hit.point, manager.GetComponent<PoliceChiefPowerSpike>().explosionRadius, LayerMask.GetMask("Enemy"));
                 foreach (Collider2D enemy in enemiesHit)
                 {
+                    if (enemy.gameObject.Equals(hit.transform.gameObject)) continue;
                     enemy.transform.gameObject.GetComponent<Health>().Damage(manager.GetComponent<PoliceChiefPowerSpike>().GetExplosionDamage(), PlayerID.instance.gameObject);
                 }
             }

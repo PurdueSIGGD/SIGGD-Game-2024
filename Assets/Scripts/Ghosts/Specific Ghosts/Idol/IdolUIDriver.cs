@@ -37,7 +37,8 @@ public class IdolUIDriver : GhostUIDriver
 
     private void updateSpecialAbility()
     {
-        specialAbilityUIManager.setAbilityCooldownTime(manager.getSpecialCooldown(), stats.ComputeValue("Special Cooldown"));
+        //specialAbilityUIManager.setAbilityCooldownTime(manager.getSpecialCooldown(), stats.ComputeValue("Special Cooldown"));
+        specialAbilityUIManager.setAbilityEnergy(manager.getSpecialEnergy(), stats.ComputeValue("Special Energy Cost"));
         if (manager.clones.Count > 0 && manager.clones[0] != null)
         {
             specialAbilityUIManager.setMeterValue(manager.clones[0].GetComponent<IdolClone>().duration, stats.ComputeValue("HOLOJUMP_DURATION_SECONDS"));

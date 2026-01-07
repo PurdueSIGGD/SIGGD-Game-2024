@@ -26,13 +26,16 @@ public class PlayerHealth : Health
     {
         stats = GetComponent<StatManager>();
         instance = this;
+        currentHealth = stats.ComputeValue("Max Health");
+        stats.ModifyStat("Dodge Chance", 900);
+        stats.ModifyStat("Dodge Chance", baseDodgeChance * 10);
     }
 
     void Start()
     {
-        currentHealth = stats.ComputeValue("Max Health");
+        /*currentHealth = stats.ComputeValue("Max Health");
         stats.ModifyStat("Dodge Chance", 900);
-        stats.ModifyStat("Dodge Chance", baseDodgeChance * 10);
+        stats.ModifyStat("Dodge Chance", baseDodgeChance * 10);*/
     }
 
     private void OnEnable()

@@ -10,6 +10,8 @@ public class CharacterSO : ScriptableObject
 
     public Sprite hudIcon;
 
+    public Sprite hudIconNoFire;
+
     public float hudIconYOffset;
 
     public Color primaryColor;

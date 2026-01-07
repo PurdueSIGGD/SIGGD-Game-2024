@@ -69,7 +69,8 @@ public class FadeOut : Skill
 
     private void BuffLightAttack(ref DamageContext damageContext)
     {
-        if (damageContext.attacker.CompareTag("Player") &&
+        if (damageContext.attacker != null &&
+            damageContext.attacker.CompareTag("Player") &&
             (damageContext.actionTypes.Contains(ActionType.LIGHT_ATTACK) ||
              damageContext.actionTypes.Contains(ActionType.HEAVY_ATTACK)))
         {

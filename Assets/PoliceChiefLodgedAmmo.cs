@@ -30,7 +30,7 @@ public class PoliceChiefLodgedAmmo : MonoBehaviour
     public void SetAmmoLodged(int ammoLodged)
     {
         this.ammoLodged = Mathf.Max(ammoLodged, 0);
-        directionalIndicator.SetActive(this.ammoLodged > 0);
+        if (directionalIndicator != null) directionalIndicator.SetActive(this.ammoLodged > 0);
     }
 
     public int GetAmmoLodged()

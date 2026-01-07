@@ -13,6 +13,7 @@ public class PoliceChiefSpecial : MonoBehaviour
     [HideInInspector] public PoliceChiefManager manager;
     [HideInInspector] public bool isCharging = false;
     [HideInInspector] public bool isPrimed = false;
+    [HideInInspector] public bool isFiring = false;
     private float chargingTime = 0f;
 
     private LockedAndLoadedSkill lockedAndLoaded;
@@ -52,6 +53,7 @@ public class PoliceChiefSpecial : MonoBehaviour
             {
                 playerStateMachine.OffCooldown("c_reserves");
             }
+            /*
             if (manager.getSpecialCooldown() > 0)
             {
                 playerStateMachine.OnCooldown("c_special");
@@ -59,6 +61,15 @@ public class PoliceChiefSpecial : MonoBehaviour
             else
             {
                 playerStateMachine.OffCooldown("c_special");
+            }
+            */
+            if (manager.getSpecialReady())
+            {
+                playerStateMachine.OffCooldown("c_special");
+            }
+            else
+            {
+                playerStateMachine.OnCooldown("c_special");
             }
         }
 
@@ -135,6 +146,7 @@ public class PoliceChiefSpecial : MonoBehaviour
     public void StartSpecialAttack()
     {
         GetComponent<PartyManager>().SetSwappingEnabled(false);
+        isFiring = true;
         playerStateMachine.ConsumeLightAttackInput();
         playerStateMachine.ConsumeSpecialInput();
         camAnim.SetBool("pullBack", true);
@@ -158,14 +170,23 @@ public class PoliceChiefSpecial : MonoBehaviour
 
     void StopSpecialAttack()
     {
+        isFiring = false;
         GetComponent<PartyManager>().SetSwappingEnabled(false);
         KillSpecial();
     }
 
     public void KillSpecial()
     {
-        bool startCooldown = !(manager.getSpecialCooldown() > 0); // if cooldown already exists, don't restart it
-        if (manager.getSpecialCooldown() > 0 || (manager.specialDamage.extraContext != null && manager.specialDamage.extraContext.Equals("Reserve Shot"))) lockedAndLoaded.ConsumeReserveCharge();
+        //bool startCooldown = !(manager.getSpecialCooldown() > 0); // if cooldown already exists, don't restart it
+        //if (manager.getSpecialCooldown() > 0 || (manager.specialDamage.extraContext != null && manager.specialDamage.extraContext.Equals("Reserve Shot"))) lockedAndLoaded.ConsumeReserveCharge();
+        //bool loop = (lockedAndLoaded.reservedCount > 0 && PlayerID.instance.GetComponent<Animator>().GetBool("i_special")); // if has reserve, and still holding down right click
+
+        bool startCooldown = (manager.getSpecialEnergy() >= manager.GetStats().ComputeValue("Special Energy Cost")); // if cooldown already exists, don't restart it
+        if ((manager.getSpecialEnergy() < manager.GetStats().ComputeValue("Special Energy Cost")) ||
+            (manager.specialDamage.extraContext != null && manager.specialDamage.extraContext.Equals("Reserve Shot")))
+        {
+            lockedAndLoaded.ConsumeReserveCharge();
+        }
         bool loop = (lockedAndLoaded.reservedCount > 0 && PlayerID.instance.GetComponent<Animator>().GetBool("i_special")); // if has reserve, and still holding down right click
 
         endSpecial(startCooldown, loop);
@@ -187,7 +208,8 @@ public class PoliceChiefSpecial : MonoBehaviour
         if (startCooldown)
         {
             playerStateMachine.OnCooldown("c_special");
-            manager.startSpecialCooldown();
+            //manager.startSpecialCooldown();
+            manager.resetSpecialEnergy();
         }
 
         // SFX

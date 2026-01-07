@@ -179348,6 +179348,74 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1001 &313660472
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6474736363753845901, guid: d89beca040e15e541a02a22446f0a58c,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6474736363753845901, guid: d89beca040e15e541a02a22446f0a58c,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6474736363753845901, guid: d89beca040e15e541a02a22446f0a58c,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6474736363753845901, guid: d89beca040e15e541a02a22446f0a58c,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6474736363753845901, guid: d89beca040e15e541a02a22446f0a58c,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6474736363753845901, guid: d89beca040e15e541a02a22446f0a58c,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6474736363753845901, guid: d89beca040e15e541a02a22446f0a58c,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6474736363753845901, guid: d89beca040e15e541a02a22446f0a58c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6474736363753845901, guid: d89beca040e15e541a02a22446f0a58c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6474736363753845901, guid: d89beca040e15e541a02a22446f0a58c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7080380797592947313, guid: d89beca040e15e541a02a22446f0a58c,
+        type: 3}
+      propertyPath: m_Name
+      value: ReplaceGhostMenu
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d89beca040e15e541a02a22446f0a58c, type: 3}
 --- !u!1 &403301823
 GameObject:
   m_ObjectHideFlags: 0
@@ -179793,6 +179861,16 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3650883820971461647, guid: 39c14e8a58fe62e4abd3676292cc3919,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3650883820971461647, guid: 39c14e8a58fe62e4abd3676292cc3919,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3942615558272759081, guid: 39c14e8a58fe62e4abd3676292cc3919,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -179894,6 +179972,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8957790514828179679, guid: 39c14e8a58fe62e4abd3676292cc3919,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9082417248116334632, guid: 39c14e8a58fe62e4abd3676292cc3919,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9082417248116334632, guid: 39c14e8a58fe62e4abd3676292cc3919,
         type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -180693,6 +180781,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   track: {fileID: 1364591157}
   voiceCullingOverride: 0
+  playsOutsideCombat: 0
 --- !u!82 &1364591159
 AudioSource:
   m_ObjectHideFlags: 0
@@ -180803,6 +180892,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   track: {fileID: 1364591159}
   voiceCullingOverride: 0
+  playsOutsideCombat: 0
 --- !u!82 &1364591161
 AudioSource:
   m_ObjectHideFlags: 0
@@ -180913,6 +181003,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   track: {fileID: 1364591161}
   voiceCullingOverride: 0
+  playsOutsideCombat: 0
 --- !u!82 &1364591163
 AudioSource:
   m_ObjectHideFlags: 0
@@ -181023,6 +181114,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   track: {fileID: 1364591163}
   voiceCullingOverride: 0
+  playsOutsideCombat: 0
 --- !u!82 &1364591165
 AudioSource:
   m_ObjectHideFlags: 0
@@ -181133,6 +181225,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   track: {fileID: 1364591165}
   voiceCullingOverride: 0
+  playsOutsideCombat: 0
 --- !u!82 &1364591167
 AudioSource:
   m_ObjectHideFlags: 0
@@ -181243,6 +181336,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   track: {fileID: 1364591167}
   voiceCullingOverride: 0
+  playsOutsideCombat: 0
 --- !u!82 &1364591169
 AudioSource:
   m_ObjectHideFlags: 0
@@ -181353,6 +181447,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   track: {fileID: 1364591169}
   voiceCullingOverride: 0
+  playsOutsideCombat: 0
 --- !u!82 &1364591171
 AudioSource:
   m_ObjectHideFlags: 0
@@ -181463,6 +181558,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   track: {fileID: 1364591171}
   voiceCullingOverride: 0
+  playsOutsideCombat: 0
 --- !u!82 &1364591173
 AudioSource:
   m_ObjectHideFlags: 0
@@ -181573,6 +181669,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   track: {fileID: 1364591173}
   voiceCullingOverride: 0
+  playsOutsideCombat: 0
 --- !u!82 &1364591175
 AudioSource:
   m_ObjectHideFlags: 0
@@ -181683,6 +181780,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   track: {fileID: 1364591175}
   voiceCullingOverride: 0
+  playsOutsideCombat: 0
 --- !u!82 &1364591177
 AudioSource:
   m_ObjectHideFlags: 0
@@ -181793,6 +181891,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   track: {fileID: 1364591177}
   voiceCullingOverride: 0
+  playsOutsideCombat: 0
 --- !u!82 &1364591179
 AudioSource:
   m_ObjectHideFlags: 0
@@ -181903,6 +182002,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   track: {fileID: 1364591179}
   voiceCullingOverride: 0
+  playsOutsideCombat: 0
 --- !u!82 &1364591181
 AudioSource:
   m_ObjectHideFlags: 0
@@ -182013,6 +182113,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   track: {fileID: 1364591181}
   voiceCullingOverride: 0
+  playsOutsideCombat: 0
 --- !u!82 &1364591183
 AudioSource:
   m_ObjectHideFlags: 0
@@ -182123,6 +182224,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   track: {fileID: 1364591183}
   voiceCullingOverride: 0
+  playsOutsideCombat: 0
 --- !u!82 &1364591185
 AudioSource:
   m_ObjectHideFlags: 0
@@ -182233,6 +182335,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   track: {fileID: 1364591185}
   voiceCullingOverride: 0
+  playsOutsideCombat: 0
 --- !u!82 &1364591187
 AudioSource:
   m_ObjectHideFlags: 0
@@ -182343,6 +182446,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   track: {fileID: 1364591187}
   voiceCullingOverride: 0
+  playsOutsideCombat: 0
 --- !u!1 &1418161119
 GameObject:
   m_ObjectHideFlags: 0
@@ -182627,6 +182731,7 @@ MonoBehaviour:
   customAmplitude: 1
   playerScreenShakeMultiplier: 2
   meagerAmplitude: 0.04
+  minorAmplitude: 0.06
   lightAmplitude: 0.2
   moderateAmplitude: 0.4
   heavyAmplitude: 0.8
@@ -182918,3 +183023,4 @@ SceneRoots:
   - {fileID: 2107705613}
   - {fileID: 1364591155}
   - {fileID: 64352310}
+  - {fileID: 313660472}

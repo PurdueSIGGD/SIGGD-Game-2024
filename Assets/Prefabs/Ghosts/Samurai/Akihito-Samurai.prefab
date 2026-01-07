@@ -482,7 +482,7 @@ MonoBehaviour:
   - name: Heavy Attack Cooldown Time
     value: 1
   - name: Wrath Percent Gain Per Damage Dealt
-    value: 0.5
+    value: 0.4
   - name: Wrath Percent Loss Per Damage Taken
     value: 1000
   - name: Wrath Decay Buffer
@@ -492,7 +492,7 @@ MonoBehaviour:
   - name: Melee Parry Base Damage
     value: 0
   - name: Melee Parry Bonus Damage per Incoming Attack Damage
-    value: 4
+    value: 3
   - name: Melee Parry Stun Time
     value: 0.8
   - name: Parry Success Special Cooldown
@@ -507,8 +507,11 @@ MonoBehaviour:
     value: 1
   - name: Parry Projectile Min Speed
     value: 40
+  - name: Special Energy Cost
+    value: 275
   defaultController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
   ghostController: {fileID: 9100000, guid: f32f8db40ef7cc14b84350e7507f9eb9, type: 2}
+  currentSpecialEnergy: 0
   heavyDamageContext:
     damageStrength: 3
     damageTypes: 00000000

@@ -30,7 +30,19 @@ public class ShieldPolice : EnemyStateManager
     [SerializeField] protected Sprite blockIcon;
     [SerializeField] protected Color blockMessageColor;
 
+    /*
     void OnDestroy()
+    {
+        GameplayEventHolder.OnDamageFilter.Remove(ShieldUpDamageFilter);
+    }
+    */
+
+    private void OnEnable()
+    {
+        GameplayEventHolder.OnDamageFilter.Add(ShieldUpDamageFilter);
+    }
+
+    private void OnDisable()
     {
         GameplayEventHolder.OnDamageFilter.Remove(ShieldUpDamageFilter);
     }
@@ -49,11 +61,11 @@ public class ShieldPolice : EnemyStateManager
     void ShieldHit()
     {
         print("CCCLANK chhhhhHHHH (the real sound of a kopesh hitting a shield)");
-        DamageNumberManager.instance.PlayMessage(this.gameObject, 0f, blockIcon, "Blocked!", blockMessageColor);
+        DamageNumberManager.instance.PlayMessage(gameObject, 0f, blockIcon, "Blocked!", blockMessageColor);
     }
     public void ShieldUpDamageFilter(ref DamageContext context)
     {
-        if (context.victim == null || context.victim != this.gameObject)
+        if (context.victim == null || context.victim != gameObject || !shieldUp)
         {
             return;
         }
@@ -84,12 +96,12 @@ public class ShieldPolice : EnemyStateManager
     void ShieldUp()
     {
         shieldUp = true;
-        GameplayEventHolder.OnDamageFilter.Add(ShieldUpDamageFilter);
+        //GameplayEventHolder.OnDamageFilter.Add(ShieldUpDamageFilter);
     }
     void ShieldDown()
     {
         shieldUp = false;
-        GameplayEventHolder.OnDamageFilter.Remove(ShieldUpDamageFilter);
+        //GameplayEventHolder.OnDamageFilter.Remove(ShieldUpDamageFilter);
     }
     public void IsTheStrangeInsectStillStandingRightInfrontOfMeLikeAnIdiotWhenImReadyAndReallyItchingToShieldBashTheirSkullIntoTheEarth()
     {
