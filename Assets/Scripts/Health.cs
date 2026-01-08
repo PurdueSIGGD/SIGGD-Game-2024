@@ -159,6 +159,12 @@ public class Health : MonoBehaviour, IDamageable, IStatList
             filter(ref context);
         }
 
+        if (currentHealth > 0f)
+        {
+            isAlive = true;
+            return;
+        }
+
         //Trigger Events
         GameplayEventHolder.OnDeath?.Invoke(context);
 

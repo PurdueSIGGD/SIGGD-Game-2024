@@ -33,8 +33,9 @@ public class GhostSlot : MonoBehaviour
     {
         if (ghostIdentity != null && otherGhost != null)
         {
-            PartyManager.instance.RemoveAllGhost();
-            PartyManager.instance.TryAddGhostToParty(otherGhost);
+            //PartyManager.instance.RemoveAllGhost();
+            //PartyManager.instance.TryAddGhostToParty(otherGhost);
+            PartyManager.instance.RemoveGhostFromParty(ghostIdentity);
             replaceGhostBehaviour.Chosen();
         }
     }

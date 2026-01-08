@@ -20,16 +20,20 @@ public class ReplaceGhostBehaviour : MonoBehaviour
     public void Start()
     {
         List<GhostIdentity> ghostsInParty = PartyManager.instance.GetGhostPartyList();
-        ghostSlot1.Visualize(ghostsInParty[0]);
-        ghostSlot2.Visualize(ghostsInParty[1]);
-        ghostSlot1.OtherGhost(ghostsInParty[1]);
-        ghostSlot2.OtherGhost(ghostsInParty[0]);
+        if (ghostsInParty.Count >= 2)
+        {
+            ghostSlot1.Visualize(ghostsInParty[0]);
+            ghostSlot2.Visualize(ghostsInParty[1]);
+            ghostSlot1.OtherGhost(ghostsInParty[1]);
+            ghostSlot2.OtherGhost(ghostsInParty[0]);
+        }
         gameObject.SetActive(false);
     }
 
     public void Choose()
     {
         gameObject.SetActive(true);
+        Debug.Log("Choose ghost to replace");
         PlayerID.instance.FreezePlayer();
     }
 
