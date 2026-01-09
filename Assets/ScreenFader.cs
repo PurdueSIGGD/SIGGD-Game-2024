@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -14,6 +13,8 @@ public class ScreenFader : MonoBehaviour
 
     [HideInInspector] public static ScreenFader instance;
 
+    private List<PlayerGhostUIManager> playerGhostUI;
+
     private SpriteRenderer spriteRenderer;
 
     private bool isFadingIn = false;
@@ -26,12 +27,17 @@ public class ScreenFader : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        playerGhostUI = new();
+        if (PlayerSelectedGhostUIManager.instance) playerGhostUI.Add(PlayerSelectedGhostUIManager.instance);
+        if (PlayerGhost1UIManager.instance) playerGhostUI.Add(PlayerGhost1UIManager.instance);
+        if (PlayerGhost2UIManager.instance) playerGhostUI.Add(PlayerGhost2UIManager.instance);
     }
 
     // Start is called before the first frame update
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+
         if (SceneManager.GetActiveScene().name.Equals("Eva Start Fractal Hub") ||
             SceneManager.GetActiveScene().name.Equals("HubWorld"))
         {
@@ -48,6 +54,7 @@ public class ScreenFader : MonoBehaviour
             // Update fade in
             float alpha = Mathf.Max(spriteRenderer.color.a - (fadeInRate * Time.deltaTime), 0f);
             spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, alpha);
+            FadeInPlayerUI(fadeInRate * Time.deltaTime);
 
             // End fade in
             if (alpha <= 0f)
@@ -63,6 +70,7 @@ public class ScreenFader : MonoBehaviour
             // Update fade out
             float alpha = Mathf.Min(spriteRenderer.color.a + (fadeOutRate * Time.deltaTime), 1f);
             spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, alpha);
+            FadeInPlayerUI(-fadeOutRate * Time.deltaTime);
 
             // End fade out
             if (alpha >= 1f)
@@ -88,6 +96,9 @@ public class ScreenFader : MonoBehaviour
 
     private IEnumerator FadeInCoroutine(float fadeInDelay, float fadeInDuration)
     {
+        if (fadeInDuration == 0) fadeInDuration = 1;
+
+        FadeInPlayerUI(-9999f); // force playerui to be invisible first
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.enabled = true;
         spriteRenderer.color = fullyFadedColor;
@@ -95,6 +106,17 @@ public class ScreenFader : MonoBehaviour
 
         fadeInRate = 1f / fadeInDuration;
         isFadingIn = true;
+    }
+
+    private void FadeInPlayerUI(float alpha)
+    {
+        foreach (PlayerGhostUIManager ui in playerGhostUI)
+        {
+            if (ui.gameObject.activeSelf)
+            {
+                ui.UpdateUIAlpha(alpha);
+            }
+        }
     }
 
 

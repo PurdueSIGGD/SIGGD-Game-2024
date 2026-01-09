@@ -18,6 +18,18 @@ public class PlayerUIVisibility : MonoBehaviour
         }
     }
 
+    //IEnumerator Start()
+    //{
+    //    if (ScreenFader.instance)
+    //    {
+    //        HidePlayerUI();
+    //        float waitTime = ScreenFader.instance.fadeInDelay + ScreenFader.instance.fadeInDuration;
+    //        yield return new WaitForSeconds(waitTime);
+    //        ShowPlayerUI();
+    //    }
+    //    yield return null;
+    //}
+
     public void ShowPlayerUI() 
     {
         PlayerSelectedGhostUIManager.instance.gameObject.SetActive(true);
