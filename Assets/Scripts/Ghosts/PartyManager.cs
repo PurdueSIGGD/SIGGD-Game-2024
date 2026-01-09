@@ -227,6 +227,8 @@ public class PartyManager : MonoBehaviour
         }
         if (lastGhostIndex == INVALID_INDEX)
         {
+            SaveManager.data.selectedGhost = selectedGhost = "Orion";
+            SwitchGhostToIndex(-1);
             return;
         }
         SwitchGhostToIndex(lastGhostIndex);

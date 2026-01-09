@@ -48,7 +48,8 @@ public class PlayerDeathManager : MonoBehaviour
     /// </summary>
     public void PlayDeathAnim()
     {
-        GetComponent<PartyManager>().SwitchGhostToIndex(-1);
+        party.SetSwappingEnabled(false);
+        party.SwitchGhostToIndex(-1);
         playerAnim.SetBool("died", true);
         playerAnim.SetTrigger("DED");
         camAnim.SetBool("isDead", true);
@@ -132,6 +133,7 @@ public class PlayerDeathManager : MonoBehaviour
         }
 
         camAnim.SetBool("isDead", false);
+        party.SetSwappingEnabled(true);
 
         // if every single ghost in the party doesn't have sacrifice, 
         // reset to hub world and reset everything else we changed in this script
