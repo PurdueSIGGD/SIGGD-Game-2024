@@ -359,12 +359,16 @@ MonoBehaviour:
   statList:
   - name: Basic Cooldown
     value: 10
+  - name: Basic Reactivation Cooldown
+    value: 0.3
   - name: Shield Max Health
     value: 50
   - name: Shield Health Regeneration Rate
-    value: 5
+    value: 3.34
   - name: Shield Health Cooldown Threshold
     value: 0
+  - name: Shield Damage Special Energy Generation Multiplier
+    value: 4
   - name: Shield Break Explosion Radius
     value: 4
   - name: Shield Break Damage
@@ -375,10 +379,14 @@ MonoBehaviour:
     value: 5
   - name: Shield Break Stun Duration
     value: 0.8
+  - name: Shield Break Invincibility Duration
+    value: 1
   - name: Special Cooldown
     value: 15
+  - name: Special Energy Cost
+    value: 550
   - name: Special Explosion Radius
-    value: 6
+    value: 7
   - name: Special Damage
     value: 20
   - name: Special Knockback Strength
@@ -386,11 +394,12 @@ MonoBehaviour:
   - name: Special Minimum Upward Knockback Strength
     value: 15
   - name: Special Stun Duration
-    value: 2.5
+    value: 3
   - name: Special Invincibility Duration
-    value: 1.5
+    value: 1
   defaultController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
   ghostController: {fileID: 9100000, guid: 46f9e2905c1205144afa58418a4214c5, type: 2}
+  currentSpecialEnergy: 0
   shieldBreakDamage:
     damageStrength: 1
     damageTypes: 02000000
@@ -424,6 +433,7 @@ MonoBehaviour:
   thrownShield: {fileID: 2625643298933911532, guid: 27fc0f4ee9697504d817bd9df15774aa,
     type: 3}
   hasShield: 0
+  isInvincibilityActive: 0
 --- !u!114 &4931953015635928933
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -521,11 +531,13 @@ MonoBehaviour:
   skillSO: {fileID: 11400000, guid: ade94862dbae6e14ebb09d008b70bb8d, type: 2}
   values:
   - 0
-  - 8
-  - 16
-  - 24
-  - 32
+  - 80
+  - 160
+  - 240
+  - 320
   pointIndex: 0
+  shieldHealthPercentRequired: 0.85
+  damageRadius: 2.5
   thornDamage:
     damageStrength: 0
     damageTypes: 03000000
@@ -536,6 +548,7 @@ MonoBehaviour:
   defenseIcon: {fileID: 21300000, guid: 150239b220dcdfe4c887a06a669c64bc, type: 3}
   thornsPulseVFX: {fileID: 7966241730260626198, guid: a5295bc6cb8948243b75f99e5a18cc48,
     type: 3}
+  isShieldHealthSufficient: 0
 --- !u!114 &4703010170985794943
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -565,10 +578,10 @@ MonoBehaviour:
   skillSO: {fileID: 11400000, guid: 10871f32fa678d3449929d863ea3f6d0, type: 2}
   values:
   - 0
+  - 6
   - 10
-  - 16
-  - 22
-  - 28
+  - 14
+  - 18
   pointIndex: 0
   pulseVFX: {fileID: 7966241730260626198, guid: a5295bc6cb8948243b75f99e5a18cc48,
     type: 3}
@@ -587,6 +600,7 @@ MonoBehaviour:
   skillSO: {fileID: 11400000, guid: e38ac9036d0cf1e4daa57576ff8cf247, type: 2}
   pointIndex: 0
   dmgNeeded: 3f420f00b80b0000c4090000d0070000dc050000
+  damageBlockedChargeMultiplier: 4
   damageBoost: 5
   knockbackBoost: 1.5
   radiusBoost: 1.5

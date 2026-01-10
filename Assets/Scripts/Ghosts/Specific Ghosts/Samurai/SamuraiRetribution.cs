@@ -42,6 +42,7 @@ public class SamuraiRetribution : MonoBehaviour
 
         if (manager != null)
         {
+            /*
             if (manager.getSpecialCooldown() > 0)
             {
                 psm.OnCooldown("c_special");
@@ -49,6 +50,15 @@ public class SamuraiRetribution : MonoBehaviour
             else
             {
                 psm.OffCooldown("c_special");
+            }
+            */
+            if (manager.getSpecialReady())
+            {
+                psm.OffCooldown("c_special");
+            }
+            else
+            {
+                psm.OnCooldown("c_special");
             }
         }
     }
@@ -109,10 +119,12 @@ public class SamuraiRetribution : MonoBehaviour
 
     public void StopParry()
     {
-        manager.startSpecialCooldown();
+        //manager.startSpecialCooldown();
+        manager.resetSpecialEnergy();
         if (parrySuccess || parryChaining)
         {
-            manager.setSpecialCooldown(manager.GetStats().ComputeValue("Parry Success Special Cooldown"));
+            //manager.setSpecialCooldown(manager.GetStats().ComputeValue("Parry Success Special Cooldown"));
+            manager.setSpecialEnergy(manager.GetStats().ComputeValue("Special Energy Cost"));
             manager.GetComponent<SamuraiUIDriver>().specialAbilityUIManager.pingAbility();
         }
         else

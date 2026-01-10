@@ -122,6 +122,7 @@ GameObject:
   - component: {fileID: 6310614689799863014}
   - component: {fileID: 3552109318664994722}
   - component: {fileID: 1378697742923806567}
+  - component: {fileID: 7557347780481226408}
   m_Layer: 21
   m_Name: Roomba
   m_TagString: Enemy
@@ -467,6 +468,19 @@ MonoBehaviour:
   stunDuration: 0.6
   currentStun: 0
   maxStun: 0
+--- !u!114 &7557347780481226408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1487853512614266132}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6835c333b8099247acf0cab08ba2fb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  energyPool: 35
 --- !u!1 &4301427481350538189
 GameObject:
   m_ObjectHideFlags: 0

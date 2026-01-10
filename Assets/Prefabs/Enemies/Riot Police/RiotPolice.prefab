@@ -51,6 +51,7 @@ GameObject:
   - component: {fileID: 6177127837925238846}
   - component: {fileID: 4140335944560281344}
   - component: {fileID: 2983644817223031086}
+  - component: {fileID: 8447618986618407617}
   m_Layer: 21
   m_Name: RiotPolice
   m_TagString: Enemy
@@ -375,6 +376,7 @@ MonoBehaviour:
   statList:
   - name: Stun Threshold
     value: 100
+  stunDuration: 0.6
   currentStun: 0
   maxStun: 0
 --- !u!114 &2983644817223031086
@@ -396,6 +398,19 @@ MonoBehaviour:
     actionTypes: 08000000
     extraContext: 
     ghostID: 0
+--- !u!114 &8447618986618407617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1393067818931581941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6835c333b8099247acf0cab08ba2fb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  energyPool: 100
 --- !u!1 &5483102994956988393
 GameObject:
   m_ObjectHideFlags: 0

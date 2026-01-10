@@ -13,5 +13,6 @@ public class ConvoData
     }
 
     public string convoName;
+    public string[] speakers = new string[2];
     public Line[] lines;
 }

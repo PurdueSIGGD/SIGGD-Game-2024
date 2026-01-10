@@ -37,7 +37,7 @@ public class OnBossDeath : MonoBehaviour
             SaveManager.data.orion = orionProgressTo;
         }
         Door.activateDoor(true);
-        if (convo)
+        if (convo != null)
         {
             DialogueManager dialogueManager = FindAnyObjectByType<DialogueManager>(FindObjectsInactive.Include);
             dialogueManager.StartDialogue(convo);

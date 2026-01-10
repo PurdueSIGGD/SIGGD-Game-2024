@@ -62,7 +62,11 @@ public class OnEnterBossRoom : DialogueTriggerBox
                 Debug.LogWarning("no era set");
                 break;
         }
-        if (activeStoryBeatGhosts.Count == 0) return;
+        if (activeStoryBeatGhosts.Count == 0)
+        {
+            active = false;
+            return;
+        }
         
         int rand = Random.Range(0, activeStoryBeatGhosts.Count);
         string storyGhost = activeStoryBeatGhosts[rand];

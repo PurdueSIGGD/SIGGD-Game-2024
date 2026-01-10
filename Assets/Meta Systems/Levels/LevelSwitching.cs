@@ -89,6 +89,8 @@ public class LevelSwitching : MonoBehaviour
         }
         else
         {
+            // disabled fade out now that we have loading screen
+
             // Fade out screen
             ScreenFader.instance.FadeOut();
             yield return new WaitForSeconds(ScreenFader.instance.fadeOutDuration + 0.1f);

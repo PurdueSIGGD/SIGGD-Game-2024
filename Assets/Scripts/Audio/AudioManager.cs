@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class AudioManager : MonoBehaviour {
 
@@ -21,6 +22,8 @@ public class AudioManager : MonoBehaviour {
     // Track 2 always plays and it's volume is greatest when energy = 0.5
     // Track 3 plays when energy is between 0.5 and 1.0 with greatest volume at energy = 1.0
     [SerializeField] float energyLevel;
+
+    [SerializeField] AudioMixer MusicMixer;
 
     void Awake()
     {
@@ -54,6 +57,16 @@ public class AudioManager : MonoBehaviour {
 
     // Used by tracks outside of audio to set the ~mood~
     public void SetEnergyLevel(float newLevel) { energyLevel = newLevel; }
+
+    public void GetMusicVolume(out float volume)
+    {
+        MusicMixer.GetFloat("MusicVolume", out volume);
+    }
+
+    public void SetMusicVolume(float volume)
+    {
+        MusicMixer.SetFloat("MusicVolume", volume);
+    }
 
     //private void TestAudioFunctions() {
     //    if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)) {

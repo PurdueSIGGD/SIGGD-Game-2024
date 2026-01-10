@@ -13,22 +13,29 @@ public class FeedbackLoop : Skill
 
     private int pointIndex;
 
-    private float accumulatedCooldownReduction;
+    //private float accumulatedCooldownReduction;
 
     void Start()
     {
         stats = gameObject.GetComponent<StatManager>();
         manager = gameObject.GetComponent<IdolManager>();
-        accumulatedCooldownReduction = 0f;
+        //accumulatedCooldownReduction = 0f;
     }
 
     private void Update()
     {
+        /*
         if (accumulatedCooldownReduction > 0f && manager.getSpecialCooldown() > 0f)
         {
             manager.setSpecialCooldown(manager.getSpecialCooldown() - accumulatedCooldownReduction);
             accumulatedCooldownReduction = 0f;
         }
+        */
+        if (GetPoints() <= 0) return;
+        if (manager.getSpecialReady()) return;
+        int tempoStacks = manager.passive.tempoStacks;
+        float energyChargeRate = manager.GetStats().ComputeValue("Special Energy Cost") * (values[pointIndex] / 100f) * tempoStacks;
+        manager.addSpecialEnergy(energyChargeRate * Time.deltaTime);
     }
 
     public override void AddPointTrigger()
@@ -48,6 +55,7 @@ public class FeedbackLoop : Skill
 
     public void reduceCooldown(bool guaranteeReduction)
     {
+        /*
         if (pointIndex <= 0) return;
         float cooldownReduction = stats.ComputeValue("Special Cooldown") * (values[pointIndex] / 100f);
         if (manager.getSpecialCooldown() > 0)
@@ -58,5 +66,6 @@ public class FeedbackLoop : Skill
         {
             accumulatedCooldownReduction += cooldownReduction;
         }
+        */
     }
 }

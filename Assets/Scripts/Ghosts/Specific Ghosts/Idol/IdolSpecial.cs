@@ -49,6 +49,7 @@ public class IdolSpecial : MonoBehaviour
     {
         if (manager != null)
         {
+            /*
             if (manager.getSpecialCooldown() > 0 || isSwitchOnCooldown)
             {
                 psm.OnCooldown("c_special");
@@ -56,6 +57,16 @@ public class IdolSpecial : MonoBehaviour
             else
             {
                 psm.OffCooldown("c_special");
+            }
+            */
+
+            if (manager.getSpecialReady() && !isSwitchOnCooldown)
+            {
+                psm.OffCooldown("c_special");
+            }
+            else
+            {
+                psm.OnCooldown("c_special");
             }
         }
 

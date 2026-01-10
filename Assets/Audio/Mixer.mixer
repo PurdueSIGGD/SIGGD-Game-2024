@@ -366,7 +366,9 @@ AudioMixerController:
   m_SuspendThreshold: -80
   m_EnableSuspend: 1
   m_UpdateMode: 0
-  m_ExposedParameters: []
+  m_ExposedParameters:
+  - guid: 5815e15c031a2f743b529cce93cdd5b7
+    name: MusicVolume
   m_AudioMixerGroupViews:
   - guids:
     - ba5200cb4c96c074c84193adb05bbd37
@@ -539,7 +541,7 @@ AudioMixerEffectController:
   m_Bypass: 0
 --- !u!244 &6643277010086890914
 AudioMixerEffectController:
-  m_ObjectHideFlags: 3
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}

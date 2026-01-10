@@ -153,6 +153,7 @@ GameObject:
   - component: {fileID: 4700818244904872880}
   - component: {fileID: 3397753109862796679}
   - component: {fileID: 2640131324163235134}
+  - component: {fileID: 5892818454689095529}
   m_Layer: 21
   m_Name: Survey Drone
   m_TagString: Enemy
@@ -510,6 +511,19 @@ MonoBehaviour:
     usesCircleHitbox: 0
     coolDown: 0
     animationClip: {fileID: 7400000, guid: 468a49c330cf0294486adcfa8c854b6e, type: 2}
+--- !u!114 &5892818454689095529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8652318323731026824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6835c333b8099247acf0cab08ba2fb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  energyPool: 35
 --- !u!1001 &1498013908851705233
 PrefabInstance:
   m_ObjectHideFlags: 0

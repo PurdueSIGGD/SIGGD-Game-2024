@@ -22,6 +22,8 @@ public class EraDoor : MonoBehaviour
     [SerializeField] int ghostTwoStoryBeatOne = 6;
     [SerializeField] int ghostTwoStoryBeatTwo = 6;
     [SerializeField] int maxLevels = 30;
+    [SerializeField] bool resetParty = false;
+    [SerializeField] PartyManagerUI partyManagerUI;
 
     private const string NORTH_NAME = "North-Police_Chief";
     private const string EVA_NAME = "Eva-Idol";
@@ -29,6 +31,8 @@ public class EraDoor : MonoBehaviour
     private const string YUME_NAME = "Yume-Seamstress";
     private const string SILAS_NAME = "Silas-PlagueDoc";
     private const string AEGIS_NAME = "Aegis-King";
+
+    private bool paired = false;
 
 
     // Rough progression of story progress:
@@ -51,6 +55,12 @@ public class EraDoor : MonoBehaviour
         Story_Beat_3 = 6
     }
 
+    private void Start()
+    {
+        if (resetParty)
+            GetComponent<Door>().DontTeleport();
+    }
+
     void DoorOpened()
     {
         LevelSwitching.instance.ResetLevel();
@@ -59,6 +69,15 @@ public class EraDoor : MonoBehaviour
         LevelSwitching.levels = levels;
         LevelSwitching.specificLevels = specificLevels.ToArray();
         EnemySpawning.enemies = enemies;
+        if (resetParty)
+        {
+            partyManagerUI.OpenPartyMenu();
+            if (!paired)
+            {
+                partyManagerUI.onGhostSelected += GetComponent<Door>().Teleport;
+                paired = true;
+            }
+        }
     }
 
     private void InjectStoryBeat()

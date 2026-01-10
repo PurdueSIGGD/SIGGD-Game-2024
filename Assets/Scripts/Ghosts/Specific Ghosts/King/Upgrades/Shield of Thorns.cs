@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 /// <summary>
 /// While Radiant Shield is at full health, a portion of damage that 
@@ -21,9 +22,13 @@ public class ShieldOfThorns : Skill
     private KingManager manager;
     private KingBasic basic;
 
+    [SerializeField] public float shieldHealthPercentRequired = 10f;
+    [SerializeField] private float damageRadius = 4f;
     [SerializeField] private DamageContext thornDamage;
     [SerializeField] private Sprite defenseIcon;
     [SerializeField] private GameObject thornsPulseVFX;
+
+    [HideInInspector] public bool isShieldHealthSufficient = false;
 
     private void OnEnable()
     {
@@ -53,7 +58,8 @@ public class ShieldOfThorns : Skill
 
         if (manager.selected && pointIndex > 0)
         {
-            if (manager.currentShieldHealth >= manager.GetStats().ComputeValue("Shield Max Health")) PlayerParticles.instance.PlayGhostBadBuff(GetComponent<GhostIdentity>().GetCharacterInfo().whiteColor, 1f, 1f);
+            isShieldHealthSufficient = (manager.currentShieldHealth >= (manager.GetStats().ComputeValue("Shield Max Health") * shieldHealthPercentRequired));
+            if (isShieldHealthSufficient && manager.basic != null && manager.basic.isShielding) PlayerParticles.instance.PlayGhostBadBuff(GetComponent<GhostIdentity>().GetCharacterInfo().whiteColor, 1f, 1f);
             else PlayerParticles.instance.StopGhostBadBuff();
         }
     }
@@ -79,7 +85,7 @@ public class ShieldOfThorns : Skill
                   ", Shield up: " + manager.basic.isShielding);
 #endif
 
-        if (manager.currentShieldHealth < manager.GetStats().ComputeValue("Shield Max Health"))
+        if (!isShieldHealthSufficient || (manager.basic != null && !manager.basic.isShielding))
         {
             return;
         }
@@ -98,19 +104,22 @@ public class ShieldOfThorns : Skill
 
         // VFX & SFX
         GameObject thornsPulse = Instantiate(thornsPulseVFX, PlayerID.instance.transform.position, Quaternion.identity);
-        thornsPulse.GetComponent<RingExplosionHandler>().playRingExplosion(2.5f, GetComponent<GhostIdentity>().GetCharacterInfo().whiteColor);
+        thornsPulse.GetComponent<RingExplosionHandler>().playRingExplosion(damageRadius, GetComponent<GhostIdentity>().GetCharacterInfo().whiteColor);
         AudioManager.Instance.SFXBranch.PlaySFXTrack("Aegis-Thorns Damage");
 
         // Calculate damage that will be reflected
 
-        float damageReflected = 5f * context.damage * (values[pointIndex] / 100f);
+        //float damageReflected = 5f * context.damage * (values[pointIndex] / 100f);
+        float damageReflected = context.damage * (values[pointIndex] / 100f);
 
         // Reduce damage
+        /*
         context.damage *= ((100f - values[pointIndex]) / 100f);
         context.icon = defenseIcon;
         context.extraContext = "Thorns";
+        */
 
-        if (!context.damageTypes.Contains(DamageType.MELEE)) return;
+        //if (!context.damageTypes.Contains(DamageType.MELEE)) return;
 
         /*
         DamageContext newContext = new DamageContext();
@@ -127,7 +136,14 @@ public class ShieldOfThorns : Skill
         Debug.Log("Shield of Thorns: Reflected " + 8 * GetPoints() + "% damage to " + context.attacker);
 #endif
 
-        context.attacker.GetComponent<Health>().Damage(thornDamage, context.victim);
+        //context.attacker.GetComponent<Health>().Damage(thornDamage, context.victim);
+
+        // Affect enemies
+        Collider2D[] enemies = Physics2D.OverlapCircleAll(PlayerID.instance.transform.position, damageRadius, LayerMask.GetMask("Enemy"));
+        foreach (Collider2D enemy in enemies)
+        {
+            enemy.gameObject.GetComponent<Health>().Damage(thornDamage, context.victim);
+        }
 
 #if DEBUG_LOG
         // not sure why this is not printing FIXME
