@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -58,14 +59,24 @@ public class BossExitDoor : Door
     {
         if (convo)
         {
-            DialogueManager dialogueManager = FindAnyObjectByType<DialogueManager>(FindObjectsInactive.Include);
-            dialogueManager.StartDialogue(convo);
-            doorLock = convo.data.convoName;
+            try
+            {
+                DialogueManager dialogueManager = FindAnyObjectByType<DialogueManager>(FindObjectsInactive.Include);
+                dialogueManager.StartDialogue(convo);
+                doorLock = convo.data.convoName;
+            }
+            catch (Exception e)
+            {
+                PersistentData.Instance.GetComponent<SpiritTracker>().SaveSpiritCountsNoUI();
+                SaveManager.instance.Save();
+                StartCoroutine(FadeToHub());
+                Debug.LogError("Failed to start dialogue: " + convo + " exception: " + e);
+            }
         }
         else
         {
-            SaveManager.instance.Save();
             PersistentData.Instance.GetComponent<SpiritTracker>().SaveSpiritCountsNoUI();
+            SaveManager.instance.Save();
             StartCoroutine(FadeToHub());
         }
     }

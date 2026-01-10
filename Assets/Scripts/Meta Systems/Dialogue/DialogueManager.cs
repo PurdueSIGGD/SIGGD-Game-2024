@@ -195,6 +195,11 @@ public class DialogueManager : MonoBehaviour, IScreenUI
     /// </summary>
     public void StartDialogue(ConvoSO conversationToRun)
     {
+        if (conversationToRun == null)
+        {
+            Debug.LogError("cannot play null conversation");
+            return;
+        }
 
         if (!isRunning)
         {
