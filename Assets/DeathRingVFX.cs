@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
@@ -42,7 +43,7 @@ public class DeathRingVFX : MonoBehaviour
 
     [HideInInspector] public static DeathRingVFX instance;
 
-    private SpriteRenderer spriteRenderer;
+    private Image image;
 
     private bool isFadingIn = false;
     private float fadeInRate = 0f;
@@ -70,7 +71,7 @@ public class DeathRingVFX : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        image = GetComponent<Image>();
         postProcessingVolume.profile.TryGet(out chromaticAbberation);
         if (SceneManager.GetActiveScene().name.Equals("Eva Start Fractal Hub") ||
             SceneManager.GetActiveScene().name.Equals("HubWorld"))
@@ -86,16 +87,16 @@ public class DeathRingVFX : MonoBehaviour
         if (isFadingIn)
         {
             // Update fade in
-            float alpha = Mathf.Max(spriteRenderer.color.a - (fadeInRate * Time.deltaTime), 0f);
-            spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, alpha);
+            float alpha = Mathf.Max(image.color.a - (fadeInRate * Time.deltaTime), 0f);
+            image.color = new Color(image.color.r, image.color.g, image.color.b, alpha);
 
             // End fade in
             if (alpha <= 0f)
             {
                 isReviveSpinning = false;
                 isFadingIn = false;
-                spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 0f);
-                spriteRenderer.enabled = false;
+                image.color = new Color(image.color.r, image.color.g, image.color.b, 0f);
+                image.enabled = false;
             }
         }
 
@@ -109,8 +110,8 @@ public class DeathRingVFX : MonoBehaviour
         if (isFadingOut)
         {
             // Update fade out
-            float alpha = Mathf.Min(spriteRenderer.color.a + (fadeOutRate * Time.deltaTime), 1f);
-            spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, alpha);
+            float alpha = Mathf.Min(image.color.a + (fadeOutRate * Time.deltaTime), 1f);
+            image.color = new Color(image.color.r, image.color.g, image.color.b, alpha);
 
             // End fade out
             if (alpha >= partiallyFadedOpacity)
@@ -118,7 +119,7 @@ public class DeathRingVFX : MonoBehaviour
                 isDeathSpinning = false;
                 transform.eulerAngles = new Vector3(0f, 0f, 0f);
                 isFadingOut = false;
-                spriteRenderer.enabled = true;
+                image.enabled = true;
                 FullFadeOut();
 
                 // VFX
@@ -131,14 +132,14 @@ public class DeathRingVFX : MonoBehaviour
         if (isFullFadingOut)
         {
             // Update fade out
-            float alpha = Mathf.Min(spriteRenderer.color.a + (fadeOutRate * Time.deltaTime), 1f);
-            spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, alpha);
+            float alpha = Mathf.Min(image.color.a + (fadeOutRate * Time.deltaTime), 1f);
+            image.color = new Color(image.color.r, image.color.g, image.color.b, alpha);
 
             // End fade out
             if (alpha >= 1f)
             {
                 isFullFadingOut = false;
-                spriteRenderer.enabled = true;
+                image.enabled = true;
             }
         }
 
@@ -204,9 +205,9 @@ public class DeathRingVFX : MonoBehaviour
 
     public void PlayReviveAnimation()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        spriteRenderer.enabled = true;
-        spriteRenderer.color = fullyFadedColor;
+        image = GetComponent<Image>();
+        image.enabled = true;
+        image.color = fullyFadedColor;
         ScreenFader.instance.FadeIn(1.5f, 1f);
         StartReviveSpin();
         DropChromaticAbberation();
@@ -216,9 +217,9 @@ public class DeathRingVFX : MonoBehaviour
 
     public void PlaySacReviveAnimation()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        spriteRenderer.enabled = true;
-        spriteRenderer.color = fullyFadedColor;
+        image = GetComponent<Image>();
+        image.enabled = true;
+        image.color = fullyFadedColor;
         ScreenFader.instance.FadeIn(1.5f, 1f);
         reviveSpinDuration = 1.5f;
         reviveSpinCoefficient = -10f;
@@ -244,9 +245,9 @@ public class DeathRingVFX : MonoBehaviour
 
     private IEnumerator FadeInCoroutine(float fadeInDelay, float fadeInDuration)
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        spriteRenderer.enabled = true;
-        spriteRenderer.color = fullyFadedColor;
+        image = GetComponent<Image>();
+        image.enabled = true;
+        image.color = fullyFadedColor;
         yield return new WaitForSeconds(fadeInDelay);
 
         fadeInRate = 1f / fadeInDuration;
@@ -283,9 +284,9 @@ public class DeathRingVFX : MonoBehaviour
 
     private IEnumerator FadeOutCoroutine(float fadeOutDelay, float fadeOutDuration)
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        spriteRenderer.enabled = true;
-        spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, 0f);
+        image = GetComponent<Image>();
+        image.enabled = true;
+        image.color = new Color(image.color.r, image.color.g, image.color.b, 0f);
         yield return new WaitForSeconds(fadeOutDelay);
 
         fadeOutRate = partiallyFadedOpacity / fadeOutDuration;
@@ -306,11 +307,11 @@ public class DeathRingVFX : MonoBehaviour
 
     private IEnumerator FullFadeOutCoroutine(float fadeOutDelay, float fadeOutDuration)
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        spriteRenderer.enabled = true;
+        image = GetComponent<Image>();
+        image.enabled = true;
         yield return new WaitForSeconds(fadeOutDelay);
 
-        fadeOutRate = (1f - spriteRenderer.color.a) / fadeOutDuration;
+        fadeOutRate = (1f - image.color.a) / fadeOutDuration;
         isFullFadingOut = true;
     }
 
