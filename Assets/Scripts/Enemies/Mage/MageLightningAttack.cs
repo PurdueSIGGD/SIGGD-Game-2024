@@ -18,6 +18,8 @@ public class MageLightningAttack : MonoBehaviour
     bool followPlayer;
     bool lightningActive;
 
+    private GameObject target;
+
     
 
     private void Awake()
@@ -33,17 +35,27 @@ public class MageLightningAttack : MonoBehaviour
             ringGameObject.transform.Rotate(0, 0, ringSpinSpeed);
         }
         // follow player
-        if (followPlayer && PlayerID.instance.gameObject)
+        /*
+        if (followPlayer && target != null)
         {
-            transform.position = PlayerID.instance.gameObject.transform.position;
+            transform.position = target.transform.position;
+        }
+        */
+
+        if (target == PlayerID.instance.gameObject && target.GetComponent<Invisible>() != null) return;
+        if (followPlayer && target != null)
+        {
+            RaycastHit2D hit = Physics2D.Raycast(target.transform.position, Vector2.down, 20f, LayerMask.GetMask("Ground"));
+            transform.position = hit.point + (0.5f * Vector2.up);
         }
     }
 
     // Sets all instance variables and updates position (similar to a constructor)
     // Invoke this method right after instantiating this GameObject
-    public void Initialize(Vector2 attackPosition, float attackRadius, DamageContext damageContext, GameObject sourceMage)
+    public void Initialize(GameObject target, float attackRadius, DamageContext damageContext, GameObject sourceMage)
     {
-        this.attackPosition = attackPosition;
+        this.target = target;
+        this.attackPosition = target.transform.position;
         this.attackRadius = attackRadius;
         this.damageContext = damageContext;
         this.sourceMage = sourceMage;
@@ -51,6 +63,8 @@ public class MageLightningAttack : MonoBehaviour
         lightningActive = false;
 
         transform.position = attackPosition;  // update position
+
+        ringSpriteRenderer.color = new Color(0f, 0f, 0f, 0f);
 
         UpdateSpriteSize();  // update the sprite 
     }

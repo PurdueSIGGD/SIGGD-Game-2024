@@ -35,10 +35,15 @@ public class MageFire : EnemyStateManager
 
     public void Update()
     {
-        // manually flip the mage to face the player
-        if (player != null)
+        // manually flip the mage to face the target
+        GameObject target = player.gameObject;
+        if (!IsCurrentTargetPlayer())
         {
-            if (player.position.x - transform.position.x < 0)
+            target = GetCurrentTarget();
+        }
+        if (target != null)
+        {
+            if (target.transform.position.x - transform.position.x < 0)
             {
                 Flip(false);
             }
@@ -50,8 +55,13 @@ public class MageFire : EnemyStateManager
     }
     public void FireFireBall()
     {
+        GameObject target = player.gameObject;
+        if (!IsCurrentTargetPlayer())
+        {
+            target = GetCurrentTarget();
+        }
         MageFireBallAttack ball = Instantiate(fireballPrefab, transform.position, Quaternion.identity).GetComponent<MageFireBallAttack>();
-        ball.Initialize(player.gameObject, this.gameObject);
+        ball.Initialize(target, this.gameObject);
     }
     /*
     public override bool HasLineOfSight(bool tracking)

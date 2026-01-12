@@ -46,10 +46,15 @@ public class MageIce : EnemyStateManager
 
     void Update()
     {
-        // manually flip the mage to face the player
-        if (player != null)
+        // manually flip the mage to face the target
+        GameObject target = player.gameObject;
+        if (!IsCurrentTargetPlayer())
         {
-            if (player.position.x - transform.position.x < 0)
+            target = GetCurrentTarget();
+        }
+        if (target != null)
+        {
+            if (target.transform.position.x - transform.position.x < 0)
             {
                 Flip(false);
             }
@@ -66,6 +71,11 @@ public class MageIce : EnemyStateManager
     }
     IEnumerator IceAttackCoroutine(Transform[] icePositions)
     {
+        GameObject target = player.gameObject;
+        if (!IsCurrentTargetPlayer())
+        {
+            target = GetCurrentTarget();
+        }
         iceShards = new List<GameObject>();
         foreach (Transform icePos in icePositions)
         {
@@ -73,7 +83,7 @@ public class MageIce : EnemyStateManager
                 continue;
 
             MageIceShardAttack ice = Instantiate(iceShardPrefab, icePos.position, Quaternion.identity).GetComponent<MageIceShardAttack>();
-            ice.Initialize(player.gameObject, this.gameObject);
+            ice.Initialize(target, this.gameObject);
             iceShards.Add(ice.gameObject);
             yield return new WaitForSeconds(iceAttackIntervalSec);
         }
@@ -107,6 +117,7 @@ public class MageIce : EnemyStateManager
 
     private IEnumerator LaunchAttackCoroutine()
     {
+        if (iceShards == null || iceShards.Count <= 0) yield break;
         foreach (GameObject iceShard in iceShards)
         {
             if (iceShard == null) continue;
@@ -119,6 +130,8 @@ public class MageIce : EnemyStateManager
 
     private void CancelChargeUp()
     {
+        StopAllCoroutines();
+        if (iceShards == null || iceShards.Count <= 0) return;
         foreach (GameObject iceShard in iceShards)
         {
             if (iceShard == null) continue;

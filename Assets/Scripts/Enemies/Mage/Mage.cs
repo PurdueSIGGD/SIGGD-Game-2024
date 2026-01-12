@@ -62,10 +62,15 @@ public class Mage : EnemyStateManager
 
     public void Update()
     {
-        // manually flip the mage to face the player
-        if (lightningObject == null || lightningScript.IsFollowing())
+        // manually flip the mage to face the target
+        GameObject target = player.gameObject;
+        if (!IsCurrentTargetPlayer())
         {
-            if (player.position.x - transform.position.x < 0)
+            target = GetCurrentTarget();
+        }
+        if (target != null && (lightningObject == null || lightningScript.IsFollowing()))
+        {
+            if (target.transform.position.x - transform.position.x < 0)
             {
                 Flip(false);
             }
@@ -78,11 +83,17 @@ public class Mage : EnemyStateManager
 
     public void StartCharge()
     {
-        lightningObject = Instantiate(lightningPrefab, player.position, Quaternion.identity);
+        GameObject target = player.gameObject;
+        if (!IsCurrentTargetPlayer())
+        {
+            target = GetCurrentTarget();
+        }
+
+        lightningObject = Instantiate(lightningPrefab, target.transform.position, Quaternion.identity);
         lightningScript = lightningObject.GetComponent<MageLightningAttack>();
 
         lightningDamage.damage = stats.ComputeValue("Damage");
-        lightningScript.Initialize(player.position, lightningRadius, lightningDamage, gameObject);
+        lightningScript.Initialize(target, lightningRadius, lightningDamage, gameObject);
         if (async)
         {
             lightningScript.StartIndependentSequence(followTimeSec, warningTimeSec, lightningTimeSec);
