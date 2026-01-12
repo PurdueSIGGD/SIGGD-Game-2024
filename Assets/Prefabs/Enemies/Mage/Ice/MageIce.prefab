@@ -209,7 +209,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   isPinkAndProud: 0
   isFlyer: 0
-  aggroRange: 0
+  aggroRange: 12
   isBeingKnockedBack: 0
   grounded: 0
   groundedRayCheckLength: 1
@@ -221,6 +221,8 @@ MonoBehaviour:
     type: 3}
   iceAttackIntervalSec: 0.1
   lineOfSightTriggerBox: {fileID: 2179027480825402844}
+  projectile: {fileID: 5156741841575326909, guid: b2e74e1b8c77b9c4c9b5256866858a4a,
+    type: 3}
 --- !u!114 &4299196913714008640
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -236,13 +238,21 @@ MonoBehaviour:
   enemy: {fileID: 0}
   actions:
   - name: Mage_CastShards
+    priority: 3
+    ready: 1
+    hitBox: {fileID: 5571183243266569233}
+    usesCircleHitbox: 1
+    coolDown: 7
+    respectHitboxOnCooldown: 1
+    animationClip: {fileID: 7400000, guid: 0f752571527c38543a4a062bcfacbdd0, type: 2}
+  - name: Mage_CastShards
     priority: 1
     ready: 1
     hitBox: {fileID: 5571183243266569233}
     usesCircleHitbox: 1
-    coolDown: 5
+    coolDown: 2
     respectHitboxOnCooldown: 1
-    animationClip: {fileID: 7400000, guid: 0f752571527c38543a4a062bcfacbdd0, type: 2}
+    animationClip: {fileID: 7400000, guid: 893c0773c0b4015498e7de149d4d5d5f, type: 2}
   move:
     name: none
     priority: 0
@@ -509,7 +519,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 8, y: 8, z: 8}
+  m_LocalScale: {x: 13, y: 13, z: 1.0833334}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1684414794241371600}

@@ -218,6 +218,8 @@ MonoBehaviour:
   fireballPrefab: {fileID: 7853376000210057257, guid: 8db0fad255424f74fb22c97b1995588f,
     type: 3}
   lineOfSightTriggerBox: {fileID: 2179027480825402844}
+  projectile: {fileID: 5156741841575326909, guid: dcd9a568d6b69ea4a8e1c9b038ec3b8c,
+    type: 3}
 --- !u!114 &4299196913714008640
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -233,13 +235,21 @@ MonoBehaviour:
   enemy: {fileID: 0}
   actions:
   - name: Mage_FireFireBall
+    priority: 3
+    ready: 1
+    hitBox: {fileID: 5571183243266569233}
+    usesCircleHitbox: 1
+    coolDown: 7
+    respectHitboxOnCooldown: 1
+    animationClip: {fileID: 7400000, guid: 3b0f3930d8a68e84f831c30d4c07927b, type: 2}
+  - name: MageFire_Basic
     priority: 1
     ready: 1
     hitBox: {fileID: 5571183243266569233}
     usesCircleHitbox: 1
-    coolDown: 6
+    coolDown: 2
     respectHitboxOnCooldown: 1
-    animationClip: {fileID: 7400000, guid: 3b0f3930d8a68e84f831c30d4c07927b, type: 2}
+    animationClip: {fileID: 7400000, guid: 835aa65ac3d41ae4da1dce9e7fdfbe04, type: 2}
   move:
     name: none
     priority: 0
@@ -292,7 +302,7 @@ MonoBehaviour:
   - name: Speed
     value: 0
   - name: Damage
-    value: 10
+    value: 5
   - name: Pause Timer Duration Min
     value: 1
   - name: Pause Timer Duration Max
@@ -506,7 +516,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 12, y: 12, z: 12}
+  m_LocalScale: {x: 13, y: 13, z: 1.3}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1684414794241371600}

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -26,6 +27,38 @@ public class Mage : EnemyStateManager
     [SerializeField] float warningTimeSec = 1f;
     [SerializeField] float lightningTimeSec = 0.33f;
     [SerializeField] bool async; // if true, lightning attack sequence is decoupled from mage casting animation events
+
+
+
+    [Header("Basic Projectile")]
+    [SerializeField] private GameObject projectile;
+    private Vector3 throwPosition = Vector3.zero;
+
+    public void StartBasic()
+    {
+        throwPosition = PlayerID.instance.transform.position;
+        if (!IsCurrentTargetPlayer())
+        {
+            throwPosition = GetCurrentTarget().transform.position;
+        }
+    }
+
+    public void FireProjectile()
+    {
+        Instantiate(projectile, (transform.position + (0.5f * Vector3.right)), transform.rotation).GetComponent<EnemyProjectile>().Init(gameObject, throwPosition);
+    }
+
+
+
+    private void OnEnable()
+    {
+        GameplayEventHolder.OnEntityStunned += OnMageStunned;
+    }
+
+    private void OnDisable()
+    {
+        GameplayEventHolder.OnEntityStunned -= OnMageStunned;
+    }
 
     public void Update()
     {
@@ -77,11 +110,13 @@ public class Mage : EnemyStateManager
         lightningScript = null;
     }
 
+    /*
     public override bool HasLineOfSight(bool tracking)
     {
         // override L.O.S. calculation to be really super generous to the mage rather than require direct L.O.S.
         return Physics2D.OverlapCircle(chargeTriggerBox.transform.position, chargeTriggerBox.transform.lossyScale.x, LayerMask.GetMask("Player")) || base.HasLineOfSight(tracking);
     }
+    */
 
     // Draws the Mage's attack range
     protected override void OnDrawGizmos()
@@ -91,6 +126,15 @@ public class Mage : EnemyStateManager
     }
     void OnDestroy()
     {
+        if (lightningScript && !async)
+        {
+            lightningScript.MageDeathHandler();
+        }
+    }
+
+    public void OnMageStunned(GameObject stunnedEntity)
+    {
+        if (stunnedEntity != gameObject) return;
         if (lightningScript && !async)
         {
             lightningScript.MageDeathHandler();

@@ -18,6 +18,8 @@ public class MageLightningAttack : MonoBehaviour
     bool followPlayer;
     bool lightningActive;
 
+    
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -103,6 +105,8 @@ public class MageLightningAttack : MonoBehaviour
     {
         Destroy(gameObject);
     }
+
+
 
     /// <summary>
     /// Trigger an automatic sequence if mage dies while spell is active.

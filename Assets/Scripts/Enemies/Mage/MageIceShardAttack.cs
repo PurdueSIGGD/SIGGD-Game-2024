@@ -10,7 +10,7 @@ public class MageIceShardAttack : EnemyProjectile
     GameObject initialTarget;
     GameObject attacker;
     Vector3 targetPos;
-    bool launched;
+    public bool launched;
 
     public void Initialize(GameObject targetObj, GameObject attacker)
     {
@@ -23,12 +23,14 @@ public class MageIceShardAttack : EnemyProjectile
 
     void Update()
     {
+        /*
         if (!launched && chargeTimeSec > 0)
             chargeTimeSec -= Time.deltaTime;
         else
         {
             Launch();
         }
+        */
     }
 
     new void FixedUpdate()
@@ -43,14 +45,14 @@ public class MageIceShardAttack : EnemyProjectile
         }
     }
 
-    void Launch()
+    public void Launch()
     {
         launched = true;
         transform.parent = null;
         GetComponent<BoxCollider2D>().excludeLayers = launchedCollisionExcludeLayers;
     }
 
-    void Track()
+    private void Track()
     {
         if (initialTarget != null)
         {

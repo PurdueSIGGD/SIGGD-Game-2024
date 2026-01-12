@@ -208,7 +208,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   isPinkAndProud: 0
   isFlyer: 0
-  aggroRange: 10
+  aggroRange: 12
   isBeingKnockedBack: 0
   grounded: 1
   groundedRayCheckLength: 1
@@ -229,7 +229,9 @@ MonoBehaviour:
   followTimeSec: 1
   warningTimeSec: 0.85
   lightningTimeSec: 0.25
-  async: 1
+  async: 0
+  projectile: {fileID: 5156741841575326909, guid: fba7cfebd09020a4a9c3d578c50f4048,
+    type: 3}
 --- !u!114 &4299196913714008640
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -245,13 +247,21 @@ MonoBehaviour:
   enemy: {fileID: 0}
   actions:
   - name: Mage_Charging
-    priority: 1
+    priority: 3
     ready: 1
     hitBox: {fileID: 5571183243266569233}
     usesCircleHitbox: 1
     coolDown: 7
     respectHitboxOnCooldown: 1
     animationClip: {fileID: 7400000, guid: 54fd68bd84de2c64c99eb119f9697135, type: 2}
+  - name: Mage_Basic
+    priority: 1
+    ready: 1
+    hitBox: {fileID: 5571183243266569233}
+    usesCircleHitbox: 1
+    coolDown: 2
+    respectHitboxOnCooldown: 1
+    animationClip: {fileID: 7400000, guid: aa6b2eb2c7bc7364b89d189891be94b8, type: 2}
   move:
     name: none
     priority: 0
