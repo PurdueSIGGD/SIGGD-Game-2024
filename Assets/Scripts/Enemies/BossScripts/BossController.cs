@@ -7,7 +7,7 @@ public class BossController : MonoBehaviour
 {
 
     [Header("Spawning and Enemy parameters")]
-    [SerializeField] protected bool startSpawn;
+    [SerializeField] protected bool bossActivated = false;
     EnemySpawning enemySpawner;
     bool waveSpawningEnabled = false;
     [SerializeField] int lowEnemyThreshold; // inclusive
@@ -49,13 +49,6 @@ public class BossController : MonoBehaviour
     }
     public void Update()
     {
-        if (startSpawn)
-        {
-            StartWaveSpawning();
-            StartPassiveSpawning();
-            startSpawn = false;
-        }
-
         if (waveSpawningEnabled)
         {
             int numEnemies = GetNumEnemies();
@@ -81,10 +74,11 @@ public class BossController : MonoBehaviour
             }
         }
     }
-
     public virtual void EnableAI()
     {
-        startSpawn = true;
+        StartWaveSpawning();
+        StartPassiveSpawning();
+        bossActivated = true;
     }
 
     public void EnableInvincibility()
