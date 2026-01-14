@@ -209,7 +209,6 @@ public class PartyManagerUI : MonoBehaviour
 
     public void StartRun()
     {
-        ClosePartyMenu();
         onGhostSelected?.Invoke();
     }
 
