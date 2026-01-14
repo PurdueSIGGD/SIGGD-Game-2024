@@ -51,6 +51,8 @@ GameObject:
   - component: {fileID: 8675166827137029948}
   - component: {fileID: 998639061161291738}
   - component: {fileID: 3342256117467447547}
+  - component: {fileID: 4695193892124041868}
+  - component: {fileID: 7292645810451783457}
   m_Layer: 21
   m_Name: Cleric
   m_TagString: Enemy
@@ -244,6 +246,8 @@ MonoBehaviour:
   grounded: 1
   groundedRayCheckLength: 1
   enableStunning: 1
+  disableNormalStates: 0
+  currentTarget: {fileID: 0}
   swingContactBox: {fileID: 6722717173434858109}
   swingContext:
     damageStrength: 0
@@ -252,10 +256,10 @@ MonoBehaviour:
     actionTypes: 
     extraContext: 
     ghostID: 0
-  swingDamage: 5
+  swingDamage: 10
   swingVisual: {fileID: 7349316861952782752}
   channelTriggerBox: {fileID: 1986142665454310588}
-  maxChannelRadius: 15
+  maxChannelRadius: 30
   bubble: {fileID: 8985519509906945407, guid: 3786d48ed23cb20459a0b41b46dec86d, type: 3}
   bubbleMissCooldown: 1
 --- !u!114 &4982090033555401577
@@ -273,18 +277,20 @@ MonoBehaviour:
   enemy: {fileID: 0}
   actions:
   - name: swing
-    priority: 1
+    priority: 5
     ready: 1
     hitBox: {fileID: 6722717173434858109}
     usesCircleHitbox: 0
     coolDown: 3
+    respectHitboxOnCooldown: 1
     animationClip: {fileID: 7400000, guid: 84599de1cc9da2a4ea39f70243890704, type: 2}
   - name: bubble
-    priority: 5
+    priority: 1
     ready: 1
     hitBox: {fileID: 4944585375890722224}
     usesCircleHitbox: 1
-    coolDown: 12
+    coolDown: 3
+    respectHitboxOnCooldown: 1
     animationClip: {fileID: 7400000, guid: ee6250f7e50535d45867c9d8c62c1417, type: 2}
   move:
     name: 
@@ -293,6 +299,7 @@ MonoBehaviour:
     hitBox: {fileID: 0}
     usesCircleHitbox: 0
     coolDown: 0
+    respectHitboxOnCooldown: 1
     animationClip: {fileID: 7400000, guid: 98127cc7cf610484499cfc30bb98dfc8, type: 2}
   idle:
     name: 
@@ -301,6 +308,7 @@ MonoBehaviour:
     hitBox: {fileID: 0}
     usesCircleHitbox: 0
     coolDown: 0
+    respectHitboxOnCooldown: 1
     animationClip: {fileID: 7400000, guid: 98127cc7cf610484499cfc30bb98dfc8, type: 2}
 --- !u!114 &6386295069930212313
 MonoBehaviour:
@@ -316,7 +324,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Max Health
-    value: 100
+    value: 90
   deathLevel: 
 --- !u!114 &7495209999528494521
 MonoBehaviour:
@@ -360,16 +368,16 @@ MonoBehaviour:
   dropTable:
   - obj: {fileID: 4809253014695496824, guid: fe291ced3ae40fc46a74c816a48d0e61, type: 3}
     chance: 1
-    minCount: 3
-    maxCount: 6
+    minCount: 2
+    maxCount: 4
   - obj: {fileID: 4809253014695496824, guid: 4950ea8f40c9d9944b6d20a6150d4cce, type: 3}
     chance: 1
-    minCount: 3
-    maxCount: 6
+    minCount: 2
+    maxCount: 4
   - obj: {fileID: 4809253014695496824, guid: e8a6431bc0e6c7a4e922f586f4216e97, type: 3}
     chance: 1
-    minCount: 3
-    maxCount: 6
+    minCount: 2
+    maxCount: 4
 --- !u!114 &998639061161291738
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -385,6 +393,7 @@ MonoBehaviour:
   statList:
   - name: Stun Threshold
     value: 60
+  stunDuration: 0.6
   currentStun: 0
   maxStun: 0
 --- !u!114 &3342256117467447547
@@ -406,6 +415,132 @@ MonoBehaviour:
     actionTypes: 08000000
     extraContext: 
     ghostID: 0
+--- !u!114 &4695193892124041868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4188048675522988209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6835c333b8099247acf0cab08ba2fb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  energyPool: 65
+--- !u!120 &7292645810451783457
+LineRenderer:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4188048675522988209}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 0
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Positions:
+  - {x: -0.38, y: 1.04, z: 1}
+  - {x: 3, y: 0, z: 1}
+  m_Parameters:
+    serializedVersion: 3
+    widthMultiplier: 1
+    widthCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0.06258011
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: 0.5043015
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    colorGradient:
+      serializedVersion: 2
+      key0: {r: 1, g: 0.98586273, b: 0.91132075, a: 0.5882353}
+      key1: {r: 1, g: 0.84313726, b: 0, a: 0.5882353}
+      key2: {r: 0, g: 0, b: 0, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 65535
+      ctime2: 0
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_ColorSpace: 0
+      m_NumColorKeys: 2
+      m_NumAlphaKeys: 2
+    numCornerVertices: 0
+    numCapVertices: 5
+    alignment: 0
+    textureMode: 0
+    textureScale: {x: 1, y: 1}
+    shadowBias: 0.5
+    generateLightingData: 0
+  m_MaskInteraction: 0
+  m_UseWorldSpace: 1
+  m_Loop: 0
+  m_ApplyActiveColorSpace: 1
 --- !u!1 &6998591465528712762
 GameObject:
   m_ObjectHideFlags: 0

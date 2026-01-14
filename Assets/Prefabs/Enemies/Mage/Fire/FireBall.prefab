@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6589951119973307837}
   - component: {fileID: 1515455339930968285}
+  - component: {fileID: 8818823052315436766}
   m_Layer: 22
   m_Name: Base
   m_TagString: Untagged
@@ -25,13 +26,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 948379002508115181}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 5204260840131910411}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!212 &1515455339930968285
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -73,8 +74,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 9571889f8d6e17041ab2d26d7f19280b, type: 3}
-  m_Color: {r: 1, g: 0.46001542, b: 0.254902, a: 1}
+  m_Sprite: {fileID: 1027210801, guid: 204a07389e7dcd345a50dab7d5f89817, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -84,6 +85,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &8818823052315436766
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 948379002508115181}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a4efbc9c67974ab4aa7c9193b0b62bd4, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1975467322760233107
 GameObject:
   m_ObjectHideFlags: 0
@@ -4997,8 +5019,8 @@ TrailRenderer:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0
-        value: 0.7644165
+        time: 0.013141632
+        value: 0.46012574
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -5019,7 +5041,7 @@ TrailRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 0.41417393, b: 0, a: 1}
+      key0: {r: 0.9960785, g: 0.6784314, b: 0.28627452, a: 1}
       key1: {r: 1, g: 0.12105433, b: 0, a: 0}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
@@ -5075,7 +5097,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4282476057480851080
 Transform:
   m_ObjectHideFlags: 0
@@ -5227,7 +5249,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   statList: []
-  speed: 2.5
+  speed: 1.5
   projectileDamage:
     damageStrength: 2
     damageTypes: 01000000

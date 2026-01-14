@@ -10,7 +10,8 @@ public class MageIceShardAttack : EnemyProjectile
     GameObject initialTarget;
     GameObject attacker;
     Vector3 targetPos;
-    public bool launched;
+    public bool launched = false;
+    public bool aimed = false;
 
     public void Initialize(GameObject targetObj, GameObject attacker)
     {
@@ -45,6 +46,11 @@ public class MageIceShardAttack : EnemyProjectile
         }
     }
 
+    public void Aim()
+    {
+        aimed = true;
+    }
+
     public void Launch()
     {
         launched = true;
@@ -54,6 +60,7 @@ public class MageIceShardAttack : EnemyProjectile
 
     private void Track()
     {
+        if (aimed) return;
         if (initialTarget != null)
         {
             targetPos = initialTarget.transform.position;

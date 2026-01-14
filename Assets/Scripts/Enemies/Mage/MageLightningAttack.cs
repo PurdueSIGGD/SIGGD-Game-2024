@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 public class MageLightningAttack : MonoBehaviour
@@ -6,6 +7,8 @@ public class MageLightningAttack : MonoBehaviour
     [SerializeField] private float ringSpinSpeed = 2f;
     [SerializeField] private float particlesDuration = 2f;
     [SerializeField] private ParticleSystem particleSys;
+    [SerializeField] private Animator lightningStrikeAnimator;
+    [SerializeField] private GameObject targetingReticle;
 
     private Animator animator;
     [SerializeField] private GameObject ringGameObject;
@@ -26,6 +29,12 @@ public class MageLightningAttack : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         ringSpriteRenderer = ringGameObject.GetComponent<SpriteRenderer>();
+        lightningStrikeAnimator.gameObject.SetActive(false);
+        bool flip = (Random.value > 0.5f);
+        if (flip)
+            lightningStrikeAnimator.transform.rotation = Quaternion.Euler(0, 0, 0);
+        else
+            lightningStrikeAnimator.transform.rotation = Quaternion.Euler(0, 180f, 0);
     }
 
     private void FixedUpdate()
@@ -48,6 +57,7 @@ public class MageLightningAttack : MonoBehaviour
             RaycastHit2D hit = Physics2D.Raycast(target.transform.position, Vector2.down, 20f, LayerMask.GetMask("Ground"));
             transform.position = hit.point + (0.5f * Vector2.up);
         }
+        attackPosition = transform.position;
     }
 
     // Sets all instance variables and updates position (similar to a constructor)
@@ -101,23 +111,54 @@ public class MageLightningAttack : MonoBehaviour
     {
         // Making the lightning ring white as a VFX
         lightningActive = true;
-        ringSpriteRenderer.color = Color.white;
+        //ringSpriteRenderer.color = Color.white;
+        ringSpriteRenderer.color = new Color(0f, 0f, 0f, 0f);
+        targetingReticle.SetActive(false);
 
+        lightningStrikeAnimator.gameObject.SetActive(true);
+        lightningStrikeAnimator.Play("LightningBoom");
+
+        CameraShake.instance.Shake(0.5f, 10f, 0f, 10f, new Vector2(Random.Range(-0.5f, 0.5f), 1f));
+
+        /*
         if (particleSys != null)
         {
             particleSys.Play();
         }
+        */
 
+        /*
         // Check for player to do damage
-        Collider2D hit = Physics2D.OverlapCircle(attackPosition, attackRadius, LayerMask.GetMask("Player"));
-        if (hit)
+        Collider2D[] hits = Physics2D.OverlapCircleAll(attackPosition, attackRadius, LayerMask.GetMask("Player", "Enemy"));
+        if (hits.Length > 0)
         {
-            hit.GetComponent<Health>().Damage(damageContext, sourceMage);
+            //hit.GetComponent<Health>().Damage(damageContext, sourceMage);
+            foreach (Collider2D hit in hits)
+            {
+                hit.GetComponent<Health>().Damage(damageContext, sourceMage);
+            }
+        }
+        */
+        DealDamage();
+    }
+
+    public void DealDamage()
+    {
+        // Check for player to do damage
+        Collider2D[] hits = Physics2D.OverlapCircleAll(attackPosition, attackRadius, LayerMask.GetMask("Player", "Enemy"));
+        if (hits.Length > 0)
+        {
+            //hit.GetComponent<Health>().Damage(damageContext, sourceMage);
+            foreach (Collider2D hit in hits)
+            {
+                hit.GetComponent<Health>().Damage(damageContext, sourceMage);
+            }
         }
     }
+
     public void Fizzle()
     {
-        Destroy(gameObject);
+        if (gameObject != null) Destroy(gameObject);
     }
 
 

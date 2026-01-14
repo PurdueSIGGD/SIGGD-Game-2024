@@ -93,7 +93,7 @@ public class SamuraiRetribution : MonoBehaviour
 
     private void ParryingProjectiles()
     {
-        Collider2D[] coll = Physics2D.OverlapBoxAll(transform.position, new Vector2(2, 3), 0, LayerMask.GetMask("Projectiles", "Enemy"));
+        Collider2D[] coll = Physics2D.OverlapBoxAll(transform.position, new Vector2(3, 3), 0, LayerMask.GetMask("Projectiles", "Enemy"));
         foreach (Collider2D coll2d in coll)
         {
             if (!coll2d.gameObject.CompareTag("Enemy"))
@@ -154,13 +154,13 @@ public class SamuraiRetribution : MonoBehaviour
                                 + manager.GetStats().ComputeValue("Melee Parry Base Damage");
 
             EnemyStateManager esm = context.attacker.GetComponent<EnemyStateManager>();
-            if (esm != null)
+            if (esm != null && context.damageTypes.Contains(DamageType.MELEE))
             {
                 esm.Stun(newContext, manager.GetStats().ComputeValue("Melee Parry Stun Time"));
                 esm.ApplyKnockback(Vector3.up, 6f, 0.3f);
                 esm.ApplyKnockback(context.attacker.transform.position - context.victim.transform.position, 3.8f, 0.3f);
             }
-            context.attacker.GetComponent<Health>().Damage(newContext, gameObject);
+            if (context.damageTypes.Contains(DamageType.MELEE)) context.attacker.GetComponent<Health>().Damage(newContext, gameObject);
 
             context.damage = 0;
             context.icon = null;

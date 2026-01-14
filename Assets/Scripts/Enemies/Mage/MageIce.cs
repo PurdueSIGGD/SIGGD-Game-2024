@@ -108,6 +108,16 @@ public class MageIce : EnemyStateManager
         Gizmos.DrawWireSphere(transform.position, lineOfSightTriggerBox.transform.lossyScale.x);
     }
 
+    public void AimShards()
+    {
+        if (iceShards == null || iceShards.Count <= 0) return;
+        foreach (GameObject iceShard in iceShards)
+        {
+            if (iceShard == null) continue;
+            iceShard.GetComponent<MageIceShardAttack>().Aim();
+        }
+    }
+
 
     public void LaunchShards()
     {

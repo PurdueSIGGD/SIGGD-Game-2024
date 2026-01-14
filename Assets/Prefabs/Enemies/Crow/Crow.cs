@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class Crow : EnemyStateManager
 {
@@ -17,11 +19,19 @@ public class Crow : EnemyStateManager
     [SerializeField] GameObject redLight;
     [SerializeField] GameObject greenLight;
 
+    [Header("Poison")]
+    [SerializeField] protected DamageContext poisonContext;
+    [SerializeField] protected float poisonDamage;
+    [SerializeField] protected float poisonDuration;
+    [SerializeField] protected float poisonTickRate;
+
+
     void Start()
     {
         base.Start();
         MoveState = new CrowMoveState();
         diveDamage.damage = damage;
+        poisonContext.damage = poisonDamage;
         RedLightOn(false);
     }
 
@@ -77,7 +87,7 @@ public class Crow : EnemyStateManager
 
         // if not tracking player
         // casts numRays rays in a circle to seek player
-        int numRays = 16;
+        int numRays = 60;
         for (float deg = 0; deg < (360 * Mathf.Deg2Rad); deg += 360 / numRays * Mathf.Deg2Rad)
         {
             // calculate unit vector direction based on angle
@@ -123,7 +133,10 @@ public class Crow : EnemyStateManager
             Debug.DrawLine(crowDive.position, crowDive.position + Vector3.right * 0.65f);
             if (GenerateDamageFrame(crowDive.position, 0.65f, diveDamage, gameObject))
             {
-                Instantiate(poisonDebuff, player.transform).GetComponent<PoisonDebuff>().SetAttacker(this.gameObject);
+                //Instantiate(poisonDebuff, player.transform).GetComponent<PoisonDebuff>().SetAttacker(this.gameObject);
+                PoisonDebuff myPoison = Instantiate(poisonDebuff, player.transform).GetComponent<PoisonDebuff>();
+                myPoison.Init(poisonContext, poisonContext.damage, poisonDuration, poisonTickRate);
+                myPoison.SetAttacker(gameObject);
                 EndDive();
                 break;
             }
