@@ -66,9 +66,8 @@ public class EscapeMenu : MonoBehaviour
 
     IEnumerator WaitToLoadHub()
     {
-        
-        ScreenFader.instance.FadeOut(0f, 5);
-        AudioManager.Instance.MusicBranch.CrossfadeTo(MusicTrackName.HUB, 2f);
+        ScreenFader.instance.FadeOut(0f, 3);
+        AudioManager.Instance.MusicBranch.CrossfadeTo(MusicTrackName.HUB, 4f);
         yield return new WaitForSeconds(5);
         SceneManager.LoadScene("Hubworld");
     }

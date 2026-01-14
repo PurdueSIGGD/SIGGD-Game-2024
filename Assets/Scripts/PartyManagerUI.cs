@@ -127,12 +127,14 @@ public class PartyManagerUI : MonoBehaviour
         VisualizeOrion();
 
         if (PlayerUIVisibility.instance) PlayerUIVisibility.instance.HidePlayerUI();
+        PlayerID.instance.FreezePlayerMouse();
     }
 
     public void ClosePartyMenu()
     {
         gameObject.SetActive(false);
         if (PlayerUIVisibility.instance) PlayerUIVisibility.instance.ShowPlayerUI();
+        PlayerID.instance.UnfreezePlayerMouse();
     }
 
     public void SwitchGhostPartyStatus()
