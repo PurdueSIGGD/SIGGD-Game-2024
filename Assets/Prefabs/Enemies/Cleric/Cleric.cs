@@ -122,10 +122,8 @@ public class Cleric : EnemyStateManager
         {
             GameObject enemy = col.gameObject;
             if ((enemy.GetComponentInChildren<ClericBubbleShieldScript>() == null) &&
-                ((enemy.GetComponent<Knight>() != null) ||
-                 (enemy.GetComponent<Mage>() != null) ||
-                 (enemy.GetComponent<MageIce>() != null) ||
-                 (enemy.GetComponent<MageFire>() != null)))
+                !((enemy.GetComponent<Cleric>() != null) ||
+                 (enemy.GetComponent<Crow>() != null)))
             {
                 validTargets.Add(enemy);
             }

@@ -18,6 +18,9 @@ public class Crow : EnemyStateManager
     protected bool diving = false;
     [SerializeField] GameObject redLight;
     [SerializeField] GameObject greenLight;
+    [SerializeField] GameObject divePulseVFX;
+    [SerializeField] Color divePulseColor;
+    [SerializeField] GameObject diveParticles;
 
     [Header("Poison")]
     [SerializeField] protected DamageContext poisonContext;
@@ -26,13 +29,24 @@ public class Crow : EnemyStateManager
     [SerializeField] protected float poisonTickRate;
 
 
+    private void OnEnable()
+    {
+        GameplayEventHolder.OnEntityStunned += OnCrowStunned;
+    }
+
+    private void OnDisable()
+    {
+        GameplayEventHolder.OnEntityStunned -= OnCrowStunned;
+    }
+
+
     void Start()
     {
         base.Start();
         MoveState = new CrowMoveState();
         diveDamage.damage = damage;
         poisonContext.damage = poisonDamage;
-        RedLightOn(false);
+        //RedLightOn(false);
     }
 
     // Check for dive collision and do damage
@@ -57,7 +71,8 @@ public class Crow : EnemyStateManager
     {
         transform.rotation = Quaternion.identity;
         diving = false;
-        RedLightOn(false);
+        //RedLightOn(false);
+        diveParticles.SetActive(false);
         StopAllCoroutines();
         BusyState.ExitState(this);
     }
@@ -75,7 +90,10 @@ public class Crow : EnemyStateManager
             maxDistance = maxDistance * 1.2f;
             float maxTrackDistance = maxDistance * 2;
 
-            dir = player.position - transform.position;
+            //dir = player.position - transform.position;
+            Transform target = player;
+            if (!IsCurrentTargetPlayer()) target = GetCurrentTarget().transform;
+            dir = target.position - transform.position;
 
             RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, maxTrackDistance, LayerMask.GetMask("Player", "Ground"));
             Debug.DrawRay(transform.position, dir);
@@ -87,16 +105,31 @@ public class Crow : EnemyStateManager
 
         // if not tracking player
         // casts numRays rays in a circle to seek player
-        int numRays = 60;
+        int numRays = 30;
         for (float deg = 0; deg < (360 * Mathf.Deg2Rad); deg += 360 / numRays * Mathf.Deg2Rad)
         {
             // calculate unit vector direction based on angle
             dir = new Vector2(Mathf.Cos(deg), Mathf.Sin(deg));
             RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, maxDistance, LayerMask.GetMask("Player", "Ground"));
             Debug.DrawRay(transform.position, dir * maxDistance);
+            /*
             if (hit && hit.collider.gameObject.CompareTag("Player"))
             {
                 hit_player = true;
+            }
+            */
+            if (hit)
+            {
+                if (hit.collider.gameObject.CompareTag("Player") && player.GetComponent<Invisible>() == null)
+                {
+                    currentTarget = player.gameObject;
+                    return true;
+                }
+                else if (hit.collider.gameObject.CompareTag("Idol_Clone"))
+                {
+                    currentTarget = hit.collider.gameObject;
+                    return true;
+                }
             }
         }
         return hit_player;
@@ -110,16 +143,28 @@ public class Crow : EnemyStateManager
     IEnumerator DiveWaitCoroutine(Rigidbody2D rb, float diveSpeed, float waitTime)
     {
 
-        RedLightOn(true);
+        //RedLightOn(true);
+        diveParticles.SetActive(true);
+        GameObject pulseVFX = Instantiate(divePulseVFX, gameObject.transform.position, Quaternion.identity, gameObject.transform);
+        pulseVFX.GetComponent<RingExplosionHandler>().playRingExplosion(3f, divePulseColor);
+
         rb.velocity = Vector2.zero;
-        yield return new WaitForSeconds(waitTime);
-        Vector2 directionToPlayer = new Vector2(player.position.x - transform.position.x, player.position.y - transform.position.y);
+
+        //yield return new WaitForSeconds(waitTime);
+
+        Transform target = player;
+        if (!IsCurrentTargetPlayer()) target = GetCurrentTarget().transform;
+        Vector2 directionToPlayer = new Vector2(target.position.x - transform.position.x, target.position.y - transform.position.y);
         Vector2 directionX = (Vector2.right * directionToPlayer.x).normalized;
         // rotate crow to face player
         float angle = Vector2.Angle(Vector2.right * -1 * directionToPlayer.x, directionToPlayer.normalized);
         angle = angle - 180;
         int rot_flip = directionToPlayer.x > 0 ? 0 : 180;
         // angle = directionToPlayer.x > 0 ? angle - 180 : 360 - angle;
+        //transform.rotation = Quaternion.Euler(new Vector3(0, rot_flip, angle));
+
+        yield return new WaitForSeconds(waitTime);
+
         transform.rotation = Quaternion.Euler(new Vector3(0, rot_flip, angle));
 
         // record whether the dive started on the left(<0) or right(>0) of the player
@@ -131,6 +176,7 @@ public class Crow : EnemyStateManager
         while (true)
         {
             Debug.DrawLine(crowDive.position, crowDive.position + Vector3.right * 0.65f);
+            /*
             if (GenerateDamageFrame(crowDive.position, 0.65f, diveDamage, gameObject))
             {
                 //Instantiate(poisonDebuff, player.transform).GetComponent<PoisonDebuff>().SetAttacker(this.gameObject);
@@ -139,6 +185,20 @@ public class Crow : EnemyStateManager
                 myPoison.SetAttacker(gameObject);
                 EndDive();
                 break;
+            }
+            */
+            Collider2D targetCollider = Physics2D.OverlapCircle(crowDive.position, 0.65f, LayerMask.GetMask("Player"));
+            if (targetCollider != null && targetCollider.GetComponent<Health>() != null)
+            {
+                float result = targetCollider.GetComponent<Health>().Damage(diveDamage, gameObject);
+                if (result > 0.001f)
+                {
+                    PoisonDebuff myPoison = Instantiate(poisonDebuff, targetCollider.transform).GetComponent<PoisonDebuff>();
+                    myPoison.Init(poisonContext, poisonContext.damage, poisonDuration, poisonTickRate);
+                    myPoison.SetAttacker(gameObject);
+                    EndDive();
+                    break;
+                }
             }
             if (Physics2D.OverlapCircle(crowDive.position, 0.65f, LayerMask.GetMask("Ground")))
             {
@@ -167,5 +227,12 @@ public class Crow : EnemyStateManager
     {
         //redLight.SetActive(val);
         //greenLight.SetActive(!val);
+    }
+
+
+    public void OnCrowStunned(GameObject stunnedEntity)
+    {
+        if (stunnedEntity != gameObject) return;
+        if (diving) EndDive();
     }
 }

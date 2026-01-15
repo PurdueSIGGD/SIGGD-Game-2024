@@ -196,6 +196,7 @@ Transform:
   - {fileID: 7986608270766379654}
   - {fileID: 8099892874165685006}
   - {fileID: 7773320383294365913}
+  - {fileID: 2741528985861266096}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &8141418064656756583
@@ -336,7 +337,7 @@ MonoBehaviour:
     ready: 1
     hitBox: {fileID: 7565977893133872963}
     usesCircleHitbox: 0
-    coolDown: 2
+    coolDown: 2.5
     respectHitboxOnCooldown: 1
     animationClip: {fileID: 7400000, guid: 430d6a0c8d9e0024d86bc9f882250f00, type: 2}
   - name: Dash
@@ -565,7 +566,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6835c333b8099247acf0cab08ba2fb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  energyPool: 450
+  energyPool: 400
 --- !u!1 &7803730565979122282
 GameObject:
   m_ObjectHideFlags: 0
@@ -852,4 +853,83 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1599626218514645716, guid: f82d61c6f20788c41b3b1bf12452e612,
     type: 3}
   m_PrefabInstance: {fileID: 1026679007555621395}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &5225255443029896669
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2725159293832616438}
+    m_Modifications:
+    - target: {fileID: 4630492551299734847, guid: 940da5c4c03561746b12e366ec5b7c4e,
+        type: 3}
+      propertyPath: m_Name
+      value: Elite Enemy Particles
+      objectReference: {fileID: 0}
+    - target: {fileID: 4649124737141286417, guid: 940da5c4c03561746b12e366ec5b7c4e,
+        type: 3}
+      propertyPath: ShapeModule.m_Position.x
+      value: -0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7964624953218414445, guid: 940da5c4c03561746b12e366ec5b7c4e,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7964624953218414445, guid: 940da5c4c03561746b12e366ec5b7c4e,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7964624953218414445, guid: 940da5c4c03561746b12e366ec5b7c4e,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7964624953218414445, guid: 940da5c4c03561746b12e366ec5b7c4e,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7964624953218414445, guid: 940da5c4c03561746b12e366ec5b7c4e,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7964624953218414445, guid: 940da5c4c03561746b12e366ec5b7c4e,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7964624953218414445, guid: 940da5c4c03561746b12e366ec5b7c4e,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7964624953218414445, guid: 940da5c4c03561746b12e366ec5b7c4e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 7964624953218414445, guid: 940da5c4c03561746b12e366ec5b7c4e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7964624953218414445, guid: 940da5c4c03561746b12e366ec5b7c4e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 940da5c4c03561746b12e366ec5b7c4e, type: 3}
+--- !u!4 &2741528985861266096 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7964624953218414445, guid: 940da5c4c03561746b12e366ec5b7c4e,
+    type: 3}
+  m_PrefabInstance: {fileID: 5225255443029896669}
   m_PrefabAsset: {fileID: 0}

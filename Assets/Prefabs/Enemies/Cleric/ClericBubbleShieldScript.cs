@@ -79,7 +79,7 @@ public class ClericBubbleShieldScript : MonoBehaviour
     private IEnumerator EndBubbleCoroutine()
     {
         isEnding = true;
-        shieldCircle.GetComponent<CircleAreaHandler>().playCircleEnd();
+        if (shieldCircle != null) shieldCircle.GetComponent<CircleAreaHandler>().playCircleEnd();
         yield return new WaitForSeconds(0.4f);
         Destroy(gameObject);
     }
