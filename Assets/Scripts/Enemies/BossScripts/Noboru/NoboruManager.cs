@@ -18,6 +18,19 @@ public class NoboruManager : EnemyStateManager
     [SerializeField] float fancySummonInterval;
     [SerializeField] Transform tpTriggerBox;
     [SerializeField] Transform summonTriggerSphere;
+
+    [Header("Fireball?")]
+    [SerializeField] float ballChance;
+    [SerializeField] GameObject fireballPrefab;
+    [Header("Lightning!!!")]
+    [SerializeField] float lightningChance;
+    [SerializeField] GameObject lightningPrefab;
+    [SerializeField] float lightningDamage;
+    [SerializeField] DamageContext lightningContext;
+    [SerializeField] float lightningRadius;
+    [SerializeField] float followTimeSec;
+    [SerializeField] float warningTimeSec;
+    [SerializeField] float lightningTimeSec;
     public void Start()
     {
         base.Start();
@@ -26,6 +39,8 @@ public class NoboruManager : EnemyStateManager
         teleportPositions = new(tpPositions);
         transform.position = teleportPositions[0].position;
         tpIndex = 0;
+        lightningContext.damage = lightningDamage;
+
     }
     public void Teleport()
     {
@@ -56,6 +71,37 @@ public class NoboruManager : EnemyStateManager
             yield return new WaitForSeconds(fancySummonInterval);
         }
     }
+
+    public void RandomCast()
+    {
+        if (PlayerID.instance != null)
+        {
+            float randSpell = Random.value * (ballChance + lightningChance);
+            if (randSpell > ballChance)
+            {
+                FireLightningStuff();
+            }
+            else
+            {
+                FireFireBall();
+            }
+        }
+    }
+    public void FireFireBall()
+    {
+        MageFireBallAttack ball = Instantiate(fireballPrefab, transform.position, Quaternion.identity).GetComponent<MageFireBallAttack>();
+        ball.Initialize(PlayerID.instance.gameObject, this.gameObject);
+    }
+    public void FireLightningStuff()
+    {
+        GameObject player = PlayerID.instance.gameObject;
+        GameObject lightningObject = Instantiate(lightningPrefab, player.transform.position, Quaternion.identity);
+        MageLightningAttack lightningScript = lightningObject.GetComponent<MageLightningAttack>();
+
+        lightningScript.Initialize(PlayerID.instance.gameObject.transform.position, lightningRadius, lightningContext, gameObject);
+        lightningScript.StartIndependentSequence(followTimeSec, warningTimeSec, lightningTimeSec);
+    }
+
     public override bool HasLineOfSight(bool tracking)
     {
         // override L.O.S. calculation to be really super generous to the mage rather than require direct L.O.S.

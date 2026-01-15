@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &936981104840089311
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 424675352429354827}
+  m_Layer: 21
+  m_Name: SpellCastTriggerCircle
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &424675352429354827
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 936981104840089311}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 8, y: 8, z: 8}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 1673469064786115946}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2969515327343943630
 GameObject:
   m_ObjectHideFlags: 0
@@ -234,7 +265,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 10, y: 10, z: 10}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1673469064786115946}
@@ -279,6 +310,7 @@ Transform:
   m_Children:
   - {fileID: 8394016850653557689}
   - {fileID: 6193345598014937500}
+  - {fileID: 424675352429354827}
   - {fileID: 2094986996042042586}
   - {fileID: 5069414560205157530}
   m_Father: {fileID: 0}
@@ -295,7 +327,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b634fb0fef6cca449cab6305db35310, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startSpawn: 1
+  bossActivated: 0
   lowEnemyThreshold: 3
   lowEnemyWaveSpawnSec: 10
   passiveSpawnTimeSec: 5
@@ -307,6 +339,7 @@ MonoBehaviour:
     extraContext: Kill all enemies context
     ghostID: 0
   deathTimer: 3
+  manager: {fileID: 2313479604974347677}
 --- !u!114 &2313479604974347677
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -328,6 +361,8 @@ MonoBehaviour:
   isBeingKnockedBack: 0
   grounded: 0
   groundedRayCheckLength: 1
+  enableStunning: 1
+  disableNormalStates: 0
   tpSource: {fileID: 0}
   visionRange: 100
   yokaiPrefab: {fileID: 7951563050262519672, guid: 6f0e0620bc3a8564aa5b6bad1497a152,
@@ -340,6 +375,24 @@ MonoBehaviour:
   fancySummonInterval: 0.1
   tpTriggerBox: {fileID: 2094986996042042586}
   summonTriggerSphere: {fileID: 6193345598014937500}
+  ballChance: 0.5
+  fireballPrefab: {fileID: 7853376000210057257, guid: ffd36265990e9254fa583854aefde68a,
+    type: 3}
+  lightningChance: 0.5
+  lightningPrefab: {fileID: 3530741045561927567, guid: ff16bb27dc285cb48b9307954d444c85,
+    type: 3}
+  lightningDamage: 10
+  lightningContext:
+    damageStrength: 2
+    damageTypes: 02000000
+    actionID: 17
+    actionTypes: 07000000
+    extraContext: nobu lightning
+    ghostID: 0
+  lightningRadius: 3
+  followTimeSec: 0.5
+  warningTimeSec: 1
+  lightningTimeSec: 0.33
 --- !u!114 &687006798506009572
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -368,6 +421,13 @@ MonoBehaviour:
     usesCircleHitbox: 1
     coolDown: 15
     animationClip: {fileID: 7400000, guid: e65d6c96e65e93c4dbb042e7d68d54c1, type: 2}
+  - name: SpellCast
+    priority: 2
+    ready: 1
+    hitBox: {fileID: 424675352429354827}
+    usesCircleHitbox: 1
+    coolDown: 15
+    animationClip: {fileID: 7400000, guid: 4f58f28b883346540bbbb55508d30f9e, type: 2}
   move:
     name: 
     priority: 0
