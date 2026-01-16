@@ -34,6 +34,8 @@ public class EraDoor : MonoBehaviour
 
     private bool paired = false;
 
+    public bool teleporting = false;
+
 
     // Rough progression of story progress:
     // 0: first encounter
@@ -71,7 +73,10 @@ public class EraDoor : MonoBehaviour
         EnemySpawning.enemies = enemies;
         if (resetParty)
         {
-            partyManagerUI.OpenPartyMenu();
+            if (!teleporting)
+            {
+                partyManagerUI.OpenPartyMenu();
+            }
             if (!paired)
             {
                 partyManagerUI.onGhostSelected += GetComponent<Door>().Teleport;

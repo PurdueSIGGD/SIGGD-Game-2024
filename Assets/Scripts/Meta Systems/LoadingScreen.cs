@@ -21,6 +21,8 @@ public class LoadingScreen : MonoBehaviour
     IEnumerator Start()
     {
         if (PlayerID.instance) PlayerID.instance.FreezePlayer();
+        if (PlayerUIVisibility.instance) PlayerUIVisibility.instance.ShowPlayerUI();
+
         progressBar.value = 0f;
         waitTime = Random.Range(waitRange.x, waitRange.y);
 

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class YokaiOrbManager : EnemyStateManager
 {
+    [SerializeField] bool disableWhateverSpawningIsGoingOnHere = false;
+
     [SerializeField] private float spawnTime;
     [SerializeField] private GameObject enemyToSpawn;
     [SerializeField] private float enemySpawnSelfDamage;
@@ -18,8 +20,11 @@ public class YokaiOrbManager : EnemyStateManager
     {
         base.Start();
         MoveState = new YokaiMoveState(true);
-        enemySpawning = PersistentData.Instance.GetComponent<EnemySpawning>();
-        StartCoroutine(SpawnEnemy());
+        if (!disableWhateverSpawningIsGoingOnHere)
+        {
+            enemySpawning = PersistentData.Instance.GetComponent<EnemySpawning>();
+            StartCoroutine(SpawnEnemy());
+        }
     }
 
 
