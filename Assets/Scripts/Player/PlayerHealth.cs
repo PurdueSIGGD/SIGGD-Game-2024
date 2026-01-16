@@ -84,6 +84,19 @@ public class PlayerHealth : Health
 
     public override float Heal(HealingContext context, GameObject healer)
     {
+        // Configure healing context
+        //float missingHealth = stats.ComputeValue("Max Health") - currentHealth;
+        context.healer = healer;
+        context.healee = gameObject;
+        context.trueHealing = context.healing;
+        //context.healing = Mathf.Clamp(context.healing, 0f, missingHealth);
+        context.invokingScript = this;
+
+        foreach (GameplayEventHolder.HealingFilterEvent filter in GameplayEventHolder.OnHealingFilter)
+        {
+            filter(ref context);
+        }
+
         if (MortallyWounded)
         {
             context.healing = Mathf.Clamp(context.healing, 0, thresholdTwo * maxHealth - currentHealth);

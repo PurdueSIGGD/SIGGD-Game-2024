@@ -135,6 +135,7 @@ MonoBehaviour:
   dest: {fileID: 0}
   menuOffset: {x: 0, y: 4.5, z: 0}
   specificActive: 1
+  ableToTeleport: 1
 --- !u!114 &1878781487552890633
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -237,16 +238,16 @@ MonoBehaviour:
       startChance: 0
       endChance: 0
     - start: 0.52
-      startChance: 0.15
-      endChance: 0.22
+      startChance: 0.12
+      endChance: 0.2
   - enemy: {fileID: 1393067818931581941, guid: 351188f43f0cb2342ba93ac07c8b9df8, type: 3}
     chanceRanges:
     - start: 0
       startChance: 0
       endChance: 0
     - start: 0.7
-      startChance: 0.18
-      endChance: 0.23
+      startChance: 0.15
+      endChance: 0.22
   era: 2
   ghostOneFirstEncounterLoc: 3
   ghostOneStoryBeatOne: 3
@@ -255,6 +256,9 @@ MonoBehaviour:
   ghostTwoStoryBeatOne: 6
   ghostTwoStoryBeatTwo: 6
   maxLevels: 30
+  resetParty: 0
+  partyManagerUI: {fileID: 0}
+  teleporting: 0
 --- !u!61 &1864423675088016089
 BoxCollider2D:
   m_ObjectHideFlags: 0
