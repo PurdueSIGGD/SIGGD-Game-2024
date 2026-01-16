@@ -187,7 +187,7 @@ public class Crow : EnemyStateManager
                 break;
             }
             */
-            Collider2D targetCollider = Physics2D.OverlapCircle(crowDive.position, 0.8f, LayerMask.GetMask("Player"));
+            Collider2D targetCollider = Physics2D.OverlapCircle(crowDive.position, 0.75f, LayerMask.GetMask("Player"));
             if (targetCollider != null && targetCollider.GetComponent<Health>() != null)
             {
                 float result = targetCollider.GetComponent<Health>().Damage(diveDamage, gameObject);
