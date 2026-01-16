@@ -447,6 +447,7 @@ MonoBehaviour:
     hitBox: {fileID: 2041526589549026373}
     usesCircleHitbox: 0
     coolDown: 4
+    respectHitboxOnCooldown: 1
     animationClip: {fileID: 7400000, guid: 83b19612ab1e0d442a748c2cfd9220d9, type: 2}
   move:
     name: Move
@@ -455,6 +456,7 @@ MonoBehaviour:
     hitBox: {fileID: 0}
     usesCircleHitbox: 0
     coolDown: 0
+    respectHitboxOnCooldown: 1
     animationClip: {fileID: 7400000, guid: 9c697bc894a62254a8c3307e3e7d32e6, type: 2}
   idle:
     name: Idle
@@ -463,6 +465,7 @@ MonoBehaviour:
     hitBox: {fileID: 0}
     usesCircleHitbox: 0
     coolDown: 0
+    respectHitboxOnCooldown: 1
     animationClip: {fileID: 7400000, guid: 49f75cb2c74221c42bed7ab6414fd87f, type: 2}
 --- !u!114 &716166490802671628
 MonoBehaviour:
@@ -513,7 +516,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6835c333b8099247acf0cab08ba2fb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  energyPool: 45
+  energyPool: 65
 --- !u!1001 &3695147616567067761
 PrefabInstance:
   m_ObjectHideFlags: 0

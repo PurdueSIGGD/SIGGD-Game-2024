@@ -281,7 +281,7 @@ MonoBehaviour:
     ready: 1
     hitBox: {fileID: 6722717173434858109}
     usesCircleHitbox: 0
-    coolDown: 3
+    coolDown: 2
     respectHitboxOnCooldown: 1
     animationClip: {fileID: 7400000, guid: 84599de1cc9da2a4ea39f70243890704, type: 2}
   - name: bubble
@@ -324,7 +324,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Max Health
-    value: 90
+    value: 120
   deathLevel: 
 --- !u!114 &7495209999528494521
 MonoBehaviour:
@@ -368,16 +368,16 @@ MonoBehaviour:
   dropTable:
   - obj: {fileID: 4809253014695496824, guid: fe291ced3ae40fc46a74c816a48d0e61, type: 3}
     chance: 1
-    minCount: 2
-    maxCount: 4
+    minCount: 3
+    maxCount: 5
   - obj: {fileID: 4809253014695496824, guid: 4950ea8f40c9d9944b6d20a6150d4cce, type: 3}
     chance: 1
-    minCount: 2
-    maxCount: 4
+    minCount: 3
+    maxCount: 5
   - obj: {fileID: 4809253014695496824, guid: e8a6431bc0e6c7a4e922f586f4216e97, type: 3}
     chance: 1
-    minCount: 2
-    maxCount: 4
+    minCount: 3
+    maxCount: 5
 --- !u!114 &998639061161291738
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -392,7 +392,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Stun Threshold
-    value: 60
+    value: 100
   stunDuration: 0.6
   currentStun: 0
   maxStun: 0
@@ -427,7 +427,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6835c333b8099247acf0cab08ba2fb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  energyPool: 65
+  energyPool: 85
 --- !u!120 &7292645810451783457
 LineRenderer:
   serializedVersion: 2
