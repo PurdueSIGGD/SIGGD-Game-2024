@@ -210,6 +210,19 @@ public class SpiritTracker : MonoBehaviour
     }
 
     /// <summary>
+    /// Call when user chooses to transfer collected spirits to the Hub
+    /// </summary>
+    public void SaveSpiritCountsNoUI()
+    {
+        SaveManager.data.spiritCounts[0] += blueSpiritsCollected;
+        SaveManager.data.spiritCounts[1] += redSpiritsCollected;
+        SaveManager.data.spiritCounts[2] += yellowSpiritsCollected;
+        SaveManager.data.spiritCounts[3] += pinkSpiritsCollected;
+
+        ClearSpirits();
+    }
+
+    /// <summary>
     /// Set run spirit counts to 0
     /// </summary>
     public void ClearSpirits()

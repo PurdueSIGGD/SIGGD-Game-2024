@@ -59520,7 +59520,7 @@ GameObject:
   - component: {fileID: 1674031420618944405}
   - component: {fileID: 993272100350156924}
   - component: {fileID: 5628641787627220858}
-  - component: {fileID: 6210317529444956312}
+  - component: {fileID: 7923429943484761402}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -59717,7 +59717,7 @@ Animator:
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
   m_CullingMode: 0
-  m_UpdateMode: 2
+  m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
@@ -60098,8 +60098,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4e5155d49d0fb54c926620c3a33d788, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healPerSpirit: 0.25
-  healPerPinkSpirit: 1
+  healPerSpirit: 0.2
+  healPerPinkSpirit: 0.8
   healContext:
     healing: 0
     actionID: 17
@@ -60349,7 +60349,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94b5828d9949f954d9301d18a500e024, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6210317529444956312
+--- !u!114 &7923429943484761402
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -60358,11 +60358,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 8252758106455385166}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a94c26031e9dfc74ab6b751078c549d9, type: 3}
+  m_Script: {fileID: 11500000, guid: ffc37ea0ab324044f94326f8dc59adde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerCursorPrefab: {fileID: 3895574633119067076, guid: 9bd359ce14e5d504e8bbf3815045b785,
-    type: 3}
 --- !u!1 &8475902772068394930
 GameObject:
   m_ObjectHideFlags: 0

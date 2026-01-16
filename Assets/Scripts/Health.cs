@@ -1,10 +1,6 @@
 using System;
 using System.Collections;
-using System.Runtime.CompilerServices;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
-using static GameplayEventHolder;
 
 [DisallowMultipleComponent]
 public class Health : MonoBehaviour, IDamageable, IStatList
@@ -161,6 +157,12 @@ public class Health : MonoBehaviour, IDamageable, IStatList
         foreach (GameplayEventHolder.DeathFilterEvent filter in GameplayEventHolder.OnDeathFilter)
         {
             filter(ref context);
+        }
+
+        if (currentHealth > 0f)
+        {
+            isAlive = true;
+            return;
         }
 
         //Trigger Events

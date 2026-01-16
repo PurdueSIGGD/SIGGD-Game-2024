@@ -1,18 +1,21 @@
-﻿using TMPro;
+﻿using System.Xml.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class GhostMenuItemUI : MonoBehaviour, IPointerClickHandler
 {
-    [SerializeField] public TextMeshProUGUI textComponent;
+    [SerializeField] public TextMeshProUGUI levelComponent;
     [SerializeField] public Image imageComponent;
-    [SerializeField] public Image borderComponent;
-    [SerializeField] public GameObject inPartyIndicator;
+    [SerializeField] public GameObject unusedIndicator;
+    [SerializeField] public Image expBar;
+    [SerializeField] public Slider expSlider;
 
     public GhostIdentity identity;
     private PartyManagerUI partyUI;
     private PartyManager partyManager;
+    private SkillTree skillTree;
 
     private void Start()
     {
@@ -22,21 +25,59 @@ public class GhostMenuItemUI : MonoBehaviour, IPointerClickHandler
 
     void Update()
     {
-        inPartyIndicator.SetActive(partyManager.IsGhostInParty(identity));
-        borderComponent.gameObject.SetActive(partyUI.GetSelectedGhost() == this);
+        /*inPartyIndicator.SetActive(partyManager.IsGhostInParty(identity));
+        borderComponent.gameObject.SetActive(partyUI.GetSelectedGhost() == this);*/
     }
 
     public void Visualize(GhostIdentity ghost)
     {
         identity = ghost;
         CharacterSO info = ghost.GetCharacterInfo();
-        textComponent.text = info.displayName;
-        imageComponent.sprite = info.characterIcon;
-        borderComponent.color = info.primaryColor;
-        inPartyIndicator.GetComponent<Image>().color = info.primaryColor;
+        imageComponent.sprite = info.hudIconNoFire;
+        levelComponent.text = ghost.GetComponent<SkillTree>().GetLevel().ToString();
+
+        expBar.color = info.primaryColor;
+        expSlider.value = ghost.GetExp() / (float)ghost.GetRequiredExp();
+
+        skillTree = ghost.GetComponent<SkillTree>();
+
+        for (int i = 0; i < 3; i++)
+        {
+            Debug.Log(info.displayName + "'s Tier " + i + " points: " + skillTree.GetTierPoints(i));
+            if (skillTree.GetTierPoints(i) > 0)
+            {
+                unusedIndicator.SetActive(true);
+                return;
+            }
+        }
+    }
+
+    public void FixedUpdate()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            if (skillTree.GetTierPoints(i) > 0)
+            {
+                unusedIndicator.SetActive(true);
+                return;
+            }
+        }
+        unusedIndicator.SetActive(false);
     }
 
     public void OnPointerClick(PointerEventData eventData)
+    {
+        /*if (partyUI.GetSelectedGhost() == this)
+        {
+            partyUI.VisualizeOrion();
+        }
+        else
+        {
+            partyUI.VisualizeDetails(this, identity);
+        }*/
+    }
+
+    public void Selected()
     {
         if (partyUI.GetSelectedGhost() == this)
         {

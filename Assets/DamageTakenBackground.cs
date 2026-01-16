@@ -72,7 +72,7 @@ public class DamageTakenBackground : MonoBehaviour
         float damageOpacity = Mathf.Lerp(minOpacity, maxOpacity, damageScale);
         if (context.isCriticalHit) damageOpacity = mortalWoundOpacity;
 
-        PlayDamagePulse(damageOpacity);
+        //PlayDamagePulse(damageOpacity);
     }
 
 
@@ -89,6 +89,7 @@ public class DamageTakenBackground : MonoBehaviour
 
     private void SetBackgroundOpacity(float opacity)
     {
+        background = GetComponent<Image>();
         Color newColor = background.color;
         newColor.a = opacity;
         background.color = newColor;

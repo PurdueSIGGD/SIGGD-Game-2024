@@ -15,11 +15,18 @@ public class Door : MonoBehaviour
     public static bool active;
     [SerializeField] private Vector3 menuOffset;
     [SerializeField] public bool specificActive;
+    [SerializeField] private bool ableToTeleport = true;
 
     private GameObject interactMenu;
     private PlayerID player;
     private SpriteRenderer spriteRenderer;
-    private bool transporting;
+    protected bool transporting;
+
+
+    private void Awake()
+    {
+        ableToTeleport = true;
+    }
 
     void Start()
     {
@@ -56,8 +63,13 @@ public class Door : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        Destroy(interactMenu);
-        interactMenu = null;
+        GameObject player = collision.gameObject;
+        if (interactMenu != null && player.CompareTag("Player") && (active || specificActive))
+        {
+            Destroy(interactMenu);
+            interactMenu = null;
+            PlayerID.instance.UnfreezePlayerMouse();
+        }
     }
 
     // Unlock the door to allow entry to the next room
@@ -84,53 +96,17 @@ public class Door : MonoBehaviour
         Vector3 menuPos = this.transform.position + menuOffset;
 
         interactMenu = WI.CreateInteractMenu(menuPos, opt1);
+        PlayerID.instance.FreezePlayerMouse();
     }
 
     protected virtual void CallDoorOpened()
     {
         if (!transporting)
         {
-            Door.activateDoor(false);
             SendMessage("DoorOpened");
-            OnDoorOpened?.Invoke();
-            transporting = true;
-        }
-    }
-
-    private void TeleportPlayer()
-    {
-        RaycastHit2D hit;
-        Vector2 pos = new Vector2(0, 0);
-
-        if (dest)
-        {
-            pos = dest.transform.position;
-        }
-        else
-        {
-            // if no pre-determined destination, raycast to the right to find the closest
-            // door as destination
-            Vector3 rayOrig = new Vector3(transform.position.x + transform.lossyScale.x,
-                                          transform.position.y, transform.position.z);
-            hit = Physics2D.Raycast(rayOrig, transform.right, Mathf.Infinity);
-            if (hit)
-            {
-                pos = hit.transform.position;
+            if (ableToTeleport) {
+                Teleport();
             }
-            else
-            {
-                Debug.LogWarning(gameObject.name + " cannot find suitable destination");
-            }
-        }
-        // raycast down so the player is spawned on the floor
-        hit = Physics2D.Raycast(pos, -transform.up, Mathf.Infinity, LayerMask.GetMask("Ground"));
-        if (hit)
-        {
-            player.transform.position = hit.point;
-        }
-        else
-        {
-            Debug.LogWarning("Please ensure " + gameObject.name + " is placed over a platform");
         }
     }
 
@@ -139,6 +115,21 @@ public class Door : MonoBehaviour
         if (spriteRenderer != null)
         {
             spriteRenderer.enabled = nbool;
+        }
+    }
+
+    public void DontTeleport()
+    {
+        ableToTeleport = false;
+    }
+
+    public virtual void Teleport()
+    {
+       if (!transporting)
+        {
+            Door.activateDoor(false);
+            OnDoorOpened?.Invoke();
+            transporting = true;
         }
     }
 

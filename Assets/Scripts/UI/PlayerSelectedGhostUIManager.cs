@@ -28,8 +28,6 @@ public class PlayerSelectedGhostUIManager : PlayerGhostUIManager
         base.Update();
     }
 
-
-
     /// <summary>
     /// Set the color of the health bar frame.
     /// </summary>

@@ -1,6 +1,8 @@
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class PartyManagerUI : MonoBehaviour
 {
@@ -19,6 +21,7 @@ public class PartyManagerUI : MonoBehaviour
     [SerializeField] Slider expSlider;
     [SerializeField] TextMeshProUGUI expText;
     [SerializeField] Image posterImage;
+    [SerializeField] Image posterShadowImage;
 
     [Header("Ghost Ability - Basic")]
     [SerializeField] Image basicAbilityIcon;
@@ -35,6 +38,13 @@ public class PartyManagerUI : MonoBehaviour
     [Header("All Unlocked Ghosts")]
     [SerializeField] GhostMenuItemUI[] ghostUis;
 
+    [Header("All Ghosts")]
+    [SerializeField] GhostIdentity[] ghostIdentitys;
+
+    [Header("Party Slots")]
+    [SerializeField] GhostSlotVisualizer partySlot1;
+    [SerializeField] GhostSlotVisualizer partySlot2;
+
     [Header("Miscellaneous")]
     [SerializeField] private CharacterSO orionSO;
     [SerializeField] private Button addToPartyBtn;
@@ -42,6 +52,9 @@ public class PartyManagerUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI addToPartyLabel;
 
     private GhostMenuItemUI selectedItem = null;
+
+    public delegate void OnGhostSelected();
+    public OnGhostSelected onGhostSelected;
 
     private void Awake()
     {
@@ -74,13 +87,27 @@ public class PartyManagerUI : MonoBehaviour
                 addToPartyLabel.text = ADD_PARTY_LABEL;
             }
         }
+
+        List<GhostIdentity> identities = PartyManager.instance.GetGhostPartyList();
+
+        if (identities.Count >= 1)
+            partySlot1.Visualize(identities[0]);
+        else
+            partySlot1.ClearVisuals();
+        if (identities.Count >= 2)
+            partySlot2.Visualize(identities[1]);
+        else
+            partySlot2.ClearVisuals();
+
+        PlayerGhost1UIManager.instance.gameObject.SetActive(false);
+        PlayerGhost2UIManager.instance.gameObject.SetActive(false);
     }
 
     public void OpenPartyMenu()
     {
         gameObject.SetActive(true);
 
-        GhostIdentity[] ghosts = FindObjectsOfType<GhostIdentity>();
+        GhostIdentity[] ghosts = ghostIdentitys;
 
         for (int i = 0; i < ghostUis.Length; i++)
         {
@@ -98,11 +125,16 @@ public class PartyManagerUI : MonoBehaviour
         }
 
         VisualizeOrion();
+
+        if (PlayerUIVisibility.instance) PlayerUIVisibility.instance.HidePlayerUI();
+        PlayerID.instance.FreezePlayerMouse();
     }
 
     public void ClosePartyMenu()
     {
         gameObject.SetActive(false);
+        if (PlayerUIVisibility.instance) PlayerUIVisibility.instance.ShowPlayerUI();
+        PlayerID.instance.UnfreezePlayerMouse();
     }
 
     public void SwitchGhostPartyStatus()
@@ -129,6 +161,7 @@ public class PartyManagerUI : MonoBehaviour
         CharacterSO character = ghost.GetCharacterInfo();
         nameText.text = character.displayName;
         posterImage.sprite = character.fullImage;
+        posterShadowImage.sprite = character.fullImage;
 
         basicAbility.gameObject.SetActive(true);
         basicAbilityIcon.sprite = character.basicAbilityIcon;
@@ -157,6 +190,7 @@ public class PartyManagerUI : MonoBehaviour
         selectedItem = null;
         nameText.text = orionSO.displayName;
         posterImage.sprite = orionSO.fullImage;
+        posterShadowImage.sprite = orionSO.fullImage;
 
         basicAbility.gameObject.SetActive(false);
 
@@ -173,6 +207,11 @@ public class PartyManagerUI : MonoBehaviour
         lvlText.text = "";
         expText.text = "";
         expSlider.value = 0;
+    }
+
+    public void StartRun()
+    {
+        onGhostSelected?.Invoke();
     }
 
     public GhostMenuItemUI GetSelectedGhost()

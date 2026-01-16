@@ -19,6 +19,11 @@ public class IrisController : BossController
     int enemyCountMirror = 0;
     int enemiesSinceShieldUp = 0;
 
+    [Header("Railshot/Laser parameters")]
+    [SerializeField] IrisLaser irisLaser;
+    [SerializeField] float laserFireIntervalSec; // includes laser fire time, so shouldn't be shorter than total laser fire sequence time 
+    float laserTimer;
+
     [Header("Death Implementation parameters")]
     [SerializeField] float deathTimeSeconds;
 
@@ -26,6 +31,10 @@ public class IrisController : BossController
     {
         base.Start();
         ActivateShield();
+        if (irisLaser != null)
+        {
+            irisLaser.Initialize(this.gameObject);
+        }
     }
     public new void Update()
     {
@@ -67,6 +76,17 @@ public class IrisController : BossController
             damageState = IrisVisualStates.DAMAGE_HIGH;
         }
         visualManager.SetVisualState(damageState);
+
+        // laser firing loop
+        if (!IsDefeated() && bossActivated)
+        {
+            laserTimer -= Time.deltaTime;
+            if (laserTimer < 0 && PlayerID.instance != null)
+            {
+                irisLaser.FireSequence(PlayerID.instance.gameObject);
+                laserTimer = laserFireIntervalSec;
+            }
+        }
     }
 
     public override void EnableAI()
@@ -108,6 +128,7 @@ public class IrisController : BossController
     {
         base.DefeatSequence();
         visualManager.ActivateDeathVisual();
+        irisLaser.Stop();
         StartCoroutine(IrisDeathCoroutine());
     }
     IEnumerator IrisDeathCoroutine()
