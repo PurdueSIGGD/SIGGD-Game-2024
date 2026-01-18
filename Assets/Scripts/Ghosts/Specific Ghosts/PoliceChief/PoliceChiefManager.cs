@@ -17,6 +17,7 @@ public class PoliceChiefManager : GhostManager, ISelectable
     [SerializeField] public ActionContext policeChiefRailgun;
 
     [HideInInspector] public int basicAmmo;
+    [HideInInspector] public bool autoRecoverAmmo = false;
 
     [HideInInspector] public PoliceChiefBasic basic;
     [HideInInspector] public PoliceChiefSpecial special;
@@ -119,6 +120,11 @@ public class PoliceChiefManager : GhostManager, ISelectable
         }
 
         base.DeSelect(player);
+    }
+
+    public void FightEnd()
+    {
+        autoRecoverAmmo = true;
     }
 
 

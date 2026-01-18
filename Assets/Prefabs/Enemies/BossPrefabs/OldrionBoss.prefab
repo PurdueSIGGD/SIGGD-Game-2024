@@ -249,7 +249,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98b7b4c20f0161f48846861acd14d7b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startSpawn: 0
+  bossActivated: 0
   lowEnemyThreshold: 0
   lowEnemyWaveSpawnSec: 0
   passiveSpawnTimeSec: 0
@@ -267,29 +267,30 @@ MonoBehaviour:
   phase2Convo: {fileID: 11400000, guid: b3ab852d2812f164ca02196cd949fcac, type: 2}
   phase3Convo: {fileID: 11400000, guid: 21f0a0d1761caad49a509ffc891b3c06, type: 2}
   defeatDialogue: {fileID: 11400000, guid: a46471ab19390db41a64c0b49960e946, type: 2}
+  defeatCutsceneBckground: {fileID: 0}
   defeatCutscene: {fileID: 0}
   delayBeforeDefeatDialogue: 1.5
   currentPhase: 1
   lightActionName: Light
   lightCooldowns:
-  - 5
   - 2
   - 1
+  - 2.5
   heavyActionName: Heavy
   heavyCooldowns:
-  - 7
-  - 4
+  - 5
   - 3
+  - 4
   dashActionName: Dash
   dashCooldowns:
   - 10
-  - 5
   - 4
+  - 7
   comboActionName: ComboSeed
   comboCooldowns:
-  - 15
   - 12
   - 8
+  - 12
   fullHealContext:
     healing: 0
     actionID: 17
@@ -351,6 +352,13 @@ MonoBehaviour:
     usesCircleHitbox: 1
     coolDown: 10
     animationClip: {fileID: 7400000, guid: 5cf30f886c0186e40896ab5400f8bd36, type: 2}
+  - name: Aura Farm
+    priority: 0.0001
+    ready: 1
+    hitBox: {fileID: 838304947009716614}
+    usesCircleHitbox: 1
+    coolDown: 1.5
+    animationClip: {fileID: 7400000, guid: d179c3ae81fb0dd4da1c642889c13134, type: 2}
   move:
     name: 
     priority: 2
@@ -392,7 +400,7 @@ MonoBehaviour:
   disableNormalStates: 0
   lightDamage:
     damageStrength: 0
-    damageTypes: 
+    damageTypes: 00000000
     actionID: 0
     actionTypes: 
     extraContext: 
@@ -404,7 +412,7 @@ MonoBehaviour:
   lightSpeed: 25
   heavyDamage:
     damageStrength: 0
-    damageTypes: 
+    damageTypes: 00000000
     actionID: 0
     actionTypes: 
     extraContext: 
@@ -414,7 +422,7 @@ MonoBehaviour:
   heavyTrigger: {fileID: 3795081024681060608}
   dashDamage:
     damageStrength: 0
-    damageTypes: 
+    damageTypes: 00000000
     actionID: 0
     actionTypes: 
     extraContext: 

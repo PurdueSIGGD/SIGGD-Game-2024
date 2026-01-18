@@ -10,6 +10,14 @@ public class OniController : MonoBehaviour
     Animator anim;
     GameObject targetObj;
 
+    [SerializeField] float scaleInc;
+    [SerializeField] int maxLevel = 3;
+    [SerializeField] GameObject killVFX;
+    [SerializeField] Color killVFXColor;
+    [SerializeField] ParticleSystem levelParticles;
+    [SerializeField] List<float> particleEmmisionPerLevel;
+    int currentLevel = 0;
+
     [Header("Flight params")]
     [SerializeField] float heightOffset; // how far up targetObject is from targetObject
     [SerializeField] float flightForce; // force of flight
@@ -19,6 +27,7 @@ public class OniController : MonoBehaviour
     [SerializeField] float randomFactor; // force of random force
     [SerializeField] float maxSpeed;
     [SerializeField] float speedInc;
+    [SerializeField] float gashingMaxSpeed;
 
     [Header("Vision params")]
     [SerializeField] float visionRadius;
@@ -30,6 +39,7 @@ public class OniController : MonoBehaviour
     [SerializeField] float damageVal;
     [SerializeField] float damageInc;
     [SerializeField] float gashRange;
+    [SerializeField] float enemyDamageMultiplier;
     [SerializeField] GameObject gashVisual;
     bool gashable;
 
@@ -40,6 +50,8 @@ public class OniController : MonoBehaviour
 
     [Header("Heal params")]
     [SerializeField] HealingContext healingContext;
+
+    private bool firstTarget = true;
 
     void Awake()
     {
@@ -55,7 +67,11 @@ public class OniController : MonoBehaviour
         health = GetComponent<Health>();
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        firstTarget = true;
         targetObj = null;
+        currentLevel = 0;
+        ParticleSystem.EmissionModule emissionModule = levelParticles.emission;
+        emissionModule.rateOverTime = particleEmmisionPerLevel[currentLevel];
     }
 
     void Update()
@@ -80,12 +96,14 @@ public class OniController : MonoBehaviour
         if (!gashable)
             gashVisual.SetActive(false);
     }
+
     void UpdateAnimatorParams()
     {
         anim.SetBool("trackable", trackable);
         anim.SetBool("gashable", gashable);
         anim.SetBool("stunned", stunned);
     }
+
     public void OnDeath(DamageContext context)
     {
         if (context.attacker != this.gameObject)
@@ -94,24 +112,46 @@ public class OniController : MonoBehaviour
         SetTarget(null);
         KillEffects();
     }
+
     void KillEffects()
     {
+        /*
         damageVal += damageInc;
         damageContext.damage = damageVal;
         maxSpeed += speedInc;
+        */
         healingContext.healing = health.GetStats().ComputeValue("Max Health");
         health.Heal(healingContext, this.gameObject);
+        if (currentLevel < maxLevel) LevelUp();
+
+        GameObject killPulse = Instantiate(killVFX, transform.position, Quaternion.identity);
+        killPulse.GetComponent<RingExplosionHandler>().playRingExplosion(((currentLevel < maxLevel) ? 7f : 3f), killVFXColor);
     }
+
+    void LevelUp()
+    {
+        currentLevel++;
+        damageVal += damageInc;
+        damageContext.damage = damageVal;
+        maxSpeed += speedInc;
+        transform.localScale = new Vector3(transform.localScale.x + scaleInc, transform.localScale.y + scaleInc, transform.localScale.z);
+        ParticleSystem.EmissionModule emissionModule = levelParticles.emission;
+        emissionModule.rateOverTime = particleEmmisionPerLevel[currentLevel];
+    }
+
     void OnGashTarget()
     {
         damageContext.damage = damageVal;
+        damageContext.damage = (targetObj.CompareTag("Player")) ? damageVal : (damageVal * enemyDamageMultiplier);
         targetObj.GetComponent<Health>().Damage(damageContext, this.gameObject);
         gashVisual.SetActive(true);
     }
+
     void OffGashTarget()
     {
         gashVisual.SetActive(false);
     }
+
     bool IsTargetGashable(GameObject targetObject)
     {
         if (targetObject == null)
@@ -127,6 +167,7 @@ public class OniController : MonoBehaviour
         Vector2 distance = targetObject.transform.position - transform.position;
         return distance.magnitude <= trackMaxDistance;
     }
+
     GameObject ScanForTargets()
     {
         Collider2D[] collisions = Physics2D.OverlapCircleAll(transform.position, visionRadius, LayerMask.GetMask("Player", "Enemy"));
@@ -159,9 +200,26 @@ public class OniController : MonoBehaviour
         // }
         if (potentialTargets.Count == 0)
             return null;
-        int randIndex = Random.Range(0, potentialTargets.Count);
-        return potentialTargets[randIndex];
+
+        //int randIndex = Random.Range(0, potentialTargets.Count);
+        GameObject closestTarget = potentialTargets[0];
+        foreach (GameObject target in potentialTargets)
+        {
+            if (firstTarget && !target.CompareTag("Player") && Vector3.Distance(PlayerID.instance.transform.position, target.transform.position) < Vector3.Distance(PlayerID.instance.transform.position, closestTarget.transform.position))
+            {
+                closestTarget = target;
+            }
+
+            if (!firstTarget && Vector3.Distance(transform.position, target.transform.position) < Vector3.Distance(transform.position, closestTarget.transform.position))
+            {
+                closestTarget = target;
+            }
+        }
+
+        //return potentialTargets[randIndex];
+        return closestTarget;
     }
+
     void Move(GameObject targetObject)
     {
         if (targetObject == null)
@@ -188,11 +246,16 @@ public class OniController : MonoBehaviour
         rb.AddForce(flightForce * direction, ForceMode2D.Impulse);
 
         // CHECK MAX SPEED
-        if (rb.velocity.magnitude > maxSpeed)
+        if (!IsTargetGashable(targetObject) && rb.velocity.magnitude > maxSpeed)
         {
             rb.velocity = rb.velocity.normalized * maxSpeed;
         }
+        if (IsTargetGashable(targetObject) && rb.velocity.magnitude > gashingMaxSpeed)
+        {
+            rb.velocity = rb.velocity.normalized * gashingMaxSpeed;
+        }
     }
+
     void Flip(bool isFlipped)
     {
         if (!isFlipped)
@@ -200,12 +263,15 @@ public class OniController : MonoBehaviour
         else
             transform.rotation = Quaternion.Euler(0, 180f, 0);
     }
+
     public GameObject GetTarget()
     {
         return targetObj;
     }
+
     public void SetTarget(GameObject targetObject)
     {
         this.targetObj = targetObject;
+        firstTarget = false;
     }
 }

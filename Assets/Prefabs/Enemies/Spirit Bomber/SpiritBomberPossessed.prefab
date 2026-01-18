@@ -183,6 +183,7 @@ GameObject:
   - component: {fileID: 3218064792512490133}
   - component: {fileID: 716166490802671628}
   - component: {fileID: 3094740750142253474}
+  - component: {fileID: 2640341446667328681}
   m_Layer: 21
   m_Name: SpiritBomberPossessed
   m_TagString: Enemy
@@ -376,6 +377,8 @@ MonoBehaviour:
   grounded: 0
   groundedRayCheckLength: 1.6
   enableStunning: 1
+  disableNormalStates: 0
+  currentTarget: {fileID: 0}
   bombPrefab: {fileID: 2721583823844912661, guid: bae46657d5d6ae642959461414e19afb,
     type: 3}
   bombCooldown: 4
@@ -444,6 +447,7 @@ MonoBehaviour:
     hitBox: {fileID: 2041526589549026373}
     usesCircleHitbox: 0
     coolDown: 4
+    respectHitboxOnCooldown: 1
     animationClip: {fileID: 7400000, guid: 83b19612ab1e0d442a748c2cfd9220d9, type: 2}
   move:
     name: Move
@@ -452,6 +456,7 @@ MonoBehaviour:
     hitBox: {fileID: 0}
     usesCircleHitbox: 0
     coolDown: 0
+    respectHitboxOnCooldown: 1
     animationClip: {fileID: 7400000, guid: 9c697bc894a62254a8c3307e3e7d32e6, type: 2}
   idle:
     name: Idle
@@ -460,6 +465,7 @@ MonoBehaviour:
     hitBox: {fileID: 0}
     usesCircleHitbox: 0
     coolDown: 0
+    respectHitboxOnCooldown: 1
     animationClip: {fileID: 7400000, guid: 49f75cb2c74221c42bed7ab6414fd87f, type: 2}
 --- !u!114 &716166490802671628
 MonoBehaviour:
@@ -498,6 +504,19 @@ MonoBehaviour:
   stunDuration: 0.6
   currentStun: 0
   maxStun: 0
+--- !u!114 &2640341446667328681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7597283847596822443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6835c333b8099247acf0cab08ba2fb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  energyPool: 65
 --- !u!1001 &3695147616567067761
 PrefabInstance:
   m_ObjectHideFlags: 0

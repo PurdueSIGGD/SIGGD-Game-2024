@@ -76,7 +76,7 @@ public class ActionPool : MonoBehaviour
     {
         foreach (Action a in actions)
         {
-            if (a.InAttackRange())
+            if (a.InAttackRange() && (a.respectHitboxOnCooldown || a.ready))
             {
                 return true;
             }

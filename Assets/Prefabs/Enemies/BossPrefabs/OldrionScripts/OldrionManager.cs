@@ -30,7 +30,7 @@ public class OldrionManager : EnemyStateManager
     [SerializeField] Collider2D dashCollider;
     bool crushing; // mirrors the boolean variable of the same name in oldrionController
 
-    void Start()
+    protected override void Start()
     {
         base.Start();
         comboManager = GetComponent<OldrionComboManager>();
@@ -44,6 +44,20 @@ public class OldrionManager : EnemyStateManager
         }
         else
         {
+            //if (curState == BusyState)
+            //{
+            //    busyStateTimer += Time.fixedDeltaTime;
+            //    if (busyStateTimer >= 5.0f)
+            //    {
+            //        UnityEngine.Debug.Log("Oldrion AI stuck in busy state, forcing exit");
+            //        busyStateTimer = 0.0f;
+            //        curState.ExitState(this);
+            //    }
+            //}
+            //else
+            //{
+            //    busyStateTimer = 0.0f;
+            //}
             base.FixedUpdate();
         }
     }
@@ -186,5 +200,13 @@ public class OldrionManager : EnemyStateManager
     public void SetEnemyManagerCrushing(bool val)
     {
         crushing = val;
+    }
+
+    public void StopAuraFarming()
+    {
+        if (curState == BusyState) // if Oldrion is stuck in Busy in Idle anim
+        {
+            pool.GetActionByName("Light").PlayNoCD(this);
+        }
     }
 }

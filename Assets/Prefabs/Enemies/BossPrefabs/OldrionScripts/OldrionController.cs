@@ -74,7 +74,7 @@ public class OldrionController : BossController
 
     public override void EnableAI()
     {
-        base.EnableAI();
+        bossActivated = true;
         Debug.Log("Enabled AI");
         AudioManager.Instance.GetComponentInChildren<MusicManager>().CrossfadeTo(MusicTrackName.OLDRION_FIRST, 0.5f);
         manager.enabled = true;

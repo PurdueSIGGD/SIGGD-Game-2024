@@ -104,7 +104,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 0.5
+  m_Mass: 0.0001
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 4
@@ -171,6 +171,7 @@ GameObject:
   - component: {fileID: 1015405886979419828}
   - component: {fileID: 5436494508425736163}
   - component: {fileID: -5486637794773673572}
+  - component: {fileID: 7721600145984160071}
   m_Layer: 21
   m_Name: Ronin
   m_TagString: Enemy
@@ -292,6 +293,8 @@ MonoBehaviour:
   grounded: 0
   groundedRayCheckLength: 1
   enableStunning: 1
+  disableNormalStates: 0
+  currentTarget: {fileID: 0}
   swordTrigger: {fileID: 7565977893133872963}
   swordDamage:
     damageStrength: 1
@@ -313,6 +316,7 @@ MonoBehaviour:
   dashDamageVal: 10
   dashSpeed: 50
   isDashing: 0
+  canDashSwing: 0
 --- !u!114 &565511163646216881
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -333,6 +337,7 @@ MonoBehaviour:
     hitBox: {fileID: 7565977893133872963}
     usesCircleHitbox: 0
     coolDown: 2
+    respectHitboxOnCooldown: 1
     animationClip: {fileID: 7400000, guid: 430d6a0c8d9e0024d86bc9f882250f00, type: 2}
   - name: Dash
     priority: 1
@@ -340,6 +345,7 @@ MonoBehaviour:
     hitBox: {fileID: 7986608270766379654}
     usesCircleHitbox: 0
     coolDown: 7
+    respectHitboxOnCooldown: 0
     animationClip: {fileID: 7400000, guid: b0416459c1ed4dc42b945020e1868e92, type: 2}
   move:
     name: Move
@@ -348,6 +354,7 @@ MonoBehaviour:
     hitBox: {fileID: 0}
     usesCircleHitbox: 0
     coolDown: 0
+    respectHitboxOnCooldown: 1
     animationClip: {fileID: 7400000, guid: 93629f04252375b45b0f4f4f69a87aeb, type: 2}
   idle:
     name: Idle
@@ -356,6 +363,7 @@ MonoBehaviour:
     hitBox: {fileID: 0}
     usesCircleHitbox: 0
     coolDown: 0
+    respectHitboxOnCooldown: 1
     animationClip: {fileID: 7400000, guid: ae88520d4a0e56a4fbe68e90bfa9385c, type: 2}
 --- !u!50 &978463440714845906
 Rigidbody2D:
@@ -369,7 +377,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 3
+  m_Mass: 1
   m_LinearDrag: 1
   m_AngularDrag: 0.05
   m_GravityScale: 4
@@ -488,15 +496,15 @@ MonoBehaviour:
   - obj: {fileID: 4809253014695496824, guid: 4950ea8f40c9d9944b6d20a6150d4cce, type: 3}
     chance: 1
     minCount: 2
-    maxCount: 5
+    maxCount: 4
   - obj: {fileID: 4809253014695496824, guid: fe291ced3ae40fc46a74c816a48d0e61, type: 3}
     chance: 1
     minCount: 2
-    maxCount: 5
+    maxCount: 4
   - obj: {fileID: 4809253014695496824, guid: e8a6431bc0e6c7a4e922f586f4216e97, type: 3}
     chance: 1
     minCount: 2
-    maxCount: 5
+    maxCount: 4
 --- !u!255 &1015405886979419828
 FixedJoint2D:
   m_ObjectHideFlags: 0
@@ -553,6 +561,19 @@ MonoBehaviour:
   stunDuration: 0.6
   currentStun: 0
   maxStun: 0
+--- !u!114 &7721600145984160071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5758368328312758866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6835c333b8099247acf0cab08ba2fb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  energyPool: 100
 --- !u!1 &7803730565979122282
 GameObject:
   m_ObjectHideFlags: 0

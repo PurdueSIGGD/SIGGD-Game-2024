@@ -28,7 +28,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 8, y: 5, z: 5}
+  m_LocalScale: {x: 18, y: 5, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5901077105013641508}
@@ -79,7 +79,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.3, y: 10}
+  m_Size: {x: 1.111, y: 10}
   m_EdgeRadius: 0
 --- !u!114 &4261515385183144070
 MonoBehaviour:
@@ -100,7 +100,7 @@ MonoBehaviour:
   runningAccelMod: 10
   ariborneAccelMod: 10
   values: 00000000070000000e000000150000001c000000
-  lingeringBuffDuration: 3
+  lingeringBuffDuration: 1.5
 --- !u!1 &3295668899322215722
 GameObject:
   m_ObjectHideFlags: 0
@@ -941,7 +941,7 @@ ParticleSystem:
     donutRadius: 0.2
     m_Position: {x: 0, y: 0.3, z: 0}
     m_Rotation: {x: 0, y: 0, z: 0}
-    m_Scale: {x: 10, y: 30, z: 1}
+    m_Scale: {x: 20, y: 30, z: 1}
     placementMode: 0
     m_MeshMaterialIndex: 0
     m_MeshNormalOffset: 0

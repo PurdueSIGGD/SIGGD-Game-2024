@@ -89,6 +89,7 @@ public class SilasData : GhostData
 {
     public override int Index => 4;
     public int ingredientsCollected;
+    public int specialCharges;
 }
 
 [Serializable]

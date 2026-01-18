@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 9084521854579274038}
   - component: {fileID: 978341307812496434}
   - component: {fileID: 92204585056363256}
+  - component: {fileID: 1909727856693236595}
   m_Layer: 21
   m_Name: MageFire
   m_TagString: Enemy
@@ -37,7 +38,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -0.074, z: 0}
-  m_LocalScale: {x: 1, y: 1.15, z: 1}
+  m_LocalScale: {x: 1.15, y: 1.15, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8247585021918617221}
@@ -213,29 +214,12 @@ MonoBehaviour:
   groundedRayCheckLength: 1.5
   enableStunning: 1
   disableNormalStates: 0
+  currentTarget: {fileID: 0}
   fireballPrefab: {fileID: 7853376000210057257, guid: 8db0fad255424f74fb22c97b1995588f,
     type: 3}
   lineOfSightTriggerBox: {fileID: 2179027480825402844}
-  fireDamageImpact:
-    damageStrength: 1
-    damageTypes: 01000000
-    actionID: 17
-    actionTypes: 07000000
-    extraContext: fireball impact from fire mage
-    ghostID: 0
-  impactDamage: 5
-  fireDamageTick:
-    damageStrength: 0
-    damageTypes: 03000000
-    actionID: 17
-    actionTypes: 07000000
-    extraContext: fire tick from fire mage
-    ghostID: 0
-  tickDamage: 1
-  baseSpeed: 2
-  trackIntensity: 0.1
-  damageTickIntervalSec: 0.2
-  damageTickDurationSec: 2
+  projectile: {fileID: 5156741841575326909, guid: dcd9a568d6b69ea4a8e1c9b038ec3b8c,
+    type: 3}
 --- !u!114 &4299196913714008640
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -251,12 +235,21 @@ MonoBehaviour:
   enemy: {fileID: 0}
   actions:
   - name: Mage_FireFireBall
+    priority: 3
+    ready: 1
+    hitBox: {fileID: 5571183243266569233}
+    usesCircleHitbox: 1
+    coolDown: 7
+    respectHitboxOnCooldown: 1
+    animationClip: {fileID: 7400000, guid: 3b0f3930d8a68e84f831c30d4c07927b, type: 2}
+  - name: MageFire_Basic
     priority: 1
     ready: 1
     hitBox: {fileID: 5571183243266569233}
     usesCircleHitbox: 1
-    coolDown: 6
-    animationClip: {fileID: 7400000, guid: 3b0f3930d8a68e84f831c30d4c07927b, type: 2}
+    coolDown: 2.25
+    respectHitboxOnCooldown: 1
+    animationClip: {fileID: 7400000, guid: 835aa65ac3d41ae4da1dce9e7fdfbe04, type: 2}
   move:
     name: none
     priority: 0
@@ -264,6 +257,7 @@ MonoBehaviour:
     hitBox: {fileID: 0}
     usesCircleHitbox: 0
     coolDown: 0
+    respectHitboxOnCooldown: 1
     animationClip: {fileID: 7400000, guid: 83103f5d5cc02d242afe4da05b642a30, type: 2}
   idle:
     name: none
@@ -272,6 +266,7 @@ MonoBehaviour:
     hitBox: {fileID: 0}
     usesCircleHitbox: 0
     coolDown: 0
+    respectHitboxOnCooldown: 1
     animationClip: {fileID: 7400000, guid: 83103f5d5cc02d242afe4da05b642a30, type: 2}
 --- !u!114 &4693801382311939199
 MonoBehaviour:
@@ -287,8 +282,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Max Health
-    value: 150
-  deathLevel: 140
+    value: 120
+  deathLevel: 
 --- !u!114 &7990850349161753078
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -307,7 +302,7 @@ MonoBehaviour:
   - name: Speed
     value: 0
   - name: Damage
-    value: 10
+    value: 5
   - name: Pause Timer Duration Min
     value: 1
   - name: Pause Timer Duration Max
@@ -351,16 +346,16 @@ MonoBehaviour:
   dropTable:
   - obj: {fileID: 4809253014695496824, guid: fe291ced3ae40fc46a74c816a48d0e61, type: 3}
     chance: 1
-    minCount: 7
-    maxCount: 18
+    minCount: 3
+    maxCount: 5
   - obj: {fileID: 4809253014695496824, guid: 4950ea8f40c9d9944b6d20a6150d4cce, type: 3}
     chance: 1
-    minCount: 7
-    maxCount: 18
+    minCount: 3
+    maxCount: 5
   - obj: {fileID: 4809253014695496824, guid: e8a6431bc0e6c7a4e922f586f4216e97, type: 3}
     chance: 1
-    minCount: 7
-    maxCount: 18
+    minCount: 3
+    maxCount: 5
 --- !u!114 &92204585056363256
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -380,6 +375,19 @@ MonoBehaviour:
     actionTypes: 08000000
     extraContext: 
     ghostID: 0
+--- !u!114 &1909727856693236595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 228210843640184050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6835c333b8099247acf0cab08ba2fb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  energyPool: 65
 --- !u!1 &1991568027994458898
 GameObject:
   m_ObjectHideFlags: 0
@@ -508,7 +516,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 12, y: 12, z: 12}
+  m_LocalScale: {x: 13, y: 13, z: 1.3}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1684414794241371600}

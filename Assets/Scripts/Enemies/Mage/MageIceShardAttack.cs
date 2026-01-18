@@ -6,10 +6,12 @@ public class MageIceShardAttack : EnemyProjectile
 {
     [SerializeField] float damage;
     [SerializeField] float chargeTimeSec; // time suspended in air before launch
+    [SerializeField] LayerMask launchedCollisionExcludeLayers;
     GameObject initialTarget;
     GameObject attacker;
     Vector3 targetPos;
-    bool launched;
+    public bool launched = false;
+    public bool aimed = false;
 
     public void Initialize(GameObject targetObj, GameObject attacker)
     {
@@ -19,15 +21,19 @@ public class MageIceShardAttack : EnemyProjectile
         projectileDamage.damage = damage;
         projectileDamage.attacker = attacker;
     }
+
     void Update()
     {
+        /*
         if (!launched && chargeTimeSec > 0)
             chargeTimeSec -= Time.deltaTime;
         else
         {
             Launch();
         }
+        */
     }
+
     new void FixedUpdate()
     {
         if (!launched)
@@ -39,13 +45,22 @@ public class MageIceShardAttack : EnemyProjectile
             base.FixedUpdate();
         }
     }
-    void Launch()
+
+    public void Aim()
+    {
+        aimed = true;
+    }
+
+    public void Launch()
     {
         launched = true;
         transform.parent = null;
+        GetComponent<BoxCollider2D>().excludeLayers = launchedCollisionExcludeLayers;
     }
-    void Track()
+
+    private void Track()
     {
+        if (aimed) return;
         if (initialTarget != null)
         {
             targetPos = initialTarget.transform.position;
@@ -53,9 +68,20 @@ public class MageIceShardAttack : EnemyProjectile
             transform.rotation = Quaternion.LookRotation(Vector3.forward, dir);
         }
     }
+
+    /*
+    public override void ProcessCollision(GameObject other)
+    {
+        if (!launched) 
+        base.ProcessCollision(other);
+    }
+    */
+
+    /*
     public void OnTriggerStay2D(Collider2D collision)
     {
         if (launched)
             base.ProcessCollision(collision.gameObject);
     }
+    */
 }

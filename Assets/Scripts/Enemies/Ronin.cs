@@ -35,12 +35,14 @@ public class Ronin : EnemyStateManager
     }
     protected void DashStart()
     {
+        rb.mass = 3f;
         rb.velocity = new Vector2(dashSpeed, rb.velocity.y) * transform.right;
         dashCollider.enabled = true;
         isDashing = true;
     }
     protected void EndDash()
     {
+        //rb.mass = 1f;
         rb.velocity = Vector2.zero;
         dashCollider.enabled = false;
         if (canDashSwing) animator.ResetTrigger("dash_hit");
@@ -48,7 +50,7 @@ public class Ronin : EnemyStateManager
     }
     public void OnDashHit(Collider2D col)
     {
-        if (col.gameObject.CompareTag("Player"))
+        if (col.gameObject.CompareTag("Player") || col.gameObject.CompareTag("Idol_Clone"))
         {
             print("hit player!");
             dashDamage.damage = dashDamageVal;
@@ -59,6 +61,7 @@ public class Ronin : EnemyStateManager
     }
     protected override void OnFinishAnimation()
     {
+        rb.mass = 1f;
         base.OnFinishAnimation();
     }
     protected override void OnDrawGizmos()

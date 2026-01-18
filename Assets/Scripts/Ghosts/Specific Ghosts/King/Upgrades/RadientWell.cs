@@ -5,6 +5,7 @@ using UnityEngine;
 public class RadientWell : Skill
 {
     [SerializeField] GameObject wellObj;
+    private GameObject wellInstance;
 
     void OnEnable()
     {
@@ -22,6 +23,13 @@ public class RadientWell : Skill
         {
             return;
         }
+
+        //Destroy old well
+        if (wellInstance != null)
+        {
+            wellInstance.GetComponent<RadientWellEffect>().EndEffect();
+        }
+
         Vector2 playerPos = PlayerID.instance.transform.position;
 
         // raycast down to find floor, summon well there
@@ -29,12 +37,15 @@ public class RadientWell : Skill
 
         if (hit)
         {
-            RadientWellEffect wellEffect = Instantiate(wellObj, hit.point, transform.rotation).GetComponent<RadientWellEffect>();
+            wellInstance = Instantiate(wellObj, hit.point, transform.rotation);
+            RadientWellEffect wellEffect = wellInstance.GetComponent<RadientWellEffect>();
             wellEffect.Init(GetPoints());
         }
         else // if no floor (how?), then I guess summon at player location
         {
-            Instantiate(wellObj, playerPos, transform.rotation);
+            wellInstance = Instantiate(wellObj, playerPos, transform.rotation);
+            RadientWellEffect wellEffect = wellInstance.GetComponent<RadientWellEffect>();
+            wellEffect.Init(GetPoints());
         }
 
         // SFX

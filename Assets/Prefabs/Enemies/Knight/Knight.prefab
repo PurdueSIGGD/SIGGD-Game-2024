@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1309778929984401666
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6129538436939241049}
+  m_Layer: 21
+  m_Name: Basic Trigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6129538436939241049
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1309778929984401666}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.47, y: 0.08, z: 0}
+  m_LocalScale: {x: 4, y: 1.4, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 9074763983707266519}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1393067818931581941
 GameObject:
   m_ObjectHideFlags: 0
@@ -20,6 +51,7 @@ GameObject:
   - component: {fileID: 2071007487395054228}
   - component: {fileID: 6674311171928497452}
   - component: {fileID: 1734933876675235778}
+  - component: {fileID: 3831900344016222622}
   m_Layer: 21
   m_Name: Knight
   m_TagString: Enemy
@@ -37,10 +69,11 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.188, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.85, y: 0.85, z: 0.85}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 7053703775646020486}
+  - {fileID: 6129538436939241049}
   - {fileID: 1544642369396135217}
   - {fileID: 438740059758093778}
   - {fileID: 3748458408678747414}
@@ -206,12 +239,21 @@ MonoBehaviour:
   enemy: {fileID: 0}
   actions:
   - name: Sword Attack
-    priority: 1
+    priority: 2
     ready: 1
     hitBox: {fileID: 7053703775646020486}
     usesCircleHitbox: 0
-    coolDown: 0.9
+    coolDown: 5
+    respectHitboxOnCooldown: 1
     animationClip: {fileID: 7400000, guid: a2483e2a32b39f240947157efb27424b, type: 2}
+  - name: Basic Attack
+    priority: 1
+    ready: 1
+    hitBox: {fileID: 6129538436939241049}
+    usesCircleHitbox: 0
+    coolDown: 2
+    respectHitboxOnCooldown: 1
+    animationClip: {fileID: 7400000, guid: 2599d38daa3471f40a225dbedc426576, type: 2}
   move:
     name: Move
     priority: 0
@@ -219,6 +261,7 @@ MonoBehaviour:
     hitBox: {fileID: 0}
     usesCircleHitbox: 0
     coolDown: 0
+    respectHitboxOnCooldown: 1
     animationClip: {fileID: 7400000, guid: 308a817f162a8454a97475f50c55a535, type: 2}
   idle:
     name: 
@@ -227,6 +270,7 @@ MonoBehaviour:
     hitBox: {fileID: 0}
     usesCircleHitbox: 0
     coolDown: 0
+    respectHitboxOnCooldown: 1
     animationClip: {fileID: 7400000, guid: 4586f135f2897ba4cafc5c80652419f4, type: 2}
 --- !u!114 &2121035421530653855
 MonoBehaviour:
@@ -242,7 +286,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Max Health
-    value: 140
+    value: 160
   deathLevel: 
 --- !u!114 &8198236020869808662
 MonoBehaviour:
@@ -293,16 +337,27 @@ MonoBehaviour:
   grounded: 0
   groundedRayCheckLength: 1.5
   enableStunning: 1
+  disableNormalStates: 0
+  currentTarget: {fileID: 0}
   swordTrigger: {fileID: 7053703775646020486}
   swordDamage:
-    damageStrength: 0
-    damageTypes: 
-    actionID: 0
-    actionTypes: 
+    damageStrength: 1
+    damageTypes: 00000000
+    actionID: 17
+    actionTypes: 07000000
     extraContext: 
     ghostID: 0
-  damageVal: 12
+  damageVal: 10
   swingVisual: {fileID: 8528928557719529496}
+  basicTrigger: {fileID: 6129538436939241049}
+  basicDamage:
+    damageStrength: 1
+    damageTypes: 00000000
+    actionID: 17
+    actionTypes: 07000000
+    extraContext: 
+    ghostID: 0
+  basicDamageVal: 15
 --- !u!114 &2071007487395054228
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -318,16 +373,16 @@ MonoBehaviour:
   dropTable:
   - obj: {fileID: 4809253014695496824, guid: fe291ced3ae40fc46a74c816a48d0e61, type: 3}
     chance: 1
-    minCount: 8
-    maxCount: 20
+    minCount: 3
+    maxCount: 5
   - obj: {fileID: 4809253014695496824, guid: 4950ea8f40c9d9944b6d20a6150d4cce, type: 3}
     chance: 1
-    minCount: 8
-    maxCount: 20
+    minCount: 3
+    maxCount: 5
   - obj: {fileID: 4809253014695496824, guid: e8a6431bc0e6c7a4e922f586f4216e97, type: 3}
     chance: 1
-    minCount: 8
-    maxCount: 20
+    minCount: 3
+    maxCount: 5
 --- !u!114 &6674311171928497452
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -342,7 +397,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Stun Threshold
-    value: 120
+    value: 100
+  stunDuration: 0.6
   currentStun: 0
   maxStun: 0
 --- !u!114 &1734933876675235778
@@ -364,6 +420,19 @@ MonoBehaviour:
     actionTypes: 08000000
     extraContext: 
     ghostID: 0
+--- !u!114 &3831900344016222622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1393067818931581941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6835c333b8099247acf0cab08ba2fb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  energyPool: 100
 --- !u!1 &4069545103417393013
 GameObject:
   m_ObjectHideFlags: 0

@@ -114,10 +114,16 @@ public class IdolClone : MonoBehaviour
 
         // SFX
         AudioManager.Instance.SFXBranch.PlaySFXTrack("Eva-Nova Pop");
+
+        // VFX
+        if (context.victim != gameObject) return;
+        GameObject damageImpactVFX = Instantiate(pulseVFX, transform.position, Quaternion.identity);
+        damageImpactVFX.GetComponent<RingExplosionHandler>().playRingExplosion(4f, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);
     }
 
     private void CloneDamageTaken(DamageContext context)
     {
+        // VFX
         if (context.victim != gameObject) return;
         GameObject damageImpactVFX = Instantiate(pulseVFX, transform.position, Quaternion.identity);
         damageImpactVFX.GetComponent<RingExplosionHandler>().playRingExplosion(2f, manager.GetComponent<GhostIdentity>().GetCharacterInfo().primaryColor);

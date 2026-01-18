@@ -1,4 +1,5 @@
 using UnityEngine;
+using static DropTable;
 
 public class DropManager : MonoBehaviour
 {
@@ -12,6 +13,24 @@ public class DropManager : MonoBehaviour
         GameplayEventHolder.OnDeath -= DropLoot;
     }
 
+    private void DropPlayerSpirits(float dropCount, GameObject spiritPrefab)
+    {
+        float originalDropCount = dropCount;
+        dropCount /= 15f;
+        dropCount = Mathf.Min(dropCount, 10f);
+        if (originalDropCount > 1f) dropCount = Mathf.Max(dropCount, 2f);
+
+        float xDeviation = -0.0100f;
+        float yDeviation = 0.00100f;
+
+        for (int i = 0; i < dropCount; i++)
+        {
+            Rigidbody2D rb = Instantiate(spiritPrefab, PlayerID.instance.transform.position, PlayerID.instance.transform.rotation).GetComponent<Rigidbody2D>();
+            rb.AddForce(new Vector2(UnityEngine.Random.value * xDeviation, yDeviation), ForceMode2D.Impulse);
+            xDeviation = -xDeviation;
+        }
+    }
+
     private void DropLoot(DamageContext context)
     {
         Debug.Log(context.victim.name + " Died");
@@ -22,9 +41,19 @@ public class DropManager : MonoBehaviour
             {
                 return;
             }
-            DropTable table = victim.GetComponent<DropTable>();
-            if (!context.victim.CompareTag("Enemy") || table == null) { return; }
 
+            if (context.victim.CompareTag("Player"))
+            {
+                SpiritTracker spiritTracker = PersistentData.Instance.GetComponent<SpiritTracker>();
+                DropPlayerSpirits(spiritTracker.redSpiritsCollected, spiritTracker.redSpiritPrefab);
+                DropPlayerSpirits(spiritTracker.blueSpiritsCollected, spiritTracker.blueSpiritPrefab);
+                DropPlayerSpirits(spiritTracker.yellowSpiritsCollected, spiritTracker.yellowSpiritPrefab);
+                DropPlayerSpirits(spiritTracker.pinkSpiritsCollected, spiritTracker.pinkSpiritPrefab);
+                return;
+            }
+
+            DropTable table = victim.GetComponent<DropTable>();
+            if (!context.victim.CompareTag("Enemy") || table == null) return;
             foreach (DropTable.Drop drop in table.dropTable)
             {
                 // Decide if each loot will drop
