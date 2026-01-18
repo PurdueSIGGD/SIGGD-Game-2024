@@ -17,6 +17,7 @@ public class Action
     [SerializeField] private Transform hitBox; // The area in which if a player is inside, the action will be performed
     [SerializeField] bool usesCircleHitbox = false;
     [SerializeField] private float coolDown;
+    [SerializeField] public bool respectHitboxOnCooldown = true;
     [SerializeField] private AnimationClip animationClip;
 
     /// <summary>

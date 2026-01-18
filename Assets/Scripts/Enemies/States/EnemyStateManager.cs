@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using UnityEngine;
 using static UnityEngine.EventSystems.EventTrigger;
@@ -28,13 +29,15 @@ public class EnemyStateManager : MonoBehaviour
     protected float currentKnockbackDurationTime;
     [SerializeField] protected bool grounded;
     [SerializeField] float groundedRayCheckLength = 1;
-    [SerializeField] bool enableStunning = true;
+    [SerializeField] protected bool enableStunning = true;
 
     [Header("Executive Veto")]
     [SerializeField] bool disableNormalStates = false;
     // disables normal states such as Move, Idle, Aggro, etc.
     // if this is on, it means that enemy behavior is being fully controlled by 
     // external scripts, only allowing stun states and other uses of enemyStateMachine
+
+    /*[HideInInspector]*/ public GameObject currentTarget;
 
     protected virtual void Awake()
     {
@@ -45,6 +48,7 @@ public class EnemyStateManager : MonoBehaviour
         pool = GetComponent<ActionPool>();
         pool.enemy = this;
         isBeingKnockedBack = false;
+        currentTarget = player.gameObject;
     }
 
     protected virtual void Start()
@@ -101,24 +105,49 @@ public class EnemyStateManager : MonoBehaviour
     public virtual bool HasLineOfSight(bool tracking)
     {
         // while the player has the invisible component, enemies shall not see the player
+        /*
         if (player.GetComponent<Invisible>() != null)
         {
             return false;
         }
+        */
 
         Vector2 dir = transform.TransformDirection(Vector2.right);
         float maxDistance = aggroRange;
 
         if (tracking)
         {
-            dir = player.position - transform.position;
+            Transform target = player;
+            if (!IsCurrentTargetPlayer()) target = GetCurrentTarget().transform;
+            dir = target.position - transform.position;
             maxDistance = maxDistance * 1.5f;
         }
+
+        RaycastHit2D oniHit = Physics2D.Raycast(transform.position, dir, maxDistance, LayerMask.GetMask("Enemy", "Ground"));
+        if (oniHit)
+        {
+            if (oniHit.collider.gameObject.name.Contains("Oni"))
+            {
+                currentTarget = oniHit.collider.gameObject;
+                return true;
+            }
+        }
+
         RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, maxDistance, LayerMask.GetMask("Player", "Idol_Clone", "Ground"));
         Debug.DrawRay(transform.position, dir);
         if (hit)
         {
-            return (hit.collider.gameObject.CompareTag("Player") || hit.collider.gameObject.CompareTag("Idol_Clone"));
+            //return ((hit.collider.gameObject.CompareTag("Player") && player.GetComponent<Invisible>() == null) || hit.collider.gameObject.CompareTag("Idol_Clone"));
+            if (hit.collider.gameObject.CompareTag("Player") && player.GetComponent<Invisible>() == null)
+            {
+                currentTarget = player.gameObject;
+                return true;
+            }
+            else if (hit.collider.gameObject.CompareTag("Idol_Clone"))
+            {
+                currentTarget = hit.collider.gameObject;
+                return true;
+            }
         }
         return false;
     }
@@ -128,7 +157,7 @@ public class EnemyStateManager : MonoBehaviour
     /// </summary>
     /// <param name="damageContext"> the damage context that resulted in the stun </param>
     /// <param name="duration"> the duration of the stun </param>
-    public void Stun(DamageContext damageContext, float duration = 0f)
+    public virtual void Stun(DamageContext damageContext, float duration = 0f)
     {
         if (!enableStunning) return;
 
@@ -299,5 +328,21 @@ public class EnemyStateManager : MonoBehaviour
     public float GetGroundedRayCheckLength()
     {
         return groundedRayCheckLength;
+    }
+
+
+
+
+
+    public bool IsCurrentTargetPlayer()
+    {
+        if (currentTarget == null) currentTarget = player.gameObject;
+        return (currentTarget.CompareTag("Player"));
+    }
+
+    public GameObject GetCurrentTarget()
+    {
+        if (currentTarget == null) currentTarget = player.gameObject;
+        return currentTarget;
     }
 }

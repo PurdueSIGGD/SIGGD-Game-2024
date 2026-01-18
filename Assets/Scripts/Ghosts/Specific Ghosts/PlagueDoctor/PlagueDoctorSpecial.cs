@@ -22,6 +22,7 @@ public class PlagueDoctorSpecial : MonoBehaviour
     {
         if (manager != null)
         {
+            /*
             if (manager.specialCharges <= 0)
             {
                 psm.OnCooldown("c_special");
@@ -29,6 +30,15 @@ public class PlagueDoctorSpecial : MonoBehaviour
             else
             {
                 psm.OffCooldown("c_special");
+            }
+            */
+            if (manager.getSpecialReady())
+            {
+                psm.OffCooldown("c_special");
+            }
+            else
+            {
+                psm.OnCooldown("c_special");
             }
         }
     }
@@ -38,7 +48,12 @@ public class PlagueDoctorSpecial : MonoBehaviour
     public void StartDash()
     {
         GetComponent<PartyManager>().SetSwappingEnabled(false);
-        manager.specialCharges--;
+        //manager.specialCharges--;
+        if (manager.specialCharges >= manager.GetStats().ComputeValue("Special Max Charges"))
+        {
+            manager.resetSpecialEnergy();
+        }
+        manager.consumeSpecialCharge();
         GameObject bottle = Instantiate(manager.blightPotion, transform.position, transform.rotation);
         bottle.GetComponent<Bottle>().manager = manager;
         Vector2 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);

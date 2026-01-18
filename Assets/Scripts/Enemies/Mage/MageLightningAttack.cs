@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 public class MageLightningAttack : MonoBehaviour
@@ -6,6 +7,8 @@ public class MageLightningAttack : MonoBehaviour
     [SerializeField] private float ringSpinSpeed = 2f;
     [SerializeField] private float particlesDuration = 2f;
     [SerializeField] private ParticleSystem particleSys;
+    [SerializeField] private Animator lightningStrikeAnimator;
+    [SerializeField] private GameObject targetingReticle;
 
     private Animator animator;
     [SerializeField] private GameObject ringGameObject;
@@ -18,10 +21,20 @@ public class MageLightningAttack : MonoBehaviour
     bool followPlayer;
     bool lightningActive;
 
+    private GameObject target;
+
+    
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
         ringSpriteRenderer = ringGameObject.GetComponent<SpriteRenderer>();
+        lightningStrikeAnimator.gameObject.SetActive(false);
+        bool flip = (Random.value > 0.5f);
+        if (flip)
+            lightningStrikeAnimator.transform.rotation = Quaternion.Euler(0, 0, 0);
+        else
+            lightningStrikeAnimator.transform.rotation = Quaternion.Euler(0, 180f, 0);
     }
 
     private void FixedUpdate()
@@ -31,17 +44,28 @@ public class MageLightningAttack : MonoBehaviour
             ringGameObject.transform.Rotate(0, 0, ringSpinSpeed);
         }
         // follow player
-        if (followPlayer && PlayerID.instance.gameObject)
+        /*
+        if (followPlayer && target != null)
         {
-            transform.position = PlayerID.instance.gameObject.transform.position;
+            transform.position = target.transform.position;
         }
+        */
+
+        if (target == PlayerID.instance.gameObject && target.GetComponent<Invisible>() != null) return;
+        if (followPlayer && target != null)
+        {
+            RaycastHit2D hit = Physics2D.Raycast(target.transform.position, Vector2.down, 20f, LayerMask.GetMask("Ground"));
+            transform.position = hit.point + (0.5f * Vector2.up);
+        }
+        attackPosition = transform.position;
     }
 
     // Sets all instance variables and updates position (similar to a constructor)
     // Invoke this method right after instantiating this GameObject
-    public void Initialize(Vector2 attackPosition, float attackRadius, DamageContext damageContext, GameObject sourceMage)
+    public void Initialize(GameObject target, float attackRadius, DamageContext damageContext, GameObject sourceMage)
     {
-        this.attackPosition = attackPosition;
+        this.target = target;
+        this.attackPosition = target.transform.position;
         this.attackRadius = attackRadius;
         this.damageContext = damageContext;
         this.sourceMage = sourceMage;
@@ -49,6 +73,8 @@ public class MageLightningAttack : MonoBehaviour
         lightningActive = false;
 
         transform.position = attackPosition;  // update position
+
+        ringSpriteRenderer.color = new Color(0f, 0f, 0f, 0f);
 
         UpdateSpriteSize();  // update the sprite 
     }
@@ -85,24 +111,57 @@ public class MageLightningAttack : MonoBehaviour
     {
         // Making the lightning ring white as a VFX
         lightningActive = true;
-        ringSpriteRenderer.color = Color.white;
+        //ringSpriteRenderer.color = Color.white;
+        ringSpriteRenderer.color = new Color(0f, 0f, 0f, 0f);
+        targetingReticle.SetActive(false);
 
+        lightningStrikeAnimator.gameObject.SetActive(true);
+        lightningStrikeAnimator.Play("LightningBoom");
+
+        CameraShake.instance.Shake(0.5f, 10f, 0f, 10f, new Vector2(Random.Range(-0.5f, 0.5f), 1f));
+
+        /*
         if (particleSys != null)
         {
             particleSys.Play();
         }
+        */
 
+        /*
         // Check for player to do damage
-        Collider2D hit = Physics2D.OverlapCircle(attackPosition, attackRadius, LayerMask.GetMask("Player"));
-        if (hit)
+        Collider2D[] hits = Physics2D.OverlapCircleAll(attackPosition, attackRadius, LayerMask.GetMask("Player", "Enemy"));
+        if (hits.Length > 0)
         {
-            hit.GetComponent<Health>().Damage(damageContext, sourceMage);
+            //hit.GetComponent<Health>().Damage(damageContext, sourceMage);
+            foreach (Collider2D hit in hits)
+            {
+                hit.GetComponent<Health>().Damage(damageContext, sourceMage);
+            }
+        }
+        */
+        DealDamage();
+    }
+
+    public void DealDamage()
+    {
+        // Check for player to do damage
+        Collider2D[] hits = Physics2D.OverlapCircleAll(attackPosition, attackRadius, LayerMask.GetMask("Player", "Enemy"));
+        if (hits.Length > 0)
+        {
+            //hit.GetComponent<Health>().Damage(damageContext, sourceMage);
+            foreach (Collider2D hit in hits)
+            {
+                hit.GetComponent<Health>().Damage(damageContext, sourceMage);
+            }
         }
     }
+
     public void Fizzle()
     {
-        Destroy(gameObject);
+        if (gameObject != null) Destroy(gameObject);
     }
+
+
 
     /// <summary>
     /// Trigger an automatic sequence if mage dies while spell is active.

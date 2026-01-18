@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Cleric : EnemyStateManager
@@ -19,11 +20,30 @@ public class Cleric : EnemyStateManager
     [SerializeField] GameObject bubble;
     float bubbleStandardCooldown;
     [SerializeField] float bubbleMissCooldown;
+    private LineRenderer lineRenderer;
+
+    private GameObject bubbleInstance;
+
+
+    private void OnEnable()
+    {
+        GameplayEventHolder.OnDeath += OnClericDead;
+        GameplayEventHolder.OnEntityStunned += OnClericStunned;
+    }
+
+    private void OnDisable()
+    {
+        GameplayEventHolder.OnDeath -= OnClericDead;
+        GameplayEventHolder.OnEntityStunned -= OnClericStunned;
+    }
+
 
     public void Start()
     {
         base.Start();
         swingContext.damage = swingDamage;
+        lineRenderer = GetComponent<LineRenderer>();
+        lineRenderer.enabled = false;
     }
 
     public void Update()
@@ -40,6 +60,18 @@ public class Cleric : EnemyStateManager
                 Flip(true);
             }
         }
+
+        if (bubbleInstance == null || bubbleInstance.GetComponent<ClericBubbleShieldScript>().isEnding)
+        {
+            lineRenderer.enabled = false;
+            return;
+        }
+        lineRenderer.enabled = true;
+        lineRenderer.SetPosition(0, transform.position + new Vector3(((player.position.x - transform.position.x < 0) ? 0.38f : -0.38f), 0.7f, 0f));
+        Vector3 endPosition = bubbleInstance.transform.position;
+        Vector3 dir = Vector3.Normalize(transform.position - bubbleInstance.transform.position);
+        endPosition += (1.2f * dir);
+        lineRenderer.SetPosition(1, endPosition);
     }
 
     public override bool HasLineOfSight(bool tracking)
@@ -68,15 +100,18 @@ public class Cleric : EnemyStateManager
 
     protected void ChannelBubble()
     {
+        if (bubbleInstance != null) return;
         GameObject target = GrabRandomNearbyBubbleTarget();
         if (target != null)
         {
             ApplyBubbleAsChildTo(target);
         }
+        /*
         else
         {
             ApplyBubbleAsChildTo(gameObject);
         }
+        */
     }
 
     private GameObject GrabRandomNearbyBubbleTarget()
@@ -87,8 +122,8 @@ public class Cleric : EnemyStateManager
         {
             GameObject enemy = col.gameObject;
             if ((enemy.GetComponentInChildren<ClericBubbleShieldScript>() == null) &&
-                ((enemy.GetComponent<Knight>() != null) ||
-                 (enemy.GetComponent<Mage>() != null)))
+                !((enemy.GetComponent<Cleric>() != null) ||
+                 (enemy.GetComponent<Crow>() != null)))
             {
                 validTargets.Add(enemy);
             }
@@ -108,7 +143,9 @@ public class Cleric : EnemyStateManager
             {
                 Destroy(oldBubble.gameObject);
             }
-            ClericBubbleShieldScript bubbleScript = Instantiate(bubble, enemy.transform).GetComponent<ClericBubbleShieldScript>();
+            //ClericBubbleShieldScript bubbleScript = Instantiate(bubble, enemy.transform).GetComponent<ClericBubbleShieldScript>();
+            bubbleInstance = Instantiate(bubble, enemy.transform);
+            ClericBubbleShieldScript bubbleScript = bubbleInstance.GetComponent<ClericBubbleShieldScript>();
             bubbleScript.SetParentEnemy(enemy);
         }
     }
@@ -118,5 +155,31 @@ public class Cleric : EnemyStateManager
     {
         base.OnDrawGizmos();
         Gizmos.DrawWireCube(swingContactBox.position, swingContactBox.lossyScale);
+    }
+
+
+
+
+
+    private void CancelBubble()
+    {
+        if (bubbleInstance == null) return;
+        bubbleInstance.GetComponent<ClericBubbleShieldScript>().EndBubble();
+    }
+
+
+
+    public void OnClericStunned(GameObject stunnedEntity)
+    {
+        if (stunnedEntity != gameObject) return;
+        CancelBubble();
+    }
+
+
+
+    public void OnClericDead(DamageContext context)
+    {
+        if (context.victim != gameObject) return;
+        CancelBubble();
     }
 }

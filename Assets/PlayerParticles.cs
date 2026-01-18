@@ -158,10 +158,13 @@ public class PlayerParticles : MonoBehaviour
     {
         GameObject swapPulse = Instantiate(pulseVFX, transform.position, Quaternion.identity);
         swapPulse.GetComponent<RingExplosionHandler>().playRingExplosion(2f, radiantWellColor);
+        /*
         if (!radiantWellBuff.isPlaying)
         {
             radiantWellBuff.Play();
         }
+        */
+        radiantWellBuff.Play();
     }
 
     public void StopRadiantWellBuff()

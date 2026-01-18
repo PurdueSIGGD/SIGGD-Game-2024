@@ -52,6 +52,7 @@ public class NovaPop : Skill
                 {
                     explosionContext.damage = stat.ComputeValue("Nova Pop Damage");
                     hit.transform.gameObject.GetComponent<Health>().Damage(explosionContext, playerRef);
+                    if (hit.GetComponent<EnemyStateManager>() == null) continue;
                     hit.GetComponent<EnemyStateManager>().Stun(stunContext, values[pointIndex]);
 
                     AudioManager.Instance.VABranch.PlayVATrack("Eva-Idol Nova Pop");

@@ -54,11 +54,7 @@ public class RadientWellEffect : MonoBehaviour
     {
         if (duration <= 0)
         {
-            if (buffActive)
-            {
-                RemoveBuff();
-            }
-            Destroy(gameObject);
+            EndEffect();
         }
         duration -= Time.deltaTime;
 
@@ -67,7 +63,7 @@ public class RadientWellEffect : MonoBehaviour
             lingeringTimer -= Time.deltaTime;
             if (lingeringTimer <= 0f)
             {
-                lingeringTimer = 0f;
+                lingeringTimer = lingeringBuffDuration;
                 isLingering = false;
                 if (buffActive) RemoveBuff();
             }
@@ -79,6 +75,15 @@ public class RadientWellEffect : MonoBehaviour
         this.skillPts = skillPts;
     }
 
+    public void EndEffect()
+    {
+        if (buffActive)
+        {
+            RemoveBuff();
+        }
+        Destroy(gameObject);
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         // if it's actually the player in the well, and not a clone
@@ -88,9 +93,10 @@ public class RadientWellEffect : MonoBehaviour
             {
                 ApplyBuff();
             }
-            else if (isLingering)
+            else //if (isLingering)
             {
                 isLingering = false;
+                lingeringTimer = lingeringBuffDuration;
             }
         }
     }

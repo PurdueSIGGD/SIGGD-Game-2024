@@ -13,6 +13,7 @@ public class GhostManager : MonoBehaviour, ISelectable, IStatList
     protected Animator animator;
     protected PartyManager partyManager;
     protected StatManager stats;
+    protected PlayerCursorManager playerCursorManager;
 
     private float currentBasicCooldown = 0f;
     private bool basicReady = true;
@@ -42,6 +43,7 @@ public class GhostManager : MonoBehaviour, ISelectable, IStatList
         animator = PlayerID.instance.GetComponent<Animator>();
         partyManager = PlayerID.instance.GetComponent<PartyManager>();
         stats = GetComponent<StatManager>();
+        playerCursorManager = PlayerID.instance.GetComponent<PlayerCursorLink>().GetPlayerCursorManager();
         StartCoroutine(DelayedStartCoroutine());
     }
 
@@ -64,12 +66,14 @@ public class GhostManager : MonoBehaviour, ISelectable, IStatList
     {
         if (PlayerID.instance.GetComponent<Dash>()) Destroy(PlayerID.instance.GetComponent<Dash>());
         animator.runtimeAnimatorController = ghostController;
+        playerCursorManager.SetActiveGhost(GetComponent<GhostIdentity>());
     }
 
     public virtual void DeSelect(GameObject player)
     {
         if (!PlayerID.instance.GetComponent<Dash>()) PlayerID.instance.AddComponent<Dash>();
         animator.runtimeAnimatorController = defaultController;
+        playerCursorManager.SetActiveGhost(null);
     }
 
 

@@ -57,7 +57,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 25f0cf71f629a8143b7f25600cbe20e6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -205,7 +205,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2, y: 2}
+  m_Size: {x: 16, y: 8}
   m_EdgeRadius: 0
 --- !u!114 &2732959024776281601
 MonoBehaviour:
@@ -219,6 +219,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11f35fd9e0c94c9498df689ab8a79b73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  launchDuration: 0.4
+  collectionAcceleration: 75
+  collectionJerkPerFrame: 1.02
+  topSpeed: 25
+  collectionRadius: 1.5
+  collectionCollisionExclusionLayerMask:
+    serializedVersion: 2
+    m_Bits: 6292040
+  boxCollider: {fileID: 5125077601899692497}
 --- !u!1001 &2524897190520180617
 PrefabInstance:
   m_ObjectHideFlags: 0

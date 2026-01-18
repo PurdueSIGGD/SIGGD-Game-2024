@@ -18,6 +18,7 @@ public class EnemyHealth : MonoBehaviour
     [SerializeField] private Slider stunMeterSlider;
     [SerializeField] private Image stunMeterBackground;
     [SerializeField] private Image stunMeterBar;
+    [SerializeField] private GameObject stunMessage;
 
     [SerializeField] private Slider delayedMeterSlider;
     [SerializeField] private Image delayedMeterBar;
@@ -107,6 +108,7 @@ public class EnemyHealth : MonoBehaviour
         stunMeterSlider.maxValue = stat.ComputeValue("Stun Threshold");
         stunMeterSlider.value = stat.ComputeValue("Stun Threshold") - stun.currentStun;
         stunMeterSlider.value = (enemyStateManager.StunState.isStunned) ? stunMeterSlider.maxValue : stunMeterSlider.value;
+        stunMessage.SetActive(enemyStateManager.StunState.isStunned);
     }
 
 

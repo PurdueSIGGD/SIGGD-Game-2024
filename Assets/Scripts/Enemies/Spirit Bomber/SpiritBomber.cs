@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SpiritBomber : EnemyStateManager
@@ -30,15 +31,24 @@ public class SpiritBomber : EnemyStateManager
     protected void StartThrow()
     {
         throwPosition = PlayerID.instance.transform.position;
+        if (!IsCurrentTargetPlayer())
+        {
+            throwPosition = GetCurrentTarget().transform.position;
+        }
     }
 
     protected void ThrowBomb()
     {
         GameObject bomb = Instantiate(bombPrefab, bombSpawn.position, Quaternion.identity);
         EnemyProjectile trackingProjectile = bomb.GetComponent<EnemyProjectile>();
-        trackingProjectile.Init(this.gameObject, throwPosition);
-
+        Transform targetTransform = PlayerID.instance.transform;
+        if (!IsCurrentTargetPlayer())
+        {
+            targetTransform = GetCurrentTarget().transform;
+        }
+        trackingProjectile.Init(this.gameObject, throwPosition, targetTransform);
     }
+
     protected override void OnDrawGizmos()
     {
         base.OnDrawGizmos();

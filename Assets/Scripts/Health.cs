@@ -52,18 +52,19 @@ public class Health : MonoBehaviour, IDamageable, IStatList
 
         // Clamp damage dealt
         context.damage = Mathf.Clamp(context.damage, 0f, currentHealth);
+        if (currentHealth <= 0f || !isAlive) return 0f;
 
         // Handle mortal wounds
         if (gameObject.Equals(PlayerID.instance.gameObject))
         {
             float damagedHealth = currentHealth - context.damage;
-            if (currentHealth > (stats.ComputeValue("Wounded Threshold") * stats.ComputeValue("Max Health")) &&
+            if (currentHealth > (stats.ComputeValue("Wounded Threshold") * stats.ComputeValue("Max Health")) + 0.1f &&
                 damagedHealth <= (stats.ComputeValue("Wounded Threshold") * stats.ComputeValue("Max Health")))
             {
                 context.isCriticalHit = true;
                 context.damageStrength = DamageStrength.HEAVY;
             }
-            if (currentHealth > (stats.ComputeValue("Mortal Wound Threshold") * stats.ComputeValue("Max Health")) &&
+            if (currentHealth > (stats.ComputeValue("Mortal Wound Threshold") * stats.ComputeValue("Max Health")) + 0.1f &&
                 damagedHealth <= (stats.ComputeValue("Mortal Wound Threshold") * stats.ComputeValue("Max Health")))
             {
                 context.isCriticalHit = true;
@@ -125,6 +126,7 @@ public class Health : MonoBehaviour, IDamageable, IStatList
 
     public virtual float Heal(HealingContext context, GameObject healer)
     {
+        /*
         // Configure healing context
         float missingHealth = stats.ComputeValue("Max Health") - currentHealth;
         context.healer = healer;
@@ -137,9 +139,30 @@ public class Health : MonoBehaviour, IDamageable, IStatList
         {
             filter(ref context);
         }
+        */
+
+
+        float missingHealth = stats.ComputeValue("Max Health") - currentHealth;
+        if (!gameObject.CompareTag("Player"))
+        {
+            // Configure healing context
+            //float missingHealth = stats.ComputeValue("Max Health") - currentHealth;
+            context.healer = healer;
+            context.healee = gameObject;
+            context.trueHealing = context.healing;
+            //context.healing = Mathf.Clamp(context.healing, 0f, missingHealth);
+            context.invokingScript = this;
+
+            foreach (GameplayEventHolder.HealingFilterEvent filter in GameplayEventHolder.OnHealingFilter)
+            {
+                filter(ref context);
+            }
+        }
+        
 
         // Clamp healing provided
         context.healing = Mathf.Clamp(context.healing, 0f, missingHealth);
+        if (currentHealth <= 0f || !isAlive) return 0f;
 
         // Increase current health
         if (isAlive) currentHealth += context.healing;

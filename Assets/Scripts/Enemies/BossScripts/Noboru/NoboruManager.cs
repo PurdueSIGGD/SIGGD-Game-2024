@@ -98,7 +98,7 @@ public class NoboruManager : EnemyStateManager
         GameObject lightningObject = Instantiate(lightningPrefab, player.transform.position, Quaternion.identity);
         MageLightningAttack lightningScript = lightningObject.GetComponent<MageLightningAttack>();
 
-        lightningScript.Initialize(PlayerID.instance.gameObject.transform.position, lightningRadius, lightningContext, gameObject);
+        lightningScript.Initialize(PlayerID.instance.gameObject, lightningRadius, lightningContext, gameObject);
         lightningScript.StartIndependentSequence(followTimeSec, warningTimeSec, lightningTimeSec);
     }
 

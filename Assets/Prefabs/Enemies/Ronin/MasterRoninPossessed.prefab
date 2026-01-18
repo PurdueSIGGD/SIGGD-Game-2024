@@ -167,10 +167,10 @@ GameObject:
   - component: {fileID: 1673412003558067465}
   - component: {fileID: 488377544483923326}
   - component: {fileID: 963103238379512714}
-  - component: {fileID: 3047485959818697918}
   - component: {fileID: 1015405886979419828}
   - component: {fileID: 5436494508425736163}
   - component: {fileID: -5486637794773673572}
+  - component: {fileID: 8013529238953372765}
   m_Layer: 21
   m_Name: MasterRoninPossessed
   m_TagString: Enemy
@@ -293,6 +293,8 @@ MonoBehaviour:
   grounded: 0
   groundedRayCheckLength: 1.2
   enableStunning: 1
+  disableNormalStates: 0
+  currentTarget: {fileID: 0}
   swordTrigger: {fileID: 7565977893133872963}
   swordDamage:
     damageStrength: 1
@@ -335,6 +337,7 @@ MonoBehaviour:
     hitBox: {fileID: 7565977893133872963}
     usesCircleHitbox: 0
     coolDown: 2
+    respectHitboxOnCooldown: 1
     animationClip: {fileID: 7400000, guid: e72a3f4899b0d9d43b8aa497541706fe, type: 2}
   - name: Dash
     priority: 1
@@ -342,6 +345,7 @@ MonoBehaviour:
     hitBox: {fileID: 7986608270766379654}
     usesCircleHitbox: 0
     coolDown: 7
+    respectHitboxOnCooldown: 0
     animationClip: {fileID: 7400000, guid: 9f3f32fe3465a2b458508fe77c4d2871, type: 2}
   move:
     name: Move
@@ -350,6 +354,7 @@ MonoBehaviour:
     hitBox: {fileID: 0}
     usesCircleHitbox: 0
     coolDown: 0
+    respectHitboxOnCooldown: 1
     animationClip: {fileID: 7400000, guid: 98e3bab3f6b91aa4987dfff7a09ebc56, type: 2}
   idle:
     name: Idle
@@ -358,6 +363,7 @@ MonoBehaviour:
     hitBox: {fileID: 0}
     usesCircleHitbox: 0
     coolDown: 0
+    respectHitboxOnCooldown: 1
     animationClip: {fileID: 7400000, guid: 7cb4904ceb0968749a08978329eac08e, type: 2}
 --- !u!50 &978463440714845906
 Rigidbody2D:
@@ -371,7 +377,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 3
+  m_Mass: 1
   m_LinearDrag: 1
   m_AngularDrag: 0.05
   m_GravityScale: 4
@@ -474,31 +480,6 @@ MonoBehaviour:
   - name: Max Health
     value: 140
   deathLevel: 
---- !u!114 &3047485959818697918
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5758368328312758866}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2caedd7880af52f4d89d2cfdf945a215, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dropTable:
-  - obj: {fileID: 4809253014695496824, guid: 4950ea8f40c9d9944b6d20a6150d4cce, type: 3}
-    chance: 1
-    minCount: 3
-    maxCount: 7
-  - obj: {fileID: 4809253014695496824, guid: fe291ced3ae40fc46a74c816a48d0e61, type: 3}
-    chance: 1
-    minCount: 3
-    maxCount: 7
-  - obj: {fileID: 4809253014695496824, guid: e8a6431bc0e6c7a4e922f586f4216e97, type: 3}
-    chance: 1
-    minCount: 3
-    maxCount: 7
 --- !u!255 &1015405886979419828
 FixedJoint2D:
   m_ObjectHideFlags: 0
@@ -555,6 +536,19 @@ MonoBehaviour:
   stunDuration: 0.6
   currentStun: 0
   maxStun: 0
+--- !u!114 &8013529238953372765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5758368328312758866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6835c333b8099247acf0cab08ba2fb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  energyPool: 100
 --- !u!1 &7803730565979122282
 GameObject:
   m_ObjectHideFlags: 0

@@ -105,6 +105,7 @@ public class KingBasic : MonoBehaviour
     public void invincibilityFilter(ref DamageContext context)
     {
         if (!context.victim.CompareTag("Player")) return;
+        if (!(context.damageTypes.Contains(DamageType.MELEE) || context.damageTypes.Contains(DamageType.PROJECTILE) || context.damageTypes.Contains(DamageType.AREA))) return;
 
         // Shield damage absorb
         manager.currentShieldHealth = Mathf.Max(manager.currentShieldHealth - context.damage, 0f);

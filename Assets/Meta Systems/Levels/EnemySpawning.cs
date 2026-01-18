@@ -210,9 +210,15 @@ public class EnemySpawning : MonoBehaviour
         {
             Instantiate(doorIndicator, door.transform.position, Quaternion.identity);
         }
+
         IdolManager idolManager = FindObjectOfType<IdolManager>();
-        if (idolManager == null) return;
-        idolManager.FightEnd();
+        if (idolManager != null) idolManager.FightEnd();
+
+        PoliceChiefManager policeChiefManager = FindObjectOfType<PoliceChiefManager>();
+        if (policeChiefManager != null) policeChiefManager.FightEnd();
+
+        SilasManager silasManager = FindObjectOfType<SilasManager>();
+        if (silasManager != null) silasManager.FightEnd();
     }
 
     /// <summary>

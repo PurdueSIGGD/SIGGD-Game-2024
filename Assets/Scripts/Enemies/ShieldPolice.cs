@@ -69,6 +69,8 @@ public class ShieldPolice : EnemyStateManager
         {
             return;
         }
+        if (context.damageTypes.Contains(DamageType.STATUS)) return;
+
         float horizontalDifference = context.raycastHitPosition.x - gameObject.transform.position.x;
         if (context.raycastHitPosition == Vector2.zero)
         {
@@ -78,10 +80,17 @@ public class ShieldPolice : EnemyStateManager
         float netHitDirection = horizontalDifference * direction; // positive number if hit from the front, negative if hit from behind
         if (netHitDirection > 0)
         {
-            context.damage = 0;
+            context.damage = 0f;
             ShieldHit();
         }
         return;
+    }
+
+    public override void Stun(DamageContext damageContext, float duration = 0f)
+    {
+        ShieldDown();
+        SwitchState(IdleState);
+        base.Stun(damageContext, duration);
     }
 
     void SetCharging(bool isCharging)
@@ -138,7 +147,7 @@ public class ShieldPolice : EnemyStateManager
             return;
         }
 
-        if (!collider.gameObject.CompareTag("Player"))
+        if (!(collider.gameObject.CompareTag("Player") || collider.gameObject.CompareTag("Idol_Clone")))
         {
             SetCharging(false);
             return;

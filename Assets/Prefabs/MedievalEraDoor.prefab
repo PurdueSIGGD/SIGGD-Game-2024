@@ -135,6 +135,7 @@ MonoBehaviour:
   dest: {fileID: 0}
   menuOffset: {x: 0, y: 4.5, z: 0}
   specificActive: 1
+  ableToTeleport: 1
 --- !u!114 &1878781487552890633
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,35 +179,75 @@ MonoBehaviour:
       chance: 1
     levelNum: 29
   enemies:
-  - enemy: {fileID: 1393067818931581941, guid: 2e20c44e50bcd7842955953192304cd4, type: 3}
-    chanceRanges:
-    - start: 0
-      startChance: 5
-      endChance: 8
-  - enemy: {fileID: 228210843640184050, guid: d99fc8025b389bc4fb8779ed4ce0e434, type: 3}
-    chanceRanges:
-    - start: 0
-      startChance: 0
-      endChance: 0
-    - start: 0.1
-      startChance: 4
-      endChance: 7
   - enemy: {fileID: 6632946035724622827, guid: 7dba8933cfb8ddf4c8e2bd77adfa4dc3, type: 3}
     chanceRanges:
     - start: 0
+      startChance: 0.5
+      endChance: 0.5
+  - enemy: {fileID: 1393067818931581941, guid: 2e20c44e50bcd7842955953192304cd4, type: 3}
+    chanceRanges:
+    - start: 0
+      startChance: 0.25
+      endChance: 0.5
+    - start: 0.08
+      startChance: 0.5
+      endChance: 1
+  - enemy: {fileID: 228210843640184050, guid: bd181464022b5184d8e53c64351a556b, type: 3}
+    chanceRanges:
+    - start: 0
       startChance: 0
       endChance: 0
-    - start: 0.2
-      startChance: 6
-      endChance: 7
+    - start: 0.15
+      startChance: 0.3
+      endChance: 0.6
+  - enemy: {fileID: 228210843640184050, guid: 00645a1f4724b5a41adf450d125b0a2d, type: 3}
+    chanceRanges:
+    - start: 0
+      startChance: 0
+      endChance: 0
+    - start: 0.15
+      startChance: 0.3
+      endChance: 0.6
   - enemy: {fileID: 4188048675522988209, guid: 41c1ae596201ce742b2d80c066800ad8, type: 3}
     chanceRanges:
     - start: 0
       startChance: 0
       endChance: 0
     - start: 0.3
-      startChance: 4
-      endChance: 7
+      startChance: 0.4
+      endChance: 0.5
+  - enemy: {fileID: 6632946035724622827, guid: 0b8408caf89f2a648bd0425a567e4eb3, type: 3}
+    chanceRanges:
+    - start: 0
+      startChance: 0
+      endChance: 0
+    - start: 0.3
+      startChance: 0.18
+      endChance: 0.25
+  - enemy: {fileID: 228210843640184050, guid: d99fc8025b389bc4fb8779ed4ce0e434, type: 3}
+    chanceRanges:
+    - start: 0
+      startChance: 0
+      endChance: 0
+    - start: 0.42
+      startChance: 0.3
+      endChance: 0.6
+  - enemy: {fileID: 228210843640184050, guid: d6c6424bf57e7974c99af9c0cdb0768b, type: 3}
+    chanceRanges:
+    - start: 0
+      startChance: 0
+      endChance: 0
+    - start: 0.52
+      startChance: 0.12
+      endChance: 0.2
+  - enemy: {fileID: 1393067818931581941, guid: 351188f43f0cb2342ba93ac07c8b9df8, type: 3}
+    chanceRanges:
+    - start: 0
+      startChance: 0
+      endChance: 0
+    - start: 0.7
+      startChance: 0.15
+      endChance: 0.22
   era: 2
   ghostOneFirstEncounterLoc: 3
   ghostOneStoryBeatOne: 3
@@ -215,6 +256,9 @@ MonoBehaviour:
   ghostTwoStoryBeatOne: 6
   ghostTwoStoryBeatTwo: 6
   maxLevels: 30
+  resetParty: 0
+  partyManagerUI: {fileID: 0}
+  teleporting: 0
 --- !u!61 &1864423675088016089
 BoxCollider2D:
   m_ObjectHideFlags: 0
