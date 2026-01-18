@@ -322,7 +322,7 @@ public class EnemyStateManager : MonoBehaviour
     /// </summary>
     protected virtual void OnFinishAnimation()
     {
-        BusyState.ExitState(this);
+        if (curState == BusyState) BusyState.ExitState(this);
     }
 
     public float GetGroundedRayCheckLength()
