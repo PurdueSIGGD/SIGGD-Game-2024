@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class YumeProjectile : MonoBehaviour
 {
+
+    [SerializeField] private LayerMask disableCollisionExclusionLayerMask;
+
     SeamstressManager manager;
     float lifeTime; // time after which the projectile should expire
     bool hit = false; // if the projectile has hit an enemy
@@ -48,15 +51,18 @@ public class YumeProjectile : MonoBehaviour
         }
         else if (hitObject.CompareTag("Enemy"))
         {
-            context.damage = manager.GetStats().ComputeValue("Projectile Damage");
-            //hitObject.GetComponent<Health>().NoContextDamage(context, PlayerID.instance.gameObject);
-            hitObject.GetComponent<Health>().Damage(context, PlayerID.instance.gameObject);
+            //context.damage = manager.GetStats().ComputeValue("Projectile Damage");
+            ////hitObject.GetComponent<Health>().NoContextDamage(context, PlayerID.instance.gameObject);
+            //hitObject.GetComponent<Health>().Damage(context, PlayerID.instance.gameObject);
             if (hitObject.GetComponent<FateboundDebuff>() != null)
             {
                 Physics2D.IgnoreCollision(collision.collider, GetComponent<BoxCollider2D>());
             }
             else
             {
+                context.damage = manager.GetStats().ComputeValue("Projectile Damage");
+                //hitObject.GetComponent<Health>().NoContextDamage(context, PlayerID.instance.gameObject);
+                hitObject.GetComponent<Health>().Damage(context, PlayerID.instance.gameObject);
                 hit = true;
                 hitTarget = collision.gameObject;
                 Destroy(gameObject);
@@ -91,4 +97,9 @@ public class YumeProjectile : MonoBehaviour
     public bool HasExpired() { return hit || lifeTime < 0; }
 
     public GameObject GetHitTarget() { return hitTarget; }
+
+    public void DisableWallCollision()
+    {
+        GetComponent<BoxCollider2D>().excludeLayers = disableCollisionExclusionLayerMask;
+    }
 }

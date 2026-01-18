@@ -193,13 +193,13 @@ MonoBehaviour:
   - name: Projectile Damage
     value: 5
   - name: Projectile Ricochet Count
-    value: 3
+    value: 8
   - name: Projectile Ricochet Maximum Normal Angle
     value: 5
   - name: Projectile Enemy Chain Range
     value: 25
   - name: Projectile Maximum Chain Target Count
-    value: 3
+    value: 1
   - name: Projectile Flight Speed
     value: 50
   - name: Fatebound Duration
@@ -209,7 +209,7 @@ MonoBehaviour:
   - name: Initial Spool Buffer
     value: 0.75
   - name: Concurrent Spool Buffer
-    value: 0.375
+    value: 0.425
   - name: Heavy Attack Spools Needed
     value: 1
   - name: Special Attack Spools Needed
@@ -231,6 +231,7 @@ MonoBehaviour:
   statList: []
   defaultController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
   ghostController: {fileID: 9100000, guid: b2df4cc609beea44285ab4d10e80ffae, type: 2}
+  currentSpecialEnergy: 0
   onSpoolGained:
     actionID: 11
     actionTypes: 02000000
@@ -253,15 +254,18 @@ MonoBehaviour:
     damageTypes: 03000000
     actionID: 12
     actionTypes: 03000000
-    extraContext: 
+    extraContext: FateboundSharedDamage
     ghostID: 4
-  sharedDmgScaling: 0.5
+  sharedDmgScaling: 0.34
   fateboundVFX: {fileID: 2256473387614676204, guid: 596a2e1d2706241469df9df679f150e3,
     type: 3}
   yumeStunDebuff: {fileID: 4451078953279709777, guid: a2c226034dc0a9449bde8c4e5deafe2f,
     type: 3}
   pulseVFX: {fileID: 7966241730260626198, guid: a5295bc6cb8948243b75f99e5a18cc48,
     type: 3}
+  fateboundStringColor: {r: 0.7176471, g: 0.47843137, b: 0.6666667, a: 1}
+  fateboundDamageColor: {r: 0.90943396, g: 0, b: 0.13346331, a: 1}
+  fateboundDamageColorDuration: 0.5
 --- !u!120 &6265072175092927981
 LineRenderer:
   serializedVersion: 2
@@ -283,7 +287,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 25f0cf71f629a8143b7f25600cbe20e6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

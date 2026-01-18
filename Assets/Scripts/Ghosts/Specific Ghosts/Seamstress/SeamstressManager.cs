@@ -29,6 +29,13 @@ public class SeamstressManager : GhostManager
 
     [SerializeField] public GameObject yumeStunDebuff;
     [SerializeField] private GameObject pulseVFX;
+    [SerializeField] private Color fateboundStringColor;
+    [SerializeField] private Color fateboundDamageColor;
+    [SerializeField] private float fateboundDamageColorDuration;
+    private float fateboundStringRedFadeInRate;
+    private float fateboundStringGreenFadeInRate;
+    private float fateboundStringBlueFadeInRate;
+    private float fateboundDamageColorTimer = 0f;
 
     public Queue<GameObject> linkableEnemies;
     private ChainedEnemy head; // will usually be the first enemy hit by Yume's projectile
@@ -77,6 +84,10 @@ public class SeamstressManager : GhostManager
                 GetComponent<SkillTree>().RemoveSkillPoint(skills[i]);
             }
         }
+
+        fateboundStringRedFadeInRate = (fateboundStringColor.r - fateboundDamageColor.r) / fateboundDamageColorDuration;
+        fateboundStringGreenFadeInRate = (fateboundStringColor.g - fateboundDamageColor.g) / fateboundDamageColorDuration;
+        fateboundStringBlueFadeInRate = (fateboundStringColor.b - fateboundDamageColor.b) / fateboundDamageColorDuration;
     }
 
 
@@ -107,6 +118,22 @@ public class SeamstressManager : GhostManager
 
         base.Update();
         UpdateLinkedEnemies();
+
+        fateboundDamageColorTimer -= Time.deltaTime;
+        Color newStringColor = Color.Lerp(fateboundStringColor, fateboundDamageColor, (fateboundDamageColorTimer / fateboundDamageColorDuration));
+        /*
+        float newStringColorRed = lineRenderer.startColor.r;
+        float newStringColorGreen = lineRenderer.startColor.g;
+        float newStringColorBlue = lineRenderer.startColor.b;
+        if (lineRenderer.startColor.r != fateboundStringColor.r) newStringColorRed = Mathf.Lerp()
+        if (lineRenderer.startColor.g != fateboundStringColor.g) newStringColorGreen += fateboundStringGreenFadeInRate * Time.deltaTime;
+        if (lineRenderer.startColor.b != fateboundStringColor.b) newStringColorBlue += fateboundStringBlueFadeInRate * Time.deltaTime;
+        lineRenderer.startColor = new Color(newStringColorRed, newStringColorGreen, newStringColorBlue);
+        lineRenderer.endColor = new Color(newStringColorRed, newStringColorGreen, newStringColorBlue);
+        */
+        lineRenderer.startColor = newStringColor;
+        lineRenderer.endColor = newStringColor;
+
     }
 
     public override void Select(GameObject player)
@@ -216,6 +243,9 @@ public class SeamstressManager : GhostManager
     /// <param name="scaleDamageStrength"> Whether to scale the damage strength by sharedDmgScaling </param>
     public void DamageLinkedEnemies(int enemyID, DamageContext context, bool scaleDamageStrength)
     {
+        // VFX
+        fateboundDamageColorTimer = fateboundDamageColorDuration;
+
         ptr = head;
 
         while (ptr != null && ptr.enemy != null)
@@ -230,7 +260,7 @@ public class SeamstressManager : GhostManager
                 {
                     sharedDmg.damage *= sharedDmgScaling;
                 }
-                sharedDmg.damageStrength = context.damageStrength;
+                //sharedDmg.damageStrength = context.damageStrength;
                 sharedDmg.victim = ptr.enemy;
 
                 //ptr.enemy.GetComponent<Health>().NoContextDamage(sharedDmg, PlayerID.instance.gameObject);

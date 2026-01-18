@@ -185,6 +185,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c18410b4f9573914eb682dba4143c1c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  disableCollisionExclusionLayerMask:
+    serializedVersion: 2
+    m_Bits: 4194888
 --- !u!58 &8032314519575491721
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -232,10 +235,10 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 2097280
+    m_Bits: 2097152
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 4194880
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
