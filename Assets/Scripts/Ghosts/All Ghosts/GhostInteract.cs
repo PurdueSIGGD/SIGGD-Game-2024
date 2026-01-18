@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class GhostInteract : InRangeInteract, IParty
@@ -61,17 +62,29 @@ public class GhostInteract : InRangeInteract, IParty
     private void AddGhostToParty()
     {
         CloseMenu();
-        PartyManager partyManger = PlayerID.instance.GetComponent<PartyManager>();
-        bool success = partyManger.TryAddGhostToParty(this.GetComponent<GhostIdentity>());
-        if (success)
+        InfoCanvasUI.instance.OpenPartyMenu();
+        InfoCanvasUI.instance.onAddParty += () =>
         {
-            return;
-        }
-        ReplaceGhostBehaviour.Instance.Choose();
-        ReplaceGhostBehaviour.Instance.ghostReplacedDelegate += () =>
-        {
-            partyManger.TryAddGhostToParty(this.GetComponent<GhostIdentity>());
+            PartyManager partyManger = PlayerID.instance.GetComponent<PartyManager>();
+            bool success = partyManger.TryAddGhostToParty(this.GetComponent<GhostIdentity>());
+            if (success)
+            {
+                return;
+            }
+            ReplaceGhostBehaviour.Instance.Choose();
+            ReplaceGhostBehaviour.Instance.ghostReplacedDelegate += () =>
+            {
+                partyManger.TryAddGhostToParty(this.GetComponent<GhostIdentity>());
+                StartCoroutine(ResetGhostUI());
+            };
         };
+    }
+
+    private IEnumerator ResetGhostUI()
+    {
+        yield return new WaitForSeconds(0.1f);
+        //PlayerGhost1UIManager.instance.gameObject.SetActive(true);
+        //PlayerGhost2UIManager.instance.gameObject.SetActive(true);
     }
 
     private void FirstInteraction()

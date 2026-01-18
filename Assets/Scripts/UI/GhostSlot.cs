@@ -10,31 +10,27 @@ public class GhostSlot : MonoBehaviour
     [SerializeField] private Image border;
     [SerializeField] private TextMeshProUGUI name;
     [SerializeField] private ReplaceGhostBehaviour replaceGhostBehaviour;
-    [SerializeField] private bool secondGhost;
+    [SerializeField] private int index;
 
     private GhostIdentity ghostIdentity;
-    private GhostIdentity otherGhost;
 
-    public void Visualize(GhostIdentity ghost)
+    public void Visualize(GhostIdentity ghost, int ind)
     {
         ghostIdentity = ghost;
         CharacterSO info = ghost.GetCharacterInfo();
         image.sprite = info.characterIcon;
         border.color = info.primaryColor;
         name.text = info.displayName;
-    }
-
-    public void OtherGhost(GhostIdentity ghost)
-    {
-        otherGhost = ghost;
+        index = ind;
     }
 
     public void Selected()
     {
-        if (ghostIdentity != null && otherGhost != null)
+        if (ghostIdentity != null)
         {
             //PartyManager.instance.RemoveAllGhost();
             //PartyManager.instance.TryAddGhostToParty(otherGhost);
+            PartyManager.instance.SwitchGhostToIndex(index);
             PartyManager.instance.RemoveGhostFromParty(ghostIdentity);
             replaceGhostBehaviour.Chosen();
         }
