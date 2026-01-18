@@ -65,7 +65,6 @@ public class ActionPool : MonoBehaviour
                 break;
             }
         }
-        Debug.Log(Time.time + ": " + nextAction.name);
         return nextAction;
     }
 

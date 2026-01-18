@@ -30,8 +30,6 @@ public class OldrionManager : EnemyStateManager
     [SerializeField] Collider2D dashCollider;
     bool crushing; // mirrors the boolean variable of the same name in oldrionController
 
-    float busyStateTimer; // how long Oldrion has been in busy state, in case Oldrion AI gets stuck
-
     protected override void Start()
     {
         base.Start();
