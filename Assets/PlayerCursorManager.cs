@@ -1,6 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class PlayerCursorManager : MonoBehaviour
@@ -9,21 +7,23 @@ public class PlayerCursorManager : MonoBehaviour
     [SerializeField] private Color onHoverCursorColor;
 
     [SerializeField] private float defaultLength = 2f;
+    [SerializeField] private Image cursorIcon;
+    [SerializeField] private Canvas parentCanvas;
+    [SerializeField] private RectTransform cursorRect;
     [SerializeField] private LineRenderer defaultLineRenderer;
-
     [SerializeField] private LineRenderer northLineRenderer;
 
     private GhostIdentity activeGhost;
 
     private Camera mainCamera;
-    private SpriteRenderer cursorRenderer;
+    //private SpriteRenderer cursorRenderer;
     private LineRenderer lineRenderer;
 
     // Start is called before the first frame update
     void Start()
     {
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
-        cursorRenderer = GetComponent<SpriteRenderer>();
+        //cursorRenderer = GetComponent<SpriteRenderer>();
         lineRenderer = defaultLineRenderer;
         Cursor.visible = false;
     }
@@ -44,7 +44,14 @@ public class PlayerCursorManager : MonoBehaviour
         //Vector3 hitPos = (hit) ? (hit.point) : (playerPos + (playerToMouseDir * 200f));
         //float playerToHitDist = Vector2.Distance(playerPos, hitPos);
 
-        transform.position = mousePos;
+        //transform.position = mousePos;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            parentCanvas.transform as RectTransform,
+            Input.mousePosition,
+            null,
+            out Vector2 cursorPos
+        );
+        cursorRect.localPosition = cursorPos;
 
         for (int i = 0; i < lineRenderer.positionCount; i++)
         {
@@ -62,7 +69,7 @@ public class PlayerCursorManager : MonoBehaviour
     public void SetActiveGhost(GhostIdentity activeGhostIdentity)
     {
         activeGhost = activeGhostIdentity;
-        cursorRenderer.color = (activeGhost == null) ? defaultCursorColor : activeGhost.GetCharacterInfo().primaryColor;
+        cursorIcon.color = (activeGhost == null) ? defaultCursorColor : activeGhost.GetCharacterInfo().primaryColor;
         Color lineColor = (activeGhost == null) ? defaultCursorColor : activeGhost.GetCharacterInfo().primaryColor;
         lineColor = new Color(lineColor.r, lineColor.g, lineColor.b, (150f / 255f));
         lineRenderer.endColor = lineColor;
