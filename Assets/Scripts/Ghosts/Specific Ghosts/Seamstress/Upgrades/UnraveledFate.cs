@@ -51,7 +51,7 @@ public class UnraveledFate : Skill
         if (GetPoints() <= 0) { return; }
 
         if (!GetManager()) { return; }
-
+        Vector3 positionCopy = new Vector3(position.x, position.y, position.z);
         StartCoroutine(DamageDelay(enemyID, position));
 
         //int damageAmount = (GetPoints() - 1) * 10 + 15;
@@ -81,14 +81,17 @@ public class UnraveledFate : Skill
         GameObject unraveledFate = Instantiate(unraveledFateVFX, position, Quaternion.identity);
         float damageAmount = values[GetPoints()];
         damage.damage = damageAmount;
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("Yume-Fatebound Applied");
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.75f);
 
         Destroy(unraveledFate);
         manager.DamageLinkedEnemies(enemyID, damage, false);
         GameObject pulse = Instantiate(pulseVFX, position, Quaternion.identity);
         pulse.GetComponent<RingExplosionHandler>().playRingExplosion(3f, colorVFX);
 
+        AudioManager.Instance.SFXBranch.GetSFXTrack("Yume-Fatebound Damage").SetPitch(0f, 1f);
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("Yume-Fatebound Damage");
         AudioManager.Instance.VABranch.PlayVATrack("Yume-Seamstress Unraveled Fate");
     }
 

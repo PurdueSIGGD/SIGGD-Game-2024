@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using static UnityEngine.EventSystems.EventTrigger;
 
 public class SeamstressManager : GhostManager
@@ -32,10 +33,10 @@ public class SeamstressManager : GhostManager
     [SerializeField] private Color fateboundStringColor;
     [SerializeField] private Color fateboundDamageColor;
     [SerializeField] private float fateboundDamageColorDuration;
-    private float fateboundStringRedFadeInRate;
-    private float fateboundStringGreenFadeInRate;
-    private float fateboundStringBlueFadeInRate;
     private float fateboundDamageColorTimer = 0f;
+
+    [Header("Heavy Wave")]
+    [SerializeField] public GameObject heavyWave;
 
     public Queue<GameObject> linkableEnemies;
     private ChainedEnemy head; // will usually be the first enemy hit by Yume's projectile
@@ -85,21 +86,21 @@ public class SeamstressManager : GhostManager
             }
         }
 
-        fateboundStringRedFadeInRate = (fateboundStringColor.r - fateboundDamageColor.r) / fateboundDamageColorDuration;
-        fateboundStringGreenFadeInRate = (fateboundStringColor.g - fateboundDamageColor.g) / fateboundDamageColorDuration;
-        fateboundStringBlueFadeInRate = (fateboundStringColor.b - fateboundDamageColor.b) / fateboundDamageColorDuration;
+        initializeSpecialEnergy();
     }
 
 
 
     private void OnEnable()
     {
-        GameplayEventHolder.OnDamageDealt += SpoolAttack;
+        //GameplayEventHolder.OnDamageDealt += SpoolAttack;
+        GameplayEventHolder.OnDamageDealt += OnDamageSpecialEnergyGain;
     }
 
     private void OnDisable()
     {
-        GameplayEventHolder.OnDamageDealt -= SpoolAttack;
+        //GameplayEventHolder.OnDamageDealt -= SpoolAttack;
+        GameplayEventHolder.OnDamageDealt -= OnDamageSpecialEnergyGain;
     }
 
 
@@ -121,16 +122,6 @@ public class SeamstressManager : GhostManager
 
         fateboundDamageColorTimer -= Time.deltaTime;
         Color newStringColor = Color.Lerp(fateboundStringColor, fateboundDamageColor, (fateboundDamageColorTimer / fateboundDamageColorDuration));
-        /*
-        float newStringColorRed = lineRenderer.startColor.r;
-        float newStringColorGreen = lineRenderer.startColor.g;
-        float newStringColorBlue = lineRenderer.startColor.b;
-        if (lineRenderer.startColor.r != fateboundStringColor.r) newStringColorRed = Mathf.Lerp()
-        if (lineRenderer.startColor.g != fateboundStringColor.g) newStringColorGreen += fateboundStringGreenFadeInRate * Time.deltaTime;
-        if (lineRenderer.startColor.b != fateboundStringColor.b) newStringColorBlue += fateboundStringBlueFadeInRate * Time.deltaTime;
-        lineRenderer.startColor = new Color(newStringColorRed, newStringColorGreen, newStringColorBlue);
-        lineRenderer.endColor = new Color(newStringColorRed, newStringColorGreen, newStringColorBlue);
-        */
         lineRenderer.startColor = newStringColor;
         lineRenderer.endColor = newStringColor;
 
@@ -151,6 +142,67 @@ public class SeamstressManager : GhostManager
         if (PlayerID.instance.GetComponent<YumeHeavy>()) Destroy(PlayerID.instance.GetComponent<YumeHeavy>());
         base.DeSelect(player);
     }
+
+
+
+
+
+    private void initializeSpecialEnergy()
+    {
+        LevelSwitching levelSwitchingScript = FindFirstObjectByType<LevelSwitching>();
+        if (!SceneManager.GetActiveScene().name.Equals(levelSwitchingScript.GetHomeWorld()))
+        {
+            setSpecialEnergy(SaveManager.data.north.specialEnergy);
+        }
+        else
+        {
+            resetSpecialEnergy();
+        }
+    }
+
+    public void resetSpecialEnergy()
+    {
+        currentSpecialEnergy = 0f;
+        SaveManager.data.north.specialEnergy = currentSpecialEnergy;
+        setSpecialReady(false);
+    }
+
+    public void setSpecialEnergy(float energy)
+    {
+        currentSpecialEnergy = energy;
+        currentSpecialEnergy = Mathf.Min(currentSpecialEnergy, stats.ComputeValue("Special Energy Cost"));
+        SaveManager.data.north.specialEnergy = currentSpecialEnergy;
+        setSpecialReady(currentSpecialEnergy >= stats.ComputeValue("Special Energy Cost"));
+    }
+
+    public void addSpecialEnergy(float energy)
+    {
+        setSpecialEnergy(getSpecialEnergy() + energy);
+    }
+
+    public float getSpecialEnergy()
+    {
+        return currentSpecialEnergy;
+    }
+
+    private void OnDamageSpecialEnergyGain(DamageContext context)
+    {
+        SpecialEnergyPool specialEnergyPool = context.victim.GetComponent<SpecialEnergyPool>();
+        Health victimHealth = context.victim.GetComponent<Health>();
+        if (specialEnergyPool == null || victimHealth == null) return;
+        if (context.attacker != PlayerID.instance.gameObject) return;
+        if (context.actionTypes.Contains(ActionType.SPECIAL_ABILITY)) return;
+        if (context.victim.GetComponent<FateboundDebuff>() != null) return;
+
+        float maxHealth = victimHealth.GetStats().ComputeValue("Max Health");
+        float percentHealthDamaged = context.damage / maxHealth;
+        Debug.Log("Current Energy: " + currentSpecialEnergy + "  |  Earned Energy: " + (specialEnergyPool.energyPool * percentHealthDamaged));
+        addSpecialEnergy(specialEnergyPool.energyPool * percentHealthDamaged);
+    }
+
+
+
+
 
     public int GetSpools()
     {

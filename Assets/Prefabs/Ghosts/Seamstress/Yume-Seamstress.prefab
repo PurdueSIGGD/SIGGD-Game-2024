@@ -190,6 +190,8 @@ MonoBehaviour:
   statList:
   - name: Special Cooldown
     value: 0.5
+  - name: Special Energy Cost
+    value: 825
   - name: Projectile Damage
     value: 5
   - name: Projectile Ricochet Count
@@ -205,17 +207,25 @@ MonoBehaviour:
   - name: Fatebound Duration
     value: 999
   - name: Max Spools
-    value: 4
+    value: 3
   - name: Initial Spool Buffer
     value: 0.75
   - name: Concurrent Spool Buffer
-    value: 0.425
+    value: 0.5
   - name: Heavy Attack Spools Needed
     value: 1
   - name: Special Attack Spools Needed
-    value: 1
+    value: 0
   - name: Spool Heavy Attack Stun
-    value: 1.5
+    value: 0.75
+  - name: Spool Heavy Attack Damage
+    value: 10
+  - name: Spool Heavy Attack Speed
+    value: 18.34
+  - name: Spool Heavy Attack Duration
+    value: 0.6
+  - name: Spool Heavy Attack Placement Distance
+    value: 1
 --- !u!114 &504260248778479986
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -256,7 +266,7 @@ MonoBehaviour:
     actionTypes: 03000000
     extraContext: FateboundSharedDamage
     ghostID: 4
-  sharedDmgScaling: 0.34
+  sharedDmgScaling: 0.35
   fateboundVFX: {fileID: 2256473387614676204, guid: 596a2e1d2706241469df9df679f150e3,
     type: 3}
   yumeStunDebuff: {fileID: 4451078953279709777, guid: a2c226034dc0a9449bde8c4e5deafe2f,
@@ -266,6 +276,8 @@ MonoBehaviour:
   fateboundStringColor: {r: 0.7176471, g: 0.47843137, b: 0.6666667, a: 1}
   fateboundDamageColor: {r: 0.90943396, g: 0, b: 0.13346331, a: 1}
   fateboundDamageColorDuration: 0.5
+  heavyWave: {fileID: 5563048193125679254, guid: eba075fc493bd944dbb5bc99e7c8033f,
+    type: 3}
 --- !u!120 &6265072175092927981
 LineRenderer:
   serializedVersion: 2
@@ -436,7 +448,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: 1db5f989da2802d4d86ae150ab0f9f74, type: 2}
   numEnemiesDefeated: 0
-  values: 0000000005000000040000000300000002000000
+  values: 0000000006000000050000000400000003000000
   pointIndex: 0
   isSaving: 0
 --- !u!114 &6929056156911069088
@@ -452,6 +464,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: a6d5f6a0c304af54eb5baadea9977ce8, type: 2}
+  values: 000000001e0000003c0000005a00000078000000
+  pointIndex: 0
 --- !u!114 &5409127624454326957
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -498,6 +512,12 @@ MonoBehaviour:
   skillSO: {fileID: 11400000, guid: ee9b529bd477cfc4ea85d2861b58bc43, type: 2}
   voodooDoll: {fileID: 8433722653154054174, guid: 1be269ff8d1579341a10f69bbcc4ab42,
     type: 3}
+  values:
+  - 0
+  - 80
+  - 140
+  - 200
+  - 260
 --- !u!114 &1610780681476371705
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -520,10 +540,10 @@ MonoBehaviour:
     ghostID: 4
   values:
   - 0
-  - 10
-  - 20
-  - 30
-  - 40
+  - 1.2
+  - 1.35
+  - 1.5
+  - 1.65
   pulseVFX: {fileID: 7966241730260626198, guid: a5295bc6cb8948243b75f99e5a18cc48,
     type: 3}
 --- !u!114 &4137901329299474049
@@ -539,6 +559,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: d3bba513ba7b93641a6033c2f8ebbb23, type: 2}
+  values:
+  - 0
+  - 0.4
+  - 0.7
+  - 1
+  - 1.3
   NeedleAndThreadParticleSystem: {fileID: 6594238110341857679, guid: 196d5cda3e0460441a12fa256c699df1,
     type: 3}
   effectiveRadius: 15

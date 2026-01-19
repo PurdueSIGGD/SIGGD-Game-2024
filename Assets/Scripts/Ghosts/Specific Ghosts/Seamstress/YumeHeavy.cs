@@ -1,11 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 public class YumeHeavy : MonoBehaviour
 {
     private bool weaving = false;
-    private int concurrentSpools = 0;
+    public int concurrentSpools = 0;
+
+    public bool isWavePrimed = false;
 
     public SeamstressManager manager;
 
@@ -93,4 +97,28 @@ public class YumeHeavy : MonoBehaviour
         }
     }
     */
+
+    public void PrimeStunWave()
+    {
+        if (manager.GetSpools() <= 0) return;
+        //manager.AddSpools(-(int)manager.GetStats().ComputeValue("Heavy Attack Spools Needed"));
+        isWavePrimed = true;
+    }
+
+    public void TriggerStunWave(List<GameObject> enemiesHit)
+    {
+        if (!isWavePrimed) return;
+
+        manager.AddSpools(-(int)manager.GetStats().ComputeValue("Heavy Attack Spools Needed"));
+        Vector3 placementOffset = new Vector3(transform.position.x + (manager.GetStats().ComputeValue("Spool Heavy Attack Placement Distance") * Mathf.Sign(gameObject.transform.rotation.y)),
+                                              transform.position.y,
+                                              transform.position.z);
+        GameObject stunWave = Instantiate(manager.heavyWave, placementOffset, transform.rotation);
+        stunWave.GetComponent<YumeStunWave>().StartWave(manager.GetStats().ComputeValue("Spool Heavy Attack Speed"),
+                                                        manager.GetStats().ComputeValue("Spool Heavy Attack Duration"),
+                                                        manager.GetStats().ComputeValue("Spool Heavy Attack Stun"),
+                                                        manager.GetStats().ComputeValue("Spool Heavy Attack Damage"),
+                                                        enemiesHit);
+        isWavePrimed = false;
+    }
 }

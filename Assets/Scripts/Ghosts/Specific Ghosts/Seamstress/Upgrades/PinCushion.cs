@@ -1,9 +1,17 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PinCushion : Skill
 {
     [SerializeField] GameObject voodooDoll;
     private SeamstressManager manager;
+
+    [SerializeField]
+    private List<float> values = new List<float>
+    {
+        0, 20, 40, 60, 80
+    };
+    private int pointIndex = 0;
 
     void Start()
     {
@@ -24,7 +32,7 @@ public class PinCushion : Skill
             Vector2 projectForce = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position).normalized * 450;
 
             GameObject dollRef = Instantiate(voodooDoll, summonOrigin, transform.rotation);
-            dollRef.GetComponent<StatManager>().SetStat("Max Health", GetPoints() * 2000);
+            dollRef.GetComponent<StatManager>().SetStat("Max Health", Mathf.FloorToInt(values[pointIndex]) * 100);
             dollRef.GetComponent<Rigidbody2D>().AddForce(projectForce);
             dollRef.AddComponent<FateboundDebuff>().manager = manager;
 
@@ -34,7 +42,7 @@ public class PinCushion : Skill
         }
     }
 
-    public override void AddPointTrigger() { }
-    public override void RemovePointTrigger() { }
-    public override void ClearPointsTrigger() { }
+    public override void AddPointTrigger() { pointIndex = GetPoints(); }
+    public override void RemovePointTrigger() { pointIndex = GetPoints(); }
+    public override void ClearPointsTrigger() { pointIndex = GetPoints(); }
 }
