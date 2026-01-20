@@ -24,9 +24,12 @@ public class EnterHub : MonoBehaviour
     [Header("Ghost To Ghost Convo")]
     [Tooltip("Out of 100"), SerializeField] float triggerChance;
     [SerializeField] GhostInteract g2gConvoInteractable;
-    [SerializeField] SpriteRenderer[] g2gGhostIcons;
+    [SerializeField] Animator[] g2gGhostIcons;
     [SerializeField] GhostToGhostConvoHolder[] ghostToGhostConvos;
     [SerializeField] bool showIndicatorWhenConvoActive;
+
+    [SerializeField]
+    RuntimeAnimatorController[] ghostAnimators;
 
     List<GhostHubInfo> avaliableGhostToGhostConvo;
 
@@ -143,8 +146,14 @@ public class EnterHub : MonoBehaviour
         {
             sprite.enabled = false;
         }
-        g2gGhostIcons[0].color = avaliableGhostToGhostConvo[x].displayColor;
-        g2gGhostIcons[1].color = avaliableGhostToGhostConvo[y].displayColor;
+
+        if (ghostAnimators.Length < 6 )
+        {
+            return;
+        }
+
+        g2gGhostIcons[0].runtimeAnimatorController = ghostAnimators[x];
+        g2gGhostIcons[1].runtimeAnimatorController = ghostAnimators[y];
     }
 
     private void LoadConversation()

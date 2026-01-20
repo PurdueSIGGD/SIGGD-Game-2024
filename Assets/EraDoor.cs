@@ -80,6 +80,7 @@ public class EraDoor : MonoBehaviour
             if (!paired)
             {
                 partyManagerUI.onGhostSelected += GetComponent<Door>().Teleport;
+                partyManagerUI.onMenuClose += () => { partyManagerUI.onGhostSelected -= GetComponent<Door>().Teleport; };
                 paired = true;
             }
         }
