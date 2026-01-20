@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -129,6 +130,7 @@ public class MusicManager : MonoBehaviour
     }
 }
 
+[Serializable]
 public enum MusicTrackName {
     ////                  loopStart       loopEnd
     //JAPAN, //           21.943          197.486

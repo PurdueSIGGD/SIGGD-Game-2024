@@ -329,9 +329,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eeca3c927509053438c93ae27a9d6680, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitRange: {x: 2, y: 5}
+  waitRange: {x: 0.5, y: 1.5}
   progressBar: {fileID: 245984999}
   readyText: {fileID: 1628256719}
+  preloadTrack: 5
 --- !u!1 &285911088
 GameObject:
   m_ObjectHideFlags: 0
@@ -366,7 +367,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 220.1, y: -54.4}
+  m_AnchoredPosition: {x: 215, y: -57}
   m_SizeDelta: {x: 295.4, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &285911090
@@ -389,7 +390,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Nova Point
+  m_text: Caladria
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 48280e35894b01849996cb613af324c2, type: 2}
   m_sharedMaterial: {fileID: 4719300647817411984, guid: 48280e35894b01849996cb613af324c2,
@@ -417,13 +418,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 68.1
-  m_fontSizeBase: 68.1
+  m_fontSize: 49.34
+  m_fontSizeBase: 49.34
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 32
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -578,8 +579,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -487, y: 47.6}
-  m_SizeDelta: {x: 747.1, y: 298}
+  m_AnchoredPosition: {x: 499, y: -257}
+  m_SizeDelta: {x: 783.6, y: 257}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1101112808
 MonoBehaviour:
@@ -728,8 +729,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 121, y: 161.8}
-  m_SizeDelta: {x: 90.5, y: 50}
+  m_AnchoredPosition: {x: 113.6, y: 172.7}
+  m_SizeDelta: {x: 90.5, y: -28.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1434205419
 MonoBehaviour:
@@ -751,10 +752,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Death's door sends Orion eons into the past to Nova Point, the most technologically
-    advanced city in history. Under the complete control of his omnipotent AI, I.R.I.S.,
-    humanity is drawing its final breath. Granted a second chance, Orion must destroy
-    I.R.I.S. to undo his mistake and escape his future in Oblivion
+  m_text: "It's time to go back to where it all started. Pick up the pieces of your
+    ruined homeland. Lay the dragon to rest. \r\n\r\nSet things right.\r\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 48280e35894b01849996cb613af324c2, type: 2}
   m_sharedMaterial: {fileID: 4719300647817411984, guid: 48280e35894b01849996cb613af324c2,
@@ -788,13 +787,13 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 32
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
-  m_lineSpacing: 20
+  m_lineSpacing: 5
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
@@ -866,8 +865,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -173.34}
-  m_SizeDelta: {x: 410, y: 50}
+  m_AnchoredPosition: {x: 0, y: -417}
+  m_SizeDelta: {x: 826.5813, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1628256719
 MonoBehaviour:
@@ -923,8 +922,8 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_fontStyle: 32
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -1024,7 +1023,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: f1893aa69bc75804eaba8ecf17c1a701, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 30c8947a5256a8844bc44737929308c0, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

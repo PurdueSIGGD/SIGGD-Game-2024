@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.Video;
 
 public class PrePrologueSceneManager : MonoBehaviour
 {
@@ -12,6 +13,9 @@ public class PrePrologueSceneManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI skipText;
     [SerializeField] TextMeshProUGUI dialogue;
     [SerializeField] TextMeshProUGUI eonsLater;
+
+    [Header("Animatics")]
+    [SerializeField] VideoPlayer videoPlayer;
 
     float titleFadeInSpeed = 0;
     float titleFadeOutSpeed = 0;
@@ -23,14 +27,15 @@ public class PrePrologueSceneManager : MonoBehaviour
 
     void Start()
     {
+        StartCoroutine(StartVideo());
         StartCoroutine(LoadIntoPrologueHub());
-        StartCoroutine(StartFadeInTitle());
-        StartCoroutine(StartFadeOutTitle());
-        StartCoroutine(StartFadeOutBG());
-        StartCoroutine(StartFadeInSkipText());
-        StartCoroutine(StartFadeOutSkipText());
-        StartCoroutine(StartFadeOutDialogue());
-        StartCoroutine(StartFadeInEonsLater());
+        //StartCoroutine(StartFadeInTitle());
+        //StartCoroutine(StartFadeOutTitle());
+        //StartCoroutine(StartFadeOutBG());
+        //StartCoroutine(StartFadeInSkipText());
+        //StartCoroutine(StartFadeOutSkipText());
+        //StartCoroutine(StartFadeOutDialogue());
+        //StartCoroutine(StartFadeInEonsLater());
     }
 
 
@@ -44,26 +49,32 @@ public class PrePrologueSceneManager : MonoBehaviour
             dialogueFadeOutSpeed = 0.7f;
         }
 
-        if (starryBG.color.a <= 0)
-        {
-            SceneManager.LoadScene("Prologue_1");
-        }
+        //if (starryBG.color.a <= 0)
+        //{
+        //    SceneManager.LoadScene("Prologue_1");
+        //}
 
 
-        if (FadeInItem(title, titleFadeInSpeed))
-        {
-            FadeOutItem(title, titleFadeOutSpeed);
-        }
-        FadeInItem(eonsLater, eonsFadeInSpeed);
-        FadeOutItem(starryBG, bgFadeOutSpeed);
-        FadeInItem(skipText, skipTextFadeInSpeed);
-        FadeOutItem(skipText, skipTextFadeOutSpeed);
-        FadeOutItem(dialogue, dialogueFadeOutSpeed);
+        //if (FadeInItem(title, titleFadeInSpeed))
+        //{
+        //    FadeOutItem(title, titleFadeOutSpeed);
+        //}
+        //FadeInItem(eonsLater, eonsFadeInSpeed);
+        //FadeOutItem(starryBG, bgFadeOutSpeed);
+        //FadeInItem(skipText, skipTextFadeInSpeed);
+        //FadeOutItem(skipText, skipTextFadeOutSpeed);
+        //FadeOutItem(dialogue, dialogueFadeOutSpeed);
+    }
+
+    IEnumerator StartVideo()
+    {
+        yield return new WaitForSeconds(1.5f);
+        videoPlayer.Play();
     }
 
     IEnumerator LoadIntoPrologueHub()
     {
-        yield return new WaitForSeconds(69f);
+        yield return new WaitForSeconds(77f);
         SceneManager.LoadScene("Prologue_1");
     }
 

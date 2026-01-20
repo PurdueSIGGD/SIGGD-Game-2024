@@ -25,7 +25,8 @@ public class PlayerUIVisibility : MonoBehaviour
             PlayerGhost1UIManager.instance.gameObject.SetActive(true);
         if (PartyManager.instance.GetGhostPartyList().Count >= 2)
             PlayerGhost2UIManager.instance.gameObject.SetActive(true);
-        SpiritTrackerCanvasUI.Instance.gameObject.SetActive(true);
+        if (SpiritTrackerCanvasUI.Instance != null)
+            SpiritTrackerCanvasUI.Instance.gameObject.SetActive(true);
     }
 
     public void HidePlayerUI()
@@ -33,6 +34,7 @@ public class PlayerUIVisibility : MonoBehaviour
         PlayerSelectedGhostUIManager.instance.gameObject.SetActive(false);
         PlayerGhost1UIManager.instance.gameObject.SetActive(false);
         PlayerGhost2UIManager.instance.gameObject.SetActive(false);
-        SpiritTrackerCanvasUI.Instance.gameObject.SetActive(false);
+        if (SpiritTrackerCanvasUI.Instance != null)
+            SpiritTrackerCanvasUI.Instance.gameObject.SetActive(false);
     }
 }

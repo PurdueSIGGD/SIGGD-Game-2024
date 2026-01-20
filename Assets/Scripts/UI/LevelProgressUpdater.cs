@@ -10,6 +10,7 @@ public class LevelProgressUpdater : MonoBehaviour
 {
     public static float progress = -1f;
     [SerializeField] bool specificDeactive = false;
+    [SerializeField] TextMeshProUGUI tmp;
 
     void Update()
     {
@@ -40,6 +41,10 @@ public class LevelProgressUpdater : MonoBehaviour
         {
             images[i].enabled = false;
         }
+        if(tmp != null)
+        {
+            tmp.gameObject.SetActive(false);
+        }
     }
 
     private void Show()
@@ -48,6 +53,10 @@ public class LevelProgressUpdater : MonoBehaviour
         for (int i = 0; i < images.Length; i++)
         {
             images[i].enabled = true;
+        }
+        if (tmp != null)
+        {
+            tmp.gameObject.SetActive(true);
         }
     }
 }

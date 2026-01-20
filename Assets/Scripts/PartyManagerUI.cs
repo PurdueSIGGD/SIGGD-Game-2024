@@ -22,6 +22,7 @@ public class PartyManagerUI : MonoBehaviour
     [SerializeField] TextMeshProUGUI expText;
     [SerializeField] Image posterImage;
     [SerializeField] Image posterShadowImage;
+    [SerializeField] Image posterGradient;
 
     [Header("Ghost Ability - Basic")]
     [SerializeField] Image basicAbilityIcon;
@@ -55,6 +56,9 @@ public class PartyManagerUI : MonoBehaviour
 
     public delegate void OnGhostSelected();
     public OnGhostSelected onGhostSelected;
+
+    public delegate void OnMenuClose();
+    public OnMenuClose onMenuClose;
 
     private void Awake()
     {
@@ -135,6 +139,7 @@ public class PartyManagerUI : MonoBehaviour
         gameObject.SetActive(false);
         if (PlayerUIVisibility.instance) PlayerUIVisibility.instance.ShowPlayerUI();
         PlayerID.instance.UnfreezePlayerMouse();
+        onMenuClose?.Invoke();
     }
 
     public void SwitchGhostPartyStatus()
@@ -162,6 +167,11 @@ public class PartyManagerUI : MonoBehaviour
         nameText.text = character.displayName;
         posterImage.sprite = character.fullImage;
         posterShadowImage.sprite = character.fullImage;
+        
+        Color backgroundGradientColor = ghost.GetCharacterInfo().primaryColor;
+        backgroundGradientColor.a = 0.04f;
+        posterGradient.color = backgroundGradientColor;
+
 
         basicAbility.gameObject.SetActive(true);
         basicAbilityIcon.sprite = character.basicAbilityIcon;
@@ -192,6 +202,10 @@ public class PartyManagerUI : MonoBehaviour
         posterImage.sprite = orionSO.fullImage;
         posterShadowImage.sprite = orionSO.fullImage;
 
+        Color backgroundGradientColor = orionSO.primaryColor;
+        backgroundGradientColor.a = 0.04f;
+        posterGradient.color = backgroundGradientColor;
+
         basicAbility.gameObject.SetActive(false);
 
         basicAbilityIcon.sprite = orionSO.basicAbilityIcon;
@@ -207,6 +221,10 @@ public class PartyManagerUI : MonoBehaviour
         lvlText.text = "";
         expText.text = "";
         expSlider.value = 0;
+
+        Color nameBackgroundC = orionSO.primaryColor;
+        nameBackgroundC.a = 0.45f;
+        lvlBackground.color = nameBackgroundC;
     }
 
     public void StartRun()

@@ -1,16 +1,25 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class MidPrologue : MonoBehaviour
 {
-    [SerializeField] ConvoSO convo;
+    [SerializeField] Image bg;
+    [SerializeField] ConvoSO convo1;
+    [SerializeField] ConvoSO convo2;
+    [SerializeField] Sprite bg2;
+    [SerializeField] ConvoSO convo3;
+    [SerializeField] Sprite bg3;
+    [SerializeField] ConvoSO convo4;
+    [SerializeField] Sprite bg4;
+
+    DialogueManager dialogueManager;
 
     private void Start()
     {
-        DialogueManager dialogueManager = FindAnyObjectByType<DialogueManager>(FindObjectsInactive.Include);
-        dialogueManager.StartDialogue(convo);
+        dialogueManager = FindAnyObjectByType<DialogueManager>(FindObjectsInactive.Include);
+        dialogueManager.StartDialogue(convo1);
 
         DialogueManager.onFinishDialogue += DoTheThing;
     }
@@ -22,13 +31,31 @@ public class MidPrologue : MonoBehaviour
 
     private void DoTheThing(string key)
     {
-        StartCoroutine(ThenTheThing());
+        if (key == convo1.data.convoName)
+        {
+            dialogueManager.StartDialogue(convo2);
+            bg.sprite = bg2;
+        }
+        if (key == convo2.data.convoName)
+        {
+            dialogueManager.StartDialogue(convo3);
+            bg.sprite = bg3;
+        }
+        if (key == convo3.data.convoName)
+        {
+            dialogueManager.StartDialogue(convo4);
+            bg.sprite = bg4;
+        }
+        if (key == convo4.data.convoName)
+        {
+            StartCoroutine(ThenTheThing());
+        }
     }
 
     private IEnumerator ThenTheThing()
     {
-        ScreenFader.instance.FadeOut(1, 3);
-        yield return new WaitForSeconds(ScreenFader.instance.fadeOutDuration + 0.1f);
+        ScreenFader.instance.FadeOut(1, 5);
+        yield return new WaitForSeconds(6.1f);
         SceneManager.LoadScene("Prologue_HubWorld");
     }
 }
