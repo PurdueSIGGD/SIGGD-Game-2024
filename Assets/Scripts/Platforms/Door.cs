@@ -19,7 +19,7 @@ public class Door : MonoBehaviour
 
     private GameObject interactMenu;
     private PlayerID player;
-    private SpriteRenderer spriteRenderer;
+    [SerializeField] SpriteRenderer spriteRenderer;
     protected bool transporting;
 
 
@@ -31,7 +31,6 @@ public class Door : MonoBehaviour
     void Start()
     {
         player = PlayerID.instance;
-        spriteRenderer = GetComponent<SpriteRenderer>();
         if (!specificActive && spriteRenderer != null)
         {
             spriteRenderer.enabled = false;

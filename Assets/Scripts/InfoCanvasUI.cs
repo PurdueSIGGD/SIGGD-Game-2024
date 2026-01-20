@@ -22,6 +22,7 @@ public class InfoCanvasUI : MonoBehaviour
     [SerializeField] TextMeshProUGUI expText;
     [SerializeField] Image posterImage;
     [SerializeField] Image posterShadowImage;
+    [SerializeField] Image borderHiglight;
     [SerializeField] GhostIdentity ghostToShow;
 
     [Header("Ghost Ability - Basic")]
@@ -127,6 +128,7 @@ public class InfoCanvasUI : MonoBehaviour
         expText.text = Mathf.Min(ghost.GetExp(), ghost.GetRequiredExp()) + " / " + ghost.GetRequiredExp();
         expBar.color = ghost.GetCharacterInfo().primaryColor;
         expSlider.value = ghost.GetExp() / (float)ghost.GetRequiredExp();
+        borderHiglight.color = ghost.GetCharacterInfo().primaryColor;
         Debug.Log(ghost.name + ": " + ghost.GetExp() / (float)ghost.GetRequiredExp());
         Debug.Log(ghost.name + ": " + expSlider.value);
     }
