@@ -57,6 +57,9 @@ public class PartyManagerUI : MonoBehaviour
     public delegate void OnGhostSelected();
     public OnGhostSelected onGhostSelected;
 
+    public delegate void OnMenuClose();
+    public OnMenuClose onMenuClose;
+
     private void Awake()
     {
         gameObject.SetActive(false);
@@ -136,6 +139,7 @@ public class PartyManagerUI : MonoBehaviour
         gameObject.SetActive(false);
         if (PlayerUIVisibility.instance) PlayerUIVisibility.instance.ShowPlayerUI();
         PlayerID.instance.UnfreezePlayerMouse();
+        onMenuClose?.Invoke();
     }
 
     public void SwitchGhostPartyStatus()
