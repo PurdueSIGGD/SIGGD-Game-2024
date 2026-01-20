@@ -75,7 +75,7 @@ public class IrisController : BossController
         {
             damageState = IrisVisualStates.DAMAGE_HIGH;
         }
-        visualManager.SetVisualState(damageState);
+        visualManager.SetVisualState((shieldOn) ? (damageState) : (IrisVisualStates.DAMAGE_HIGH));
 
         // laser firing loop
         if (!IsDefeated() && bossActivated)

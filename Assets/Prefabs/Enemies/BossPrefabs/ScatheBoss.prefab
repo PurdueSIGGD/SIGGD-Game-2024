@@ -271,7 +271,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eca600b5a4e0c1b4d90ff81f6d9dceb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startSpawn: 1
+  bossActivated: 0
   lowEnemyThreshold: 3
   lowEnemyWaveSpawnSec: 10
   passiveSpawnTimeSec: 5
@@ -283,6 +283,7 @@ MonoBehaviour:
     extraContext: Kill all enemies context
     ghostID: 0
   deathTimer: 5
+  manager: {fileID: 0}
 --- !u!114 &901204917613129762
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -305,6 +306,8 @@ MonoBehaviour:
   grounded: 0
   groundedRayCheckLength: 1
   enableStunning: 0
+  disableNormalStates: 0
+  currentTarget: {fileID: 0}
   detectionRadius: 67
   hitAndRunPrefab: {fileID: 5601539080535503312, guid: 6a78f323f92462840ae0bd602c297594,
     type: 3}
@@ -330,14 +333,16 @@ MonoBehaviour:
     ready: 1
     hitBox: {fileID: 5222879963389426892}
     usesCircleHitbox: 1
-    coolDown: 6
+    coolDown: 10
+    respectHitboxOnCooldown: 1
     animationClip: {fileID: 7400000, guid: 50235f5f8c173974b96d2d711766e3bb, type: 2}
   - name: Swipe
     priority: 1
     ready: 1
     hitBox: {fileID: 5222879963389426892}
     usesCircleHitbox: 1
-    coolDown: 1
+    coolDown: 10
+    respectHitboxOnCooldown: 1
     animationClip: {fileID: 7400000, guid: ffb6b2f56c95d2543bf9a051d080d1ba, type: 2}
   move:
     name: 
@@ -346,6 +351,7 @@ MonoBehaviour:
     hitBox: {fileID: 0}
     usesCircleHitbox: 0
     coolDown: 0
+    respectHitboxOnCooldown: 1
     animationClip: {fileID: 7400000, guid: 4c77332c7ebfa2c41879af1503051bfa, type: 2}
   idle:
     name: 
@@ -354,6 +360,7 @@ MonoBehaviour:
     hitBox: {fileID: 0}
     usesCircleHitbox: 0
     coolDown: 0
+    respectHitboxOnCooldown: 1
     animationClip: {fileID: 7400000, guid: 4c77332c7ebfa2c41879af1503051bfa, type: 2}
 --- !u!114 &1551649169275914934
 MonoBehaviour:
@@ -371,7 +378,7 @@ MonoBehaviour:
   - name: HEIGHT_OFFSET
     value: 0.5
   - name: FLIGHT_FORCE
-    value: 0.5
+    value: 0.3
   - name: CATCHUP_FACTOR
     value: 0.01
   - name: REPELL_FACTOR
@@ -408,7 +415,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Max Health
-    value: 1200
+    value: 500
   deathLevel: 
 --- !u!50 &6047329085431722034
 Rigidbody2D:
@@ -423,7 +430,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 3
-  m_LinearDrag: 0
+  m_LinearDrag: 1
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -480,7 +487,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.9349279, y: 2.5650558}
+  m_Size: {x: 3.25, y: 3.25}
   m_EdgeRadius: 0
 --- !u!95 &2937355611530930775
 Animator:
