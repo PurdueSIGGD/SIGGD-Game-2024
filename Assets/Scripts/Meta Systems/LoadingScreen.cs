@@ -11,6 +11,8 @@ public class LoadingScreen : MonoBehaviour
     [SerializeField] Vector2 waitRange = new(0.5f, 1.5f);
     [SerializeField] Slider progressBar;
     [SerializeField] TMP_Text readyText;
+
+    [SerializeField] MusicTrackName preloadTrack = MusicTrackName.CYBERPUNK_LEVEL;
     
     private float origAudioVolume;
     private bool readyToProgress;
@@ -29,7 +31,7 @@ public class LoadingScreen : MonoBehaviour
         //yield return new WaitForSeconds(0.1f);
         AudioManager.Instance.GetMusicVolume(out origAudioVolume);
         AudioManager.Instance.SetMusicVolume(-80f); // -80 is lowest possible volume
-        AudioManager.Instance.MusicBranch.PlayMusicTrack(MusicTrackName.CYBERPUNK_LEVEL);
+        AudioManager.Instance.MusicBranch.PlayMusicTrack(preloadTrack);
         AudioManager.Instance.SetEnergyLevel(0f);
         AudioManager.Instance.SetEnergyLevel(0.5f);
         AudioManager.Instance.SetEnergyLevel(1f);
