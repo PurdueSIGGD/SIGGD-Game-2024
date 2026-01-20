@@ -57,7 +57,7 @@ public class LoadingScreen : MonoBehaviour
         }
         if (readyToProgress) 
         {
-            float alpha = -Mathf.Cos(Time.time - startFlashingTime) + 0.5f;
+            float alpha = -Mathf.Cos(Time.time - startFlashingTime + 0.5f) * 3 + 0.1f;
             readyText.color = new Color(readyText.color.r, readyText.color.g, readyText.color.b, alpha);
         }
     }
