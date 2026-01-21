@@ -52,7 +52,8 @@ public class GhostManager : MonoBehaviour, ISelectable, IStatList
         yield return new WaitForSeconds(0.1f);
         int cooldownSpeedBoost = Mathf.FloorToInt(PlayerID.instance.GetComponent<PlayerBuffStats>().GetStats().ComputeValue("Cooldown Speed Boost") - 100f);
         //stats.ModifyStat("Basic Cooldown", -cooldownSpeedBoost);
-        stats.ModifyStat("Special Cooldown", -cooldownSpeedBoost);
+        //stats.ModifyStat("Special Cooldown", -cooldownSpeedBoost);
+        stats.ModifyStat("Special Energy Cost", -cooldownSpeedBoost);
     }
 
     // Update is called once per frame

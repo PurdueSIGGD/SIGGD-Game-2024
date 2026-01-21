@@ -265,8 +265,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: Press <i>SPACE</i> to Escape
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 48280e35894b01849996cb613af324c2, type: 2}
+  m_sharedMaterial: {fileID: 4719300647817411984, guid: 48280e35894b01849996cb613af324c2,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -419,6 +420,7 @@ GameObject:
   - component: {fileID: 633192602}
   - component: {fileID: 633192601}
   - component: {fileID: 633192600}
+  - component: {fileID: 633192603}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -500,6 +502,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &633192603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 633192599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_AllowHDROutput: 1
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
+  m_TaaSettings:
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
 --- !u!1 &645354087
 GameObject:
   m_ObjectHideFlags: 0
@@ -551,7 +597,7 @@ MonoBehaviour:
   credits: {fileID: 662663270}
   fadeOutSpeed: 3
   fadeInSpeed: 3
-  scrollSpeed: 100
+  scrollSpeed: 48
   logoFadeSpeed: 3
   escapeFadeSpeed: 3
   logoHoldTime: 2.5
@@ -619,44 +665,49 @@ MonoBehaviour:
     Ashby\r\nAngel Rivera\r\nJake Bromme\r\nMahi Tripathi\r\nPrisha Bangera\r\nVera
     Gao\r\n\r\n<size=50><b>Environmental Artists\r</b></size>\nAlex Ashby\r\nIvan
     Yang\r\nPrisha Bangera\r\n\r\n<size=50><b>Character Artists & Animators\r</b></size>\nAlex
-    Ashby\r\nAngel Rivera\r\nJake Bromme\r\n\r\n<size=50><b>VFX Artist\r</b></size>\nAlex
-    Ashby\r\n\r\n<size=50><b>UI Artists\r</b></size>\nAlex Ashby\r\nJake Bromme\r\n\r\n\n\n<size=80><b>Audio\r</b></size>\n\r\n<size=50><b>Original
+    Ashby\r\nAngel Rivera\r\nJake Bromme\r\nPaige \"Maverick\" Kuper\n\r\n<size=50><b>VFX
+    Artist\r</b></size>\nAlex Ashby\r\n\r\n<size=50><b>UI Artists\r</b></size>\nAlex
+    Ashby\r\nAngel Rivera\r\nJake Bromme\r\nPrisha Bangera\r\n\r\n\n\n<size=80><b>Audio\r</b></size>\n\r\n<size=50><b>Original
     Music By:</b></size>\nAaron Roth\r\nAndrew Hanlon\r\nIsaac Bradford\r\nIvan Yang\r\nJacob
     Aldridge\r\nJake Johnson\r\nKonnor Everhart\r\nSam Schafer\r\n\r\n<size=50><b>Sound
-    Designers\r</b></size>\nHarry Weinberger\r\nIsaac Bradford\r\nJacob Aldridge\r\nJake
-    Bromme\r\n\r\n\n\n<size=80><b>Design\r</b></size>\n\r\n<size=50><b>Gameplay Designers\r</b></size>\nAayush
-    Harwadekar\r\nAlex Ashby\r\nArden Gabriele\r\nBenjamin Tran\r\nCody Shao\r\nDaniel
-    Ng\r\nEdward Chem\r\nEric Woo\r\nEthan Richard\r\nGeorge Abrams\r\nIvan Yang\r\nJasen
-    Speaker\r\nKyle Phillips\r\nNathan Whitacre\r\nSimon Wang\r\n\r\n<size=50><b>Systems
-    Designers\r</b></size>\nAlex Ashby\r\nEdward Chem\r\nEthan Richard\r\nGeorge
-    Abrams\r\nHarry Weinberger\r\nIvan Yang\r\nJasen Speaker\r\nKyle Phillips\r\nNathan
-    Whitacre\r\n\r\n\n\n<size=80><b>Programming\r</b></size>\n\r\n<size=50><b>Gameplay
+    Designers\r</b></size>\nAlex Ashby\r\nAndrew Hanlon\r\nHarry Weinberger\r\nIsaac
+    Bradford\r\nJacob Aldridge\r\nJake Bromme\r\nJasen Speaker\r\nSimon Wang\r\n\r\n\n\n<size=80><b>Design\r</b></size>\n\r\n<size=50><b>Gameplay
+    Designers\r</b></size>\nAayush Harwadekar\r\nAlex Ashby\r\nArden Gabriele\r\nBenjamin
+    Tran\r\nCody Shao\r\nDaniel Ng\r\nEdward Chem\r\nEric Woo\r\nEthan Richard\r\nGeorge
+    Abrams\r\nIvan Yang\r\nJasen Speaker\r\nKyle Phillips\r\nNathan Whitacre\r\nSimon
+    Wang\r\n\r\n<size=50><b>Systems Designers\r</b></size>\nAlex Ashby\r\nEdward
+    Chem\r\nEthan Richard\r\nGeorge Abrams\r\nHarry Weinberger\r\nIvan Yang\r\nJasen
+    Speaker\r\nKyle Phillips\r\nNathan Whitacre\r\n\r\n\n\n<size=80><b>Programming\r</b></size>\n\r\n<size=50><b>Gameplay
     Programmers\r</b></size>\nAayush Harwadekar\r\nAnsh Agrawal\r\nDaniel Ng\r\nJack
     Reynolds\r\nJason Xie\r\nMatteo Barrett\r\nNathan Whitacre\r\nPrisha Bangera\r\nSimon
     Wang\r\nVera Gao\r\nVivian Shiang\r\n\r\n<size=50><b>Systems Programmers\r</b></size>\nAayush
     Harwadekar\r\nAnsh Agrawal\r\nDaniel Ng\r\nIvan Yang\r\nJack Reynolds\r\nJacob
-    Aldridge\r\nNathan Whitacre\r\nSimon Wang\r\n\r\n\n\n<size=80><b>Story\r</b></size>\n\r\n<size=50><b>Narrative
+    Aldridge\r\nNathan Whitacre\r\nPrisha Bangera\r\nSimon Wang\r\n\r\n\n\n<size=80><b>Story\r</b></size>\n\r\n<size=50><b>Narrative
     Designers\r</b></size>\nAaron Roth\r\nAlex Ashby\r\nAnishka Jain\r\nArden Gabriele\r\nCassidy
     Nelson\r\nEdward Chem\r\nHarry Weinberger\r\nIvan Yang\r\nJake Bromme\r\nMahi
     Tripathi\r\nShey Carter\r\n\r\n<size=50><b>Writers\r</b></size>\nAnishka Jain\r\nArden
     Gabriele\r\nCassidy Nelson\r\nHarry Weinberger\r\nIvan Yang\r\nJake Bromme\r\nMahi
     Tripathi\r\nNathan Whitacre\r\nShey Carter\r\n\r\n<size=50><b>Voice Directors\r</b></size>\nHarry
-    Weinberger\r\nIvan Yang\r\nJake Bromme\r\n\r\n<size=50><b>Voice Actors\r</b></size>\n\r\n<b>Orion\r</b>\nNathan
-    Whitacre\r\n\r\n<b>North\r</b>\nPayton Stachelski\r\n\r\n<b>Eva\r</b>\nJess Sparks\r\n\r\n<b>Akihito\r</b>\nYi
-    Yang\r\n\r\n<b>Yume\r</b>\nAdya Pattanaik\r\n\r\n<b>Silas\r</b>\nEdward Chem\r\n\r\n<b>King
-    Aegis\r</b>\nAaron Roth\r\n\r\n<b>Death\r</b>\nCale Maiden\r\n\r\n<b>IRIS\r</b>\nAmelia
-    Angelone\r\n\r\n<b>Noboru\r</b>\nJonah Wu\r\n\r\n<b>Scathe\r</b>\nWill Kearny\r\n\r\n<size=50><b>Additional
-    Voices\r</b></size>\nIvan Yang\r\n\r\n\n\n<size=80><b>Leadership Team\r</b></size>\n\r\n<size=50><b>SIGGD
-    President\r</b></size>\nIvan Yang\r\n\n\r\n<size=50><b>SIGGD Vice President\r</b></size>\nAndrew
-    Hanlon\r\n\r\n<size=50><b>Art Lead\r</b></size>\nAlex Ashby\r\n\r\n<size=50><b>Audio
-    Lead\r</b></size>\nJacob Aldridge\r\n\r\n<size=50><b>Design Lead\r</b></size>\nNathan
-    Whitacre\r\n\r\n<size=50><b>Programming Lead\r</b></size>\nAnsh Agrawal\r\n\r\n<size=50><b>Story
-    Lead\r</b></size>\nHarry Weinberger\r\n\r\n\n\n<size=80><b>Special Thanks\r</b></size>\n\r\nGibby
-    iCarly\r\nSavannah \"Lich\" Mason\r\nOno no Komachi (KKS XII:552), loose translation/interpretation
-    by Michael R. Burch\r\nAlex Guan\r\nNicole Washburn\r\nThe Player\r\n"
+    Weinberger\r\nIvan Yang\r\nJake Bromme\r\n\r\n\n\n<size=80><b>Voice Actors\r</b></size>\n\r\n<size=50><b>Orion\r</b></size>\nNathan
+    Whitacre\r\n\r\n<size=50><b>North\r</b></size>\nPayton Stachelski\r\n\r\n<size=50><b>Eva\r</b></size>\nJess
+    Sparks\r\n\r\n<size=50><b>Akihito\r</b></size>\nYi Yang\r\n\r\n<size=50><b>Yume\r</b></size>\nAdya
+    Pattanaik\r\n\r\n<size=50><b>Silas\r</b></size>\nEdward Chem\r\n\r\n<size=50><b>King
+    Aegis\r</b></size>\nAaron Roth\r\n\r\n<size=50><b>Death\r</b></size>\nCale Maiden\r\n\r\n<size=50><b>IRIS\r</b></size>\nAmelia
+    Angelone\r\n\r\n<size=50><b>Noboru\r</b></size>\nJonah Wu\r\n\r\n<size=50><b>Scathe\r</b></size>\nWill
+    Kearny\r\n\r\n<size=50><b>Guard</b></size>\nIvan Yang\r\n\r\n\n\n<size=80><b>Leadership
+    Team\r</b></size>\n\r\n<size=50><b>President\r</b></size>\nIvan Yang\r\n\n<size=50><b>Vice
+    President\r</b></size>\nAndrew Hanlon\r\n\r\n<size=50><b>Art Lead\r</b></size>\nAlex
+    Ashby\r\n\r\n<size=50><b>Audio Lead\r</b></size>\nJacob Aldridge\r\n\r\n<size=50><b>Design
+    Lead\r</b></size>\nNathan Whitacre\r\n\r\n<size=50><b>Programming Lead\r</b></size>\nAnsh
+    Agrawal\r\n\r\n<size=50><b>Story Lead\r</b></size>\nHarry Weinberger\r\n\r\n\n\n<size=80><b>Special
+    Thanks\r</b></size>\n\r\nSavannah \"Lich\" Mason\r\nOno no Komachi (KKS XII:552),\nloose
+    translation/interpretation by Michael R. Burch\r\nAlex Guan\r\nNicole Washburn\r\nPurdue
+    Knowledge Lab\n\n\n\n<size=80><b>Extra Special Thanks\r</b></size>\n\nYou!\n\nThanks
+    for playing!"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 48280e35894b01849996cb613af324c2, type: 2}
+  m_sharedMaterial: {fileID: 4719300647817411984, guid: 48280e35894b01849996cb613af324c2,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

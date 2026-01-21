@@ -62,7 +62,7 @@ public class Epidemic : Skill
         Collider2D[] enemiesHit = Physics2D.OverlapCircleAll(position, manager.GetStats().ComputeValue("Blight Epidemic Blast Radius"), LayerMask.GetMask("Enemy"));
         foreach (Collider2D enemy in enemiesHit)
         {
-            //if (enemy.transform.gameObject.Equals(context.victim)) continue;
+            if (context.victim != null && enemy.transform.gameObject.Equals(context.victim)) continue;
             enemy.transform.gameObject.GetComponent<Health>().Damage(blastDamage, PlayerID.instance.gameObject);
             if (enemy.gameObject == null) continue;
             enemy.transform.gameObject.GetComponent<EnemyStateManager>()?.ApplyKnockback(Vector3.up, 3f, 0.3f);

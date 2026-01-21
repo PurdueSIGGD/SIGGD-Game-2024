@@ -52,8 +52,8 @@ public class MasteryUpgradeBoxUI : MonoBehaviour
         "Increased chance to dodge attacks.",
         "Increased critical hit chance.",
         "Reduced elite enemy attack damage.",
-        "Reduced ability cooldown times.",
-        "Increased attack stun duration.",
+        "Increased special ability charge speed.",
+        "Increased stun duration.",
         "Increased healing from all sources."
     };
 
