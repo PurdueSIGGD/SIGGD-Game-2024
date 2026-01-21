@@ -25,56 +25,35 @@ public class PrePrologueSceneManager : MonoBehaviour
     float dialogueFadeOutSpeed = 0;
     float eonsFadeInSpeed = 0;
 
+    bool videoStarted;
+
     void Start()
     {
         StartCoroutine(StartVideo());
         StartCoroutine(LoadIntoPrologueHub());
-        //StartCoroutine(StartFadeInTitle());
-        //StartCoroutine(StartFadeOutTitle());
-        //StartCoroutine(StartFadeOutBG());
-        //StartCoroutine(StartFadeInSkipText());
-        //StartCoroutine(StartFadeOutSkipText());
-        //StartCoroutine(StartFadeOutDialogue());
-        //StartCoroutine(StartFadeInEonsLater());
     }
-
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if ((Input.GetKeyDown(KeyCode.Space) || (Input.GetKeyDown(KeyCode.Escape)))&& videoStarted)
         {
-            StopCoroutine(LoadIntoPrologueHub());
-            bgFadeOutSpeed = 0.7f;
-            skipTextFadeOutSpeed = 0.7f;
-            dialogueFadeOutSpeed = 0.7f;
+            StopAllCoroutines();
+            SceneManager.LoadScene("Prologue_1");
         }
-
-        //if (starryBG.color.a <= 0)
-        //{
-        //    SceneManager.LoadScene("Prologue_1");
-        //}
-
-
-        //if (FadeInItem(title, titleFadeInSpeed))
-        //{
-        //    FadeOutItem(title, titleFadeOutSpeed);
-        //}
-        //FadeInItem(eonsLater, eonsFadeInSpeed);
-        //FadeOutItem(starryBG, bgFadeOutSpeed);
-        //FadeInItem(skipText, skipTextFadeInSpeed);
-        //FadeOutItem(skipText, skipTextFadeOutSpeed);
-        //FadeOutItem(dialogue, dialogueFadeOutSpeed);
     }
 
     IEnumerator StartVideo()
     {
         yield return new WaitForSeconds(1.5f);
+        videoStarted = true;
         videoPlayer.Play();
     }
 
     IEnumerator LoadIntoPrologueHub()
     {
-        yield return new WaitForSeconds(77f);
+        yield return new WaitForSeconds(72.5f);
+        ScreenFader.instance.FadeOut(0, 2);
+        yield return new WaitForSeconds(2f);
         SceneManager.LoadScene("Prologue_1");
     }
 
