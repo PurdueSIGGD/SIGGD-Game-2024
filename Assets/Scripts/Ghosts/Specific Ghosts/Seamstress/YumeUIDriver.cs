@@ -45,17 +45,34 @@ public class YumeUIDriver : GhostUIDriver
         if (spoolCount > 0)
         {
             basicAbilityUIManager.setAbilityEnabled(true);
-            basicAbilityUIManager.setMeterValue(manager.GetWeaveTimer(), manager.GetStats().ComputeValue("Concurrent Spool Buffer"));
+            //basicAbilityUIManager.setMeterValue(manager.GetWeaveTimer(), manager.GetStats().ComputeValue("Concurrent Spool Buffer"));
         }
         else
         {
             basicAbilityUIManager.setAbilityEnabled(false);
-            basicAbilityUIManager.setMeterValue(manager.GetWeaveTimer(), manager.GetStats().ComputeValue("Initial Spool Buffer"));
+            //basicAbilityUIManager.setMeterValue(manager.GetWeaveTimer(), manager.GetStats().ComputeValue("Initial Spool Buffer"));
+        }
+
+        if (PlayerID.instance.GetComponent<YumeHeavy>() != null)
+        {
+            if (PlayerID.instance.GetComponent<YumeHeavy>().concurrentSpools == 0)
+            {
+                basicAbilityUIManager.setMeterValue(manager.GetWeaveTimer(), manager.GetStats().ComputeValue("Initial Spool Buffer"));
+            }
+            else
+            {
+                basicAbilityUIManager.setMeterValue(manager.GetWeaveTimer(), manager.GetStats().ComputeValue("Concurrent Spool Buffer"));
+            }
+        }
+        else
+        {
+            basicAbilityUIManager.setMeterValue(0f, 1f);
         }
     }
     
     private void UpdateSpecialAbility()
     {
+        /*
         int spoolCount = manager.GetSpools();
         if (spoolCount < 0)
         {
@@ -66,6 +83,8 @@ public class YumeUIDriver : GhostUIDriver
         {
             specialAbilityUIManager.setAbilityCooldownTime(manager.getSpecialCooldown(), stats.ComputeValue("Special Cooldown"));
         }
+        */
+        specialAbilityUIManager.setAbilityEnergy(manager.getSpecialEnergy(), stats.ComputeValue("Special Energy Cost"));
     }
 
     private void UpdateSkill1()

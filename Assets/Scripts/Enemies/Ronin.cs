@@ -19,6 +19,16 @@ public class Ronin : EnemyStateManager
     [SerializeField] protected bool isDashing;
     [SerializeField] protected bool canDashSwing = false;
 
+    private void OnEnable()
+    {
+        GameplayEventHolder.OnEntityStunned += OnRoninStunned;
+    }
+
+    private void OnDisable()
+    {
+        GameplayEventHolder.OnEntityStunned -= OnRoninStunned;
+    }
+
     void SwingSword()
     {
         swordDamage.damage = swordDamageVal;
@@ -69,5 +79,11 @@ public class Ronin : EnemyStateManager
         base.OnDrawGizmos();
         Gizmos.DrawWireCube(swordTrigger.position, swordTrigger.lossyScale);
         Gizmos.DrawWireCube(dashTrigger.position, dashTrigger.lossyScale);
+    }
+
+    public void OnRoninStunned(GameObject stunnedEntity)
+    {
+        if (stunnedEntity != gameObject) return;
+        if (isDashing) EndDash();
     }
 }

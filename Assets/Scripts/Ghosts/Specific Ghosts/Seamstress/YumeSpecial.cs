@@ -25,6 +25,7 @@ public class YumeSpecial : MonoBehaviour
     {
         if (manager != null)
         {
+            /*
             if (manager.getSpecialCooldown() > 0 || manager.GetSpools() <= 0)
             {
                 psm.OnCooldown("c_special");
@@ -32,6 +33,15 @@ public class YumeSpecial : MonoBehaviour
             else
             {
                 psm.OffCooldown("c_special");
+            }
+            */
+            if (manager.getSpecialReady())
+            {
+                psm.OffCooldown("c_special");
+            }
+            else
+            {
+                psm.OnCooldown("c_special");
             }
         }
     }
@@ -50,8 +60,9 @@ public class YumeSpecial : MonoBehaviour
             }
             // now this.enemies should be populated with every enemy at play
             manager.ResetDuration();
-            manager.startSpecialCooldown();
-            StartCoroutine(FireProjectile(transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition)));
+            //manager.startSpecialCooldown();
+            manager.resetSpecialEnergy();
+            StartCoroutine(FireProjectile(transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition), false));
             manager.AddSpools((int)-manager.GetStats().ComputeValue("Special Attack Spools Needed"));
 
             // fire any events waiting for special ability to activate
@@ -61,10 +72,11 @@ public class YumeSpecial : MonoBehaviour
         }
     }
 
-    private IEnumerator FireProjectile(Vector2 orig, Vector2 dest)
+    private IEnumerator FireProjectile(Vector2 orig, Vector2 dest, bool disableGroundCollision)
     {
         YumeProjectile yumeProjectile = Instantiate(manager.projectile, orig, transform.rotation).GetComponent<YumeProjectile>();
         yumeProjectile.Initialize(dest, manager.GetStats().ComputeValue("Projectile Flight Speed"), manager.GetStats().ComputeValue("Projectile Enemy Chain Range"), manager);
+        if (disableGroundCollision) yumeProjectile.DisableWallCollision();
 
         yield return new WaitUntil(yumeProjectile.HasExpired); // wait until the projectile has hit or is destroyed
 
@@ -89,7 +101,7 @@ public class YumeSpecial : MonoBehaviour
             }
             else
             {
-                StartCoroutine(FireProjectile(hitTarget.transform.position, targetPos.position));
+                StartCoroutine(FireProjectile(hitTarget.transform.position, targetPos.position, true));
             }
         }
     }

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 ///  Yume instantly weaves an extra spool when a number of fatebound enemies are defeated.
@@ -24,20 +25,46 @@ public class ScrapSaver : Skill
 
 
 
+    private void OnEnable()
+    {
+        GameplayEventHolder.OnDamageDealt += OnHeavyHit;
+    }
+
+    private void OnDisable()
+    {
+        GameplayEventHolder.OnDamageDealt -= OnHeavyHit;
+    }
+
+
+
     private void Start()
     {
         manager = gameObject.GetComponent<SeamstressManager>();
-        numEnemiesDefeated = SaveManager.data.yume.scrapSaverCount;
+        //numEnemiesDefeated = SaveManager.data.yume.scrapSaverCount;
+
+        LevelSwitching levelSwitchingScript = FindFirstObjectByType<LevelSwitching>();
+        if (!SceneManager.GetActiveScene().name.Equals(levelSwitchingScript.GetHomeWorld()))
+        {
+            //setSpecialEnergy(SaveManager.data.north.specialEnergy);
+            numEnemiesDefeated = SaveManager.data.yume.scrapSaverCount;
+        }
+        else
+        {
+            //resetSpecialEnergy();
+            SaveManager.data.yume.scrapSaverCount = 0;
+            numEnemiesDefeated = 0;
+        }
     }
 
     private void Update()
     {
         if (isSaving && manager.GetSpools() < manager.GetStats().ComputeValue("Max Spools"))
         {
-            numEnemiesDefeated = 0;
-            SaveManager.data.yume.scrapSaverCount = numEnemiesDefeated;
+            //numEnemiesDefeated = 0;
+            //SaveManager.data.yume.scrapSaverCount = numEnemiesDefeated;
             isSaving = false;
-            manager.AddSpools(1);
+            //manager.AddSpools(1);
+            GrantSpool();
         }
     }
 
@@ -60,13 +87,18 @@ public class ScrapSaver : Skill
         numEnemiesDefeated++;
         SaveManager.data.yume.scrapSaverCount = numEnemiesDefeated;
 
-        AudioManager.Instance.SFXBranch.GetSFXTrack("Yume-Gained Spool").SetPitch(manager.GetSpools(), manager.GetStats().ComputeValue("Max Spools"));
-        AudioManager.Instance.SFXBranch.PlaySFXTrack("Yume-Gained Spool");
-        AudioManager.Instance.VABranch.PlayVATrack("Yume-Seamstress Recovered Wares");
+        //AudioManager.Instance.SFXBranch.GetSFXTrack("Yume-Gained Spool").SetPitch(manager.GetSpools(), manager.GetStats().ComputeValue("Max Spools"));
+        //AudioManager.Instance.SFXBranch.PlaySFXTrack("Yume-Gained Spool");
+        //AudioManager.Instance.VABranch.PlayVATrack("Yume-Seamstress Recovered Wares");
 
         if (numEnemiesDefeated >= CalculateNumEnemiesNeeded())
         {
+            /*
             GetComponent<YumeUIDriver>().skill1UIManager.pingAbility();
+
+            AudioManager.Instance.SFXBranch.GetSFXTrack("Yume-Gained Spool").SetPitch(manager.GetSpools(), manager.GetStats().ComputeValue("Max Spools"));
+            AudioManager.Instance.SFXBranch.PlaySFXTrack("Yume-Gained Spool");
+            AudioManager.Instance.VABranch.PlayVATrack("Yume-Seamstress Recovered Wares");
 
             numEnemiesDefeated = 0;
             SaveManager.data.yume.scrapSaverCount = numEnemiesDefeated;
@@ -78,6 +110,8 @@ public class ScrapSaver : Skill
                 return;
             }
             manager.AddSpools(1);
+            */
+            GrantSpool();
 
 #if DEBUG_LOG
             Debug.Log("Yume Scrap Saver: Added spool");
@@ -90,6 +124,57 @@ public class ScrapSaver : Skill
         Debug.Log("Yume Scrap Saver: Enemies defeated/needed " + numEnemiesDefeated + "/" + CalculateNumEnemiesNeeded() + " points " + GetPoints());
 #endif
     }
+
+
+
+    private void GrantSpool()
+    {
+        GetComponent<YumeUIDriver>().skill1UIManager.pingAbility();
+
+        //AudioManager.Instance.SFXBranch.GetSFXTrack("Yume-Gained Spool").SetPitch(manager.GetSpools(), manager.GetStats().ComputeValue("Max Spools"));
+        //AudioManager.Instance.SFXBranch.PlaySFXTrack("Yume-Gained Spool");
+        //AudioManager.Instance.VABranch.PlayVATrack("Yume-Seamstress Recovered Wares");
+
+        numEnemiesDefeated = 0;
+        SaveManager.data.yume.scrapSaverCount = numEnemiesDefeated;
+
+        // Add spool
+        if (manager.GetSpools() >= manager.GetStats().ComputeValue("Max Spools"))
+        {
+            isSaving = true;
+            return;
+        }
+        manager.AddSpools(1);
+
+        //AudioManager.Instance.SFXBranch.GetSFXTrack("Yume-Gained Spool").SetPitch(manager.GetSpools(), manager.GetStats().ComputeValue("Max Spools"));
+        //AudioManager.Instance.SFXBranch.PlaySFXTrack("Yume-Gained Spool");
+        AudioManager.Instance.VABranch.PlayVATrack("Yume-Seamstress Recovered Wares");
+
+        if (manager.GetSpools() >= manager.GetStats().ComputeValue("Max Spools"))
+        {
+            AudioManager.Instance.SFXBranch.PlaySFXTrack("Yume-Max Spools");
+        }
+        else
+        {
+            AudioManager.Instance.SFXBranch.GetSFXTrack("Yume-Gained Spool").SetPitch(manager.GetSpools(), manager.GetStats().ComputeValue("Max Spools"));
+            AudioManager.Instance.SFXBranch.PlaySFXTrack("Yume-Gained Spool");
+        }
+    }
+
+
+
+    public void OnHeavyHit(DamageContext context)
+    {
+        if (context.attacker != PlayerID.instance.gameObject) return;
+        if (context.actionTypes.Contains(ActionType.HEAVY_ATTACK) &&
+            (context.actionID == ActionID.SEAMSTRESS_BASIC ||
+            (PlayerID.instance.GetComponent<YumeHeavy>() != null && context.victim.GetComponent<Health>().currentHealth <= 0f) && manager.GetSpools() > 0))
+        {
+            HandleEnemyDefeated();
+        }
+    }
+
+
 
     public override void AddPointTrigger() { pointIndex = GetPoints(); }
     public override void ClearPointsTrigger() { pointIndex = GetPoints(); }

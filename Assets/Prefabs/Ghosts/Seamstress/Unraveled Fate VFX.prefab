@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 3361173547176801666}
   - component: {fileID: 2712483749313418435}
   - component: {fileID: 2048655311699512281}
-  - component: {fileID: 872550267187606034}
   m_Layer: 0
   m_Name: Unraveled Fate VFX
   m_TagString: Untagged
@@ -49,7 +48,7 @@ ParticleSystem:
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
-  looping: 0
+  looping: 1
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
@@ -288,8 +287,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.05
-      minScalar: 0.03
+      scalar: 0.15
+      minScalar: 0.05
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -673,7 +672,7 @@ ParticleSystem:
     donutRadius: 0.2
     m_Position: {x: 0, y: -1, z: 0}
     m_Rotation: {x: 0, y: 0, z: 0}
-    m_Scale: {x: 2.5, y: 0.2, z: 1}
+    m_Scale: {x: 1, y: 0.2, z: 1}
     placementMode: 0
     m_MeshMaterialIndex: 0
     m_MeshNormalOffset: 0
@@ -4832,27 +4831,3 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &872550267187606034
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4451078953279709777}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f53e59d4fbfbf7647a4dd020e68b75f1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pulseVFX: {fileID: 7966241730260626198, guid: a5295bc6cb8948243b75f99e5a18cc48,
-    type: 3}
-  pulseColor: {r: 0.7176471, g: 0.47843137, b: 0.6666667, a: 1}
-  damageContext:
-    damageStrength: 1
-    damageTypes: 03000000
-    actionID: 11
-    actionTypes: 02000000
-    extraContext: 
-    ghostID: 4
-  damage: 20
-  delay: 0.5

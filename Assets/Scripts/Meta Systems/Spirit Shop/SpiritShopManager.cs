@@ -76,7 +76,7 @@ public class SpiritShopManager : MonoBehaviour, IScreenUI
 
     public void UpdateSpiritCountText()
     {
-        secureSpiritsButtonText.text = "SECURE " + (
+        secureSpiritsButtonText.text = "SEND BACK " + (
                 spiritTracker.redSpiritsCollected + spiritTracker.blueSpiritsCollected + 
                 spiritTracker.yellowSpiritsCollected + spiritTracker.pinkSpiritsCollected);
     }

@@ -224,7 +224,7 @@ public class DamageNumber : MonoBehaviour
     {
         if (context.victim != owner) return;
         //if (context.victim != PlayerID.instance.gameObject && context.attacker != PlayerID.instance.gameObject) return;
-        if (context.victim == context.attacker && !context.extraContext.Equals("LightningStrike")) return;
+        if (context.victim == context.attacker && !context.extraContext.Equals("LightningStrike") && context.victim != PlayerID.instance.gameObject) return;
         if (context.attacker != PlayerID.instance.gameObject)
         {
             nextColor = damageTakenColor;

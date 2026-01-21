@@ -76,6 +76,11 @@ public class HeavyAttack : MonoBehaviour, IStatList
         AudioManager.Instance.SFXBranch.PlaySFXTrack("HeavyAttackPrimed");
         manager.heavyDamage.damage = manager.GetStats().ComputeValue("Super Heavy Damage");
         manager.heavyDamage.damageStrength = DamageStrength.HEAVY;
+
+        if (GetComponent<YumeHeavy>() != null)
+        {
+            GetComponent<YumeHeavy>().PrimeStunWave();
+        }
     }
 
     public void StopHeavyPrimed()
@@ -98,12 +103,15 @@ public class HeavyAttack : MonoBehaviour, IStatList
         VFXManager.Instance.PlayVFX(VFX.PLAYER_HEAVY_ATTACK, vfxPosition, gameObject.transform.rotation);
         playerStateMachine.SetLightAttack2Ready(false);
         CameraShake.instance.Shake(0.2f, 10f, 0, 10, new Vector2(Random.Range(-0.5f, 0.5f), 1f));
+
+        List<GameObject> enemiesHit = new List<GameObject>();
         RaycastHit2D[] hits = Physics2D.BoxCastAll(manager.heavyIndicator.transform.position, manager.heavyIndicator.transform.localScale, 0, new Vector2(0, 0));
         foreach (RaycastHit2D hit in hits)
         {
             if (hit.transform.gameObject.CompareTag("Enemy"))
             {
                 Debug.Log("Heavy Attack Hit: " + hit.transform.gameObject.name);
+                enemiesHit.Add(hit.transform.gameObject);
                 manager.heavyDamage.raycastHitPosition = new Vector2(transform.position.x, transform.position.y);
                 hit.transform.gameObject.GetComponent<Health>().Damage(manager.heavyDamage, gameObject);
                 if (hit.transform.gameObject.GetComponent<EnemyStateManager>() != null)
@@ -113,6 +121,12 @@ public class HeavyAttack : MonoBehaviour, IStatList
                 }
             }
         }
+
+        if (GetComponent<YumeHeavy>() != null)
+        {
+            GetComponent<YumeHeavy>().TriggerStunWave(enemiesHit);
+        }
+
         GetComponent<PartyManager>().SetSwappingEnabled(true);
     }
 

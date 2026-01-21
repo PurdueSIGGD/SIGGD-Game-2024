@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6589951119973307837}
   - component: {fileID: 1515455339930968285}
+  - component: {fileID: 5658168720010894082}
   m_Layer: 22
   m_Name: Base
   m_TagString: Untagged
@@ -25,13 +26,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 948379002508115181}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 5204260840131910411}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!212 &1515455339930968285
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -73,8 +74,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 9571889f8d6e17041ab2d26d7f19280b, type: 3}
-  m_Color: {r: 1, g: 0.254902, b: 0.96594185, a: 1}
+  m_Sprite: {fileID: 472352900, guid: 2bb4de51797065f4cadb493d2228104e, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -84,6 +85,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &5658168720010894082
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 948379002508115181}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: aa6f5359380a1a84a8639685dfe7f808, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1975467322760233107
 GameObject:
   m_ObjectHideFlags: 0
@@ -4989,7 +5011,7 @@ TrailRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Time: 0.5
-  m_PreviewTimeScale: 1
+  m_PreviewTimeScale: 0
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -4998,7 +5020,7 @@ TrailRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.7644165
+        value: 0.43067387
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -5019,8 +5041,8 @@ TrailRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0.8722434, g: 0, b: 1, a: 1}
-      key1: {r: 1, g: 0.12105433, b: 0, a: 0}
+      key0: {r: 0.48235297, g: 0.07450981, b: 0.7960785, a: 1}
+      key1: {r: 0.9058824, g: 0.26666668, b: 0.9686275, a: 0}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -5098,7 +5120,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7036226905148191954}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -5229,7 +5251,7 @@ MonoBehaviour:
   statList: []
   speed: 2
   projectileDamage:
-    damageStrength: 2
+    damageStrength: 3
     damageTypes: 01000000
     actionID: 17
     actionTypes: 07000000
@@ -5244,7 +5266,7 @@ MonoBehaviour:
   visual: {fileID: 7164489880985614582}
   speedPerSec: 2
   maxDuration: 7
-  impactDamage: 5
+  impactDamage: 10
   fireDamageTick:
     damageStrength: 0
     damageTypes: 03000000
@@ -5252,10 +5274,10 @@ MonoBehaviour:
     actionTypes: 07000000
     extraContext: AHHHHHHHH
     ghostID: 0
-  tickDamage: 1
-  trackIntensity: 0.1
-  damageTickIntervalSec: 0.2
-  damageTickDurationSec: 2
+  tickDamage: 3.34
+  trackIntensity: 0.05
+  damageTickIntervalSec: 0.3
+  damageTickDurationSec: 3
   poisonDebuffPrefab: {fileID: 7565183235025711588, guid: e8aa912d65ec96c43ac28ce27387314e,
     type: 3}
 --- !u!50 &1038890374219024133

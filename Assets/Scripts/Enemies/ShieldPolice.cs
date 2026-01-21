@@ -88,6 +88,7 @@ public class ShieldPolice : EnemyStateManager
 
     public override void Stun(DamageContext damageContext, float duration = 0f)
     {
+        if (isCharging) SetCharging(false);
         ShieldDown();
         SwitchState(IdleState);
         base.Stun(damageContext, duration);

@@ -42,6 +42,12 @@ public class Health : MonoBehaviour, IDamageable, IStatList
             Debug.Log("After Filter " + filter + ": " + context.damage);
         }
 
+        // Yume Fatebound Shared Damage
+        if (context.extraContext.Equals("FateboundSharedDamage"))
+        {
+            context.damage = context.trueDamage;
+        }
+
         // Resistance
         /*
         if (damageResistance > 0f && context.damage > 0f)
