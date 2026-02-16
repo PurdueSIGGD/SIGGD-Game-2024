@@ -7,6 +7,9 @@ public class CameraDrone : EnemyStateManager
     [SerializeField] protected GameObject enemyToSummon;
     [SerializeField] float detectionRadius = 1;
 
+    [SerializeField] protected GameObject spawnExplosionRing;
+    [SerializeField] protected Color spawnExplosionColor;
+
     private EnemySpawning enemySpawning;
 
     protected override void Start()
@@ -31,6 +34,10 @@ public class CameraDrone : EnemyStateManager
 
     protected void SpawnEnemy()
     {
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("DroneSpawn");
+        GameObject spawnRing = Instantiate(spawnExplosionRing, transform.position, Quaternion.identity);
+        spawnRing.GetComponent<RingExplosionHandler>().playRingExplosion(2f, spawnExplosionColor);
+
         Vector3 dest = transform.position; // + new Vector3(transform.right.x * transform.lossyScale.x, -transform.lossyScale.y, 0);
         GameObject nenemy = Instantiate(enemyToSummon, dest, transform.rotation);
         enemySpawning.RegisterNewEnemy(nenemy);

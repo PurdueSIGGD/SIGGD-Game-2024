@@ -66,13 +66,14 @@ public class LeveledMusicTrack : MusicTrack {
         }
     }
 
-    override public void PlayTrack() {
-        if (isPlaying) { return; }
+    override public AudioSource PlayTrack() {
+        if (isPlaying) { return null; }
         foreach (var track in tracks) {
             track.time = 0.0f;
         }
 
         // Play base level 2 (since it always plays)
+        AudioSource audioSource = tracks[currentTrackOffset + LEVEL_TWO_TRACK_OFFSET];
         tracks[currentTrackOffset + LEVEL_TWO_TRACK_OFFSET].Play();
         // Play level 1 or 3 based on current energy level
         float energyLevel = AudioManager.Instance.GetEnergyLevel();
@@ -86,6 +87,7 @@ public class LeveledMusicTrack : MusicTrack {
         
         isPlaying = true;
         looper = StartCoroutine(AutoLoop());
+        return audioSource;
     }
 
     new public void StopTrack() {

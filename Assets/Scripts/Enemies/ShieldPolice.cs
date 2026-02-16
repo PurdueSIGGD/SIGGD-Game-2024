@@ -61,6 +61,7 @@ public class ShieldPolice : EnemyStateManager
     void ShieldHit()
     {
         print("CCCLANK chhhhhHHHH (the real sound of a kopesh hitting a shield)");
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("ShieldPoliceBlock");
         DamageNumberManager.instance.PlayMessage(gameObject, 0f, blockIcon, "Blocked!", blockMessageColor);
     }
     public void ShieldUpDamageFilter(ref DamageContext context)
@@ -105,6 +106,7 @@ public class ShieldPolice : EnemyStateManager
     }
     void ShieldUp()
     {
+
         shieldUp = true;
         //GameplayEventHolder.OnDamageFilter.Add(ShieldUpDamageFilter);
     }
@@ -121,6 +123,11 @@ public class ShieldPolice : EnemyStateManager
         }
     }
 
+    protected void OnBatonStart()
+    {
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("RiotPoliceBaton");
+    }
+
     // Generate damage frame for baton swing
     protected void OnBatonEvent()
     {
@@ -128,9 +135,15 @@ public class ShieldPolice : EnemyStateManager
         GenerateDamageFrame(batonTrigger.position, batonTrigger.lossyScale.x, batonTrigger.lossyScale.y, batonDamage, gameObject);
     }
 
+    protected void OnChargeEvent0()
+    {
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("ShieldPoliceBashWindup");
+    }
+
     // Ask police to begin charging and enable shield damage
     protected void OnChargeEvent1()
     {
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("ShieldPoliceBash");
         SetCharging(true);
     }
 

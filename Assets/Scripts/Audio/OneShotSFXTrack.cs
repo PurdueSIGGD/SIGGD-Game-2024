@@ -11,8 +11,14 @@ public class OneShotSFXTrack : MonoBehaviour, ISFXTrack {
     public float minPitch = 1;
     public float maxPitch = 1;
 
-    public void PlayTrack() {
+    public AudioSource PlayTrack() {
         track.PlayOneShot(track.clip, 1.0f);
+        return track;
+    }
+
+    public void StopTrack()
+    {
+        track.Stop();
     }
 
     public void SetPitch(float currentValue, float maxValue) {

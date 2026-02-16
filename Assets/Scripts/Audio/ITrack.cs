@@ -7,5 +7,5 @@ using UnityEngine;
 
 public interface ITrack {
     // Play the sound for  this track
-    public void PlayTrack();
+    public AudioSource PlayTrack();
 }

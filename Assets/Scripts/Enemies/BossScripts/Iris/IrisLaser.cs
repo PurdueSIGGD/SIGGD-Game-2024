@@ -32,6 +32,8 @@ public class IrisLaser : MonoBehaviour
     {
         StopCoroutine(FireSequenceCoroutine());
 
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("IRISLaserAttack");
+
         // starting configuration
         col.enabled = false;
         visualObject.SetActive(true);

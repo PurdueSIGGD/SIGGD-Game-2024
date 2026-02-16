@@ -14,8 +14,26 @@ public class SurveyDrone : EnemyStateManager
     private float spawningTimer = 0;
     private bool hasTarget = false;
     private int enemiesSpawned = 0;
+    private bool isWindingUp = false;
+
+    [SerializeField] protected GameObject spawnExplosionRing;
+    [SerializeField] protected Color spawnExplosionColor;
+
+    private AudioSource windupSFX = null;
 
     private EnemySpawning enemySpawning;
+
+    private void OnEnable()
+    {
+        GameplayEventHolder.OnEntityStunned += OnDroneStunned;
+        GameplayEventHolder.OnDeathFilter.Add(OnDroneKilled);
+    }
+
+    private void OnDisable()
+    {
+        GameplayEventHolder.OnEntityStunned -= OnDroneStunned;
+        GameplayEventHolder.OnDeathFilter.Remove(OnDroneKilled);
+    }
 
     protected override void Awake()
     {
@@ -128,6 +146,8 @@ public class SurveyDrone : EnemyStateManager
     /// </summary>
     protected void OnCallAlarm()
     {
+        windupSFX = AudioManager.Instance.SFXBranch.PlaySFXTrack("DroneSpawnWindup");
+        isWindingUp = true;
         if (spawningTimer < 0)
         {
             spawningTimer = stats.ComputeValue("Spawn Interval");
@@ -142,14 +162,54 @@ public class SurveyDrone : EnemyStateManager
 
     }
 
+    protected void OnAlerted()
+    {
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("DroneAlert");
+    }
+
     protected void SpawnEnemy()
     {
+        if (windupSFX != null)
+        {
+            windupSFX.Stop();
+            windupSFX = null;
+        }
+        isWindingUp = false;
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("DroneSpawn");
+        GameObject spawnRing = Instantiate(spawnExplosionRing, transform.position, Quaternion.identity);
+        spawnRing.GetComponent<RingExplosionHandler>().playRingExplosion(2f, spawnExplosionColor);
+
         hasTarget = false;
         Vector3 dest = transform.position; // + new Vector3(transform.right.x * transform.lossyScale.x, -transform.lossyScale.y, 0);
         GameObject nenemy = Instantiate(enemyToSummon, dest, transform.rotation);
         enemySpawning.RegisterNewEnemy(nenemy);
         if (enemiesSpawned > 3) Destroy(nenemy.GetComponent<DropTable>());
         enemiesSpawned++;
+    }
+
+    private void CancelWindup()
+    {
+        if (isWindingUp)
+        {
+            isWindingUp = false;
+            if (windupSFX != null)
+            {
+                windupSFX.Stop();
+                windupSFX = null;
+            }
+        }
+    }
+
+    public void OnDroneStunned(GameObject stunnedEntity)
+    {
+        if (stunnedEntity != gameObject) return;
+        CancelWindup();
+    }
+
+    public void OnDroneKilled(ref DamageContext context)
+    {
+        if (context.victim != gameObject) return;
+        CancelWindup();
     }
 
     protected override void OnDrawGizmos()

@@ -18,13 +18,13 @@ public class SFXManager : MonoBehaviour
         return lookUpTable.sfxTable[trackName];
     }
 
-    public void PlaySFXTrack(string trackName) {
+    public AudioSource PlaySFXTrack(string trackName) {
         if (!lookUpTable.sfxTable.ContainsKey(trackName))
         {
             Debug.LogError("Cannot find VA track recorded under name: " + trackName);
-            return;
+            return null;
         }
-        lookUpTable.sfxTable[trackName].PlayTrack();
+        return lookUpTable.sfxTable[trackName].PlayTrack();
     }
 
     // Looping tracks only!! OneShot and sound banks cannot be stopped

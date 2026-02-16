@@ -11,13 +11,14 @@ public class OneShotVATrack : MonoBehaviour, IVATrack {
     [Header("Whether this track will play outside of combat")]
     public bool playsOutsideCombat;
 
-    public void PlayTrack() {
-        if (!playsOutsideCombat && AudioManager.Instance.GetEnergyLevel() < 0.5f) return;
+    public AudioSource PlayTrack() {
+        if (!playsOutsideCombat && AudioManager.Instance.GetEnergyLevel() < 0.5f) return null;
         else
         {
             track.time = 0.0f;
             track.PlayOneShot(track.clip, 1.0f);
         }
+        return track;
     }
 
     public void StopTrack() {

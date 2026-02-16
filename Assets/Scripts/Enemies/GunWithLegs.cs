@@ -36,6 +36,8 @@ public class GunWithLegs : EnemyStateManager
         Instantiate(projectile, rangeOrig.position, transform.rotation).GetComponent<EnemyProjectile>().Init(gameObject, rangeOrig.position + transform.right);
 
         rb.AddForce(transform.right * -3, ForceMode2D.Impulse);
+
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("GregShootAttack");
     }
 
 

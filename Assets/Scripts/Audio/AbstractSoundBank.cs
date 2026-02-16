@@ -44,14 +44,15 @@ public abstract class AbstractSoundBank : MonoBehaviour, ITrack {
         //GenerateCumulativeWeights();
     }
 
-    public void PlayTrack() {
+    public AudioSource PlayTrack() {
+        AudioSource audioSource = null;
 
         // Roll to see if this sound will play
         float playChanceRoll = UnityEngine.Random.Range(0f, 1f);
         if (playChanceRoll > playChance)
         {
             lastSkipped = true;
-            return;
+            return null;
         }
         lastSkipped = false;
 
@@ -69,7 +70,7 @@ public abstract class AbstractSoundBank : MonoBehaviour, ITrack {
 
         if (!inCombat && playsOutsideCombat)
         {
-            (outOfCombatSounds[soundIndex] as ITrack)?.PlayTrack();
+            audioSource = (outOfCombatSounds[soundIndex] as ITrack)?.PlayTrack();
             // Update recent sounds list
             outOfCombatRecentSounds.Add(soundIndex);
             if (outOfCombatRecentSounds.Count > recencyBlacklistSize)
@@ -79,7 +80,7 @@ public abstract class AbstractSoundBank : MonoBehaviour, ITrack {
         }
         else
         {
-            (sounds[soundIndex] as ITrack)?.PlayTrack();
+            audioSource = (sounds[soundIndex] as ITrack)?.PlayTrack();
             // Update recent sounds list
             recentSounds.Add(soundIndex);
             if (recentSounds.Count > recencyBlacklistSize)
@@ -88,7 +89,7 @@ public abstract class AbstractSoundBank : MonoBehaviour, ITrack {
             }
         }
 
-
+        return audioSource;
     }
 
     // Here's the gist: Don't increase the cumulative weight on blacklisted tracks and they'll never be selected 

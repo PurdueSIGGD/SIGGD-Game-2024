@@ -31,14 +31,16 @@ public abstract class AbstractLoopingTrack : MonoBehaviour {
         }
     }
 
-    public virtual void PlayTrack() {
-        if (isPlaying) { return; }
+    public virtual AudioSource PlayTrack() {
+        if (isPlaying) { return null; }
+        AudioSource audioSource = tracks[0];
         tracks[0].Play();
         foreach (var track in tracks) {
             track.time = 0.0f;
         }
         isPlaying = true;
         looper = StartCoroutine(AutoLoop());
+        return audioSource;
     }
 
     public void StopTrack() {

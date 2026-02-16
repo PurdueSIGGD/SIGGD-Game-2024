@@ -16,6 +16,21 @@ public class Roomba : EnemyStateManager
     [SerializeField] GameObject explodeVisual;
     SpriteRenderer spriteRenderer;
     bool toggleRed = true;
+    bool isWindingUp = false;
+
+    private AudioSource windupSFX = null;
+
+    private void OnEnable()
+    {
+        GameplayEventHolder.OnEntityStunned += OnRoombaStunned;
+        GameplayEventHolder.OnDeathFilter.Add(OnRoombaKilled);
+    }
+
+    private void OnDisable()
+    {
+        GameplayEventHolder.OnEntityStunned -= OnRoombaStunned;
+        GameplayEventHolder.OnDeathFilter.Remove(OnRoombaKilled);
+    }
 
     protected override void Start()
     {
@@ -26,11 +41,16 @@ public class Roomba : EnemyStateManager
 
     protected void OnInitiateKaboom()
     {
+        isWindingUp = true;
+        windupSFX = AudioManager.Instance.SFXBranch.PlaySFXTrack("RoombaWindup");
         StartCoroutine(flicker());
     }
     // Check for player in blast radius and do damage
     protected void OnKaboomEvent()
     {
+        if (windupSFX != null) { windupSFX.Stop(); }
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("RoombaExplosion");
+        isWindingUp = false;
         explodeMarker.SetActive(false);
         explodeVisual.SetActive(true);
         StopAllCoroutines();
@@ -68,5 +88,29 @@ public class Roomba : EnemyStateManager
             yield return new WaitForSeconds(0.05f);
             yield return null;
         }
+    }
+
+    private void CancelWindup()
+    {
+        if (isWindingUp)
+        {
+            isWindingUp = false;
+            if (windupSFX != null) { windupSFX.Stop(); }
+            explodeMarker.SetActive(false);
+            explodeVisual.SetActive(false);
+            StopAllCoroutines();
+        }
+    }
+
+    public void OnRoombaStunned(GameObject stunnedEntity)
+    {
+        if (stunnedEntity != gameObject) return;
+        CancelWindup();
+    }
+
+    public void OnRoombaKilled(ref DamageContext context)
+    {
+        if (context.victim != gameObject) return;
+        CancelWindup();
     }
 }

@@ -96,10 +96,14 @@ public class IrisController : BossController
     }
     public void ActivateShield()
     {
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("IRISShieldUp");
+        AudioManager.Instance.SFXBranch.StopSFXTrack("IRISShieldDownLoop");
         ToggleShield(true);
     }
     public void DeactivateShield()
     {
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("IRISShieldDown");
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("IRISShieldDownLoop");
         ToggleShield(false);
     }
     void ToggleShield(bool val)

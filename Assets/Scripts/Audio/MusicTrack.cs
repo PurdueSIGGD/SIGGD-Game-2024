@@ -26,8 +26,8 @@ public class MusicTrack : AbstractLoopingTrack, IMusicTrack
         return maxVolume;
     }
 
-    override public void PlayTrack() {
-        base.PlayTrack();
+    override public AudioSource PlayTrack() {
+        return base.PlayTrack();
     }
 
     protected override IEnumerator AutoLoop() {

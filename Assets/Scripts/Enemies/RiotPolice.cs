@@ -19,6 +19,11 @@ public class RiotPolice : EnemyStateManager
         batonDamage.damage = stats.ComputeValue("Damage");
     }
 
+    protected void OnBatonStart()
+    {
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("RiotPoliceBaton");
+    }
+
     // Check for collision in swing range to deal damage
     protected void OnBatonEvent()
     {

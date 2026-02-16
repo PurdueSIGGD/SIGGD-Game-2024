@@ -458,6 +458,9 @@ MonoBehaviour:
   alarmTrigger: {fileID: 7775618551989780944}
   enemyToSummon: {fileID: 1393067818931581941, guid: 040374e0994a9d3488cf595921dd96e5,
     type: 3}
+  spawnExplosionRing: {fileID: 7966241730260626198, guid: a5295bc6cb8948243b75f99e5a18cc48,
+    type: 3}
+  spawnExplosionColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &3397753109862796679
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -496,6 +499,7 @@ MonoBehaviour:
     hitBox: {fileID: 7775618551989780944}
     usesCircleHitbox: 0
     coolDown: 7
+    respectHitboxOnCooldown: 1
     animationClip: {fileID: 7400000, guid: 4d58ca8632224584d8e48a3162619489, type: 2}
   move:
     name: 
@@ -504,6 +508,7 @@ MonoBehaviour:
     hitBox: {fileID: 0}
     usesCircleHitbox: 0
     coolDown: 0
+    respectHitboxOnCooldown: 1
     animationClip: {fileID: 7400000, guid: 4739459637a37884c8ebb6a3ce1e90ce, type: 2}
   idle:
     name: 
@@ -512,6 +517,7 @@ MonoBehaviour:
     hitBox: {fileID: 0}
     usesCircleHitbox: 0
     coolDown: 0
+    respectHitboxOnCooldown: 1
     animationClip: {fileID: 7400000, guid: 468a49c330cf0294486adcfa8c854b6e, type: 2}
 --- !u!114 &5892818454689095529
 MonoBehaviour:
