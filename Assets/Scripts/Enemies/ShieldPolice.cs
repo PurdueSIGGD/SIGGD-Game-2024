@@ -30,21 +30,22 @@ public class ShieldPolice : EnemyStateManager
     [SerializeField] protected Sprite blockIcon;
     [SerializeField] protected Color blockMessageColor;
 
-    /*
-    void OnDestroy()
-    {
-        GameplayEventHolder.OnDamageFilter.Remove(ShieldUpDamageFilter);
-    }
-    */
+    bool isWindingUp = false;
+
+    private AudioSource windupSFX = null;
 
     private void OnEnable()
     {
         GameplayEventHolder.OnDamageFilter.Add(ShieldUpDamageFilter);
+        GameplayEventHolder.OnEntityStunned += OnStunned;
+        GameplayEventHolder.OnDeathFilter.Add(OnKilled);
     }
 
     private void OnDisable()
     {
         GameplayEventHolder.OnDamageFilter.Remove(ShieldUpDamageFilter);
+        GameplayEventHolder.OnEntityStunned -= OnStunned;
+        GameplayEventHolder.OnDeathFilter.Remove(OnKilled);
     }
 
     void Update()
@@ -125,7 +126,14 @@ public class ShieldPolice : EnemyStateManager
 
     protected void OnBatonStart()
     {
-        AudioManager.Instance.SFXBranch.PlaySFXTrack("RiotPoliceBaton");
+        isWindingUp = true;
+        windupSFX = AudioManager.Instance.SFXBranch.PlaySFXTrack("RiotPoliceBaton");
+    }
+
+    protected void OnBatonEnd()
+    {
+        isWindingUp = false;
+        windupSFX = null;
     }
 
     // Generate damage frame for baton swing
@@ -151,6 +159,27 @@ public class ShieldPolice : EnemyStateManager
     protected void OnChargeEvent2()
     {
         SetCharging(false);
+    }
+
+    private void CancelWindup()
+    {
+        if (isWindingUp)
+        {
+            isWindingUp = false;
+            if (windupSFX != null) { windupSFX.Stop(); }
+        }
+    }
+
+    public void OnStunned(GameObject stunnedEntity)
+    {
+        if (stunnedEntity != gameObject) return;
+        CancelWindup();
+    }
+
+    public void OnKilled(ref DamageContext context)
+    {
+        if (context.victim != gameObject) return;
+        CancelWindup();
     }
 
     public void ProcessShieldCollision(Collider2D collider)

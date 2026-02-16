@@ -30,6 +30,7 @@ public class YokaiPosessionScript : MonoBehaviour
     {
         if (damageContext.victim == parentEnemyInstance && !damageContext.damageTypes.Contains(DamageType.ENVIRONMENTAL))
         {
+            AudioManager.Instance.SFXBranch.PlaySFXTrack("YokaiDeath");
             print("POSESSION VICTIM: " + damageContext.victim);
             //enemySpawnManager.SpawnEnemyWithDelay(this.transform.position, 0.1f, parentEnemyPrefab, yokaiOrbPrefab);
             GameObject nenemy = Instantiate(yokaiOrbPrefab, transform.position, transform.rotation);

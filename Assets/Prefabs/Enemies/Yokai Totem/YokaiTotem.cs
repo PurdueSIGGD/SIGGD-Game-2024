@@ -105,6 +105,7 @@ public class YokaiTotem : MonoBehaviour
     private IEnumerator DamageCoroutine()
     {
         onCooldown = true;
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("TotemWindup");
         yield return new WaitForSeconds(stats.ComputeValue("ZAP_DELAY"));
         if (!debuff)
         {
@@ -117,6 +118,7 @@ public class YokaiTotem : MonoBehaviour
         int zapCount = Mathf.FloorToInt(stats.ComputeValue("ZAP_COUNT"));
         for (int i = 0; i < zapCount; i++)
         {
+            AudioManager.Instance.SFXBranch.PlaySFXTrack("TotemZap");
             if (debuff) player.GetComponent<Health>().Damage(zapDamageContext, gameObject);
             yield return new WaitForSeconds(stats.ComputeValue("ZAP_INTERVAL"));
         }

@@ -95,9 +95,9 @@ public class BossController : MonoBehaviour
     }
     public void BossInvincibleDamageFilter(ref DamageContext context)
     {
-        AudioManager.Instance.SFXBranch.PlaySFXTrack("IRISShieldBlock");
         if (context.victim == bossHealth.gameObject)
         {
+            AudioManager.Instance.SFXBranch.PlaySFXTrack("IRISShieldBlock");
             context.damage = 0;
         }
     }

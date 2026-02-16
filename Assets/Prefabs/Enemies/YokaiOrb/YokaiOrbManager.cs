@@ -16,6 +16,20 @@ public class YokaiOrbManager : EnemyStateManager
 
     private EnemySpawning enemySpawning;
 
+    bool isWindingUp = false;
+
+    private AudioSource windupSFX = null;
+
+    private void OnEnable()
+    {
+        //GameplayEventHolder.OnDeathFilter.Add(OnKilled);
+    }
+
+    private void OnDisable()
+    {
+        if (GameplayEventHolder.OnDeathFilter.Contains(OnKilled)) GameplayEventHolder.OnDeathFilter.Remove(OnKilled);
+    }
+
     void Start()
     {
         base.Start();
@@ -80,11 +94,34 @@ public class YokaiOrbManager : EnemyStateManager
 
     private IEnumerator SpawnEnemy()
     {
-        yield return new WaitForSeconds(spawnTime);
+        yield return new WaitForSeconds(spawnTime - 3f);
+        GameplayEventHolder.OnDeathFilter.Add(OnKilled);
+        isWindingUp = true;
+        windupSFX = AudioManager.Instance.SFXBranch.PlaySFXTrack("YokaiRespawn");
+        yield return new WaitForSeconds(3f);
+        if (windupSFX != null) { windupSFX.Stop(); }
+        //AudioManager.Instance.SFXBranch.PlaySFXTrack("RoombaExplosion");
+        isWindingUp = false;
         GameObject nenemy = Instantiate(enemyToSpawn, transform.position, transform.rotation);
         enemySpawning.RegisterNewEnemy(nenemy);
         enemySpawnSelfDamageContext.damage = enemySpawnSelfDamage;
         GetComponent<Health>().Damage(enemySpawnSelfDamageContext, gameObject);
+    }
+
+
+    private void CancelWindup()
+    {
+        if (isWindingUp)
+        {
+            isWindingUp = false;
+            if (windupSFX != null) { windupSFX.Stop(); }
+        }
+    }
+
+    public void OnKilled(ref DamageContext context)
+    {
+        if (context.victim != gameObject) return;
+        CancelWindup();
     }
 
 

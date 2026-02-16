@@ -12,6 +12,21 @@ public class RiotPolice : EnemyStateManager
     [SerializeField] protected Transform batonTrigger;
     [SerializeField] protected DamageContext batonDamage;
     [SerializeField] GameObject batonVisual;
+    bool isWindingUp = false;
+
+    private AudioSource windupSFX = null;
+
+    private void OnEnable()
+    {
+        GameplayEventHolder.OnEntityStunned += OnStunned;
+        GameplayEventHolder.OnDeathFilter.Add(OnKilled);
+    }
+
+    private void OnDisable()
+    {
+        GameplayEventHolder.OnEntityStunned -= OnStunned;
+        GameplayEventHolder.OnDeathFilter.Remove(OnKilled);
+    }
 
     protected override void Start()
     {
@@ -21,7 +36,8 @@ public class RiotPolice : EnemyStateManager
 
     protected void OnBatonStart()
     {
-        AudioManager.Instance.SFXBranch.PlaySFXTrack("RiotPoliceBaton");
+        isWindingUp = true;
+        windupSFX = AudioManager.Instance.SFXBranch.PlaySFXTrack("RiotPoliceBaton");
     }
 
     // Check for collision in swing range to deal damage
@@ -33,7 +49,30 @@ public class RiotPolice : EnemyStateManager
 
     protected void OnBatonEnd()
     {
+        isWindingUp = false;
+        windupSFX = null;
         batonVisual.SetActive(false);
+    }
+
+    private void CancelWindup()
+    {
+        if (isWindingUp)
+        {
+            isWindingUp = false;
+            if (windupSFX != null) { windupSFX.Stop(); }
+        }
+    }
+
+    public void OnStunned(GameObject stunnedEntity)
+    {
+        if (stunnedEntity != gameObject) return;
+        CancelWindup();
+    }
+
+    public void OnKilled(ref DamageContext context)
+    {
+        if (context.victim != gameObject) return;
+        CancelWindup();
     }
 
     // Draws the Enemy attack range in the editor

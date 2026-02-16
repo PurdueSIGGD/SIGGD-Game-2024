@@ -29,8 +29,14 @@ public class Ronin : EnemyStateManager
         GameplayEventHolder.OnEntityStunned -= OnRoninStunned;
     }
 
+    void OnSwordStart()
+    {
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("RoninSwordWindup");
+    }
+
     void SwingSword()
     {
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("RoninSword");
         swordDamage.damage = swordDamageVal;
         GenerateDamageFrame(swordTrigger.position, swordTrigger.lossyScale.x, swordTrigger.lossyScale.y, swordDamage, gameObject);
     }
@@ -41,10 +47,11 @@ public class Ronin : EnemyStateManager
 
     protected void OnEnterDashEvent()
     {
-
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("RoninDashWindup");
     }
     protected void DashStart()
     {
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("RoninDash");
         rb.mass = 3f;
         rb.velocity = new Vector2(dashSpeed, rb.velocity.y) * transform.right;
         dashCollider.enabled = true;

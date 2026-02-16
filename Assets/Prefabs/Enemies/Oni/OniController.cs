@@ -72,6 +72,7 @@ public class OniController : MonoBehaviour
         currentLevel = 0;
         ParticleSystem.EmissionModule emissionModule = levelParticles.emission;
         emissionModule.rateOverTime = particleEmmisionPerLevel[currentLevel];
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("OniRoar");
     }
 
     void Update()
@@ -137,10 +138,12 @@ public class OniController : MonoBehaviour
         transform.localScale = new Vector3(transform.localScale.x + scaleInc, transform.localScale.y + scaleInc, transform.localScale.z);
         ParticleSystem.EmissionModule emissionModule = levelParticles.emission;
         emissionModule.rateOverTime = particleEmmisionPerLevel[currentLevel];
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("OniRoar");
     }
 
     void OnGashTarget()
     {
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("OniGash");
         damageContext.damage = damageVal;
         damageContext.damage = (targetObj.CompareTag("Player")) ? damageVal : (damageVal * enemyDamageMultiplier);
         targetObj.GetComponent<Health>().Damage(damageContext, this.gameObject);

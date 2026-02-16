@@ -23,6 +23,19 @@ public class TrackingProjectile : EnemyProjectile
     [SerializeField] GameObject explodeVisual;
     bool toggleRed = true;
     bool isExploding = false;
+    bool isWindingUp = false;
+
+    private AudioSource windupSFX = null;
+
+    private void OnEnable()
+    {
+        GameplayEventHolder.OnDeathFilter.Add(OnKilled);
+    }
+
+    private void OnDisable()
+    {
+        GameplayEventHolder.OnDeathFilter.Remove(OnKilled);
+    }
 
     //Consistently tracks player
     protected override void Start()
@@ -123,6 +136,8 @@ public class TrackingProjectile : EnemyProjectile
     private void InitiateExplosion()
     {
         if (isInitializing) return;
+        isWindingUp = true;
+        windupSFX = AudioManager.Instance.SFXBranch.PlaySFXTrack("SpiritBombWindup");
         tracking = false;
         StartCoroutine(Flicker());
         hangTime = 0f;
@@ -131,6 +146,9 @@ public class TrackingProjectile : EnemyProjectile
 
     IEnumerator Explode()
     {
+        if (windupSFX != null) { windupSFX.Stop(); }
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("SpiritBombExplosion");
+        isWindingUp = false;
         explodeMarker.SetActive(false);
         explodeVisual.SetActive(true);
         GenerateDamageFrame(transform.position, explosionRadius, projectileDamage, gameObject);
@@ -156,5 +174,24 @@ public class TrackingProjectile : EnemyProjectile
             }
         }
         return (hits.Length > 0);
+    }
+
+
+    private void CancelWindup()
+    {
+        if (isWindingUp)
+        {
+            isWindingUp = false;
+            if (windupSFX != null) { windupSFX.Stop(); }
+            explodeMarker.SetActive(false);
+            explodeVisual.SetActive(false);
+            StopAllCoroutines();
+        }
+    }
+
+    public void OnKilled(ref DamageContext context)
+    {
+        if (context.victim != gameObject) return;
+        CancelWindup();
     }
 }

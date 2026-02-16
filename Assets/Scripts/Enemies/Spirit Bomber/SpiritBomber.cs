@@ -37,6 +37,11 @@ public class SpiritBomber : EnemyStateManager
         }
     }
 
+    protected void ThrowSFX()
+    {
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("EnemyThrow");
+    }
+
     protected void ThrowBomb()
     {
         GameObject bomb = Instantiate(bombPrefab, bombSpawn.position, Quaternion.identity);
