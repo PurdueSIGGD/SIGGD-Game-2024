@@ -45,6 +45,7 @@ public class ClericBubbleShieldScript : MonoBehaviour
         {
             return;
         }
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("ClericShieldBlock");
         DamageContext transferDamage = CreateTransferDamageContext(damage);
         //health.Damage(transferDamage, transferDamage.attacker);
         damage.damage = 0; // negate damage to parent enemy

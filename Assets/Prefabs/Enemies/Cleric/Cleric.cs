@@ -82,11 +82,13 @@ public class Cleric : EnemyStateManager
 
     protected void EnterSwingAnimation()
     {
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("RoninSwordWindup");
         isSwinging = true;
     }
 
     protected void StartStaffSwing()
     {
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("ClericMelee");
         swingVisual.SetActive(true);
         GenerateDamageFrame(swingContactBox.position, swingContactBox.lossyScale.x, swingContactBox.lossyScale.y, swingContext, gameObject);
     }
@@ -142,6 +144,10 @@ public class Cleric : EnemyStateManager
             if (oldBubble != null)
             {
                 Destroy(oldBubble.gameObject);
+            }
+            else
+            {
+                AudioManager.Instance.SFXBranch.PlaySFXTrack("ClericShieldUp");
             }
             //ClericBubbleShieldScript bubbleScript = Instantiate(bubble, enemy.transform).GetComponent<ClericBubbleShieldScript>();
             bubbleInstance = Instantiate(bubble, enemy.transform);

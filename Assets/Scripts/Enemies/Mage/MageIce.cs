@@ -18,6 +18,22 @@ public class MageIce : EnemyStateManager
     [SerializeField] private GameObject projectile;
     private Vector3 throwPosition = Vector3.zero;
 
+    bool isWindingUp = false;
+
+    private AudioSource windupSFX = null;
+
+    private void OnEnable()
+    {
+        GameplayEventHolder.OnEntityStunned += OnMageStunned;
+        GameplayEventHolder.OnDeathFilter.Add(OnKilled);
+    }
+
+    private void OnDisable()
+    {
+        GameplayEventHolder.OnEntityStunned -= OnMageStunned;
+        GameplayEventHolder.OnDeathFilter.Remove(OnKilled);
+    }
+
     public void StartBasic()
     {
         throwPosition = PlayerID.instance.transform.position;
@@ -27,21 +43,35 @@ public class MageIce : EnemyStateManager
         }
     }
 
+    public void BasicSFX()
+    {
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("EnemyThrow");
+    }
+
     public void FireProjectile()
     {
         Instantiate(projectile, (transform.position + (0.5f * Vector3.right)), transform.rotation).GetComponent<EnemyProjectile>().Init(gameObject, throwPosition);
     }
 
-
-
-    private void OnEnable()
+    public void StartMageAttack()
     {
-        GameplayEventHolder.OnEntityStunned += OnMageStunned;
+        isWindingUp = true;
+        windupSFX = AudioManager.Instance.SFXBranch.PlaySFXTrack("IceMageWindup");
     }
 
-    private void OnDisable()
+    private void CancelWindup()
     {
-        GameplayEventHolder.OnEntityStunned -= OnMageStunned;
+        if (isWindingUp)
+        {
+            isWindingUp = false;
+            if (windupSFX != null) { windupSFX.Stop(); }
+        }
+    }
+
+    public void OnKilled(ref DamageContext context)
+    {
+        if (context.victim != gameObject) return;
+        CancelWindup();
     }
 
     void Update()
@@ -131,6 +161,7 @@ public class MageIce : EnemyStateManager
         foreach (GameObject iceShard in iceShards)
         {
             if (iceShard == null) continue;
+            AudioManager.Instance.SFXBranch.PlaySFXTrack("IceMageAttack");
             iceShard.GetComponent<MageIceShardAttack>().Launch();
             yield return new WaitForSeconds(iceAttackIntervalSec);
         }
@@ -158,5 +189,6 @@ public class MageIce : EnemyStateManager
     {
         if (stunnedEntity != gameObject) return;
         CancelChargeUp();
+        CancelWindup();
     }
 }

@@ -50,6 +50,7 @@ public class ScatheSwipe : MonoBehaviour
 
         // swipe logic
 
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("ScatheTail");
         anim.SetTrigger("start");
     }
 

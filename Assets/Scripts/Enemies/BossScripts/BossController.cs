@@ -148,8 +148,17 @@ public class BossController : MonoBehaviour
     {
         killAllEnemiesContext.attacker = gameObject;
         killAllEnemiesContext.damage = 9999999999;
+        //enemySpawner.KillAllEnemies(killAllEnemiesContext);
+        StartCoroutine(KillAllEnemiesCoroutine());
+    }
+
+    private IEnumerator KillAllEnemiesCoroutine()
+    {
+        enemySpawner.KillAllEnemies(killAllEnemiesContext);
+        yield return new WaitForSeconds(1f);
         enemySpawner.KillAllEnemies(killAllEnemiesContext);
     }
+
     public int GetNumEnemies()
     {
         return enemySpawner.GetCurrentEnemies().Count();

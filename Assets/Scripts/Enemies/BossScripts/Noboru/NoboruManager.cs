@@ -31,6 +31,12 @@ public class NoboruManager : EnemyStateManager
     [SerializeField] float followTimeSec;
     [SerializeField] float warningTimeSec;
     [SerializeField] float lightningTimeSec;
+
+    [SerializeField] GameObject actionPulseVFX;
+    [SerializeField] Color summonPulseColor;
+    [SerializeField] Color fireballPulseColor;
+    [SerializeField] Color teleportPulseColor;
+
     public void Start()
     {
         base.Start();
@@ -42,8 +48,17 @@ public class NoboruManager : EnemyStateManager
         lightningContext.damage = lightningDamage;
 
     }
+
+    public void StartWindup()
+    {
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("NoboruWindup");
+    }
+
     public void Teleport()
     {
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("NoboruTeleport");
+        GameObject pulse = Instantiate(actionPulseVFX, transform.position, Quaternion.identity);
+        pulse.GetComponent<RingExplosionHandler>().playRingExplosion(25f, teleportPulseColor);
         tpIndex++;
         if (tpIndex >= teleportPositions.Count)
         {
@@ -61,12 +76,16 @@ public class NoboruManager : EnemyStateManager
     }
     public void SummonYokaiWave()
     {
+        //AudioManager.Instance.SFXBranch.PlaySFXTrack("NoboruSummon");
+        GameObject pulse = Instantiate(actionPulseVFX, transform.position, Quaternion.identity);
+        pulse.GetComponent<RingExplosionHandler>().playRingExplosion(25f, summonPulseColor);
         StartCoroutine(FancySummonCoroutine());
     }
     IEnumerator FancySummonCoroutine()
     {
         for (int i = 0; i < numYokai; i++)
         {
+            AudioManager.Instance.SFXBranch.PlaySFXTrack("NoboruSummon");
             SpawnYokai();
             yield return new WaitForSeconds(fancySummonInterval);
         }
@@ -74,6 +93,9 @@ public class NoboruManager : EnemyStateManager
 
     public void RandomCast()
     {
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("NoboruFireball");
+        GameObject pulse = Instantiate(actionPulseVFX, transform.position, Quaternion.identity);
+        pulse.GetComponent<RingExplosionHandler>().playRingExplosion(25f, fireballPulseColor);
         if (PlayerID.instance != null)
         {
             float randSpell = Random.value * (ballChance + lightningChance);

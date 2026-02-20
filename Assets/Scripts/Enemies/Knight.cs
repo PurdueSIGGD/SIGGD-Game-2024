@@ -33,6 +33,18 @@ public class Knight : EnemyStateManager
         GameplayEventHolder.OnEntityStunned -= OnKnightStunned;
     }
 
+    
+
+    protected void OnWindupSlash()
+    {
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("RoninSwordWindup");
+    }
+
+    protected void OnWindupBasic()
+    {
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("RoninSwordWindup");
+    }
+
     protected void OnStartSlash()
     {
         swingVisual.SetActive(true);
@@ -41,12 +53,14 @@ public class Knight : EnemyStateManager
     // Check for collision in swing range to deal damage
     protected void OnSlashEvent()
     {
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("RoninSword");
         GenerateDamageFrame(swordTrigger.position, swordTrigger.lossyScale.x, swordTrigger.lossyScale.y, swordDamage, gameObject);
         swingVisual.SetActive(true);
     }
 
     protected void OnBasicEvent()
     {
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("RoninSword");
         GenerateDamageFrame(basicTrigger.position, basicTrigger.lossyScale.x, basicTrigger.lossyScale.y, basicDamage, gameObject);
         swingVisual.SetActive(true);
     }

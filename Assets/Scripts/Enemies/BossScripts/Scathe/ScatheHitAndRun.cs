@@ -49,6 +49,7 @@ public class ScatheHitAndRun : MonoBehaviour
 
         // drive by logic
 
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("ScatheDash");
         skullRb.velocity = Vector2.right * direction * driveBySpeed;
         yield return new WaitForSeconds(driveByTime);
         skullRb.velocity = Vector2.zero;

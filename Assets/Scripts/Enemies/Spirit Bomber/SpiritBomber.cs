@@ -30,11 +30,14 @@ public class SpiritBomber : EnemyStateManager
 
     protected void StartThrow()
     {
+        /*
         throwPosition = PlayerID.instance.transform.position;
         if (!IsCurrentTargetPlayer())
         {
             throwPosition = GetCurrentTarget().transform.position;
         }
+        */
+        throwPosition = bombSpawn.position + transform.right;
     }
 
     protected void ThrowSFX()

@@ -59,6 +59,8 @@ public class Crow : EnemyStateManager
         diving = true;
         print("DIVING AHHHHHH");
 
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("CrowDive");
+
         // dive charge up wait time
         float waitTime = stats.ComputeValue("DIVE_WAIT");
         float diveSpeed = stats.ComputeValue("DIVE_SPEED");
