@@ -30,6 +30,6 @@ public class GhostSlotVisualizer : MonoBehaviour
         image.sprite = defaultSprite;
         image.color = defaultColor;
         border.color = Color.white;
-        name.text = "Empty";
+        name.text = "";
     }
 }

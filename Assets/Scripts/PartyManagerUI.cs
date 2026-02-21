@@ -7,8 +7,8 @@ using System.Collections.Generic;
 public class PartyManagerUI : MonoBehaviour
 {
 
-    public static readonly string ADD_PARTY_LABEL = "Add (Party)";
-    public static readonly string REMOVE_PARTY_LABEL = "Remove (Party)";
+    public static readonly string ADD_PARTY_LABEL = "Add to Party";
+    public static readonly string REMOVE_PARTY_LABEL = "Remove from Party";
 
     public static PartyManagerUI instance = null;
 
@@ -50,6 +50,8 @@ public class PartyManagerUI : MonoBehaviour
     [SerializeField] private CharacterSO orionSO;
     [SerializeField] private Button addToPartyBtn;
     [SerializeField] private Button viewSkillsBtn;
+    [SerializeField] private Image skillsReminder;
+    [SerializeField] private TextMeshProUGUI skillsReminderLabel;
     [SerializeField] private TextMeshProUGUI addToPartyLabel;
 
     private GhostMenuItemUI selectedItem = null;
@@ -76,11 +78,30 @@ public class PartyManagerUI : MonoBehaviour
         {
             addToPartyBtn.gameObject.SetActive(false);
             viewSkillsBtn.gameObject.SetActive(false);
+            skillsReminder.gameObject.SetActive(false);
         }
         else
         {
             addToPartyBtn.gameObject.SetActive(true);
             viewSkillsBtn.gameObject.SetActive(true);
+            //skillsReminder.color = selectedItem.identity.GetCharacterInfo().primaryColor;
+            Color reminderBackgroundC = selectedItem.identity.GetCharacterInfo().primaryColor;
+            //reminderBackgroundC.a = 0.45f;
+            reminderBackgroundC.r -= 25f;
+            reminderBackgroundC.g -= 25f;
+            reminderBackgroundC.b -= 25f;
+            skillsReminder.color = reminderBackgroundC;
+            int unusedPoints = 0;
+            SkillTree skillTree = selectedItem.identity.GetComponent<SkillTree>();
+            for (int i = 0; i < 3; i++)
+            {
+                if (skillTree.GetTierPoints(i) > 0)
+                {
+                    unusedPoints += skillTree.GetTierPoints(i);
+                }
+            }
+            skillsReminderLabel.text = unusedPoints.ToString();
+            skillsReminder.gameObject.SetActive((unusedPoints > 0));
 
             if (PartyManager.instance.IsGhostInParty(selectedItem.identity))
             {
