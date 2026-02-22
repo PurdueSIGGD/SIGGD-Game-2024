@@ -11,6 +11,7 @@ public class SkillUI : MonoBehaviour, IPointerClickHandler
     [SerializeField] TextMeshProUGUI title;
     [SerializeField] TextMeshProUGUI desc;
     [SerializeField] TextMeshProUGUI descVal;
+    [SerializeField] TextMeshProUGUI descLevel;
     [SerializeField] Image[] skillPoints;
 
     [Header("Values")]
@@ -23,7 +24,7 @@ public class SkillUI : MonoBehaviour, IPointerClickHandler
     // -- Internal Functions --
     private void Update()
     {
-        if (skill != null)
+        if (skill != null && skillTree != null)
         {
             for (int i = 0; i < skillPoints.Length; i++)
             {
@@ -36,12 +37,19 @@ public class SkillUI : MonoBehaviour, IPointerClickHandler
                     skillPoints[i].color = emptyPoint;
                 }
             }
+
+            if (descLevel == null) return;
+            string currLevelValue = skill.GetDescriptionLevelValue(skill.GetPoints());
+            bool canSeeLevel4 = (skillTree.GetLevel() > 10);
+            string descLevelConnector = ((canSeeLevel4 && skill.GetPoints() >= 4) || (!canSeeLevel4 && skill.GetPoints() >= 3)) ? (" <size=85%>MAX</size>") : (" <i>-></i> ");
+            string nextLevelValue = ((canSeeLevel4 && skill.GetPoints() >= 4) || (!canSeeLevel4 && skill.GetPoints() >= 3)) ? ("") : (skill.GetDescriptionLevelValue(skill.GetPoints() + 1));
+            descLevel.text = "<size=110%>" + currLevelValue + "</size><color=#000000E0>" + descLevelConnector + "<size=85%>" + nextLevelValue + "</size></color>";
         }
     }
 
     // -- External Functions --
 
-    public void Visualize(SkillTree skillTree, Skill skill)
+    public void Visualize(SkillTree skillTree, Skill skill, GameObject ghost)
     {
         this.skill = skill;
         this.skillTree = skillTree;
@@ -50,6 +58,10 @@ public class SkillUI : MonoBehaviour, IPointerClickHandler
         desc.text = skill.GetDescription();
         icon.sprite = skill.GetIcon();
         descVal.text = skill.GetDescriptionValue();
+
+        CharacterSO ghostInfo = ghost.GetComponent<GhostIdentity>().GetCharacterInfo();
+        icon.color = ghostInfo.primaryColor;
+        fillPoint = ghostInfo.highlightColor;
     }
 
     public void OnPointerClick(PointerEventData eventData)

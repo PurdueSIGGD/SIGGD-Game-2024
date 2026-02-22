@@ -35,18 +35,17 @@ public class GhostMenuItemUI : MonoBehaviour, IPointerClickHandler
         identity = ghost;
         CharacterSO info = ghost.GetCharacterInfo();
         imageComponent.sprite = info.hudIconNoFire;
-        imageComponent.sprite = (ghost.GetComponent<SkillTree>().GetLevel() >= 11) ? info.hudIcon : info.hudIconNoFire;
-        //levelCircle.color = info.primaryColor;
+        //imageComponent.sprite = (ghost.GetComponent<SkillTree>().GetLevel() >= 11) ? info.hudIcon : info.hudIconNoFire;
         Color levelBackgroundC = info.primaryColor;
-        //levelBackgroundC.a = 0.45f;
-        levelBackgroundC.r -= 25f;
-        levelBackgroundC.g -= 25f;
-        levelBackgroundC.b -= 25f;
+        levelBackgroundC.r -= 0.2f;
+        levelBackgroundC.g -= 0.2f;
+        levelBackgroundC.b -= 0.2f;
         levelCircle.color = levelBackgroundC;
-        levelComponent.text = ghost.GetComponent<SkillTree>().GetLevel().ToString();
+        int ghostLevel = ghost.GetComponent<SkillTree>().GetLevel();
+        levelComponent.text = ghostLevel.ToString();
 
         expBar.color = info.primaryColor;
-        expSlider.value = ghost.GetExp() / (float)ghost.GetRequiredExp();
+        expSlider.value = (ghostLevel >= 14) ? (1f) : (ghost.GetExp() / (float)ghost.GetRequiredExp());
 
         skillTree = ghost.GetComponent<SkillTree>();
 
@@ -64,6 +63,8 @@ public class GhostMenuItemUI : MonoBehaviour, IPointerClickHandler
 
     public void FixedUpdate()
     {
+        imageComponent.sprite = (PartyManager.instance.GetGhostPartyList().Contains(identity)) ? identity.GetCharacterInfo().hudIcon : identity.GetCharacterInfo().hudIconNoFire;
+
         for (int i = 0; i < 3; i++)
         {
             if (skillTree.GetTierPoints(i) > 0)

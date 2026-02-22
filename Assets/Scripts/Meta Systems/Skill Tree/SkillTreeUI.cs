@@ -54,7 +54,7 @@ public class SkillTreeUI : MonoBehaviour, IScreenUI
             if (skillTree.IsUnlocked(skills[i]))
             {
                 skillUis[i].gameObject.SetActive(true);
-                skillUis[i].Visualize(skillTree, skills[i]);
+                skillUis[i].Visualize(skillTree, skills[i], ghost);
             }
             else
             {
@@ -68,7 +68,7 @@ public class SkillTreeUI : MonoBehaviour, IScreenUI
             if (skillTree.IsUnlocked(tier))
             {
                 tierUis[tier].gameObject.SetActive(true);
-                tierUis[tier].Visualize(skillTree, tier);
+                tierUis[tier].Visualize(skillTree, tier, ghost);
             }
             else
             {
@@ -89,7 +89,7 @@ public class SkillTreeUI : MonoBehaviour, IScreenUI
         skillTree = null;
         actionOnTreeClose?.Invoke();
 
-        PlayerID.instance.UnfreezePlayer();
+        //PlayerID.instance.UnfreezePlayer();
     }
 
     /// <summary>

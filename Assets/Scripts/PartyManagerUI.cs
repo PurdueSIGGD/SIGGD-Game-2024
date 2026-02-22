@@ -84,12 +84,10 @@ public class PartyManagerUI : MonoBehaviour
         {
             addToPartyBtn.gameObject.SetActive(true);
             viewSkillsBtn.gameObject.SetActive(true);
-            //skillsReminder.color = selectedItem.identity.GetCharacterInfo().primaryColor;
             Color reminderBackgroundC = selectedItem.identity.GetCharacterInfo().primaryColor;
-            //reminderBackgroundC.a = 0.45f;
-            reminderBackgroundC.r -= 25f;
-            reminderBackgroundC.g -= 25f;
-            reminderBackgroundC.b -= 25f;
+            reminderBackgroundC.r -= 0.2f;
+            reminderBackgroundC.g -= 0.2f;
+            reminderBackgroundC.b -= 0.2f;
             skillsReminder.color = reminderBackgroundC;
             int unusedPoints = 0;
             SkillTree skillTree = selectedItem.identity.GetComponent<SkillTree>();
@@ -153,6 +151,7 @@ public class PartyManagerUI : MonoBehaviour
 
         if (PlayerUIVisibility.instance) PlayerUIVisibility.instance.HidePlayerUI();
         PlayerID.instance.FreezePlayerMouse();
+        PlayerID.instance.FreezePlayer();
     }
 
     public void ClosePartyMenu()
@@ -160,6 +159,7 @@ public class PartyManagerUI : MonoBehaviour
         gameObject.SetActive(false);
         if (PlayerUIVisibility.instance) PlayerUIVisibility.instance.ShowPlayerUI();
         PlayerID.instance.UnfreezePlayerMouse();
+        PlayerID.instance.UnfreezePlayer();
         onMenuClose?.Invoke();
     }
 
@@ -205,13 +205,14 @@ public class PartyManagerUI : MonoBehaviour
         specialAbilityText.text = character.specialAbilityName;
         specialAbilityDesc.text = character.specialAbilityDescription;
 
-        lvlText.text = ghost.GetComponent<SkillTree>().GetLevel().ToString();
+        int ghostLevel = ghost.GetComponent<SkillTree>().GetLevel();
+        lvlText.text = ghostLevel.ToString();
         Color nameBackgroundC = ghost.GetCharacterInfo().primaryColor;
         nameBackgroundC.a = 0.45f;
         lvlBackground.color = nameBackgroundC;
-        expText.text = Mathf.Min(ghost.GetExp(), ghost.GetRequiredExp()) + " / " + ghost.GetRequiredExp();
+        expText.text = (ghostLevel >= 14) ? ("MAX") : (Mathf.Min(ghost.GetExp(), ghost.GetRequiredExp()) + " / " + ghost.GetRequiredExp());
         expBar.color = ghost.GetCharacterInfo().primaryColor;
-        expSlider.value = ghost.GetExp() / (float)ghost.GetRequiredExp();
+        expSlider.value = (ghostLevel >= 14) ? (1f) : (ghost.GetExp() / (float)ghost.GetRequiredExp());
         Debug.Log(ghost.name + ": " + ghost.GetExp() / (float)ghost.GetRequiredExp());
         Debug.Log(ghost.name + ": " + expSlider.value);
     }

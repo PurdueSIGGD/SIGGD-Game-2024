@@ -91,6 +91,33 @@ public abstract class Skill : MonoBehaviour
         return skillSO.descriptionValue;
     }
 
+    public string GetDescriptionLevelValue(int level)
+    {
+        string levelValue = "";
+        switch(level)
+        {
+            case 0:
+                levelValue = "";
+                break;
+            case 1:
+                levelValue = skillSO.levelOneValue;
+                break;
+            case 2:
+                levelValue = skillSO.levelTwoValue;
+                break;
+            case 3:
+                levelValue = skillSO.levelThreeValue;
+                break;
+            case 4:
+                levelValue = skillSO.levelFourValue;
+                break;
+            default:
+                levelValue = "";
+                break;
+        }
+        return levelValue;
+    }
+
     public void SetSkillIndex(int ind)
     {
         skillIndex = ind;

@@ -154,6 +154,15 @@ public class SkillTree : MonoBehaviour
         {
             skillTiers[tidx].unusedPoints--;
             skill.AddPoint();
+            return;
+        }
+
+        bool isLeftSkill = (skill.Equals(skillTiers[tidx].leftSkill));
+        Skill otherSkill = (isLeftSkill) ? skillTiers[tidx].rightSkill : skillTiers[tidx].leftSkill;
+        if (otherSkill != null && otherSkill.GetPoints() > 0)
+        {
+            otherSkill.RemovePoint();
+            skill.AddPoint();
         }
     }
 

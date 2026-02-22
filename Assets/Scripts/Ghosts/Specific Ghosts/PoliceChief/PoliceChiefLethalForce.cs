@@ -107,7 +107,7 @@ public class PoliceChiefLethalForce : Skill
     }
     public override void RemovePointTrigger()
     {
-        numHits = pointCounts[GetPoints() - 1];
+        numHits = (GetPoints() - 1 < 0) ? -1 : pointCounts[GetPoints() - 1];
     }
     public override void ClearPointsTrigger()
     {
