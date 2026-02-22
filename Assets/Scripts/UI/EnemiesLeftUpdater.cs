@@ -10,22 +10,31 @@ public class EnemiesLeftUpdater : MonoBehaviour
 {
     public static int enemiesLeft = -1;
     [SerializeField] bool specificDeactive;
+    [SerializeField] Image background;
+    [SerializeField] TextMeshProUGUI enemyCounter;
+    [SerializeField] Image hazardIcon;
 
     void Update()
     {
         if (specificDeactive)
         {
-            GetComponent<TextMeshProUGUI>().text = "";
+            background.enabled = false;
+            hazardIcon.enabled = false;
+            enemyCounter.text = "";
         }
         else
         {
             if (enemiesLeft > 0)
             {
-                GetComponent<TextMeshProUGUI>().text = "Enemies Left: " + enemiesLeft.ToString();
+                background.enabled = true;
+                hazardIcon.enabled = true;
+                enemyCounter.text = "x<size=120%>" + enemiesLeft.ToString() + "</size>";
             }
             else
             {
-                GetComponent<TextMeshProUGUI>().text = "";
+                background.enabled = false;
+                hazardIcon.enabled = false;
+                enemyCounter.text = "";
             }
         }
     }

@@ -210,7 +210,7 @@ public class PartyManagerUI : MonoBehaviour
         Color nameBackgroundC = ghost.GetCharacterInfo().primaryColor;
         nameBackgroundC.a = 0.45f;
         lvlBackground.color = nameBackgroundC;
-        expText.text = (ghostLevel >= 14) ? ("MAX") : (Mathf.Min(ghost.GetExp(), ghost.GetRequiredExp()) + " / " + ghost.GetRequiredExp());
+        expText.text = (ghostLevel >= 14) ? ("MAX LVL") : (Mathf.Min(ghost.GetExp(), ghost.GetRequiredExp()) + " / " + ghost.GetRequiredExp());
         expBar.color = ghost.GetCharacterInfo().primaryColor;
         expSlider.value = (ghostLevel >= 14) ? (1f) : (ghost.GetExp() / (float)ghost.GetRequiredExp());
         Debug.Log(ghost.name + ": " + ghost.GetExp() / (float)ghost.GetRequiredExp());

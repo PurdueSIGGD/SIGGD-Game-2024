@@ -41,7 +41,7 @@ public class SkillUI : MonoBehaviour, IPointerClickHandler
             if (descLevel == null) return;
             string currLevelValue = skill.GetDescriptionLevelValue(skill.GetPoints());
             bool canSeeLevel4 = (skillTree.GetLevel() > 10);
-            string descLevelConnector = ((canSeeLevel4 && skill.GetPoints() >= 4) || (!canSeeLevel4 && skill.GetPoints() >= 3)) ? (" <size=85%>MAX</size>") : (" <i>-></i> ");
+            string descLevelConnector = ((canSeeLevel4 && skill.GetPoints() >= 4) || (!canSeeLevel4 && skill.GetPoints() >= 3)) ? (" <size=85%>max lvl</size>") : (" <i>-></i> ");
             string nextLevelValue = ((canSeeLevel4 && skill.GetPoints() >= 4) || (!canSeeLevel4 && skill.GetPoints() >= 3)) ? ("") : (skill.GetDescriptionLevelValue(skill.GetPoints() + 1));
             descLevel.text = "<size=110%>" + currLevelValue + "</size><color=#000000E0>" + descLevelConnector + "<size=85%>" + nextLevelValue + "</size></color>";
         }

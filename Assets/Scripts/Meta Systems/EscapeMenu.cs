@@ -52,12 +52,24 @@ public class EscapeMenu : MonoBehaviour
     }
 
     public void QuitGame() {
-        Application.Quit();
-        Debug.Log("Closing game");
+        CloseMenu();
+        PlayerID.instance.gameObject.SetActive(false);
+        StartCoroutine(WaitToLoadTitle());
+        //Application.Quit();
+        //Debug.Log("Closing game");
+    }
+
+    IEnumerator WaitToLoadTitle()
+    {
+        ScreenFader.instance.FadeOut(0f, 0.8f);
+        //AudioManager.Instance.MusicBranch.CrossfadeTo(MusicTrackName.HUB, 4f);
+        yield return new WaitForSeconds(1f);
+        SceneManager.LoadScene("TitleScene");
     }
 
     public void ReturnToHub()
     {
+        if (SceneManager.GetActiveScene().Equals("Hubword")) return;
         CloseMenu();
         DeathRingVFX.instance.PlayDeathAnimation();
         PlayerID.instance.gameObject.SetActive(false);
