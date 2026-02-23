@@ -16,6 +16,9 @@ public class DirectionalArrowBehaviour : MonoBehaviour
     [SerializeField] bool hideOnScreen; // toggling true will ensure the arrow disappears once the entity
                                         // it is pointing to is on screen
 
+    [SerializeField] bool setToAbsoluteScale = false;
+    [SerializeField] Vector3 absoluteScale = Vector3.zero;
+
     private float blinkingTimer = 0.0f;
     
 
@@ -25,6 +28,14 @@ public class DirectionalArrowBehaviour : MonoBehaviour
     {
         mainCamera = Camera.main;
         circle.GetComponent<SpriteRenderer>().color = new Color(color.r, color.g, color.b, circle.GetComponent<SpriteRenderer>().color.a);
+        if (setToAbsoluteScale)
+        {
+            Vector3 parentScale = transform.parent.localScale;
+            Vector3 scaleModifier = new Vector3((absoluteScale.x / parentScale.x),
+                                                (absoluteScale.y / parentScale.y),
+                                                (absoluteScale.z / parentScale.z));
+            transform.localScale = scaleModifier;
+        }
     }
 
     // Update is called once per frame

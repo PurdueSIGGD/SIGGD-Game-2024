@@ -23,6 +23,7 @@ public class EnemySpawning : MonoBehaviour
     private List<GameObject> currentEnemies = new List<GameObject>();
     private List<GameObject> currentSpawnOrbs = new List<GameObject>();
     [SerializeField] GameObject spawnOrb;
+    [SerializeField] GameObject eliteSpawnOrb;
     private int waveNumber;
     private int currentMaxWave;
     private GameObject[] spawnPoints;
@@ -123,13 +124,15 @@ public class EnemySpawning : MonoBehaviour
     /// </summary>
     public void SpawnEnemy(Vector2 spawnPosition, GameObject enemy = null, GameObject orb = null)
     {
+        GameObject enemyToSpawn = (enemy != null) ? enemy : GetNextEnemy();
+        GameObject defaultOrb = (enemyToSpawn.GetComponent<EnemyStateManager>() != null && enemyToSpawn.GetComponent<EnemyStateManager>().isPinkAndProud) ? eliteSpawnOrb : spawnOrb;
+
         // create the appropriate orb and add it to the list
-        GameObject orbToSpawn = (orb != null) ? orb : spawnOrb;
+        GameObject orbToSpawn = (orb != null) ? orb : defaultOrb;
         GameObject newEnemySpawnOrb = Instantiate(orbToSpawn, spawnPosition, Quaternion.identity);
         currentSpawnOrbs.Add(newEnemySpawnOrb);
 
         // apply the appropriate enemy prefab to the newly created orb
-        GameObject enemyToSpawn = (enemy != null) ? enemy : GetNextEnemy();
         newEnemySpawnOrb.GetComponent<EnemySpawnOrb>().Initialize(
             enemyToSpawn,
             RegisterNewEnemy,
