@@ -4942,8 +4942,8 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3802127059181349557}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.6787516}
-  m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 2, y: 2.5, z: 2.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7118951668129554570}
@@ -4951,8 +4951,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 675.5, y: 380}
-  m_SizeDelta: {x: 540.4, y: 304}
+  m_AnchoredPosition: {x: 0, y: 3.6}
+  m_SizeDelta: {x: 4, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &7051172785567363270
 Canvas:
@@ -14686,7 +14686,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1029091859426106339}
-  - component: {fileID: 4247760989905432714}
   - component: {fileID: 2527913991098223787}
   - component: {fileID: 3615774407264337951}
   - component: {fileID: 7056995522489862345}
@@ -14696,6 +14695,8 @@ GameObject:
   - component: {fileID: 505081720793511435}
   - component: {fileID: 1424352318710044774}
   - component: {fileID: 9064728346207494044}
+  - component: {fileID: 367246108523009227}
+  - component: {fileID: 8619588916728743534}
   m_Layer: 21
   m_Name: NoboruYokaiOrb
   m_TagString: Enemy
@@ -14723,23 +14724,6 @@ Transform:
   - {fileID: 103128502703214001}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4247760989905432714
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7951563050262519672}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c4a7d5152ddce884ea8ca1a6448766f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 0}
-  orbColor: {r: 1, g: 1, b: 1, a: 0}
-  renderer: {fileID: 8306492836625727817}
-  particleSystem: {fileID: 5137486025036222595}
-  spawnTime: 9
 --- !u!114 &2527913991098223787
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14763,6 +14747,7 @@ MonoBehaviour:
   groundedRayCheckLength: 1
   enableStunning: 1
   disableNormalStates: 0
+  currentTarget: {fileID: 0}
   disableWhateverSpawningIsGoingOnHere: 1
   spawnTime: 9
   enemyToSpawn: {fileID: 0}
@@ -14791,7 +14776,7 @@ MonoBehaviour:
   - name: HEIGHT_OFFSET
     value: 0
   - name: FLIGHT_FORCE
-    value: 0.25
+    value: 0.35
   - name: CATCHUP_FACTOR
     value: 0.01
   - name: REPELL_FACTOR
@@ -14853,7 +14838,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Max Health
-    value: 55
+    value: 40
   deathLevel: 
 --- !u!58 &7121970231918410658
 CircleCollider2D:
@@ -14911,6 +14896,7 @@ MonoBehaviour:
     hitBox: {fileID: 0}
     usesCircleHitbox: 0
     coolDown: 0
+    respectHitboxOnCooldown: 1
     animationClip: {fileID: 7400000, guid: 36ee2184780605a45933343000e54f65, type: 2}
   idle:
     name: 
@@ -14919,6 +14905,7 @@ MonoBehaviour:
     hitBox: {fileID: 0}
     usesCircleHitbox: 0
     coolDown: 0
+    respectHitboxOnCooldown: 1
     animationClip: {fileID: 7400000, guid: 36ee2184780605a45933343000e54f65, type: 2}
 --- !u!95 &505081720793511435
 Animator:
@@ -14955,8 +14942,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   statList:
   - name: Stun Threshold
-    value: 60
-  stunDuration: 0.3
+    value: 40
+  stunDuration: 0.6
   currentStun: 0
   maxStun: 0
 --- !u!114 &9064728346207494044
@@ -14978,6 +14965,44 @@ MonoBehaviour:
     actionTypes: 
     extraContext: 
     ghostID: 0
+--- !u!114 &367246108523009227
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7951563050262519672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2caedd7880af52f4d89d2cfdf945a215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dropTable:
+  - obj: {fileID: 4809253014695496824, guid: 4950ea8f40c9d9944b6d20a6150d4cce, type: 3}
+    chance: 1
+    minCount: 2
+    maxCount: 4
+  - obj: {fileID: 4809253014695496824, guid: fe291ced3ae40fc46a74c816a48d0e61, type: 3}
+    chance: 1
+    minCount: 2
+    maxCount: 4
+  - obj: {fileID: 4809253014695496824, guid: e8a6431bc0e6c7a4e922f586f4216e97, type: 3}
+    chance: 1
+    minCount: 2
+    maxCount: 4
+--- !u!114 &8619588916728743534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7951563050262519672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6835c333b8099247acf0cab08ba2fb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  energyPool: 10
 --- !u!1 &7952990555029689288
 GameObject:
   m_ObjectHideFlags: 0
@@ -15156,12 +15181,12 @@ PrefabInstance:
     - target: {fileID: 1599626218514645716, guid: f82d61c6f20788c41b3b1bf12452e612,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -270.22
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1599626218514645716, guid: f82d61c6f20788c41b3b1bf12452e612,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.82699585
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1599626218514645716, guid: f82d61c6f20788c41b3b1bf12452e612,
         type: 3}

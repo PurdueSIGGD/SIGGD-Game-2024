@@ -26,7 +26,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 8, y: 8, z: 8}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1673469064786115946}
@@ -265,7 +265,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 5, y: 5, z: 5}
+  m_LocalScale: {x: 10, y: 10, z: 10}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1673469064786115946}
@@ -367,12 +367,13 @@ MonoBehaviour:
   currentTarget: {fileID: 0}
   tpSource: {fileID: 0}
   visionRange: 100
-  yokaiPrefab: {fileID: 7951563050262519672, guid: 90f604462e1c61643b500fa78625f5c2,
+  yokaiPrefab: {fileID: 7951563050262519672, guid: 7448afbbeda4e2b4d903e9ecf22c87e5,
     type: 3}
   numYokai: 8
   yokaiSpawnPool:
-  - {fileID: 5758368328312758866, guid: c951616ad3a6e144c924fdd5c6e233ba, type: 3}
-  - {fileID: 7597283847596822443, guid: 3dfd01b268b53f64f92303a3beca2629, type: 3}
+  - {fileID: 7951563050262519672, guid: d6a1ff686b73e28489c260c2112ca321, type: 3}
+  - {fileID: 7951563050262519672, guid: 53024970a81699f4d99616d710602312, type: 3}
+  - {fileID: 7951563050262519672, guid: 63e5ebf688140474b8c1f45fdbf7251e, type: 3}
   fancySummonInterval: 0.1
   tpTriggerBox: {fileID: 2094986996042042586}
   summonTriggerSphere: {fileID: 6193345598014937500}

@@ -519,6 +519,7 @@ MonoBehaviour:
     hitBox: {fileID: 7835333299776145468}
     usesCircleHitbox: 0
     coolDown: 2
+    respectHitboxOnCooldown: 1
     animationClip: {fileID: 7400000, guid: e1d9d9dad2b0cbc459e43540f42e4eb2, type: 2}
   - name: Shield Up
     priority: 10
@@ -526,6 +527,7 @@ MonoBehaviour:
     hitBox: {fileID: 5532669551329529462}
     usesCircleHitbox: 0
     coolDown: 7
+    respectHitboxOnCooldown: 1
     animationClip: {fileID: 7400000, guid: 79f9c5db5e98ac54dbab2223f89f251b, type: 2}
   move:
     name: Move
@@ -534,6 +536,7 @@ MonoBehaviour:
     hitBox: {fileID: 0}
     usesCircleHitbox: 0
     coolDown: 0
+    respectHitboxOnCooldown: 1
     animationClip: {fileID: 7400000, guid: ba7699e38c76f1d4795bcb3af0b15454, type: 2}
   idle:
     name: Idle
@@ -542,6 +545,7 @@ MonoBehaviour:
     hitBox: {fileID: 0}
     usesCircleHitbox: 0
     coolDown: 0
+    respectHitboxOnCooldown: 1
     animationClip: {fileID: 7400000, guid: bc4a8229d1d0f3244bdb56bfc380f945, type: 2}
 --- !u!114 &8596127092615386582
 MonoBehaviour:
@@ -662,7 +666,7 @@ RectTransform:
   m_GameObject: {fileID: 7241042388776439341}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3.333333, y: 3.333333, z: 3.333333}
+  m_LocalScale: {x: 2.666664, y: 3.333333, z: 3.333333}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1923904779156167021}
@@ -670,8 +674,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 900.6666, y: 506.66663}
-  m_SizeDelta: {x: 540.4, y: 304}
+  m_AnchoredPosition: {x: 0, y: 5.5}
+  m_SizeDelta: {x: 4, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &7625650520466557455
 Canvas:
@@ -832,12 +836,12 @@ PrefabInstance:
     - target: {fileID: 1599626218514645716, guid: f82d61c6f20788c41b3b1bf12452e612,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -270.15
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1599626218514645716, guid: f82d61c6f20788c41b3b1bf12452e612,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 1.0330048
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1599626218514645716, guid: f82d61c6f20788c41b3b1bf12452e612,
         type: 3}

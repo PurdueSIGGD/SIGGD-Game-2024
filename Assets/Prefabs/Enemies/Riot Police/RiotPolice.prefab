@@ -276,6 +276,7 @@ MonoBehaviour:
     hitBox: {fileID: 3561678645181035360}
     usesCircleHitbox: 0
     coolDown: 2
+    respectHitboxOnCooldown: 1
     animationClip: {fileID: 7400000, guid: f612aa8e9cc4b4a488df5b9e1c8237d2, type: 2}
   move:
     name: Move
@@ -284,6 +285,7 @@ MonoBehaviour:
     hitBox: {fileID: 0}
     usesCircleHitbox: 0
     coolDown: 0
+    respectHitboxOnCooldown: 1
     animationClip: {fileID: 7400000, guid: e1d9f2c18293436429c8a1403b4ada95, type: 2}
   idle:
     name: 
@@ -292,6 +294,7 @@ MonoBehaviour:
     hitBox: {fileID: 0}
     usesCircleHitbox: 0
     coolDown: 0
+    respectHitboxOnCooldown: 1
     animationClip: {fileID: 7400000, guid: 968e5750ed810fb418cf0add49c4620a, type: 2}
 --- !u!114 &5285581056280043343
 MonoBehaviour:
@@ -5358,7 +5361,7 @@ RectTransform:
   m_GameObject: {fileID: 6167820857672206049}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3.3333333, y: 3.3333333, z: 3.3333333}
+  m_LocalScale: {x: 2.666664, y: 3.333333, z: 3.3333333}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5816178744950258698}
@@ -5366,8 +5369,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 1340.8333, y: 633.3333}
-  m_SizeDelta: {x: 804.5, y: 380}
+  m_AnchoredPosition: {x: 0, y: 5.5}
+  m_SizeDelta: {x: 4, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &6746082218281408597
 Canvas:
@@ -5627,12 +5630,12 @@ PrefabInstance:
     - target: {fileID: 1599626218514645716, guid: f82d61c6f20788c41b3b1bf12452e612,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -402.14
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1599626218514645716, guid: f82d61c6f20788c41b3b1bf12452e612,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 1.03
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1599626218514645716, guid: f82d61c6f20788c41b3b1bf12452e612,
         type: 3}

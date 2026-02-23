@@ -131,6 +131,7 @@ public class IrisController : BossController
     public override void DefeatSequence()
     {
         base.DefeatSequence();
+        AudioManager.Instance.SFXBranch.StopSFXTrack("IRISShieldDownLoop");
         visualManager.ActivateDeathVisual();
         irisLaser.Stop();
         StartCoroutine(IrisDeathCoroutine());
