@@ -29,12 +29,14 @@ public class LoadingScreen : MonoBehaviour
         waitTime = Random.Range(waitRange.x, waitRange.y);
 
         //yield return new WaitForSeconds(0.1f);
+        /*
         AudioManager.Instance.GetMusicVolume(out origAudioVolume);
         AudioManager.Instance.SetMusicVolume(-80f); // -80 is lowest possible volume
         AudioManager.Instance.MusicBranch.PlayMusicTrack(preloadTrack);
         AudioManager.Instance.SetEnergyLevel(0f);
         AudioManager.Instance.SetEnergyLevel(0.5f);
         AudioManager.Instance.SetEnergyLevel(1f);
+        */
         yield return new WaitForSeconds(waitTime);
         AllowPlayerContinue();
     }
@@ -45,9 +47,10 @@ public class LoadingScreen : MonoBehaviour
         startFlashingTime = Time.time;
         InputSystem.onAnyButtonPress.CallOnce(ctrl =>
         {
+            //AudioManager.Instance.SetEnergyLevel(0f);
+            //AudioManager.Instance.SetMusicVolume(origAudioVolume);
+            // //AudioManager.Instance.MusicBranch.Music
             OnDoorOpened?.Invoke();
-            AudioManager.Instance.SetEnergyLevel(0f);
-            AudioManager.Instance.SetMusicVolume(origAudioVolume);
         });
     }
 

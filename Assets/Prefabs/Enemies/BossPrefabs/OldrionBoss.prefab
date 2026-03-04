@@ -153,6 +153,7 @@ GameObject:
   - component: {fileID: 6446633280205493509}
   - component: {fileID: 446782750685312013}
   - component: {fileID: 3789075244505709990}
+  - component: {fileID: 3965903292971162207}
   m_Layer: 21
   m_Name: OldrionBoss
   m_TagString: Enemy
@@ -330,6 +331,7 @@ MonoBehaviour:
     hitBox: {fileID: 838304947009716614}
     usesCircleHitbox: 0
     coolDown: 100
+    respectHitboxOnCooldown: 1
     animationClip: {fileID: 7400000, guid: 66892935d5ce0514cab457bec4fe8457, type: 2}
   - name: Heavy
     priority: 3
@@ -337,6 +339,7 @@ MonoBehaviour:
     hitBox: {fileID: 3795081024681060608}
     usesCircleHitbox: 0
     coolDown: 100
+    respectHitboxOnCooldown: 1
     animationClip: {fileID: 7400000, guid: e74bcd4c40c1f034ab01301dd400ceab, type: 2}
   - name: Dash
     priority: 4
@@ -344,6 +347,7 @@ MonoBehaviour:
     hitBox: {fileID: 6452902896263312523}
     usesCircleHitbox: 0
     coolDown: 100
+    respectHitboxOnCooldown: 1
     animationClip: {fileID: 7400000, guid: 436192be2f292bb4282d4505067e5581, type: 2}
   - name: ComboSeed
     priority: 5
@@ -351,6 +355,7 @@ MonoBehaviour:
     hitBox: {fileID: 5125563314908589775}
     usesCircleHitbox: 1
     coolDown: 10
+    respectHitboxOnCooldown: 1
     animationClip: {fileID: 7400000, guid: 5cf30f886c0186e40896ab5400f8bd36, type: 2}
   - name: Aura Farm
     priority: 0.0001
@@ -358,6 +363,7 @@ MonoBehaviour:
     hitBox: {fileID: 838304947009716614}
     usesCircleHitbox: 1
     coolDown: 1.5
+    respectHitboxOnCooldown: 1
     animationClip: {fileID: 7400000, guid: d179c3ae81fb0dd4da1c642889c13134, type: 2}
   move:
     name: 
@@ -366,6 +372,7 @@ MonoBehaviour:
     hitBox: {fileID: 0}
     usesCircleHitbox: 0
     coolDown: 0
+    respectHitboxOnCooldown: 1
     animationClip: {fileID: 7400000, guid: 55025720c4d501247b47b047c270413f, type: 2}
   idle:
     name: 
@@ -374,6 +381,7 @@ MonoBehaviour:
     hitBox: {fileID: 0}
     usesCircleHitbox: 0
     coolDown: 0
+    respectHitboxOnCooldown: 1
     animationClip: {fileID: 7400000, guid: 4bdfe8a01f25a744498f37b37c95bba5, type: 2}
 --- !u!114 &1396931379856435082
 MonoBehaviour:
@@ -398,6 +406,7 @@ MonoBehaviour:
   groundedRayCheckLength: 1.5
   enableStunning: 0
   disableNormalStates: 0
+  currentTarget: {fileID: 0}
   lightDamage:
     damageStrength: 0
     damageTypes: 00000000
@@ -468,6 +477,24 @@ MonoBehaviour:
     - Dash
     - Dash
     index: 0
+  - actionList:
+    - Heavy
+    - Light
+    - Light
+    - Light
+    index: 0
+  - actionList:
+    - Light
+    - Light
+    - Heavy
+    index: 0
+  - actionList:
+    - Light
+    - Light
+    - Heavy
+    - Dash
+    - Dash
+    index: 0
   inCombo: 0
   comboExitAction:
     name: EndCombo
@@ -476,6 +503,7 @@ MonoBehaviour:
     hitBox: {fileID: 0}
     usesCircleHitbox: 0
     coolDown: 0
+    respectHitboxOnCooldown: 1
     animationClip: {fileID: 7400000, guid: e1fbc2b893dccf64da1b7666139f9676, type: 2}
   comboBufferAction:
     name: ComboBuffer
@@ -484,6 +512,7 @@ MonoBehaviour:
     hitBox: {fileID: 0}
     usesCircleHitbox: 0
     coolDown: 0
+    respectHitboxOnCooldown: 1
     animationClip: {fileID: 7400000, guid: 2bb80e82a9e01314a9abdec605c4489f, type: 2}
 --- !u!50 &7224273156922498524
 Rigidbody2D:
@@ -643,6 +672,19 @@ MonoBehaviour:
     value: 2000
   deathLevel: 
   manager: {fileID: 1396931379856435082}
+--- !u!114 &3965903292971162207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1295997227497143226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6835c333b8099247acf0cab08ba2fb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  energyPool: 2000
 --- !u!1 &1382645093885138787
 GameObject:
   m_ObjectHideFlags: 0

@@ -168,10 +168,11 @@ public class Health : MonoBehaviour, IDamageable, IStatList
 
         // Clamp healing provided
         context.healing = Mathf.Clamp(context.healing, 0f, missingHealth);
-        if (currentHealth <= 0f || !isAlive) return 0f;
+        if ((currentHealth <= 0f || !isAlive) && !gameObject.GetComponent<OldrionManager>()) return 0f;
 
         // Increase current health
-        if (isAlive) currentHealth += context.healing;
+        if (isAlive || gameObject.GetComponent<OldrionManager>()) currentHealth += context.healing;
+        isAlive = true;
 
         // Trigger events
         GameplayEventHolder.OnHealingDealt?.Invoke(context);

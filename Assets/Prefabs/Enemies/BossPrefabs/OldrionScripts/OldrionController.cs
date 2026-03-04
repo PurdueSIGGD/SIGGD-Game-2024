@@ -170,10 +170,12 @@ public class OldrionController : BossController
         else if (currentPhase == 3)
         {
             dialogueManager.StartDialogue(phase3Convo);
-            bossHealth.GetStats().ModifyStat("Max Health", -50);
+            //bossHealth.GetStats().ModifyStat("Max Health", -50);
             PartyManager.instance.RemoveAllGhost();
             yield return new WaitUntil(() => hasFinishedPhase3Convo == true);
         }
+
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("Eva-Electric Step");
 
         print("UNC: yet... after all your trials... all your efforts");
         yield return new WaitForSeconds(1f);
@@ -187,6 +189,8 @@ public class OldrionController : BossController
     }
     void OnCrush()
     {
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("LightningMageAttack");
+        AudioManager.Instance.SFXBranch.StopSFXTrack("Eva-Electric Step");
         aoeWarning.SetActive(false);
         aoeVisual.SetActive(true);
         aoeDamage.damage = aoeDamageVal;

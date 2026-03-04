@@ -30,6 +30,20 @@ public class OldrionManager : EnemyStateManager
     [SerializeField] Collider2D dashCollider;
     bool crushing; // mirrors the boolean variable of the same name in oldrionController
 
+    private void OnEnable()
+    {
+        GameplayEventHolder.OnDamageDealt += OnPlayerDamageTaken;
+        GameplayEventHolder.OnDamageDealt += OnDamageTaken;
+        GameplayEventHolder.OnDeath += OnPlayerDeath;
+    }
+
+    private void OnDisable()
+    {
+        GameplayEventHolder.OnDamageDealt -= OnPlayerDamageTaken;
+        GameplayEventHolder.OnDamageDealt -= OnDamageTaken;
+        GameplayEventHolder.OnDeath -= OnPlayerDeath;
+    }
+
     protected override void Start()
     {
         base.Start();
@@ -80,13 +94,21 @@ public class OldrionManager : EnemyStateManager
     }
     void OnStartLight1()
     {
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("OldrionLightAttack");
+        AudioManager.Instance.VABranch.PlayVATrack("Oldrion Light Attack");
         LightDamageFrame();
         lightVisual1.SetActive(true);
         SetLastLightAttackPerformed(1);
         rb.velocity = new Vector2(lightSpeed, rb.velocity.y) * transform.right;
     }
+    void OnEnterLight2()
+    {
+        // TODO: Audio
+    }
     void OnStartLight2()
     {
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("OldrionLightAttack");
+        AudioManager.Instance.VABranch.PlayVATrack("Oldrion Light Attack");
         LightDamageFrame();
         lightVisual2.SetActive(true);
         SetLastLightAttackPerformed(2);
@@ -99,8 +121,14 @@ public class OldrionManager : EnemyStateManager
         rb.velocity = Vector2.zero;
     }
 
+    void OnEnterHeavy()
+    {
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("OldrionHeavyWindup");
+    }
     void OnStartHeavy()
     {
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("OldrionHeavyAttack");
+        AudioManager.Instance.VABranch.PlayVATrack("Oldrion Heavy Attack");
         heavyDamage.damage = heavyDamageVal;
         GenerateDamageFrame(heavyTrigger.position, heavyTrigger.lossyScale.x, heavyTrigger.lossyScale.y, heavyDamage, gameObject);
         heavyVisual.SetActive(true);
@@ -110,8 +138,15 @@ public class OldrionManager : EnemyStateManager
         heavyVisual.SetActive(false);
     }
 
+    void DashEnter()
+    {
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("RoninDashWindup");
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("OldrionHeavyWindup");
+    }
     void DashStart()
     {
+        AudioManager.Instance.SFXBranch.PlaySFXTrack("OldrionDash");
+        AudioManager.Instance.VABranch.PlayVATrack("Oldrion Dash Attack");
         rb.velocity = new Vector2(dashSpeed, rb.velocity.y) * transform.right;
         dashCollider.enabled = true;
     }
@@ -135,6 +170,7 @@ public class OldrionManager : EnemyStateManager
     }
     void OnEnterComboSeed()
     {
+        AudioManager.Instance.VABranch.PlayVATrack("Oldrion Combo Start");
         combo = true;
         comboManager.StartCombo();
         PlayNextActionFromCombo();
@@ -208,5 +244,33 @@ public class OldrionManager : EnemyStateManager
         {
             pool.GetActionByName("Light").PlayNoCD(this);
         }
+    }
+
+
+
+    public void OnDamageTaken(DamageContext context)
+    {
+        if (context.victim != gameObject) return;
+
+        if (gameObject.GetComponent<Health>().currentHealth <= 0f)
+        {
+            AudioManager.Instance.VABranch.PlayVATrack("Oldrion Significant Damage Taken");
+            return;
+        }
+        AudioManager.Instance.VABranch.PlayVATrack("Oldrion Light Damage Taken");
+    }
+
+    public void OnPlayerDamageTaken(DamageContext context)
+    {
+        if (!context.victim.CompareTag("Player")) return;
+
+        AudioManager.Instance.VABranch.PlayVATrack("Oldrion Damaging Player");
+    }
+
+    public void OnPlayerDeath(DamageContext context)
+    {
+        if (!context.victim.CompareTag("Player")) return;
+
+        AudioManager.Instance.VABranch.PlayVATrack("Oldrion Damaging Player");
     }
 }
