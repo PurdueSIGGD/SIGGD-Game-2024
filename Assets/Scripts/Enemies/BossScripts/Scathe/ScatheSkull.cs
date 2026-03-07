@@ -14,8 +14,11 @@ public class ScatheSkull : MonoBehaviour
     }
     void OnTriggerEnter2D(Collider2D collision)
     {
+        damageContext.damage = damage;
         if (collision.gameObject.GetComponent<BossController>() != null)
-            return;
+        {
+            damageContext.damage = damage * (200f / 30f);
+        }
 
         if (collision.gameObject.CompareTag("Player") ||
             collision.gameObject.CompareTag("Enemy"))

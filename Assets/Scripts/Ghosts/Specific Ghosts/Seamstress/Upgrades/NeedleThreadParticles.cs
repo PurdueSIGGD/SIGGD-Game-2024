@@ -108,6 +108,7 @@ public class NeedleThreadParticles : MonoBehaviour
                 particles[i].startColor = new Color(0, 0, 0, 0); // hide that particle after "collision"
                 collidedParticles[i] = true;
                 AudioManager.Instance.SFXBranch.PlaySFXTrack("Yume-Needle");
+                if (targets[i].GetComponent<Health>() == null) continue;
                 float damageResult = targets[i].GetComponent<Health>().Damage(needleDamage, PlayerID.instance.gameObject);
                 if (targets[i].GetComponent<EnemyStateManager>() != null && damageResult > 0f)
                 {

@@ -63,6 +63,7 @@ public class ScatheManager : EnemyStateManager
 
     public void HitAndRun()
     {
+        AudioManager.Instance.VABranch.PlayVATrack("Scathe Dash");
         Transform playerTransform = player.transform;
         GameObject skull = Instantiate(hitAndRunPrefab, playerTransform.position, Quaternion.identity);
         currentlyActiveAttacks.Add(skull);
@@ -89,5 +90,41 @@ public class ScatheManager : EnemyStateManager
     protected override void OnFinishAnimation()
     {
         base.OnFinishAnimation();
+    }
+
+
+
+    public void OnDamageTaken(DamageContext context)
+    {
+        if (context.victim != gameObject) return;
+
+        if (context.extraContext.Equals("GIANT SCATHE SKULL"))
+        {
+            AudioManager.Instance.VABranch.PlayVATrack("Scathe Significant Damage Taken");
+            return;
+        }
+        AudioManager.Instance.VABranch.PlayVATrack("Scathe Light Damage Taken");
+    }
+
+    public void OnDeath(DamageContext context)
+    {
+        if (context.victim != gameObject) return;
+
+        AudioManager.Instance.VABranch.PlayVATrack("Scathe On Boss Death");
+    }
+
+    public void OnPlayerDamageTaken(DamageContext context)
+    {
+        if (!context.victim.CompareTag("Player")) return;
+        if (!(context.extraContext.Equals("GIANT SCATHE SKULL") || context.extraContext.Equals("SCATHE TAIL SWIPE"))) return;
+
+        AudioManager.Instance.VABranch.PlayVATrack("Scathe Damaging Player");
+    }
+
+    public void OnPlayerDeath(DamageContext context)
+    {
+        if (!context.victim.CompareTag("Player")) return;
+
+        AudioManager.Instance.VABranch.PlayVATrack("Scathe Player Death");
     }
 }

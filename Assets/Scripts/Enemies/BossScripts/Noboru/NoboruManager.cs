@@ -37,6 +37,24 @@ public class NoboruManager : EnemyStateManager
     [SerializeField] Color fireballPulseColor;
     [SerializeField] Color teleportPulseColor;
 
+
+
+    private void OnEnable()
+    {
+        GameplayEventHolder.OnDamageDealt += OnPlayerDamageTaken;
+        GameplayEventHolder.OnDeath += OnDeath;
+        GameplayEventHolder.OnDamageDealt += OnDamageTaken;
+        GameplayEventHolder.OnDeath += OnPlayerDeath;
+    }
+
+    private void OnDisable()
+    {
+        GameplayEventHolder.OnDamageDealt -= OnPlayerDamageTaken;
+        GameplayEventHolder.OnDeath -= OnDeath;
+        GameplayEventHolder.OnDamageDealt -= OnDamageTaken;
+        GameplayEventHolder.OnDeath -= OnPlayerDeath;
+    }
+
     public void Start()
     {
         base.Start();
@@ -77,6 +95,7 @@ public class NoboruManager : EnemyStateManager
     public void SummonYokaiWave()
     {
         //AudioManager.Instance.SFXBranch.PlaySFXTrack("NoboruSummon");
+        AudioManager.Instance.VABranch.PlayVATrack("Noboru Summon");
         GameObject pulse = Instantiate(actionPulseVFX, transform.position, Quaternion.identity);
         pulse.GetComponent<RingExplosionHandler>().playRingExplosion(25f, summonPulseColor);
         StartCoroutine(FancySummonCoroutine());
@@ -94,6 +113,7 @@ public class NoboruManager : EnemyStateManager
     public void RandomCast()
     {
         AudioManager.Instance.SFXBranch.PlaySFXTrack("NoboruFireball");
+        AudioManager.Instance.VABranch.PlayVATrack("Noboru Fireball");
         GameObject pulse = Instantiate(actionPulseVFX, transform.position, Quaternion.identity);
         pulse.GetComponent<RingExplosionHandler>().playRingExplosion(25f, fireballPulseColor);
         if (PlayerID.instance != null)
@@ -134,5 +154,44 @@ public class NoboruManager : EnemyStateManager
         base.OnDrawGizmos();
         Gizmos.DrawWireSphere(transform.position, summonTriggerSphere.lossyScale.x);
         Gizmos.DrawWireCube(tpTriggerBox.position, tpTriggerBox.lossyScale);
+    }
+
+
+
+    public void OnDamageTaken(DamageContext context)
+    {
+        if (context.victim != gameObject) return;
+
+        /*
+        if (gameObject.GetComponent<Health>().currentHealth <= 400f)
+        {
+            AudioManager.Instance.VABranch.PlayVATrack("IRIS Significant Damage Taken");
+            return;
+        }
+        */
+        AudioManager.Instance.VABranch.PlayVATrack("Noboru Light Damage Taken");
+    }
+
+    public void OnDeath(DamageContext context)
+    {
+        if (context.victim != gameObject) return;
+
+        AudioManager.Instance.VABranch.PlayVATrack("Noboru Significant Damage Taken");
+    }
+
+    public void OnPlayerDamageTaken(DamageContext context)
+    {
+        if (!context.victim.CompareTag("Player")) return;
+        if (!context.attacker.Equals(gameObject)) return;
+        if (context.damageTypes.Contains(DamageType.STATUS)) return;
+
+        AudioManager.Instance.VABranch.PlayVATrack("Noboru Damaging Player");
+    }
+
+    public void OnPlayerDeath(DamageContext context)
+    {
+        if (!context.victim.CompareTag("Player")) return;
+
+        AudioManager.Instance.VABranch.PlayVATrack("Noboru Player Death");
     }
 }

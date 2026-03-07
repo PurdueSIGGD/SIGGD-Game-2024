@@ -27,10 +27,28 @@ public class IrisController : BossController
     [Header("Death Implementation parameters")]
     [SerializeField] float deathTimeSeconds;
 
+
+
+    private void OnEnable()
+    {
+        GameplayEventHolder.OnDamageDealt += OnPlayerDamageTaken;
+        GameplayEventHolder.OnDeath += OnDeath;
+        GameplayEventHolder.OnDamageDealt += OnDamageTaken;
+        GameplayEventHolder.OnDeath += OnPlayerDeath;
+    }
+
+    private void OnDisable()
+    {
+        GameplayEventHolder.OnDamageDealt -= OnPlayerDamageTaken;
+        GameplayEventHolder.OnDeath -= OnDeath;
+        GameplayEventHolder.OnDamageDealt -= OnDamageTaken;
+        GameplayEventHolder.OnDeath -= OnPlayerDeath;
+    }
+
     public new void Start()
     {
         base.Start();
-        ActivateShield();
+        ActivateShield(false);
         if (irisLaser != null)
         {
             irisLaser.Initialize(this.gameObject);
@@ -94,16 +112,21 @@ public class IrisController : BossController
         base.EnableAI();
         AudioManager.Instance.GetComponentInChildren<MusicManager>().CrossfadeTo(MusicTrackName.IRIS_THEME, 0.5f);
     }
-    public void ActivateShield()
+    public void ActivateShield(bool playSFX)
     {
-        AudioManager.Instance.SFXBranch.PlaySFXTrack("IRISShieldUp");
-        AudioManager.Instance.SFXBranch.StopSFXTrack("IRISShieldDownLoop");
+        if (playSFX)
+        {
+            AudioManager.Instance.SFXBranch.PlaySFXTrack("IRISShieldUp");
+            AudioManager.Instance.SFXBranch.StopSFXTrack("IRISShieldDownLoop");
+            AudioManager.Instance.VABranch.PlayVATrack("IRIS Shield Up");
+        }
         ToggleShield(true);
     }
     public void DeactivateShield()
     {
         AudioManager.Instance.SFXBranch.PlaySFXTrack("IRISShieldDown");
         AudioManager.Instance.SFXBranch.PlaySFXTrack("IRISShieldDownLoop");
+        AudioManager.Instance.VABranch.PlayVATrack("IRIS Shield Down");
         ToggleShield(false);
     }
     void ToggleShield(bool val)
@@ -126,7 +149,7 @@ public class IrisController : BossController
         wavesSinceShieldUp = 0;
         enemiesSinceShieldUp = 0;
         if (damageState != IrisVisualStates.DAMAGE_HIGH)
-            ActivateShield();
+            ActivateShield(true);
     }
     public override void DefeatSequence()
     {
@@ -142,5 +165,41 @@ public class IrisController : BossController
         yield return new WaitForSeconds(deathTimeSeconds);
         EndBossRoom();
         Destroy(gameObject);
+    }
+
+
+
+    public void OnDamageTaken(DamageContext context)
+    {
+        if (context.victim != gameObject) return;
+
+        if (gameObject.GetComponent<Health>().currentHealth <= 400f)
+        {
+            AudioManager.Instance.VABranch.PlayVATrack("IRIS Significant Damage Taken");
+            return;
+        }
+        AudioManager.Instance.VABranch.PlayVATrack("IRIS Light Damage Taken");
+    }
+
+    public void OnDeath(DamageContext context)
+    {
+        if (context.victim != gameObject) return;
+
+        AudioManager.Instance.VABranch.PlayVATrack("IRIS On Boss Death");
+    }
+
+    public void OnPlayerDamageTaken(DamageContext context)
+    {
+        if (!context.victim.CompareTag("Player")) return;
+        if (!context.attacker.Equals(gameObject)) return;
+
+        AudioManager.Instance.VABranch.PlayVATrack("IRIS Damaging Player");
+    }
+
+    public void OnPlayerDeath(DamageContext context)
+    {
+        if (!context.victim.CompareTag("Player")) return;
+
+        AudioManager.Instance.VABranch.PlayVATrack("IRIS Player Death");
     }
 }

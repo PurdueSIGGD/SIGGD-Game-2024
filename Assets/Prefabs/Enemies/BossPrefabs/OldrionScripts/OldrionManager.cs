@@ -271,6 +271,6 @@ public class OldrionManager : EnemyStateManager
     {
         if (!context.victim.CompareTag("Player")) return;
 
-        AudioManager.Instance.VABranch.PlayVATrack("Oldrion Damaging Player");
+        AudioManager.Instance.VABranch.PlayVATrack("Oldrion Player Death");
     }
 }
