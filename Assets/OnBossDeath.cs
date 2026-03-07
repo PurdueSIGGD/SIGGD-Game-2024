@@ -31,7 +31,7 @@ public class OnBossDeath : MonoBehaviour
     
     private IEnumerator DelayCheckBossDeath()
     {
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(5f);
         if (SaveManager.data.orion < orionProgressTo) // do not let story progress go backwards, i.e. death convo must not repeat
         {
             SaveManager.data.orion = orionProgressTo;

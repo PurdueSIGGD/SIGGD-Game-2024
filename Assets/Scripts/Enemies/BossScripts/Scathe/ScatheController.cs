@@ -45,7 +45,7 @@ public class ScatheController : BossController
     {
         print("Blight and might may break my soul... but time shall never claim me...");
         yield return new WaitForSeconds(deathTimer);
-        Destroy(gameObject);
+        //Destroy(gameObject);
         EndBossRoom();
     }
 }

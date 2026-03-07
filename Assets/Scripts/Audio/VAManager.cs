@@ -36,9 +36,10 @@ public class VAManager : MonoBehaviour {
         }
 
         float temp = UnityEngine.Random.Range(0, 1.0f);
-        bool willPlayTrack = globalVoicelineChance > temp;
+        IVATrack castedTrack = lookUpTable.vaTable[trackName];
+        bool willPlayTrack = (globalVoicelineChance > temp) || (castedTrack.AlwaysPlays());
         if (willPlayTrack) {
-            IVATrack castedTrack = lookUpTable.vaTable[trackName];
+            //IVATrack castedTrack = lookUpTable.vaTable[trackName];
             castedTrack.PlayTrack();
             if (!castedTrack.OverridesVoiceCulling()) {
                 float trackLength = 0.0f;

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,6 +14,25 @@ public class ScatheManager : EnemyStateManager
     [SerializeField] GameObject swipePrefab;
     [SerializeField] GameObject swipePositionsHolder;
     List<Transform> swipePositions = new List<Transform>();
+
+
+
+    private void OnEnable()
+    {
+        GameplayEventHolder.OnDamageDealt += OnPlayerDamageTaken;
+        GameplayEventHolder.OnDeath += OnDeath;
+        GameplayEventHolder.OnDamageDealt += OnDamageTaken;
+        GameplayEventHolder.OnDeath += OnPlayerDeath;
+    }
+
+    private void OnDisable()
+    {
+        GameplayEventHolder.OnDamageDealt -= OnPlayerDamageTaken;
+        GameplayEventHolder.OnDeath -= OnDeath;
+        GameplayEventHolder.OnDamageDealt -= OnDamageTaken;
+        GameplayEventHolder.OnDeath -= OnPlayerDeath;
+    }
+
     void Start()
     {
         base.Start();
@@ -71,12 +91,31 @@ public class ScatheManager : EnemyStateManager
     }
     public void Swipe()
     {
-        int index = Random.Range(0, swipePositions.Count);
+        //int index = Random.Range(0, swipePositions.Count);
+        int index = GetClosestSwipeIndexToPlayer();
         Vector2 positionToSpawn = swipePositions[index].position;
         GameObject swipeObject = Instantiate(swipePrefab, positionToSpawn, Quaternion.identity);
         currentlyActiveAttacks.Add(swipeObject);
         swipeObject.GetComponent<ScatheSwipe>().Initialize(currentlyActiveAttacks.Remove);
     }
+
+    private int GetClosestSwipeIndexToPlayer()
+    {
+        Vector2 playerPosition = player.position;
+        int index = 0;
+        float minDistance = 9999f;
+        for (int i = 0; i < swipePositions.Count; i++)
+        {
+            float distance = Vector2.Distance(playerPosition, swipePositions[i].position);
+            if (distance < minDistance)
+            {
+                index = i;
+                minDistance = distance;
+            }
+        }
+        return index;
+    }
+
     public List<GameObject> GetActiveAttacks()
     {
         return currentlyActiveAttacks;
@@ -96,7 +135,7 @@ public class ScatheManager : EnemyStateManager
 
     public void OnDamageTaken(DamageContext context)
     {
-        if (context.victim != gameObject) return;
+        if (context.victim != gameObject || context.damage <= 0f) return;
 
         if (context.extraContext.Equals("GIANT SCATHE SKULL"))
         {
@@ -110,14 +149,17 @@ public class ScatheManager : EnemyStateManager
     {
         if (context.victim != gameObject) return;
 
-        AudioManager.Instance.VABranch.PlayVATrack("Scathe On Boss Death");
+        Debug.Log("I KILLED SCATHE WOT");
+        //AudioManager.Instance.VABranch.PlayVATrack("Scathe On Boss Death");
+        PlayVoiceLineDelayed("Scathe On Boss Death", 1f);
     }
 
     public void OnPlayerDamageTaken(DamageContext context)
     {
-        if (!context.victim.CompareTag("Player")) return;
+        if (!context.victim.CompareTag("Player") || context.damage <= 0f) return;
         if (!(context.extraContext.Equals("GIANT SCATHE SKULL") || context.extraContext.Equals("SCATHE TAIL SWIPE"))) return;
 
+        Debug.Log("SCATHE ATTACK HAPPENED OUCH");
         AudioManager.Instance.VABranch.PlayVATrack("Scathe Damaging Player");
     }
 
@@ -125,6 +167,18 @@ public class ScatheManager : EnemyStateManager
     {
         if (!context.victim.CompareTag("Player")) return;
 
-        AudioManager.Instance.VABranch.PlayVATrack("Scathe Player Death");
+        //AudioManager.Instance.VABranch.PlayVATrack("Scathe Player Death");
+        PlayVoiceLineDelayed("Scathe Player Death", 1f);
+    }
+
+    private void PlayVoiceLineDelayed(string lineName, float delay)
+    {
+        StartCoroutine(PlayVoiceLineDelayedCoroutine(lineName, delay));
+    }
+
+    private IEnumerator PlayVoiceLineDelayedCoroutine(string lineName, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        AudioManager.Instance.VABranch.PlayVATrack(lineName);
     }
 }

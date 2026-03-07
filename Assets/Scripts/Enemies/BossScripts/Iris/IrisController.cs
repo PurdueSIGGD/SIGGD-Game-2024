@@ -118,7 +118,7 @@ public class IrisController : BossController
         {
             AudioManager.Instance.SFXBranch.PlaySFXTrack("IRISShieldUp");
             AudioManager.Instance.SFXBranch.StopSFXTrack("IRISShieldDownLoop");
-            AudioManager.Instance.VABranch.PlayVATrack("IRIS Shield Up");
+            PlayVoiceLineDelayed("IRIS Shield Up", 1f);
         }
         ToggleShield(true);
     }
@@ -126,7 +126,7 @@ public class IrisController : BossController
     {
         AudioManager.Instance.SFXBranch.PlaySFXTrack("IRISShieldDown");
         AudioManager.Instance.SFXBranch.PlaySFXTrack("IRISShieldDownLoop");
-        AudioManager.Instance.VABranch.PlayVATrack("IRIS Shield Down");
+        PlayVoiceLineDelayed("IRIS Shield Down", 1f);
         ToggleShield(false);
     }
     void ToggleShield(bool val)
@@ -185,7 +185,7 @@ public class IrisController : BossController
     {
         if (context.victim != gameObject) return;
 
-        AudioManager.Instance.VABranch.PlayVATrack("IRIS On Boss Death");
+        PlayVoiceLineDelayed("IRIS On Boss Death", 1f);
     }
 
     public void OnPlayerDamageTaken(DamageContext context)
@@ -200,6 +200,17 @@ public class IrisController : BossController
     {
         if (!context.victim.CompareTag("Player")) return;
 
-        AudioManager.Instance.VABranch.PlayVATrack("IRIS Player Death");
+        PlayVoiceLineDelayed("IRIS Player Death", 1f);
+    }
+
+    private void PlayVoiceLineDelayed(string lineName, float delay)
+    {
+        StartCoroutine(PlayVoiceLineDelayedCoroutine(lineName, delay));
+    }
+
+    private IEnumerator PlayVoiceLineDelayedCoroutine(string lineName, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        AudioManager.Instance.VABranch.PlayVATrack(lineName);
     }
 }

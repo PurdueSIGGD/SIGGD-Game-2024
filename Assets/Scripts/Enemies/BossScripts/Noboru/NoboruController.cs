@@ -39,7 +39,7 @@ public class NoboruController : BossController
     {
         print("Maybe... maybe I shouldn't have been the bad guy... maybe I shouldn't have killed *ALL* of them...");
         yield return new WaitForSeconds(deathTimer);
-        Destroy(gameObject);
+        //Destroy(gameObject);
         EndBossRoom();
     }
 }

@@ -303,7 +303,7 @@ public class OldrionController : BossController
     private IEnumerator ThenTheThing()
     {
         dialogueManager.showPortraitandBackground = true;
-        ScreenFader.instance.FadeOut(3, 3);
+        ScreenFader.instance.FadeOut(1, 3);
         yield return new WaitForSeconds(6);
         SceneManager.LoadScene("Epilogue");
     }

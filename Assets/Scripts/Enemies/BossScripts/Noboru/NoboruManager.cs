@@ -162,13 +162,6 @@ public class NoboruManager : EnemyStateManager
     {
         if (context.victim != gameObject) return;
 
-        /*
-        if (gameObject.GetComponent<Health>().currentHealth <= 400f)
-        {
-            AudioManager.Instance.VABranch.PlayVATrack("IRIS Significant Damage Taken");
-            return;
-        }
-        */
         AudioManager.Instance.VABranch.PlayVATrack("Noboru Light Damage Taken");
     }
 
@@ -184,6 +177,7 @@ public class NoboruManager : EnemyStateManager
         if (!context.victim.CompareTag("Player")) return;
         if (!context.attacker.Equals(gameObject)) return;
         if (context.damageTypes.Contains(DamageType.STATUS)) return;
+        if (context.damage <= 0f) return;
 
         AudioManager.Instance.VABranch.PlayVATrack("Noboru Damaging Player");
     }
@@ -192,6 +186,17 @@ public class NoboruManager : EnemyStateManager
     {
         if (!context.victim.CompareTag("Player")) return;
 
-        AudioManager.Instance.VABranch.PlayVATrack("Noboru Player Death");
+        PlayVoiceLineDelayed("Noboru Player Death", 1f);
+    }
+
+    private void PlayVoiceLineDelayed(string lineName, float delay)
+    {
+        StartCoroutine(PlayVoiceLineDelayedCoroutine(lineName, delay));
+    }
+
+    private IEnumerator PlayVoiceLineDelayedCoroutine(string lineName, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        AudioManager.Instance.VABranch.PlayVATrack(lineName);
     }
 }

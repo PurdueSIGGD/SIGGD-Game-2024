@@ -133,6 +133,16 @@ public abstract class AbstractSoundBank : MonoBehaviour, ITrack {
         return (IVATrack) sounds[recentSounds.Count - 1];
     }
 
+    public IVATrack GetFirstTrack()
+    {
+        if (!inCombat && playsOutsideCombat && outOfCombatSounds.Count > 0)
+        {
+            return (IVATrack)outOfCombatSounds[0];
+        }
+        if (sounds.Count <= 0) return null;
+        return (IVATrack)sounds[0];
+    }
+
     public bool PlaysOutsideOfCombat()
     {
         return playsOutsideCombat;

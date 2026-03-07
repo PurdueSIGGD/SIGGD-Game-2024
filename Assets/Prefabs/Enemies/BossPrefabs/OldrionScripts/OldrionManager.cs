@@ -250,7 +250,7 @@ public class OldrionManager : EnemyStateManager
 
     public void OnDamageTaken(DamageContext context)
     {
-        if (context.victim != gameObject) return;
+        if (context.victim != gameObject || context.damage <= 0f) return;
 
         if (gameObject.GetComponent<Health>().currentHealth <= 0f)
         {
@@ -262,7 +262,7 @@ public class OldrionManager : EnemyStateManager
 
     public void OnPlayerDamageTaken(DamageContext context)
     {
-        if (!context.victim.CompareTag("Player")) return;
+        if (!context.victim.CompareTag("Player") || context.damage <= 0f) return;
 
         AudioManager.Instance.VABranch.PlayVATrack("Oldrion Damaging Player");
     }
@@ -271,6 +271,18 @@ public class OldrionManager : EnemyStateManager
     {
         if (!context.victim.CompareTag("Player")) return;
 
-        AudioManager.Instance.VABranch.PlayVATrack("Oldrion Player Death");
+        //AudioManager.Instance.VABranch.PlayVATrack("Oldrion Player Death");
+        PlayVoiceLineDelayed("Oldrion Player Death", 1f);
+    }
+
+    private void PlayVoiceLineDelayed(string lineName, float delay)
+    {
+        StartCoroutine(PlayVoiceLineDelayedCoroutine(lineName, delay));
+    }
+
+    private IEnumerator PlayVoiceLineDelayedCoroutine(string lineName, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        AudioManager.Instance.VABranch.PlayVATrack(lineName);
     }
 }

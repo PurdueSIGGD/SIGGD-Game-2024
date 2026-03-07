@@ -6,4 +6,10 @@ public class SoundBankVATrack : AbstractSoundBank, IVATrack {
         OneShotVATrack recentTrack = (OneShotVATrack) GetMostRecentTrack();
         return (recentTrack == null) ? false : recentTrack.OverridesVoiceCulling();
     }
+
+    public bool AlwaysPlays()
+    {
+        OneShotVATrack firstTrack = (OneShotVATrack)GetFirstTrack();
+        return (firstTrack == null) ? false : firstTrack.AlwaysPlays();
+    }
 }

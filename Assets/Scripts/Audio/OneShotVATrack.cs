@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 public class OneShotVATrack : MonoBehaviour, IVATrack {
-    
+
     public AudioSource track;
 
     [Header("Whether this track can be culled by the VAManager")]
@@ -10,6 +10,9 @@ public class OneShotVATrack : MonoBehaviour, IVATrack {
 
     [Header("Whether this track will play outside of combat")]
     public bool playsOutsideCombat;
+
+    [Header("Whether this track will play regardless of other playing VA tracks")]
+    public bool alwaysPlays;
 
     public AudioSource PlayTrack() {
         if (!playsOutsideCombat && AudioManager.Instance.GetEnergyLevel() < 0.5f) return null;
@@ -38,5 +41,10 @@ public class OneShotVATrack : MonoBehaviour, IVATrack {
     public bool PlaysOutsideOfCombat()
     {
         return playsOutsideCombat;
+    }
+
+    public bool AlwaysPlays()
+    {
+        return alwaysPlays;
     }
 }
