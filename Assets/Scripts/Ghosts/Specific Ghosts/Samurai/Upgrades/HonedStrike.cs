@@ -8,11 +8,13 @@ public class HonedStrike : Skill
     [HideInInspector] public bool buffApplied;
 
     [SerializeField]
-    List<float> values = new List<float>
+    List<int> values = new List<int>
     {
-        0f, 20f, 40f, 60f, 80f
+        0, 15, 30, 45, 60
     };
     private int pointIndex;
+
+    private int buffValue = 0;
 
     void Start()
     {
@@ -21,14 +23,14 @@ public class HonedStrike : Skill
 
     private void OnEnable()
     {
-        GameplayEventHolder.OnAbilityUsed += BuffDashSpeed;
-        GameplayEventHolder.OnAbilityUsed += RemoveDashBuff;
+        //GameplayEventHolder.OnAbilityUsed += BuffDashSpeed;
+        //GameplayEventHolder.OnAbilityUsed += RemoveDashBuff;
     }
 
     private void OnDisable()
     {
-        GameplayEventHolder.OnAbilityUsed -= BuffDashSpeed;
-        GameplayEventHolder.OnAbilityUsed -= RemoveDashBuff;
+        //GameplayEventHolder.OnAbilityUsed -= BuffDashSpeed;
+        //GameplayEventHolder.OnAbilityUsed -= RemoveDashBuff;
     }
 
     private void BuffDashSpeed(ActionContext context)
@@ -61,15 +63,30 @@ public class HonedStrike : Skill
     public override void AddPointTrigger()
     {
         pointIndex = GetPoints();
+        GetComponent<StatManager>().ModifyStat("Heavy Attack Minimum Travel Distance", values[pointIndex] - buffValue);
+        GetComponent<StatManager>().ModifyStat("Heavy Attack Maximum Travel Distance", values[pointIndex] - buffValue);
+        GetComponent<StatManager>().ModifyStat("Heavy Attack Travel Speed", values[pointIndex] - buffValue);
+        GetComponent<StatManager>().ModifyStat("Heavy Charge Up Time", -(values[pointIndex] - buffValue));
+        buffValue = values[pointIndex];
     }
 
     public override void ClearPointsTrigger()
     {
         pointIndex = GetPoints();
+        GetComponent<StatManager>().ModifyStat("Heavy Attack Minimum Travel Distance", values[pointIndex] - buffValue);
+        GetComponent<StatManager>().ModifyStat("Heavy Attack Maximum Travel Distance", values[pointIndex] - buffValue);
+        GetComponent<StatManager>().ModifyStat("Heavy Attack Travel Speed", values[pointIndex] - buffValue);
+        GetComponent<StatManager>().ModifyStat("Heavy Charge Up Time", -(values[pointIndex] - buffValue));
+        buffValue = values[pointIndex];
     }
 
     public override void RemovePointTrigger()
     {
         pointIndex = GetPoints();
+        GetComponent<StatManager>().ModifyStat("Heavy Attack Minimum Travel Distance", values[pointIndex] - buffValue);
+        GetComponent<StatManager>().ModifyStat("Heavy Attack Maximum Travel Distance", values[pointIndex] - buffValue);
+        GetComponent<StatManager>().ModifyStat("Heavy Attack Travel Speed", values[pointIndex] - buffValue);
+        GetComponent<StatManager>().ModifyStat("Heavy Charge Up Time", -(values[pointIndex] - buffValue));
+        buffValue = values[pointIndex];
     }
 }

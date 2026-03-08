@@ -263,6 +263,7 @@ public class OldrionManager : EnemyStateManager
     public void OnPlayerDamageTaken(DamageContext context)
     {
         if (!context.victim.CompareTag("Player") || context.damage <= 0f) return;
+        if (context.victim.GetComponent<Health>().currentHealth <= 0f) return;
 
         AudioManager.Instance.VABranch.PlayVATrack("Oldrion Damaging Player");
     }

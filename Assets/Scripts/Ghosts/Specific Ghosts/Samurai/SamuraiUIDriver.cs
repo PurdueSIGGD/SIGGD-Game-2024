@@ -72,13 +72,15 @@ public class SamuraiUIDriver : GhostUIDriver
         }
         */
 
-        // Honed Strike submeter
+        // Honed Strike submeter -> Now Relentless Fury
         meterUIManager.setSubMeterValue(0f, 1f);
-        HonedStrike honedStrike = GetComponent<HonedStrike>();
-        meterUIManager.setSubMeterValue(((honedStrike.buffApplied) ? 1f : 0f), 1f);
+        //HonedStrike honedStrike = GetComponent<HonedStrike>();
+        //meterUIManager.setSubMeterValue(((honedStrike.buffApplied) ? 1f : 0f), 1f);
+        RelentlessFury relentlessFury = GetComponent<RelentlessFury>();
+        meterUIManager.setSubMeterValue(((relentlessFury.buffStacks > 0) ? 1f : 0f), 1f);
 
         WrathHeavyAttack wrath = PlayerID.instance.GetComponent<WrathHeavyAttack>();
-        if (manager.wrathPercent > 0f || honedStrike.buffApplied ||
+        if (manager.wrathPercent > 0f /*|| honedStrike.buffApplied*/ || (relentlessFury.buffStacks > 0) ||
             (wrath != null && (wrath.isCharging || wrath.isPrimed)))
         {
             meterUIManager.activateWidget();

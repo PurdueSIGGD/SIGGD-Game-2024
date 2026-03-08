@@ -75,6 +75,14 @@ public class SamuraiManager : GhostManager, ISelectable
         roninsResolve = GetComponent<RoninsResolve>();
 
         initializeSpecialEnergy();
+
+        StartCoroutine(LateStart());
+    }
+
+    protected IEnumerator LateStart()
+    {
+        yield return new WaitForSeconds(0.5f);
+        setSpecialReady(currentSpecialEnergy >= stats.ComputeValue("Special Energy Cost"));
     }
 
     // Update is called once per frame

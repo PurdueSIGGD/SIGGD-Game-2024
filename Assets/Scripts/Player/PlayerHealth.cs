@@ -171,6 +171,7 @@ public class PlayerHealth : Health
         GhostIdentity selectedGhost = GetComponent<PartyManager>().GetSelectedGhost();
         if (evaTempo != null && evaTempo.tempoStacks > 0 && selectedGhost != null && selectedGhost.GetCharacterInfo().displayName.Equals("Eva"))
         {
+            AudioManager.Instance.SFXBranch.PlaySFXTrack("AirAttack");
             DamageNumberManager.instance.PlayMessage(gameObject, 0f, tempoIcon, "Dodged!", selectedGhost.GetCharacterInfo().highlightColor);
             GameObject tempoDodgePulseVFX = Instantiate(dodgeVFX, gameObject.transform);
             tempoDodgePulseVFX.GetComponent<RingExplosionHandler>().playRingExplosion(2f, selectedGhost.GetCharacterInfo().highlightColor);
@@ -180,6 +181,7 @@ public class PlayerHealth : Health
         // Silas Self-medicated Dodge Effect
         if (silasSelfMedicated != null && silasSelfMedicated.isBuffed && selectedGhost != null && selectedGhost.GetCharacterInfo().displayName.Equals("Silas"))
         {
+            AudioManager.Instance.SFXBranch.PlaySFXTrack("AirAttack");
             DamageNumberManager.instance.PlayMessage(gameObject, 0f, selfMedicatedIcon, "Dodged!", selectedGhost.GetCharacterInfo().highlightColor);
             GameObject selfMedicatedDodgePulseVFX = Instantiate(dodgeVFX, gameObject.transform);
             selfMedicatedDodgePulseVFX.GetComponent<RingExplosionHandler>().playRingExplosion(2f, selectedGhost.GetCharacterInfo().highlightColor);

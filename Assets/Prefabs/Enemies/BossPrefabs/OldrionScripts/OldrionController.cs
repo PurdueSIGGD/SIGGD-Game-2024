@@ -171,6 +171,8 @@ public class OldrionController : BossController
         {
             dialogueManager.StartDialogue(phase3Convo);
             //bossHealth.GetStats().ModifyStat("Max Health", -50);
+            PartyManager.instance.SetSwappingEnabled(false);
+            PartyManager.instance.SwitchGhostToIndex(-1);
             PartyManager.instance.RemoveAllGhost();
             yield return new WaitUntil(() => hasFinishedPhase3Convo == true);
         }

@@ -8,8 +8,8 @@ public class Health : MonoBehaviour, IDamageable, IStatList
     [SerializeField]
     public StatManager.Stat[] statList;
 
-    [NonSerialized] public float currentHealth; // Current health of player
-    [NonSerialized] public bool isAlive = true; // Checks if player is still alive
+    [SerializeField] public float currentHealth; // Current health of player
+    [SerializeField] public bool isAlive = true; // Checks if player is still alive
     [NonSerialized] private float damageResistance = 0.0f; // 0 to 1, Multiply damage by (1 - resistance) 
 
     protected StatManager stats;

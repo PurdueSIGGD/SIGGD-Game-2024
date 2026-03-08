@@ -151,13 +151,14 @@ public class ScatheManager : EnemyStateManager
 
         Debug.Log("I KILLED SCATHE WOT");
         //AudioManager.Instance.VABranch.PlayVATrack("Scathe On Boss Death");
-        PlayVoiceLineDelayed("Scathe On Boss Death", 1f);
+        PlayVoiceLineDelayed("Scathe On Boss Death", 0.5f);
     }
 
     public void OnPlayerDamageTaken(DamageContext context)
     {
         if (!context.victim.CompareTag("Player") || context.damage <= 0f) return;
         if (!(context.extraContext.Equals("GIANT SCATHE SKULL") || context.extraContext.Equals("SCATHE TAIL SWIPE"))) return;
+        if (context.victim.GetComponent<Health>().currentHealth <= 0f) return;
 
         Debug.Log("SCATHE ATTACK HAPPENED OUCH");
         AudioManager.Instance.VABranch.PlayVATrack("Scathe Damaging Player");

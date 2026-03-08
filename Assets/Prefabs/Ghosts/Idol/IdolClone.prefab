@@ -4948,6 +4948,7 @@ GameObject:
   - component: {fileID: 9022205656588051166}
   - component: {fileID: -7894658169342811075}
   - component: {fileID: -7173408415025757323}
+  - component: {fileID: 6270814045129188153}
   m_Layer: 6
   m_Name: IdolClone
   m_TagString: Idol_Clone
@@ -5151,6 +5152,25 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.7, y: 1.8}
   m_EdgeRadius: 0
+--- !u!114 &6270814045129188153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7482494425360345118}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67f2b5dc03552c4bb7d2e37dbcb7033, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageContext:
+    damageStrength: 1
+    damageTypes: 04000000
+    actionID: 17
+    actionTypes: 08000000
+    extraContext: 
+    ghostID: 0
 --- !u!1 &8843774626731719354
 GameObject:
   m_ObjectHideFlags: 0

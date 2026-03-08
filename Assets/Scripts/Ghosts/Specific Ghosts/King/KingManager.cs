@@ -63,6 +63,14 @@ public class KingManager : GhostManager, ISelectable
         invincibilityDuration = 0f;
 
         initializeSpecialEnergy();
+
+        StartCoroutine(LateStart());
+    }
+
+    protected IEnumerator LateStart()
+    {
+        yield return new WaitForSeconds(0.5f);
+        setSpecialReady(currentSpecialEnergy >= stats.ComputeValue("Special Energy Cost"));
     }
 
     void Awake()

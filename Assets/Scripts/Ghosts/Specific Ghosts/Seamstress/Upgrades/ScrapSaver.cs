@@ -28,11 +28,13 @@ public class ScrapSaver : Skill
     private void OnEnable()
     {
         GameplayEventHolder.OnDamageDealt += OnHeavyHit;
+        GameplayEventHolder.OnDamageDealt += OnSpecialHit;
     }
 
     private void OnDisable()
     {
         GameplayEventHolder.OnDamageDealt -= OnHeavyHit;
+        GameplayEventHolder.OnDamageDealt -= OnSpecialHit;
     }
 
 
@@ -169,6 +171,18 @@ public class ScrapSaver : Skill
         if (context.actionTypes.Contains(ActionType.HEAVY_ATTACK) &&
             (context.actionID == ActionID.SEAMSTRESS_BASIC ||
             (PlayerID.instance.GetComponent<YumeHeavy>() != null && context.victim.GetComponent<Health>().currentHealth <= 0f) && manager.GetSpools() > 0))
+        {
+            HandleEnemyDefeated();
+        }
+    }
+
+    public void OnSpecialHit(DamageContext context)
+    {
+        if (context.attacker != PlayerID.instance.gameObject) return;
+        if (context.actionTypes.Contains(ActionType.SPECIAL_ABILITY) &&
+            context.actionID == ActionID.SEAMSTRESS_SPECIAL &&
+            context.damageTypes.Contains(DamageType.PROJECTILE) &&
+            !context.damageTypes.Contains(DamageType.STATUS))
         {
             HandleEnemyDefeated();
         }

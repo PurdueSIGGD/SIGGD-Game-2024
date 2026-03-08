@@ -29,7 +29,7 @@ public class PoisonDebuff : MonoBehaviour
         if (duration <= 0f)
         {
             health = gameObject.GetComponentInParent<Health>();
-            if (health != null)
+            if (health != null && damageContext.attacker != null)
             {
                 health.Damage(damageContext, damageContext.attacker);
             }
@@ -43,7 +43,7 @@ public class PoisonDebuff : MonoBehaviour
             return;
         }
         health = gameObject.GetComponentInParent<Health>();
-        if (health != null)
+        if (health != null && damageContext.attacker != null)
         {
             health.Damage(damageContext, damageContext.attacker);
         }

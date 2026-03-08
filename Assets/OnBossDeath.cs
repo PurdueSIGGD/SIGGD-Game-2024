@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class OnBossDeath : MonoBehaviour
 {
@@ -31,7 +32,21 @@ public class OnBossDeath : MonoBehaviour
     
     private IEnumerator DelayCheckBossDeath()
     {
-        yield return new WaitForSeconds(5f);
+        float waitTime = 4f;
+        if (SceneManager.GetActiveScene().name.Contains("Cyberpunk"))
+        {
+            waitTime = 5f;
+        }
+        else if (SceneManager.GetActiveScene().name.Contains("Japan"))
+        {
+            waitTime = 4f;
+        }
+        else if (SceneManager.GetActiveScene().name.Contains("Medieval"))
+        {
+            waitTime = 4f;
+        }
+
+        yield return new WaitForSeconds(waitTime);
         if (SaveManager.data.orion < orionProgressTo) // do not let story progress go backwards, i.e. death convo must not repeat
         {
             SaveManager.data.orion = orionProgressTo;

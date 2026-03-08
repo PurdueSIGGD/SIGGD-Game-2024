@@ -145,7 +145,8 @@ public class SamuraiRetribution : MonoBehaviour
     
     public void ParryingFilter(ref DamageContext context)
     {
-        if (parrying && context.attacker.CompareTag("Enemy") && context.victim.CompareTag("Player") && (context.damageTypes.Contains(DamageType.MELEE) || context.damageTypes.Contains(DamageType.PROJECTILE) || context.damageTypes.Contains(DamageType.AREA)))
+        if (parrying && context.attacker.CompareTag("Enemy") && context.victim.CompareTag("Player") &&
+            (context.damageTypes.Contains(DamageType.MELEE) || context.damageTypes.Contains(DamageType.PROJECTILE) || context.damageTypes.Contains(DamageType.AREA)))
         {
             DamageContext newContext = manager.specialMeleeParryContext;
             newContext.attacker = gameObject;

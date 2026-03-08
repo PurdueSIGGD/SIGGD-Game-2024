@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -87,6 +88,14 @@ public class SeamstressManager : GhostManager
         }
 
         initializeSpecialEnergy();
+
+        StartCoroutine(LateStart());
+    }
+
+    protected IEnumerator LateStart()
+    {
+        yield return new WaitForSeconds(0.5f);
+        setSpecialReady(currentSpecialEnergy >= stats.ComputeValue("Special Energy Cost"));
     }
 
 

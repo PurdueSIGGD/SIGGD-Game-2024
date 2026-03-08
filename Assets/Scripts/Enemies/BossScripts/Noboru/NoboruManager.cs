@@ -61,7 +61,7 @@ public class NoboruManager : EnemyStateManager
         controller = GetComponent<NoboruController>();
         Transform[] tpPositions = tpSource.GetComponentsInChildren<Transform>(includeInactive: false);
         teleportPositions = new(tpPositions);
-        transform.position = teleportPositions[0].position;
+        //transform.position = teleportPositions[0].position;
         tpIndex = 0;
         lightningContext.damage = lightningDamage;
 
@@ -178,6 +178,7 @@ public class NoboruManager : EnemyStateManager
         if (!context.attacker.Equals(gameObject)) return;
         if (context.damageTypes.Contains(DamageType.STATUS)) return;
         if (context.damage <= 0f) return;
+        if (context.victim.GetComponent<Health>().currentHealth <= 0f) return;
 
         AudioManager.Instance.VABranch.PlayVATrack("Noboru Damaging Player");
     }

@@ -10,7 +10,7 @@ public class BoundryDeath : MonoBehaviour
         if (collision.gameObject.CompareTag("Boundary"))
         {
             damageContext.damage = GetComponent<Health>().currentHealth;
-            GetComponent<Health>().Damage(damageContext, gameObject);
+            GetComponent<Health>().Damage(damageContext, collision.gameObject);
         }
     }
 }

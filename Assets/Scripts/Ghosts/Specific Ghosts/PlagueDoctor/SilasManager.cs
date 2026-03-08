@@ -102,6 +102,14 @@ public class SilasManager : GhostManager
         }
 
         initializeSpecialEnergy();
+
+        StartCoroutine(LateStart());
+    }
+
+    protected IEnumerator LateStart()
+    {
+        yield return new WaitForSeconds(0.5f);
+        setSpecialReady(specialCharges > 0f);
     }
 
 

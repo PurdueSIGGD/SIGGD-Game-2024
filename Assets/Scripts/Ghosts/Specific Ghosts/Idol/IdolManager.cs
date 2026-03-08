@@ -79,6 +79,14 @@ public class IdolManager : GhostManager, ISelectable
         }
 
         initializeSpecialEnergy();
+
+        StartCoroutine(LateStart());
+    }
+
+    protected IEnumerator LateStart()
+    {
+        yield return new WaitForSeconds(0.5f);
+        setSpecialReady(currentSpecialEnergy >= stats.ComputeValue("Special Energy Cost"));
     }
 
     protected override void Update()

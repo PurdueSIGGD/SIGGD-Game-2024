@@ -148,7 +148,7 @@ public class PlayerBuffStats : MonoBehaviour, IStatList
         }
 
         // Elite Enemy Damage
-        if (stats.ComputeValue("Critical Health Damage Resistance") > 1f && context.attacker.GetComponent<EnemyStateManager>() != null && context.victim.GetComponent<PlayerHealth>().MortallyWounded)
+        if (stats.ComputeValue("Critical Health Damage Resistance") > 1f && context.victim.GetComponent<PlayerHealth>() != null && context.victim.GetComponent<PlayerHealth>().MortallyWounded)
         {
             float damageReduction = stats.ComputeValue("Critical Health Damage Resistance") - 1f;
             context.damage *= 1f - damageReduction;

@@ -126,7 +126,7 @@ public class IrisController : BossController
     {
         AudioManager.Instance.SFXBranch.PlaySFXTrack("IRISShieldDown");
         AudioManager.Instance.SFXBranch.PlaySFXTrack("IRISShieldDownLoop");
-        PlayVoiceLineDelayed("IRIS Shield Down", 1f);
+        PlayVoiceLineDelayed("IRIS Shield Down", 0.5f);
         ToggleShield(false);
     }
     void ToggleShield(bool val)
@@ -171,7 +171,7 @@ public class IrisController : BossController
 
     public void OnDamageTaken(DamageContext context)
     {
-        if (context.victim != gameObject) return;
+        if (context.victim != gameObject || context.damage <= 0f) return;
 
         if (gameObject.GetComponent<Health>().currentHealth <= 400f)
         {
@@ -185,13 +185,14 @@ public class IrisController : BossController
     {
         if (context.victim != gameObject) return;
 
-        PlayVoiceLineDelayed("IRIS On Boss Death", 1f);
+        PlayVoiceLineDelayed("IRIS On Boss Death", 0.5f);
     }
 
     public void OnPlayerDamageTaken(DamageContext context)
     {
-        if (!context.victim.CompareTag("Player")) return;
+        if (!context.victim.CompareTag("Player") || context.damage <= 0f) return;
         if (!context.attacker.Equals(gameObject)) return;
+        if (context.victim.GetComponent<Health>().currentHealth <= 0f) return;
 
         AudioManager.Instance.VABranch.PlayVATrack("IRIS Damaging Player");
     }

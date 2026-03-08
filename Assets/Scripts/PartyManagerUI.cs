@@ -152,6 +152,8 @@ public class PartyManagerUI : MonoBehaviour
         if (PlayerUIVisibility.instance) PlayerUIVisibility.instance.HidePlayerUI();
         PlayerID.instance.FreezePlayerMouse();
         PlayerID.instance.FreezePlayer();
+        PartyManager.instance.SetSwappingEnabled(false);
+        PartyManager.instance.SwitchGhostToIndex(-1);
     }
 
     public void ClosePartyMenu()
@@ -160,6 +162,7 @@ public class PartyManagerUI : MonoBehaviour
         if (PlayerUIVisibility.instance) PlayerUIVisibility.instance.ShowPlayerUI();
         PlayerID.instance.UnfreezePlayerMouse();
         PlayerID.instance.UnfreezePlayer();
+        PartyManager.instance.SetSwappingEnabled(true);
         onMenuClose?.Invoke();
     }
 

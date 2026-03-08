@@ -7,6 +7,9 @@ public class Respawn : MonoBehaviour
     [SerializeField] DamageContext damageContext;
     [SerializeField] float damage;
 
+    [SerializeField] GameObject pulseVFX;
+    [SerializeField] Color pulseColor;
+
     private void Start()
     {
         respawnPoint = this.transform.position;
@@ -17,18 +20,22 @@ public class Respawn : MonoBehaviour
         if (collision.gameObject.CompareTag("Boundary"))
         {
             this.transform.position = respawnPoint;
+            GameObject pulseRing = Instantiate(pulseVFX, gameObject.transform.position, Quaternion.identity);
+            pulseRing.GetComponent<RingExplosionHandler>().playRingExplosion(20f, pulseColor);
+            AudioManager.Instance.SFXBranch.PlaySFXTrack("AirAttack");
             if (dealDmg)
             {
                 if (GetComponent<Health>().currentHealth > damage)
                 {
                     damageContext.damage = damage;
-                    //GetComponent<Health>().Damage(damageContext, gameObject);
-                    GetComponent<Health>().currentHealth -= damage;
+                    GetComponent<Health>().Damage(damageContext, collision.gameObject);
+                    //GetComponent<Health>().currentHealth -= damage;
                 }
                 else
                 {
                     damageContext.damage = GetComponent<Health>().currentHealth - 1;
-                    GetComponent<Health>().currentHealth = 1;
+                    GetComponent<Health>().Damage(damageContext, collision.gameObject);
+                    //GetComponent<Health>().currentHealth = 1;
                 }
             }
 
