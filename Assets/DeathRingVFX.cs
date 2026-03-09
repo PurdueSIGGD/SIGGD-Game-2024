@@ -61,6 +61,8 @@ public class DeathRingVFX : MonoBehaviour
     private bool isRaisingChromaticAbberation = false;
     private float chromaticAbberationRate = 0f;
 
+    private bool sacrificeCancel = false;
+
 
 
     private void Awake()
@@ -196,6 +198,8 @@ public class DeathRingVFX : MonoBehaviour
 
     public void PlayDeathAnimation()
     {
+        PlayerID.instance.gameObject.GetComponent<SpriteRenderer>().enabled = true;
+        sacrificeCancel = false;
         FadeOut();
         StartDeathSpin();
         RaiseChromaticAbberation();
@@ -217,18 +221,27 @@ public class DeathRingVFX : MonoBehaviour
 
     public void PlaySacReviveAnimation()
     {
+        sacrificeCancel = true;
+
+        isFadingIn = false;
+        isFadingOut = false;
+        isDeathSpinning = false;
+        isReviveSpinning = false;
+        isChangingChromaticAbberation = false;
+        isRaisingChromaticAbberation = false;
+
         image = GetComponent<Image>();
-        image.enabled = true;
-        image.color = fullyFadedColor;
-        ScreenFader.instance.FadeIn(1.5f, 1f);
-        reviveSpinDuration = 1.5f;
-        reviveSpinCoefficient = -10f;
-        reviveSpinDegree = 7;
-        pulseColor.a = 0;
-        StartReviveSpin();
-        DropChromaticAbberation();
-        PlayerID.instance.gameObject.GetComponent<SpriteRenderer>().enabled = false;
-        PlayerID.instance.gameObject.GetComponent<Move>().PlayerStop();
+        image.enabled = false;
+        //image.color = fullyFadedColor;
+        //ScreenFader.instance.FadeIn(1.5f, 1f);
+        //reviveSpinDuration = 1.5f;
+        //reviveSpinCoefficient = -10f;
+        //reviveSpinDegree = 7;
+        //pulseColor.a = 0;
+        //StartReviveSpin();
+        //DropChromaticAbberation();
+        PlayerID.instance.gameObject.GetComponent<SpriteRenderer>().enabled = true;
+        //PlayerID.instance.gameObject.GetComponent<Move>().PlayerStop();
     }
 
 
@@ -248,7 +261,9 @@ public class DeathRingVFX : MonoBehaviour
         image = GetComponent<Image>();
         image.enabled = true;
         image.color = fullyFadedColor;
+
         yield return new WaitForSeconds(fadeInDelay);
+        if (sacrificeCancel) yield break;
 
         fadeInRate = 1f / fadeInDuration;
         isFadingIn = true;
@@ -264,6 +279,8 @@ public class DeathRingVFX : MonoBehaviour
     private IEnumerator ReviveSpinCoroutine()
     {
         yield return new WaitForSeconds(reviveSpinDelay);
+        if (sacrificeCancel) yield break;
+
         reviveSpinTimer = reviveSpinDuration;
         isReviveSpinning = true;
     }
@@ -287,7 +304,9 @@ public class DeathRingVFX : MonoBehaviour
         image = GetComponent<Image>();
         image.enabled = true;
         image.color = new Color(image.color.r, image.color.g, image.color.b, 0f);
+
         yield return new WaitForSeconds(fadeOutDelay);
+        if (sacrificeCancel) yield break;
 
         fadeOutRate = partiallyFadedOpacity / fadeOutDuration;
         isFadingOut = true;
@@ -309,7 +328,9 @@ public class DeathRingVFX : MonoBehaviour
     {
         image = GetComponent<Image>();
         image.enabled = true;
+
         yield return new WaitForSeconds(fadeOutDelay);
+        if (sacrificeCancel) yield break;
 
         fadeOutRate = (1f - image.color.a) / fadeOutDuration;
         isFullFadingOut = true;
@@ -351,6 +372,8 @@ public class DeathRingVFX : MonoBehaviour
     private IEnumerator RaiseChromaticAbberationCoroutine()
     {
         yield return new WaitForSeconds(raiseChromaticAbberationDelay);
+        if (sacrificeCancel) yield break;
+
         chromaticAbberation.active = true;
         chromaticAbberation.intensity.Override(0.01f);
         chromaticAbberationRate = partiallyAbberatedIntensity / raiseChromaticAbberationDuration;

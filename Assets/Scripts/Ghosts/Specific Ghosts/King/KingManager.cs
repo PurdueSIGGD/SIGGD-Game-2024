@@ -30,7 +30,7 @@ public class KingManager : GhostManager, ISelectable
     [HideInInspector] private Sprite invincibilityIcon = null;
 
     private PlayerStateMachine psm;
-    private string identityName;
+    //private string identityName;
 
     // Start is called before the first frame update
     protected override void Start()

@@ -22,8 +22,9 @@ public class GhostManager : MonoBehaviour, ISelectable, IStatList
     private bool specialReady = false;
     public float currentSpecialEnergy = 0f;
 
-
     private bool sacrificeReady = false;
+
+    [SerializeField] public string identityName;
 
     /*
     private void OnEnable()

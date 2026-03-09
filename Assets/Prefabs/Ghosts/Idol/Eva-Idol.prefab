@@ -25,8 +25,7 @@ GameObject:
   - component: {fileID: 9025963487758876621}
   - component: {fileID: 219043313411044668}
   - component: {fileID: 1545715215794891431}
-  - component: {fileID: 1780750385296793499}
-  - component: {fileID: 3943762812193780925}
+  - component: {fileID: 8916902262366143605}
   m_Layer: 17
   m_Name: Eva-Idol
   m_TagString: Ghost
@@ -223,6 +222,7 @@ MonoBehaviour:
   defaultController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
   ghostController: {fileID: 9100000, guid: 5779acd767093ee419301b684e1317dd, type: 2}
   currentSpecialEnergy: 0
+  identityName: 
   special: {fileID: 0}
   passive: {fileID: 0}
   onDashContext:
@@ -330,7 +330,7 @@ MonoBehaviour:
   - {fileID: 9025963487758876621}
   - {fileID: 219043313411044668}
   - {fileID: 1545715215794891431}
-  - {fileID: 1780750385296793499}
+  - {fileID: 8916902262366143605}
   startAtLevel: 0
 --- !u!114 &3272375648746919725
 MonoBehaviour:
@@ -467,7 +467,7 @@ MonoBehaviour:
   cloneDamageTakenMultiplier: 4
   damageResistanceIcon: {fileID: 21300000, guid: 150239b220dcdfe4c887a06a669c64bc,
     type: 3}
---- !u!114 &1780750385296793499
+--- !u!114 &8916902262366143605
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -476,24 +476,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 981645078808632434}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1284087a3af327346bbb1f9466384c78, type: 3}
+  m_Script: {fileID: 11500000, guid: 6962af3d31f7a2d4097ba0cee8be86cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   skillSO: {fileID: 11400000, guid: 47064ef7ba27a6448a378006df0569af, type: 2}
-  healthRestored: 35
-  timeStopDuration: 10
---- !u!114 &3943762812193780925
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 981645078808632434}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94b5828d9949f954d9301d18a500e024, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  context:
+    damageStrength: 4
+    damageTypes: 02000000
+    actionID: 0
+    actionTypes: 05000000
+    extraContext: 
+    ghostID: 2
+  explosionRadius: 15
+  vfx: {fileID: 7966241730260626198, guid: a5295bc6cb8948243b75f99e5a18cc48, type: 3}
+  track: Eva-Idol Show Stopper Before
+  afterTrack: Eva-Idol Show Stopper After
+  windupSFX: Eva-Sacrifice Windup
+  explosionSFX: 
+  damage: 400
+  windupTime: 1.85
 --- !u!1 &7017972217767908525
 GameObject:
   m_ObjectHideFlags: 0

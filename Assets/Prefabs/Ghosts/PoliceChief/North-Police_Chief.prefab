@@ -222,6 +222,7 @@ MonoBehaviour:
   defaultController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
   ghostController: {fileID: 9100000, guid: aa15c7d7ec4345f49ae3ac6108b95001, type: 2}
   currentSpecialEnergy: 0
+  identityName: North-Police_Chief
   basicDamage:
     damageStrength: 5
     damageTypes: 01000000
@@ -262,7 +263,6 @@ MonoBehaviour:
   autoRecoverAmmo: 0
   basic: {fileID: 0}
   special: {fileID: 0}
-  identityName: North-Police_Chief
 --- !u!114 &7204414934066423109
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -499,9 +499,14 @@ MonoBehaviour:
     actionTypes: 05000000
     extraContext: 
     ghostID: 1
-  explosionRadius: 25
+  explosionRadius: 15
   vfx: {fileID: 7966241730260626198, guid: a5295bc6cb8948243b75f99e5a18cc48, type: 3}
-  track: 
+  track: North-Police_Chief Sacrifice Before
+  afterTrack: North-Police_Chief Sacrifice After
+  windupSFX: North-Sacrifice Windup
+  explosionSFX: 
+  damage: 400
+  windupTime: 1.85
 --- !u!1 &4441818572976834460
 GameObject:
   m_ObjectHideFlags: 0

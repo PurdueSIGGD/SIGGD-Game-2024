@@ -30,7 +30,7 @@ public class IdolManager : GhostManager, ISelectable
     public bool isFightOver = false;
 
     private GhostIdentity identity;
-    string identityName;
+    //string identityName;
 
     void Awake()
     {

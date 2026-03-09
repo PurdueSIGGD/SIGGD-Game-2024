@@ -361,6 +361,7 @@ MonoBehaviour:
   defaultController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
   ghostController: {fileID: 9100000, guid: f32f8db40ef7cc14b84350e7507f9eb9, type: 2}
   currentSpecialEnergy: 0
+  identityName: 
   heavyDamageContext:
     damageStrength: 3
     damageTypes: 00000000
@@ -393,7 +394,6 @@ MonoBehaviour:
   startingToDecay: 0
   decaying: 0
   resetDecay: 0
-  identityName: 
 --- !u!114 &8557088112885291382
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -594,6 +594,11 @@ MonoBehaviour:
     actionTypes: 05000000
     extraContext: 
     ghostID: 3
-  explosionRadius: 25
+  explosionRadius: 15
   vfx: {fileID: 7966241730260626198, guid: a5295bc6cb8948243b75f99e5a18cc48, type: 3}
-  track: 
+  track: Akihito-Samurai Sacrifice Before
+  afterTrack: Akihito-Samurai Sacrifice After
+  windupSFX: Akihito-Sacrifice
+  explosionSFX: 
+  damage: 400
+  windupTime: 1.85

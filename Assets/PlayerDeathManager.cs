@@ -25,10 +25,15 @@ public class PlayerDeathManager : MonoBehaviour
     string respawnScene = "Hubworld";
     [SerializeField] TimeFreezeManager timeFreezeManager;
 
+    [SerializeField] float sacrificeDelay;
+
     float endTime;
     float fadeOutTime;
     bool isFadingOut;
     bool animRunning;
+
+    float sacTime;
+    bool isSaccin;
 
 
     // Start is called before the first frame update
@@ -57,7 +62,7 @@ public class PlayerDeathManager : MonoBehaviour
         GetComponent<Collider2D>().enabled = false;
         GetComponent<Rigidbody2D>().gravityScale = 0f;
         GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-        gameObject.transform.position += new Vector3(0f, 0f, 10f);
+        gameObject.transform.position += new Vector3(0f, 0f, 5f);
 
         GetComponent<Move>().PlayerStop();
 
@@ -65,6 +70,9 @@ public class PlayerDeathManager : MonoBehaviour
         fadeOutTime = Time.time + realtimeFadeOutStart;
         isFadingOut = false;
         animRunning = true;
+
+        sacTime = Time.time + sacrificeDelay;
+        isSaccin = false;
 
         DeathRingVFX.instance.PlayDeathAnimation();
     }
@@ -75,6 +83,17 @@ public class PlayerDeathManager : MonoBehaviour
     {
         if (animRunning)
         {
+
+            // Check sac
+            if (Time.time >= sacTime && !isSaccin)
+            {
+                //TODO: TryDoSac
+                if (TrySacrifice())
+                {
+                    isSaccin = true;
+                    animRunning = false;
+                }
+            }
 
             // Start fade out
             if (Time.time >= fadeOutTime && !isFadingOut)
@@ -98,6 +117,7 @@ public class PlayerDeathManager : MonoBehaviour
 
     public void EndOfDeathAnim()
     {
+        /*
         bool didSacrifice = false;
 
         // check if currently selected ghost has sacrifice available
@@ -132,8 +152,8 @@ public class PlayerDeathManager : MonoBehaviour
             }
         }
 
-        camAnim.SetBool("isDead", false);
-        party.SetSwappingEnabled(true);
+        //camAnim.SetBool("isDead", false);
+        //party.SetSwappingEnabled(true);
 
         // if every single ghost in the party doesn't have sacrifice, 
         // reset to hub world and reset everything else we changed in this script
@@ -150,7 +170,73 @@ public class PlayerDeathManager : MonoBehaviour
             //AudioManager.Instance.SFXBranch.PlaySFXTrack("RespawnInOblivionSFX");
             SceneManager.LoadScene(respawnScene);
         }
+        */
 
+        // update death story progression if first death
+        if (SaveManager.data.death == 0)
+        {
+            SaveManager.data.death = 1;
+            SaveManager.instance.Save();
+        }
+        // make the player die for real if no sacrifices occured here
+        gameObject.SetActive(false);
+        //AudioManager.Instance.SFXBranch.PlaySFXTrack("RespawnInOblivionSFX");
+        SceneManager.LoadScene(respawnScene);
+
+    }
+
+
+
+    public GhostManager GetSacrificeGhost()
+    {
+        //bool canSacrifice = false;
+
+        // check if currently selected ghost has sacrifice available
+        GhostIdentity curGhost = party.GetSelectedGhost();
+        GhostManager curGhostManager = curGhost != null ? curGhost.gameObject.GetComponent<GhostManager>() : null;
+        if (curGhostManager && curGhostManager.GetSacrificeReady())
+        {
+            //canSacrifice = true;
+            return curGhostManager;
+        }
+
+        // check down the list of ghosts if their sacrifice is available
+        List<GhostIdentity> ghostList = party.GetGhostPartyList();
+        foreach (GhostIdentity ghost in ghostList)
+        {
+            /*
+            if (didSacrifice)
+            {
+                break;
+            }
+            if (curGhost && ghost.name.Equals(curGhost.name))
+            {
+                // skip this ghost if it is the current ghost (already checked)
+                continue;
+            }
+            */
+            GhostManager ghostManager = ghost.gameObject.GetComponent<GhostManager>();
+            if (ghostManager && ghostManager.GetSacrificeReady())
+            {
+                // activate sacrifice stuff and exit function
+                //UseSacrifice(ghostManager);
+                //didSacrifice = true;
+                return ghostManager;
+            }
+        }
+
+        return null;
+    }
+
+
+
+    public bool TrySacrifice()
+    {
+        GhostManager sacrificialGhost = GetSacrificeGhost();
+        if (sacrificialGhost == null) return false;
+
+        UseSacrifice(sacrificialGhost);
+        return true;
     }
 
 
@@ -159,24 +245,59 @@ public class PlayerDeathManager : MonoBehaviour
     /// Handles how the sacrifice ability activation call is communicated to the relevant ghost manager.
     /// </summary>
     /// <param name="ghost"></param>
-    public void UseSacrifice(GhostManager ghost)
+    private void UseSacrifice(GhostManager ghost)
     {
         // playerAnim.SetBool("died", false);
         // camAnim.SetBool("isDead", false);
         // Time.timeScale = 1;
         print("AND THEY SACRIFICE... THE GHOOOST!!!");
 
+        /*
         ScreenFader.instance.FadeIn();
         DeathRingVFX.instance.PlaySacReviveAnimation();
         ghost.GetComponent<Sacrifice>().DoSac(); 
         
-        playerAnim.SetBool("died", false);
-        playerAnim.SetTrigger("toIdle");
+        //playerAnim.SetBool("died", false);
+        //playerAnim.SetTrigger("toIdle");
+        playerAnim.SetTrigger("OPT");
 
         PlayerID.instance.GetComponent<Collider2D>().enabled = true;
         GetComponent<Rigidbody2D>().gravityScale = 4f;
         GetComponent<PlayerHealth>().isAlive = true;
         gameObject.transform.position -= new Vector3(0f, 0f, 10f);
         return;
+        */
+        StartCoroutine(SacrificeCoroutine(ghost));
+    }
+
+    private IEnumerator SacrificeCoroutine(GhostManager ghost)
+    {
+        //ScreenFader.instance.FadeIn();
+        DeathRingVFX.instance.PlaySacReviveAnimation();
+        ghost.GetComponent<Sacrifice>().DoSac();
+
+        //playerAnim.SetBool("died", false);
+        //playerAnim.SetTrigger("toIdle");
+        playerAnim.SetTrigger("OPT");
+        gameObject.transform.position -= new Vector3(0f, 0f, 5f);
+        GetComponent<Move>().PlayerStop();
+
+        yield return new WaitForSeconds(1.85f);
+
+        camAnim.SetBool("isDead", false);
+
+        yield return new WaitForSeconds(0.3f);
+
+        playerAnim.SetBool("died", false);
+        PlayerID.instance.GetComponent<Collider2D>().enabled = true;
+        GetComponent<Rigidbody2D>().gravityScale = 4f;
+        GetComponent<PlayerHealth>().isAlive = true;
+        //gameObject.transform.position -= new Vector3(0f, 0f, 10f);
+        //return;
+        //camAnim.SetBool("isDead", false);
+        party.SetSwappingEnabled(true);
+        GetComponent<Move>().PlayerGo();
+
+        isSaccin = false;
     }
 }

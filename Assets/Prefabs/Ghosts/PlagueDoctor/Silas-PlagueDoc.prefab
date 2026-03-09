@@ -333,6 +333,7 @@ MonoBehaviour:
   defaultController: {fileID: 9100000, guid: 5e3610e3d2ece4943ad719f34dafcb02, type: 2}
   ghostController: {fileID: 9100000, guid: afe4d43a7f12e7b41a5ccdc9be4eeae1, type: 2}
   currentSpecialEnergy: 0
+  identityName: 
   blightPotion: {fileID: 4699030029396985124, guid: e2fab6792587ec249a70e1b7a5314fc9,
     type: 3}
   blightMinibomb: {fileID: 4699030029396985124, guid: ef4551b616e067d43a01319e2ee45b40,
@@ -377,7 +378,6 @@ MonoBehaviour:
   healReady: 0
   autoCollectIngredients: 0
   isSelected: 0
-  identityName: 
 --- !u!114 &3640821941058779060
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -596,6 +596,11 @@ MonoBehaviour:
     actionTypes: 05000000
     extraContext: 
     ghostID: 5
-  explosionRadius: 25
+  explosionRadius: 15
   vfx: {fileID: 7966241730260626198, guid: a5295bc6cb8948243b75f99e5a18cc48, type: 3}
-  track: 
+  track: Silas-PlagueDoc Sacrifice Before
+  afterTrack: Silas-PlagueDoc Sacrifice After
+  windupSFX: Silas-Sacrifice Windup
+  explosionSFX: 
+  damage: 400
+  windupTime: 1.85

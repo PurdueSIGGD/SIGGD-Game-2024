@@ -24,7 +24,7 @@ public class SamuraiManager : GhostManager, ISelectable
 
     private RoninsResolve roninsResolve;
 
-    [SerializeField] string identityName;
+    //[SerializeField] string identityName;
 
     void Awake()
     {

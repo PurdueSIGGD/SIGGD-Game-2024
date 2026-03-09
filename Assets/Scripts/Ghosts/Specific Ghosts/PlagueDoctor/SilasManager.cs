@@ -30,7 +30,7 @@ public class SilasManager : GhostManager
 
     private LevelSwitching levelSwitchingScript;
 
-    [SerializeField] string identityName;
+    //[SerializeField] string identityName;
 
 
 

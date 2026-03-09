@@ -24,7 +24,7 @@ public class PoliceChiefManager : GhostManager, ISelectable
     [HideInInspector] public PoliceChiefBasic basic;
     [HideInInspector] public PoliceChiefSpecial special;
 
-    [SerializeField] string identityName;
+    //[SerializeField] string identityName;
 
     void Awake()
     {

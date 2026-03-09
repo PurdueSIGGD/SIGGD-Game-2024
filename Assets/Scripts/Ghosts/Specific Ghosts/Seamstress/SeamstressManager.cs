@@ -46,7 +46,7 @@ public class SeamstressManager : GhostManager
 
     private LineRenderer lineRenderer;
 
-    private string identityName;
+    //private string identityName;
 
     // Used to keep track of the all chaind enmeies
     class ChainedEnemy
