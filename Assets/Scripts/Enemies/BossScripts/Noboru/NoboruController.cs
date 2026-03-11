@@ -34,6 +34,7 @@ public class NoboruController : BossController
         enemyStateManager.enabled = false;
         anim.SetTrigger("dead");
         StartCoroutine(DefeatCoroutine());
+        AchievementTracker.instance.SetAchievement(AchievementTracker.instance.noboruName);
     }
     IEnumerator DefeatCoroutine()
     {

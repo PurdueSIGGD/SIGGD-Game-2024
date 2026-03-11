@@ -13,6 +13,7 @@ public class TitleDecideIfNewGame : MonoBehaviour
     void Awake()
     {
         folderPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+        folderPath = folderPath + "\\Echoes of Isovios";
         savePath = Path.Combine(folderPath, "save.json");
 
 

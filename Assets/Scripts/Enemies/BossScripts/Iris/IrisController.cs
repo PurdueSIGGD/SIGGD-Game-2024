@@ -186,6 +186,7 @@ public class IrisController : BossController
         if (context.victim != gameObject) return;
 
         PlayVoiceLineDelayed("IRIS On Boss Death", 0.5f);
+        AchievementTracker.instance.SetAchievement(AchievementTracker.instance.irisName);
     }
 
     public void OnPlayerDamageTaken(DamageContext context)

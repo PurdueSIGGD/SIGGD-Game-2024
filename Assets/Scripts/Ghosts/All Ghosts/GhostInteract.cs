@@ -61,6 +61,7 @@ public class GhostInteract : InRangeInteract, IParty
 
     private void AddGhostToParty()
     {
+        AchievementTracker.instance.SetGhostAchievement(GetComponent<GhostIdentity>().GetCharacterInfo().displayName, GhostAchievement.NEW);
         CloseMenu();
         InfoCanvasUI.instance.OpenPartyMenu();
         InfoCanvasUI.instance.onAddParty += () =>

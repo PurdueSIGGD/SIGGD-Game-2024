@@ -33,6 +33,7 @@ public class ScatheController : BossController
         enemyStateManager.enabled = false;
         anim.SetTrigger("dead");
         StartCoroutine(DefeatCoroutine());
+        AchievementTracker.instance.SetAchievement(AchievementTracker.instance.scatheName);
     }
 
     public override void EnableAI()

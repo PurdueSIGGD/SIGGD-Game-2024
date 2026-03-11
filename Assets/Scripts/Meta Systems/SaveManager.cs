@@ -27,9 +27,13 @@ public class SaveManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         folderPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+        folderPath = folderPath + "\\Echoes of Isovios";
 
         // TODO: support multiple save files?
         savePath = Path.Combine(folderPath, "save.json");
+
+        Debug.Log("SAVE folderPath: " + folderPath);
+        Debug.Log("SAVE savePath: " + savePath);
     }
 
     private void SetGhostsSkillPts(ref int[] ptarr, string g)
