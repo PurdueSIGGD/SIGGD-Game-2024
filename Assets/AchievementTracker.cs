@@ -36,6 +36,14 @@ public class AchievementTracker : MonoBehaviour
     public string evaSacName = "EVA_SAC";
     public string evaMaxName = "EVA_MAX";
 
+    public string akihitoMaxName = "AKIHITO_MAX";
+
+    public string yumeMaxName = "YUME_MAX";
+
+    public string silasMaxName = "SILAS_MAX";
+
+    public string aegisMaxName = "AEGIS_MAX";
+
 
 
 
@@ -152,6 +160,21 @@ public class AchievementTracker : MonoBehaviour
 
         string achievementName = achievementGhostPrefix + achievementTypeSuffix;
         SetAchievement(achievementName);
+
+        // Check for Redemption
+        if (achievementType != GhostAchievement.MAX) return;
+        SteamUserStats.GetAchievement(northMaxName, out bool northMaxComplete);
+        SteamUserStats.GetAchievement(evaMaxName, out bool evaMaxComplete);
+        SteamUserStats.GetAchievement(akihitoMaxName, out bool akihitoMaxComplete);
+        SteamUserStats.GetAchievement(yumeMaxName, out bool yumeMaxComplete);
+        SteamUserStats.GetAchievement(silasMaxName, out bool silasMaxComplete);
+        SteamUserStats.GetAchievement(aegisMaxName, out bool aegisMaxComplete);
+        if (northMaxComplete && evaMaxComplete &&
+            akihitoMaxComplete && yumeMaxComplete &&
+            silasMaxComplete && aegisMaxComplete)
+        {
+            SetAchievement(allGhostsMaxName);
+        }
     }
 }
 

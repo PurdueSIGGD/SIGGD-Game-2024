@@ -140,6 +140,9 @@ public class PartyManagerUI : MonoBehaviour
                 ghostUis[i].gameObject.SetActive(true);
                 ghost.AddExp(0);
                 ghostUis[i].Visualize(ghost);
+
+                int ghostLevel = ghost.GetComponent<SkillTree>().GetLevel();
+                if (ghostLevel >= 14) AchievementTracker.instance.SetGhostAchievement(ghost.GetCharacterInfo().displayName, GhostAchievement.MAX);
             }
             else
             {

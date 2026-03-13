@@ -188,7 +188,7 @@ public class EnterHub : MonoBehaviour
                 continue;
             }
             // max trust convo
-            if (saveData.storyProgress == 4 && SaveManager.data.ghostLevel[fullname] >= 9)
+            if (saveData.storyProgress == 4 && saveData.xp == 1499 && SaveManager.data.ghostLevel[fullname] >= 9)
             {
                 StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
                 sp.Init(maxTrust.data.convoName, nickname, 5, false);
