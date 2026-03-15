@@ -141,12 +141,12 @@ public class EraDoor : MonoBehaviour
 
         if ((data.storyProgress == (int)storyProgression.Hub_First_Entrance || // story beat 1
              data.storyProgress == (int)storyProgression.Story_Beat_1) &&
-             SaveManager.data.ghostLevel[name] >= 3)
+             SaveManager.data.ghostLevel[name] >= 2)
         {
             specificLevels.Add(new(new Level[] { new(truncName + " Story Beat One", 1) }, storyBeatOneLoc));
         }
         if (data.storyProgress == (int)storyProgression.Story_Beat_2 && // story beat 2
-            SaveManager.data.ghostLevel[name] >= 6)
+            SaveManager.data.ghostLevel[name] >= 5)
         {
             specificLevels.Add(new(new Level[] { new(truncName + " Story Beat Two", 1) }, storyBeatTwoLoc));
         }

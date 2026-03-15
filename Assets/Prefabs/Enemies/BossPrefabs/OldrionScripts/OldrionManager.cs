@@ -271,6 +271,7 @@ public class OldrionManager : EnemyStateManager
     public void OnPlayerDeath(DamageContext context)
     {
         if (!context.victim.CompareTag("Player")) return;
+        if (PlayerID.instance.GetComponent<PlayerDeathManager>().GetSacrificeGhost() != null) return;
 
         //AudioManager.Instance.VABranch.PlayVATrack("Oldrion Player Death");
         PlayVoiceLineDelayed("Oldrion Player Death", 1f);

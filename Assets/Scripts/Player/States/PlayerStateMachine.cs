@@ -42,6 +42,10 @@ public class PlayerStateMachine : MonoBehaviour
     Rigidbody2D rb; // the rigidbody of the player object
     Camera mainCamera; //the main Camera of the current Scene
 
+    StatManager playerStats;
+
+    bool isStunned = false;
+
 
     void Start()
     {
@@ -56,6 +60,8 @@ public class PlayerStateMachine : MonoBehaviour
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+
+        playerStats = PlayerID.instance.gameObject.GetComponent<StatManager>();
     }
 
     void Update()
@@ -69,6 +75,7 @@ public class PlayerStateMachine : MonoBehaviour
         UpdateSpecial();
         UpdateMouseDir();
         ReadCurrentAnimatorState();
+        if (!isStunned) animator.speed = playerStats.ComputeValue("Animation Speed");
     }
 
     /// <summary>
@@ -265,6 +272,7 @@ public class PlayerStateMachine : MonoBehaviour
 
     private IEnumerator StunCoroutine(float duration)
     {
+        isStunned = true;
         animator.speed = 0;
         moveInput.Disable();
         jumpInput.Disable();
@@ -278,5 +286,6 @@ public class PlayerStateMachine : MonoBehaviour
         specialInput.Enable();
         attackInput.Enable();
         heavyAttackInput.Enable();
+        isStunned = false;
     }
 }

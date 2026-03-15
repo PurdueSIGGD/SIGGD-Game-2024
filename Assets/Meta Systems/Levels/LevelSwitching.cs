@@ -142,7 +142,7 @@ public class LevelSwitching : MonoBehaviour
 
     public void ResetLevelCount(DamageContext damageContext)
     {
-        if (damageContext.victim.CompareTag("Player"))
+        if (damageContext.victim.CompareTag("Player") && PlayerID.instance.GetComponent<PlayerDeathManager>().GetSacrificeGhost() == null)
         {
             //SceneManager.UnloadSceneAsync(nextScene);
             levelCount = 0;

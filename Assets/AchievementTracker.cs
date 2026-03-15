@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Steamworks;
 using UnityEngine.SceneManagement;
+using static MasteryUpgradeBoxUI;
 
 public class AchievementTracker : MonoBehaviour
 {
@@ -174,6 +175,27 @@ public class AchievementTracker : MonoBehaviour
             silasMaxComplete && aegisMaxComplete)
         {
             SetAchievement(allGhostsMaxName);
+        }
+    }
+
+
+
+    public void TrySetMasteryAchievements()
+    {
+        int maxCount = 0;
+        for (int i = 0; i < 9; i++)
+        {
+            int upgradeLevel = SaveManager.data.masteryUpgrades.upgradeLevels[i];
+            if (upgradeLevel >= 20) maxCount++;
+        }
+
+        if (maxCount >= 9)
+        {
+            SetAchievement(masteryAllName);
+        }
+        else if (maxCount > 0)
+        {
+            SetAchievement(mastery1Name);
         }
     }
 }

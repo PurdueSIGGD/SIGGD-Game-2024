@@ -196,7 +196,7 @@ public class EnterHub : MonoBehaviour
                 continue;
             }
             // starting story beat 3
-            if (saveData.storyProgress == 5 && SaveManager.data.ghostLevel[fullname] >= 11)
+            if (saveData.storyProgress == 5 && SaveManager.data.ghostLevel[fullname] >= 11 && SaveManager.data.orion >= 6)
             {
                 StoryProgresser sp = gameObject.AddComponent<StoryProgresser>();
                 sp.Init(startSB3.data.convoName, nickname, 6, false);

@@ -332,13 +332,21 @@ PrefabInstance:
     - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
         type: 3}
       propertyPath: m_text
-      value: Hold Shift to Charge and LMB to Shoot
+      value: 'Hold [SHIFT] to Wind Up
+
+        Press [LMB] to Shoot'
       objectReference: {fileID: 0}
     - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
         type: 3}
       propertyPath: m_margin.z
       value: 7.1692963
       objectReference: {fileID: 0}
+    - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
+        type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 48280e35894b01849996cb613af324c2,
+        type: 2}
     - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
         type: 3}
       propertyPath: m_fontColor.b
@@ -356,9 +364,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
         type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 4719300647817411984, guid: 48280e35894b01849996cb613af324c2,
+        type: 2}
+    - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
+        type: 3}
       propertyPath: m_fontColor32.rgba
       value: 4294967295
       objectReference: {fileID: 0}
+    - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
+        type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8905446693428373878, guid: 636238a03a9c2f946acb4af4fa25f3bc,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 4719300647817411984, guid: 48280e35894b01849996cb613af324c2,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -510,8 +535,14 @@ PrefabInstance:
     - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
         type: 3}
       propertyPath: m_text
-      value: Hold RMB to aim
+      value: As North, Hold [RMB] to Aim
       objectReference: {fileID: 0}
+    - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
+        type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 48280e35894b01849996cb613af324c2,
+        type: 2}
     - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
         type: 3}
       propertyPath: m_fontColor.b
@@ -529,9 +560,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
         type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 4719300647817411984, guid: 48280e35894b01849996cb613af324c2,
+        type: 2}
+    - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
+        type: 3}
       propertyPath: m_fontColor32.rgba
       value: 4294967295
       objectReference: {fileID: 0}
+    - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
+        type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8905446693428373878, guid: 636238a03a9c2f946acb4af4fa25f3bc,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 4719300647817411984, guid: 48280e35894b01849996cb613af324c2,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -745,6 +793,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: InfoCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 6277830795231974514, guid: 0709834427993534386f6bcda2eee043,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7276946021723918348, guid: 0709834427993534386f6bcda2eee043,
         type: 3}
@@ -267784,8 +267837,17 @@ PrefabInstance:
     - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
         type: 3}
       propertyPath: m_text
-      value: Scroll Wheel to Switch Possession
+      value: '[SCROLL WHEEL UP] to possess Orion with a Ghost
+
+        [SCROLL WHEEL
+        DOWN] to return to Orion'
       objectReference: {fileID: 0}
+    - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
+        type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 48280e35894b01849996cb613af324c2,
+        type: 2}
     - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
         type: 3}
       propertyPath: m_fontColor.b
@@ -267803,9 +267865,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
         type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 4719300647817411984, guid: 48280e35894b01849996cb613af324c2,
+        type: 2}
+    - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
+        type: 3}
       propertyPath: m_fontColor32.rgba
       value: 4294967295
       objectReference: {fileID: 0}
+    - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
+        type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8905446693428373878, guid: 636238a03a9c2f946acb4af4fa25f3bc,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 4719300647817411984, guid: 48280e35894b01849996cb613af324c2,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -268022,6 +268101,7 @@ MonoBehaviour:
   progressTo: 1
   autoProgress: 0
   bossTrigger: {fileID: 0}
+  isMaxTrust: 0
 --- !u!114 &1212530930
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -268170,8 +268250,14 @@ PrefabInstance:
     - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
         type: 3}
       propertyPath: m_text
-      value: LMB To Shoot
+      value: Press [LMB] to Shoot
       objectReference: {fileID: 0}
+    - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
+        type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 48280e35894b01849996cb613af324c2,
+        type: 2}
     - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
         type: 3}
       propertyPath: m_fontColor.b
@@ -268189,9 +268275,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
         type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 4719300647817411984, guid: 48280e35894b01849996cb613af324c2,
+        type: 2}
+    - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
+        type: 3}
       propertyPath: m_fontColor32.rgba
       value: 4294967295
       objectReference: {fileID: 0}
+    - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
+        type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8905446693428373878, guid: 636238a03a9c2f946acb4af4fa25f3bc,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 4719300647817411984, guid: 48280e35894b01849996cb613af324c2,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -268728,7 +268831,7 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.5
   m_Color: {r: 0.058823533, g: 0.20784315, b: 0.5019608, a: 1}
-  m_Intensity: 14.13
+  m_Intensity: 2
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
   m_ApplyToSortingLayers: 8fa404e300000000e366b930
@@ -269022,13 +269125,19 @@ PrefabInstance:
     - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
         type: 3}
       propertyPath: m_text
-      value: Kill Enemies To gain Ult Charge
+      value: Defeat enemies to charge a ghost's Special Ability
       objectReference: {fileID: 0}
     - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
         type: 3}
       propertyPath: m_margin.z
       value: 7.1692963
       objectReference: {fileID: 0}
+    - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
+        type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 48280e35894b01849996cb613af324c2,
+        type: 2}
     - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
         type: 3}
       propertyPath: m_fontColor.b
@@ -269046,9 +269155,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
         type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 4719300647817411984, guid: 48280e35894b01849996cb613af324c2,
+        type: 2}
+    - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
+        type: 3}
       propertyPath: m_fontColor32.rgba
       value: 4294967295
       objectReference: {fileID: 0}
+    - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
+        type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8905446693428373878, guid: 636238a03a9c2f946acb4af4fa25f3bc,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 4719300647817411984, guid: 48280e35894b01849996cb613af324c2,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

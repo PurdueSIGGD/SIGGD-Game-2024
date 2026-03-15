@@ -89,6 +89,7 @@ public class HealingReceivedBackground : MonoBehaviour
 
     private void SetBackgroundOpacity(float opacity)
     {
+        if (background == null) return;
         Color newColor = background.color;
         newColor.a = opacity;
         background.color = newColor;

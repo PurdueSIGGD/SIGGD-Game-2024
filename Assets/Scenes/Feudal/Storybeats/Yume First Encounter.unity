@@ -133950,6 +133950,7 @@ MonoBehaviour:
   progressTo: 1
   autoProgress: 0
   bossTrigger: {fileID: 0}
+  isMaxTrust: 0
 --- !u!1 &425899306
 GameObject:
   m_ObjectHideFlags: 0
@@ -268374,8 +268375,14 @@ PrefabInstance:
     - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
         type: 3}
       propertyPath: m_text
-      value: Heavy Attack now uses 1 Thread to Stun enemies
+      value: Yume's Heavy Attack uses 1 Spool to Stun enemies
       objectReference: {fileID: 0}
+    - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
+        type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 48280e35894b01849996cb613af324c2,
+        type: 2}
     - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
         type: 3}
       propertyPath: m_fontColor.b
@@ -268393,9 +268400,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
         type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 4719300647817411984, guid: 48280e35894b01849996cb613af324c2,
+        type: 2}
+    - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
+        type: 3}
       propertyPath: m_fontColor32.rgba
       value: 4294967295
       objectReference: {fileID: 0}
+    - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
+        type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8905446693428373878, guid: 636238a03a9c2f946acb4af4fa25f3bc,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 4719300647817411984, guid: 48280e35894b01849996cb613af324c2,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -400982,8 +401006,14 @@ PrefabInstance:
     - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
         type: 3}
       propertyPath: m_text
-      value: Shift To use 2 Threads to Link Enemies Together
+      value: Press [SHIFT] to link enemies together
       objectReference: {fileID: 0}
+    - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
+        type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 48280e35894b01849996cb613af324c2,
+        type: 2}
     - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
         type: 3}
       propertyPath: m_fontColor.b
@@ -401001,9 +401031,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
         type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 4719300647817411984, guid: 48280e35894b01849996cb613af324c2,
+        type: 2}
+    - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
+        type: 3}
       propertyPath: m_fontColor32.rgba
       value: 4294967295
       objectReference: {fileID: 0}
+    - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
+        type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8905446693428373878, guid: 636238a03a9c2f946acb4af4fa25f3bc,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 4719300647817411984, guid: 48280e35894b01849996cb613af324c2,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -402208,8 +402255,14 @@ PrefabInstance:
     - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
         type: 3}
       propertyPath: m_text
-      value: Hold S to Weave Threads
+      value: Hold [S] to weave Spools
       objectReference: {fileID: 0}
+    - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
+        type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 48280e35894b01849996cb613af324c2,
+        type: 2}
     - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
         type: 3}
       propertyPath: m_fontColor.b
@@ -402227,9 +402280,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
         type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 4719300647817411984, guid: 48280e35894b01849996cb613af324c2,
+        type: 2}
+    - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
+        type: 3}
       propertyPath: m_fontColor32.rgba
       value: 4294967295
       objectReference: {fileID: 0}
+    - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
+        type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8905446693428373878, guid: 636238a03a9c2f946acb4af4fa25f3bc,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 4719300647817411984, guid: 48280e35894b01849996cb613af324c2,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

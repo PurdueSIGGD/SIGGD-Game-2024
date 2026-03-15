@@ -201,6 +201,7 @@ public class IrisController : BossController
     public void OnPlayerDeath(DamageContext context)
     {
         if (!context.victim.CompareTag("Player")) return;
+        if (PlayerID.instance.GetComponent<PlayerDeathManager>().GetSacrificeGhost() != null) return;
 
         PlayVoiceLineDelayed("IRIS Player Death", 1f);
     }

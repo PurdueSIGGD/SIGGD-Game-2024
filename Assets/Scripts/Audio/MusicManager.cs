@@ -73,6 +73,7 @@ public class MusicManager : MonoBehaviour
             GetCurrentMusicTrack().StopTrack();
         }
         currentTrackName = trackName;
+        if (GetCurrentMusicTrack() == null) return;
         GetCurrentMusicTrack().PlayTrack();
     }
 
@@ -94,6 +95,7 @@ public class MusicManager : MonoBehaviour
         if (trackName == MusicTrackName.NULL)
         {
             GetMusicTrack(currentTrackName).StopTrack();
+            currentTrackName = MusicTrackName.NULL;
             yield break;
         }
         if (fadeTime <= 0) {

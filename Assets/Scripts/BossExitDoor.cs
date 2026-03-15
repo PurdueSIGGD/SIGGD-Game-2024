@@ -57,6 +57,8 @@ public class BossExitDoor : Door
 
     protected override void CallDoorOpened()
     {
+        PersistentData.Instance.GetComponent<SpiritTracker>().SaveSpiritCountsNoUI();
+        SaveManager.instance.Save();
         if (convo)
         {
             try
@@ -67,16 +69,16 @@ public class BossExitDoor : Door
             }
             catch (Exception e)
             {
-                PersistentData.Instance.GetComponent<SpiritTracker>().SaveSpiritCountsNoUI();
-                SaveManager.instance.Save();
+                //PersistentData.Instance.GetComponent<SpiritTracker>().SaveSpiritCountsNoUI();
+                //SaveManager.instance.Save();
                 StartCoroutine(FadeToHub());
                 Debug.LogError("Failed to start dialogue: " + convo + " exception: " + e);
             }
         }
         else
         {
-            PersistentData.Instance.GetComponent<SpiritTracker>().SaveSpiritCountsNoUI();
-            SaveManager.instance.Save();
+            //PersistentData.Instance.GetComponent<SpiritTracker>().SaveSpiritCountsNoUI();
+            //SaveManager.instance.Save();
             StartCoroutine(FadeToHub());
         }
     }

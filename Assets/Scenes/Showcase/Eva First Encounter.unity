@@ -133526,6 +133526,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: InfoCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 6277830795231974514, guid: 0709834427993534386f6bcda2eee043,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7276946021723918348, guid: 0709834427993534386f6bcda2eee043,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -134250,6 +134255,7 @@ MonoBehaviour:
   progressTo: 1
   autoProgress: 0
   bossTrigger: {fileID: 0}
+  isMaxTrust: 0
 --- !u!1001 &441417659
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -267194,6 +267200,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerUI
       objectReference: {fileID: 0}
+    - target: {fileID: 5933108558040199097, guid: 39c14e8a58fe62e4abd3676292cc3919,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6934502999667248681, guid: 39c14e8a58fe62e4abd3676292cc3919,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -267784,8 +267795,8 @@ MonoBehaviour:
   m_LightType: 3
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.5
-  m_Color: {r: 0.27450982, g: 0.5019608, b: 0.5176471, a: 1}
-  m_Intensity: 52.76
+  m_Color: {r: 0, g: 1, b: 0.64705884, a: 1}
+  m_Intensity: 1.5
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
   m_ApplyToSortingLayers: 8fa404e300000000e366b930
@@ -268650,7 +268661,7 @@ PrefabInstance:
     - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
         type: 3}
       propertyPath: m_text
-      value: Press Shift to Teleport to Mouse Location
+      value: Press [SHIFT] to Teleport to your Mouse Location
       objectReference: {fileID: 0}
     - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
         type: 3}
@@ -269159,7 +269170,7 @@ PrefabInstance:
     - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
         type: 3}
       propertyPath: m_text
-      value: Kill Enemies To Gain Tempo
+      value: Kill enemies to gain Tempo
       objectReference: {fileID: 0}
     - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
         type: 3}

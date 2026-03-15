@@ -74,7 +74,7 @@ public class PlayerDeathManager : MonoBehaviour
         sacTime = Time.time + sacrificeDelay;
         isSaccin = false;
 
-        DeathRingVFX.instance.PlayDeathAnimation();
+        if (GetSacrificeGhost() == null) DeathRingVFX.instance.PlayDeathAnimation();
     }
 
 

@@ -167,6 +167,7 @@ public class ScatheManager : EnemyStateManager
     public void OnPlayerDeath(DamageContext context)
     {
         if (!context.victim.CompareTag("Player")) return;
+        if (PlayerID.instance.GetComponent<PlayerDeathManager>().GetSacrificeGhost() != null) return;
 
         //AudioManager.Instance.VABranch.PlayVATrack("Scathe Player Death");
         PlayVoiceLineDelayed("Scathe Player Death", 1f);

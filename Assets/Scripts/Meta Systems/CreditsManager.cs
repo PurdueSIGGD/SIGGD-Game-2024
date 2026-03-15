@@ -92,7 +92,7 @@ public class CreditsManager : MonoBehaviour
                         credits.position.y + scrollSpeed * Time.deltaTime);
 
         // TODO: when it reaches someplace, turn scrolling off and fade in
-        if (credits.localPosition.y >= 12600)
+        if (credits.localPosition.y >= 12805)
         {
             isScrolling = false;
             fadeInBG = true;

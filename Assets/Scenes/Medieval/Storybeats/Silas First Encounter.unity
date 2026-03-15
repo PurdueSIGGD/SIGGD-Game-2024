@@ -153491,6 +153491,7 @@ MonoBehaviour:
   progressTo: 1
   autoProgress: 0
   bossTrigger: {fileID: 0}
+  isMaxTrust: 0
 --- !u!1001 &441417659
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -286875,6 +286876,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: InfoCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 6277830795231974514, guid: 0709834427993534386f6bcda2eee043,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7276946021723918348, guid: 0709834427993534386f6bcda2eee043,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -287294,7 +287300,7 @@ PrefabInstance:
     - target: {fileID: 682870693915163866, guid: 636238a03a9c2f946acb4af4fa25f3bc,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 13.8
+      value: 9.01
       objectReference: {fileID: 0}
     - target: {fileID: 682870693915163866, guid: 636238a03a9c2f946acb4af4fa25f3bc,
         type: 3}
@@ -287344,7 +287350,9 @@ PrefabInstance:
     - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
         type: 3}
       propertyPath: m_text
-      value: Hold S, Once you have enough Herbs, to Heal
+      value: 'Once you have enough Herbs,
+
+        hold [S] to Heal'
       objectReference: {fileID: 0}
     - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
         type: 3}
@@ -287354,22 +287362,22 @@ PrefabInstance:
     - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
         type: 3}
       propertyPath: m_fontColor.b
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
         type: 3}
       propertyPath: m_fontColor.g
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
         type: 3}
       propertyPath: m_fontColor.r
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
         type: 3}
       propertyPath: m_fontColor32.rgba
-      value: 4278848010
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -287397,7 +287405,7 @@ PrefabInstance:
     - target: {fileID: 2446718587111684723, guid: 50ee521d75c2353439140e492fd26238,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 18.6
+      value: 25.5
       objectReference: {fileID: 0}
     - target: {fileID: 2446718587111684723, guid: 50ee521d75c2353439140e492fd26238,
         type: 3}
@@ -287932,7 +287940,7 @@ PrefabInstance:
     - target: {fileID: 1783109782819398590, guid: 0e8167053cd68814d9cf82b5db6cd107,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2132259207894909185, guid: 0e8167053cd68814d9cf82b5db6cd107,
         type: 3}
@@ -288013,7 +288021,7 @@ PrefabInstance:
     - target: {fileID: 8415566541380547612, guid: 0e8167053cd68814d9cf82b5db6cd107,
         type: 3}
       propertyPath: activeOnStart
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -288156,7 +288164,9 @@ PrefabInstance:
     - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
         type: 3}
       propertyPath: m_text
-      value: Kill Enemies For Medicinal Herbs (Orange)
+      value: 'Defeat enemies for
+
+        Medicinal Herbs'
       objectReference: {fileID: 0}
     - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
         type: 3}
@@ -288166,22 +288176,22 @@ PrefabInstance:
     - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
         type: 3}
       propertyPath: m_fontColor.b
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
         type: 3}
       propertyPath: m_fontColor.g
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
         type: 3}
       propertyPath: m_fontColor.r
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
         type: 3}
       propertyPath: m_fontColor32.rgba
-      value: 4278848010
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -421200,7 +421210,7 @@ PrefabInstance:
     - target: {fileID: 682870693915163866, guid: 636238a03a9c2f946acb4af4fa25f3bc,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 28.8
+      value: 22.58
       objectReference: {fileID: 0}
     - target: {fileID: 682870693915163866, guid: 636238a03a9c2f946acb4af4fa25f3bc,
         type: 3}
@@ -421250,7 +421260,7 @@ PrefabInstance:
     - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
         type: 3}
       propertyPath: m_text
-      value: Shift To throw a Bottle o' Blight
+      value: Press [SHIFT] to throw a Bottle o' Blight
       objectReference: {fileID: 0}
     - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
         type: 3}
@@ -421260,22 +421270,22 @@ PrefabInstance:
     - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
         type: 3}
       propertyPath: m_fontColor.b
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
         type: 3}
       propertyPath: m_fontColor.g
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
         type: 3}
       propertyPath: m_fontColor.r
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7702373504363720168, guid: 636238a03a9c2f946acb4af4fa25f3bc,
         type: 3}
       propertyPath: m_fontColor32.rgba
-      value: 4278190080
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -7,8 +7,8 @@ using System.Collections.Generic;
 public class InfoCanvasUI : MonoBehaviour
 {
 
-    public static readonly string ADD_PARTY_LABEL = "Add (Party)";
-    public static readonly string REMOVE_PARTY_LABEL = "Remove (Party)";
+    public static readonly string ADD_PARTY_LABEL = "Add to Party";
+    public static readonly string REMOVE_PARTY_LABEL = "Remove from Party";
 
     public static InfoCanvasUI instance = null;
 
@@ -128,7 +128,12 @@ public class InfoCanvasUI : MonoBehaviour
         expText.text = Mathf.Min(ghost.GetExp(), ghost.GetRequiredExp()) + " / " + ghost.GetRequiredExp();
         expBar.color = ghost.GetCharacterInfo().primaryColor;
         expSlider.value = ghost.GetExp() / (float)ghost.GetRequiredExp();
-        borderHiglight.color = ghost.GetCharacterInfo().primaryColor;
+        //borderHiglight.color = ghost.GetCharacterInfo().primaryColor;
+
+        Color backgroundGradientColor = ghost.GetCharacterInfo().primaryColor;
+        backgroundGradientColor.a = 0.04f;
+        borderHiglight.color = backgroundGradientColor;
+
         Debug.Log(ghost.name + ": " + ghost.GetExp() / (float)ghost.GetRequiredExp());
         Debug.Log(ghost.name + ": " + expSlider.value);
     }

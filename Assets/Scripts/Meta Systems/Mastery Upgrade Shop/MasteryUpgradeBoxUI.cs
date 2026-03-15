@@ -151,6 +151,8 @@ public class MasteryUpgradeBoxUI : MonoBehaviour
 
         MasteryUpgradeShopUI.boughtUpgradeEvent?.Invoke();
 
+        AchievementTracker.instance.TrySetMasteryAchievements();
+
         // Success - apply upgrade
         ApplyUpgrade();
 

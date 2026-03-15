@@ -63,6 +63,7 @@ public class EscapeMenu : MonoBehaviour
     {
         ScreenFader.instance.FadeOut(0f, 0.8f);
         //AudioManager.Instance.MusicBranch.CrossfadeTo(MusicTrackName.HUB, 4f);
+        AudioManager.Instance.MusicBranch.CrossfadeTo(MusicTrackName.NULL, 1f);
         yield return new WaitForSeconds(1f);
         SceneManager.LoadScene("TitleScene");
     }

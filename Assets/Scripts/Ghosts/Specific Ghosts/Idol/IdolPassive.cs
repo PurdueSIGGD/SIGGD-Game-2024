@@ -24,6 +24,7 @@ public class IdolPassive : MonoBehaviour
             //"Glide Deaccel."
         };
     private string dodgeStatName = "Dodge Chance";
+    private string atkSpeedStatName = "Animation Speed";
 
     // Reference to player stats
     private StatManager playerStats;
@@ -274,6 +275,10 @@ public class IdolPassive : MonoBehaviour
 
         int dodgeMod = Mathf.FloorToInt(manager.GetStats().ComputeValue("TEMPO_DODGE_PERCENT_INT") * 10f);
         playerStats.ModifyStat(dodgeStatName, dodgeMod * delta);
+
+        int atkSpeedMod = (int) manager.GetStats().ComputeValue("TEMPO_ATK_SPEED_PERCENT_INT");
+        playerStats.ModifyStat(atkSpeedStatName, atkSpeedMod * delta);
+
         int mod = (int) manager.GetStats().ComputeValue("TEMPO_BUFF_PERCENT_INT");
         foreach (string statName in statNames)
         {

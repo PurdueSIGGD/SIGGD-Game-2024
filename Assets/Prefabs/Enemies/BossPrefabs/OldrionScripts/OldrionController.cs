@@ -306,9 +306,9 @@ public class OldrionController : BossController
     {
         dialogueManager.showPortraitandBackground = true;
         ScreenFader.instance.FadeOut(1, 3);
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(5);
         AchievementTracker.instance.SetAchievement(AchievementTracker.instance.oldrionName);
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(1);
         SceneManager.LoadScene("Epilogue");
     }
 }

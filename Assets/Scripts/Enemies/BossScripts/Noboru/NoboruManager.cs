@@ -186,6 +186,7 @@ public class NoboruManager : EnemyStateManager
     public void OnPlayerDeath(DamageContext context)
     {
         if (!context.victim.CompareTag("Player")) return;
+        if (PlayerID.instance.GetComponent<PlayerDeathManager>().GetSacrificeGhost() != null) return;
 
         PlayVoiceLineDelayed("Noboru Player Death", 1f);
     }

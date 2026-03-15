@@ -879,7 +879,7 @@ MonoBehaviour:
   damageStateThresholds:
   - 0.5
   - 0.25
-  shieldBreakTimeSeconds: 10
+  shieldBreakTimeSeconds: 12
   numWavesToBreakShield: 3
   numEnemiesToBreakShield: 12
   irisLaser: {fileID: 10979917010080734}
@@ -900,6 +900,8 @@ MonoBehaviour:
   statList:
   - name: Max Health
     value: 200
+  currentHealth: 0
+  isAlive: 1
   deathLevel: 
 --- !u!50 &3365462431458509592
 Rigidbody2D:
