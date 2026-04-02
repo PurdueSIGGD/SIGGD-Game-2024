@@ -18,10 +18,18 @@ public class MidPrologue : MonoBehaviour
 
     private void Start()
     {
-        dialogueManager = FindAnyObjectByType<DialogueManager>(FindObjectsInactive.Include);
-        dialogueManager.StartDialogue(convo1);
+        //dialogueManager = FindAnyObjectByType<DialogueManager>(FindObjectsInactive.Include);
+        //dialogueManager.StartDialogue(convo1);
+        StartCoroutine(LateStart());
 
         DialogueManager.onFinishDialogue += DoTheThing;
+    }
+
+    private IEnumerator LateStart()
+    {
+        yield return new WaitForSeconds(0.1f);
+        dialogueManager = FindAnyObjectByType<DialogueManager>(FindObjectsInactive.Include);
+        dialogueManager.StartDialogue(convo1);
     }
 
     private void OnDisable()
